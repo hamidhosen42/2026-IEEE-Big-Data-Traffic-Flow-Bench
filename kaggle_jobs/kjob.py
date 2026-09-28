@@ -37,7 +37,9 @@ def output(slug, outdir):
     for f in r.get('files', []):
         name, url = f.get('fileName'), f.get('url')
         if name and url:
-            with urllib.request.urlopen(url, timeout=600) as src, open(os.path.join(outdir, name), 'wb') as dst:
+            dest = os.path.join(outdir, name)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            with urllib.request.urlopen(url, timeout=600) as src, open(dest, 'wb') as dst:
                 dst.write(src.read())
     return [f.get('fileName') for f in r.get('files', [])], r.get('http_error')
 
