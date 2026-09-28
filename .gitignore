@@ -1,0 +1,13 @@
+# competition data (Kaggle rules: no redistribution) and large Kaggle kernel outputs
+data/
+kaggle_jobs/out/
+*.zip.part
+# secrets
+token.txt
+.env
+# environments / external clones / OS files
+.venv/
+repo/
+__pycache__/
+.DS_Store
+dl.log
