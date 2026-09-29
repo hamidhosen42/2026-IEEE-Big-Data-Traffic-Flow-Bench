@@ -75,6 +75,10 @@ Its public LB score (0.80939) is the notebook's own claim.
 | EXP_T2_big | Ongoing prior-free LGB: 127 leaves / min_data 50 / 800 trees (vs 63 / 100 / 500); 3-seed averaging | model | pseudo ongoing 0.9201 vs 0.9128 (+0.008 in 4/4 folds), official 0.8456 vs 0.8354; seed averaging 0.9125 (no gain) | +0.007 ongoing | – | PASS | – | KEEP big; REJECT seeds |
 | EXP_topology | Link order: order_index vs milepost (discussion 743819) | diagnostic | identical in all 8 Task 2 panels (Spearman 1.000) | – | – | – | – | no change needed |
 | EXP_COMBO_4 / 5 | COMBO2D = v9 + CatBoost onset + T1 D; COMBO3 = + big ongoing | combo | additive estimates ≈ 0.8588 / ≈ 0.8597 | scheduled 00:40 / 01:00 UTC 2026-09-30 | – | PASS | controls 100% | – |
+| EXP_T1_E | Task 1 bigger LightGBM: 255 leaves, lr 0.05, 900 trees, 2× training rows, D features | model | val-month holdout **0.9374** vs D 0.9350 | +0.0024 | – | PASS | – | **KEEP** |
+| EXP_T2_cap | Ongoing capacity: 255 leaves/1000 trees; 255/lr 0.025/2000 trees | model | pseudo ongoing 0.9235 / 0.9243 vs 127-leaf 0.9201 (4/4 folds +); official 0.8513 / 0.8486 | +0.003..0.004 | – | PASS | – | **KEEP 255/1000** |
+| EXP_T2_oncat | Onset CatBoost variants: depth 10, 1500 iters, LGB big, 3-model average | model | pseudo 0.8865 / 0.8879 / 0.8840 / 0.8877 vs cat8 0.8863 (mixed folds) | ≈ 0 | – | PASS | – | keep cat8 |
+| EXP_COMBO_6 / 7 | COMBO4 = COMBO3 + T1 E; COMBO5 = + ongoing 255 leaves | combo | additive estimates ≈ 0.8605 / ≈ 0.861 | scheduled 00:30 / 00:35 UTC 2026-09-30 | – | PASS | controls 100% | – |
 
 ## Research
 About 426 resources were opened and read across 9 research threads, and about 750 more were seen only as search results.

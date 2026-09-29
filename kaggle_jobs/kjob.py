@@ -39,8 +39,15 @@ def output(slug, outdir):
         if name and url:
             dest = os.path.join(outdir, name)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
-            with urllib.request.urlopen(url, timeout=600) as src, open(dest, 'wb') as dst:
-                dst.write(src.read())
+            for attempt in range(4):
+                try:
+                    with urllib.request.urlopen(url, timeout=600) as src:
+                        data = src.read()
+                    open(dest, 'wb').write(data)
+                    break
+                except Exception as e:
+                    print('retry', name, attempt, e)
+                    time.sleep(5)
     return [f.get('fileName') for f in r.get('files', [])], r.get('http_error')
 
 
