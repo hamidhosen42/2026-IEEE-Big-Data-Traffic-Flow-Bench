@@ -69,7 +69,12 @@ Its public LB score (0.80939) is the notebook's own claim.
 | **EXP_017 (T1 B)** | **Task 1: + per-day rank-3 SVD reconstruction of the interpolated speed/flow fields as features** | features | **val-month holdout 0.9343 vs A 0.9307 (B ≥ A on every panel shown)** | **LB 0.85455 (+0.0015, predicted +0.0013)** | – | PASS | holdout = hidden released cells | **KEEP** |
 | EXP_T2_m | v9: weekday/weekend-class priors + broad ongoing keep (coverage 97.6–99.8%) | features | pseudo 0.8802 / official 0.8831 (v2 0.8791 / 0.8755) | **LB 0.85639 (+0.0033)** | – | PASS | fold-safe priors | **KEEP (best)** |
 | EXP_T2_n | Ongoing: 0.7 prior-free + 0.3 last-valid persistence | ensemble | – | LB 0.85126 (−0.0018) | – | PASS | – | REJECT |
-| EXP_COMBO_2 | v9 T2 + CatBoost onset on v9 features (tfb-t2v11) + T1 low-rank | combo | additive estimate ≈ 0.8585 | pending | – | – | – | next submission |
+| EXP_COMBO_2 | v9 T2 + CatBoost onset on v9 features (tfb-t2v11) + T1 low-rank | combo | additive estimate ≈ 0.8585 | scheduled 2026-09-30 00:02 UTC | – | PASS | control 100% | – |
+| EXP_T2_oprior | Onset-start prior (share of train onset windows whose T+30 truth contains the link, ±60 min, weekday class; parity split so no row sees its own truth) | feature | onset −0.003..−0.016 in 4/4 pseudo folds (official +0.013 on 40 windows) | − | – | PASS | parity split | REJECT |
+| EXP_T1_o (T1 D) | + rank-5 low-rank, occupancy low-rank, cross-day low-rank per station | features | val-month holdout 0.9350 vs B 0.9343 (9/10 panels better) | +0.0007 | – | PASS | – | KEEP (small) |
+| EXP_T2_big | Ongoing prior-free LGB: 127 leaves / min_data 50 / 800 trees (vs 63 / 100 / 500); 3-seed averaging | model | pseudo ongoing 0.9201 vs 0.9128 (+0.008 in 4/4 folds), official 0.8456 vs 0.8354; seed averaging 0.9125 (no gain) | +0.007 ongoing | – | PASS | – | KEEP big; REJECT seeds |
+| EXP_topology | Link order: order_index vs milepost (discussion 743819) | diagnostic | identical in all 8 Task 2 panels (Spearman 1.000) | – | – | – | – | no change needed |
+| EXP_COMBO_4 / 5 | COMBO2D = v9 + CatBoost onset + T1 D; COMBO3 = + big ongoing | combo | additive estimates ≈ 0.8588 / ≈ 0.8597 | scheduled 00:40 / 01:00 UTC 2026-09-30 | – | PASS | controls 100% | – |
 
 ## Research
 About 426 resources were opened and read across 9 research threads, and about 750 more were seen only as search results.
