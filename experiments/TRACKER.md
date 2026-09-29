@@ -61,9 +61,15 @@ Its public LB score (0.80939) is the notebook's own claim.
 | EXP_001/002 (proposed) | Onset: also train/predict T+5..T+25 | – | evidence: 39/40 official onset windows first queued at T+30 (1 has no observed queue), 96.9% of 2,128 pseudo onset windows; organizer: 120/120 | – | – | – | – | **REJECTED without running** (any earlier-step positive is a false positive) |
 | EXP_T2_A1 | Onset blend sweep 1.0→0.3 (ongoing prior-free) | post-hoc | 0.80/0.20: pseudo 0.8739 / off 0.8786; 1.0: 0.8743 / 0.8709; ≤0.6 clearly worse (0.3: 0.8358) | ≈ +0.001 | – | PASS | – | within noise; confirms LB (more prior-free onset hurts) |
 | EXP_T2_A2/A3 | Per-panel / per-TOD / weekday-weekend onset blend (nested CV) | post-hoc | pseudo 0.8749 / 0.8739 / 0.8739; official 0.8709 / 0.8709 / 0.8772 | ≈ 0 | – | PASS | nested | REJECT |
-| **EXP_T2_p** | **Onset = CatBoost (all features, depth 8, 600 it)** | model | **pseudo 0.8770 / official 0.8876; onset IoU +0.004/+0.009/+0.014/+0.008 in 4/4 pseudo folds, +0.022 official** | **+0.004 / +0.011** | – | PASS | clean | **KEEP → tfb-t2v10** |
+| **EXP_T2_p** | **Onset = CatBoost (all features, depth 8, 600 it)** | model | **pseudo 0.8770 / official 0.8876; onset IoU +0.004/+0.009/+0.014/+0.008 in 4/4 pseudo folds, +0.022 official** | **LB 0.85366 (+0.0006)** | – | PASS | clean | **KEEP** |
 | EXP_T2_B4 | Ongoing = CatBoost or 50/50 with LGB prior-free | model | 0.8715–0.8727 / 0.8712–0.8742; prob. correlation 0.997 | − | – | PASS | – | REJECT (no diversity) |
 | EXP_T2_D | Decoder: fixed thresholds 0.3–0.5, close 1-link gaps, drop isolated, per-step decode | post-hoc | all ≤ baseline; morphology −0.010 to −0.015 | − | – | PASS | – | REJECT (expected-IoU top-m stays) |
+| EXP_T2_H | Onset/ongoing hazard + gradient features (speed deltas/acceleration/std, density over critical, neighbour gradients, upstream demand) — OOF cache tfb-t2oofH | features | CatBoost-onset recipe: pseudo 0.8780 vs 0.8770, official 0.8965 vs 0.8876; onset folds +0.004/−0.004/+0.000/−0.004; ongoing +0.001 in 3/4 folds | ≈ 0 | – | PASS | history only | REJECT (inside noise) |
+| EXP_016 (T1 C) | Task 1: separate LightGBM per mask regime R1/R2/R3 | model | val-month holdout 0.9285 vs A 0.9307 (worse on every panel) | −0.002 | – | PASS | – | REJECT |
+| **EXP_017 (T1 B)** | **Task 1: + per-day rank-3 SVD reconstruction of the interpolated speed/flow fields as features** | features | **val-month holdout 0.9343 vs A 0.9307 (B ≥ A on every panel shown)** | **LB 0.85455 (+0.0015, predicted +0.0013)** | – | PASS | holdout = hidden released cells | **KEEP** |
+| EXP_T2_m | v9: weekday/weekend-class priors + broad ongoing keep (coverage 97.6–99.8%) | features | pseudo 0.8802 / official 0.8831 (v2 0.8791 / 0.8755) | **LB 0.85639 (+0.0033)** | – | PASS | fold-safe priors | **KEEP (best)** |
+| EXP_T2_n | Ongoing: 0.7 prior-free + 0.3 last-valid persistence | ensemble | – | LB 0.85126 (−0.0018) | – | PASS | – | REJECT |
+| EXP_COMBO_2 | v9 T2 + CatBoost onset on v9 features (tfb-t2v11) + T1 low-rank | combo | additive estimate ≈ 0.8585 | pending | – | – | – | next submission |
 
 ## Research
 About 426 resources were opened and read across 9 research threads, and about 750 more were seen only as search results.
@@ -80,3 +86,8 @@ Numbers are the agents' own honest tallies. See the final report for the synthes
 | PROBE zero-onset / zero-ongoing | FINAL v2 with one condition's queue zeroed | 0.73711 / 0.73657 |
 | **OG_NOPRIOR** | FINAL v2 + ongoing prior-free (tfb-swap-v5) | **0.85309** |
 | ON30 | OG_NOPRIOR + onset 30/70 | 0.84917 |
+| T2 CatBoost onset (v10) | 0.85309 + onset CatBoost | 0.85366 |
+| **V9 weekday prior** | 0.85309 recipe on v9 models (weekday/weekend priors + broad ongoing keep) | **0.85639** (best) |
+| OG_PERS30 | + 30% persistence on ongoing | 0.85126 (reject) |
+| T1B | 0.85309 + Task 1 low-rank features | 0.85455 |
+| T1B + T2cat | both | 0.85513 (= sum of single-factor gains: effects are additive) |

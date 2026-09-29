@@ -8,7 +8,7 @@ submit() { # slug version file desc folder upstreams...
   .venv/bin/python -W ignore kaggle_jobs/submit.py "$1" "$2" "$4" "$3" 2>&1 | tail -2
   python3 kaggle_jobs/save_local.py "$5" "$1" "${@:6}" 2>&1 | tail -1
 }
-submit tfb-swap-v9 1 submission_main.csv "EXP_T2_m: v9 (weekday-class priors + broad ongoing keep), og_noprior recipe" 07_V9_WEEKDAY_PRIOR tfb-final tfb-t2v9-full
-submit tfb-swap-v8 1 submission_og_pers30.csv "EXP_T2_n: og_noprior + 30% last-valid persistence on ongoing" 08_OG_PERS30 tfb-final tfb-t2v8
-submit tfb-swap-v8 1 submission_on85.csv "EXP_T2_o: og_noprior + onset 85/15 (more prior)" 09_ON85 tfb-final tfb-t2v8
+submit tfb-swap-v10 1 submission_main.csv "EXP_T2_p: onset CatBoost + ongoing prior-free LGB (else = 0.85309 pipeline)" 07_T2_CATBOOST_ONSET tfb-final tfb-t2v10
+submit tfb-swap-v9 1 submission_main.csv "EXP_T2_m: v9 (weekday-class priors + broad ongoing keep), og_noprior recipe" 08_V9_WEEKDAY_PRIOR tfb-final tfb-t2v9-full
+submit tfb-swap-v8 1 submission_og_pers30.csv "EXP_T2_n: og_noprior + 30% last-valid persistence on ongoing" 09_OG_PERS30 tfb-final tfb-t2v8
 echo AUTO_SUBMIT_DONE
