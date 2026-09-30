@@ -8,6 +8,7 @@ The user's prompts and experiment plans, kept verbatim, plus a record of what wa
 | [02_top_base_notebook_prompt.md](02_top_base_notebook_prompt.md) | 2026-09-29 | Edit the current best (0.85309) pipeline; Task 2 onset/ongoing separately; phases 1–16 |
 | [03_EXP001-020_plan.md](03_EXP001-020_plan.md) | 2026-09-29 | Concrete EXP_001–EXP_020 table |
 | [04_beat_0.87249.md](04_beat_0.87249.md) | 2026-09-29 | Beat 0.87249 (team Kragglenote2 Forwork); read and store the discussion forum |
+| [05_research_librarian_1000_resources.md](05_research_librarian_1000_resources.md) | 2026-09-30 | 1000+ resource research → `research/` (resource_index.csv 2,114 unique, research_to_experiments.md, FINAL_RESEARCH_REPORT.md) |
 
 ## Outcome of every proposed experiment (measured, see experiments/TRACKER.md)
 
