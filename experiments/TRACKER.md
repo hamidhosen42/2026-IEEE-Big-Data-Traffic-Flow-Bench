@@ -79,6 +79,11 @@ Its public LB score (0.80939) is the notebook's own claim.
 | EXP_T2_cap | Ongoing capacity: 255 leaves/1000 trees; 255/lr 0.025/2000 trees | model | pseudo ongoing 0.9235 / 0.9243 vs 127-leaf 0.9201 (4/4 folds +); official 0.8513 / 0.8486 | +0.003..0.004 | – | PASS | – | **KEEP 255/1000** |
 | EXP_T2_oncat | Onset CatBoost variants: depth 10, 1500 iters, LGB big, 3-model average | model | pseudo 0.8865 / 0.8879 / 0.8840 / 0.8877 vs cat8 0.8863 (mixed folds) | ≈ 0 | – | PASS | – | keep cat8 |
 | EXP_COMBO_6 / 7 | COMBO4 = COMBO3 + T1 E; COMBO5 = + ongoing 255 leaves | combo | additive estimates ≈ 0.8605 / ≈ 0.861 | scheduled 00:30 / 00:35 UTC 2026-09-30 | – | PASS | controls 100% | – |
+| EXP_T1_F | Task 1 LightGBM 511 leaves, 4× rows, 1500 trees (tfb-t1v8-full) | model | val-month holdout **0.9386** vs E 0.9374 (7/8 panels better, D12_I405_S −0.0001) | +0.0012 | – | PASS | – | **KEEP** → COMBO6 |
+| EXP_T2_511 | Ongoing prior-free LGB 511 leaves / lr 0.03 / 1800 trees, 6000 windows; control 255 at half data (tfb-oofY) | model | pseudo ongoing 0.9017 vs 255 0.8958 (4/4 folds +), official 0.8626 vs 0.8551; 255 half-data 0.8961 (data volume ≈ 0) | +0.006 | – | PASS (config change of v12) | – | **KEEP** → t2v13 |
+| EXP_T2_calib | Calibration before expected-IoU decode on oofX cache (onset cat8, ongoing 255): power 0.8/0.9/1.1/1.25; nested isotonic per condition (research D A1) | post-proc | pseudo 0.8831 → 0.8809/0.8826/0.8845/0.8842, isotonic 0.8808; official 0.8904 → 0.8915/0.8900/0.8898/0.8885, isotonic 0.8924 (signs disagree) | ≈0 | – | – | nested | REJECT (already calibrated) |
+| EXP_T1_trans | Task 1 transductive rows: 2 rounds × 20% of released val/private cells hidden, released value as target; val holdout disjoint (research A I-1, D A3) | data | smoke (2 panels): FT 0.9364 vs F 0.9350 | +0.0014 smoke | – | PASS | holdout disjoint; offline task | full run tfb-t1v9-full |
+| EXP_T2_id | Ongoing variants: identity-kept prior-free 511, full 511, 50/50 blends (research A I-2; LB-only decision since the gain is month-shift) | model | – | – | – | config of v13 | – | tfb-t2v14 running |
 
 ## Research
 About 426 resources were opened and read across 9 research threads, and about 750 more were seen only as search results.
