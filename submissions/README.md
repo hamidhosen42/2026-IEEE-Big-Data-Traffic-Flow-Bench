@@ -2,6 +2,11 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_COMBO2D.csv | 56692851 | 0.85860 | EXP_COMBO_4: v9 (0.85639) + CatBoost onset + T1 extended low-rank (v6 D) |
+| submission_COMBO5.csv | 56692821 | 0.86217 | EXP_COMBO_7: v9 + CatBoost onset + ongoing LGB 255 leaves + T1 v7 E |
+| submission_COMBO4.csv | 56692820 | 0.86184 | EXP_COMBO_6: COMBO3 + T1 v7 E (bigger T1 model, val-month holdout 0.9374) |
+| submission_COMBO2.csv | 56692819 | 0.85796 | EXP_COMBO_2: v9 (0.85639) + CatBoost onset (v9 feats) + T1 low-rank |
+| submission_COMBO3.csv | 56692012 | 0.85969 | EXP_COMBO_5: v9 + CatBoost onset + big ongoing LGB (127 leaves) + T1 v6 D |
 | submission_T1B_T2cat.csv | 56658171 | 0.85513 | EXP_COMBO_1: 0.85309 + T1 low-rank + T2 onset CatBoost |
 | submission_og_pers30.csv | 56658135 | 0.85126 | EXP_T2_n: og_noprior + 30% last-valid persistence on ongoing |
 | submission_main.csv | 56657293 | 0.85639 | EXP_T2_m: v9 (weekday-class priors + broad ongoing keep), og_noprior recipe |
