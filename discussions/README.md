@@ -1,10 +1,10 @@
 # Competition discussion forum (dump)
 
-Source: https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion — fetched 2026-09-29 03:06 UTC
+Source: https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion — fetched 2026-09-30 18:48 UTC
 
 | id | title | author | comments | last activity |
 |---|---|---|---:|---|
-| [743819](743819.md) | How to reconstruct the topology of corridors | Abdel ZIGHEM | 3 | 2026-09-28 |
+| [743819](743819.md) | How to reconstruct the topology of corridors | Abdel ZIGHEM | 4 | 2026-09-29 |
 | [744187](744187.md) | Important update: award eligibility, final evaluation, and IEEE BigData 2026 | Traffice_Flow_Bench_Organizer | 0 | 2026-09-28 |
 | [742910](742910.md) | Clarification: Does the Task 2 timestamp cutoff apply to external data? | Henrique José De Souza | 1 | 2026-09-28 |
 | [742761](742761.md) | Is S_queue above 0.9 achievable using only data timestamped at or before T? Our analysis says onset windows cap out near 0.7. | Ankiy | 1 | 2026-09-28 |

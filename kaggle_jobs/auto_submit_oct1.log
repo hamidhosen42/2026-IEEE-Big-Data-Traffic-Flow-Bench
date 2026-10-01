@@ -1,0 +1,16 @@
+submitted ref 56722713
+complete 0.86327 
+saved submissions/18_COMBO6
+1s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+{'versionNumberNullable': 1, 'ref': '/code/hosen42/tfb-combo7', 'url': 'https://www.kaggle.com/code/hosen42/tfb-combo7', 'versionNumber': 1, 'hasVersionNumber': True, 'error': '', 'hasError': False, 'invalidTags': [], 'invalidDatasetSources': [], 'invalidCompetitionSources': [], 'invalidKernelSources': [], 'invalidModelSources': [], 'kernelId': 136588499}
+245s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+T1 swap: rms speed change 1.224 rms flow change 58.98 flow<50 share 0.0
+CONTROL: v12 v11-variant vs v11 main agreement 1.0
+info: v13 big255 vs v13 main (511) queue agreement 0.99879
+info: v12 v11-variant vs 0.85639 queue rows agreement 0.99979
+COMBO7 OK 6980503 queue agreement with 0.85639 0.9963
+
+submitted ref 56732225
+complete 0.86509 
+saved submissions/19_COMBO7
+AUTO_SUBMIT_OCT1_DONE

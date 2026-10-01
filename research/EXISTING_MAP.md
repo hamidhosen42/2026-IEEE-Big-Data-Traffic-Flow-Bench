@@ -2,7 +2,7 @@
 
 Read this before proposing anything. Updated 2026-09-30. The full log is in `experiments/TRACKER.md`.
 
-**Current best public LB: 0.86217 (COMBO5).** It came from:
+**Current best public LB: 0.86737 (COMBO10 = COMBO9 + ongoing ramp features, 2026-10-01). Path: COMBO5 0.86217 → COMBO6 0.86327 (T1 F) → COMBO7 0.86509 (ongoing 511) → COMBO8 0.86537 (ongoing id511) → COMBO9 0.86707 (T1 transductive FT).** It came from:
 
 | Step | Public LB |
 |---|---:|
@@ -53,7 +53,7 @@ Read this before proposing anything. Updated 2026-09-30. The full log is in `exp
 | Low-rank SVD auxiliary features | +0.0036 holdout, **LB +0.0015** | KEEP |
 | Extended low-rank (rank 5, occupancy, cross-day) | +0.0007 | KEEP |
 | Bigger model (255 leaves, 2× rows) | +0.0024 holdout | KEEP |
-| Even bigger F (511 leaves, 4× rows, 1500 trees) | holdout 0.9386 vs E 0.9374 (+0.0012, 7/8 panels) | KEEP → COMBO6 (LB pending) |
+| Even bigger F (511 leaves, 4× rows, 1500 trees) | holdout 0.9386 vs E 0.9374 (+0.0012, 7/8 panels) | KEEP: COMBO6 **LB 0.86327 (+0.0011)** |
 
 ## Task 2 (queue) — current: per-condition cell classifiers + expected-IoU top-m decoding
 - **Onset:** CatBoost (depth 8, 600 iterations) on all features, h = T+30 only.
@@ -84,7 +84,7 @@ Read this before proposing anything. Updated 2026-09-30. The full log is in `exp
 | CatBoost onset | +0.004..0.014 in 4/4 folds, **LB +0.0006** | KEEP |
 | CatBoost ongoing | correlation 0.997, no gain | DROP |
 | Ongoing capacity 63→127→255 leaves | +0.007 / +0.003 in 4/4 folds | KEEP |
-| Ongoing 511 leaves / lr 0.03 / 1800 trees | +0.006 pseudo, +0.0075 official, 4/4 folds (oofY) | KEEP → t2v13 running |
+| Ongoing 511 leaves / lr 0.03 / 1800 trees | +0.006 pseudo, +0.0075 official, 4/4 folds (oofY) | KEEP: COMBO7 **LB 0.86509 (+0.0018)** |
 | Ongoing more windows (6000 vs 3000) at 255 leaves | ≈0 (0.8958 vs 0.8961) | DROP (data volume is not the lever) |
 | 3-seed averaging | no gain | DROP |
 | Persistence blend on ongoing | **LB −0.0018** | DROP |
@@ -94,6 +94,11 @@ No separate lever: it depends only on Task 1 accuracy of density at masked cells
 
 ## Task 4 (ODME)
 NNLS λ=0.05 on the split's own counts and prior. Saturated (≈ 0.994). A λ sweep is not worthwhile.
+
+## Findings on 2026-10-01 (see `research/SCORE_GAP_ANALYSIS.md` and `research/topology_audit.md`)
+- **Task 2 direction bug.** Links are sorted by order_index, but travel runs toward increasing index in the E/N panels and decreasing index in the W/S panels. The pooled model's up/dn features are therefore flipped in 4 of 8 panels. The fix was tested (EXP_021) and hurt: pseudo −0.003. DROP, because the model compensates.
+- **Task 3 is pinned by noise.** S_LWR ≈ 0.52 for interpolation and for the model alike. Realistic upside is ≤ +0.003 total.
+- **The frontier gap is Task 2.** A 0.90 score needs S_queue ≈ 0.89; ours is ≈ 0.78.
 
 ## Constraints
 - Task 2 may only use data timestamped ≤ T; Tasks 1, 3 and 4 are offline.

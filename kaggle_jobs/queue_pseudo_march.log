@@ -1,0 +1,53 @@
+pushed tfb-pmarch-smoke Wed Sep 30 19:23:32 UTC 2026
+215s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+anmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:146: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:147: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[    40s] catboost onset trained on 16262 rows (v9 features)
+[   206s] big ongoing models trained on 185708 rows
+/kaggle/src/script.py:145: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:146: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:147: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   225s] D7_I10_E pseudo-March windows {'queue_ongoing': 48, 'queue_onset': 25} history filled share 0.763
+/kaggle/src/script.py:145: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:146: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:147: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   233s] D12_I5_S pseudo-March windows {'queue_ongoing': 43, 'queue_onset': 26} history filled share 0.766
+
+===== pseudo-March family-mean IoU =====
+ cond            queue_ongoing  queue_onset
+variant                                   
+og_full63              0.6961          NaN
+og_np255               0.7954          NaN
+og_np511               0.7924          NaN
+og_np63                0.7741          NaN
+og_np63_pers30         0.7696          NaN
+on_30_70                  NaN       0.4660
+on_70_30                  NaN       0.5749
+on_cat                    NaN       0.6070
+on_full                   NaN       0.5743
+persistence            0.7594       0.0067
+windows {np.str_('queue_ongoing'): 91, np.str_('queue_onset'): 51}
+SIGN CHECK 1 (LB +): og_np63 - og_full63 = 0.078
+SIGN CHECK 2 (LB -): og_np63_pers30 - og_np63 = -0.0045
+SIGN CHECK 3 (LB -): on_30_70 - on_70_30 = -0.1089
+info (LB +small): on_cat - on_70_30 = 0.0321
+info (LB +): og_np255 - og_np63 = 0.0213 | og_np511 - og_np255 = -0.003
+[   238s] pseudo-March gate done
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 470045 bytes to __results__.html
+
+pushed tfb-pmarch Wed Sep 30 19:28:14 UTC 2026
+QUEUE_PMARCH_DONE

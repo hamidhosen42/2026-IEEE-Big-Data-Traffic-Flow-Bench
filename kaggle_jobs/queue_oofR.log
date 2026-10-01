@@ -1,0 +1,43 @@
+pushed tfb-oofr-smoke Wed Sep 30 19:23:47 UTC 2026
+92s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+g: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:169: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+/kaggle/src/script.py:238: RuntimeWarning: Mean of empty slice
+  on3 = np.nanmean(P['ON'][d[:, None], ridx], 1) / capl; off3 = np.nanmean(P['OFF'][d[:, None], ridx], 1) / capl
+/kaggle/src/script.py:239: RuntimeWarning: Mean of empty slice
+  on12 = np.nanmean(P['ON'][d[:, None], t[:, None] + np.arange(-H, -3)[None]], 1) / capl
+[    83s] fold 0 D7_I10_E: ongoing keep covers 0.9946 of labeled queued cells
+[    83s] fold 0 D12_I5_S: ongoing keep covers 0.9980 of labeled queued cells
+[    86s] fold 0 ongoing models trained on 144939 rows
+[    86s] saved oofR D7_I10_E pseudo fold 0: 43 windows
+[    86s] saved oofR D7_I10_E official fold 0: 10 windows
+[    86s] saved oofR D12_I5_S pseudo fold 0: 32 windows
+[    86s] saved oofR D12_I5_S official fold 0: 10 windows
+[    86s] fold 1 D7_I10_E: ongoing keep covers 0.9946 of labeled queued cells
+[    86s] fold 1 D12_I5_S: ongoing keep covers 0.9984 of labeled queued cells
+[    89s] fold 1 ongoing models trained on 146751 rows
+[    89s] saved oofR D7_I10_E pseudo fold 1: 38 windows
+[    89s] saved oofR D12_I5_S pseudo fold 1: 41 windows
+[    89s] fold 2 D7_I10_E: ongoing keep covers 0.9952 of labeled queued cells
+[    89s] fold 2 D12_I5_S: ongoing keep covers 0.9985 of labeled queued cells
+[    92s] fold 2 ongoing models trained on 138167 rows
+[    92s] saved oofR D7_I10_E pseudo fold 2: 41 windows
+[    92s] saved oofR D12_I5_S pseudo fold 2: 44 windows
+[    92s] fold 3 D7_I10_E: ongoing keep covers 0.9944 of labeled queued cells
+[    92s] fold 3 D12_I5_S: ongoing keep covers 0.9978 of labeled queued cells
+[    94s] fold 3 ongoing models trained on 128818 rows
+[    94s] saved oofR D7_I10_E pseudo fold 3: 41 windows
+[    94s] saved oofR D12_I5_S pseudo fold 3: 45 windows
+[    94s] OOF-R cache done
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 439946 bytes to __results__.html
+
+pushed tfb-oofr Wed Sep 30 19:26:34 UTC 2026
+3155s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+QUEUE_OOFR_DONE
