@@ -1,0 +1,10 @@
+1s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+CONTROL: base T1 rows vs v11 FTA rms speed 0.0
+member disagreement rms speed 0.519 flow 31.88
+COMBO12 OK 6980503
+
+OKFLAG
+submitted ref 56761353
+complete 0.86852 
+saved submissions/24_COMBO12
+AUTO_SUBMIT_OCT2_S2_DONE

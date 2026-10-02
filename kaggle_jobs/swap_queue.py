@@ -1,25 +1,31 @@
-"""Controlled LB probe: EXP_000 submission with ONLY the Task 2 rows replaced (Task 2 v2 blend_70)."""
+"""Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.
+Everything else untouched. Edit the four constants below before pushing."""
 import glob, numpy as np, pandas as pd
+BASE_KERNEL, BASE_FILE = 'tfb-combo11', 'submission_COMBO11.csv'
+SRC_KERNEL, SRC_FILE, COND, OUT_NAME = 'tfb-t2v16', 'queue_submission_onmix.csv', 'queue_onset', 'COMBO_Q'
 REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]
-base_p = [p for p in glob.glob('/kaggle/input/**/submission.csv', recursive=True) if 'kaggle_public' not in p]
-q_p = glob.glob('/kaggle/input/**/queue_submission_blend70.csv', recursive=True)
-assert len(base_p) == 1 and len(q_p) == 1, (base_p, q_p)
-sub = pd.read_csv(base_p[0])
-key = pd.read_csv(f'{REL}/submission_key.csv', usecols=['submission_id', 'task', 'window_id', 'timestamp', 'link_id'], dtype=str)
-key = key[key.task == 'queue']
-q = pd.read_csv(q_p[0], dtype={'window_id': str, 'link_id': str})
-q['timestamp'] = pd.to_datetime(q.timestamp, utc=True); key['timestamp'] = pd.to_datetime(key.timestamp, utc=True)
-m = key.merge(q, on=['window_id', 'timestamp', 'link_id'], how='left', validate='one_to_one')
-assert m.queue_pred.notna().all(), f'{m.queue_pred.isna().sum()} queue keys unmatched'
-new = pd.Series(m.queue_pred.astype(int).to_numpy(), index=m.submission_id.astype('int64').to_numpy())
-isq = sub.task == 'queue'
-before = sub.loc[isq, 'queue_pred'].mean()
-sub.loc[isq, 'queue_pred'] = new.reindex(sub.loc[isq, 'submission_id'].to_numpy()).to_numpy()
+base = pd.read_csv(glob.glob(f'/kaggle/input/**/{BASE_KERNEL}/**/{BASE_FILE}', recursive=True)[0])
+key = pd.read_csv(f'{REL}/submission_key.csv', dtype=str)
+kq = key[key.task == 'queue'][['submission_id', 'window_id', 'timestamp', 'link_id']].copy()
+kq['timestamp'] = pd.to_datetime(kq.timestamp, utc=True)
+cond = pd.concat([pd.read_csv(f, dtype=str)[['window_id', 'condition']]
+                  for f in glob.glob(f'{REL}/task2/*/*/window_index.csv') if '/train/' not in f]).drop_duplicates('window_id')
+kq = kq.merge(cond, on='window_id', how='left', validate='many_to_one'); assert kq.condition.notna().all()
+q = pd.read_csv(glob.glob(f'/kaggle/input/**/{SRC_KERNEL}/**/{SRC_FILE}', recursive=True)[0], dtype={'window_id': str, 'link_id': str})
+q['timestamp'] = pd.to_datetime(q.timestamp, utc=True)
+m = kq.merge(q, on=['window_id', 'timestamp', 'link_id'], how='left', validate='one_to_one'); assert m.queue_pred.notna().all()
+isq = (base.task == 'queue').to_numpy(); sid = base.loc[isq, 'submission_id'].to_numpy()
+src = pd.Series(m.queue_pred.astype(int).to_numpy(), index=m.submission_id.astype('int64').to_numpy()).reindex(sid).to_numpy()
+cmask = pd.Series((m.condition == COND).to_numpy(), index=m.submission_id.astype('int64').to_numpy()).reindex(sid).to_numpy()
+cur = base.loc[isq, 'queue_pred'].to_numpy()
+print('info: other-condition agreement (not used)', round(float((src[~cmask] == cur[~cmask]).mean()), 5))
+new = np.where(cmask, src, cur)
+print(COND, 'rows changed share', round(float((new[cmask] != cur[cmask]).mean()), 5), '| positives before/after', int(cur[cmask].sum()), int(new[cmask].sum()))
+out = base.copy(); out.loc[isq, 'queue_pred'] = new
 sample = pd.read_csv(f'{REL}/sample_submission.csv', usecols=['submission_id']).submission_id.to_numpy()
-assert len(sub) == len(sample) and (sub.submission_id.to_numpy() == sample).all()
-assert sub[['speed_kmh', 'flow_vph', 'queue_pred', 'path_flow']].notna().all().all()
-assert sub.loc[isq, 'queue_pred'].isin([0, 1]).all()
-sub['queue_pred'] = sub.queue_pred.astype(int)
-sub.to_csv('/kaggle/working/submission.csv', index=False)
-print('queue rows', int(isq.sum()), 'positive share before', round(before, 4), 'after', round(sub.loc[isq, 'queue_pred'].mean(), 4))
-print('rows', len(sub), 'OK')
+assert len(out) == len(sample) and (out.submission_id.to_numpy() == sample).all()
+assert np.isfinite(out[['speed_kmh', 'flow_vph', 'queue_pred', 'path_flow']].to_numpy()).all()
+assert out.loc[isq, 'queue_pred'].isin([0, 1]).all()
+out['queue_pred'] = out.queue_pred.astype(int)
+out.to_csv(f'/kaggle/working/submission_{OUT_NAME}.csv', index=False)
+print(OUT_NAME, 'OK', len(out))
