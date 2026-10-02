@@ -2,7 +2,7 @@
 
 Read this before proposing anything. Updated 2026-09-30. The full log is in `experiments/TRACKER.md`.
 
-**Current best public LB: 0.86899 (COMBO13, 2026-10-02) = T1 bag (v11+v12 FTA) + v13 CatBoost onset + v15 np511r ongoing. Onset-blend gate decisions are unreliable (COMBO14 −0.0021).** Earlier: COMBO10 0.86737. Path: COMBO5 0.86217 → COMBO6 0.86327 (T1 F) → COMBO7 0.86509 (ongoing 511) → COMBO8 0.86537 (ongoing id511) → COMBO9 0.86707 (T1 transductive FT).** It came from:
+**Current best public LB: 0.86944 (COMBO15, 2026-10-02) = T1 bag of 4 FTA members + v13 CatBoost onset + v15 np511r ongoing. Onset-blend gate decisions are unreliable (COMBO14 −0.0021).** Earlier: COMBO10 0.86737. Path: COMBO5 0.86217 → COMBO6 0.86327 (T1 F) → COMBO7 0.86509 (ongoing 511) → COMBO8 0.86537 (ongoing id511) → COMBO9 0.86707 (T1 transductive FT).** It came from:
 
 | Step | Public LB |
 |---|---:|
