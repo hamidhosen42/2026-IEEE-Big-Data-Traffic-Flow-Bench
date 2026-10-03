@@ -1,13 +1,19 @@
 {
- "base_kernel": "tfb-c16",
- "base_file": "submission_COMBO16.csv",
- "base_score": 0.87009,
- "best_score": 0.87009,
+ "base_kernel": "tfb-c17",
+ "base_file": "submission_FDR.csv",
+ "base_score": 0.87176,
+ "best_score": 0.87176,
  "done": [
   {
    "slot": "S1_T1BAG",
    "score": 0.87009,
    "delta": 0.0006500000000000394,
+   "keep": true
+  },
+  {
+   "slot": "S2_FDR",
+   "score": 0.87176,
+   "delta": 0.0016699999999999493,
    "keep": true
   }
  ]

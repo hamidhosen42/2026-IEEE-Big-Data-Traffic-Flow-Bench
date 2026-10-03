@@ -4,3 +4,6 @@
 [2026-10-03 02:28:34] submit tfb-c16 submission_COMBO16.csv -> complete 0.87009
 [2026-10-03 02:29:15] S1_T1BAG: LB 0.87009 | delta vs chain base +0.00065 | rule >= -0.0001 -> KEEP (new base)
 [2026-10-03 02:29:17] pushed tfb-c17
+[2026-10-03 02:37:31] submit tfb-c17 submission_FDR.csv -> complete 0.87176
+[2026-10-03 02:37:36] S2_FDR: LB 0.87176 | delta vs chain base +0.00167 | rule >= +0.0002 -> KEEP (new base)
+[2026-10-03 02:37:37] pushed tfb-c18
