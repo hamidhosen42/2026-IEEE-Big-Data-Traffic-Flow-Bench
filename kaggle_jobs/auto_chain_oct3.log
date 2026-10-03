@@ -10,3 +10,14 @@
 [2026-10-03 02:37:31] submit tfb-c17 submission_FDR.csv -> complete 0.87176
 [2026-10-03 02:37:36] S2_FDR: LB 0.87176 | delta vs chain base +0.00167 | rule >= +0.0002 -> KEEP (new base)
 [2026-10-03 02:37:37] pushed tfb-c18
+[2026-10-03 02:41:46] submit tfb-c18 submission_COMBO18.csv -> complete 0.87245
+[2026-10-03 02:41:53] S3_OG4: LB 0.87245 | delta vs chain base +0.00069 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-03 02:41:57] onset gate ABC_st03: delta +0.0064 z 2.65 folds+ 4 official ok True footprint ok True
+[2026-10-03 02:41:57] S4 onset gate -> queue_submission_ABC_st03.csv ABC_st03
+[2026-10-03 02:41:59] pushed tfb-c19
+[2026-10-03 02:45:36] submit tfb-c19 submission_COMBO19.csv -> complete 0.85942
+[2026-10-03 02:45:43] S4: LB 0.85942 | delta vs chain base -0.01303 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-03 02:45:46] pushed tfb-c20
+[2026-10-03 02:52:59] submit tfb-c20 submission_TV.csv -> complete 0.87271
+[2026-10-03 02:53:04] S5_TV: LB 0.87271 | delta vs chain base +0.00026 | rule >= +0.0002 -> KEEP (new base)
+[2026-10-03 02:53:04] CHAIN DONE | final base tfb-c20 submission_TV.csv 0.87271 | best 0.87271

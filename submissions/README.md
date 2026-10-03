@@ -2,6 +2,9 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_TV.csv | 56787882 | 0.87271 | EXP_COMBO_22: chain base + 1-D TV smoothing of Task 1 density inside target runs |
+| submission_COMBO19.csv | 56787752 | 0.85942 | EXP_COMBO_21: chain base + onset rows from v19 ABC_st03 (CatBoost bag + stage-2; CV-gated) |
+| submission_COMBO18.csv | 56787709 | 0.87245 | EXP_COMBO_20: chain base + ongoing rows from v18 og4 bag (np511r+id511r x 2 seeds) |
 | submission_FDR.csv | 56787648 | 0.87176 | EXP_COMBO_19: chain base + FD-gated reconciliation of Task 1 congested cells (v<0.6vf) |
 | submission_COMBO16.csv | 56787531 | 0.87009 | EXP_COMBO_18: Task 1 bag of 8 FTA members (t1v11,t1v12,t1v12s2,t1v12s3,t1v12s4,t1v12s5,t1v12s6,t1v12s7) |
 | submission_COMBO15.csv | 56764679 | 0.86944 | EXP_COMBO_17: COMBO13 + Task 1 bag of 4 FTA members (seeds 0-3) |

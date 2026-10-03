@@ -1,8 +1,8 @@
 {
- "base_kernel": "tfb-c17",
- "base_file": "submission_FDR.csv",
- "base_score": 0.87176,
- "best_score": 0.87176,
+ "base_kernel": "tfb-c20",
+ "base_file": "submission_TV.csv",
+ "base_score": 0.87271,
+ "best_score": 0.87271,
  "done": [
   {
    "slot": "S1_T1BAG",
@@ -14,6 +14,24 @@
    "slot": "S2_FDR",
    "score": 0.87176,
    "delta": 0.0016699999999999493,
+   "keep": true
+  },
+  {
+   "slot": "S3_OG4",
+   "score": 0.87245,
+   "delta": 0.0006899999999999684,
+   "keep": true
+  },
+  {
+   "slot": "S4",
+   "score": 0.85942,
+   "delta": -0.013029999999999986,
+   "keep": false
+  },
+  {
+   "slot": "S5_TV",
+   "score": 0.87271,
+   "delta": 0.000260000000000038,
    "keep": true
   }
  ]
