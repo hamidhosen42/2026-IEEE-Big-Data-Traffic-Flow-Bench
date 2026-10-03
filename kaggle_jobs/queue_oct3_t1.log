@@ -1,0 +1,36 @@
+pushed tfb-t1v13-smoke Fri Oct  2 06:44:31 UTC 2026
+62s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+/kaggle/src/script.py:414: RuntimeWarning: Mean of empty slice
+  hv[w] = np.nanmean(c.mv[sel], 0); hq[w] = np.nanmean(c.mq[sel], 0)
+[    30s] D7_I10_W features 98 (v12 78 + FD 20 ) FD finite share min 0.5227 {'fdk_v-1+0': 0.523, 'fdq_v-1+0': 0.523, 'fdk_v+1+0': 0.523, 'fdq_v+1+0': 0.523, 'fdk_v0-1': 0.544, 'fdq_v0-1': 0.544, 'fdk_v0+1': 0.545, 'fdq_v0+1': 0.545, 'fdk_asm_v-18': 0.987, 'fdq_asm_v-18': 0.987, 'fdk_asm_v+18': 0.987, 'fdq_asm_v+18': 0.987}
+[    30s] D7_I10_W gap origins 14 targets in simulated gaps 7315 validation gap share of targets 0.017
+[    33s] D7_I10_W validation transductive rows so far 32295
+[    37s] D7_I10_W private transductive rows so far 66960
+[    69s] D7_I10_W FTA speed top features {'tv': 128.0, 'lr_v': 78.0, 'lr5_v': 25.0, 'v0-1': 17.0, 'v0+1': 14.0, 'lrd_v': 7.0, 'asm_w+18': 7.0, 'sv': 6.0, 'fdk_tv': 6.0, 'so': 5.0}
+[    69s] D7_I10_W train+transductive rows 311452
+[    70s] D7_I10_W VALIDATION-month internal holdout S_state {'temporal': 0.9285, 'base': 0.9362, 'FTA': 0.9461}
+[    72s] D7_I10_W validation template rows 233060 predicted 30208 unmapped 202852 speed range [32.1, 121.3] flow<50 share 0.0
+[    74s] D7_I10_W private template rows 203699 predicted 35217 unmapped 168482 speed range [34.0, 121.5] flow<50 share 0.0
+[    74s] D7_I10_W panel time 64s peak RSS 1.42 GB
+
+===== validation-month internal holdout (family-mean S_state) =====
+val_temporal    0.9285
+val_base        0.9362
+val_FTA         0.9461
+
+===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+   panel  val_temporal  val_base  val_FTA
+D7_I10_W        0.9285    0.9362   0.9461
+mean val_FTA 0.9461
+[    75s] state rows 65425 NaN 0
+[    75s] peak RSS 1.42 GB
+[    75s] SMOKE gates OK: features 98 no all-NaN FD columns, peak RSS < 25 GB
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 484337 bytes to __results__.html
+
+pushed tfb-t1v13a Fri Oct  2 06:46:36 UTC 2026
+pushed tfb-t1v13b Fri Oct  2 07:07:46 UTC 2026

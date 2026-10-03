@@ -1,0 +1,36 @@
+pushed tfb-t2onv19-smoke Fri Oct  2 06:36:27 UTC 2026
+31s {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False}
+3
+validation ABC_st05  windows changed    3 /   10 | cells changed     3
+validation B         windows changed    1 /   10 | cells changed     3
+validation C         windows changed    3 /   10 | cells changed     7
+private    A0        windows changed    0 /   10 | cells changed     0
+private    A0_st03   windows changed    2 /   10 | cells changed     6
+private    A0_st05   windows changed    2 /   10 | cells changed     6
+private    A1        windows changed    3 /   10 | cells changed     5
+private    A2        windows changed    3 /   10 | cells changed     7
+private    A3        windows changed    1 /   10 | cells changed     3
+private    A3BC      windows changed    3 /   10 | cells changed     8
+private    ABC       windows changed    3 /   10 | cells changed     7
+private    ABC_st03  windows changed    3 /   10 | cells changed     7
+private    ABC_st05  windows changed    3 /   10 | cells changed     7
+private    B         windows changed    3 /   10 | cells changed    12
+private    C         windows changed    3 /   10 | cells changed     8
+[    58s] gate OK queue_submission_ABC_st03.csv rows 29520 positives 118 onset windows with 0 positives 0
+[    58s] gate OK queue_submission_ABC_st05.csv rows 29520 positives 118 onset windows with 0 positives 0
+[    58s] gate OK queue_submission_A0_st03.csv rows 29520 positives 117 onset windows with 0 positives 0
+[    58s] gate OK queue_submission_A0_st05.csv rows 29520 positives 117 onset windows with 0 positives 0
+[    58s] gate OK queue_submission_ABC.csv rows 29520 positives 117 onset windows with 0 positives 0
+[    58s] gate OK queue_submission_A0.csv rows 29520 positives 112 onset windows with 0 positives 0
+[    58s] gate OK onset_probs_v19.parquet (20, 10) | cv_onset_v19.csv (24, 18) | template rows 29520
+[    61s] CONTROL A0 vs tfb-t2v13 onset rows agreement 0.997832 | T+30 rows only 0.986992 | windows differing 8 | positives A0 / v13 112 110
+[    61s] CONTROL FAIL (do not submit; A0 does not reproduce v13) (smoke runs are expected to FAIL)
+[    61s] done
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 522888 bytes to __results__.html
+
+pushed tfb-t2onv19 Fri Oct  2 06:38:02 UTC 2026

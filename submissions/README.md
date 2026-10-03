@@ -2,6 +2,7 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_COMBO16.csv | 56787531 | 0.87009 | EXP_COMBO_18: Task 1 bag of 8 FTA members (t1v11,t1v12,t1v12s2,t1v12s3,t1v12s4,t1v12s5,t1v12s6,t1v12s7) |
 | submission_COMBO15.csv | 56764679 | 0.86944 | EXP_COMBO_17: COMBO13 + Task 1 bag of 4 FTA members (seeds 0-3) |
 | submission_COMBO14.csv | 56762903 | 0.86692 | EXP_COMBO_16: COMBO13 + onset rows = 50/50 CatBoost / LGB 70-30 (v17, no ramp; pseudo-March +0.018 vs cat) |
 | submission_COMBO13.csv | 56762852 | 0.86899 | EXP_COMBO_15: COMBO12 + ongoing rows from v15 np511r (prior-free 511 + ramp; probe vs id511r) |

@@ -1,0 +1,9 @@
+[2026-10-03 00:02:36] START chain | base tfb-combo15 submission_COMBO15.csv 0.86944
+[2026-10-03 00:02:45] S1 members ['tfb-t1v11', 'tfb-t1v12', 'tfb-t1v12s2', 'tfb-t1v12s3', 'tfb-t1v12s4', 'tfb-t1v12s5', 'tfb-t1v12s6', 'tfb-t1v12s7']
+[2026-10-03 00:02:47] pushed tfb-c16
+[2026-10-03 02:26:48] START chain | base tfb-combo15 submission_COMBO15.csv 0.86944
+[2026-10-03 02:26:57] S1 members ['tfb-t1v11', 'tfb-t1v12', 'tfb-t1v12s2', 'tfb-t1v12s3', 'tfb-t1v12s4', 'tfb-t1v12s5', 'tfb-t1v12s6', 'tfb-t1v12s7']
+[2026-10-03 02:26:58] reuse already-complete kernel tfb-c16
+[2026-10-03 02:28:34] submit tfb-c16 submission_COMBO16.csv -> complete 0.87009
+[2026-10-03 02:29:15] S1_T1BAG: LB 0.87009 | delta vs chain base +0.00065 | rule >= -0.0001 -> KEEP (new base)
+[2026-10-03 02:29:17] pushed tfb-c17

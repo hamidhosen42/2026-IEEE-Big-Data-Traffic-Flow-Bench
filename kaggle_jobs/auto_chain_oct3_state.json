@@ -1,0 +1,14 @@
+{
+ "base_kernel": "tfb-c16",
+ "base_file": "submission_COMBO16.csv",
+ "base_score": 0.87009,
+ "best_score": 0.87009,
+ "done": [
+  {
+   "slot": "S1_T1BAG",
+   "score": 0.87009,
+   "delta": 0.0006500000000000394,
+   "keep": true
+  }
+ ]
+}
