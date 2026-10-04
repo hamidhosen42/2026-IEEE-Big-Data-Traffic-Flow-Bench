@@ -1,0 +1,24 @@
+{
+ "base_kernel": "tfb-c20",
+ "base_file": "submission_TV.csv",
+ "base_score": 0.87271,
+ "best_score": 0.87271,
+ "done": [],
+ "recon": {
+  "gate": 0.6,
+  "a": 0.75,
+  "logr": 0.5,
+  "tv": [
+   0.0075,
+   0.001,
+   0.02,
+   0.005
+  ]
+ },
+ "raw_kernel": "tfb-c16",
+ "raw_file": "submission_COMBO16.csv",
+ "fd_used": [],
+ "versions": {
+  "tfb-e1m": 1
+ }
+}

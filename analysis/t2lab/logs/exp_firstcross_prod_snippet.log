@@ -1,0 +1,9 @@
+D7_I10_E: candidates 10662 == lab, run-starts 1500 == lab, dense faithful 3103 == lab, capped-1500 subsample == local arm, 2s
+D7_I10_W: candidates 1815 == lab, run-starts 268 == lab, dense faithful 522 == lab, capped-1500 subsample == local arm, 1s
+D7_I210_E: candidates 2711 == lab, run-starts 373 == lab, dense faithful 733 == lab, capped-1500 subsample == local arm, 4s
+D7_I210_W: candidates 12311 == lab, run-starts 2054 == lab, dense faithful 3398 == lab, capped-1500 subsample == local arm, 1s
+D7_I405_N: candidates 21354 == lab, run-starts 1910 == lab, dense faithful 6458 == lab, capped-1500 subsample == local arm, 4s
+D7_I405_S: candidates 12953 == lab, run-starts 1572 == lab, dense faithful 3783 == lab, capped-1500 subsample == local arm, 1s
+D12_I5_N: candidates 12960 == lab, run-starts 1118 == lab, dense faithful 3927 == lab, capped-1500 subsample == local arm, 3s
+D12_I5_S: candidates 13605 == lab, run-starts 1894 == lab, dense faithful 3915 == lab, capped-1500 subsample == local arm, 1s
+PROD SNIPPET CHECK PASSED 36528

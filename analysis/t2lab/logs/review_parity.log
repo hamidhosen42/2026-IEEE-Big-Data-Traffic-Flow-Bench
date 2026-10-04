@@ -1,0 +1,77 @@
+PASS D7_I10_W: fold blocks = production formula, monotone in day
+PASS D7_I10_W/offlike: rc.fold == block[day]
+PASS D7_I10_W/offlike: prior_table(block != 0) independent of fold-0 days
+PASS D7_I10_W/offlike: direct production rows (prior 0) == cache: (21822, 69) cols_same=True
+PASS D7_I10_W/offlike: prior_table(block != 2) independent of fold-2 days
+PASS D7_I10_W/offlike: direct production rows (prior 2) == cache: (21852, 69) cols_same=True
+PASS D7_I10_W/offlike: direct production rows (prior 4) == cache: (21834, 69) cols_same=True
+PASS D7_I10_W/official: rc.fold == block[day]
+PASS D7_I10_W/official: prior_table(block != 0) independent of fold-0 days
+PASS D7_I10_W/official: direct production rows (prior 0) == cache: (846, 69) cols_same=True
+PASS D7_I10_W: colset np == column subset (58 cols)
+PASS D7_I10_W: colset id == column subset (64 cols)
+PASS D7_I10_W/official: prior_table(block != 2) independent of fold-2 days
+PASS D7_I10_W/official: direct production rows (prior 2) == cache: (846, 69) cols_same=True
+PASS D7_I10_W: colset np == column subset (58 cols)
+PASS D7_I10_W: colset id == column subset (64 cols)
+PASS D7_I10_W/official: direct production rows (prior 4) == cache: (846, 69) cols_same=True
+PASS D7_I10_W: colset np == column subset (58 cols)
+PASS D7_I10_W: colset id == column subset (64 cols)
+PASS D7_I10_W/dense1500: rc.fold == block[day]
+PASS D7_I10_W/dense1500: prior_table(block != 0) independent of fold-0 days
+PASS D7_I10_W/dense1500: direct production rows (prior 0) == cache: (215016, 69) cols_same=True
+PASS D7_I10_W/dense1500: prior_table(block != 2) independent of fold-2 days
+PASS D7_I10_W/dense1500: direct production rows (prior 2) == cache: (216084, 69) cols_same=True
+PASS D7_I10_W/dense1500: direct production rows (prior 4) == cache: (215004, 69) cols_same=True
+PASS D7_I10_W: no feature depends on data after T (changed: [])
+PASS D7_I10_W: no feature depends on data before T-60 (changed: [])
+PASS D7_I10_W: ramp features ignore ramp flows at T or later (changed: [])
+PASS D7_I10_W: ramp flows in T-12..T-4 reach only ramp_on_surge (changed: ['ramp_on_surge'])
+PASS D7_I10_W: ramp flows in T-3..T-1 reach only ramp_* (changed: ['ramp_off3', 'ramp_off_pm3', 'ramp_on3', 'ramp_on_pm3', 'ramp_on_surge'])
+PASS D7_I10_W: slot-T value reaches only the masked-slot features (changed: ['dq_hi', 'dq_lo', 'has_T', 'q_last', 'q_n+1', 'q_n+2', 'q_n+3', 'q_n-1', 'q_n-2', 'q_n-3', 'share_q', 'vr_T', 'vr_last', 'vr_min_dn1_3', 'vr_min_dn4_8', 'vr_min_dn9_16', 'vr_min_up1_3', 'vr_min_up4_8', 'vr_min_up9_16', 'vr_n+1', 'vr_n+2', 'vr_n+3', 'vr_n-1', 'vr_n-2', 'vr_n-3'])
+PASS D7_I10_W: no selection-side column in X (69 cols): []
+PASS D7_I10_W: train_matrix(offlike, k=0) == rows with fold != 0 (13095 rows)
+PASS D7_I10_W: fold 0 train days and eval days disjoint (96 vs 28 days)
+PASS D7_I10_W: train_matrix(offlike, k=3) == rows with fold != 3 (12211 rows)
+PASS D7_I10_W: fold 3 train days and eval days disjoint (90 vs 34 days)
+PASS D7_I10_W: predict_set(k=1) fills only fold-1 windows
+PASS D7_I10_W: predict_set(k=1) nonzero exactly on keep5[:, 1]
+PASS D12_I5_S: fold blocks = production formula, monotone in day
+PASS D12_I5_S/offlike: rc.fold == block[day]
+PASS D12_I5_S/offlike: prior_table(block != 0) independent of fold-0 days
+PASS D12_I5_S/offlike: direct production rows (prior 0) == cache: (175608, 69) cols_same=True
+PASS D12_I5_S/offlike: prior_table(block != 2) independent of fold-2 days
+PASS D12_I5_S/offlike: direct production rows (prior 2) == cache: (175536, 69) cols_same=True
+PASS D12_I5_S/offlike: direct production rows (prior 4) == cache: (175014, 69) cols_same=True
+PASS D12_I5_S/official: rc.fold == block[day]
+PASS D12_I5_S/official: prior_table(block != 0) independent of fold-0 days
+PASS D12_I5_S/official: direct production rows (prior 0) == cache: (2070, 69) cols_same=True
+PASS D12_I5_S: colset np == column subset (58 cols)
+PASS D12_I5_S: colset id == column subset (64 cols)
+PASS D12_I5_S/official: prior_table(block != 2) independent of fold-2 days
+PASS D12_I5_S/official: direct production rows (prior 2) == cache: (2070, 69) cols_same=True
+PASS D12_I5_S: colset np == column subset (58 cols)
+PASS D12_I5_S: colset id == column subset (64 cols)
+PASS D12_I5_S/official: direct production rows (prior 4) == cache: (2064, 69) cols_same=True
+PASS D12_I5_S: colset np == column subset (58 cols)
+PASS D12_I5_S: colset id == column subset (64 cols)
+PASS D12_I5_S/dense1500: rc.fold == block[day]
+PASS D12_I5_S/dense1500: prior_table(block != 0) independent of fold-0 days
+PASS D12_I5_S/dense1500: direct production rows (prior 0) == cache: (687528, 69) cols_same=True
+PASS D12_I5_S/dense1500: prior_table(block != 2) independent of fold-2 days
+PASS D12_I5_S/dense1500: direct production rows (prior 2) == cache: (686574, 69) cols_same=True
+PASS D12_I5_S/dense1500: direct production rows (prior 4) == cache: (685986, 69) cols_same=True
+PASS D12_I5_S: no feature depends on data after T (changed: [])
+PASS D12_I5_S: no feature depends on data before T-60 (changed: [])
+PASS D12_I5_S: ramp features ignore ramp flows at T or later (changed: [])
+PASS D12_I5_S: ramp flows in T-12..T-4 reach only ramp_on_surge (changed: ['ramp_on_surge'])
+PASS D12_I5_S: ramp flows in T-3..T-1 reach only ramp_* (changed: ['ramp_off3', 'ramp_off_pm3', 'ramp_on3', 'ramp_on_pm3', 'ramp_on_surge'])
+PASS D12_I5_S: slot-T value reaches only the masked-slot features (changed: ['dq_hi', 'dq_lo', 'has_T', 'q_last', 'q_n+1', 'q_n+2', 'q_n+3', 'q_n-1', 'q_n-2', 'q_n-3', 'share_q', 'vr_T', 'vr_last', 'vr_min_dn1_3', 'vr_min_dn4_8', 'vr_min_dn9_16', 'vr_min_up1_3', 'vr_min_up4_8', 'vr_min_up9_16', 'vr_n+1', 'vr_n+2', 'vr_n+3', 'vr_n-1', 'vr_n-2', 'vr_n-3'])
+PASS D12_I5_S: no selection-side column in X (69 cols): []
+PASS D12_I5_S: train_matrix(offlike, k=0) == rows with fold != 0 (101700 rows)
+PASS D12_I5_S: fold 0 train days and eval days disjoint (174 vs 56 days)
+PASS D12_I5_S: train_matrix(offlike, k=3) == rows with fold != 3 (99787 rows)
+PASS D12_I5_S: fold 3 train days and eval days disjoint (172 vs 58 days)
+PASS D12_I5_S: predict_set(k=1) fills only fold-1 windows
+PASS D12_I5_S: predict_set(k=1) nonzero exactly on keep5[:, 1]
+PARITY REVIEW DONE, failures: 0

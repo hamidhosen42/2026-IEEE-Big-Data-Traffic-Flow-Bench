@@ -1,0 +1,92 @@
+fill_time: interior gaps <= maxgap interpolated, larger gaps and edges untouched: PASS
+D7_I10_W hb vectorised selector_stats == plain-loop stats: PASS
+D7_I10_W t36 vectorised selector_stats == plain-loop stats: PASS
+{'panel': 'D7_I10_W', 'rule': 'prod obs/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 'prod obs/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 'hb fill/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 'hb fill/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 'hb fill/all', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 'hb fill/all', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 't36 fill/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 't36 fill/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 't36 fill/all', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+{'panel': 'D7_I10_W', 'rule': 't36 fill/all', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)], 'lab_same': True}
+D7_I10_W official ongoing origins: [(11, 179), (12, 203), (15, 178), (17, 178), (19, 180)] onset: [(1, 170), (3, 171), (6, 170), (8, 169), (9, 170)]
+D12_I5_S hb vectorised selector_stats == plain-loop stats: PASS
+D12_I5_S t36 vectorised selector_stats == plain-loop stats: PASS
+{'panel': 'D12_I5_S', 'rule': 'prod obs/E', 'scan': 'interleaved', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 2, 'og_pm1': 3, 'og_picks': [(1, 181), (1, 253), (3, 230), (4, 213), (6, 161)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 'prod obs/E', 'scan': 'two_pass', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 2, 'og_pm1': 3, 'og_picks': [(1, 181), (1, 253), (3, 230), (4, 213), (6, 161)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 'hb fill/E', 'scan': 'interleaved', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 'hb fill/E', 'scan': 'two_pass', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 'hb fill/all', 'scan': 'interleaved', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 2, 'og_pm1': 4, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 109)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 'hb fill/all', 'scan': 'two_pass', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 2, 'og_pm1': 4, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 109)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 't36 fill/E', 'scan': 'interleaved', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 't36 fill/E', 'scan': 'two_pass', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 't36 fill/all', 'scan': 'interleaved', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+{'panel': 'D12_I5_S', 'rule': 't36 fill/all', 'scan': 'two_pass', 'on_exact': 4, 'on_pm1': 4, 'og_exact': 3, 'og_pm1': 5, 'og_picks': [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)], 'lab_same': True}
+D12_I5_S official ongoing origins: [(1, 184), (3, 230), (4, 214), (6, 161), (7, 111)] onset: [(0, 161), (1, 109), (3, 158), (4, 141), (5, 175)]
+D7_I210_E hb vectorised selector_stats == plain-loop stats: PASS
+D7_I210_E t36 vectorised selector_stats == plain-loop stats: PASS
+{'panel': 'D7_I210_E', 'rule': 'prod obs/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 0, 'og_pm1': 0, 'og_picks': [(0, 169), (1, 184), (2, 157), (3, 151), (3, 226)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 'prod obs/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 0, 'og_pm1': 0, 'og_picks': [(0, 169), (1, 184), (2, 157), (3, 151), (3, 226)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 'hb fill/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 4, 'og_pm1': 4, 'og_picks': [(0, 172), (1, 200), (2, 199), (3, 229), (4, 235)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 'hb fill/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 4, 'og_pm1': 4, 'og_picks': [(0, 172), (1, 200), (2, 199), (3, 229), (4, 235)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 'hb fill/all', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 3, 'og_pm1': 3, 'og_picks': [(0, 172), (1, 200), (2, 199), (3, 229), (4, 233)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 'hb fill/all', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 3, 'og_pm1': 3, 'og_picks': [(0, 172), (1, 200), (2, 199), (3, 229), (4, 233)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 't36 fill/E', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 't36 fill/E', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 5, 'og_pm1': 5, 'og_picks': [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 't36 fill/all', 'scan': 'interleaved', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 4, 'og_pm1': 4, 'og_picks': [(0, 229), (1, 200), (2, 199), (3, 229), (4, 233)], 'lab_same': True}
+{'panel': 'D7_I210_E', 'rule': 't36 fill/all', 'scan': 'two_pass', 'on_exact': 5, 'on_pm1': 5, 'og_exact': 4, 'og_pm1': 4, 'og_picks': [(0, 229), (1, 200), (2, 199), (3, 229), (4, 233)], 'lab_same': True}
+D7_I210_E official ongoing origins: [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)] onset: [(0, 97), (1, 111), (2, 85), (3, 79), (4, 73)]
+
+TOTALS over ['D7_I10_W', 'D12_I5_S', 'D7_I210_E']
+                          on_exact  on_pm1  og_exact  og_pm1
+rule         scan                                           
+hb fill/E    interleaved        14      14        12      14
+             two_pass           14      14        12      14
+hb fill/all  interleaved        14      14        10      12
+             two_pass           14      14        10      12
+prod obs/E   interleaved        14      14         7       8
+             two_pass           14      14         7       8
+t36 fill/E   interleaved        14      14        13      15
+             two_pass           14      14        13      15
+t36 fill/all interleaved        14      14        12      14
+             two_pass           14      14        12      14
+lab.greedy/candidates identical to the plain-loop replay in every case: True
+
+reference replay_table.csv totals for the same panels:
+                                   on_exact  on_pm1  og_exact  og_pm1
+fill pers_state cells scan                                           
+hb   fill       E     interleaved        14      14        12      14
+                      two_pass           14      14        12      14
+                all   interleaved        14      14        10      12
+                      two_pass           14      14        10      12
+     obs        E     interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+                all   interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+t12  fill       E     interleaved        14      14        12      14
+                      two_pass           14      14        12      14
+                all   interleaved        14      14        11      13
+                      two_pass           14      14        11      13
+     obs        E     interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+                all   interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+t3   fill       E     interleaved        14      14        10      13
+                      two_pass           14      14        10      13
+                all   interleaved        14      14        11      13
+                      two_pass           14      14        11      13
+     obs        E     interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+                all   interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+t36  fill       E     interleaved        14      14        13      15
+                      two_pass           14      14        13      15
+                all   interleaved        14      14        12      14
+                      two_pass           14      14        12      14
+     obs        E     interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+                all   interleaved        14      14         7       8
+                      two_pass           14      14         7       8
+SELECTOR REVIEW DONE

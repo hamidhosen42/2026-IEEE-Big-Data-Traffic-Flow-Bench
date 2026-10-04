@@ -1,0 +1,8 @@
+[     0s] months with all members: ['A', 'B'] | stages BCDEFG
+[    10s] stage B: 140 variants, 834 new evaluations in 10s | stored 858
+[   194s] stage C: 56 variants, 330 new evaluations in 184s | stored 1188
+[   297s] stage D: 31 variants, 180 new evaluations in 103s | stored 1368
+[   325s] stage E: 8 variants, 48 new evaluations in 27s | stored 1416
+[   391s] stage F: 22 variants, 132 new evaluations in 66s | stored 1548
+[   453s] stage G: 36 variants, 216 new evaluations in 62s | stored 1764
+[   453s] rows 1764 -> /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/recon/scan_long.csv

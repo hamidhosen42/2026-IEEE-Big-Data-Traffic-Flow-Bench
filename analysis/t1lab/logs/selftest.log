@@ -1,0 +1,12 @@
+[     9s] cache built /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/data/t1local/cube_D12_I405_S.npz | days 267 | released masked files checked 181 | regimes {'R1': 70, 'R2': 85, 'R3': 112}
+production functions compiled from t1_pipeline_v13a.py line 215 | swap_fdrecon.py recon line 188 tv line 222
+days 267 stations 44 | released masked files equal to truth + hash mask: 181 / 181 | regimes {'R1': 70, 'R2': 85, 'R3': 112} | target share of eligible {'R1': 0.2006, 'R2': 0.2998, 'R3': 0.5002}
+  S_state R1: organizer 0.914291 (n 135986, missing 0) | production s_state 0.914291 | lab aggregate 0.914291
+  S_state R2: organizer 0.913782 (n 246725, missing 0) | production s_state 0.913782 | lab aggregate 0.913782
+  S_state R3: organizer 0.911471 (n 126469, missing 0) | production s_state 0.911471 | lab aggregate 0.911471
+  S_state macro: organizer 0.913181 | lab 0.913181
+  S_FD R1: organizer 0.988541 (missing 0) | lab 0.988541
+  S_FD R2: organizer 0.987011 (missing 0) | lab 0.987011
+  S_FD R3: organizer 0.985052 (missing 0) | lab 0.985052
+  LWR proxy: production lwr_proxy 0.534895 | lab 0.534895
+selftest OK

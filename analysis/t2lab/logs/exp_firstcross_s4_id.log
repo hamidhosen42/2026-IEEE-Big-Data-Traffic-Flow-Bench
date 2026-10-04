@@ -1,0 +1,19 @@
+[run_heavy] slot acquired after 0s
+[     0s] === fc_A_id255: cols id, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seeds (0,)
+[    77s] fc_A_id255 fold 0: 3348228 rows x 64 cols, pos 0.329 (weighted 0.329), 1 model(s) in 77s | {"dense1500": {"windows": 8854, "rows": 3348228, "wsum": 3348228.0, "runstart_windows": 480}}
+[    87s] fc_A_id255 fold 0: official 0.8588 (n=40), offlike 0.8397 (n=726), pseudo 0.9063 (n=525)
+[   159s] fc_A_id255 fold 1: 3195283 rows x 64 cols, pos 0.331 (weighted 0.331), 1 model(s) in 72s | {"dense1500": {"windows": 8468, "rows": 3195283, "wsum": 3195283.0, "runstart_windows": 455}}
+[   170s] fc_A_id255 fold 1: official nan (n=0), offlike 0.8488 (n=747), pseudo 0.8877 (n=530)
+[   240s] fc_A_id255 fold 2: 3282685 rows x 64 cols, pos 0.331 (weighted 0.331), 1 model(s) in 70s | {"dense1500": {"windows": 8768, "rows": 3282685, "wsum": 3282685.0, "runstart_windows": 471}}
+[   249s] fc_A_id255 fold 2: official nan (n=0), offlike 0.8492 (n=748), pseudo 0.9053 (n=503)
+[   318s] fc_A_id255 fold 3: 3278087 rows x 64 cols, pos 0.337 (weighted 0.337), 1 model(s) in 69s | {"dense1500": {"windows": 8623, "rows": 3278087, "wsum": 3278087.0, "runstart_windows": 487}}
+[   328s] fc_A_id255 fold 3: official nan (n=0), offlike 0.8393 (n=771), pseudo 0.8921 (n=500)
+
+== fc_A_id255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8588 0.9345 0.9141 0.8954 0.9077 0.8461 0.6874      0.0698        0.0539 0.0175
+ offlike 2992 0.8441 0.9394 0.9135 0.8811 0.8630 0.8366 0.7055      0.0521        0.0623 0.0415
+  pseudo 2058 0.8875 0.9617 0.9421 0.8855 0.8496 0.8518 0.8648      0.0222        0.0700 0.0203
+[   328s] === fc_F03_id255: cols id, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seeds (0,)
+[   451s] fc_F03_id255 fold 0: 6077021 rows x 64 cols, pos 0.268 (weighted 0.281), 1 model(s) in 122s | {"faith3": {"windows": 7773, "rows": 2974633, "wsum": 892389.68359375, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 3102388.0, "runstart_windows": 7958}}
+[   460s] fc_F03_id255 fold 0: official 0.8918 (n=40), offlike 0.8826 (n=726), pseudo 0.8795 (n=525)

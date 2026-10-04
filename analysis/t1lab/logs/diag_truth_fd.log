@@ -1,0 +1,56 @@
+                count     mean     std      min      25%      50%      75%      max
+lanes            44.0     5.02    0.93     4.00     4.00     5.00     6.00     8.00
+free_speed_kmh   44.0   115.25    2.31   112.00   113.38   114.90   117.05   121.30
+capl             44.0  2187.57  360.72  1454.40  1973.70  2231.04  2600.64  2678.40
+kcl              44.0    18.98    3.10    12.28    17.31    19.01    21.93    23.89
+kjl              44.0   100.00    0.00   100.00   100.00   100.00   100.00   100.00
+w                44.0    27.20    5.45    16.58    23.90    27.60    33.31    35.16
+bad links 0 []
+eligible cells 2584806
+    band  share       n  rel_med  rel_q25  rel_q75  rel_q05  rel_q95  k_over_kc_med  share_k_gt_kc
+   0-0.2 0.0010    2502   0.0011  -0.0211   0.0217  -0.0510   0.0504         3.4094         1.0000
+ 0.2-0.4 0.0091   23567   0.0001  -0.0214   0.0209  -0.0522   0.0516         2.2840         1.0000
+ 0.4-0.5 0.0011    2773  -0.0022  -0.0217   0.0192  -0.0530   0.0479         1.9608         1.0000
+ 0.5-0.6 0.0012    3088  -0.0013  -0.0221   0.0198  -0.0514   0.0506         1.5689         1.0000
+ 0.6-0.7 0.0007    1875  -0.0025  -0.0242   0.0176  -0.0532   0.0481         1.4976         1.0000
+ 0.7-0.8 0.0002     573  -0.0027  -0.0229   0.0206  -0.0571   0.0488         1.2707         1.0000
+ 0.8-0.9 0.0003     840  -0.0008  -0.0216   0.0209  -0.0489   0.0531         1.1423         0.9976
+0.9-0.95 0.0002     591  -0.0007  -0.0205   0.0198  -0.0588   0.0511         1.0675         0.9577
+0.95-1.0 0.4969 1284385  -0.5303  -0.7990  -0.3379  -0.9372  -0.0955         0.4728         0.0055
+1.0-1.05 0.4892 1264609  -0.5391  -0.8022  -0.3541  -0.9383  -0.1151         0.4575         0.0017
+  1.05-9 0.0000       3  -0.7300  -0.7737  -0.5564  -0.8087  -0.4176         0.2595         0.0000
+gate 0.6: share 0.0124 n 31930 median -0.0002 IQR [-0.0215, +0.0207]
+gate 0.7: share 0.0131 n 33805 median -0.0003 IQR [-0.0216, +0.0206]
+gate 0.8: share 0.0133 n 34378 median -0.0004 IQR [-0.0216, +0.0206]
+gate 0.9: share 0.0136 n 35218 median -0.0004 IQR [-0.0216, +0.0206]
+gate 1.0: share 0.5108 n 1320194 median -0.5184 IQR [-0.7910, -0.3191]
+k<=kc share 0.9826 v/vf quantiles (1,5,25,50,75,95,99): [0.9754 0.9826 0.9931 0.9999 1.0075 1.018  1.0257]
+k>kc share 0.0174 v/vf quantiles: [0.0983 0.1849 0.3031 0.39   0.6956 0.9998 1.0091]
+truth S_FD 0.99061
+  band 0-0.2: FD residual / total flow 0.00006 | mean rel residual in band 0.0666
+  band 0.2-0.4: FD residual / total flow 0.00063 | mean rel residual in band 0.0448
+  band 0.4-0.5: FD residual / total flow 0.00006 | mean rel residual in band 0.0351
+  band 0.5-0.6: FD residual / total flow 0.00005 | mean rel residual in band 0.0314
+  band 0.6-0.7: FD residual / total flow 0.00003 | mean rel residual in band 0.0303
+  band 0.7-0.8: FD residual / total flow 0.00001 | mean rel residual in band 0.0308
+  band 0.8-0.9: FD residual / total flow 0.00002 | mean rel residual in band 0.0306
+  band 0.9-0.95: FD residual / total flow 0.00001 | mean rel residual in band 0.0292
+  band 0.95-1.0: FD residual / total flow 0.00425 | mean rel residual in band 0.0086
+  band 1.0-1.05: FD residual / total flow 0.00426 | mean rel residual in band 0.0088
+  band 1.05-9: FD residual / total flow 0.00000 | mean rel residual in band 0.0500
+private month released eligible cells 175182 days 29 {'R1': 4, 'R2': 12, 'R3': 13}
+  private gate 0.6: share 0.0203 n 3561 median +0.0005 IQR [-0.0207, +0.0224]
+  private gate 0.7: share 0.0217 n 3798 median +0.0006 IQR [-0.0204, +0.0225]
+  private gate 0.8: share 0.0221 n 3873 median +0.0008 IQR [-0.0203, +0.0225]
+  private gate 0.9: share 0.0225 n 3947 median +0.0007 IQR [-0.0203, +0.0224]
+  private gate 1.0: share 0.5440 n 95295 median -0.5212 IQR [-0.7892, -0.3202]
+  private band 0-0.2: share 0.0023 median -0.0016 IQR [-0.0237, +0.0217]
+  private band 0.2-0.4: share 0.0139 median +0.0010 IQR [-0.0200, +0.0226]
+  private band 0.4-0.5: share 0.0028 median -0.0018 IQR [-0.0204, +0.0210]
+  private band 0.5-0.6: share 0.0013 median +0.0043 IQR [-0.0166, +0.0263]
+  private band 0.6-0.7: share 0.0014 median +0.0026 IQR [-0.0173, +0.0239]
+  private band 0.7-0.8: share 0.0004 median +0.0050 IQR [-0.0109, +0.0247]
+  private band 0.8-0.9: share 0.0004 median -0.0038 IQR [-0.0201, +0.0151]
+  private band 0.9-0.95: share 0.0002 median -0.0015 IQR [-0.0215, +0.0197]
+  private band 0.95-1.0: share 0.5212 median -0.5392 IQR [-0.8020, -0.3485]
+  private band 1.0-1.05: share 0.4560 median -0.5220 IQR [-0.7895, -0.3119]

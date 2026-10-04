@@ -1,0 +1,17 @@
+smoke status: {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False} Sun Oct  4 00:01:18 UTC 2026
+[   134s] model cur_np trained: 185708 rows x 58 cols, 40 trees, 0.1 min, weighted False
+[   138s] model cur_id trained: 185708 rows x 64 cols, 40 trees, 0.1 min, weighted False
+[   147s] model fs_np trained: 518731 rows x 58 cols, 40 trees, 0.1 min, weighted True
+[   155s] model fs_id trained: 518731 rows x 64 cols, 40 trees, 0.1 min, weighted True
+[   163s] model h_np trained: 509636 rows x 58 cols, 40 trees, 0.1 min, weighted True
+[   170s] D7_I10_E validation windows 10 ongoing 5 template rows 8760 unmapped 0 positive share (ongoing rows) {'cur2': 0.0884, 'fs_np': 0.0877, 'fs_id': 0.0902, 'fs2': 0.0884, 'h_np': 0.087, 'fsblend': 0.0863}
+[   176s] D7_I10_E private windows 10 ongoing 5 template rows 8760 unmapped 0 positive share (ongoing rows) {'cur2': 0.1174, 'fs_np': 0.1135, 'fs_id': 0.1151, 'fs2': 0.1148, 'h_np': 0.1171, 'fsblend': 0.1171}
+[   182s] D12_I5_S validation windows 10 ongoing 5 template rows 6000 unmapped 0 positive share (ongoing rows) {'cur2': 0.1453, 'fs_np': 0.1433, 'fs_id': 0.1427, 'fs2': 0.143, 'h_np': 0.145, 'fsblend': 0.1427}
+[   188s] D12_I5_S private windows 10 ongoing 5 template rows 6000 unmapped 0 positive share (ongoing rows) {'cur2': 0.1697, 'fs_np': 0.1787, 'fs_id': 0.1757, 'fs2': 0.1777, 'h_np': 0.1823, 'fsblend': 0.1743}
+[   189s] queue rows 29520 dupes 0 ongoing rows 14760 files ['queue_submission_cur2.csv', 'queue_submission_fs_np.csv', 'queue_submission_fs_id.csv', 'queue_submission_fs2.csv', 'queue_submission_h_np.csv', 'queue_submis
+[   189s] FOOTPRINT private: ongoing windows 10 | mean queued cells at T (q_last) 17.00
+[   189s] FOOTPRINT validation: ongoing windows 10 | mean queued cells at T (q_last) 13.40
+[   192s] CONTROL cur2 vs /kaggle/input/notebooks/hosen42/tfb-t2v20/queue_submission_npid.csv: ongoing rows 14760 (unmatched 0) | agreement 0.98130 | Jaccard of queued cells 0.85670 | positives cur2 1846 ref 1730 | SMOKE
+FILES ['queue_submission_cur2.csv', 'queue_submission_fs2.csv', 'queue_submission_fs_id.csv', 'queue_submission_fs_np.csv', 'queue_submission_fsblend.csv', 'queue_submission_h_np.csv', 't2v21_footprint.csv', 't2v21_probs.npz', 't2v21_trainsets.csv']
+SMOKE_OK
+PUSHED tfb-t2v21 full Sun Oct  4 00:01:22 UTC 2026

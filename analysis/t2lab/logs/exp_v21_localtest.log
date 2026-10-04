@@ -1,0 +1,95 @@
+[run_heavy] slot acquired after 0s
+A. functions identical to v20: ['add_ramp', 'build_windows', 'decode', 'dist_to_queued', 'established', 'ffill_time', 'iou', 'load_panel', 'log', 'make_rows', 'ongoing_keep', 'predict_windows', 'prior_feats', 'prior_table', 'ramp_cube', 'shift_links', 'to_matrix', 'window_features']
+A. differing: [] | not in v21: ['score_windows']
+A. smoke diff lines: [('SMOKE = False', 'SMOKE = True')]
+[     1s] D7_I10_E windows {"days": 273, "cur_onset": 265, "cur_og_all": 6988, "cur_og": 3000, "cur_og_faithful": 1452, "cur_og_runstart": 185, "faith_all_slots": 10662, "runstarts": 1500, "faith3_rest_all": 3103, "faith3_rest_used": 3000, "F03_windows": 4500, "H_windows": 4315, "runstarts_already_in_cur": 185}
+[     1s] D7_I10_E filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.476/0.694/0.909/0.992/1.000 share>0.9 0.516 share>0.8 0.650
+[     1s] D7_I10_E filled persistence | run-starts : n=1500 q10/25/50/75/90 0.714/0.833/0.873/0.887/0.895 share>0.9 0.000 share>0.8 0.845
+[     1s] D7_I10_E filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.167/0.472/0.645/0.778/0.848 share>0.9 0.000 share>0.8 0.194
+B. D7_I10_E {'cand_equal': True, 'n_cand': 10662, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 1500, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 3103, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 3}
+[     2s] D7_I10_W windows {"days": 273, "cur_onset": 134, "cur_og_all": 1071, "cur_og": 1071, "cur_og_faithful": 580, "cur_og_runstart": 65, "faith_all_slots": 1815, "runstarts": 268, "faith3_rest_all": 522, "faith3_rest_used": 522, "F03_windows": 790, "H_windows": 1274, "runstarts_already_in_cur": 65}
+[     2s] D7_I10_W filled persistence | CUR ongoing: n=1071 q10/25/50/75/90 0.322/0.621/0.866/1.000/1.000 share>0.9 0.458 share>0.8 0.586
+[     2s] D7_I10_W filled persistence | run-starts : n=268 q10/25/50/75/90 0.643/0.667/0.767/0.875/0.900 share>0.9 0.000 share>0.8 0.455
+[     2s] D7_I10_W filled persistence | F03 rest   : n=522 q10/25/50/75/90 0.167/0.383/0.615/0.800/0.828 share>0.9 0.000 share>0.8 0.192
+B. D7_I10_W {'cand_equal': True, 'n_cand': 1815, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 268, 'rest_subset_faith3': True, 'n_rest': 522, 'n_faith3_minus_rs': 522, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 5}
+[     4s] D7_I210_E windows {"days": 273, "cur_onset": 276, "cur_og_all": 8999, "cur_og": 3000, "cur_og_faithful": 244, "cur_og_runstart": 22, "faith_all_slots": 2711, "runstarts": 373, "faith3_rest_all": 733, "faith3_rest_used": 733, "F03_windows": 1106, "H_windows": 3351, "runstarts_already_in_cur": 22}
+[     4s] D7_I210_E filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 1.000/1.000/1.000/1.000/1.000 share>0.9 0.919 share>0.8 0.927
+[     4s] D7_I210_E filled persistence | run-starts : n=373 q10/25/50/75/90 0.767/0.800/0.833/0.864/0.889 share>0.9 0.000 share>0.8 0.657
+[     4s] D7_I210_E filled persistence | F03 rest   : n=733 q10/25/50/75/90 0.042/0.292/0.467/0.549/0.733 share>0.9 0.000 share>0.8 0.063
+B. D7_I210_E {'cand_equal': True, 'n_cand': 2711, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 373, 'rest_subset_faith3': True, 'n_rest': 733, 'n_faith3_minus_rs': 733, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 4}
+[     5s] D7_I210_W windows {"days": 273, "cur_onset": 311, "cur_og_all": 9638, "cur_og": 3000, "cur_og_faithful": 1244, "cur_og_runstart": 218, "faith_all_slots": 12311, "runstarts": 2054, "faith3_rest_all": 3398, "faith3_rest_used": 3000, "F03_windows": 5054, "H_windows": 4836, "runstarts_already_in_cur": 218}
+[     5s] D7_I210_W filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.558/0.781/0.938/1.000/1.000 share>0.9 0.585 share>0.8 0.728
+[     5s] D7_I210_W filled persistence | run-starts : n=2054 q10/25/50/75/90 0.600/0.846/0.876/0.892/0.897 share>0.9 0.000 share>0.8 0.845
+[     5s] D7_I210_W filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.267/0.516/0.702/0.805/0.857 share>0.9 0.000 share>0.8 0.256
+B. D7_I210_W {'cand_equal': True, 'n_cand': 12311, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 2054, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 3398, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 4}
+[     7s] D7_I405_N windows {"days": 273, "cur_onset": 355, "cur_og_all": 11285, "cur_og": 3000, "cur_og_faithful": 1866, "cur_og_runstart": 163, "faith_all_slots": 21354, "runstarts": 1910, "faith3_rest_all": 6458, "faith3_rest_used": 3000, "F03_windows": 4910, "H_windows": 4747, "runstarts_already_in_cur": 163}
+[     7s] D7_I405_N filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.524/0.726/0.855/0.950/0.995 share>0.9 0.378 share>0.8 0.616
+[     7s] D7_I405_N filled persistence | run-starts : n=1910 q10/25/50/75/90 0.750/0.857/0.882/0.891/0.898 share>0.9 0.000 share>0.8 0.809
+[     7s] D7_I405_N filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.414/0.655/0.759/0.825/0.863 share>0.9 0.000 share>0.8 0.340
+B. D7_I405_N {'cand_equal': True, 'n_cand': 21354, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 1910, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 6458, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 4}
+[     9s] D7_I405_S windows {"days": 273, "cur_onset": 271, "cur_og_all": 7615, "cur_og": 3000, "cur_og_faithful": 1663, "cur_og_runstart": 177, "faith_all_slots": 12953, "runstarts": 1572, "faith3_rest_all": 3783, "faith3_rest_used": 3000, "F03_windows": 4572, "H_windows": 4395, "runstarts_already_in_cur": 177}
+[     9s] D7_I405_S filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.545/0.735/0.880/0.972/1.000 share>0.9 0.446 share>0.8 0.653
+[     9s] D7_I405_S filled persistence | run-starts : n=1572 q10/25/50/75/90 0.706/0.857/0.873/0.889/0.897 share>0.9 0.000 share>0.8 0.847
+[     9s] D7_I405_S filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.325/0.585/0.737/0.822/0.865 share>0.9 0.000 share>0.8 0.320
+B. D7_I405_S {'cand_equal': True, 'n_cand': 12953, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 1572, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 3783, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 4, 'official_runstart': 3}
+[    11s] D12_I5_N windows {"days": 273, "cur_onset": 255, "cur_og_all": 6707, "cur_og": 3000, "cur_og_faithful": 1902, "cur_og_runstart": 183, "faith_all_slots": 12960, "runstarts": 1118, "faith3_rest_all": 3927, "faith3_rest_used": 3000, "F03_windows": 4118, "H_windows": 3935, "runstarts_already_in_cur": 183}
+[    11s] D12_I5_N filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.485/0.702/0.852/0.938/0.981 share>0.9 0.366 share>0.8 0.607
+[    11s] D12_I5_N filled persistence | run-starts : n=1118 q10/25/50/75/90 0.474/0.822/0.877/0.890/0.896 share>0.9 0.000 share>0.8 0.762
+[    11s] D12_I5_N filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.333/0.567/0.737/0.826/0.864 share>0.9 0.000 share>0.8 0.335
+B. D12_I5_N {'cand_equal': True, 'n_cand': 12960, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 1118, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 3927, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 5}
+[    12s] D12_I5_S windows {"days": 273, "cur_onset": 264, "cur_og_all": 7138, "cur_og": 3000, "cur_og_faithful": 1891, "cur_og_runstart": 292, "faith_all_slots": 13605, "runstarts": 1894, "faith3_rest_all": 3915, "faith3_rest_used": 3000, "F03_windows": 4894, "H_windows": 4602, "runstarts_already_in_cur": 292}
+[    12s] D12_I5_S filled persistence | CUR ongoing: n=3000 q10/25/50/75/90 0.505/0.742/0.864/0.933/0.976 share>0.9 0.370 share>0.8 0.655
+[    12s] D12_I5_S filled persistence | run-starts : n=1894 q10/25/50/75/90 0.750/0.863/0.880/0.892/0.897 share>0.9 0.000 share>0.8 0.886
+[    12s] D12_I5_S filled persistence | F03 rest   : n=3000 q10/25/50/75/90 0.333/0.600/0.763/0.833/0.867 share>0.9 0.000 share>0.8 0.381
+B. D12_I5_S {'cand_equal': True, 'n_cand': 13605, 'pers_maxdiff': 0.0, 'pers_nan_equal': True, 'runstart_equal': True, 'n_runstart': 1894, 'rest_subset_faith3': True, 'n_rest': 3000, 'n_faith3_minus_rs': 3915, 'rest_complete': True, 'no_dup': True, 'cur_equal_v20_draw': True, 'official_faithful': 5, 'official_runstart': 2}
+B. total official ongoing faithful 39 run-starts 30 of 40
+[     1s] D7_I10_W windows {"days": 273, "cur_onset": 134, "cur_og_all": 1071, "cur_og": 250, "cur_og_faithful": 136, "cur_og_runstart": 12, "faith_all_slots": 1815, "runstarts": 268, "faith3_rest_all": 522, "faith3_rest_used": 250, "F03_windows": 518, "H_windows": 506, "runstarts_already_in_cur": 12}
+[     1s] D7_I10_W filled persistence | CUR ongoing: n=250 q10/25/50/75/90 0.265/0.587/0.833/1.000/1.000 share>0.9 0.456 share>0.8 0.568
+[     1s] D7_I10_W filled persistence | run-starts : n=268 q10/25/50/75/90 0.643/0.667/0.767/0.875/0.900 share>0.9 0.000 share>0.8 0.455
+[     1s] D7_I10_W filled persistence | F03 rest   : n=250 q10/25/50/75/90 0.125/0.344/0.620/0.800/0.828 share>0.9 0.000 share>0.8 0.188
+[     1s] D7_I10_W official train ongoing windows 5: faithful 5, run-starts 5, filled persistence [0.857, 0.48, 0.692, 0.667, 0.643]
+[     2s] D7_I210_E windows {"days": 273, "cur_onset": 276, "cur_og_all": 8999, "cur_og": 250, "cur_og_faithful": 13, "cur_og_runstart": 1, "faith_all_slots": 2711, "runstarts": 373, "faith3_rest_all": 733, "faith3_rest_used": 250, "F03_windows": 623, "H_windows": 622, "runstarts_already_in_cur": 1}
+[     2s] D7_I210_E filled persistence | CUR ongoing: n=250 q10/25/50/75/90 1.000/1.000/1.000/1.000/1.000 share>0.9 0.948 share>0.8 0.956
+[     2s] D7_I210_E filled persistence | run-starts : n=373 q10/25/50/75/90 0.767/0.800/0.833/0.864/0.889 share>0.9 0.000 share>0.8 0.657
+[     2s] D7_I210_E filled persistence | F03 rest   : n=250 q10/25/50/75/90 0.033/0.241/0.467/0.542/0.772 share>0.9 0.000 share>0.8 0.084
+[     3s] D7_I210_E official train ongoing windows 5: faithful 5, run-starts 4, filled persistence [0.8, 0.882, 0.833, 0.867, 0.667]
+[     3s] TRAIN SETS total: {'days': 546, 'cur_onset': 410, 'cur_og_all': 10070, 'cur_og': 500, 'cur_og_faithful': 149, 'cur_og_runstart': 13, 'faith_all_slots': 4526, 'runstarts': 641, 'faith3_rest_all': 1255, 'faith3_rest_used': 500, 'F03_windows': 1141, 'H_windows': 1128, 'runstarts_already_in_cur': 13, 'official_og': 10, 'official_faithful': 10, 'official_runstart': 9}
+[     3s] filled persistence ALL panels | CUR ongoing: n=500 q10/25/50/75/90 0.458/0.828/1.000/1.000/1.000 share>0.9 0.702 share>0.8 0.762
+[     3s] filled persistence ALL panels | run-starts: n=641 q10/25/50/75/90 0.643/0.767/0.833/0.867/0.900 share>0.9 0.000 share>0.8 0.573
+[     3s] filled persistence ALL panels | F03 rest: n=500 q10/25/50/75/90 0.067/0.312/0.500/0.732/0.828 share>0.9 0.000 share>0.8 0.136
+[     3s] D7_I10_W rows CUR 38557 (pos 0.224) | EX 79088 (pos 0.220; run-start rows 36683, pos 0.212)
+[     3s] D7_I210_E rows CUR 19983 (pos 0.286) | EX 67475 (pos 0.213; run-start rows 33829, pos 0.241)
+[     4s] features: all 69, np 58, id 64
+[     4s] POSITIVE RATES | CUR rows 58540 pos 0.2452 | F03 rows 146563 pos 0.2166 weighted 0.2214 (run-start rows 70512 pos 0.2257; rest pos 0.2082) | H rows 127291 pos 0.2352 weighted 0.2299 (CUR run-start rows 1751, added run-start rows 68751)
+[     4s] model cur_np trained: 58540 rows x 58 cols, 30 trees, 0.0 min, weighted False
+[     4s] model cur_id trained: 58540 rows x 64 cols, 30 trees, 0.0 min, weighted False
+[     5s] model fs_np trained: 146563 rows x 58 cols, 30 trees, 0.0 min, weighted True
+[     6s] model fs_id trained: 146563 rows x 64 cols, 30 trees, 0.0 min, weighted True
+[     6s] model h_np trained: 127291 rows x 58 cols, 30 trees, 0.0 min, weighted True
+[     6s] D7_I10_W validation windows 10 ongoing 5 template rows 6420 unmapped 0 positive share (ongoing rows) {'cur2': 0.057, 'fs_np': 0.057, 'fs_id': 0.0536, 'fs2': 0.057, 'h_np': 0.0536, 'fsblend': 0.0576}
+[     6s] D7_I10_W private windows 10 ongoing 5 template rows 6420 unmapped 0 positive share (ongoing rows) {'cur2': 0.0449, 'fs_np': 0.0442, 'fs_id': 0.043, 'fs2': 0.043, 'h_np': 0.0433, 'fsblend': 0.0449}
+[     6s] D7_I210_E validation windows 10 ongoing 5 template rows 17820 unmapped 0 positive share (ongoing rows) {'cur2': 0.0168, 'fs_np': 0.0145, 'fs_id': 0.0155, 'fs2': 0.0148, 'h_np': 0.0153, 'fsblend': 0.0168}
+[     6s] D7_I210_E private windows 10 ongoing 5 template rows 17820 unmapped 0 positive share (ongoing rows) {'cur2': 0.0168, 'fs_np': 0.0143, 'fs_id': 0.0154, 'fs2': 0.0143, 'h_np': 0.015, 'fsblend': 0.0168}
+[     6s] queue rows 48480 dupes 0 ongoing rows 24240 files ['queue_submission_cur2.csv', 'queue_submission_fs_np.csv', 'queue_submission_fs_id.csv', 'queue_submission_fs2.csv', 'queue_submission_h_np.csv', 'queue_submission_fsblend.csv'] | onset rows are 0 in every file
+[     6s] FOOTPRINT private: ongoing windows 10 | mean queued cells at T (q_last) 3.70
+[     6s]   cur2     windows changed 0/10 | mean Jaccard vs cur2 1.0000 | cells changed per step h1..h6 [0, 0, 0, 0, 0, 0] (added [0, 0, 0, 0, 0, 0]) | mean predicted size per step [4.9, 4.9, 4.9, 4.9, 4.9, 4.9]
+[     6s]   fs_np    windows changed 10/10 | mean Jaccard vs cur2 0.8767 | cells changed per step h1..h6 [5, 4, 2, 1, 1, 24] (added [1, 1, 1, 1, 1, 1]) | mean predicted size per step [4.6, 4.7, 4.9, 5.0, 5.0, 2.7]
+[     6s]   fs_id    windows changed 10/10 | mean Jaccard vs cur2 0.8967 | cells changed per step h1..h6 [6, 5, 2, 2, 2, 14] (added [1, 1, 1, 1, 1, 1]) | mean predicted size per step [4.5, 4.6, 4.9, 4.9, 4.9, 3.7]
+[     6s]   fs2      windows changed 10/10 | mean Jaccard vs cur2 0.8633 | cells changed per step h1..h6 [6, 5, 2, 2, 2, 24] (added [1, 1, 1, 1, 1, 1]) | mean predicted size per step [4.5, 4.6, 4.9, 4.9, 4.9, 2.7]
+[     6s]   h_np     windows changed 10/10 | mean Jaccard vs cur2 0.8900 | cells changed per step h1..h6 [5, 5, 2, 2, 2, 17] (added [1, 1, 1, 1, 1, 1]) | mean predicted size per step [4.6, 4.6, 4.9, 4.9, 4.9, 3.4]
+[     6s]   fsblend  windows changed 4/10 | mean Jaccard vs cur2 0.9600 | cells changed per step h1..h6 [4, 3, 2, 1, 1, 1] (added [1, 1, 1, 1, 1, 1]) | mean predicted size per step [4.7, 4.8, 4.9, 5.0, 5.0, 5.0]
+[     6s]   windows changed per panel (private): {'D7_I10_W': {'cur2': 0, 'fs2': 5, 'fs_id': 5, 'fs_np': 5, 'fsblend': 4, 'h_np': 5}, 'D7_I210_E': {'cur2': 0, 'fs2': 5, 'fs_id': 5, 'fs_np': 5, 'fsblend': 0, 'h_np': 5}}
+[     6s] FOOTPRINT validation: ongoing windows 10 | mean queued cells at T (q_last) 4.20
+[     6s]   cur2     windows changed 0/10 | mean Jaccard vs cur2 1.0000 | cells changed per step h1..h6 [0, 0, 0, 0, 0, 0] (added [0, 0, 0, 0, 0, 0]) | mean predicted size per step [5.4, 5.5, 5.6, 5.6, 5.6, 5.6]
+[     6s]   fs_np    windows changed 10/10 | mean Jaccard vs cur2 0.8639 | cells changed per step h1..h6 [7, 7, 3, 3, 3, 24] (added [2, 3, 2, 2, 2, 2]) | mean predicted size per step [5.1, 5.4, 5.7, 5.7, 5.7, 3.6]
+[     6s]   fs_id    windows changed 9/10 | mean Jaccard vs cur2 0.8755 | cells changed per step h1..h6 [8, 8, 6, 6, 6, 17] (added [3, 3, 2, 2, 2, 2]) | mean predicted size per step [5.2, 5.3, 5.4, 5.4, 5.4, 4.3]
+[     6s]   fs2      windows changed 10/10 | mean Jaccard vs cur2 0.8757 | cells changed per step h1..h6 [7, 8, 3, 3, 3, 20] (added [2, 3, 2, 2, 2, 2]) | mean predicted size per step [5.1, 5.3, 5.7, 5.7, 5.7, 4.0]
+[     6s]   h_np     windows changed 10/10 | mean Jaccard vs cur2 0.8725 | cells changed per step h1..h6 [7, 8, 6, 5, 5, 18] (added [2, 2, 2, 2, 2, 2]) | mean predicted size per step [5.1, 5.1, 5.4, 5.5, 5.5, 4.2]
+[     6s]   fsblend  windows changed 5/10 | mean Jaccard vs cur2 0.9452 | cells changed per step h1..h6 [4, 6, 2, 3, 3, 2] (added [1, 3, 1, 2, 2, 2]) | mean predicted size per step [5.2, 5.5, 5.6, 5.7, 5.7, 5.8]
+[     6s]   windows changed per panel (validation): {'D7_I10_W': {'cur2': 0, 'fs2': 5, 'fs_id': 5, 'fs_np': 5, 'fsblend': 5, 'h_np': 5}, 'D7_I210_E': {'cur2': 0, 'fs2': 5, 'fs_id': 4, 'fs_np': 5, 'fsblend': 0, 'h_np': 5}}
+[     6s] CONTROL: skipped (queue_submission_npid.csv of tfb-t2v20 not attached or cur2 missing) []
+[     6s] done
+C. files: {'cur2': {'rows': 48480, 'pos': 627, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}, 'fs_np': {'rows': 48480, 'pos': 581, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}, 'fs_id': {'rows': 48480, 'pos': 585, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}, 'fs2': {'rows': 48480, 'pos': 580, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}, 'h_np': {'rows': 48480, 'pos': 581, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}, 'fsblend': {'rows': 48480, 'pos': 629, 'cols': ['window_id', 'timestamp', 'link_id', 'queue_pred']}}
+C. probs keys 28 ['D7_I10_W__validation__cur_np', 'D7_I10_W__validation__cur_id', 'D7_I10_W__validation__fs_np', 'D7_I10_W__validation__fs_id', 'D7_I10_W__validation__h_np', 'D7_I10_W__validation__window_id', 'D7_I10_W__validation__qlast', 'D7_I10_W__private__cur_np']
+ALL LOCAL TESTS PASSED
+[run_heavy] exit 0 after 21s

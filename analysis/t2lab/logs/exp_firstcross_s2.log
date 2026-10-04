@@ -1,0 +1,48 @@
+[run_heavy] slot acquired after 0s
+[     0s] === fc_F01_np255: cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seeds (0,)
+[   143s] fc_F01_np255 fold 0: 6077021 rows x 58 cols, pos 0.268 (weighted 0.287), 1 model(s) in 143s | {"faith3": {"windows": 7773, "rows": 2974633, "wsum": 297463.2314453125, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 3102388.0, "runstart_windows": 7958}}
+[   153s] fc_F01_np255 fold 0: official 0.8875 (n=40), offlike 0.8769 (n=726), pseudo 0.8673 (n=525)
+[   267s] fc_F01_np255 fold 1: 5844108 rows x 58 cols, pos 0.270 (weighted 0.289), 1 model(s) in 114s | {"faith3": {"windows": 7476, "rows": 2818302, "wsum": 281830.12158203125, "runstart_windows": 0}, "runstart": {"windows": 7951, "rows": 3025806, "wsum": 3025806.0, "runstart_windows": 7951}}
+[   278s] fc_F01_np255 fold 1: official nan (n=0), offlike 0.8758 (n=747), pseudo 0.8354 (n=530)
+[   395s] fc_F01_np255 fold 2: 5997115 rows x 58 cols, pos 0.274 (weighted 0.294), 1 model(s) in 117s | {"faith3": {"windows": 7777, "rows": 2905619, "wsum": 290561.8349609375, "runstart_windows": 0}, "runstart": {"windows": 8056, "rows": 3091496, "wsum": 3091496.0, "runstart_windows": 8056}}
+[   406s] fc_F01_np255 fold 2: official nan (n=0), offlike 0.8709 (n=748), pseudo 0.8653 (n=503)
+[   542s] fc_F01_np255 fold 3: 6061317 rows x 58 cols, pos 0.276 (weighted 0.295), 1 model(s) in 136s | {"faith3": {"windows": 7739, "rows": 2927178, "wsum": 292717.73193359375, "runstart_windows": 0}, "runstart": {"windows": 8102, "rows": 3134139, "wsum": 3134139.0, "runstart_windows": 8102}}
+[   553s] fc_F01_np255 fold 3: official nan (n=0), offlike 0.8719 (n=771), pseudo 0.8525 (n=500)
+
+== fc_F01_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8875 0.9372 0.9114 0.9141 0.9198 0.8599 0.7985      0.0570        0.0391 0.0165
+ offlike 2992 0.8737 0.9419 0.9215 0.8955 0.8770 0.8579 0.8054      0.0471        0.0451 0.0341
+  pseudo 2058 0.8403 0.9457 0.9251 0.8757 0.8297 0.8232 0.6451      0.0269        0.0832 0.0495
+[   554s] === fc_H_np255: cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seeds (0,)
+[   693s] fc_H_np255 fold 0: 6266860 rows x 58 cols, pos 0.311 (weighted 0.301), 1 model(s) in 139s | {"dense1500": {"windows": 8374, "rows": 3164472, "wsum": 949341.248046875, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 3102388.0, "runstart_windows": 7958}}
+[   705s] fc_H_np255 fold 0: official 0.8772 (n=40), offlike 0.8693 (n=726), pseudo 0.8929 (n=525)
+[   846s] fc_H_np255 fold 1: 6053605 rows x 58 cols, pos 0.313 (weighted 0.303), 1 model(s) in 142s | {"dense1500": {"windows": 8013, "rows": 3027799, "wsum": 908339.376953125, "runstart_windows": 0}, "runstart": {"windows": 7951, "rows": 3025806, "wsum": 3025806.0, "runstart_windows": 7951}}
+[   857s] fc_H_np255 fold 1: official nan (n=0), offlike 0.8690 (n=747), pseudo 0.8699 (n=530)
+[   989s] fc_H_np255 fold 2: 6201534 rows x 58 cols, pos 0.316 (weighted 0.306), 1 model(s) in 132s | {"dense1500": {"windows": 8297, "rows": 3110038, "wsum": 933011.1015625, "runstart_windows": 0}, "runstart": {"windows": 8056, "rows": 3091496, "wsum": 3091496.0, "runstart_windows": 8056}}
+[   999s] fc_H_np255 fold 2: official nan (n=0), offlike 0.8700 (n=748), pseudo 0.8919 (n=503)
+[  1128s] fc_H_np255 fold 3: 6230446 rows x 58 cols, pos 0.319 (weighted 0.308), 1 model(s) in 128s | {"dense1500": {"windows": 8136, "rows": 3096307, "wsum": 928891.7578125, "runstart_windows": 0}, "runstart": {"windows": 8102, "rows": 3134139, "wsum": 3134139.0, "runstart_windows": 8102}}
+[  1138s] fc_H_np255 fold 3: official nan (n=0), offlike 0.8656 (n=771), pseudo 0.8788 (n=500)
+
+== fc_H_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8772 0.9253 0.9133 0.9137 0.9195 0.8545 0.7427      0.0610        0.0487 0.0131
+ offlike 2992 0.8683 0.9452 0.9226 0.8922 0.8771 0.8577 0.7432      0.0471        0.0553 0.0293
+  pseudo 2058 0.8702 0.9482 0.9370 0.8794 0.8379 0.8338 0.7941      0.0260        0.0829 0.0208
+[  1139s] === fc_FD_np255: cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seeds (0,)
+[  1231s] fc_FD_np255 fold 0: 2978962 rows x 58 cols, pos 0.253 (weighted 0.253), 1 model(s) in 92s | {"faith3": {"windows": 7888, "rows": 2978962, "wsum": 2978962.0, "runstart_windows": 930}}
+[  1241s] fc_FD_np255 fold 0: official 0.8459 (n=40), offlike 0.8185 (n=726), pseudo 0.8562 (n=525)
+[  1328s] fc_FD_np255 fold 1: 2829314 rows x 58 cols, pos 0.254 (weighted 0.254), 1 model(s) in 87s | {"faith3": {"windows": 7558, "rows": 2829314, "wsum": 2829314.0, "runstart_windows": 900}}
+[  1339s] fc_FD_np255 fold 1: official nan (n=0), offlike 0.8158 (n=747), pseudo 0.8332 (n=530)
+[  1430s] fc_FD_np255 fold 2: 2895219 rows x 58 cols, pos 0.254 (weighted 0.254), 1 model(s) in 91s | {"faith3": {"windows": 7852, "rows": 2895219, "wsum": 2895219.0, "runstart_windows": 952}}
+[  1441s] fc_FD_np255 fold 2: official nan (n=0), offlike 0.8222 (n=748), pseudo 0.8466 (n=503)
+[  1534s] fc_FD_np255 fold 3: 2958826 rows x 58 cols, pos 0.257 (weighted 0.257), 1 model(s) in 93s | {"faith3": {"windows": 7875, "rows": 2958826, "wsum": 2958826.0, "runstart_windows": 953}}
+[  1545s] fc_FD_np255 fold 3: official nan (n=0), offlike 0.8086 (n=771), pseudo 0.8395 (n=500)
+
+== fc_FD_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8459 0.9324 0.8936 0.8898 0.8409 0.8051 0.7601      0.0617        0.0301 0.0623
+ offlike 2992 0.8161 0.9351 0.9048 0.8723 0.7642 0.7364 0.7768      0.0472        0.0391 0.0975
+  pseudo 2058 0.8360 0.9571 0.9375 0.8613 0.7730 0.7584 0.7521      0.0192        0.0612 0.0836
+[  1545s] DONE ['F01', 'H', 'FD']
+[run_heavy] exit 0 after 1545s

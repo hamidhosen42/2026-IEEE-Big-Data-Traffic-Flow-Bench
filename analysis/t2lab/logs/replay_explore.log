@@ -1,0 +1,67 @@
+                           on_exact  on_pm1  og_exact  og_pm1
+fill     pers_state cells                                    
+t24      fill       E            39      39        34      39
+                    all          39      39        36      39
+t288     fill       E            39      39        34      39
+                    all          39      39        36      39
+t288s300 fill       E            39      39        34      39
+                    all          39      39        36      39
+t36      fill       E            39      39        34      39
+                    all          39      39        36      39
+t36s2    fill       E            39      39        34      39
+                    all          39      39        36      39
+t36s300  fill       E            39      39        34      39
+                    all          39      39        36      39
+t36s4    fill       E            39      39        34      39
+                    all          39      39        36      39
+t72      fill       E            39      39        34      39
+                    all          39      39        36      39
+D7_I10_E finite share {'hb': 0.9996, 't36': 0.9967, 't288': 0.9967, 't36s300': 0.9999}
+   t36 all pers(t-1) at off [0.938, 0.866, 0.449, 0.928, 0.913] cand(t-1) [False, True, True, False, False]
+   t288 all pers(t-1) at off [0.938, 0.866, 0.449, 0.928, 0.913] cand(t-1) [False, True, True, False, False]
+   t36s300 all pers(t-1) at off [0.938, 0.866, 0.449, 0.928, 0.913] cand(t-1) [False, True, True, False, False]
+   onset hq_fill(t36): onset exact 4 ongoing exact 5 ([(0, 109), (1, 121), (2, 88), (3, 79), (4, 85)], [(0, 108), (1, 121), (2, 88), (3, 79), (4, 85)])
+D7_I10_W finite share {'hb': 0.9996, 't36': 0.9968, 't288': 0.9968, 't36s300': 0.9999}
+   t36 all pers(t-1) at off [0.667, 0.545, 0.5, 0.72, 0.692] cand(t-1) [False, False, False, False, False]
+   t288 all pers(t-1) at off [0.667, 0.545, 0.5, 0.72, 0.692] cand(t-1) [False, False, False, False, False]
+   t36s300 all pers(t-1) at off [0.667, 0.545, 0.5, 0.72, 0.692] cand(t-1) [False, False, False, False, False]
+   onset hq_fill(t36): onset exact 5 ongoing exact 5 
+D7_I210_E finite share {'hb': 0.9997, 't36': 0.9967, 't288': 0.9967, 't36s300': 1.0}
+   t36 all off [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)] mine [(0, 229), (1, 200), (2, 199), (3, 229), (4, 233)] pers at off [0.8, 0.882, 0.833, 0.867, 0.667] pers at mine [0.8, 0.882, 0.833, 0.867, 0.9]
+   t36 all pers(t-1) at off [0.967, 1.0, 1.0, 1.0, 0.833] cand(t-1) [False, False, False, False, True]
+   t288 all off [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)] mine [(0, 229), (1, 200), (2, 199), (3, 229), (4, 233)] pers at off [0.8, 0.882, 0.833, 0.867, 0.667] pers at mine [0.8, 0.882, 0.833, 0.867, 0.9]
+   t288 all pers(t-1) at off [0.967, 1.0, 1.0, 1.0, 0.833] cand(t-1) [False, False, False, False, True]
+   t36s300 all off [(0, 229), (1, 200), (2, 199), (3, 229), (4, 235)] mine [(0, 229), (1, 200), (2, 199), (3, 229), (4, 233)] pers at off [0.8, 0.882, 0.833, 0.867, 0.667] pers at mine [0.8, 0.882, 0.833, 0.867, 0.9]
+   t36s300 all pers(t-1) at off [0.967, 1.0, 1.0, 1.0, 0.833] cand(t-1) [False, False, False, False, True]
+   onset hq_fill(t36): onset exact 2 ongoing exact 4 ([(0, 97), (1, 111), (2, 85), (3, 79), (4, 73)], [(0, 96), (1, 106), (2, 85), (3, 78), (4, 73)])
+D7_I210_W finite share {'hb': 0.9996, 't36': 0.9967, 't288': 0.9967, 't36s300': 0.9999}
+   t36 all pers(t-1) at off [0.911, 0.911, 1.0, 0.917, 0.719] cand(t-1) [False, False, False, False, True]
+   t288 all pers(t-1) at off [0.911, 0.911, 1.0, 0.917, 0.719] cand(t-1) [False, False, False, False, True]
+   t36s300 all pers(t-1) at off [0.911, 0.911, 1.0, 0.917, 0.719] cand(t-1) [False, False, False, False, True]
+   onset hq_fill(t36): onset exact 5 ongoing exact 5 
+D7_I405_N finite share {'hb': 0.9997, 't36': 0.9968, 't288': 0.9968, 't36s300': 1.0}
+   t36 all pers(t-1) at off [0.917, 0.917, 0.851, 0.907, 0.913] cand(t-1) [False, False, True, False, False]
+   t288 all pers(t-1) at off [0.917, 0.917, 0.851, 0.907, 0.913] cand(t-1) [False, False, True, False, False]
+   t36s300 all pers(t-1) at off [0.917, 0.917, 0.851, 0.907, 0.913] cand(t-1) [False, False, True, False, False]
+   onset hq_fill(t36): onset exact 4 ongoing exact 5 ([(0, 148), (1, 126), (2, 68), (2, 142), (3, 65)], [(0, 148), (1, 126), (2, 68), (2, 142), (3, 62)])
+D7_I405_S finite share {'hb': 0.9996, 't36': 0.9967, 't288': 0.9968, 't36s300': 0.9999}
+   t36 all off [(1, 229), (2, 163), (4, 163), (4, 235), (5, 170)] mine [(1, 230), (2, 163), (4, 163), (4, 235), (5, 170)] pers at off [0.917, 0.895, 0.857, 0.5, 0.773] pers at mine [0.88, 0.895, 0.857, 0.5, 0.773]
+   t36 all pers(t-1) at off [0.919, 0.953, 0.911, 0.622, 0.976] cand(t-1) [False, False, False, True, False]
+   t288 all off [(1, 229), (2, 163), (4, 163), (4, 235), (5, 170)] mine [(1, 230), (2, 163), (4, 163), (4, 235), (5, 170)] pers at off [0.917, 0.895, 0.857, 0.5, 0.773] pers at mine [0.88, 0.895, 0.857, 0.5, 0.773]
+   t288 all pers(t-1) at off [0.919, 0.953, 0.911, 0.622, 0.976] cand(t-1) [False, False, False, True, False]
+   t36s300 all off [(1, 229), (2, 163), (4, 163), (4, 235), (5, 170)] mine [(1, 230), (2, 163), (4, 163), (4, 235), (5, 170)] pers at off [0.917, 0.895, 0.857, 0.5, 0.773] pers at mine [0.88, 0.895, 0.857, 0.5, 0.773]
+   t36s300 all pers(t-1) at off [0.919, 0.953, 0.911, 0.622, 0.976] cand(t-1) [False, False, False, True, False]
+   onset hq_fill(t36): onset exact 4 ongoing exact 4 ([(0, 156), (1, 113), (2, 86), (3, 149), (4, 86)], [(0, 156), (1, 113), (2, 85), (3, 149), (4, 86)])
+D12_I5_N finite share {'hb': 0.9997, 't36': 0.9968, 't288': 0.9968, 't36s300': 1.0}
+   t36 all pers(t-1) at off [0.906, 0.912, 0.912, 0.261, 0.917] cand(t-1) [False, False, False, False, False]
+   t288 all pers(t-1) at off [0.906, 0.912, 0.912, 0.261, 0.917] cand(t-1) [False, False, False, False, False]
+   t36s300 all pers(t-1) at off [0.906, 0.912, 0.912, 0.261, 0.917] cand(t-1) [False, False, False, False, False]
+   onset hq_fill(t36): onset exact 1 ongoing exact 5 ([(0, 112), (1, 124), (2, 152), (3, 165), (4, 165)], [(0, 111), (1, 123), (2, 150), (3, 165), (4, 163)])
+D12_I5_S finite share {'hb': 0.9996, 't36': 0.9968, 't288': 0.9968, 't36s300': 0.9999}
+   t36 all off [(1, 184), (3, 230), (4, 214), (6, 161), (7, 111)] mine [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)] pers at off [0.843, 0.364, 0.887, 0.419, 0.894] pers at mine [0.876, 0.364, 0.892, 0.419, 0.894]
+   t36 all pers(t-1) at off [0.876, 0.486, 0.892, 0.486, 0.955] cand(t-1) [True, True, True, False, False]
+   t288 all off [(1, 184), (3, 230), (4, 214), (6, 161), (7, 111)] mine [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)] pers at off [0.843, 0.364, 0.887, 0.419, 0.894] pers at mine [0.876, 0.364, 0.892, 0.419, 0.894]
+   t288 all pers(t-1) at off [0.876, 0.486, 0.892, 0.486, 0.955] cand(t-1) [True, True, True, False, False]
+   t36s300 all off [(1, 184), (3, 230), (4, 214), (6, 161), (7, 111)] mine [(1, 183), (3, 230), (4, 213), (6, 161), (7, 111)] pers at off [0.843, 0.364, 0.887, 0.419, 0.894] pers at mine [0.876, 0.364, 0.892, 0.419, 0.894]
+   t36s300 all pers(t-1) at off [0.876, 0.486, 0.892, 0.486, 0.955] cand(t-1) [True, True, True, False, False]
+   onset hq_fill(t36): onset exact 3 ongoing exact 2 ([(0, 161), (1, 109), (3, 158), (4, 141), (5, 175)], [(0, 161), (1, 109), (3, 157), (4, 141), (5, 176)])

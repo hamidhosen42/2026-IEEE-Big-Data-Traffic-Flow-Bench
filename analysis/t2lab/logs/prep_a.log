@@ -1,0 +1,75 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E official windows 10 ongoing 5 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.6 per fold [5, 0, 0, 0]
+[     2s] D7_I10_E pseudo windows 494 ongoing 229 faithful share 0.493 pers_fill>0.9 0.507 runstart share 0.087 per fold [59, 62, 56, 52]
+[     2s] D7_I10_E offlike windows 633 ongoing 381 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.698 per fold [96, 87, 107, 91]
+[     2s] D7_I10_E runstart windows 1500 ongoing 1500 faithful share 1.0 pers_fill>0.9 0.0 runstart share 1.0 per fold [370, 406, 375, 349]
+[     2s] D7_I10_E faith3 windows 3538 ongoing 3538 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.123 per fold [875, 935, 917, 811]
+[     3s] D7_I10_E dense1500 windows 1765 ongoing 1500 faithful share 0.498 pers_fill>0.9 0.502 runstart share 0.056 per fold [346, 397, 384, 373]
+[     3s] D7_I10_E faith windows 10662 ongoing 10662 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.141 per fold [2629, 2840, 2728, 2465]
+[     3s] D7_I10_E offlike ongoing: interleaved 381 two_pass 429 common 376
+[     3s] D7_I10_E official queue_ongoing rows 2112 windows 5 keep share (fold prior 0) 1.0
+[     3s] D7_I10_E official queue_onset rows 730 windows 5 keep share (fold prior 0) 1.0
+[     3s] D7_I10_E pseudo queue_ongoing rows 74616 windows 229 keep share (fold prior 0) 0.996
+[     3s] D7_I10_E pseudo queue_onset rows 38690 windows 265 keep share (fold prior 0) 1.0
+[     4s] D7_I10_E offlike queue_ongoing rows 106740 windows 381 keep share (fold prior 0) 0.999
+[     4s] D7_I10_E offlike queue_onset rows 36792 windows 252 keep share (fold prior 0) 1.0
+[     5s] D7_I10_E runstart queue_ongoing rows 498798 windows 1500 keep share (fold prior 0) 0.999
+[     9s] D7_I10_E faith3 queue_ongoing rows 1183350 windows 3538 keep share (fold prior 0) 0.999
+[    11s] D7_I10_E dense1500 queue_ongoing rows 508782 windows 1500 keep share (fold prior 0) 0.999
+[    11s] D7_I10_E dense1500 queue_onset rows 38690 windows 265 keep share (fold prior 0) 1.0
+[    11s] D7_I10_W official windows 10 ongoing 5 faithful share 1.0 pers_fill>0.9 0.0 runstart share 1.0 per fold [5, 0, 0, 0]
+[    12s] D7_I10_W pseudo windows 138 ongoing 4 faithful share 0.5 pers_fill>0.9 0.5 runstart share 0.0 per fold [0, 2, 0, 2]
+[    12s] D7_I10_W offlike windows 265 ongoing 131 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.992 per fold [28, 42, 25, 36]
+[    12s] D7_I10_W runstart windows 268 ongoing 268 faithful share 1.0 pers_fill>0.9 0.0 runstart share 1.0 per fold [61, 85, 45, 77]
+[    12s] D7_I10_W faith3 windows 590 ongoing 590 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.115 per fold [146, 198, 89, 157]
+[    12s] D7_I10_W dense1500 windows 1205 ongoing 1071 faithful share 0.542 pers_fill>0.9 0.458 runstart share 0.061 per fold [242, 368, 145, 316]
+[    12s] D7_I10_W faith windows 1815 ongoing 1815 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.148 per fold [452, 600, 281, 482]
+[    12s] D7_I10_W offlike ongoing: interleaved 131 two_pass 131 common 131
+[    13s] D7_I10_W official queue_ongoing rows 846 windows 5 keep share (fold prior 0) 1.0
+[    13s] D7_I10_W official queue_onset rows 535 windows 5 keep share (fold prior 0) 1.0
+[    13s] D7_I10_W pseudo queue_ongoing rows 792 windows 4 keep share (fold prior 0) 1.0
+[    13s] D7_I10_W pseudo queue_onset rows 14338 windows 134 keep share (fold prior 0) 1.0
+[    13s] D7_I10_W offlike queue_ongoing rows 21864 windows 131 keep share (fold prior 0) 0.998
+[    13s] D7_I10_W offlike queue_onset rows 14338 windows 134 keep share (fold prior 0) 1.0
+[    13s] D7_I10_W runstart queue_ongoing rows 48390 windows 268 keep share (fold prior 0) 0.994
+[    13s] D7_I10_W faith3 queue_ongoing rows 129282 windows 590 keep share (fold prior 0) 0.992
+[    14s] D7_I10_W dense1500 queue_ongoing rows 216534 windows 1071 keep share (fold prior 0) 0.993
+[    14s] D7_I10_W dense1500 queue_onset rows 14338 windows 134 keep share (fold prior 0) 1.0
+[    15s] D7_I210_E official windows 10 ongoing 5 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.8 per fold [5, 0, 0, 0]
+[    16s] D7_I210_E pseudo windows 715 ongoing 439 faithful share 0.041 pers_fill>0.9 0.959 runstart share 0.025 per fold [113, 106, 109, 111]
+[    17s] D7_I210_E offlike windows 549 ongoing 276 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.996 per fold [70, 68, 71, 67]
+[    17s] D7_I210_E runstart windows 373 ongoing 373 faithful share 1.0 pers_fill>0.9 0.0 runstart share 1.0 per fold [92, 97, 94, 90]
+[    17s] D7_I210_E faith3 windows 801 ongoing 801 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.085 per fold [175, 249, 193, 184]
+[    18s] D7_I210_E dense1500 windows 1776 ongoing 1500 faithful share 0.069 pers_fill>0.9 0.931 runstart share 0.004 per fold [351, 389, 376, 384]
+[    18s] D7_I210_E faith windows 2711 ongoing 2711 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.138 per fold [615, 814, 661, 621]
+[    18s] D7_I210_E offlike ongoing: interleaved 276 two_pass 278 common 276
+[    18s] D7_I210_E official queue_ongoing rows 528 windows 5 keep share (fold prior 0) 0.989
+[    18s] D7_I210_E official queue_onset rows 1485 windows 5 keep share (fold prior 0) 1.0
+[    18s] D7_I210_E pseudo queue_ongoing rows 45882 windows 439 keep share (fold prior 0) 1.0
+[    19s] D7_I210_E pseudo queue_onset rows 81972 windows 276 keep share (fold prior 0) 1.0
+[    19s] D7_I210_E offlike queue_ongoing rows 29916 windows 276 keep share (fold prior 0) 0.987
+[    19s] D7_I210_E offlike queue_onset rows 81081 windows 273 keep share (fold prior 0) 1.0
+[    20s] D7_I210_E runstart queue_ongoing rows 45036 windows 373 keep share (fold prior 0) 0.99
+[    21s] D7_I210_E faith3 queue_ongoing rows 152628 windows 801 keep share (fold prior 0) 0.989
+[    23s] D7_I210_E dense1500 queue_ongoing rows 165942 windows 1500 keep share (fold prior 0) 0.994
+[    23s] D7_I210_E dense1500 queue_onset rows 81972 windows 276 keep share (fold prior 0) 1.0
+[    24s] D7_I210_W official windows 10 ongoing 5 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.8 per fold [5, 0, 0, 0]
+[    25s] D7_I210_W pseudo windows 697 ongoing 386 faithful share 0.342 pers_fill>0.9 0.658 runstart share 0.07 per fold [102, 92, 99, 93]
+[    25s] D7_I210_W offlike windows 759 ongoing 448 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.754 per fold [113, 114, 103, 118]
+[    25s] D7_I210_W runstart windows 2054 ongoing 2054 faithful share 1.0 pers_fill>0.9 0.0 runstart share 1.0 per fold [520, 492, 536, 506]
+[    25s] D7_I210_W faith3 windows 4103 ongoing 4103 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.172 per fold [1074, 994, 1021, 1014]
+[    26s] D7_I210_W dense1500 windows 1811 ongoing 1500 faithful share 0.397 pers_fill>0.9 0.603 runstart share 0.061 per fold [361, 366, 394, 379]
+[    26s] D7_I210_W faith windows 12311 ongoing 12311 faithful share 1.0 pers_fill>0.9 0.0 runstart share 0.167 per fold [3177, 2995, 3081, 3058]
+[    26s] D7_I210_W offlike ongoing: interleaved 448 two_pass 448 common 448
+[    26s] D7_I210_W official queue_ongoing rows 1884 windows 5 keep share (fold prior 0) 1.0
+[    26s] D7_I210_W official queue_onset rows 405 windows 5 keep share (fold prior 0) 1.0
+[    26s] D7_I210_W pseudo queue_ongoing rows 138270 windows 386 keep share (fold prior 0) 1.0
+[    26s] D7_I210_W pseudo queue_onset rows 25191 windows 311 keep share (fold prior 0) 1.0
+[    27s] D7_I210_W offlike queue_ongoing rows 152106 windows 448 keep share (fold prior 0) 1.0
+[    27s] D7_I210_W offlike queue_onset rows 25191 windows 311 keep share (fold prior 0) 1.0
+[    28s] D7_I210_W runstart queue_ongoing rows 699330 windows 2054 keep share (fold prior 0) 0.999
+[    31s] D7_I210_W faith3 queue_ongoing rows 1416834 windows 4103 keep share (fold prior 0) 1.0
+[    32s] D7_I210_W dense1500 queue_ongoing rows 556638 windows 1500 keep share (fold prior 0) 1.0
+[    32s] D7_I210_W dense1500 queue_onset rows 25191 windows 311 keep share (fold prior 0) 1.0
+[    32s] PREP DONE ['D7_I10_E', 'D7_I10_W', 'D7_I210_E', 'D7_I210_W']
+[run_heavy] exit 0 after 32s

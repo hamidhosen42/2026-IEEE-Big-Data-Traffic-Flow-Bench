@@ -1,0 +1,27 @@
+[run_heavy] slot acquired after 0s
+[    62s] A_np255_review fold 0: 3348228 rows x 58 cols, pos 0.329, 1 model(s) in 61s
+[    72s] A_np255_review fold 0 cumulative: official 0.8525 (n=40), offlike 0.8385 (n=726), pseudo 0.9030 (n=525)
+
+== arm A_np255_review (ongoing, OOF) ==
+     set   n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official  40 0.8525 0.9353 0.9037 0.8906 0.9129 0.8310 0.6814      0.0722        0.0557 0.0195
+ offlike 726 0.8385 0.9398 0.9101 0.8773 0.8586 0.8286 0.7000      0.0563        0.0627 0.0424
+  pseudo 525 0.9030 0.9643 0.9366 0.9017 0.9000 0.8897 0.8650      0.0362        0.0408 0.0201
+
+official-40 per panel:
+panel  D12_I5_N  D12_I5_S  D7_I10_E  D7_I10_W  D7_I210_E  D7_I210_W  D7_I405_N  D7_I405_S
+mean     0.8187    0.8282    0.8123    0.8876      0.816     0.8781     0.9338     0.8455
+count    5.0000    5.0000    5.0000    5.0000      5.000     5.0000     5.0000     5.0000
+official-40 plain mean 0.8525 aggregated 0.8525
+
+official-like per fold: {0: 0.8385}
+official-like run-starts only: 0.8456 n 559
+pseudo per fold: {0: 0.903}
+pseudo faithful subset: 0.7981 n 175 | stable (pers_fill > 0.9): 0.9756 n 350
+
+== persistence reference ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.7501 0.8961 0.8555 0.8092 0.7696 0.7205 0.5381      0.1542        0.0957  0.000
+ offlike 2992 0.7212 0.8983 0.8396 0.7867 0.7313 0.6770 0.5005      0.1656        0.1092  0.004
+  pseudo 2058 0.8112 0.9206 0.8840 0.8244 0.7820 0.7560 0.7278      0.0572        0.1317  0.000
+[run_heavy] exit 0 after 73s

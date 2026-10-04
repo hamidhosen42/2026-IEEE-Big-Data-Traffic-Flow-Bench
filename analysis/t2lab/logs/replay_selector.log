@@ -1,0 +1,143 @@
+TOTAL over 8 panels (40 onset + 40 ongoing official train windows)
+                                   on_exact  on_pm1  og_exact  og_pm1
+fill pers_state cells scan                                           
+hb   fill       E     interleaved        39      39        34      38
+                      two_pass           39      39        34      38
+                all   interleaved        39      39        32      36
+                      two_pass           39      39        32      36
+     obs        E     interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+                all   interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+t12  fill       E     interleaved        39      39        33      38
+                      two_pass           39      39        33      38
+                all   interleaved        39      39        35      38
+                      two_pass           39      39        35      38
+     obs        E     interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+                all   interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+t3   fill       E     interleaved        39      39        25      32
+                      two_pass           39      39        25      32
+                all   interleaved        39      39        25      33
+                      two_pass           39      39        25      33
+     obs        E     interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+                all   interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+t36  fill       E     interleaved        39      39        34      39
+                      two_pass           39      39        34      39
+                all   interleaved        39      39        36      39
+                      two_pass           39      39        36      39
+     obs        E     interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+                all   interleaved        39      39        14      16
+                      two_pass           39      39        14      16
+
+og_exact per panel
+panel                              D12_I5_N  D12_I5_S  D7_I10_E  D7_I10_W  D7_I210_E  D7_I210_W  D7_I405_N  D7_I405_S
+fill pers_state cells scan                                                                                           
+hb   fill       E     interleaved         4         3         5         5          4          4          5          4
+                      two_pass            4         3         5         5          4          4          5          4
+                all   interleaved         5         2         5         5          3          4          5          3
+                      two_pass            5         2         5         5          3          4          5          3
+     obs        E     interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+                all   interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+t12  fill       E     interleaved         2         3         5         5          4          5          5          4
+                      two_pass            2         3         5         5          4          5          5          4
+                all   interleaved         5         3         5         5          3          5          5          4
+                      two_pass            5         3         5         5          3          5          5          4
+     obs        E     interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+                all   interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+t3   fill       E     interleaved         3         3         4         5          2          4          2          2
+                      two_pass            3         3         4         5          2          4          2          2
+                all   interleaved         3         3         4         5          3          4          2          1
+                      two_pass            3         3         4         5          3          4          2          1
+     obs        E     interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+                all   interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+t36  fill       E     interleaved         2         3         5         5          5          5          5          4
+                      two_pass            2         3         5         5          5          5          5          4
+                all   interleaved         5         3         5         5          4          5          5          4
+                      two_pass            5         3         5         5          4          5          5          4
+     obs        E     interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+                all   interleaved         1         2         2         5          0          3          1          0
+                      two_pass            1         2         2         5          0          3          1          0
+
+og_pm1 per panel
+panel                              D12_I5_N  D12_I5_S  D7_I10_E  D7_I10_W  D7_I210_E  D7_I210_W  D7_I405_N  D7_I405_S
+fill pers_state cells scan                                                                                           
+hb   fill       E     interleaved         4         5         5         5          4          5          5          5
+                      two_pass            4         5         5         5          4          5          5          5
+                all   interleaved         5         4         5         5          3          4          5          5
+                      two_pass            5         4         5         5          3          4          5          5
+     obs        E     interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+                all   interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+t12  fill       E     interleaved         4         5         5         5          4          5          5          5
+                      two_pass            4         5         5         5          4          5          5          5
+                all   interleaved         5         5         5         5          3          5          5          5
+                      two_pass            5         5         5         5          3          5          5          5
+     obs        E     interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+                all   interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+t3   fill       E     interleaved         4         5         4         5          3          4          3          4
+                      two_pass            4         5         4         5          3          4          3          4
+                all   interleaved         4         5         4         5          3          4          3          5
+                      two_pass            4         5         4         5          3          4          3          5
+     obs        E     interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+                all   interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+t36  fill       E     interleaved         4         5         5         5          5          5          5          5
+                      two_pass            4         5         5         5          5          5          5          5
+                all   interleaved         5         5         5         5          4          5          5          5
+                      two_pass            5         5         5         5          4          5          5          5
+     obs        E     interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+                all   interleaved         1         3         3         5          0          3          1          0
+                      two_pass            1         3         3         5          0          3          1          0
+
+on_exact per panel
+panel                              D12_I5_N  D12_I5_S  D7_I10_E  D7_I10_W  D7_I210_E  D7_I210_W  D7_I405_N  D7_I405_S
+fill pers_state cells scan                                                                                           
+hb   fill       E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+     obs        E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+t12  fill       E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+     obs        E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+t3   fill       E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+     obs        E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+t36  fill       E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+     obs        E     interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5
+                all   interleaved         5         4         5         5          5          5          5          5
+                      two_pass            5         4         5         5          5          5          5          5

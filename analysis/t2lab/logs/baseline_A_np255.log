@@ -1,0 +1,33 @@
+[run_heavy] slot acquired after 0s
+[    64s] A_np255 fold 0: 3348228 rows x 58 cols, pos 0.329, 1 model(s) in 61s
+[    74s] A_np255 fold 0 cumulative: official 0.8525 (n=40), offlike 0.8385 (n=726), pseudo 0.9030 (n=525)
+[   138s] A_np255 fold 1: 3195283 rows x 58 cols, pos 0.331, 1 model(s) in 65s
+[   148s] A_np255 fold 1 cumulative: official 0.8525 (n=40), offlike 0.8398 (n=1473), pseudo 0.8802 (n=1055)
+[   216s] A_np255 fold 2: 3282685 rows x 58 cols, pos 0.331, 1 model(s) in 67s
+[   225s] A_np255 fold 2 cumulative: official 0.8525 (n=40), offlike 0.8405 (n=2221), pseudo 0.8790 (n=1558)
+[   289s] A_np255 fold 3: 3278087 rows x 58 cols, pos 0.337, 1 model(s) in 64s
+[   299s] A_np255 fold 3 cumulative: official 0.8525 (n=40), offlike 0.8387 (n=2992), pseudo 0.8780 (n=2058)
+
+== arm A_np255 (ongoing, OOF) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8525 0.9353 0.9037 0.8906 0.9129 0.8310 0.6814      0.0722        0.0557 0.0195
+ offlike 2992 0.8387 0.9368 0.9100 0.8756 0.8551 0.8314 0.6991      0.0563        0.0637 0.0413
+  pseudo 2058 0.8780 0.9556 0.9391 0.8673 0.8461 0.8491 0.8157      0.0232        0.0743 0.0246
+
+official-40 per panel:
+panel  D12_I5_N  D12_I5_S  D7_I10_E  D7_I10_W  D7_I210_E  D7_I210_W  D7_I405_N  D7_I405_S
+mean     0.8187    0.8282    0.8123    0.8876      0.816     0.8781     0.9338     0.8455
+count    5.0000    5.0000    5.0000    5.0000      5.000     5.0000     5.0000     5.0000
+official-40 plain mean 0.8525 aggregated 0.8525
+
+office-like per fold: {0: 0.8385, 1: 0.8411, 2: 0.8427, 3: 0.8338}
+official-like run-starts only: 0.842 n 2285
+pseudo per fold: {0: 0.903, 1: 0.8813, 2: 0.9015, 3: 0.8813}
+pseudo faithful subset: 0.7471 n 738 | stable (pers_fill > 0.9): 0.9658 n 1320
+
+== persistence reference ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.7501 0.8961 0.8555 0.8092 0.7696 0.7205 0.5381      0.1542        0.0957  0.000
+ offlike 2992 0.7212 0.8983 0.8396 0.7867 0.7313 0.6770 0.5005      0.1656        0.1092  0.004
+  pseudo 2058 0.8112 0.9206 0.8840 0.8244 0.7820 0.7560 0.7278      0.0572        0.1317  0.000
+[run_heavy] exit 0 after 300s

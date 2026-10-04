@@ -1,0 +1,22 @@
+[run_heavy] slot acquired after 0s
+D7_I10_E official ongoing in offlike 5 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [96, 87, 107, 91] | dense1500 faithful share 0.498 | official pers_fill [0.885, 0.8, 0.454, 0.878, 0.875]
+D7_I10_W official ongoing in offlike 5 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [28, 42, 25, 36] | dense1500 faithful share 0.542 | official pers_fill [0.857, 0.48, 0.692, 0.667, 0.643]
+D7_I210_E official ongoing in offlike 4 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [70, 68, 71, 67] | dense1500 faithful share 0.069 | official pers_fill [0.8, 0.882, 0.833, 0.867, 0.667]
+D7_I210_W official ongoing in offlike 5 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [113, 114, 103, 118] | dense1500 faithful share 0.397 | official pers_fill [0.872, 0.887, 0.882, 0.882, 0.605]
+D7_I405_N official ongoing in offlike 5 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [118, 125, 123, 140] | dense1500 faithful share 0.627 | official pers_fill [0.885, 0.885, 0.865, 0.876, 0.883]
+D7_I405_S official ongoing in offlike 4 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [99, 109, 98, 97] | dense1500 faithful share 0.565 | official pers_fill [0.917, 0.895, 0.857, 0.5, 0.773]
+D12_I5_N official ongoing in offlike 5 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [98, 104, 108, 111] | dense1500 faithful share 0.649 | official pers_fill [0.878, 0.895, 0.884, 0.202, 0.881]
+D12_I5_S official ongoing in offlike 3 / 5 | official fold ids [np.int64(0)] | offlike ongoing per fold [104, 98, 113, 111] | dense1500 faithful share 0.635 | official pers_fill [0.843, 0.364, 0.887, 0.419, 0.894]
+TOTALS {'off_og': 40, 'off_in_offlike': 36, 'off_in_pseudo': 7, 'offlike': 2992, 'offlike_pf_gt09': 0, 'official_pf_gt09': 1, 'off_runstart': 30}
+[     6s] review_smoke_queue_onset fold 0: 23473 rows x 58 cols, pos 0.029, 1 model(s) in 0s
+[     6s] review_smoke_queue_onset fold 0 cumulative: official 0.7400 (n=10), offlike 0.6561 (n=99)
+queue_onset smoke:      set  n   iou  h1  h2  h3  h4  h5    h6  missed_new  kept_cleared  other
+official 10 0.740 1.0 1.0 1.0 1.0 1.0 0.740       0.090           0.0  0.170
+ offlike 99 0.656 1.0 1.0 1.0 1.0 1.0 0.656       0.173           0.0  0.171
+[     7s] review_smoke_queue_ongoing fold 0: 522603 rows x 58 cols, pos 0.277, 1 model(s) in 1s
+[     7s] review_smoke_queue_ongoing fold 0 cumulative: official 0.7537 (n=10), offlike 0.7601 (n=132)
+queue_ongoing smoke:      set   n   iou    h1    h2    h3    h4    h5    h6  missed_new  kept_cleared  other
+official  10 0.754 0.814 0.751 0.760 0.731 0.746 0.702       0.146         0.068  0.033
+ offlike 132 0.760 0.830 0.812 0.793 0.759 0.731 0.698       0.105         0.072  0.064
+SETS REVIEW DONE
+[run_heavy] exit 0 after 7s

@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 410s
+[     0s] outer 1 seeds [0, 1, 2] trees 600 leaves 255 lr 0.08 threads 4
+[     5s] outer 1: fit rows 644662 cols 98
+[     6s] outer 1: month C target rows 138892
+[     7s] outer 1: month D target rows 141285
+[     7s] fit days 2030-08-21 .. 2031-02-28 187 {'R1': 51, 'R2': 58, 'R3': 78}
+[     7s] month C: days 2030-06-01 .. 2030-07-10 {'R1': 9, 'R2': 15, 'R3': 16} targets 138892 | temporal interp S_state 0.9091 LWR 0.5211 S_FD 0.9906 J 0.41981
+[     7s] month D: days 2030-07-11 .. 2030-08-20 {'R1': 10, 'R2': 12, 'R3': 18} targets 141285 | temporal interp S_state 0.9140 LWR 0.5196 S_FD 0.9908 J 0.42140
+[    13s] outer 1 seed 0: train rows 644662 + transductive 296855
+[   123s] outer 1 seed 0 nofd: 74 cols, 600 trees x2 in 109s
+[   233s] outer 1 seed 0 fd: 94 cols, 600 trees x2 in 110s
+[   233s]   nofd month C seed 0: S_state 0.9377 LWR 0.5599 S_FD 0.9910 J 0.43372 | bag1 S_state 0.9377 LWR 0.5599 S_FD 0.9910 J 0.43372
+[   233s]   nofd month D seed 0: S_state 0.9431 LWR 0.5720 S_FD 0.9912 J 0.43686 | bag1 S_state 0.9431 LWR 0.5720 S_FD 0.9912 J 0.43686
+[   233s]   fd   month C seed 0: S_state 0.9418 LWR 0.5889 S_FD 0.9913 J 0.43807 | bag1 S_state 0.9418 LWR 0.5889 S_FD 0.9913 J 0.43807
+[   233s]   fd   month D seed 0: S_state 0.9455 LWR 0.5944 S_FD 0.9915 J 0.43993 | bag1 S_state 0.9455 LWR 0.5944 S_FD 0.9915 J 0.43993
+[   238s] outer 1 seed 1: train rows 644662 + transductive 296717
+[   349s] outer 1 seed 1 nofd: 74 cols, 600 trees x2 in 110s
+[   473s] outer 1 seed 1 fd: 94 cols, 600 trees x2 in 124s
+[   473s]   nofd month C seed 1: S_state 0.9375 LWR 0.5628 S_FD 0.9910 J 0.43396 | bag2 S_state 0.9383 LWR 0.5705 S_FD 0.9910 J 0.43501
+[   473s]   nofd month D seed 1: S_state 0.9432 LWR 0.5732 S_FD 0.9912 J 0.43699 | bag2 S_state 0.9438 LWR 0.5810 S_FD 0.9913 J 0.43801
+[   473s]   fd   month C seed 1: S_state 0.9417 LWR 0.5890 S_FD 0.9913 J 0.43805 | bag2 S_state 0.9425 LWR 0.5974 S_FD 0.9914 J 0.43917
+[   473s]   fd   month D seed 1: S_state 0.9456 LWR 0.5951 S_FD 0.9915 J 0.44003 | bag2 S_state 0.9462 LWR 0.6012 S_FD 0.9915 J 0.44085
+[   478s] outer 1 seed 2: train rows 644662 + transductive 296518
+[   579s] outer 1 seed 2 nofd: 74 cols, 600 trees x2 in 100s
+[   699s] outer 1 seed 2 fd: 94 cols, 600 trees x2 in 120s
+[   699s]   nofd month C seed 2: S_state 0.9379 LWR 0.5610 S_FD 0.9910 J 0.43390 | bag3 S_state 0.9386 LWR 0.5740 S_FD 0.9911 J 0.43547
+[   699s]   nofd month D seed 2: S_state 0.9436 LWR 0.5739 S_FD 0.9912 J 0.43720 | bag3 S_state 0.9442 LWR 0.5850 S_FD 0.9913 J 0.43852
+[   699s]   fd   month C seed 2: S_state 0.9420 LWR 0.5891 S_FD 0.9913 J 0.43819 | bag3 S_state 0.9427 LWR 0.5998 S_FD 0.9914 J 0.43951
+[   699s]   fd   month D seed 2: S_state 0.9455 LWR 0.5950 S_FD 0.9915 J 0.44000 | bag3 S_state 0.9463 LWR 0.6036 S_FD 0.9916 J 0.44116
+[   699s] DONE
+[run_heavy] exit 0 after 1110s

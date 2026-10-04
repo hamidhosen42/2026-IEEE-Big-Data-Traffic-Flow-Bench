@@ -1,0 +1,21 @@
+PASS aggregate by hand = 0.65 (got 0.650000); plain mean would be 0.6429
+PASS s_queue by hand = 0.575 (got 0.575000)
+PASS decode == brute-force maximiser of expected-IoU proxy on 50 random 10-cell cases
+PASS decode of all-zero probabilities keeps exactly one cell
+PASS D7_I10_W/official: score_probs == organizer score_window == cached results on 5 windows (max abs diff 0.00e+00; probs stored as float16)
+PASS D7_I10_W/official: sum of per-step inter/union == window IoU
+PASS D7_I10_W/official: error shares + IoU == 1
+PASS D7_I10_W/offlike: score_probs == organizer score_window == cached results on 25 windows (max abs diff 0.00e+00; probs stored as float16)
+PASS D7_I10_W/offlike: sum of per-step inter/union == window IoU
+PASS D7_I10_W/offlike: error shares + IoU == 1
+PASS D12_I5_S/official: score_probs == organizer score_window == cached results on 5 windows (max abs diff 0.00e+00; probs stored as float16)
+PASS D12_I5_S/official: sum of per-step inter/union == window IoU
+PASS D12_I5_S/official: error shares + IoU == 1
+PASS D12_I5_S/offlike: score_probs == organizer score_window == cached results on 25 windows (max abs diff 0.00e+00; probs stored as float16)
+PASS D12_I5_S/offlike: sum of per-step inter/union == window IoU
+PASS D12_I5_S/offlike: error shares + IoU == 1
+PASS bootstrap of B = A + 0.01: {'diff': 0.010000000000000009, 'lo': 0.010000000000000009, 'hi': 0.010000000000000009, 'p_pos': 1.0, 'n_windows': 726}
+PASS bootstrap of A vs A: {'diff': 0.0, 'lo': 0.0, 'hi': 0.0, 'p_pos': 0.0, 'n_windows': 726}
+PASS bootstrap diff == aggregate(B) - aggregate(A): {'diff': -0.015013886413510388, 'lo': -0.021551150499266248, 'hi': -0.009748254843549005, 'p_pos': 0.0, 'n_windows': 726}
+PASS bootstrap refuses a multi-set / duplicate-key frame: paired_bootstrap: frame A holds several evaluation sets ['official', 'offlike', 'pseudo']; filter one set first
+SCORING REVIEW DONE, failures: 0
