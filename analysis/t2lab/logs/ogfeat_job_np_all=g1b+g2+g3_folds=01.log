@@ -1,0 +1,7 @@
+[     0s] === og_np_all: 58 production + 68 static + 5 step columns; folds (0, 1), final 0
+[   247s] og_np_all fold 0: 6077021 rows x 131 cols trained in 247s
+[   258s] og_np_all fold 0: official 0.9038 (n=40), offlike 0.8908 (n=726), pseudo 0.8884 (n=525)
+[   492s] og_np_all fold 1: 5844108 rows x 131 cols trained in 222s
+[   505s] og_np_all fold 1: official nan (n=0), offlike 0.8833 (n=747), pseudo 0.8827 (n=530)
+[   518s] og_np_all done
+[   518s] DONE

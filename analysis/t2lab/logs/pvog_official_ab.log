@@ -1,0 +1,15 @@
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/pvog_official.py:88: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  print(f'  {x} vs {y}:', D.groupby('split').apply(lambda g: f'{int((g[f"J_{x}{y}_raw"] < 1).sum())}/{len(g)}').to_dict())
+history finite share: raw 0.765 masked layer 0.765 | max abs speed diff on common cells 0.0
+split         private  validation
+J_ab_raw       0.9313      0.9342
+n_a_raw      121.7250    132.5000
+n_b_raw      121.8750    132.4000
+J_ab_masked    0.9313      0.9342
+n_a_masked   121.7250    132.5000
+n_b_masked   121.8750    132.4000
+J_rawmask_a    1.0000      1.0000
+J_rawmask_b    1.0000      1.0000
+
+windows with any difference between recipes (raw regime):
+  a vs b: {'private': '36/40', 'validation': '33/40'}

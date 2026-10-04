@@ -1,0 +1,35 @@
+[run_heavy] slot acquired after 2177s
+[     0s] worker start: budget 22 min, only=None
+[     0s] === task on_f1 (elapsed 0.0 min)
+[    53s] onset elig fold 1: 231765 train rows, pos 0.0213, 53s | offlike elig_s0 0.8982, elig_bag 0.9004, cross_s0 0.8970, cross_bag 0.8980 (n=539)
+[   113s] onset all fold 1: 231765 train rows, pos 0.0213, 60s | offlike all_s0 0.8973, all_bag 0.8986 (n=539)
+[   113s] === task on_f1 done in 113s
+[   113s] === task og_np_f1 (elapsed 1.9 min)
+[   269s] af_all_np255 fold 1: 5840595 rows x 58 cols, pos 0.270, trained in 156s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   280s] af_all_np255 fold 1 [all rows]: official nan (n=0), offlike 0.8781 (n=747), pseudo 0.8447 (n=530)
+[   280s] === task og_np_f1 done in 167s
+[   280s] === task og_id_f0 (elapsed 4.7 min)
+[   437s] af_all_id255 fold 0: 6073676 rows x 64 cols, pos 0.269, trained in 157s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   447s] af_all_id255 fold 0 [all rows]: official 0.8940 (n=40), offlike 0.8849 (n=726), pseudo 0.8795 (n=525)
+[   447s] === task og_id_f0 done in 167s
+[   447s] === task og_id_f1 (elapsed 7.5 min)
+[   595s] af_all_id255 fold 1: 5840595 rows x 64 cols, pos 0.270, trained in 147s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   605s] af_all_id255 fold 1 [all rows]: official nan (n=0), offlike 0.8843 (n=747), pseudo 0.8674 (n=530)
+[   605s] === task og_id_f1 done in 158s
+[   605s] === task final_np (elapsed 10.1 min)
+[   782s] af_all_np255 fold 4: 8008854 rows x 58 cols, pos 0.272, trained in 178s | {"faith3F03": {"windows": 10255, "rows": 3881174}, "runstart": {"windows": 10689, "rows": 4127680}}
+[   782s] === task final_np done in 178s
+[   782s] === task og_id_f2 (elapsed 13.0 min)
+[   941s] af_all_id255 fold 2: 5993382 rows x 64 cols, pos 0.275, trained in 158s | {"faith3F03": {"windows": 7777, "rows": 2902065}, "runstart": {"windows": 8056, "rows": 3091317}}
+[   950s] af_all_id255 fold 2 [all rows]: official nan (n=0), offlike 0.8805 (n=748), pseudo 0.8771 (n=503)
+[   950s] === task og_id_f2 done in 168s
+[   950s] === task og_id_f3 (elapsed 15.8 min)
+[  1122s] af_all_id255 fold 3: 6057385 rows x 64 cols, pos 0.276, trained in 171s | {"faith3F03": {"windows": 7739, "rows": 2924259}, "runstart": {"windows": 8102, "rows": 3133126}}
+[  1131s] af_all_id255 fold 3 [all rows]: official nan (n=0), offlike 0.8804 (n=771), pseudo 0.8650 (n=500)
+[  1131s] === task og_id_f3 done in 181s
+[  1131s] === task on_f3 (elapsed 18.9 min)
+[  1194s] onset elig fold 3: 231826 train rows, pos 0.0214, 63s | offlike elig_s0 0.8788, elig_bag 0.8801, cross_s0 0.8798, cross_bag 0.8805 (n=532)
+[  1255s] onset all fold 3: 231826 train rows, pos 0.0214, 60s | offlike all_s0 0.8830, all_bag 0.8763 (n=532)
+[  1255s] === task on_f3 done in 123s
+[  1255s] WORKER DONE ['on_f1', 'og_np_f1', 'og_id_f0', 'og_id_f1', 'final_np', 'og_id_f2', 'og_id_f3', 'on_f3'] | elapsed 20.9 min
+[run_heavy] exit 0 after 3432s

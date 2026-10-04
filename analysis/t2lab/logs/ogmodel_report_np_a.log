@@ -1,0 +1,96 @@
+reference fc_F03_np255, folds [0, 1, 2, 3]; arms on disk: ['og_hwA_np255', 'og_joint_np255_s1', 'og_perstep_np255', 'og_qsplit_np255']
+
+== SUMMARY (aggregated IoU, per-step IoU, error split) ==
+              arm      set  n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+     fc_F03_np255 official 40 0.8899 0.9358 0.9154 0.9210 0.9260 0.8597 0.7750      0.0577        0.0352 0.0172
+     og_hwA_np255 official 40 0.8871 0.9318 0.9122 0.9156 0.9261 0.8537 0.7983      0.0602        0.0350 0.0177
+og_joint_np255_s1 official 40 0.8848 0.9009 0.9199 0.9197 0.9257 0.8596 0.7669      0.0581        0.0369 0.0202
+ og_perstep_np255 official 40 0.8881 0.9384 0.9253 0.9305 0.9137 0.8439 0.8182      0.0607        0.0297 0.0214
+  og_qsplit_np255 official 40 0.8950 0.9017 0.9279 0.9302 0.9238 0.8603 0.8301      0.0574        0.0286 0.0191
+
+              arm     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+     fc_F03_np255 offlike 2992 0.8751 0.9442 0.9212 0.8940 0.8809 0.8610 0.8034      0.0445        0.0426 0.0378
+     og_hwA_np255 offlike 2992 0.8754 0.9411 0.9232 0.8930 0.8800 0.8620 0.8102      0.0444        0.0429 0.0373
+og_joint_np255_s1 offlike 2992 0.8763 0.9448 0.9244 0.8937 0.8797 0.8622 0.8054      0.0445        0.0423 0.0369
+ og_perstep_np255 offlike 2992 0.8794 0.9480 0.9261 0.8957 0.8795 0.8643 0.8155      0.0447        0.0384 0.0376
+  og_qsplit_np255 offlike 2992 0.8812 0.9471 0.9271 0.8981 0.8852 0.8660 0.8200      0.0427        0.0379 0.0382
+
+              arm    set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+     fc_F03_np255 pseudo 2058 0.8516 0.9494 0.9382 0.8816 0.8428 0.8029 0.6717      0.0239        0.0742 0.0503
+     og_hwA_np255 pseudo 2058 0.8449 0.9481 0.9376 0.8808 0.8317 0.8033 0.6640      0.0243        0.0761 0.0547
+og_joint_np255_s1 pseudo 2058 0.8543 0.9517 0.9392 0.8811 0.8427 0.8333 0.7091      0.0240        0.0742 0.0475
+ og_perstep_np255 pseudo 2058 0.8485 0.9634 0.9427 0.8839 0.8316 0.8258 0.6624      0.0236        0.0709 0.0570
+  og_qsplit_np255 pseudo 2058 0.8537 0.9561 0.9423 0.8862 0.8375 0.8401 0.6751      0.0226        0.0700 0.0537
+
+== PAIRED DELTAS vs fc_F03_np255 (single model, seed 0) ==
+              arm      set  n   base    iou    diff      lo     hi  p_pos panels_pos  panels_neg    d_h6
+     og_hwA_np255 official 40 0.8899 0.8871 -0.0027 -0.0071 0.0014 0.1050        2/8           6  0.0233
+og_joint_np255_s1 official 40 0.8899 0.8848 -0.0050 -0.0102 0.0003 0.0355        2/8           5 -0.0081
+ og_perstep_np255 official 40 0.8899 0.8881 -0.0017 -0.0120 0.0081 0.3570        3/8           5  0.0432
+  og_qsplit_np255 official 40 0.8899 0.8950  0.0051 -0.0019 0.0131 0.9010        5/8           3  0.0551
+
+              arm     set    n   base    iou   diff      lo     hi  p_pos panels_pos  panels_neg   d_h6
+     og_hwA_np255 offlike 2992 0.8751 0.8754 0.0004 -0.0006 0.0013 0.7690        5/8           3 0.0068
+og_joint_np255_s1 offlike 2992 0.8751 0.8763 0.0012  0.0001 0.0024 0.9815        6/8           2 0.0020
+ og_perstep_np255 offlike 2992 0.8751 0.8794 0.0043  0.0026 0.0058 1.0000        7/8           1 0.0121
+  og_qsplit_np255 offlike 2992 0.8751 0.8812 0.0061  0.0046 0.0075 1.0000        7/8           1 0.0166
+
+              arm    set    n   base    iou    diff      lo      hi  p_pos panels_pos  panels_neg    d_h6
+     og_hwA_np255 pseudo 2058 0.8516 0.8449 -0.0066 -0.0098 -0.0024 0.0010        2/8           6 -0.0076
+og_joint_np255_s1 pseudo 2058 0.8516 0.8543  0.0027 -0.0014  0.0081 0.8645        4/8           4  0.0374
+ og_perstep_np255 pseudo 2058 0.8516 0.8485 -0.0030 -0.0127  0.0062 0.2670        4/8           4 -0.0093
+  og_qsplit_np255 pseudo 2058 0.8516 0.8537  0.0021 -0.0066  0.0110 0.6865        5/8           3  0.0034
+
+== BLENDS vs fc_F03_np255 (single joint model) ==
+                                              arm      set  n   base    iou    diff      lo     hi  p_pos panels_pos  panels_neg    d_h6
+                         joint2 (seed 0 + seed 1) official 40 0.8899 0.8871 -0.0027 -0.0063 0.0003 0.0400        2/8           4 -0.0041
+    h6spec a=1.0 (joint 1-5, per-step model at 6) official 40 0.8899 0.8894 -0.0005 -0.0071 0.0053 0.4410        3/8           4  0.0443
+h6spec a=0.5 (step 6: 0.5 joint + 0.5 specialist) official 40 0.8899 0.8894 -0.0004 -0.0057 0.0037 0.4255        2/8           4  0.0253
+                                    h56spec a=0.5 official 40 0.8899 0.8891 -0.0008 -0.0061 0.0035 0.3810        3/8           3  0.0253
+                           perstep 4-6, joint 1-3 official 40 0.8899 0.8854 -0.0044 -0.0133 0.0038 0.1665        3/8           5  0.0443
+                      joint + perstep (0.5 / 0.5) official 40 0.8899 0.8922  0.0023 -0.0039 0.0078 0.7735        4/8           4  0.0253
+                      joint2 + perstep (1/3 each) official 40 0.8899 0.8921  0.0022 -0.0036 0.0073 0.7785        5/8           3  0.0200
+                       joint + qsplit (0.5 / 0.5) official 40 0.8899 0.8920  0.0022 -0.0024 0.0070 0.7910        5/8           3  0.0258
+                          joint + hwA (0.5 / 0.5) official 40 0.8899 0.8883 -0.0015 -0.0051 0.0017 0.1815        2/8           4 -0.0003
+
+                                              arm     set    n   base    iou   diff      lo     hi  p_pos panels_pos  panels_neg   d_h6
+                         joint2 (seed 0 + seed 1) offlike 2992 0.8751 0.8765 0.0014  0.0006 0.0023 0.9995        8/8           0 0.0030
+    h6spec a=1.0 (joint 1-5, per-step model at 6) offlike 2992 0.8751 0.8765 0.0015  0.0008 0.0021 1.0000        7/8           1 0.0111
+h6spec a=0.5 (step 6: 0.5 joint + 0.5 specialist) offlike 2992 0.8751 0.8762 0.0011  0.0006 0.0016 1.0000        8/8           0 0.0094
+                                    h56spec a=0.5 offlike 2992 0.8751 0.8767 0.0016  0.0010 0.0023 1.0000        7/8           1 0.0093
+                           perstep 4-6, joint 1-3 offlike 2992 0.8751 0.8768 0.0017  0.0006 0.0029 0.9995        6/8           2 0.0113
+                      joint + perstep (0.5 / 0.5) offlike 2992 0.8751 0.8794 0.0043  0.0032 0.0054 1.0000        7/8           1 0.0099
+                      joint2 + perstep (1/3 each) offlike 2992 0.8751 0.8792 0.0041  0.0031 0.0051 1.0000        7/8           1 0.0080
+                       joint + qsplit (0.5 / 0.5) offlike 2992 0.8751 0.8796 0.0045  0.0035 0.0055 1.0000        8/8           0 0.0124
+                          joint + hwA (0.5 / 0.5) offlike 2992 0.8751 0.8757 0.0006 -0.0000 0.0013 0.9690        6/8           2 0.0050
+
+                                              arm    set    n   base    iou    diff      lo      hi  p_pos panels_pos  panels_neg    d_h6
+                         joint2 (seed 0 + seed 1) pseudo 2058 0.8516 0.8539  0.0023 -0.0016  0.0079 0.7925        7/8           1  0.0023
+    h6spec a=1.0 (joint 1-5, per-step model at 6) pseudo 2058 0.8516 0.8479 -0.0037 -0.0076  0.0001 0.0320        3/8           5 -0.0091
+h6spec a=0.5 (step 6: 0.5 joint + 0.5 specialist) pseudo 2058 0.8516 0.8500 -0.0016 -0.0047  0.0002 0.1390        3/8           5  0.0004
+                                    h56spec a=0.5 pseudo 2058 0.8516 0.8519  0.0003 -0.0064  0.0074 0.5875        6/8           2  0.0004
+                           perstep 4-6, joint 1-3 pseudo 2058 0.8516 0.8442 -0.0074 -0.0151 -0.0002 0.0130        4/8           4 -0.0095
+                      joint + perstep (0.5 / 0.5) pseudo 2058 0.8516 0.8524  0.0008 -0.0057  0.0060 0.6280        5/8           3  0.0004
+                      joint2 + perstep (1/3 each) pseudo 2058 0.8516 0.8525  0.0009 -0.0056  0.0062 0.6375        5/8           3  0.0026
+                       joint + qsplit (0.5 / 0.5) pseudo 2058 0.8516 0.8543  0.0027 -0.0042  0.0092 0.7805        7/8           1  0.0152
+                          joint + hwA (0.5 / 0.5) pseudo 2058 0.8516 0.8482 -0.0033 -0.0075  0.0000 0.0275        4/8           4  0.0011
+
+== 2-model BLENDS vs the 2-seed joint bag (fair reference: same number of models) ==
+                        arm      set  n   base    iou   diff      lo     hi  p_pos panels_pos  panels_neg   d_h6
+joint + perstep (0.5 / 0.5) official 40 0.8871 0.8922 0.0051 -0.0008 0.0106 0.9510        4/8           4 0.0294
+joint2 + perstep (1/3 each) official 40 0.8871 0.8921 0.0049 -0.0006 0.0102 0.9535        6/8           2 0.0242
+ joint + qsplit (0.5 / 0.5) official 40 0.8871 0.8920 0.0049 -0.0002 0.0100 0.9725        6/8           2 0.0300
+    joint + hwA (0.5 / 0.5) official 40 0.8871 0.8883 0.0012 -0.0034 0.0058 0.6670        3/8           4 0.0038
+
+                        arm     set    n   base    iou    diff      lo     hi  p_pos panels_pos  panels_neg   d_h6
+joint + perstep (0.5 / 0.5) offlike 2992 0.8765 0.8794  0.0028  0.0018 0.0039 1.0000        7/8           1 0.0069
+joint2 + perstep (1/3 each) offlike 2992 0.8765 0.8792  0.0026  0.0018 0.0035 1.0000        7/8           1 0.0050
+ joint + qsplit (0.5 / 0.5) offlike 2992 0.8765 0.8796  0.0031  0.0020 0.0042 1.0000        7/8           1 0.0094
+    joint + hwA (0.5 / 0.5) offlike 2992 0.8765 0.8757 -0.0008 -0.0017 0.0000 0.0345        2/8           6 0.0020
+
+                        arm    set    n   base    iou    diff      lo      hi  p_pos panels_pos  panels_neg    d_h6
+joint + perstep (0.5 / 0.5) pseudo 2058 0.8539 0.8524 -0.0015 -0.0073  0.0045 0.3260        5/8           3 -0.0019
+joint2 + perstep (1/3 each) pseudo 2058 0.8539 0.8525 -0.0014 -0.0073  0.0046 0.3305        5/8           3  0.0003
+ joint + qsplit (0.5 / 0.5) pseudo 2058 0.8539 0.8543  0.0004 -0.0035  0.0041 0.5895        5/8           3  0.0129
+    joint + hwA (0.5 / 0.5) pseudo 2058 0.8539 0.8482 -0.0057 -0.0153 -0.0003 0.0030        2/8           6 -0.0012
+

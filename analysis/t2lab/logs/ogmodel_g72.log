@@ -1,0 +1,45 @@
+== offlike (train replays): g72 vs run-start ==
+g72_any  False  True        All
+g72_all  False False True      
+runstart                       
+False        0     0  707   707
+True      2176     4  105  2285
+All       2176     4  812  2992
+windows whose flag differs between replays: 4 of 2992
+             n  g72  nonrunstart  g72_and_nrs
+panel                                        
+D12_I5_N   421  157          146          146
+D12_I5_S   426  163          136          136
+D7_I10_E   381  136          115          115
+D7_I10_W   131    1            1            1
+D7_I210_E  276    4            1            1
+D7_I210_W  448  131          110          110
+D7_I405_N  506  119          104          104
+D7_I405_S  403  105           94           94
+
+== official train ongoing windows: g72 (window index) vs lab run-start flag ==
+g72       False  True  All
+runstart                  
+False         4     6   10
+True         27     3   30
+All          31     9   40
+        panel  d    t    g72  gap  runstart
+14  D7_I210_E  4  235  False  162     False
+16  D7_I210_W  1  184   True   72      True
+17  D7_I210_W  2  128   True   72      True
+25  D7_I405_S  1  229  False  116     False
+34   D12_I5_N  5  162   True   72      True
+35   D12_I5_S  1  184  False   75     False
+37   D12_I5_S  4  214  False   73     False
+
+validation: ongoing windows 40, g72 8 | per panel {'D12_I5_N': 0, 'D12_I5_S': 1, 'D7_I10_E': 2, 'D7_I10_W': 0, 'D7_I210_E': 0, 'D7_I210_W': 3, 'D7_I405_N': 1, 'D7_I405_S': 1}
+
+private: ongoing windows 40, g72 12 | per panel {'D12_I5_N': 1, 'D12_I5_S': 4, 'D7_I10_E': 0, 'D7_I10_W': 0, 'D7_I210_E': 0, 'D7_I210_W': 2, 'D7_I405_N': 2, 'D7_I405_S': 3}
+
+== pseudo-March offlike_m: g72 vs run-start ==
+g72_any  False  True       All
+g72_all  False False True     
+runstart                      
+False        0     0   68   68
+True       221     1    8  230
+All        221     1   76  298

@@ -1,0 +1,4 @@
+[run_heavy] slot acquired after 3438s
+[     0s] worker start: budget 22 min, only=None
+[     0s] WORKER DONE [] | elapsed 0.0 min
+[run_heavy] exit 0 after 3439s

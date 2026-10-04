@@ -1,0 +1,2 @@
+6 logs/pvog_exp3_harm_masked_wm5.log
+../../.venv/bin/python pvog_harm.py masked 5

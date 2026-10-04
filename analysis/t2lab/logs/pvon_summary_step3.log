@@ -1,0 +1,129 @@
+files ['results/pvon/step3_f0-1_s1.pkl', 'results/pvon/step3_f2-3_s1.pkl'] folds [np.int64(0), np.int64(1), np.int64(2), np.int64(3)]
+
+===== step 3, target R: n = 2105 windows, folds [np.int64(0), np.int64(1), np.int64(2), np.int64(3)]
+       arm    iou  plain    n
+         i 0.8923 0.9013 2105
+      i_mS 0.8794 0.8894 2105
+     i_mix 0.8902 0.8996 2105
+    ii_w10 0.8876 0.8970 2105
+   iii_w10 0.8882 0.8974 2105
+    iv_w10 0.8890 0.8970 2105
+iv_mix_w10 0.8878 0.8965 2105
+ iv_mS_w10 0.8792 0.8887 2105
+    ii_w20 0.8825 0.8913 2105
+   iii_w20 0.8856 0.8946 2105
+    iv_w20 0.8813 0.8901 2105
+iv_mix_w20 0.8849 0.8939 2105
+ iv_mS_w20 0.8757 0.8843 2105
+    ii_w40 0.8696 0.8779 2105
+   iii_w40 0.8763 0.8850 2105
+    iv_w40 0.8742 0.8825 2105
+iv_mix_w40 0.8753 0.8842 2105
+ iv_mS_w40 0.8624 0.8722 2105
+     ii_w1 0.8936 0.9030 2105
+    ii_bag 0.8833 0.8925 2105
+   iii_bag 0.8859 0.8947 2105
+    iv_bag 0.8858 0.8942 2105
+iv_mix_bag 0.8860 0.8945 2105
+ iv_mS_bag 0.8749 0.8842 2105
+                 ii_w1 - i              0.8936 vs 0.8923  +0.0013 [-0.0024, +0.0049]  panels +4/-4 of 8  n=2105  changed 145
+                ii_bag - i              0.8833 vs 0.8923  -0.0090 [-0.0142, -0.0041]  panels +2/-6 of 8  n=2105  changed 193
+               iii_bag - i              0.8859 vs 0.8923  -0.0064 [-0.0105, -0.0025]  panels +3/-5 of 8  n=2105  changed 180
+                iv_bag - i              0.8858 vs 0.8923  -0.0065 [-0.0110, -0.0018]  panels +2/-6 of 8  n=2105  changed 186
+               iii_bag - ii_bag         0.8859 vs 0.8833  +0.0026 [-0.0012, +0.0066]  panels +6/-2 of 8  n=2105  changed 147
+                iv_bag - ii_bag         0.8858 vs 0.8833  +0.0025 [-0.0021, +0.0076]  panels +6/-2 of 8  n=2105  changed 160
+                ii_w10 - i              0.8876 vs 0.8923  -0.0047 [-0.0092, -0.0007]  panels +2/-6 of 8  n=2105  changed 159
+                ii_w20 - i              0.8825 vs 0.8923  -0.0098 [-0.0150, -0.0046]  panels +1/-7 of 8  n=2105  changed 211
+                ii_w40 - i              0.8696 vs 0.8923  -0.0227 [-0.0293, -0.0165]  panels +0/-8 of 8  n=2105  changed 261
+                iv_w10 - i              0.8890 vs 0.8923  -0.0033 [-0.0079, +0.0012]  panels +3/-5 of 8  n=2105  changed 174
+                iv_w20 - i              0.8813 vs 0.8923  -0.0110 [-0.0164, -0.0058]  panels +1/-7 of 8  n=2105  changed 212
+                iv_w40 - i              0.8742 vs 0.8923  -0.0181 [-0.0236, -0.0126]  panels +1/-7 of 8  n=2105  changed 245
+                iv_w10 - ii_w10         0.8890 vs 0.8876  +0.0013 [-0.0028, +0.0058]  panels +5/-3 of 8  n=2105  changed 161
+                iv_w20 - ii_w20         0.8813 vs 0.8825  -0.0013 [-0.0064, +0.0039]  panels +4/-4 of 8  n=2105  changed 200
+                iv_w40 - ii_w40         0.8742 vs 0.8696  +0.0046 [-0.0012, +0.0106]  panels +6/-2 of 8  n=2105  changed 215
+                  i_mS - i              0.8794 vs 0.8923  -0.0129 [-0.0189, -0.0069]  panels +1/-7 of 8  n=2105  changed 215
+                 i_mix - i              0.8902 vs 0.8923  -0.0022 [-0.0073, +0.0032]  panels +2/-6 of 8  n=2105  changed 154
+             iv_mS_bag - i_mS           0.8749 vs 0.8794  -0.0045 [-0.0098, +0.0007]  panels +1/-7 of 8  n=2105  changed 250
+            iv_mix_bag - i_mix          0.8860 vs 0.8902  -0.0042 [-0.0090, +0.0006]  panels +3/-5 of 8  n=2105  changed 198
+            iv_mix_bag - i              0.8860 vs 0.8923  -0.0064 [-0.0119, -0.0006]  panels +2/-6 of 8  n=2105  changed 192
+            iv_mix_bag - ii_bag         0.8860 vs 0.8833  +0.0027 [-0.0028, +0.0085]  panels +7/-1 of 8  n=2105  changed 179
+            iv_mix_bag - iv_bag         0.8860 vs 0.8858  +0.0001 [-0.0042, +0.0045]  panels +3/-4 of 8  n=2105  changed 132
+-- test-time masking of the raw target history
+                 i@ttm - i              0.8923 vs 0.8923  -0.0000 [-0.0022, +0.0022]  panels +4/-4 of 8  n=2105  changed 80
+            iv_bag@ttm - iv_bag         0.8845 vs 0.8858  -0.0013 [-0.0043, +0.0020]  panels +4/-4 of 8  n=2105  changed 96
+           iv_bag@ttmr - iv_bag         0.8853 vs 0.8858  -0.0006 [-0.0019, +0.0007]  panels +2/-5 of 8  n=2105  changed 46
+            iv_bag@ttm - ii_bag         0.8845 vs 0.8833  +0.0012 [-0.0039, +0.0067]  panels +5/-3 of 8  n=2105  changed 174
+            iv_bag@ttm - i              0.8845 vs 0.8923  -0.0078 [-0.0134, -0.0025]  panels +3/-5 of 8  n=2105  changed 208
+              i_mS@ttm - i_mS           0.8777 vs 0.8794  -0.0017 [-0.0043, +0.0008]  panels +3/-5 of 8  n=2105  changed 90
+              i_mS@ttm - i              0.8777 vs 0.8923  -0.0146 [-0.0204, -0.0090]  panels +1/-7 of 8  n=2105  changed 206
+         iv_mS_bag@ttm - i              0.8731 vs 0.8923  -0.0192 [-0.0259, -0.0125]  panels +0/-8 of 8  n=2105  changed 260
+         iv_mS_bag@ttm - i_mS@ttm       0.8731 vs 0.8777  -0.0046 [-0.0103, +0.0007]  panels +2/-6 of 8  n=2105  changed 241
+             i_mix@ttm - i_mix          0.8904 vs 0.8902  +0.0003 [-0.0020, +0.0025]  panels +4/-3 of 8  n=2105  changed 82
+-- per fold: iv_bag - i, iv_bag - ii_bag
+                iv_bag - i              0.8884 vs 0.8920  -0.0037 [-0.0138, +0.0077]  panels +3/-4 of 8  n=522  changed 49
+                iv_bag - ii_bag         0.8884 vs 0.8835  +0.0049 [-0.0059, +0.0167]  panels +4/-2 of 8  n=522  changed 41
+                iv_bag - i              0.8810 vs 0.8951  -0.0141 [-0.0232, -0.0054]  panels +0/-6 of 8  n=539  changed 51
+                iv_bag - ii_bag         0.8810 vs 0.8836  -0.0027 [-0.0107, +0.0050]  panels +2/-3 of 8  n=539  changed 44
+                iv_bag - i              0.9034 vs 0.9138  -0.0104 [-0.0193, -0.0020]  panels +2/-6 of 8  n=512  changed 36
+                iv_bag - ii_bag         0.9034 vs 0.9030  +0.0003 [-0.0088, +0.0093]  panels +4/-4 of 8  n=512  changed 34
+                iv_bag - i              0.8748 vs 0.8731  +0.0017 [-0.0070, +0.0111]  panels +3/-3 of 8  n=532  changed 50
+                iv_bag - ii_bag         0.8748 vs 0.8667  +0.0081 [-0.0011, +0.0188]  panels +4/-3 of 8  n=532  changed 41
+
+===== step 3, target M: n = 2107 windows, folds [np.int64(0), np.int64(1), np.int64(2), np.int64(3)]
+       arm    iou  plain    n
+         i 0.8782 0.8877 2107
+      i_mS 0.8766 0.8828 2107
+     i_mix 0.8860 0.8925 2107
+    ii_w10 0.8769 0.8866 2107
+   iii_w10 0.8755 0.8862 2107
+    iv_w10 0.8764 0.8850 2107
+iv_mix_w10 0.8836 0.8916 2107
+ iv_mS_w10 0.8745 0.8817 2107
+    ii_w20 0.8711 0.8794 2107
+   iii_w20 0.8727 0.8823 2107
+    iv_w20 0.8735 0.8814 2107
+iv_mix_w20 0.8784 0.8837 2107
+ iv_mS_w20 0.8721 0.8792 2107
+    ii_w40 0.8613 0.8684 2107
+   iii_w40 0.8668 0.8758 2107
+    iv_w40 0.8642 0.8722 2107
+iv_mix_w40 0.8683 0.8747 2107
+ iv_mS_w40 0.8590 0.8662 2107
+     ii_w1 0.8785 0.8888 2107
+    ii_bag 0.8751 0.8832 2107
+   iii_bag 0.8756 0.8856 2107
+    iv_bag 0.8728 0.8813 2107
+iv_mix_bag 0.8813 0.8875 2107
+ iv_mS_bag 0.8718 0.8791 2107
+                 ii_w1 - i              0.8785 vs 0.8782  +0.0002 [-0.0055, +0.0061]  panels +4/-4 of 8  n=2107  changed 121
+                ii_bag - i              0.8751 vs 0.8782  -0.0031 [-0.0102, +0.0041]  panels +3/-5 of 8  n=2107  changed 178
+               iii_bag - i              0.8756 vs 0.8782  -0.0026 [-0.0092, +0.0040]  panels +3/-5 of 8  n=2107  changed 166
+                iv_bag - i              0.8728 vs 0.8782  -0.0054 [-0.0124, +0.0016]  panels +3/-5 of 8  n=2107  changed 171
+               iii_bag - ii_bag         0.8756 vs 0.8751  +0.0005 [-0.0053, +0.0063]  panels +4/-3 of 8  n=2107  changed 129
+                iv_bag - ii_bag         0.8728 vs 0.8751  -0.0023 [-0.0084, +0.0041]  panels +1/-6 of 8  n=2107  changed 131
+                ii_w10 - i              0.8769 vs 0.8782  -0.0013 [-0.0079, +0.0050]  panels +4/-4 of 8  n=2107  changed 149
+                ii_w20 - i              0.8711 vs 0.8782  -0.0071 [-0.0139, -0.0007]  panels +2/-6 of 8  n=2107  changed 176
+                ii_w40 - i              0.8613 vs 0.8782  -0.0169 [-0.0254, -0.0086]  panels +2/-6 of 8  n=2107  changed 235
+                iv_w10 - i              0.8764 vs 0.8782  -0.0018 [-0.0084, +0.0050]  panels +3/-5 of 8  n=2107  changed 167
+                iv_w20 - i              0.8735 vs 0.8782  -0.0048 [-0.0123, +0.0028]  panels +3/-5 of 8  n=2107  changed 185
+                iv_w40 - i              0.8642 vs 0.8782  -0.0140 [-0.0217, -0.0058]  panels +1/-7 of 8  n=2107  changed 230
+                iv_w10 - ii_w10         0.8764 vs 0.8769  -0.0005 [-0.0068, +0.0060]  panels +3/-4 of 8  n=2107  changed 147
+                iv_w20 - ii_w20         0.8735 vs 0.8711  +0.0024 [-0.0045, +0.0097]  panels +4/-4 of 8  n=2107  changed 182
+                iv_w40 - ii_w40         0.8642 vs 0.8613  +0.0028 [-0.0046, +0.0101]  panels +5/-2 of 8  n=2107  changed 207
+                  i_mS - i              0.8766 vs 0.8782  -0.0017 [-0.0096, +0.0064]  panels +2/-6 of 8  n=2107  changed 188
+                 i_mix - i              0.8860 vs 0.8782  +0.0078 [+0.0010, +0.0150]  panels +5/-3 of 8  n=2107  changed 138
+             iv_mS_bag - i_mS           0.8718 vs 0.8766  -0.0048 [-0.0111, +0.0012]  panels +3/-5 of 8  n=2107  changed 209
+            iv_mix_bag - i_mix          0.8813 vs 0.8860  -0.0048 [-0.0111, +0.0019]  panels +2/-5 of 8  n=2107  changed 176
+            iv_mix_bag - i              0.8813 vs 0.8782  +0.0030 [-0.0041, +0.0107]  panels +3/-5 of 8  n=2107  changed 183
+            iv_mix_bag - ii_bag         0.8813 vs 0.8751  +0.0061 [+0.0001, +0.0127]  panels +5/-2 of 8  n=2107  changed 146
+            iv_mix_bag - iv_bag         0.8813 vs 0.8728  +0.0084 [+0.0033, +0.0142]  panels +6/-1 of 8  n=2107  changed 110
+-- per fold: iv_bag - i, iv_bag - ii_bag
+                iv_bag - i              0.8672 vs 0.8693  -0.0021 [-0.0151, +0.0121]  panels +2/-5 of 8  n=523  changed 38
+                iv_bag - ii_bag         0.8672 vs 0.8756  -0.0084 [-0.0215, +0.0031]  panels +2/-5 of 8  n=523  changed 33
+                iv_bag - i              0.8695 vs 0.8790  -0.0095 [-0.0208, +0.0026]  panels +2/-5 of 8  n=541  changed 54
+                iv_bag - ii_bag         0.8695 vs 0.8737  -0.0042 [-0.0146, +0.0072]  panels +1/-4 of 8  n=541  changed 34
+                iv_bag - i              0.9026 vs 0.9157  -0.0131 [-0.0286, +0.0006]  panels +3/-5 of 8  n=511  changed 30
+                iv_bag - ii_bag         0.9026 vs 0.9020  +0.0006 [-0.0109, +0.0118]  panels +3/-4 of 8  n=511  changed 21
+                iv_bag - i              0.8545 vs 0.8551  -0.0006 [-0.0156, +0.0155]  panels +4/-3 of 8  n=532  changed 49
+                iv_bag - ii_bag         0.8545 vs 0.8515  +0.0030 [-0.0139, +0.0197]  panels +4/-3 of 8  n=532  changed 43
+share of M windows with an established queue in the RAW history: 0.0019

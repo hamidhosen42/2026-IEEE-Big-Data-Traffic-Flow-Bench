@@ -1,0 +1,36 @@
+
+== E1 n=2
+mix9   vs base: +0.0355 [+0.0088, +0.0661] P(>0)=0.999 | per-panel deltas +0.026 +0.097 -0.050 +0.095 +0.000 -0.016 +0.000 +0.131 | drop-one-panel mean: min +0.0218 max +0.0477
+mix9   vs sp4 : +0.0315 [+0.0028, +0.0589] P(>0)=0.984 | per-panel deltas +0.066 +0.115 -0.050 +0.000 +0.000 +0.021 +0.000 +0.100 | drop-one-panel mean: min +0.0195 max +0.0432
+mix95  vs base: +0.0359 [+0.0146, +0.0613] P(>0)=1.000 | per-panel deltas +0.010 +0.084 -0.013 +0.095 +0.000 +0.000 +0.000 +0.111 | drop-one-panel mean: min +0.0252 max +0.0429
+mix95  vs sp4 : +0.0320 [+0.0033, +0.0578] P(>0)=0.988 | per-panel deltas +0.050 +0.103 -0.013 +0.000 +0.000 +0.036 +0.000 +0.080 | drop-one-panel mean: min +0.0219 max +0.0384
+
+== E1 n=3
+mix9   vs base: +0.0438 [+0.0185, +0.0725] P(>0)=1.000 | per-panel deltas +0.032 +0.129 -0.030 +0.036 +0.000 -0.011 +0.000 +0.195 | drop-one-panel mean: min +0.0221 max +0.0543
+mix9   vs sp4 : +0.0411 [+0.0075, +0.0749] P(>0)=0.990 | per-panel deltas +0.119 +0.142 -0.030 -0.071 +0.000 +0.036 +0.000 +0.133 | drop-one-panel mean: min +0.0266 max +0.0572
+mix95  vs base: +0.0461 [+0.0219, +0.0739] P(>0)=1.000 | per-panel deltas +0.024 +0.148 +0.000 +0.024 +0.000 +0.002 +0.000 +0.171 | drop-one-panel mean: min +0.0282 max +0.0526
+mix95  vs sp4 : +0.0434 [+0.0104, +0.0751] P(>0)=0.994 | per-panel deltas +0.111 +0.162 +0.000 -0.083 +0.000 +0.049 +0.000 +0.109 | drop-one-panel mean: min +0.0265 max +0.0615
+
+== E1 n=4
+mix9   vs base: +0.0638 [+0.0384, +0.0923] P(>0)=1.000 | per-panel deltas +0.032 +0.203 +0.000 +0.048 +0.000 -0.011 +0.000 +0.239 | drop-one-panel mean: min +0.0387 max +0.0745
+mix9   vs sp4 : +0.0505 [+0.0206, +0.0811] P(>0)=1.000 | per-panel deltas +0.071 +0.210 +0.000 -0.048 +0.000 +0.021 +0.007 +0.142 | drop-one-panel mean: min +0.0277 max +0.0645
+mix95  vs base: +0.0525 [+0.0310, +0.0770] P(>0)=1.000 | per-panel deltas +0.032 +0.148 +0.000 +0.012 +0.000 +0.004 +0.000 +0.224 | drop-one-panel mean: min +0.0280 max +0.0600
+mix95  vs sp4 : +0.0393 [+0.0071, +0.0697] P(>0)=0.994 | per-panel deltas +0.071 +0.155 +0.000 -0.083 +0.000 +0.036 +0.007 +0.128 | drop-one-panel mean: min +0.0227 max +0.0568
+
+== E2 faithful, all starts, n=3
+mix9   vs base: +0.0394 [+0.0148, +0.0648] P(>0)=0.999 | per-panel deltas +0.079 +0.071 -0.031 +0.012 +0.000 +0.005 +0.000 +0.179 | drop-one-panel mean: min +0.0194 max +0.0495
+mix9   vs sp4 : +0.0317 [+0.0082, +0.0572] P(>0)=0.999 | per-panel deltas +0.119 +0.043 -0.031 +0.000 +0.000 +0.005 +0.000 +0.118 | drop-one-panel mean: min +0.0192 max +0.0407
+mix95  vs base: +0.0328 [+0.0125, +0.0551] P(>0)=0.999 | per-panel deltas +0.040 +0.071 +0.000 +0.000 +0.000 +0.002 +0.000 +0.150 | drop-one-panel mean: min +0.0161 max +0.0375
+mix95  vs sp4 : +0.0251 [+0.0057, +0.0461] P(>0)=0.997 | per-panel deltas +0.079 +0.043 +0.000 -0.012 +0.000 +0.002 +0.000 +0.089 | drop-one-panel mean: min +0.0160 max +0.0304
+
+== E2 faithful, all starts, n=4
+mix9   vs base: +0.0492 [+0.0253, +0.0755] P(>0)=1.000 | per-panel deltas +0.082 +0.126 +0.000 +0.000 +0.000 -0.022 +0.000 +0.207 | drop-one-panel mean: min +0.0266 max +0.0593
+mix9   vs sp4 : +0.0412 [+0.0148, +0.0676] P(>0)=1.000 | per-panel deltas +0.064 +0.130 +0.000 +0.000 +0.000 -0.022 +0.000 +0.156 | drop-one-panel mean: min +0.0247 max +0.0501
+mix95  vs base: +0.0464 [+0.0258, +0.0687] P(>0)=1.000 | per-panel deltas +0.048 +0.110 +0.000 +0.013 +0.000 +0.008 +0.000 +0.193 | drop-one-panel mean: min +0.0255 max +0.0530
+mix95  vs sp4 : +0.0383 [+0.0155, +0.0613] P(>0)=1.000 | per-panel deltas +0.030 +0.113 +0.000 +0.013 +0.000 +0.008 +0.000 +0.142 | drop-one-panel mean: min +0.0235 max +0.0438
+
+== E2 faithful Saturday starts
+mix9   vs base: +0.0490 [+0.0237, +0.0794] P(>0)=1.000 | per-panel deltas +0.130 +0.173 +0.000 +0.000 +0.000 +0.000 +0.000 +0.089 | drop-one-panel mean: min +0.0312 max +0.0560
+mix9   vs sp4 : +0.0300 [+0.0069, +0.0560] P(>0)=0.998 | per-panel deltas +0.093 +0.103 +0.000 +0.000 +0.000 +0.000 +0.000 +0.044 | drop-one-panel mean: min +0.0196 max +0.0343
+mix95  vs base: +0.0390 [+0.0175, +0.0641] P(>0)=1.000 | per-panel deltas +0.056 +0.168 +0.000 +0.000 +0.000 +0.000 +0.000 +0.089 | drop-one-panel mean: min +0.0206 max +0.0446
+mix95  vs sp4 : +0.0200 [+0.0007, +0.0409] P(>0)=0.981 | per-panel deltas +0.019 +0.097 +0.000 +0.000 +0.000 +0.000 +0.000 +0.044 | drop-one-panel mean: min +0.0090 max +0.0229

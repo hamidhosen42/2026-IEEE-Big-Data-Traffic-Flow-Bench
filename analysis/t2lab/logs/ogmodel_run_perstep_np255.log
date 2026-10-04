@@ -1,0 +1,24 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_perstep_np255: struct perstep {'part': 'h'}, cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3, 4), seed 0
+[   292s] og_perstep_np255 fold 0: 6077021 rows x 58 cols, 6 model(s) in 292s
+[   308s] og_perstep_np255 fold 0: official 0.8881 (n=40), offlike 0.8820 (n=726), pseudo 0.8785 (n=525)
+[   606s] og_perstep_np255 fold 1: 5844108 rows x 58 cols, 6 model(s) in 299s
+[   619s] og_perstep_np255 fold 1: official nan (n=0), offlike 0.8817 (n=747), pseudo 0.8489 (n=530)
+[   913s] og_perstep_np255 fold 2: 5997115 rows x 58 cols, 6 model(s) in 294s
+[   926s] og_perstep_np255 fold 2: official nan (n=0), offlike 0.8776 (n=748), pseudo 0.8753 (n=503)
+[  1233s] og_perstep_np255 fold 3: 6061317 rows x 58 cols, 6 model(s) in 307s
+[  1245s] og_perstep_np255 fold 3: official nan (n=0), offlike 0.8769 (n=771), pseudo 0.8550 (n=500)
+[  1586s] og_perstep_np255 fold 4: 8013566 rows x 58 cols, 6 model(s) in 341s
+
+== og_perstep_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8881 0.9384 0.9253 0.9305 0.9137 0.8439 0.8182      0.0607        0.0297 0.0214
+ offlike 2992 0.8794 0.9480 0.9261 0.8957 0.8795 0.8643 0.8155      0.0447        0.0384 0.0376
+  pseudo 2058 0.8485 0.9634 0.9427 0.8839 0.8316 0.8258 0.6624      0.0236        0.0709 0.0570
+paired vs fc_F03_np255 (common windows):
+             arm      set    n   base    iou    diff      lo     hi  p_pos panels_pos  panels_neg    d_h6
+og_perstep_np255 official   40 0.8899 0.8881 -0.0017 -0.0120 0.0081  0.357        3/8           5  0.0432
+og_perstep_np255  offlike 2992 0.8751 0.8794  0.0043  0.0026 0.0058  1.000        7/8           1  0.0121
+og_perstep_np255   pseudo 2058 0.8516 0.8485 -0.0030 -0.0127 0.0062  0.267        4/8           4 -0.0093
+[  1587s] DONE ['perstep']
+[run_heavy] exit 0 after 1588s

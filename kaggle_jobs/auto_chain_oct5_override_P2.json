@@ -1,12 +1,14 @@
 {
- "type": "t1mix",
- "w_fd": 0.5,
- "fd_members": [
-  "tfb-t1v13",
-  "tfb-t1v13s10",
-  "tfb-t1v13s11",
-  "tfb-t1v13s12"
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2opvm",
+   "queue_submission_pvm.csv",
+   "queue_onset",
+   "validation"
+  ]
  ],
- "thr": 0.0001,
- "desc": "P2: T1 = 0.5 FD-feature bag (4 members) + 0.5 old bag(8), recon + TV"
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March onset rows from per-day same-scenario CatBoost (train + released March onset windows of the days before each window's day, weight 20, scenario prior); April rows unchanged"
 }

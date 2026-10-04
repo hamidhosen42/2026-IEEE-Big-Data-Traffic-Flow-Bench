@@ -1,0 +1,15 @@
+[run_heavy] slot acquired after 40s
+[worker] Sun Oct  4 20:46:35 2026 start: np base folds=01
+[worker] Sun Oct  4 20:52:08 2026 exit 0 after 333s: np base folds=01
+[worker] Sun Oct  4 20:52:08 2026 start: np all=g1b+g2+g3 folds=01
+[worker] Sun Oct  4 21:00:47 2026 exit 0 after 852s: np all=g1b+g2+g3 folds=01
+[worker] Sun Oct  4 21:00:47 2026 start: np g1a=g1a folds=01
+[worker] Sun Oct  4 21:07:24 2026 exit 0 after 1249s: np g1a=g1a folds=01
+[worker] Sun Oct  4 21:07:24 2026 start: np g1c=g1c folds=01
+[worker] Sun Oct  4 21:13:54 2026 exit 0 after 1639s: np g1c=g1c folds=01
+[worker] budget used, leaving: np g2=g2 folds=01
+[worker] budget used, leaving: np g2b=g2b folds=01
+[worker] budget used, leaving: np g3=g3 folds=01
+[worker] budget used, leaving: np all2=g1b+g2+g3+g1c+g2b folds=01
+[worker] done
+[run_heavy] exit 0 after 1680s

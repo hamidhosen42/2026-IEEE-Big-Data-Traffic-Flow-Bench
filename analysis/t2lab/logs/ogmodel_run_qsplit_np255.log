@@ -1,0 +1,24 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_qsplit_np255: struct qsplit {'part': 'q'}, cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3, 4), seed 0
+[   173s] og_qsplit_np255 fold 0: 6077021 rows x 58 cols, 2 model(s) in 172s
+[   184s] og_qsplit_np255 fold 0: official 0.8950 (n=40), offlike 0.8842 (n=726), pseudo 0.8782 (n=525)
+[   357s] og_qsplit_np255 fold 1: 5844108 rows x 58 cols, 2 model(s) in 173s
+[   368s] og_qsplit_np255 fold 1: official nan (n=0), offlike 0.8821 (n=747), pseudo 0.8533 (n=530)
+[   529s] og_qsplit_np255 fold 2: 5997115 rows x 58 cols, 2 model(s) in 161s
+[   540s] og_qsplit_np255 fold 2: official nan (n=0), offlike 0.8798 (n=748), pseudo 0.8771 (n=503)
+[   708s] og_qsplit_np255 fold 3: 6061317 rows x 58 cols, 2 model(s) in 168s
+[   718s] og_qsplit_np255 fold 3: official nan (n=0), offlike 0.8786 (n=771), pseudo 0.8598 (n=500)
+[   937s] og_qsplit_np255 fold 4: 8013566 rows x 58 cols, 2 model(s) in 219s
+
+== og_qsplit_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8950 0.9017 0.9279 0.9302 0.9238 0.8603 0.8301      0.0574        0.0286 0.0191
+ offlike 2992 0.8812 0.9471 0.9271 0.8981 0.8852 0.8660 0.8200      0.0427        0.0379 0.0382
+  pseudo 2058 0.8537 0.9561 0.9423 0.8862 0.8375 0.8401 0.6751      0.0226        0.0700 0.0537
+paired vs fc_F03_np255 (common windows):
+            arm      set    n   base    iou   diff      lo     hi  p_pos panels_pos  panels_neg   d_h6
+og_qsplit_np255 official   40 0.8899 0.8950 0.0051 -0.0019 0.0131 0.9010        5/8           3 0.0551
+og_qsplit_np255  offlike 2992 0.8751 0.8812 0.0061  0.0046 0.0075 1.0000        7/8           1 0.0166
+og_qsplit_np255   pseudo 2058 0.8516 0.8537 0.0021 -0.0066 0.0110 0.6865        5/8           3 0.0034
+[   938s] DONE ['qsplit']
+[run_heavy] exit 0 after 938s

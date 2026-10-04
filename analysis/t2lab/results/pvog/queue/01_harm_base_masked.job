@@ -1,0 +1,2 @@
+12 logs/pvog_exp3_harm_base_masked_wm3.log
+../../.venv/bin/python pvog_harm.py base,masked 3

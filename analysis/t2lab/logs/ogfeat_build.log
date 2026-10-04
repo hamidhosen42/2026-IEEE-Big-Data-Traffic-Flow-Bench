@@ -1,0 +1,58 @@
+[     0s] D7_I10_E official (5, 146, 68) finite share 0.989
+[     1s] D7_I10_E offlike (381, 146, 68) finite share 0.978
+[     1s] D7_I10_E pseudo (229, 146, 68) finite share 0.987
+[     1s] D7_I10_E runstart (1500, 146, 68) finite share 0.975
+[     3s] D7_I10_E faith3 (3538, 146, 68) finite share 0.975
+[     3s] D7_I10_E pseudo-March {'offlike_m': (41, (13164, 69)), 'runstart_m': (188, (62364, 69))}
+[     3s] D7_I10_E done in 3s
+[     3s] D7_I10_W official (5, 107, 68) finite share 0.986
+[     3s] D7_I10_W offlike (131, 107, 68) finite share 0.986
+[     3s] D7_I10_W pseudo (4, 107, 68) finite share 0.986
+[     3s] D7_I10_W runstart (268, 107, 68) finite share 0.981
+[     4s] D7_I10_W faith3 (590, 107, 68) finite share 0.977
+[     4s] D7_I10_W pseudo-March {'offlike_m': (16, (2742, 69)), 'runstart_m': (44, (8064, 69))}
+[     4s] D7_I10_W done in 1s
+[     4s] D7_I210_E official (5, 297, 68) finite share 0.927
+[     5s] D7_I210_E offlike (276, 297, 68) finite share 0.927
+[     5s] D7_I210_E pseudo (439, 297, 68) finite share 0.927
+[     5s] D7_I210_E runstart (373, 297, 68) finite share 0.927
+[     6s] D7_I210_E faith3 (801, 297, 68) finite share 0.914
+[     6s] D7_I210_E pseudo-March {'offlike_m': (27, (3048, 69)), 'runstart_m': (36, (4572, 69))}
+[     6s] D7_I210_E done in 3s
+[     7s] D7_I210_W official (5, 81, 68) finite share 0.967
+[     7s] D7_I210_W offlike (448, 81, 68) finite share 0.971
+[     7s] D7_I210_W pseudo (386, 81, 68) finite share 0.97
+[     7s] D7_I210_W runstart (2054, 81, 68) finite share 0.97
+[     9s] D7_I210_W faith3 (4103, 81, 68) finite share 0.972
+[     9s] D7_I210_W pseudo-March {'offlike_m': (46, (14124, 69)), 'runstart_m': (197, (62832, 69))}
+[     9s] D7_I210_W done in 2s
+[     9s] D7_I405_N official (5, 352, 68) finite share 0.944
+[    10s] D7_I405_N offlike (506, 352, 68) finite share 0.937
+[    11s] D7_I405_N pseudo (373, 352, 68) finite share 0.941
+[    13s] D7_I405_N runstart (1910, 352, 68) finite share 0.936
+[    21s] D7_I405_N faith3 (7078, 352, 68) finite share 0.946
+[    22s] D7_I405_N pseudo-March {'offlike_m': (51, (60396, 69)), 'runstart_m': (201, (215328, 69))}
+[    22s] D7_I405_N done in 13s
+[    22s] D7_I405_S official (5, 109, 68) finite share 0.962
+[    22s] D7_I405_S offlike (403, 109, 68) finite share 0.974
+[    23s] D7_I405_S pseudo (223, 109, 68) finite share 0.969
+[    23s] D7_I405_S runstart (1572, 109, 68) finite share 0.976
+[    25s] D7_I405_S faith3 (4277, 109, 68) finite share 0.977
+[    25s] D7_I405_S pseudo-March {'offlike_m': (42, (16416, 69)), 'runstart_m': (201, (75084, 69))}
+[    25s] D7_I405_S done in 3s
+[    25s] D12_I5_N official (5, 258, 68) finite share 0.987
+[    26s] D12_I5_N offlike (421, 258, 68) finite share 0.987
+[    26s] D12_I5_N pseudo (194, 258, 68) finite share 0.988
+[    27s] D12_I5_N runstart (1118, 258, 68) finite share 0.984
+[    30s] D12_I5_N faith3 (4326, 258, 68) finite share 0.987
+[    31s] D12_I5_N pseudo-March {'offlike_m': (34, (21636, 69)), 'runstart_m': (96, (68640, 69))}
+[    31s] D12_I5_N done in 6s
+[    31s] D12_I5_S official (5, 100, 68) finite share 0.988
+[    31s] D12_I5_S offlike (426, 100, 68) finite share 0.986
+[    31s] D12_I5_S pseudo (210, 100, 68) finite share 0.988
+[    32s] D12_I5_S runstart (1894, 100, 68) finite share 0.984
+[    33s] D12_I5_S faith3 (4573, 100, 68) finite share 0.983
+[    33s] D12_I5_S pseudo-March {'offlike_m': (41, (15978, 69)), 'runstart_m': (161, (66330, 69))}
+[    33s] D12_I5_S done in 3s
+[    33s] names 68 ['c_q3', 'c_q6', 'c_q9', 'c_q12', 'c_d3', 'c_d6', 'c_d12', 'c_rel6', 'c_n0', 'c_new3', 'c_clr3', 'c_new6', 'c_clr6', 'c_first', 'c_peak', 'k_run', 'k_ntr', 'k_qf6', 'k_dvr3', 'k_dvr6', 'k_vrmax6', 'k_sdlo0', 'k_sdhi0', 'k_cs0', 'k_nq7_0', 'k_nqhi8_0', 'k_nqlo8_0', 'k_sdlo3', 'k_sdhi3', 'k_cs3', 'k_nq7_3', 'k_nqhi8_3', 'k_nqlo8_3', 'k_sdlo6', 'k_sdhi6', 'k_cs6', 'k_nq7_6', 'k_nqhi8_6', 'k_nqlo8_6', 'k_vlo3', 'k_vhi3', 'k_vlo6', 'k_vhi6', 'e_side', 'e_dist', 'e_size', 'e_rel', 'e_n3', 'e_n6', 'e_x3', 'e_x6', 'e_vr0', 'e_dvr3', 'e_dvr6', 'e_fr0', 'e_in_fr0', 'e_in_dfr3', 'e_out_fr0', 'e_out_dfr3', 'e_in_vr0', 'e_in_dvr3', 'e_out_vr0', 'e_out_dvr3', 'e_ramp_tail', 'e_ramp_head', 'e_off_head', 'e_ramp_in', 'e_surge_head']
+[    33s] DONE

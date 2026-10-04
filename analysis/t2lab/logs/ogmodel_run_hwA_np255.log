@@ -1,0 +1,24 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_hwA_np255: struct hwA {'hw': (1, 1, 1, 1, 1.5, 2.0)}, cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3, 4), seed 0
+[   133s] og_hwA_np255 fold 0: 6077021 rows x 58 cols, 1 model(s) in 133s
+[   143s] og_hwA_np255 fold 0: official 0.8871 (n=40), offlike 0.8782 (n=726), pseudo 0.8749 (n=525)
+[   273s] og_hwA_np255 fold 1: 5844108 rows x 58 cols, 1 model(s) in 130s
+[   284s] og_hwA_np255 fold 1: official nan (n=0), offlike 0.8771 (n=747), pseudo 0.8478 (n=530)
+[   421s] og_hwA_np255 fold 2: 5997115 rows x 58 cols, 1 model(s) in 137s
+[   431s] og_hwA_np255 fold 2: official nan (n=0), offlike 0.8729 (n=748), pseudo 0.8722 (n=503)
+[   566s] og_hwA_np255 fold 3: 6061317 rows x 58 cols, 1 model(s) in 136s
+[   576s] og_hwA_np255 fold 3: official nan (n=0), offlike 0.8738 (n=771), pseudo 0.8503 (n=500)
+[   743s] og_hwA_np255 fold 4: 8013566 rows x 58 cols, 1 model(s) in 167s
+
+== og_hwA_np255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8871 0.9318 0.9122 0.9156 0.9261 0.8537 0.7983      0.0602        0.0350 0.0177
+ offlike 2992 0.8754 0.9411 0.9232 0.8930 0.8800 0.8620 0.8102      0.0444        0.0429 0.0373
+  pseudo 2058 0.8449 0.9481 0.9376 0.8808 0.8317 0.8033 0.6640      0.0243        0.0761 0.0547
+paired vs fc_F03_np255 (common windows):
+         arm      set    n   base    iou    diff      lo      hi  p_pos panels_pos  panels_neg    d_h6
+og_hwA_np255 official   40 0.8899 0.8871 -0.0027 -0.0071  0.0014  0.105        2/8           6  0.0233
+og_hwA_np255  offlike 2992 0.8751 0.8754  0.0004 -0.0006  0.0013  0.769        5/8           3  0.0068
+og_hwA_np255   pseudo 2058 0.8516 0.8449 -0.0066 -0.0098 -0.0024  0.001        2/8           6 -0.0076
+[   744s] DONE ['hwA']
+[run_heavy] exit 0 after 745s

@@ -1,0 +1,137 @@
+[     2s] D7_I10_E {'panel': 'D7_I10_E', 'march_train_w': 9, 'march_rows': 706, 'eval_w': 16, 'raw_w': 265, 'raw_rows': 29422, 'raw_pos': 1381, 'S2': '(267, 19454, 920)', 'S3': '(267, 19600, 948)'} 1s
+[     3s] D7_I10_W {'panel': 'D7_I10_W', 'march_train_w': 8, 'march_rows': 582, 'eval_w': 13, 'raw_w': 134, 'raw_rows': 11050, 'raw_pos': 198, 'S2': '(134, 7455, 183)', 'S3': '(134, 7347, 197)'} 1s
+[     5s] D7_I210_E {'panel': 'D7_I210_E', 'march_train_w': 11, 'march_rows': 1778, 'eval_w': 16, 'raw_w': 276, 'raw_rows': 62564, 'raw_pos': 1056, 'S2': '(276, 41767, 750)', 'S3': '(277, 41012, 725)'} 2s
+[     6s] D7_I210_W {'panel': 'D7_I210_W', 'march_train_w': 14, 'march_rows': 551, 'eval_w': 18, 'raw_w': 311, 'raw_rows': 19268, 'raw_pos': 728, 'S2': '(314, 13176, 590)', 'S3': '(312, 13008, 557)'} 1s
+[     9s] D7_I405_N {'panel': 'D7_I405_N', 'march_train_w': 15, 'march_rows': 2967, 'eval_w': 21, 'raw_w': 355, 'raw_rows': 95500, 'raw_pos': 621, 'S2': '(355, 64342, 517)', 'S3': '(356, 64917, 536)'} 3s
+[    11s] D7_I405_S {'panel': 'D7_I405_S', 'march_train_w': 11, 'march_rows': 578, 'eval_w': 16, 'raw_w': 271, 'raw_rows': 22537, 'raw_pos': 1267, 'S2': '(272, 15017, 884)', 'S3': '(271, 14964, 883)'} 1s
+[    13s] D12_I5_N {'panel': 'D12_I5_N', 'march_train_w': 6, 'march_rows': 978, 'eval_w': 15, 'raw_w': 255, 'raw_rows': 50188, 'raw_pos': 682, 'S2': '(255, 33372, 519)', 'S3': '(255, 33437, 495)'} 2s
+[    14s] D12_I5_S {'panel': 'D12_I5_S', 'march_train_w': 10, 'march_rows': 537, 'eval_w': 16, 'raw_w': 264, 'raw_rows': 20253, 'raw_pos': 728, 'S2': '(266, 13442, 530)', 'S3': '(265, 13594, 510)'} 1s
+    panel  march_train_w  march_rows  eval_w  raw_w  raw_rows  raw_pos                S2                S3
+ D7_I10_E              9         706      16    265     29422     1381 (267, 19454, 920) (267, 19600, 948)
+ D7_I10_W              8         582      13    134     11050      198  (134, 7455, 183)  (134, 7347, 197)
+D7_I210_E             11        1778      16    276     62564     1056 (276, 41767, 750) (277, 41012, 725)
+D7_I210_W             14         551      18    311     19268      728 (314, 13176, 590) (312, 13008, 557)
+D7_I405_N             15        2967      21    355     95500      621 (355, 64342, 517) (356, 64917, 536)
+D7_I405_S             11         578      16    271     22537     1267 (272, 15017, 884) (271, 14964, 883)
+ D12_I5_N              6         978      15    255     50188      682 (255, 33372, 519) (255, 33437, 495)
+ D12_I5_S             10         537      16    264     20253      728 (266, 13442, 530) (265, 13594, 510)
+[    14s] March training rows 8677 pos rate 0.0222 | raw train rows 310782 pos rate 0.0214
+[    39s] A trained on 310782 rows in 25s
+[    64s] B_w10 trained on 319459 rows in 25s
+[    89s] B_w20 trained on 319459 rows in 25s
+[   115s] B_w40 trained on 319459 rows in 26s
+[   142s] B_w2 trained on 319459 rows in 27s
+[   169s] B_w5 trained on 319459 rows in 26s
+[   169s] mask seed 2: F rows 310782 pos 0.0214 | S rows 208025 pos 0.0235
+[   188s] AmS_all#2 trained on 208025 rows in 19s
+[   209s] BmS_all#2_w10 trained on 216702 rows in 21s
+[   231s] BmS_all#2_w20 trained on 216702 rows in 21s
+[   251s] BmS_all#2_w40 trained on 216702 rows in 20s
+[   288s] AmS_mix#2 trained on 518807 rows in 37s
+[   326s] BmS_mix#2_w10 trained on 527484 rows in 38s
+[   364s] BmS_mix#2_w20 trained on 527484 rows in 38s
+[   402s] BmS_mix#2_w40 trained on 527484 rows in 37s
+[   402s] mask seed 3: F rows 310782 pos 0.0214 | S rows 207879 pos 0.0233
+[   421s] AmS_all#3 trained on 207879 rows in 19s
+[   442s] BmS_all#3_w10 trained on 216556 rows in 21s
+[   462s] BmS_all#3_w20 trained on 216556 rows in 20s
+[   482s] BmS_all#3_w40 trained on 216556 rows in 20s
+[   518s] AmS_mix#3 trained on 518661 rows in 37s
+[   557s] BmS_mix#3_w10 trained on 527338 rows in 38s
+[   595s] BmS_mix#3_w20 trained on 527338 rows in 39s
+[   634s] BmS_mix#3_w40 trained on 527338 rows in 39s
+
+== pseudo-March onset, days >= 15 (masked evaluation regime) ==
+          arm    iou   n
+            A 0.7066 131
+         A_s4 0.8123 131
+        B_w10 0.8580 131
+        B_w20 0.8523 131
+        B_w40 0.8515 131
+        B_bag 0.8578 131
+         B_w2 0.8467 131
+         B_w5 0.8564 131
+       B_bagL 0.8578 131
+    AmS_all#2 0.8234 131
+BmS_all#2_w10 0.8487 131
+BmS_all#2_w20 0.8521 131
+BmS_all#2_w40 0.8543 131
+BmS_all#2_bag 0.8614 131
+    AmS_all#3 0.8151 131
+BmS_all#3_w10 0.8660 131
+BmS_all#3_w20 0.8468 131
+BmS_all#3_w40 0.8531 131
+BmS_all#3_bag 0.8603 131
+    AmS_mix#2 0.8276 131
+BmS_mix#2_w10 0.8519 131
+BmS_mix#2_w20 0.8645 131
+BmS_mix#2_w40 0.8497 131
+BmS_mix#2_bag 0.8570 131
+    AmS_mix#3 0.8092 131
+BmS_mix#3_w10 0.8575 131
+BmS_mix#3_w20 0.8461 131
+BmS_mix#3_w40 0.8398 131
+BmS_mix#3_bag 0.8604 131
+      AmS_all 0.8192 131
+      AmS_mix 0.8184 131
+  BmS_all_bag 0.8608 131
+  BmS_all_w10 0.8573 131
+  BmS_all_w20 0.8495 131
+  BmS_all_w40 0.8537 131
+  BmS_mix_bag 0.8587 131
+  BmS_mix_w10 0.8547 131
+  BmS_mix_w20 0.8553 131
+  BmS_mix_w40 0.8448 131
+
+== paired bootstrap ==
+                     A - A_s4           0.7066 vs 0.8123  -0.1057 [-0.1556, -0.0578]  panels +3/-4 of 8  n=131 
+                 B_w10 - A_s4           0.8580 vs 0.8123  +0.0458 [+0.0158, +0.0811]  panels +6/-0 of 8  n=131 
+                 B_w20 - A_s4           0.8523 vs 0.8123  +0.0401 [+0.0076, +0.0756]  panels +6/-0 of 8  n=131 
+                 B_w40 - A_s4           0.8515 vs 0.8123  +0.0393 [+0.0096, +0.0750]  panels +6/-1 of 8  n=131 
+                 B_bag - A_s4           0.8578 vs 0.8123  +0.0455 [+0.0156, +0.0807]  panels +6/-0 of 8  n=131 
+                  B_w2 - A_s4           0.8467 vs 0.8123  +0.0345 [+0.0059, +0.0646]  panels +6/-0 of 8  n=131 
+                  B_w5 - A_s4           0.8564 vs 0.8123  +0.0441 [+0.0149, +0.0780]  panels +6/-1 of 8  n=131 
+                B_bagL - A_s4           0.8578 vs 0.8123  +0.0455 [+0.0156, +0.0807]  panels +6/-0 of 8  n=131 
+             AmS_all#2 - A_s4           0.8234 vs 0.8123  +0.0112 [-0.0196, +0.0404]  panels +4/-1 of 8  n=131 
+         BmS_all#2_w10 - A_s4           0.8487 vs 0.8123  +0.0364 [+0.0035, +0.0701]  panels +6/-1 of 8  n=131 
+         BmS_all#2_w20 - A_s4           0.8521 vs 0.8123  +0.0399 [-0.0005, +0.0821]  panels +6/-0 of 8  n=131 
+         BmS_all#2_w40 - A_s4           0.8543 vs 0.8123  +0.0420 [+0.0055, +0.0823]  panels +6/-1 of 8  n=131 
+         BmS_all#2_bag - A_s4           0.8614 vs 0.8123  +0.0491 [+0.0132, +0.0873]  panels +6/-0 of 8  n=131 
+             AmS_all#3 - A_s4           0.8151 vs 0.8123  +0.0028 [-0.0164, +0.0229]  panels +2/-2 of 8  n=131 
+         BmS_all#3_w10 - A_s4           0.8660 vs 0.8123  +0.0538 [+0.0198, +0.0902]  panels +7/-0 of 8  n=131 
+         BmS_all#3_w20 - A_s4           0.8468 vs 0.8123  +0.0346 [+0.0021, +0.0694]  panels +7/-0 of 8  n=131 
+         BmS_all#3_w40 - A_s4           0.8531 vs 0.8123  +0.0409 [+0.0037, +0.0794]  panels +6/-0 of 8  n=131 
+         BmS_all#3_bag - A_s4           0.8603 vs 0.8123  +0.0480 [+0.0146, +0.0857]  panels +6/-0 of 8  n=131 
+             AmS_mix#2 - A_s4           0.8276 vs 0.8123  +0.0153 [-0.0101, +0.0398]  panels +2/-2 of 8  n=131 
+         BmS_mix#2_w10 - A_s4           0.8519 vs 0.8123  +0.0397 [+0.0094, +0.0716]  panels +6/-0 of 8  n=131 
+         BmS_mix#2_w20 - A_s4           0.8645 vs 0.8123  +0.0522 [+0.0210, +0.0868]  panels +6/-0 of 8  n=131 
+         BmS_mix#2_w40 - A_s4           0.8497 vs 0.8123  +0.0374 [+0.0033, +0.0768]  panels +7/-0 of 8  n=131 
+         BmS_mix#2_bag - A_s4           0.8570 vs 0.8123  +0.0448 [+0.0124, +0.0820]  panels +6/-0 of 8  n=131 
+             AmS_mix#3 - A_s4           0.8092 vs 0.8123  -0.0030 [-0.0268, +0.0203]  panels +3/-3 of 8  n=131 
+         BmS_mix#3_w10 - A_s4           0.8575 vs 0.8123  +0.0452 [+0.0118, +0.0805]  panels +6/-0 of 8  n=131 
+         BmS_mix#3_w20 - A_s4           0.8461 vs 0.8123  +0.0339 [+0.0000, +0.0707]  panels +6/-0 of 8  n=131 
+         BmS_mix#3_w40 - A_s4           0.8398 vs 0.8123  +0.0276 [-0.0076, +0.0660]  panels +6/-0 of 8  n=131 
+         BmS_mix#3_bag - A_s4           0.8604 vs 0.8123  +0.0482 [+0.0134, +0.0862]  panels +6/-0 of 8  n=131 
+               AmS_all - A_s4           0.8192 vs 0.8123  +0.0070 [-0.0139, +0.0273]  panels +3/-2 of 8  n=131 
+               AmS_mix - A_s4           0.8184 vs 0.8123  +0.0061 [-0.0165, +0.0275]  panels +2/-4 of 8  n=131 
+           BmS_all_bag - A_s4           0.8608 vs 0.8123  +0.0485 [+0.0152, +0.0859]  panels +6/-0 of 8  n=131 
+           BmS_all_w10 - A_s4           0.8573 vs 0.8123  +0.0451 [+0.0126, +0.0785]  panels +6/-0 of 8  n=131 
+           BmS_all_w20 - A_s4           0.8495 vs 0.8123  +0.0372 [+0.0052, +0.0736]  panels +7/-0 of 8  n=131 
+           BmS_all_w40 - A_s4           0.8537 vs 0.8123  +0.0415 [+0.0065, +0.0802]  panels +7/-0 of 8  n=131 
+           BmS_mix_bag - A_s4           0.8587 vs 0.8123  +0.0465 [+0.0131, +0.0834]  panels +6/-0 of 8  n=131 
+           BmS_mix_w10 - A_s4           0.8547 vs 0.8123  +0.0424 [+0.0127, +0.0750]  panels +6/-0 of 8  n=131 
+           BmS_mix_w20 - A_s4           0.8553 vs 0.8123  +0.0431 [+0.0121, +0.0784]  panels +6/-0 of 8  n=131 
+           BmS_mix_w40 - A_s4           0.8448 vs 0.8123  +0.0325 [-0.0008, +0.0709]  panels +7/-0 of 8  n=131 
+         BmS_all#2_bag - AmS_all#2      0.8614 vs 0.8234  +0.0379 [+0.0032, +0.0729]  panels +6/-0 of 8  n=131 same-regime effect of the March rows
+         BmS_all#2_bag - B_bag          0.8614 vs 0.8578  +0.0036 [-0.0094, +0.0174]  panels +3/-0 of 8  n=131 vs the kernel recipe
+         BmS_all#3_bag - AmS_all#3      0.8603 vs 0.8151  +0.0452 [+0.0144, +0.0823]  panels +5/-0 of 8  n=131 same-regime effect of the March rows
+         BmS_all#3_bag - B_bag          0.8603 vs 0.8578  +0.0025 [-0.0132, +0.0185]  panels +2/-1 of 8  n=131 vs the kernel recipe
+         BmS_mix#2_bag - AmS_mix#2      0.8570 vs 0.8276  +0.0295 [-0.0059, +0.0671]  panels +5/-1 of 8  n=131 same-regime effect of the March rows
+         BmS_mix#2_bag - B_bag          0.8570 vs 0.8578  -0.0008 [-0.0146, +0.0127]  panels +2/-2 of 8  n=131 vs the kernel recipe
+         BmS_mix#3_bag - AmS_mix#3      0.8604 vs 0.8092  +0.0512 [+0.0185, +0.0890]  panels +6/-0 of 8  n=131 same-regime effect of the March rows
+         BmS_mix#3_bag - B_bag          0.8604 vs 0.8578  +0.0026 [-0.0094, +0.0145]  panels +3/-1 of 8  n=131 vs the kernel recipe
+           BmS_all_bag - AmS_all        0.8608 vs 0.8192  +0.0416 [+0.0121, +0.0744]  panels +6/-0 of 8  n=131 same-regime effect of the March rows
+           BmS_all_bag - B_bag          0.8608 vs 0.8578  +0.0030 [-0.0087, +0.0165]  panels +3/-1 of 8  n=131 vs the kernel recipe
+           BmS_mix_bag - AmS_mix        0.8587 vs 0.8184  +0.0403 [+0.0096, +0.0753]  panels +5/-1 of 8  n=131 same-regime effect of the March rows
+           BmS_mix_bag - B_bag          0.8587 vs 0.8578  +0.0009 [-0.0113, +0.0126]  panels +3/-1 of 8  n=131 vs the kernel recipe
+[   640s] DONE

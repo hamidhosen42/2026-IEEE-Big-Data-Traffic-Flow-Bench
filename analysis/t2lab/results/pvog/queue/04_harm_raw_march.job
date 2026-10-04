@@ -1,0 +1,2 @@
+12 logs/pvog_exp3_harm_raw_march_wm3.log
+../../.venv/bin/python pvog_harm.py raw,march 3

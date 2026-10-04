@@ -1,0 +1,44 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E {'offlike_m': 41, 'runstart_m': 188} 1s
+[     2s] D7_I10_W {'offlike_m': 16, 'runstart_m': 44} 0s
+[     3s] D7_I210_E {'offlike_m': 27, 'runstart_m': 36} 1s
+[     4s] D7_I210_W {'offlike_m': 46, 'runstart_m': 197} 1s
+[     8s] D7_I405_N {'offlike_m': 51, 'runstart_m': 201} 4s
+[    10s] D7_I405_S {'offlike_m': 42, 'runstart_m': 201} 1s
+[    12s] D12_I5_N {'offlike_m': 34, 'runstart_m': 96} 2s
+[    13s] D12_I5_S {'offlike_m': 41, 'runstart_m': 161} 1s
+    panel        set  vt  windows   rows    pos  label_vis  hist_cov     q_T
+ D7_I10_E  offlike_m   T       41  13164 0.2641     0.5077    0.5080 14.3171
+ D7_I10_E  offlike_m noT       41  13152 0.2643     0.5078    0.5080 14.2195
+ D7_I10_E runstart_m   T      188  62364 0.2637     0.5124    0.5057 14.2394
+ D7_I10_E runstart_m noT      188  61908 0.2656     0.5121    0.5057 14.1596
+ D7_I10_W  offlike_m   T       16   2742 0.1711     0.5649    0.5569  4.1875
+ D7_I10_W  offlike_m noT       16   2676 0.1749     0.5620    0.5569  3.9375
+ D7_I10_W runstart_m   T       44   8064 0.2019     0.5756    0.5624  5.7045
+ D7_I10_W runstart_m noT       44   7974 0.2040     0.5747    0.5624  5.4318
+D7_I210_E  offlike_m   T       27   3048 0.2719     0.5272    0.5261  5.2593
+D7_I210_E  offlike_m noT       27   3030 0.2724     0.5294    0.5261  5.0741
+D7_I210_E runstart_m   T       36   4572 0.2653     0.5293    0.5223  5.8889
+D7_I210_E runstart_m noT       36   4572 0.2653     0.5293    0.5223  5.7500
+D7_I210_W  offlike_m   T       46  14124 0.2076     0.4668    0.4687 11.0870
+D7_I210_W  offlike_m noT       46  14094 0.2080     0.4669    0.4687 10.9348
+D7_I210_W runstart_m   T      197  62832 0.2037     0.4783    0.4736 10.1624
+D7_I210_W runstart_m noT      197  62346 0.2049     0.4791    0.4736 10.0457
+D7_I405_N  offlike_m   T       51  60396 0.3130     0.5505    0.5523 65.7843
+D7_I405_N  offlike_m noT       51  60348 0.3130     0.5505    0.5523 65.7647
+D7_I405_N runstart_m   T      201 215328 0.2683     0.5543    0.5493 47.7861
+D7_I405_N runstart_m noT      201 215214 0.2684     0.5542    0.5493 47.7662
+D7_I405_S  offlike_m   T       42  16416 0.3569     0.4962    0.4930 24.3333
+D7_I405_S  offlike_m noT       42  16416 0.3569     0.4962    0.4930 24.3571
+D7_I405_S runstart_m   T      201  75084 0.3458     0.4762    0.4767 21.7363
+D7_I405_S runstart_m noT      201  74994 0.3462     0.4762    0.4767 21.6667
+ D12_I5_N  offlike_m   T       34  21636 0.2328     0.5159    0.5171 24.5882
+ D12_I5_N  offlike_m noT       34  21582 0.2335     0.5156    0.5171 25.1765
+ D12_I5_N runstart_m   T       96  68640 0.2566     0.5250    0.5249 28.0729
+ D12_I5_N runstart_m noT       96  68616 0.2567     0.5250    0.5249 27.7708
+ D12_I5_S  offlike_m   T       41  15978 0.2145     0.5299    0.5298 14.1220
+ D12_I5_S  offlike_m noT       41  15954 0.2148     0.5300    0.5298 14.2439
+ D12_I5_S runstart_m   T      161  66330 0.2599     0.5297    0.5268 17.4907
+ D12_I5_S runstart_m noT      161  66204 0.2604     0.5296    0.5268 17.3975
+[    13s] DONE
+[run_heavy] exit 0 after 13s

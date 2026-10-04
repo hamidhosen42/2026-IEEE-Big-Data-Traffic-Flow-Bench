@@ -1,0 +1,238 @@
+[run_heavy] slot acquired after 326s
+[     1s] {'fold': 0, 'panel': 'D7_I10_E', 'src': '2030-08-09..2030-09-08', 'base_rows': 18641, 'src_w': 31, 'src_rows_raw': 3482, 'srcF_rows': 2315, 'srcS_w': 31, 'srcS_rows': 2327, 'baseS_w': 170, 'tgtR_w': 63, 'tgtM_w': 62} 1s
+[     2s] {'fold': 0, 'panel': 'D7_I10_W', 'src': '2030-08-09..2030-09-08', 'base_rows': 6590, 'src_w': 21, 'src_rows_raw': 1742, 'srcF_rows': 1209, 'srcS_w': 21, 'srcS_rows': 1217, 'baseS_w': 80, 'tgtR_w': 33, 'tgtM_w': 33} 1s
+[     4s] {'fold': 0, 'panel': 'D7_I210_E', 'src': '2030-08-09..2030-09-08', 'base_rows': 39469, 'src_w': 33, 'src_rows_raw': 7500, 'srcF_rows': 5010, 'srcS_w': 33, 'srcS_rows': 5014, 'baseS_w': 174, 'tgtR_w': 69, 'tgtM_w': 69} 2s
+[     5s] {'fold': 0, 'panel': 'D7_I210_W', 'src': '2030-08-09..2030-09-08', 'base_rows': 12196, 'src_w': 35, 'src_rows_raw': 2166, 'srcF_rows': 1409, 'srcS_w': 36, 'srcS_rows': 1456, 'baseS_w': 197, 'tgtR_w': 79, 'tgtM_w': 79} 1s
+[     7s] {'fold': 0, 'panel': 'D7_I405_N', 'src': '2030-08-09..2030-09-08', 'base_rows': 61160, 'src_w': 40, 'src_rows_raw': 10849, 'srcF_rows': 7116, 'srcS_w': 40, 'srcS_rows': 7154, 'baseS_w': 226, 'tgtR_w': 88, 'tgtM_w': 89} 2s
+[     8s] {'fold': 0, 'panel': 'D7_I405_S', 'src': '2030-08-09..2030-09-08', 'base_rows': 14239, 'src_w': 32, 'src_rows_raw': 2694, 'srcF_rows': 1782, 'srcS_w': 32, 'srcS_rows': 1781, 'baseS_w': 173, 'tgtR_w': 64, 'tgtM_w': 65} 1s
+[    10s] {'fold': 0, 'panel': 'D12_I5_N', 'src': '2030-08-09..2030-09-08', 'base_rows': 32797, 'src_w': 28, 'src_rows_raw': 5474, 'srcF_rows': 3359, 'srcS_w': 28, 'srcS_rows': 3370, 'baseS_w': 167, 'tgtR_w': 60, 'tgtM_w': 60} 2s
+[    11s] {'fold': 0, 'panel': 'D12_I5_S', 'src': '2030-08-09..2030-09-08', 'base_rows': 12788, 'src_w': 31, 'src_rows_raw': 2353, 'srcF_rows': 1612, 'srcS_w': 31, 'srcS_rows': 1614, 'baseS_w': 167, 'tgtR_w': 66, 'tgtM_w': 66} 1s
+ fold     panel                    src  base_rows  src_w  src_rows_raw  srcF_rows  srcS_w  srcS_rows  baseS_w  tgtR_w  tgtM_w
+    0  D7_I10_E 2030-08-09..2030-09-08      18641     31          3482       2315      31       2327      170      63      62
+    0  D7_I10_W 2030-08-09..2030-09-08       6590     21          1742       1209      21       1217       80      33      33
+    0 D7_I210_E 2030-08-09..2030-09-08      39469     33          7500       5010      33       5014      174      69      69
+    0 D7_I210_W 2030-08-09..2030-09-08      12196     35          2166       1409      36       1456      197      79      79
+    0 D7_I405_N 2030-08-09..2030-09-08      61160     40         10849       7116      40       7154      226      88      89
+    0 D7_I405_S 2030-08-09..2030-09-08      14239     32          2694       1782      32       1781      173      64      65
+    0  D12_I5_N 2030-08-09..2030-09-08      32797     28          5474       3359      28       3370      167      60      60
+    0  D12_I5_S 2030-08-09..2030-09-08      12788     31          2353       1612      31       1614      167      66      66
+[    11s] {'base': (197880, 0.0214), 'src_raw': (36260, 0.0213), 'src_F': (23812, 0.021), 'src_S': (23933, 0.0241), 'base_S': (131737, 0.0235)}
+[    30s] fold 0 i: 197880 rows, 19s
+[    43s] fold 0 i_mS: 131737 rows, 13s
+[    68s] fold 0 i_mix: 329617 rows, 24s
+[    87s] fold 0 ii_w10: 234140 rows, 19s
+[   104s] fold 0 iii_w10: 221692 rows, 18s
+[   122s] fold 0 iv_w10: 221813 rows, 18s
+[   147s] fold 0 iv_mix_w10: 353550 rows, 25s
+[   163s] fold 0 iv_mS_w10: 155670 rows, 16s
+[   179s] fold 0 ii_w20: 234140 rows, 16s
+[   197s] fold 0 iii_w20: 221692 rows, 18s
+[   214s] fold 0 iv_w20: 221813 rows, 17s
+[   240s] fold 0 iv_mix_w20: 353550 rows, 26s
+[   254s] fold 0 iv_mS_w20: 155670 rows, 14s
+[   272s] fold 0 ii_w40: 234140 rows, 17s
+[   289s] fold 0 iii_w40: 221692 rows, 17s
+[   307s] fold 0 iv_w40: 221813 rows, 18s
+[   334s] fold 0 iv_mix_w40: 353550 rows, 28s
+[   349s] fold 0 iv_mS_w40: 155670 rows, 14s
+[   368s] fold 0 ii_w1: 234140 rows, 19s
+[   376s] {'fold': 1, 'panel': 'D7_I10_E', 'src': '2030-07-09..2030-08-08', 'base_rows': 18774, 'src_w': 29, 'src_rows_raw': 3158, 'srcF_rows': 2124, 'srcS_w': 29, 'srcS_rows': 2134, 'baseS_w': 169, 'tgtR_w': 63, 'tgtM_w': 64} 1s
+[   377s] {'fold': 1, 'panel': 'D7_I10_W', 'src': '2030-07-09..2030-08-08', 'base_rows': 6527, 'src_w': 14, 'src_rows_raw': 1141, 'srcF_rows': 725, 'srcS_w': 14, 'srcS_rows': 729, 'baseS_w': 79, 'tgtR_w': 41, 'tgtM_w': 41} 1s
+[   379s] {'fold': 1, 'panel': 'D7_I210_E', 'src': '2030-07-09..2030-08-08', 'base_rows': 39475, 'src_w': 31, 'src_rows_raw': 6979, 'srcF_rows': 4412, 'srcS_w': 31, 'srcS_rows': 4409, 'baseS_w': 174, 'tgtR_w': 68, 'tgtM_w': 68} 2s
+[   380s] {'fold': 1, 'panel': 'D7_I210_W', 'src': '2030-07-09..2030-08-08', 'base_rows': 11937, 'src_w': 37, 'src_rows_raw': 2316, 'srcF_rows': 1553, 'srcS_w': 37, 'srcS_rows': 1529, 'baseS_w': 193, 'tgtR_w': 81, 'tgtM_w': 82} 1s
+[   383s] {'fold': 1, 'panel': 'D7_I405_N', 'src': '2030-07-09..2030-08-08', 'base_rows': 61255, 'src_w': 40, 'src_rows_raw': 10648, 'srcF_rows': 7570, 'srcS_w': 40, 'srcS_rows': 7520, 'baseS_w': 228, 'tgtR_w': 87, 'tgtM_w': 87} 3s
+[   384s] {'fold': 1, 'panel': 'D7_I405_S', 'src': '2030-07-09..2030-08-08', 'base_rows': 14147, 'src_w': 30, 'src_rows_raw': 2470, 'srcF_rows': 1676, 'srcS_w': 30, 'srcS_rows': 1671, 'baseS_w': 173, 'tgtR_w': 69, 'tgtM_w': 69} 1s
+[   386s] {'fold': 1, 'panel': 'D12_I5_N', 'src': '2030-07-09..2030-08-08', 'base_rows': 32280, 'src_w': 28, 'src_rows_raw': 5520, 'srcF_rows': 3613, 'srcS_w': 28, 'srcS_rows': 3595, 'baseS_w': 164, 'tgtR_w': 63, 'tgtM_w': 63} 2s
+[   387s] {'fold': 1, 'panel': 'D12_I5_S', 'src': '2030-07-09..2030-08-08', 'base_rows': 12673, 'src_w': 32, 'src_rows_raw': 2465, 'srcF_rows': 1738, 'srcS_w': 32, 'srcS_rows': 1743, 'baseS_w': 165, 'tgtR_w': 67, 'tgtM_w': 67} 1s
+ fold     panel                    src  base_rows  src_w  src_rows_raw  srcF_rows  srcS_w  srcS_rows  baseS_w  tgtR_w  tgtM_w
+    1  D7_I10_E 2030-07-09..2030-08-08      18774     29          3158       2124      29       2134      169      63      64
+    1  D7_I10_W 2030-07-09..2030-08-08       6527     14          1141        725      14        729       79      41      41
+    1 D7_I210_E 2030-07-09..2030-08-08      39475     31          6979       4412      31       4409      174      68      68
+    1 D7_I210_W 2030-07-09..2030-08-08      11937     37          2316       1553      37       1529      193      81      82
+    1 D7_I405_N 2030-07-09..2030-08-08      61255     40         10648       7570      40       7520      228      87      87
+    1 D7_I405_S 2030-07-09..2030-08-08      14147     30          2470       1676      30       1671      173      69      69
+    1  D12_I5_N 2030-07-09..2030-08-08      32280     28          5520       3613      28       3595      164      63      63
+    1  D12_I5_S 2030-07-09..2030-08-08      12673     32          2465       1738      32       1743      165      67      67
+[   387s] {'base': (197068, 0.0213), 'src_raw': (34697, 0.0213), 'src_F': (23411, 0.0211), 'src_S': (23330, 0.0237), 'base_S': (131499, 0.0233)}
+[   406s] fold 1 i: 197068 rows, 19s
+[   419s] fold 1 i_mS: 131499 rows, 13s
+[   442s] fold 1 i_mix: 328567 rows, 24s
+[   460s] fold 1 ii_w10: 231765 rows, 18s
+[   480s] fold 1 iii_w10: 220479 rows, 19s
+[   500s] fold 1 iv_w10: 220398 rows, 20s
+[   526s] fold 1 iv_mix_w10: 351897 rows, 26s
+[   539s] fold 1 iv_mS_w10: 154829 rows, 13s
+[   556s] fold 1 ii_w20: 231765 rows, 16s
+[   573s] fold 1 iii_w20: 220479 rows, 17s
+[   591s] fold 1 iv_w20: 220398 rows, 18s
+[   616s] fold 1 iv_mix_w20: 351897 rows, 25s
+[   630s] fold 1 iv_mS_w20: 154829 rows, 15s
+[   647s] fold 1 ii_w40: 231765 rows, 16s
+[   662s] fold 1 iii_w40: 220479 rows, 15s
+[   678s] fold 1 iv_w40: 220398 rows, 17s
+[   702s] fold 1 iv_mix_w40: 351897 rows, 24s
+[   715s] fold 1 iv_mS_w40: 154829 rows, 13s
+[   734s] fold 1 ii_w1: 231765 rows, 19s
+
+== target R: folds [0, 1], n = 1061 windows ==
+            arm    iou
+              i 0.8940
+           i_mS 0.8801
+          i_mix 0.8888
+         ii_w10 0.8880
+        iii_w10 0.8882
+         iv_w10 0.8881
+     iv_mix_w10 0.8903
+      iv_mS_w10 0.8791
+         ii_w20 0.8801
+        iii_w20 0.8826
+         iv_w20 0.8811
+     iv_mix_w20 0.8845
+      iv_mS_w20 0.8751
+         ii_w40 0.8697
+        iii_w40 0.8737
+         iv_w40 0.8705
+     iv_mix_w40 0.8769
+      iv_mS_w40 0.8640
+          ii_w1 0.8972
+         ii_bag 0.8838
+        iii_bag 0.8832
+         iv_bag 0.8848
+     iv_mix_bag 0.8871
+      iv_mS_bag 0.8747
+          i@ttm 0.8944
+         i@ttm1 0.8873
+         i@ttmr 0.8939
+       i_mS@ttm 0.8785
+      i_mS@ttm1 0.8801
+      i_mS@ttmr 0.8783
+      i_mix@ttm 0.8899
+     i_mix@ttm1 0.8898
+     i_mix@ttmr 0.8897
+     ii_bag@ttm 0.8812
+    ii_bag@ttm1 0.8804
+    ii_bag@ttmr 0.8842
+    iii_bag@ttm 0.8845
+   iii_bag@ttm1 0.8842
+   iii_bag@ttmr 0.8854
+     iv_bag@ttm 0.8827
+    iv_bag@ttm1 0.8844
+    iv_bag@ttmr 0.8836
+ iv_mix_bag@ttm 0.8846
+iv_mix_bag@ttm1 0.8869
+iv_mix_bag@ttmr 0.8881
+  iv_mS_bag@ttm 0.8750
+ iv_mS_bag@ttm1 0.8743
+ iv_mS_bag@ttmr 0.8749
+                  i_mS - i              0.8801 vs 0.8940  -0.0140 [-0.0218, -0.0062]  panels +1/-6 of 8  n=1061 
+                 i_mix - i              0.8888 vs 0.8940  -0.0052 [-0.0118, +0.0012]  panels +2/-5 of 8  n=1061 
+                ii_w10 - i              0.8880 vs 0.8940  -0.0060 [-0.0118, -0.0004]  panels +3/-4 of 8  n=1061 
+               iii_w10 - i              0.8882 vs 0.8940  -0.0059 [-0.0112, -0.0005]  panels +1/-6 of 8  n=1061 
+                iv_w10 - i              0.8881 vs 0.8940  -0.0060 [-0.0133, +0.0012]  panels +2/-5 of 8  n=1061 
+            iv_mix_w10 - i              0.8903 vs 0.8940  -0.0037 [-0.0108, +0.0035]  panels +2/-5 of 8  n=1061 
+             iv_mS_w10 - i              0.8791 vs 0.8940  -0.0149 [-0.0233, -0.0071]  panels +0/-6 of 8  n=1061 
+                ii_w20 - i              0.8801 vs 0.8940  -0.0140 [-0.0208, -0.0066]  panels +0/-7 of 8  n=1061 
+               iii_w20 - i              0.8826 vs 0.8940  -0.0114 [-0.0172, -0.0057]  panels +0/-7 of 8  n=1061 
+                iv_w20 - i              0.8811 vs 0.8940  -0.0129 [-0.0202, -0.0054]  panels +1/-6 of 8  n=1061 
+            iv_mix_w20 - i              0.8845 vs 0.8940  -0.0095 [-0.0176, -0.0021]  panels +1/-6 of 8  n=1061 
+             iv_mS_w20 - i              0.8751 vs 0.8940  -0.0189 [-0.0275, -0.0105]  panels +1/-6 of 8  n=1061 
+                ii_w40 - i              0.8697 vs 0.8940  -0.0244 [-0.0331, -0.0157]  panels +0/-7 of 8  n=1061 
+               iii_w40 - i              0.8737 vs 0.8940  -0.0204 [-0.0275, -0.0130]  panels +0/-7 of 8  n=1061 
+                iv_w40 - i              0.8705 vs 0.8940  -0.0235 [-0.0323, -0.0153]  panels +0/-7 of 8  n=1061 
+            iv_mix_w40 - i              0.8769 vs 0.8940  -0.0171 [-0.0255, -0.0091]  panels +1/-6 of 8  n=1061 
+             iv_mS_w40 - i              0.8640 vs 0.8940  -0.0300 [-0.0385, -0.0221]  panels +0/-7 of 8  n=1061 
+                 ii_w1 - i              0.8972 vs 0.8940  +0.0031 [-0.0020, +0.0085]  panels +4/-3 of 8  n=1061 
+                ii_bag - i              0.8838 vs 0.8940  -0.0102 [-0.0166, -0.0035]  panels +1/-6 of 8  n=1061 
+               iii_bag - i              0.8832 vs 0.8940  -0.0108 [-0.0166, -0.0050]  panels +0/-7 of 8  n=1061 
+                iv_bag - i              0.8848 vs 0.8940  -0.0092 [-0.0162, -0.0023]  panels +1/-6 of 8  n=1061 
+            iv_mix_bag - i              0.8871 vs 0.8940  -0.0070 [-0.0150, +0.0005]  panels +2/-5 of 8  n=1061 
+             iv_mS_bag - i              0.8747 vs 0.8940  -0.0194 [-0.0283, -0.0104]  panels +1/-6 of 8  n=1061 
+                 i@ttm - i              0.8944 vs 0.8940  +0.0004 [-0.0027, +0.0035]  panels +3/-3 of 8  n=1061 
+                i@ttm1 - i              0.8873 vs 0.8940  -0.0068 [-0.0117, -0.0020]  panels +2/-4 of 8  n=1061 
+                i@ttmr - i              0.8939 vs 0.8940  -0.0001 [-0.0021, +0.0019]  panels +1/-4 of 8  n=1061 
+              i_mS@ttm - i              0.8785 vs 0.8940  -0.0156 [-0.0228, -0.0085]  panels +0/-7 of 8  n=1061 
+             i_mS@ttm1 - i              0.8801 vs 0.8940  -0.0140 [-0.0210, -0.0068]  panels +0/-7 of 8  n=1061 
+             i_mS@ttmr - i              0.8783 vs 0.8940  -0.0158 [-0.0231, -0.0088]  panels +1/-6 of 8  n=1061 
+             i_mix@ttm - i              0.8899 vs 0.8940  -0.0041 [-0.0102, +0.0019]  panels +3/-3 of 8  n=1061 
+            i_mix@ttm1 - i              0.8898 vs 0.8940  -0.0042 [-0.0106, +0.0021]  panels +2/-4 of 8  n=1061 
+            i_mix@ttmr - i              0.8897 vs 0.8940  -0.0044 [-0.0109, +0.0022]  panels +3/-4 of 8  n=1061 
+            ii_bag@ttm - i              0.8812 vs 0.8940  -0.0128 [-0.0194, -0.0058]  panels +2/-5 of 8  n=1061 
+           ii_bag@ttm1 - i              0.8804 vs 0.8940  -0.0136 [-0.0204, -0.0068]  panels +2/-5 of 8  n=1061 
+           ii_bag@ttmr - i              0.8842 vs 0.8940  -0.0098 [-0.0162, -0.0034]  panels +1/-6 of 8  n=1061 
+           iii_bag@ttm - i              0.8845 vs 0.8940  -0.0095 [-0.0152, -0.0038]  panels +1/-6 of 8  n=1061 
+          iii_bag@ttm1 - i              0.8842 vs 0.8940  -0.0098 [-0.0156, -0.0037]  panels +1/-6 of 8  n=1061 
+          iii_bag@ttmr - i              0.8854 vs 0.8940  -0.0086 [-0.0142, -0.0031]  panels +1/-6 of 8  n=1061 
+            iv_bag@ttm - i              0.8827 vs 0.8940  -0.0113 [-0.0194, -0.0036]  panels +3/-4 of 8  n=1061 
+           iv_bag@ttm1 - i              0.8844 vs 0.8940  -0.0097 [-0.0174, -0.0023]  panels +2/-5 of 8  n=1061 
+           iv_bag@ttmr - i              0.8836 vs 0.8940  -0.0105 [-0.0175, -0.0035]  panels +2/-5 of 8  n=1061 
+        iv_mix_bag@ttm - i              0.8846 vs 0.8940  -0.0094 [-0.0171, -0.0021]  panels +1/-6 of 8  n=1061 
+       iv_mix_bag@ttm1 - i              0.8869 vs 0.8940  -0.0071 [-0.0144, -0.0002]  panels +2/-5 of 8  n=1061 
+       iv_mix_bag@ttmr - i              0.8881 vs 0.8940  -0.0060 [-0.0138, +0.0014]  panels +2/-5 of 8  n=1061 
+         iv_mS_bag@ttm - i              0.8750 vs 0.8940  -0.0190 [-0.0280, -0.0102]  panels +1/-6 of 8  n=1061 
+        iv_mS_bag@ttm1 - i              0.8743 vs 0.8940  -0.0197 [-0.0284, -0.0116]  panels +1/-6 of 8  n=1061 
+        iv_mS_bag@ttmr - i              0.8749 vs 0.8940  -0.0192 [-0.0286, -0.0105]  panels +1/-6 of 8  n=1061 
+               iii_bag - ii_bag         0.8832 vs 0.8838  -0.0006 [-0.0051, +0.0035]  panels +3/-3 of 8  n=1061 
+                iv_bag - ii_bag         0.8848 vs 0.8838  +0.0010 [-0.0059, +0.0072]  panels +4/-3 of 8  n=1061 
+            iv_mix_bag - ii_bag         0.8871 vs 0.8838  +0.0033 [-0.0039, +0.0096]  panels +5/-2 of 8  n=1061 
+             iv_mS_bag - i_mS           0.8747 vs 0.8801  -0.0054 [-0.0139, +0.0027]  panels +2/-4 of 8  n=1061 
+            iv_mix_bag - i_mix          0.8871 vs 0.8888  -0.0017 [-0.0094, +0.0060]  panels +2/-5 of 8  n=1061 
+            iv_bag@ttm - ii_bag         0.8827 vs 0.8838  -0.0011 [-0.0077, +0.0054]  panels +6/-1 of 8  n=1061 
+            iv_bag@ttm - iv_bag         0.8827 vs 0.8848  -0.0021 [-0.0054, +0.0020]  panels +4/-3 of 8  n=1061 
+           iv_bag@ttmr - iv_bag         0.8836 vs 0.8848  -0.0012 [-0.0028, +0.0002]  panels +2/-3 of 8  n=1061 
+
+== target M: folds [0, 1], n = 1064 windows ==
+       arm    iou
+         i 0.8747
+      i_mS 0.8711
+     i_mix 0.8810
+    ii_w10 0.8757
+   iii_w10 0.8731
+    iv_w10 0.8709
+iv_mix_w10 0.8778
+ iv_mS_w10 0.8687
+    ii_w20 0.8663
+   iii_w20 0.8664
+    iv_w20 0.8692
+iv_mix_w20 0.8732
+ iv_mS_w20 0.8661
+    ii_w40 0.8571
+   iii_w40 0.8599
+    iv_w40 0.8570
+iv_mix_w40 0.8629
+ iv_mS_w40 0.8555
+     ii_w1 0.8782
+    ii_bag 0.8747
+   iii_bag 0.8728
+    iv_bag 0.8686
+iv_mix_bag 0.8775
+ iv_mS_bag 0.8682
+                  i_mS - i              0.8711 vs 0.8747  -0.0036 [-0.0135, +0.0065]  panels +3/-4 of 8  n=1064 
+                 i_mix - i              0.8810 vs 0.8747  +0.0063 [-0.0023, +0.0157]  panels +3/-4 of 8  n=1064 
+                ii_w10 - i              0.8757 vs 0.8747  +0.0010 [-0.0069, +0.0092]  panels +4/-3 of 8  n=1064 
+               iii_w10 - i              0.8731 vs 0.8747  -0.0016 [-0.0092, +0.0059]  panels +3/-4 of 8  n=1064 
+                iv_w10 - i              0.8709 vs 0.8747  -0.0038 [-0.0116, +0.0035]  panels +4/-3 of 8  n=1064 
+            iv_mix_w10 - i              0.8778 vs 0.8747  +0.0031 [-0.0060, +0.0124]  panels +4/-3 of 8  n=1064 
+             iv_mS_w10 - i              0.8687 vs 0.8747  -0.0060 [-0.0153, +0.0036]  panels +2/-5 of 8  n=1064 
+                ii_w20 - i              0.8663 vs 0.8747  -0.0084 [-0.0162, -0.0001]  panels +1/-5 of 8  n=1064 
+               iii_w20 - i              0.8664 vs 0.8747  -0.0083 [-0.0180, +0.0016]  panels +3/-4 of 8  n=1064 
+                iv_w20 - i              0.8692 vs 0.8747  -0.0055 [-0.0153, +0.0042]  panels +3/-4 of 8  n=1064 
+            iv_mix_w20 - i              0.8732 vs 0.8747  -0.0014 [-0.0115, +0.0082]  panels +3/-4 of 8  n=1064 
+             iv_mS_w20 - i              0.8661 vs 0.8747  -0.0085 [-0.0191, +0.0022]  panels +2/-5 of 8  n=1064 
+                ii_w40 - i              0.8571 vs 0.8747  -0.0176 [-0.0281, -0.0075]  panels +2/-5 of 8  n=1064 
+               iii_w40 - i              0.8599 vs 0.8747  -0.0147 [-0.0234, -0.0053]  panels +1/-6 of 8  n=1064 
+                iv_w40 - i              0.8570 vs 0.8747  -0.0176 [-0.0285, -0.0071]  panels +2/-5 of 8  n=1064 
+            iv_mix_w40 - i              0.8629 vs 0.8747  -0.0118 [-0.0218, -0.0015]  panels +2/-5 of 8  n=1064 
+             iv_mS_w40 - i              0.8555 vs 0.8747  -0.0192 [-0.0297, -0.0085]  panels +1/-6 of 8  n=1064 
+                 ii_w1 - i              0.8782 vs 0.8747  +0.0036 [-0.0033, +0.0105]  panels +4/-3 of 8  n=1064 
+                ii_bag - i              0.8747 vs 0.8747  -0.0000 [-0.0082, +0.0092]  panels +2/-5 of 8  n=1064 
+               iii_bag - i              0.8728 vs 0.8747  -0.0019 [-0.0098, +0.0065]  panels +3/-4 of 8  n=1064 
+                iv_bag - i              0.8686 vs 0.8747  -0.0061 [-0.0151, +0.0025]  panels +2/-5 of 8  n=1064 
+            iv_mix_bag - i              0.8775 vs 0.8747  +0.0028 [-0.0063, +0.0124]  panels +3/-4 of 8  n=1064 
+             iv_mS_bag - i              0.8682 vs 0.8747  -0.0065 [-0.0167, +0.0037]  panels +2/-5 of 8  n=1064 
+               iii_bag - ii_bag         0.8728 vs 0.8747  -0.0019 [-0.0097, +0.0063]  panels +4/-3 of 8  n=1064 
+                iv_bag - ii_bag         0.8686 vs 0.8747  -0.0061 [-0.0142, +0.0016]  panels +1/-5 of 8  n=1064 
+            iv_mix_bag - ii_bag         0.8775 vs 0.8747  +0.0028 [-0.0046, +0.0102]  panels +5/-1 of 8  n=1064 
+             iv_mS_bag - i_mS           0.8682 vs 0.8711  -0.0029 [-0.0112, +0.0054]  panels +3/-3 of 8  n=1064 
+            iv_mix_bag - i_mix          0.8775 vs 0.8810  -0.0035 [-0.0120, +0.0044]  panels +3/-4 of 8  n=1064 
+[   750s] DONE
+[run_heavy] exit 0 after 1076s

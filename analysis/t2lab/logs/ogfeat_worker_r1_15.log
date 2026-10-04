@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 1677s
+[worker] Sun Oct  4 21:13:55 2026 start: np g2b=g2b folds=01
+[worker] Sun Oct  4 21:20:33 2026 exit 0 after 398s: np g2b=g2b folds=01
+[worker] Sun Oct  4 21:20:33 2026 start: np all2=g1b+g2+g3+g1c+g2b folds=01
+[worker] Sun Oct  4 21:31:07 2026 exit 0 after 1033s: np all2=g1b+g2+g3+g1c+g2b folds=01
+[worker] done
+[run_heavy] exit 0 after 2710s

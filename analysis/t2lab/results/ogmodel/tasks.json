@@ -1,0 +1,60 @@
+[
+ {
+  "name": "regime_np",
+  "est_min": 13.0,
+  "log": "logs/ogmodel_regime_np255.log",
+  "env": {},
+  "cmd": [
+   "../../.venv/bin/python",
+   "ogmodel_regime.py",
+   "np",
+   "0.3",
+   "0.046",
+   "01234"
+  ],
+  "state": "pending"
+ },
+ {
+  "name": "noT_np",
+  "est_min": 11.0,
+  "log": "logs/ogmodel_noT_np255.log",
+  "env": {},
+  "cmd": [
+   "../../.venv/bin/python",
+   "ogmodel_noT.py",
+   "run",
+   "np",
+   "014"
+  ],
+  "state": "pending"
+ },
+ {
+  "name": "v23_localtest",
+  "est_min": 3.0,
+  "log": "logs/ogmodel_v23_localtest.log",
+  "env": {},
+  "cmd": [
+   "../../.venv/bin/python",
+   "ogmodel_v23_localtest.py"
+  ],
+  "state": "pending"
+ },
+ {
+  "name": "hg33_diff",
+  "est_min": 10.0,
+  "log": "logs/ogmodel_run_hg33_diff_np255.log",
+  "env": {},
+  "cmd": [
+   "../../.venv/bin/python",
+   "ogmodel_run.py",
+   "hg33,diff",
+   "np",
+   "255",
+   "0.05",
+   "500",
+   "01",
+   "0"
+  ],
+  "state": "pending"
+ }
+]

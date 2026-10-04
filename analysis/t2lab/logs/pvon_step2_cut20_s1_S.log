@@ -1,0 +1,80 @@
+[     1s] D7_I10_E {'panel': 'D7_I10_E', 'march_train_w': 14, 'march_rows': 1058, 'eval_w': 11, 'raw_w': 265, 'raw_rows': 29422, 'raw_pos': 1381, 'S1': '(267, 19603, 945)'} 1s
+[     2s] D7_I10_W {'panel': 'D7_I10_W', 'march_train_w': 13, 'march_rows': 877, 'eval_w': 8, 'raw_w': 134, 'raw_rows': 11050, 'raw_pos': 198, 'S1': '(134, 7364, 180)'} 1s
+[     4s] D7_I210_E {'panel': 'D7_I210_E', 'march_train_w': 16, 'march_rows': 2564, 'eval_w': 11, 'raw_w': 276, 'raw_rows': 62564, 'raw_pos': 1056, 'S1': '(276, 41629, 723)'} 2s
+[     5s] D7_I210_W {'panel': 'D7_I210_W', 'march_train_w': 20, 'march_rows': 785, 'eval_w': 12, 'raw_w': 311, 'raw_rows': 19268, 'raw_pos': 728, 'S1': '(312, 12832, 583)'} 1s
+[     7s] D7_I405_N {'panel': 'D7_I405_N', 'march_train_w': 22, 'march_rows': 4136, 'eval_w': 14, 'raw_w': 355, 'raw_rows': 95500, 'raw_pos': 621, 'S1': '(355, 64015, 508)'} 2s
+[     8s] D7_I405_S {'panel': 'D7_I405_S', 'march_train_w': 16, 'march_rows': 789, 'eval_w': 11, 'raw_w': 271, 'raw_rows': 22537, 'raw_pos': 1267, 'S1': '(274, 15180, 885)'} 1s
+[    10s] D12_I5_N {'panel': 'D12_I5_N', 'march_train_w': 11, 'march_rows': 1562, 'eval_w': 10, 'raw_w': 255, 'raw_rows': 50188, 'raw_pos': 682, 'S1': '(255, 32770, 510)'} 2s
+[    11s] D12_I5_S {'panel': 'D12_I5_S', 'march_train_w': 15, 'march_rows': 793, 'eval_w': 11, 'raw_w': 264, 'raw_rows': 20253, 'raw_pos': 728, 'S1': '(264, 13725, 536)'} 1s
+    panel  march_train_w  march_rows  eval_w  raw_w  raw_rows  raw_pos                S1
+ D7_I10_E             14        1058      11    265     29422     1381 (267, 19603, 945)
+ D7_I10_W             13         877       8    134     11050      198  (134, 7364, 180)
+D7_I210_E             16        2564      11    276     62564     1056 (276, 41629, 723)
+D7_I210_W             20         785      12    311     19268      728 (312, 12832, 583)
+D7_I405_N             22        4136      14    355     95500      621 (355, 64015, 508)
+D7_I405_S             16         789      11    271     22537     1267 (274, 15180, 885)
+ D12_I5_N             11        1562      10    255     50188      682 (255, 32770, 510)
+ D12_I5_S             15         793      11    264     20253      728 (264, 13725, 536)
+[    11s] March training rows 12564 pos rate 0.0225 | raw train rows 310782 pos rate 0.0214
+[    36s] A trained on 310782 rows in 25s
+[    63s] B_w10 trained on 323346 rows in 27s
+[    89s] B_w20 trained on 323346 rows in 26s
+[   114s] B_w40 trained on 323346 rows in 26s
+[   139s] B_w2 trained on 323346 rows in 25s
+[   166s] B_w5 trained on 323346 rows in 27s
+[   166s] mask seed 1: F rows 310782 pos 0.0214 | S rows 207118 pos 0.0235
+[   186s] AmS_all#1 trained on 207118 rows in 19s
+[   205s] BmS_all#1_w10 trained on 219682 rows in 20s
+[   226s] BmS_all#1_w20 trained on 219682 rows in 20s
+[   246s] BmS_all#1_w40 trained on 219682 rows in 20s
+[   283s] AmS_mix#1 trained on 517900 rows in 37s
+[   322s] BmS_mix#1_w10 trained on 530464 rows in 39s
+[   361s] BmS_mix#1_w20 trained on 530464 rows in 39s
+[   397s] BmS_mix#1_w40 trained on 530464 rows in 36s
+
+== pseudo-March onset, days >= 20 (masked evaluation regime) ==
+        arm    iou  n
+          A 0.7320 88
+       A_s4 0.8318 88
+      B_w10 0.8812 88
+      B_w20 0.8894 88
+      B_w40 0.8801 88
+      B_bag 0.8883 88
+       B_w2 0.8538 88
+       B_w5 0.8517 88
+     B_bagL 0.8756 88
+    AmS_all 0.8401 88
+BmS_all_w10 0.8646 88
+BmS_all_w20 0.8713 88
+BmS_all_w40 0.8716 88
+BmS_all_bag 0.8727 88
+    AmS_mix 0.8481 88
+BmS_mix_w10 0.8745 88
+BmS_mix_w20 0.8433 88
+BmS_mix_w40 0.8775 88
+BmS_mix_bag 0.8750 88
+
+== paired bootstrap ==
+                     A - A_s4           0.7320 vs 0.8318  -0.0998 [-0.1582, -0.0437]  panels +1/-4 of 8  n=88 
+                 B_w10 - A_s4           0.8812 vs 0.8318  +0.0494 [+0.0009, +0.0998]  panels +4/-2 of 8  n=88 
+                 B_w20 - A_s4           0.8894 vs 0.8318  +0.0577 [+0.0146, +0.1028]  panels +4/-1 of 8  n=88 
+                 B_w40 - A_s4           0.8801 vs 0.8318  +0.0483 [+0.0004, +0.0953]  panels +3/-2 of 8  n=88 
+                 B_bag - A_s4           0.8883 vs 0.8318  +0.0565 [+0.0094, +0.1061]  panels +4/-1 of 8  n=88 
+                  B_w2 - A_s4           0.8538 vs 0.8318  +0.0220 [-0.0012, +0.0509]  panels +4/-1 of 8  n=88 
+                  B_w5 - A_s4           0.8517 vs 0.8318  +0.0200 [-0.0237, +0.0611]  panels +3/-2 of 8  n=88 
+                B_bagL - A_s4           0.8756 vs 0.8318  +0.0438 [+0.0004, +0.0893]  panels +4/-2 of 8  n=88 
+               AmS_all - A_s4           0.8401 vs 0.8318  +0.0083 [-0.0365, +0.0507]  panels +2/-3 of 8  n=88 
+           BmS_all_w10 - A_s4           0.8646 vs 0.8318  +0.0328 [-0.0127, +0.0817]  panels +4/-1 of 8  n=88 
+           BmS_all_w20 - A_s4           0.8713 vs 0.8318  +0.0395 [-0.0083, +0.0899]  panels +3/-2 of 8  n=88 
+           BmS_all_w40 - A_s4           0.8716 vs 0.8318  +0.0398 [-0.0080, +0.0901]  panels +4/-1 of 8  n=88 
+           BmS_all_bag - A_s4           0.8727 vs 0.8318  +0.0410 [-0.0072, +0.0912]  panels +4/-1 of 8  n=88 
+               AmS_mix - A_s4           0.8481 vs 0.8318  +0.0163 [-0.0137, +0.0483]  panels +2/-2 of 8  n=88 
+           BmS_mix_w10 - A_s4           0.8745 vs 0.8318  +0.0428 [-0.0029, +0.0890]  panels +4/-1 of 8  n=88 
+           BmS_mix_w20 - A_s4           0.8433 vs 0.8318  +0.0115 [-0.0323, +0.0575]  panels +3/-2 of 8  n=88 
+           BmS_mix_w40 - A_s4           0.8775 vs 0.8318  +0.0458 [-0.0009, +0.0992]  panels +4/-2 of 8  n=88 
+           BmS_mix_bag - A_s4           0.8750 vs 0.8318  +0.0432 [-0.0046, +0.0935]  panels +4/-1 of 8  n=88 
+           BmS_all_bag - AmS_all        0.8727 vs 0.8401  +0.0327 [-0.0060, +0.0750]  panels +4/-1 of 8  n=88 same-regime effect of the March rows
+           BmS_all_bag - B_bag          0.8727 vs 0.8883  -0.0155 [-0.0322, -0.0023]  panels +0/-2 of 8  n=88 vs the kernel recipe
+           BmS_mix_bag - AmS_mix        0.8750 vs 0.8481  +0.0269 [-0.0148, +0.0695]  panels +4/-1 of 8  n=88 same-regime effect of the March rows
+           BmS_mix_bag - B_bag          0.8750 vs 0.8883  -0.0133 [-0.0291, +0.0000]  panels +0/-2 of 8  n=88 vs the kernel recipe
+[   400s] DONE

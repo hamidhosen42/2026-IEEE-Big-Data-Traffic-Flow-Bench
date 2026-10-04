@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E official 5 (parity ok), offlike 381 (parity ok), pseudo 229, runstart 1500, faith3 3538 1s
+[     1s] D7_I10_W official 5 (parity ok), offlike 131 (parity ok), pseudo 4, runstart 268, faith3 590 0s
+[     1s] D7_I210_E official 5 (parity ok), offlike 276 (parity ok), pseudo 439, runstart 373, faith3 801 1s
+[     2s] D7_I210_W official 5 (parity ok), offlike 448 (parity ok), pseudo 386, runstart 2054, faith3 4103 0s
+[     3s] D7_I405_N official 5 (parity ok), offlike 506 (parity ok), pseudo 373, runstart 1910, faith3 7078 1s
+[     4s] D7_I405_S official 5 (parity ok), offlike 403 (parity ok), pseudo 223, runstart 1572, faith3 4277 0s
+[     4s] D12_I5_N official 5 (parity ok), offlike 421 (parity ok), pseudo 194, runstart 1118, faith3 4326 1s
+[     5s] D12_I5_S official 5 (parity ok), offlike 426 (parity ok), pseudo 210, runstart 1894, faith3 4573 0s
+[     5s] PREP DONE
+[run_heavy] exit 0 after 6s

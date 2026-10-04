@@ -1,0 +1,2 @@
+14 logs/pvog_exp2_maskctl_X.log
+../../.venv/bin/python pvog_maskctl.py X 15 5

@@ -1,0 +1,23 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_joint_np255_s1: struct joint {}, cols np, leaves 255, lr 0.05, trees 500, folds (0, 1, 2, 3), seed 1
+[   136s] og_joint_np255_s1 fold 0: 6077021 rows x 58 cols, 1 model(s) in 136s
+[   146s] og_joint_np255_s1 fold 0: official 0.8848 (n=40), offlike 0.8781 (n=726), pseudo 0.8764 (n=525)
+[   274s] og_joint_np255_s1 fold 1: 5844108 rows x 58 cols, 1 model(s) in 129s
+[   286s] og_joint_np255_s1 fold 1: official nan (n=0), offlike 0.8794 (n=747), pseudo 0.8527 (n=530)
+[   424s] og_joint_np255_s1 fold 2: 5997115 rows x 58 cols, 1 model(s) in 139s
+[   434s] og_joint_np255_s1 fold 2: official nan (n=0), offlike 0.8746 (n=748), pseudo 0.8750 (n=503)
+[   568s] og_joint_np255_s1 fold 3: 6061317 rows x 58 cols, 1 model(s) in 134s
+[   578s] og_joint_np255_s1 fold 3: official nan (n=0), offlike 0.8737 (n=771), pseudo 0.8627 (n=500)
+
+== og_joint_np255_s1 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8848 0.9009 0.9199 0.9197 0.9257 0.8596 0.7669      0.0581        0.0369 0.0202
+ offlike 2992 0.8763 0.9448 0.9244 0.8937 0.8797 0.8622 0.8054      0.0445        0.0423 0.0369
+  pseudo 2058 0.8543 0.9517 0.9392 0.8811 0.8427 0.8333 0.7091      0.0240        0.0742 0.0475
+paired vs fc_F03_np255 (common windows):
+              arm      set    n   base    iou    diff      lo     hi  p_pos panels_pos  panels_neg    d_h6
+og_joint_np255_s1 official   40 0.8899 0.8848 -0.0050 -0.0102 0.0003 0.0355        2/8           5 -0.0081
+og_joint_np255_s1  offlike 2992 0.8751 0.8763  0.0012  0.0001 0.0024 0.9815        6/8           2  0.0020
+og_joint_np255_s1   pseudo 2058 0.8516 0.8543  0.0027 -0.0014 0.0081 0.8645        4/8           4  0.0374
+[   579s] DONE ['joint']
+[run_heavy] exit 0 after 579s

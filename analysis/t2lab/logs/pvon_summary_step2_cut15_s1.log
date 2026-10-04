@@ -1,0 +1,54 @@
+
+===== step 2 results/pvon/step2_cut15_s1_S.pkl: n = 131
+        arm    iou  plain   n
+          A 0.7066 0.7228 131
+       A_s4 0.8123 0.8162 131
+      B_w10 0.8580 0.8598 131
+      B_w20 0.8523 0.8536 131
+      B_w40 0.8515 0.8525 131
+      B_bag 0.8578 0.8595 131
+       B_w2 0.8467 0.8487 131
+       B_w5 0.8564 0.8573 131
+     B_bagL 0.8578 0.8595 131
+    AmS_all 0.8278 0.8324 131
+BmS_all_w10 0.8481 0.8499 131
+BmS_all_w20 0.8394 0.8421 131
+BmS_all_w40 0.8360 0.8388 131
+BmS_all_bag 0.8531 0.8562 131
+    AmS_mix 0.8315 0.8352 131
+BmS_mix_w10 0.8561 0.8581 131
+BmS_mix_w20 0.8421 0.8449 131
+BmS_mix_w40 0.8544 0.8560 131
+BmS_mix_bag 0.8580 0.8604 131
+                  A_s4 - A              0.8123 vs 0.7066  +0.1057 [+0.0578, +0.1556]  panels +4/-3 of 8  n=131  changed 30
+                 B_w10 - A_s4           0.8580 vs 0.8123  +0.0458 [+0.0158, +0.0811]  panels +6/-0 of 8  n=131  changed 16
+                 B_w20 - A_s4           0.8523 vs 0.8123  +0.0401 [+0.0076, +0.0756]  panels +6/-0 of 8  n=131  changed 18
+                 B_w40 - A_s4           0.8515 vs 0.8123  +0.0393 [+0.0096, +0.0750]  panels +6/-1 of 8  n=131  changed 17
+                 B_bag - A_s4           0.8578 vs 0.8123  +0.0455 [+0.0156, +0.0807]  panels +6/-0 of 8  n=131  changed 16
+               AmS_all - A_s4           0.8278 vs 0.8123  +0.0155 [-0.0183, +0.0482]  panels +4/-3 of 8  n=131  changed 18
+           BmS_all_bag - AmS_all        0.8531 vs 0.8278  +0.0254 [-0.0057, +0.0556]  panels +5/-2 of 8  n=131  changed 19
+           BmS_all_bag - A_s4           0.8531 vs 0.8123  +0.0409 [+0.0052, +0.0785]  panels +5/-1 of 8  n=131  changed 21
+           BmS_all_bag - B_bag          0.8531 vs 0.8578  -0.0047 [-0.0233, +0.0120]  panels +2/-3 of 8  n=131  changed 10
+               AmS_mix - A_s4           0.8315 vs 0.8123  +0.0192 [-0.0031, +0.0440]  panels +4/-1 of 8  n=131  changed 11
+           BmS_mix_bag - AmS_mix        0.8580 vs 0.8315  +0.0265 [+0.0011, +0.0554]  panels +5/-1 of 8  n=131  changed 15
+           BmS_mix_bag - A_s4           0.8580 vs 0.8123  +0.0457 [+0.0144, +0.0810]  panels +6/-0 of 8  n=131  changed 16
+           BmS_mix_bag - B_bag          0.8580 vs 0.8578  +0.0001 [-0.0072, +0.0090]  panels +1/-2 of 8  n=131  changed 4
+-- by mask regime of the evaluation day (visible share of eligible cells)
+regime 0.5: n = 48
+                 B_bag - A_s4           0.8177 vs 0.7915  +0.0262 [-0.0063, +0.0682]  panels +2/-0 of 8  n=48  changed 5
+               AmS_all - A_s4           0.8363 vs 0.7915  +0.0448 [+0.0000, +0.0954]  panels +2/-1 of 8  n=48  changed 4
+           BmS_all_bag - AmS_all        0.8104 vs 0.8363  -0.0259 [-0.0880, +0.0212]  panels +1/-3 of 8  n=48  changed 6
+               AmS_mix - A_s4           0.8391 vs 0.7915  +0.0476 [+0.0000, +0.0982]  panels +2/-0 of 8  n=48  changed 3
+           BmS_mix_bag - AmS_mix        0.8209 vs 0.8391  -0.0182 [-0.0627, +0.0187]  panels +1/-3 of 8  n=48  changed 6
+regime 0.7: n = 31
+                 B_bag - A_s4           0.7943 vs 0.7417  +0.0526 [+0.0083, +0.1047]  panels +3/-0 of 8  n=31  changed 4
+               AmS_all - A_s4           0.6948 vs 0.7417  -0.0469 [-0.1042, +0.0052]  panels +1/-4 of 8  n=31  changed 5
+           BmS_all_bag - AmS_all        0.8151 vs 0.6948  +0.1203 [+0.0656, +0.1865]  panels +5/-0 of 8  n=31  changed 7
+               AmS_mix - A_s4           0.7417 vs 0.7417  +0.0000 [-0.0156, +0.0156]  panels +1/-1 of 8  n=31  changed 2
+           BmS_mix_bag - AmS_mix        0.7943 vs 0.7417  +0.0526 [+0.0000, +0.1177]  panels +3/-0 of 8  n=31  changed 5
+regime 0.8: n = 52
+                 B_bag - A_s4           0.9095 vs 0.8672  +0.0423 [+0.0004, +0.0848]  panels +4/-0 of 8  n=52  changed 7
+               AmS_all - A_s4           0.8915 vs 0.8672  +0.0243 [-0.0257, +0.0714]  panels +2/-1 of 8  n=52  changed 9
+           BmS_all_bag - AmS_all        0.9006 vs 0.8915  +0.0091 [-0.0342, +0.0475]  panels +2/-1 of 8  n=52  changed 6
+               AmS_mix - A_s4           0.8819 vs 0.8672  +0.0146 [-0.0213, +0.0511]  panels +2/-1 of 8  n=52  changed 6
+           BmS_mix_bag - AmS_mix        0.9065 vs 0.8819  +0.0247 [-0.0030, +0.0601]  panels +3/-0 of 8  n=52  changed 4

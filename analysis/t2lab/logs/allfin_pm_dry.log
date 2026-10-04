@@ -1,0 +1,10 @@
+[    23s] all-finite catboost onset trained on 310782 rows 23s pos rate 0.0214
+
+== label-free footprint on the released official windows: decoded masks vs base model on eligible-only features ==
+                          windows  cells_base  all_changed  all_jacc  all_cells  all_n  cross_changed  cross_jacc  cross_cells  afelig_changed  afelig_jacc  hist_vis_elig  hist_vis_all  T_vis_elig  T_vis_all
+split      cond                                                                                                                                                                                                
+private    queue_ongoing       40        4869           30    0.9698         96   4849             25      0.9837           50              28       0.9671         0.7644        0.8350      0.5218     0.5970
+           queue_onset         40         155            5    0.9292         12    159              3      0.9804            3               5       0.9292         0.7644        0.8350      0.5218     0.5970
+validation queue_ongoing       40        5300           25    0.9620        101   5283             17      0.9729           52              24       0.9789         0.7616        0.8329      0.5118     0.5767
+           queue_onset         40         153            8    0.9074         14    155              2      0.9825            2               8       0.9024         0.7616        0.8329      0.5118     0.5767
+[    33s] DONE ['dry']

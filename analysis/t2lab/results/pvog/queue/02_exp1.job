@@ -1,0 +1,2 @@
+7 logs/pvog_exp1_marchtrain_15_5.log
+../../.venv/bin/python pvog_marchtrain.py 15 5

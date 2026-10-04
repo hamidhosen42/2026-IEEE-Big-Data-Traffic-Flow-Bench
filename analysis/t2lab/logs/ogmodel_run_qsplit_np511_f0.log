@@ -1,0 +1,17 @@
+[run_heavy] slot acquired after 571s
+[     0s] === og_qsplit_np511: struct qsplit {'part': 'q'}, cols np, leaves 511, lr 0.03, trees 1800, folds (0,), seed 0
+[   928s] og_qsplit_np511 fold 0: 6077021 rows x 58 cols, 2 model(s) in 928s
+[  1039s] og_qsplit_np511 fold 0: official 0.8904 (n=40), offlike 0.8849 (n=726), pseudo 0.8804 (n=525)
+
+== og_qsplit_np511 (folds on disk: [0]) ==
+     set   n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official  40 0.8904 0.9154 0.9269 0.9393 0.9069 0.8584 0.8348      0.0555        0.0245 0.0295
+ offlike 726 0.8849 0.9515 0.9309 0.9084 0.8854 0.8651 0.8275      0.0414        0.0314 0.0422
+  pseudo 525 0.8804 0.9728 0.9463 0.9136 0.9055 0.8701 0.7255      0.0345        0.0289 0.0563
+paired vs fc_F03_np255 (common windows):
+            arm      set   n   base    iou   diff      lo     hi  p_pos panels_pos  panels_neg    d_h6
+og_qsplit_np511 official  40 0.8899 0.8904 0.0006 -0.0230 0.0182 0.5365        6/8           2  0.0598
+og_qsplit_np511  offlike 726 0.8787 0.8849 0.0062  0.0016 0.0107 0.9940        7/8           1  0.0201
+og_qsplit_np511   pseudo 525 0.8762 0.8804 0.0042 -0.0013 0.0097 0.9345        4/7           3 -0.0015
+[  1040s] DONE ['qsplit']
+[run_heavy] exit 0 after 1611s

@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 560s
+job shift_f2-3_s1_AB exit 0
+[run_heavy] exit 0 after 1521s
+[run_heavy] slot acquired after 0s
+job step2_cut15_s2-3_S exit 0
+[run_heavy] exit 0 after 640s
+[run_heavy] slot acquired after 0s
+no pending job
+[run_heavy] exit 0 after 0s

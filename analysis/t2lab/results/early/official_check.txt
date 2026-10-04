@@ -1,0 +1,50 @@
+official validation onset windows: 40 | by day index {0: 8, 1: 8, 2: 9, 3: 8, 4: 6, 6: 1} | mean visible share at T+35 0.0 | windows with a visible queued cell at T+35: 0
+
+== changes of the step-6 prediction (cells / windows) ==
+sp4     vs base:  11 cells in  5 windows | vs sp4:   0 cells in  0 windows | predicted cells 148 (base 153)
+sp8     vs base:   8 cells in  4 windows | vs sp4:   5 cells in  4 windows | predicted cells 151 (base 153)
+mix8    vs base:  19 cells in  6 windows | vs sp4:  20 cells in  7 windows | predicted cells 146 (base 153)
+mix9    vs base:  18 cells in  6 windows | vs sp4:  19 cells in  6 windows | predicted cells 149 (base 153)
+mix95   vs base:  16 cells in  6 windows | vs sp4:  17 cells in  5 windows | predicted cells 147 (base 153)
+mix9w4  vs base:  15 cells in  6 windows | vs sp4:  20 cells in  6 windows | predicted cells 148 (base 153)
+
+== PROXY IoU (visible queued cells at T+35), aggregated window -> panel -> family -> mean ==
+base    1.0000
+sp4     1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+sp8     1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)  | vs sp4 +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+mix8    1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)  | vs sp4 +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+mix9    1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)  | vs sp4 +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+mix95   1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)  | vs sp4 +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+mix9w4  1.0000  vs base +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)  | vs sp4 +0.0000 [+0.0000, +0.0000] panels +0/-0 of 8 (n=40)
+
+== by day index (plain window means of the proxy IoU) ==
+   iou_base  iou_sp4  iou_sp8  iou_mix8  iou_mix9  iou_mix95  iou_mix9w4  n
+d                                                                          
+0       1.0      1.0      1.0       1.0       1.0        1.0         1.0  8
+1       1.0      1.0      1.0       1.0       1.0        1.0         1.0  8
+2       1.0      1.0      1.0       1.0       1.0        1.0         1.0  9
+3       1.0      1.0      1.0       1.0       1.0        1.0         1.0  8
+4       1.0      1.0      1.0       1.0       1.0        1.0         1.0  6
+6       1.0      1.0      1.0       1.0       1.0        1.0         1.0  1
+
+== per panel ==
+           iou_base  iou_sp4  iou_sp8  iou_mix8  iou_mix9  iou_mix95  iou_mix9w4
+panel                                                                           
+D12_I5_N        1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D12_I5_S        1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I10_E        1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I10_W        1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I210_E       1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I210_W       1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I405_N       1.0      1.0      1.0       1.0       1.0        1.0         1.0
+D7_I405_S       1.0      1.0      1.0       1.0       1.0        1.0         1.0
+
+== windows where sp4 / mix9 / mix8 differ ==
+    panel  d   t  dow  q7  vis7  iou_base  iou_sp4  iou_sp8  iou_mix8  iou_mix9  iou_mix95  iou_mix9w4  n_base  n_sp4  n_sp8  n_mix8  n_mix9  n_mix95  n_mix9w4
+D7_I210_W  3 138    1   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       4      4      4       1       1        1         1
+D7_I405_S  3  85    1   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       7      7      7       8       7        8         7
+ D12_I5_N  2 196    0   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       3      4      4       3       4        3         4
+ D12_I5_N  4 181    2   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       2      2      3       2       3        2         2
+ D12_I5_S  2 167    0   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       2      1      2       1       2        1         2
+ D12_I5_S  3 157    1   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       7      4      6       4       4        4         4
+ D12_I5_S  4  87    2   0   0.0       1.0      1.0      1.0       1.0       1.0        1.0         1.0       4      2      1       3       4        4         4

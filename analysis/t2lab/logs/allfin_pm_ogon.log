@@ -1,0 +1,123 @@
+[    23s] all-finite catboost onset trained on 310782 rows 23s pos rate 0.0214
+[    53s] D7_I10_E {"panel": "D7_I10_E", "x_share": 0.0693, "vis_elig": 0.4961, "offlike_m_elig_keepcov": 0.9822, "offlike_m_elig_kept": 0.3665, "offlike_m_elig_histvis": 0.508, "offlike_m_elig_Tvis": 0.5057, "offlike_m_n": 41, "offlike_m_all_keepcov": 0.9822, "offlike_m_all_kept": 0.3667, "offlike_m_all_histvis": 0.5781, "offlike_m_all_Tvis": 0.5824, "runstart_m_elig_keepcov": 0.9891, "runstart_m_elig_kept": 0.3787, "runstart_m_elig_histvis": 0.5057, "runstart_m_elig_Tvis": 0.511, "runstart_m_n": 188, "runstart_m_all_keepcov": 0.9894, "runstart_m_all_kept": 0.3785, "runstart_m_all_histvis": 0.5755, "runstart_m_all_Tvis": 0.5828, "faith3_m_elig_keepcov": 0.9828, "faith3_m_elig_kept": 0.373, "faith3_m_elig_histvis": 0.5104, "faith3_m_elig_Tvis": 0.5114, "faith3_m_n": 371, "faith3_m_all_keepcov": 0.9832, "faith3_m_all_kept": 0.3725, "faith3_m_all_histvis": 0.5811, "faith3_m_all_Tvis": 0.5802, "on_elig_histvis": 0.5094, "on_elig_Tvis": 0.5038, "on_n": 25, "on_all_histvis": 0.5799, "on_all_Tvis": 0.5789} 30s
+[    58s] D7_I10_W {"panel": "D7_I10_W", "x_share": 0.0693, "vis_elig": 0.5088, "offlike_m_elig_keepcov": 1.0, "offlike_m_elig_kept": 0.2669, "offlike_m_elig_histvis": 0.5569, "offlike_m_elig_Tvis": 0.5473, "offlike_m_n": 16, "offlike_m_all_keepcov": 1.0, "offlike_m_all_kept": 0.2675, "offlike_m_all_histvis": 0.6256, "offlike_m_all_Tvis": 0.6197, "runstart_m_elig_keepcov": 1.0, "runstart_m_elig_kept": 0.2855, "runstart_m_elig_histvis": 0.5624, "runstart_m_elig_Tvis": 0.5614, "runstart_m_n": 44, "runstart_m_all_keepcov": 1.0, "runstart_m_all_kept": 0.2857, "runstart_m_all_histvis": 0.6335, "runstart_m_all_Tvis": 0.6345, "faith3_m_elig_keepcov": 0.9995, "faith3_m_elig_kept": 0.312, "faith3_m_elig_histvis": 0.5662, "faith3_m_elig_Tvis": 0.5714, "faith3_m_n": 81, "faith3_m_all_keepcov": 0.9995, "faith3_m_all_kept": 0.3115, "faith3_m_all_histvis": 0.6375, "faith3_m_all_Tvis": 0.6409, "on_elig_histvis": 0.551, "on_elig_Tvis": 0.5879, "on_n": 21, "on_all_histvis": 0.6204, "on_all_Tvis": 0.6569} 5s
+[    64s] D7_I210_E {"panel": "D7_I210_E", "x_share": 0.0693, "vis_elig": 0.5183, "offlike_m_elig_keepcov": 0.9932, "offlike_m_elig_kept": 0.0633, "offlike_m_elig_histvis": 0.5261, "offlike_m_elig_Tvis": 0.5249, "offlike_m_n": 27, "offlike_m_all_keepcov": 0.9932, "offlike_m_all_kept": 0.0633, "offlike_m_all_histvis": 0.596, "offlike_m_all_Tvis": 0.5963, "runstart_m_elig_keepcov": 0.9847, "runstart_m_elig_kept": 0.0713, "runstart_m_elig_histvis": 0.5223, "runstart_m_elig_Tvis": 0.5219, "runstart_m_n": 36, "runstart_m_all_keepcov": 0.9847, "runstart_m_all_kept": 0.0712, "runstart_m_all_histvis": 0.5933, "runstart_m_all_Tvis": 0.5935, "faith3_m_elig_keepcov": 0.9203, "faith3_m_elig_kept": 0.1158, "faith3_m_elig_histvis": 0.5002, "faith3_m_elig_Tvis": 0.5002, "faith3_m_n": 108, "faith3_m_all_keepcov": 0.9207, "faith3_m_all_kept": 0.1159, "faith3_m_all_histvis": 0.5712, "faith3_m_all_Tvis": 0.5717, "on_elig_histvis": 0.5334, "on_elig_Tvis": 0.5346, "on_n": 27, "on_all_histvis": 0.6051, "on_all_Tvis": 0.6081} 6s
+[   100s] D7_I210_W {"panel": "D7_I210_W", "x_share": 0.0693, "vis_elig": 0.4695, "offlike_m_elig_keepcov": 0.9993, "offlike_m_elig_kept": 0.6318, "offlike_m_elig_histvis": 0.4687, "offlike_m_elig_Tvis": 0.4721, "offlike_m_n": 46, "offlike_m_all_keepcov": 0.9993, "offlike_m_all_kept": 0.6315, "offlike_m_all_histvis": 0.5382, "offlike_m_all_Tvis": 0.5462, "runstart_m_elig_keepcov": 0.9966, "runstart_m_elig_kept": 0.6563, "runstart_m_elig_histvis": 0.4736, "runstart_m_elig_Tvis": 0.4747, "runstart_m_n": 197, "runstart_m_all_keepcov": 0.9966, "runstart_m_all_kept": 0.6561, "runstart_m_all_histvis": 0.544, "runstart_m_all_Tvis": 0.5465, "faith3_m_elig_keepcov": 0.997, "faith3_m_elig_kept": 0.667, "faith3_m_elig_histvis": 0.4689, "faith3_m_elig_Tvis": 0.4738, "faith3_m_n": 443, "faith3_m_all_keepcov": 0.997, "faith3_m_all_kept": 0.6674, "faith3_m_all_histvis": 0.5394, "faith3_m_all_Tvis": 0.5448, "on_elig_histvis": 0.4749, "on_elig_Tvis": 0.4637, "on_n": 32, "on_all_histvis": 0.5448, "on_all_Tvis": 0.5382} 36s
+[   233s] D7_I405_N {"panel": "D7_I405_N", "x_share": 0.0693, "vis_elig": 0.5388, "offlike_m_elig_keepcov": 0.9974, "offlike_m_elig_kept": 0.5607, "offlike_m_elig_histvis": 0.5523, "offlike_m_elig_Tvis": 0.5527, "offlike_m_n": 51, "offlike_m_all_keepcov": 0.9995, "offlike_m_all_kept": 0.5625, "offlike_m_all_histvis": 0.6223, "offlike_m_all_Tvis": 0.6259, "runstart_m_elig_keepcov": 0.9983, "runstart_m_elig_kept": 0.5072, "runstart_m_elig_histvis": 0.5493, "runstart_m_elig_Tvis": 0.5513, "runstart_m_n": 201, "runstart_m_all_keepcov": 0.9988, "runstart_m_all_kept": 0.5073, "runstart_m_all_histvis": 0.6198, "runstart_m_all_Tvis": 0.6235, "faith3_m_elig_keepcov": 0.9982, "faith3_m_elig_kept": 0.4869, "faith3_m_elig_histvis": 0.5461, "faith3_m_elig_Tvis": 0.5459, "faith3_m_n": 752, "faith3_m_all_keepcov": 0.9985, "faith3_m_all_kept": 0.4869, "faith3_m_all_histvis": 0.6166, "faith3_m_all_Tvis": 0.6162, "on_elig_histvis": 0.5478, "on_elig_Tvis": 0.5493, "on_n": 35, "on_all_histvis": 0.6177, "on_all_Tvis": 0.6196} 133s
+[   273s] D7_I405_S {"panel": "D7_I405_S", "x_share": 0.0693, "vis_elig": 0.4743, "offlike_m_elig_keepcov": 0.9752, "offlike_m_elig_kept": 0.5976, "offlike_m_elig_histvis": 0.493, "offlike_m_elig_Tvis": 0.5066, "offlike_m_n": 42, "offlike_m_all_keepcov": 0.9752, "offlike_m_all_kept": 0.5887, "offlike_m_all_histvis": 0.5638, "offlike_m_all_Tvis": 0.5799, "runstart_m_elig_keepcov": 0.9848, "runstart_m_elig_kept": 0.5712, "runstart_m_elig_histvis": 0.4767, "runstart_m_elig_Tvis": 0.4781, "runstart_m_n": 201, "runstart_m_all_keepcov": 0.9851, "runstart_m_all_kept": 0.5706, "runstart_m_all_histvis": 0.5465, "runstart_m_all_Tvis": 0.55, "faith3_m_elig_keepcov": 0.988, "faith3_m_elig_kept": 0.6052, "faith3_m_elig_histvis": 0.4726, "faith3_m_elig_Tvis": 0.4722, "faith3_m_n": 453, "faith3_m_all_keepcov": 0.9884, "faith3_m_all_kept": 0.6047, "faith3_m_all_histvis": 0.543, "faith3_m_all_Tvis": 0.5441, "on_elig_histvis": 0.4736, "on_elig_Tvis": 0.4584, "on_n": 27, "on_all_histvis": 0.5437, "on_all_Tvis": 0.5253} 40s
+[   315s] D12_I5_N {"panel": "D12_I5_N", "x_share": 0.0693, "vis_elig": 0.4975, "offlike_m_elig_keepcov": 0.9985, "offlike_m_elig_kept": 0.4111, "offlike_m_elig_histvis": 0.5171, "offlike_m_elig_Tvis": 0.5246, "offlike_m_n": 34, "offlike_m_all_keepcov": 0.9985, "offlike_m_all_kept": 0.4106, "offlike_m_all_histvis": 0.5875, "offlike_m_all_Tvis": 0.5961, "runstart_m_elig_keepcov": 0.9991, "runstart_m_elig_kept": 0.4619, "runstart_m_elig_histvis": 0.5249, "runstart_m_elig_Tvis": 0.5237, "runstart_m_n": 96, "runstart_m_all_keepcov": 0.9991, "runstart_m_all_kept": 0.4612, "runstart_m_all_histvis": 0.5954, "runstart_m_all_Tvis": 0.5952, "faith3_m_elig_keepcov": 0.9939, "faith3_m_elig_kept": 0.472, "faith3_m_elig_histvis": 0.5207, "faith3_m_elig_Tvis": 0.518, "faith3_m_n": 320, "faith3_m_all_keepcov": 0.9939, "faith3_m_all_kept": 0.4719, "faith3_m_all_histvis": 0.5912, "faith3_m_all_Tvis": 0.5896, "on_elig_histvis": 0.5108, "on_elig_Tvis": 0.5384, "on_n": 21, "on_all_histvis": 0.5819, "on_all_Tvis": 0.6146} 42s
+[   354s] D12_I5_S {"panel": "D12_I5_S", "x_share": 0.0693, "vis_elig": 0.5075, "offlike_m_elig_keepcov": 0.9758, "offlike_m_elig_kept": 0.6495, "offlike_m_elig_histvis": 0.5298, "offlike_m_elig_Tvis": 0.5315, "offlike_m_n": 41, "offlike_m_all_keepcov": 0.9758, "offlike_m_all_kept": 0.6502, "offlike_m_all_histvis": 0.602, "offlike_m_all_Tvis": 0.6059, "runstart_m_elig_keepcov": 0.9925, "runstart_m_elig_kept": 0.6866, "runstart_m_elig_histvis": 0.5268, "runstart_m_elig_Tvis": 0.5309, "runstart_m_n": 161, "runstart_m_all_keepcov": 0.9925, "runstart_m_all_kept": 0.6868, "runstart_m_all_histvis": 0.5976, "runstart_m_all_Tvis": 0.6022, "faith3_m_elig_keepcov": 0.9933, "faith3_m_elig_kept": 0.7063, "faith3_m_elig_histvis": 0.5159, "faith3_m_elig_Tvis": 0.5169, "faith3_m_n": 437, "faith3_m_all_keepcov": 0.9933, "faith3_m_all_kept": 0.7042, "faith3_m_all_histvis": 0.5863, "faith3_m_all_Tvis": 0.5878, "on_elig_histvis": 0.5126, "on_elig_Tvis": 0.5277, "on_n": 26, "on_all_histvis": 0.5827, "on_all_Tvis": 0.6015} 39s
+
+== PSEUDO-MARCH aggregated IoU (window -> panel -> family -> mean) ==
+       set               arm    n    iou  plain     h1     h2     h3     h4     h5     h6
+ offlike_m           elig_np  298 0.8170 0.8212 0.9299 0.8793 0.8561 0.8189 0.7785 0.7295
+ offlike_m           elig_id  298 0.8174 0.8213 0.9301 0.8872 0.8557 0.8154 0.7875 0.7258
+ offlike_m         elig_npid  298 0.8187 0.8224 0.9326 0.8834 0.8548 0.8181 0.7911 0.7292
+ offlike_m         afelig_np  298 0.8186 0.8230 0.9302 0.8953 0.8555 0.8120 0.7804 0.7281
+ offlike_m         afelig_id  298 0.8190 0.8240 0.9376 0.8959 0.8596 0.8170 0.7783 0.7313
+ offlike_m       afelig_npid  298 0.8211 0.8251 0.9367 0.9001 0.8567 0.8178 0.7858 0.7358
+ offlike_m      persist_elig  298 0.7270 0.7337 0.8978 0.8460 0.7868 0.7262 0.6792 0.5213
+ offlike_m          cross_np  298 0.8244 0.8277 0.9398 0.9005 0.8681 0.8227 0.7832 0.7323
+ offlike_m          cross_id  298 0.8228 0.8271 0.9428 0.9008 0.8585 0.8233 0.7851 0.7187
+ offlike_m        cross_npid  298 0.8250 0.8284 0.9429 0.9071 0.8597 0.8278 0.7837 0.7346
+ offlike_m            all_np  298 0.8240 0.8287 0.9380 0.9004 0.8635 0.8127 0.7884 0.7333
+ offlike_m            all_id  298 0.8225 0.8277 0.9470 0.9050 0.8633 0.8184 0.7812 0.7213
+ offlike_m          all_npid  298 0.8252 0.8298 0.9396 0.9096 0.8645 0.8220 0.7855 0.7305
+runstart_m           elig_np 1124 0.8710 0.8749 0.9690 0.9388 0.8999 0.8828 0.8390 0.7744
+runstart_m           elig_id 1124 0.8723 0.8773 0.9693 0.9370 0.8983 0.8839 0.8409 0.7741
+runstart_m         elig_npid 1124 0.8738 0.8781 0.9702 0.9385 0.9005 0.8851 0.8445 0.7797
+runstart_m         afelig_np 1124 0.8719 0.8752 0.9687 0.9410 0.9015 0.8801 0.8344 0.7811
+runstart_m         afelig_id 1124 0.8747 0.8789 0.9730 0.9456 0.9037 0.8811 0.8392 0.7837
+runstart_m       afelig_npid 1124 0.8756 0.8792 0.9726 0.9463 0.9031 0.8849 0.8410 0.7823
+runstart_m      persist_elig 1124 0.8148 0.8140 0.9393 0.9125 0.8665 0.8351 0.7755 0.6461
+runstart_m          cross_np 1124 0.8746 0.8785 0.9721 0.9467 0.9030 0.8843 0.8415 0.7789
+runstart_m          cross_id 1124 0.8742 0.8796 0.9740 0.9428 0.8996 0.8845 0.8400 0.7752
+runstart_m        cross_npid 1124 0.8761 0.8802 0.9743 0.9457 0.9024 0.8869 0.8426 0.7820
+runstart_m            all_np 1124 0.8753 0.8798 0.9721 0.9444 0.9044 0.8825 0.8381 0.7776
+runstart_m            all_id 1124 0.8755 0.8802 0.9763 0.9470 0.9037 0.8817 0.8386 0.7757
+runstart_m          all_npid 1124 0.8771 0.8818 0.9752 0.9481 0.9058 0.8846 0.8428 0.7795
+  faith3_m           elig_np 2965 0.7297 0.7654 0.8693 0.8132 0.7592 0.7107 0.6788 0.6829
+  faith3_m           elig_id 2965 0.7353 0.7729 0.8703 0.8167 0.7682 0.7158 0.6874 0.6980
+  faith3_m         elig_npid 2965 0.7333 0.7707 0.8701 0.8167 0.7618 0.7131 0.6881 0.6944
+  faith3_m         afelig_np 2965 0.7278 0.7642 0.8656 0.8126 0.7542 0.7074 0.6818 0.6922
+  faith3_m         afelig_id 2965 0.7353 0.7719 0.8708 0.8158 0.7666 0.7146 0.6894 0.6981
+  faith3_m       afelig_npid 2965 0.7329 0.7701 0.8679 0.8152 0.7631 0.7160 0.6875 0.6948
+  faith3_m      persist_elig 2965 0.6242 0.6455 0.8189 0.7434 0.6624 0.5880 0.5329 0.4939
+  faith3_m          cross_np 2965 0.7383 0.7740 0.8764 0.8214 0.7657 0.7198 0.6920 0.6982
+  faith3_m          cross_id 2965 0.7435 0.7807 0.8791 0.8285 0.7742 0.7273 0.6990 0.7070
+  faith3_m        cross_npid 2965 0.7416 0.7787 0.8786 0.8260 0.7696 0.7244 0.6982 0.7051
+  faith3_m            all_np 2965 0.7355 0.7723 0.8723 0.8211 0.7651 0.7184 0.6916 0.6960
+  faith3_m            all_id 2965 0.7438 0.7798 0.8784 0.8265 0.7757 0.7229 0.7031 0.7068
+  faith3_m          all_npid 2965 0.7397 0.7772 0.8751 0.8222 0.7699 0.7202 0.6952 0.7033
+  march_on   elig_trainprior  214 0.7140 0.7351 0.9922 0.9922 0.9837 0.9797 0.9801 0.7200
+  march_on          elig_sp4  214 0.7875 0.7984 0.9922 0.9922 0.9837 0.9797 0.9801 0.7967
+  march_on afelig_trainprior  214 0.7198 0.7399 0.9922 0.9922 0.9837 0.9797 0.9801 0.7252
+  march_on        afelig_sp4  214 0.7926 0.8021 0.9922 0.9922 0.9837 0.9797 0.9801 0.7997
+  march_on  cross_trainprior  214 0.7125 0.7337 0.9922 0.9922 0.9837 0.9797 0.9801 0.7184
+  march_on         cross_sp4  214 0.7873 0.7972 0.9922 0.9922 0.9837 0.9797 0.9801 0.7996
+  march_on    all_trainprior  214 0.7183 0.7380 0.9922 0.9922 0.9837 0.9797 0.9801 0.7236
+  march_on           all_sp4  214 0.7914 0.8000 0.9922 0.9922 0.9837 0.9797 0.9801 0.7992
+
+== PSEUDO-MARCH paired deltas (lab.paired_bootstrap) ==
+offlike_m all_np vs elig_np: n=298 base 0.8170 new 0.8240 diff +0.0070 [+0.0009, +0.0134] p_pos 0.989 panels +5/-3 of 8 windows up/down 104/70
+offlike_m cross_np vs elig_np: n=298 base 0.8170 new 0.8244 diff +0.0074 [+0.0032, +0.0120] p_pos 1.000 panels +7/-1 of 8 windows up/down 86/43
+offlike_m afelig_np vs elig_np: n=298 base 0.8170 new 0.8186 diff +0.0016 [-0.0024, +0.0060] p_pos 0.774 panels +4/-4 of 8 windows up/down 82/71
+offlike_m all_id vs elig_id: n=298 base 0.8174 new 0.8225 diff +0.0051 [-0.0005, +0.0106] p_pos 0.957 panels +6/-2 of 8 windows up/down 108/64
+offlike_m cross_id vs elig_id: n=298 base 0.8174 new 0.8228 diff +0.0054 [+0.0014, +0.0096] p_pos 0.997 panels +7/-1 of 8 windows up/down 83/38
+offlike_m afelig_id vs elig_id: n=298 base 0.8174 new 0.8190 diff +0.0016 [-0.0030, +0.0061] p_pos 0.753 panels +5/-3 of 8 windows up/down 82/63
+offlike_m all_npid vs elig_npid: n=298 base 0.8187 new 0.8252 diff +0.0065 [+0.0003, +0.0123] p_pos 0.979 panels +6/-2 of 8 windows up/down 106/60
+offlike_m cross_npid vs elig_npid: n=298 base 0.8187 new 0.8250 diff +0.0063 [+0.0022, +0.0108] p_pos 0.999 panels +6/-1 of 8 windows up/down 82/40
+offlike_m afelig_npid vs elig_npid: n=298 base 0.8187 new 0.8211 diff +0.0024 [-0.0010, +0.0059] p_pos 0.914 panels +6/-2 of 8 windows up/down 78/61
+runstart_m all_np vs elig_np: n=1124 base 0.8710 new 0.8753 diff +0.0043 [+0.0012, +0.0075] p_pos 0.999 panels +7/-1 of 8 windows up/down 381/254
+runstart_m cross_np vs elig_np: n=1124 base 0.8710 new 0.8746 diff +0.0036 [+0.0018, +0.0056] p_pos 1.000 panels +8/-0 of 8 windows up/down 283/173
+runstart_m afelig_np vs elig_np: n=1124 base 0.8710 new 0.8719 diff +0.0009 [-0.0016, +0.0036] p_pos 0.755 panels +6/-2 of 8 windows up/down 312/275
+runstart_m all_id vs elig_id: n=1124 base 0.8723 new 0.8755 diff +0.0031 [+0.0003, +0.0058] p_pos 0.984 panels +5/-3 of 8 windows up/down 361/258
+runstart_m cross_id vs elig_id: n=1124 base 0.8723 new 0.8742 diff +0.0019 [-0.0001, +0.0038] p_pos 0.969 panels +7/-1 of 8 windows up/down 250/165
+runstart_m afelig_id vs elig_id: n=1124 base 0.8723 new 0.8747 diff +0.0024 [-0.0000, +0.0047] p_pos 0.973 panels +6/-2 of 8 windows up/down 310/269
+runstart_m all_npid vs elig_npid: n=1124 base 0.8738 new 0.8771 diff +0.0033 [+0.0004, +0.0061] p_pos 0.988 panels +7/-1 of 8 windows up/down 353/236
+runstart_m cross_npid vs elig_npid: n=1124 base 0.8738 new 0.8761 diff +0.0023 [+0.0006, +0.0040] p_pos 0.997 panels +7/-1 of 8 windows up/down 240/165
+runstart_m afelig_npid vs elig_npid: n=1124 base 0.8738 new 0.8756 diff +0.0018 [-0.0002, +0.0040] p_pos 0.964 panels +5/-3 of 8 windows up/down 288/236
+faith3_m all_np vs elig_np: n=2965 base 0.7297 new 0.7355 diff +0.0058 [+0.0021, +0.0090] p_pos 0.999 panels +7/-1 of 8 windows up/down 1148/797
+faith3_m cross_np vs elig_np: n=2965 base 0.7297 new 0.7383 diff +0.0086 [+0.0069, +0.0105] p_pos 1.000 panels +8/-0 of 8 windows up/down 985/452
+faith3_m afelig_np vs elig_np: n=2965 base 0.7297 new 0.7278 diff -0.0019 [-0.0053, +0.0010] p_pos 0.112 panels +3/-5 of 8 windows up/down 860/934
+faith3_m all_id vs elig_id: n=2965 base 0.7353 new 0.7438 diff +0.0085 [+0.0055, +0.0115] p_pos 1.000 panels +8/-0 of 8 windows up/down 1146/803
+faith3_m cross_id vs elig_id: n=2965 base 0.7353 new 0.7435 diff +0.0082 [+0.0062, +0.0104] p_pos 1.000 panels +8/-0 of 8 windows up/down 913/463
+faith3_m afelig_id vs elig_id: n=2965 base 0.7353 new 0.7353 diff +0.0000 [-0.0023, +0.0024] p_pos 0.490 panels +3/-5 of 8 windows up/down 816/954
+faith3_m all_npid vs elig_npid: n=2965 base 0.7333 new 0.7397 diff +0.0064 [+0.0042, +0.0086] p_pos 1.000 panels +8/-0 of 8 windows up/down 1079/719
+faith3_m cross_npid vs elig_npid: n=2965 base 0.7333 new 0.7416 diff +0.0083 [+0.0066, +0.0102] p_pos 1.000 panels +8/-0 of 8 windows up/down 922/462
+faith3_m afelig_npid vs elig_npid: n=2965 base 0.7333 new 0.7329 diff -0.0005 [-0.0021, +0.0011] p_pos 0.288 panels +4/-4 of 8 windows up/down 735/862
+march_on all_trainprior vs elig_trainprior: n=214 base 0.7140 new 0.7183 diff +0.0042 [-0.0074, +0.0194] p_pos 0.711 panels +2/-2 of 8 windows up/down 3/4
+march_on cross_trainprior vs elig_trainprior: n=214 base 0.7140 new 0.7125 diff -0.0016 [-0.0091, +0.0050] p_pos 0.360 panels +1/-2 of 8 windows up/down 2/2
+march_on afelig_trainprior vs elig_trainprior: n=214 base 0.7140 new 0.7198 diff +0.0058 [-0.0057, +0.0211] p_pos 0.799 panels +3/-2 of 8 windows up/down 4/4
+march_on all_trainprior vs elig_trainprior [d1-5]: n=9 base 0.4639 new 0.4639 diff +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 of 7 windows up/down 0/0
+march_on all_trainprior vs elig_trainprior [d16+]: n=131 base 0.7162 new 0.7157 diff -0.0005 [-0.0121, +0.0098] p_pos 0.461 panels +1/-2 of 8 windows up/down 2/2
+march_on all_sp4 vs elig_sp4: n=214 base 0.7875 new 0.7914 diff +0.0039 [-0.0193, +0.0284] p_pos 0.627 panels +3/-3 of 8 windows up/down 12/12
+march_on cross_sp4 vs elig_sp4: n=214 base 0.7875 new 0.7873 diff -0.0002 [-0.0124, +0.0139] p_pos 0.455 panels +2/-2 of 8 windows up/down 3/5
+march_on afelig_sp4 vs elig_sp4: n=214 base 0.7875 new 0.7926 diff +0.0051 [-0.0166, +0.0269] p_pos 0.690 panels +3/-3 of 8 windows up/down 10/9
+march_on all_sp4 vs elig_sp4 [d1-5]: n=9 base 0.4778 new 0.4778 diff +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 of 7 windows up/down 0/0
+march_on all_sp4 vs elig_sp4 [d16+]: n=131 base 0.8061 new 0.8185 diff +0.0124 [-0.0159, +0.0433] p_pos 0.792 panels +5/-1 of 8 windows up/down 9/6
+
+per panel (offlike_m): all_npid vs elig_npid
+            n    base     new   delta
+panel                                
+D12_I5_N   34  0.6797  0.7021  0.0224
+D12_I5_S   41  0.7365  0.7488  0.0123
+D7_I10_E   41  0.7964  0.7980  0.0016
+D7_I10_W   16  0.7989  0.7957 -0.0032
+D7_I210_E  27  0.9248  0.9189 -0.0059
+D7_I210_W  46  0.8387  0.8489  0.0102
+D7_I405_N  51  0.9169  0.9187  0.0018
+D7_I405_S  42  0.8577  0.8701  0.0125
+
+per panel (march_on): all_sp4 vs elig_sp4
+            n    base     new   delta
+panel                                
+D12_I5_N   21  0.8333  0.8571  0.0238
+D12_I5_S   26  0.7077  0.6756 -0.0321
+D7_I10_E   25  0.7433  0.8200  0.0767
+D7_I10_W   21  0.5476  0.5476  0.0000
+D7_I210_E  27  0.9926  1.0000  0.0074
+D7_I210_W  32  0.7325  0.6890 -0.0435
+D7_I405_N  35  0.9452  0.9452  0.0000
+D7_I405_S  27  0.7979  0.7966 -0.0013
+[   358s] DONE ['og', 'on']

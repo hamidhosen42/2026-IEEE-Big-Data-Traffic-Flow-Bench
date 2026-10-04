@@ -1,0 +1,3 @@
+[run_heavy] slot acquired after 1432s
+[worker] two ogfeat workers are already active, leaving the slot
+[run_heavy] exit 0 after 1452s
