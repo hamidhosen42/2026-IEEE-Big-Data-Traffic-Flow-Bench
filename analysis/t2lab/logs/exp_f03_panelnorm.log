@@ -1,0 +1,49 @@
+[run_heavy] slot acquired after 0s
+links per panel {'D7_I10_E': 146, 'D7_I10_W': 107, 'D7_I210_E': 297, 'D7_I210_W': 81, 'D7_I405_N': 352, 'D7_I405_S': 109, 'D12_I5_N': 258, 'D12_I5_S': 100}
+per-panel scale factors: {'faith3': {'D7_I10_E': np.float64(1.052), 'D7_I10_W': np.float64(4.124), 'D7_I210_E': np.float64(1.058), 'D7_I210_W': np.float64(1.896), 'D7_I405_N': np.float64(0.436), 'D7_I405_S': np.float64(1.409), 'D12_I5_N': np.float64(0.595), 'D12_I5_S': np.float64(1.535)}, 'runstart': {'D7_I10_E': np.float64(1.054), 'D7_I10_W': np.float64(8.048), 'D7_I210_E': np.float64(2.083), 'D7_I210_W': np.float64(1.387), 'D7_I405_N': np.float64(0.343), 'D7_I405_S': np.float64(1.347), 'D12_I5_N': np.float64(0.8), 'D12_I5_S': np.float64(1.219)}}
+[   103s] fc_F03N_np255 fold 0: 6077021 rows x 58 cols, pos 0.268 (weighted 0.272), 1 model(s) in 103s | {"faith3": {"windows": 7773, "rows": 2974633, "wsum": 915101.337890625, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 2884128.47265625, "runstart_windows": 7958}}
+[   113s] fc_F03N_np255 fold 0: official 0.8916 (n=40), offlike 0.8789 (n=726), pseudo 0.8751 (n=525)
+[   210s] fc_F03N_np255 fold 1: 5844108 rows x 58 cols, pos 0.270 (weighted 0.272), 1 model(s) in 97s | {"faith3": {"windows": 7476, "rows": 2818302, "wsum": 868833.91796875, "runstart_windows": 0}, "runstart": {"windows": 7951, "rows": 3025806, "wsum": 2831935.5625, "runstart_windows": 7951}}
+[   220s] fc_F03N_np255 fold 1: official nan (n=0), offlike 0.8762 (n=747), pseudo 0.8558 (n=530)
+[   323s] fc_F03N_np255 fold 2: 5997115 rows x 58 cols, pos 0.274 (weighted 0.275), 1 model(s) in 103s | {"faith3": {"windows": 7777, "rows": 2905619, "wsum": 919545.216796875, "runstart_windows": 0}, "runstart": {"windows": 8056, "rows": 3091496, "wsum": 2897199.484375, "runstart_windows": 8056}}
+[   332s] fc_F03N_np255 fold 2: official nan (n=0), offlike 0.8741 (n=748), pseudo 0.8726 (n=503)
+[   439s] fc_F03N_np255 fold 3: 6061317 rows x 58 cols, pos 0.276 (weighted 0.274), 1 model(s) in 106s | {"faith3": {"windows": 7739, "rows": 2927178, "wsum": 908215.248046875, "runstart_windows": 0}, "runstart": {"windows": 8102, "rows": 3134139, "wsum": 2898118.30078125, "runstart_windows": 8102}}
+[   448s] fc_F03N_np255 fold 3: official nan (n=0), offlike 0.8735 (n=771), pseudo 0.8625 (n=500)
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8916 0.9125 0.9233 0.9280 0.9258 0.8587 0.8163      0.0590        0.0314 0.0179
+ offlike 2992 0.8755 0.9440 0.9210 0.8940 0.8811 0.8604 0.8115      0.0454        0.0421 0.0369
+  pseudo 2058 0.8555 0.9516 0.9394 0.8817 0.8428 0.8318 0.7116      0.0244        0.0742 0.0459
+official F03N - F03: {'diff': 0.0017313047850884057, 'lo': -0.006508464857353164, 'hi': 0.009268092310030462, 'p_pos': 0.6525, 'n_windows': 40}
+              F03    F03N       d
+panel                            
+D12_I5_N   0.8347  0.8330 -0.0017
+D12_I5_S   0.8596  0.8622  0.0027
+D7_I10_E   0.8437  0.8361 -0.0076
+D7_I10_W   0.8969  0.9238  0.0269
+D7_I210_E  0.9172  0.9333  0.0161
+D7_I210_W  0.9401  0.9324 -0.0077
+D7_I405_N  0.9706  0.9674 -0.0033
+D7_I405_S  0.8561  0.8446 -0.0116
+offlike F03N - F03: {'diff': 0.0004500679039028475, 'lo': -0.0008625539998457541, 'hi': 0.0016655645748867732, 'p_pos': 0.7575, 'n_windows': 2992}
+              F03    F03N       d
+panel                            
+D12_I5_N   0.8462  0.8388 -0.0074
+D12_I5_S   0.8238  0.8320  0.0082
+D7_I10_E   0.8166  0.8168  0.0002
+D7_I10_W   0.8836  0.8919  0.0083
+D7_I210_E  0.9462  0.9493  0.0031
+D7_I210_W  0.8958  0.8987  0.0029
+D7_I405_N  0.9167  0.9056 -0.0111
+D7_I405_S  0.8717  0.8712 -0.0005
+pseudo F03N - F03: {'diff': 0.0039062080027697866, 'lo': -0.005711562903953499, 'hi': 0.01486359369702873, 'p_pos': 0.7585, 'n_windows': 2058}
+              F03    F03N       d
+panel                            
+D12_I5_N   0.9099  0.9021 -0.0078
+D12_I5_S   0.8928  0.9063  0.0135
+D7_I10_E   0.8351  0.8356  0.0006
+D7_I10_W   0.6186  0.6532  0.0346
+D7_I210_E  0.8539  0.8461 -0.0078
+D7_I210_W  0.9164  0.9158 -0.0006
+D7_I405_N  0.9068  0.9014 -0.0054
+D7_I405_S  0.8790  0.8832  0.0042
+[run_heavy] exit 0 after 449s

@@ -1,0 +1,16 @@
+smoke status: {'status': 'complete', 'failureMessage': '', 'hasFailureMessage': False} Sun Oct  4 02:28:39 UTC 2026
+[   141s] model fs_np trained: 518731 rows x 58 cols, 40 trees, 0.1 min, weighted True
+[   149s] model fs_id trained: 518731 rows x 64 cols, 40 trees, 0.1 min, weighted True
+[   157s] model fs_np1 trained: 518731 rows x 58 cols, 40 trees, 0.1 min, weighted True
+[   165s] model fs_id1 trained: 518731 rows x 64 cols, 40 trees, 0.1 min, weighted True
+[   172s] D7_I10_E validation windows 10 ongoing 5 template rows 8760 unmapped 0 positive share (ongoing rows) {'fs2': 0.0884, 'fs4': 0.0893, 'fs_np': 0.0877}
+[   179s] D7_I10_E private windows 10 ongoing 5 template rows 8760 unmapped 0 positive share (ongoing rows) {'fs2': 0.1148, 'fs4': 0.1139, 'fs_np': 0.1135}
+[   185s] D12_I5_S validation windows 10 ongoing 5 template rows 6000 unmapped 0 positive share (ongoing rows) {'fs2': 0.143, 'fs4': 0.1427, 'fs_np': 0.1433}
+[   192s] D12_I5_S private windows 10 ongoing 5 template rows 6000 unmapped 0 positive share (ongoing rows) {'fs2': 0.1777, 'fs4': 0.178, 'fs_np': 0.1787}
+[   192s] queue rows 29520 dupes 0 ongoing rows 14760 files ['queue_submission_fs2.csv', 'queue_submission_fs4.csv', 'queue_submission_fs_np.csv'] | onset rows are 0 in every file
+[   192s] FOOTPRINT private: ongoing windows 10 | mean queued cells at T (q_last) 17.00
+[   192s] FOOTPRINT validation: ongoing windows 10 | mean queued cells at T (q_last) 13.40
+[   193s] CONTROL: skipped (tfb-t2v21 queue_submission_fs2.csv not attached or fs2 missing) []
+FILES ['queue_submission_fs2.csv', 'queue_submission_fs4.csv', 'queue_submission_fs_np.csv', 't2v22_footprint.csv', 't2v22_probs.npz', 't2v22_trainsets.csv']
+SMOKE_OK
+PUSHED tfb-t2v22 full Sun Oct  4 02:28:43 UTC 2026

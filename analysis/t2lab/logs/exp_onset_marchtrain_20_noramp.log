@@ -1,0 +1,28 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E march train windows 14 eval windows 11
+[     1s] D7_I10_W march train windows 13 eval windows 8
+[     2s] D7_I210_E march train windows 16 eval windows 11
+[     2s] D7_I210_W march train windows 20 eval windows 12
+[     3s] D7_I405_N march train windows 22 eval windows 14
+[     4s] D7_I405_S march train windows 16 eval windows 11
+[     4s] D12_I5_N march train windows 11 eval windows 10
+[     5s] D12_I5_S march train windows 15 eval windows 11
+[     5s] March training rows 12564 pos rate 0.0225
+[    15s] A (no ramp) trained
+[    26s] B5 trained 11s
+[    37s] B20 trained 11s
+[    48s] B50 trained 11s
+
+== pseudo-March onset, days >= 15 ==
+  arm    iou  n
+    A 0.7320 88
+ A_s4 0.8318 88
+ B5.0 0.8517 88
+B20.0 0.8894 88
+B50.0 0.8654 88
+A - A_s4: -0.0998 [-0.1582, -0.0437] panels+ 1/5
+B5.0 - A_s4: +0.0200 [-0.0237, +0.0611] panels+ 3/5
+B20.0 - A_s4: +0.0577 [+0.0146, +0.1028] panels+ 4/5
+B50.0 - A_s4: +0.0336 [-0.0103, +0.0832] panels+ 3/5
+[    48s] DONE
+[run_heavy] exit 0 after 49s

@@ -1,0 +1,12 @@
+{
+ "type": "t1mix",
+ "w_fd": 0.5,
+ "fd_members": [
+  "tfb-t1v13",
+  "tfb-t1v13s10",
+  "tfb-t1v13s11",
+  "tfb-t1v13s12"
+ ],
+ "thr": 0.0001,
+ "desc": "P2: T1 = 0.5 FD-feature bag (4 members) + 0.5 old bag(8), recon + TV"
+}

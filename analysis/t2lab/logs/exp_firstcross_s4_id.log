@@ -18,3 +18,16 @@ official   40 0.8588 0.9345 0.9141 0.8954 0.9077 0.8461 0.6874      0.0698      
 [   451s] fc_F03_id255 fold 0: 6077021 rows x 64 cols, pos 0.268 (weighted 0.281), 1 model(s) in 122s | {"faith3": {"windows": 7773, "rows": 2974633, "wsum": 892389.68359375, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 3102388.0, "runstart_windows": 7958}}
 [   460s] fc_F03_id255 fold 0: official 0.8918 (n=40), offlike 0.8826 (n=726), pseudo 0.8795 (n=525)
 [   575s] fc_F03_id255 fold 1: 5844108 rows x 64 cols, pos 0.270 (weighted 0.283), 1 model(s) in 114s | {"faith3": {"windows": 7476, "rows": 2818302, "wsum": 845490.423828125, "runstart_windows": 0}, "runstart": {"windows": 7951, "rows": 3025806, "wsum": 3025806.0, "runstart_windows": 7951}}
+[   584s] fc_F03_id255 fold 1: official nan (n=0), offlike 0.8830 (n=747), pseudo 0.8594 (n=530)
+[   698s] fc_F03_id255 fold 2: 5997115 rows x 64 cols, pos 0.274 (weighted 0.287), 1 model(s) in 113s | {"faith3": {"windows": 7777, "rows": 2905619, "wsum": 871685.53125, "runstart_windows": 0}, "runstart": {"windows": 8056, "rows": 3091496, "wsum": 3091496.0, "runstart_windows": 8056}}
+[   707s] fc_F03_id255 fold 2: official nan (n=0), offlike 0.8803 (n=748), pseudo 0.8761 (n=503)
+[   823s] fc_F03_id255 fold 3: 6061317 rows x 64 cols, pos 0.276 (weighted 0.288), 1 model(s) in 116s | {"faith3": {"windows": 7739, "rows": 2927178, "wsum": 878153.208984375, "runstart_windows": 0}, "runstart": {"windows": 8102, "rows": 3134139, "wsum": 3134139.0, "runstart_windows": 8102}}
+[   833s] fc_F03_id255 fold 3: official nan (n=0), offlike 0.8768 (n=771), pseudo 0.8721 (n=500)
+
+== fc_F03_id255 (folds on disk: [0, 1, 2, 3]) ==
+     set    n    iou     h1     h2     h3     h4     h5     h6  missed_new  kept_cleared  other
+official   40 0.8918 0.9312 0.9266 0.9321 0.9261 0.8624 0.7679      0.0606        0.0329 0.0147
+ offlike 2992 0.8806 0.9463 0.9259 0.9022 0.8852 0.8677 0.8110      0.0427        0.0400 0.0367
+  pseudo 2058 0.8630 0.9522 0.9396 0.9173 0.8560 0.8388 0.6912      0.0233        0.0689 0.0448
+[   833s] DONE ['A', 'F03']
+[run_heavy] exit 0 after 833s

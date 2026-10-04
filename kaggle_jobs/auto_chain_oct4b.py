@@ -38,6 +38,7 @@ TV_DEFAULT = [0.0075, 0.001, 0.02, 0.005]
 
 def log(*a):
     msg = f'[{dt.datetime.utcnow():%Y-%m-%d %H:%M:%S}] ' + ' '.join(str(x) for x in a)
+    msg = re.sub(r'KGAT_[A-Za-z0-9]+', 'KGAT_[REDACTED]', msg)
     print(msg, flush=True); LOG.write(msg + '\n')
 
 
@@ -104,7 +105,7 @@ def wait_token():
 
 def list_subs():
     wait_token()
-    tok = open(TOKEN_F).read().strip()
+    tok = open(TOKEN_F).read().strip().splitlines()[0].strip()
     req = urllib.request.Request(f'https://www.kaggle.com/api/v1/competitions/submissions/list/{C}', headers={'Authorization': 'Bearer ' + tok})
     return json.load(urllib.request.urlopen(req, timeout=120))
 
@@ -116,7 +117,7 @@ def submit(slug, fname, desc, folder, upstreams):
     ref, score = (prev[0].get('ref') if prev else None), None
     if ref is None:
         wait_token()
-        env = dict(os.environ, KAGGLE_API_TOKEN=open(TOKEN_F).read().strip())
+        env = dict(os.environ, KAGGLE_API_TOKEN=open(TOKEN_F).read().strip().splitlines()[0].strip())
         p = subprocess.run([os.path.join(ROOT, '.venv/bin/python'), '-W', 'ignore', os.path.join(HERE, 'submit.py'), slug, str(ver), desc, fname],
                            cwd=ROOT, env=env, capture_output=True, text=True)
         m = re.search(r'submitted ref (\d+)', p.stdout)

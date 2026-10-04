@@ -100,6 +100,10 @@ NNLS λ=0.05 on the split's own counts and prior. Saturated (≈ 0.994). A λ sw
 - **Task 3 is pinned by noise.** S_LWR ≈ 0.52 for interpolation and for the model alike. Realistic upside is ≤ +0.003 total.
 - **The frontier gap is Task 2.** A 0.90 score needs S_queue ≈ 0.89; ours is ≈ 0.78.
 
+## Findings on 2026-10-04 (analysis/t2lab, real panels)
+- **Ongoing window population was wrong.** The official selector evaluates the persistence cap on the full true state. Our replica used observed cells only (missing = free) and let stable queues through: it reproduces 14/40 official ongoing origins, against 36/40 with a time-filled state.
+- **Training on selection-faithful windows (F03) adds +0.036 ongoing IoU in-distribution and +0.021 on March pseudo-windows** (new seed). Production kernel v21 (fs2 = F03 np + id) scored **LB 0.87817 (+0.00474)** on 2026-10-04; v22 = F03 bag.
+
 ## Constraints
 - Task 2 may only use data timestamped ≤ T; Tasks 1, 3 and 4 are offline.
 - Compute: Kaggle CPU kernels (4 cores, 31 GB, 12 h), 5 submissions/day.

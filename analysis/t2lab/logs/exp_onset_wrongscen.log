@@ -1,0 +1,20 @@
+[run_heavy] slot acquired after 0s
+[     0s] D7_I10_E fold-0 eval windows 63 | March training windows 25
+[     1s] D7_I10_W fold-0 eval windows 33 | March training windows 21
+[     1s] D7_I210_E fold-0 eval windows 69 | March training windows 27
+[     2s] D7_I210_W fold-0 eval windows 79 | March training windows 32
+[     3s] D7_I405_N fold-0 eval windows 88 | March training windows 36
+[     3s] D7_I405_S fold-0 eval windows 64 | March training windows 27
+[     3s] D12_I5_N fold-0 eval windows 60 | March training windows 21
+[     4s] D12_I5_S fold-0 eval windows 66 | March training windows 26
+[    12s] A trained
+[    22s] B w10 trained
+[    31s] B w20 trained
+[    40s] B w40 trained
+
+== held-out TRAIN days (fold 0), official-like onset windows: n = 522
+A      0.8902  vs A +0.0000 [+0.0000, +0.0000]  panels+ 0/8
+A_mp   0.7610  vs A -0.1292 [-0.1530, -0.1056]  panels+ 1/8
+B_mp   0.7496  vs A -0.1406 [-0.1647, -0.1163]  panels+ 0/8
+[    40s] DONE
+[run_heavy] exit 0 after 41s

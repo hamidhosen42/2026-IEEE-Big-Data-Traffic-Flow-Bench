@@ -2,6 +2,11 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_E5.csv | 56817463 | 0.87961 | S5: EXP_COMBO_OSP: chain base + onset rows with the same-scenario prior (sp4: train prior blended per cell with the March/April masked-layer prior of the days before T, smoothed +-2 slots, a=n/(n+4)) |
+| submission_E4.csv | 56817377 | 0.87857 | S4: EXP_COMBO_v22: chain base + ongoing rows from v22 fs4 (selection-faithful F03 bag: np/id x 2 seeds) |
+| submission_E3.csv | 56814685 | 0.87817 | S3: EXP_COMBO_v21: chain base + ongoing rows from v21 fs2 (selection-faithful ongoing training: faithful windows 0.3 + run-starts 1.0) |
+| submission_E2.csv | 56810594 | 0.87343 | EXP_COMBO_24: chain base + ongoing rows from v20 og8 bag (np511r+id511r x 4 seeds) |
+| submission_FDRTV.csv | 56810522 | 0.87334 | EXP_COMBO_23: T1 = 0.5 FD-feature bag (3) + 0.5 old bag(8), then FD recon + TV |
 | submission_TV.csv | 56787882 | 0.87271 | EXP_COMBO_22: chain base + 1-D TV smoothing of Task 1 density inside target runs |
 | submission_COMBO19.csv | 56787752 | 0.85942 | EXP_COMBO_21: chain base + onset rows from v19 ABC_st03 (CatBoost bag + stage-2; CV-gated) |
 | submission_COMBO18.csv | 56787709 | 0.87245 | EXP_COMBO_20: chain base + ongoing rows from v18 og4 bag (np511r+id511r x 2 seeds) |

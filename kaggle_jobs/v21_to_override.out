@@ -1,1 +1,30 @@
 waiting for ~/.kaggle/access_token ...
+[2026-10-04 00:22:20] network retry ValueError Invalid header value b'Bearer KGAT_[REDACTED]\n\n\nKGAT_[REDACTED]
+[2026-10-04 00:22:50] network retry ValueError Invalid header value b'Bearer KGAT_[REDACTED]\n\n\nKGAT_[REDACTED]
+[2026-10-04 00:29:48] network retry URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:31:33] network retry URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:33:18] network retry URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:35:03] network retry URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:36:35] network retry URLError <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-10-04 04:57:20] v21 status complete
+[2026-10-04 04:57:21]   v21: [  3341s] model cur_np trained: 8569478 rows x 58 cols, 1800 trees, 43.5 min, weighted False
+[2026-10-04 04:57:21]   v21: [  6240s] model cur_id trained: 8569478 rows x 64 cols, 1800 trees, 48.3 min, weighted False
+[2026-10-04 04:57:21]   v21: [  9796s] model fs_np trained: 11773024 rows x 58 cols, 1800 trees, 59.3 min, weighted True
+[2026-10-04 04:57:21]   v21: [ 13761s] model fs_id trained: 11773024 rows x 64 cols, 1800 trees, 66.1 min, weighted True
+[2026-10-04 04:57:21]   v21: [ 17541s] model h_np trained: 12207860 rows x 58 cols, 1800 trees, 63.0 min, weighted True
+[2026-10-04 04:57:21]   v21: [ 17678s] FOOTPRINT private: ongoing windows 40 | mean queued cells at T (q_last) 21.12
+[2026-10-04 04:57:21]   v21: [ 17678s]   cur2     windows changed 0/40 | mean Jaccard vs cur2 1.0000 | cells changed per step h1..h6 [0, 0, 0, 0, 0, 0] (added [0, 0, 0, 0, 0, 0]) | mean predicted size per step [21.05, 20.88, 20.32, 20.18, 19.68, 19.4]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs_np    windows changed 39/40 | mean Jaccard vs cur2 0.9007 | cells changed per step h1..h6 [11, 19, 26, 51, 45, 75] (added [3, 10, 13, 17, 12, 12]) | mean predicted size per step [20.93, 20.9, 20.32, 19.75, 19.15, 18.12]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs_id    windows changed 40/40 | mean Jaccard vs cur2 0.9068 | cells changed per step h1..h6 [14, 23, 33, 46, 42, 70] (added [2, 12, 15, 19, 16, 16]) | mean predicted size per step [20.8, 20.9, 20.25, 19.98, 19.43, 18.45]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs2      windows changed 39/40 | mean Jaccard vs cur2 0.9109 | cells changed per step h1..h6 [9, 17, 26, 49, 41, 70] (added [1, 8, 13, 20, 14, 14]) | mean predicted size per step [20.88, 20.85, 20.32, 19.95, 19.35, 18.35]
+[2026-10-04 04:57:21]   v21: [ 17678s]   h_np     windows changed 36/40 | mean Jaccard vs cur2 0.9201 | cells changed per step h1..h6 [10, 18, 28, 55, 48, 47] (added [5, 12, 21, 28, 21, 18]) | mean predicted size per step [21.05, 21.02, 20.68, 20.2, 19.52, 19.12]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fsblend  windows changed 30/40 | mean Jaccard vs cur2 0.9660 | cells changed per step h1..h6 [4, 9, 12, 24, 20, 22] (added [1, 5, 6, 11, 5, 6]) | mean predicted size per step [21.0, 20.9, 20.32, 20.12, 19.43, 19.15]
+[2026-10-04 04:57:21]   v21: [ 17678s] FOOTPRINT validation: ongoing windows 40 | mean queued cells at T (q_last) 22.98
+[2026-10-04 04:57:21]   v21: [ 17678s]   cur2     windows changed 0/40 | mean Jaccard vs cur2 1.0000 | cells changed per step h1..h6 [0, 0, 0, 0, 0, 0] (added [0, 0, 0, 0, 0, 0]) | mean predicted size per step [22.45, 22.2, 22.18, 22.18, 22.0, 21.62]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs_np    windows changed 35/40 | mean Jaccard vs cur2 0.9197 | cells changed per step h1..h6 [7, 10, 30, 32, 42, 90] (added [4, 6, 11, 13, 24, 33]) | mean predicted size per step [22.48, 22.25, 21.98, 22.02, 22.15, 21.02]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs_id    windows changed 34/40 | mean Jaccard vs cur2 0.9086 | cells changed per step h1..h6 [9, 13, 35, 36, 65, 107] (added [3, 9, 18, 16, 43, 47]) | mean predicted size per step [22.38, 22.32, 22.2, 22.07, 22.52, 21.3]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fs2      windows changed 34/40 | mean Jaccard vs cur2 0.9175 | cells changed per step h1..h6 [7, 9, 25, 34, 56, 93] (added [3, 5, 10, 14, 35, 37]) | mean predicted size per step [22.43, 22.23, 22.05, 22.02, 22.35, 21.15]
+[2026-10-04 04:57:21]   v21: [ 17678s]   h_np     windows changed 31/40 | mean Jaccard vs cur2 0.9421 | cells changed per step h1..h6 [10, 16, 28, 31, 35, 45] (added [6, 6, 10, 12, 15, 22]) | mean predicted size per step [22.5, 22.1, 21.98, 22.0, 21.88, 21.6]
+[2026-10-04 04:57:21]   v21: [ 17678s]   fsblend  windows changed 26/40 | mean Jaccard vs cur2 0.9583 | cells changed per step h1..h6 [3, 4, 17, 14, 28, 38] (added [1, 1, 8, 5, 17, 21]) | mean predicted size per step [22.43, 22.15, 22.15, 22.07, 22.15, 21.73]
+[2026-10-04 04:57:21]   v21: [ 17684s] CONTROL cur2 vs /kaggle/input/notebooks/hosen42/tfb-t2v20/queue_submission_npid.csv: ongoing rows 87000 (unmatched 0) | agreement 0.99994 | Jaccard of queued cells 0.99951 | positives cur2 10165 ref 10164 | OK
+[2026-10-04 04:57:21] override written for S3 {"type": "queue", "src_kernel": "tfb-t2v21", "src_file": "queue_submission_fs2.csv", "cond": "queue_ongoing", "thr": 0.0, "max_share": 0.1, "desc": "EXP_COMBO_v21: chain base + ongoing rows from v21 fs2 (selection-faithful ongoing training: faithful windows 0.3 + run-starts 1.0)"}

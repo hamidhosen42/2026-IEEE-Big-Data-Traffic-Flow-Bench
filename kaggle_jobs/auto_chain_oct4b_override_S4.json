@@ -1,0 +1,9 @@
+{
+ "type": "queue",
+ "src_kernel": "tfb-t2v22",
+ "src_file": "queue_submission_fs4.csv",
+ "cond": "queue_ongoing",
+ "thr": 0.0,
+ "max_share": 0.1,
+ "desc": "EXP_COMBO_v22: chain base + ongoing rows from v22 fs4 (selection-faithful F03 bag: np/id x 2 seeds)"
+}

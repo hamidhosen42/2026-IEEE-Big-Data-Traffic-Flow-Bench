@@ -1,9 +1,40 @@
 {
- "base_kernel": "tfb-c20",
- "base_file": "submission_TV.csv",
- "base_score": 0.87271,
- "best_score": 0.87271,
- "done": [],
+ "base_kernel": "tfb-e5",
+ "base_file": "submission_E5.csv",
+ "base_score": 0.87961,
+ "best_score": 0.87961,
+ "done": [
+  {
+   "slot": "S1_MIX",
+   "score": 0.87334,
+   "delta": 0.0006300000000000194,
+   "keep": true
+  },
+  {
+   "slot": "S2_OG8",
+   "score": 0.87343,
+   "delta": 9.00000000000345e-05,
+   "keep": true
+  },
+  {
+   "slot": "S3",
+   "score": 0.87817,
+   "delta": 0.0047399999999999665,
+   "keep": true
+  },
+  {
+   "slot": "S4",
+   "score": 0.87857,
+   "delta": 0.00039999999999995595,
+   "keep": true
+  },
+  {
+   "slot": "S5",
+   "score": 0.87961,
+   "delta": 0.001040000000000041,
+   "keep": true
+  }
+ ],
  "recon": {
   "gate": 0.6,
   "a": 0.75,
@@ -15,10 +46,19 @@
    0.005
   ]
  },
- "raw_kernel": "tfb-c16",
- "raw_file": "submission_COMBO16.csv",
- "fd_used": [],
+ "raw_kernel": "tfb-e1m",
+ "raw_file": "submission_T1MIX.csv",
+ "fd_used": [
+  "tfb-t1v13",
+  "tfb-t1v13s10",
+  "tfb-t1v13s11"
+ ],
  "versions": {
-  "tfb-e1m": 1
+  "tfb-e1m": 3,
+  "tfb-e1": 1,
+  "tfb-e2": 1,
+  "tfb-e3": 1,
+  "tfb-e4": 1,
+  "tfb-e5": 1
  }
 }

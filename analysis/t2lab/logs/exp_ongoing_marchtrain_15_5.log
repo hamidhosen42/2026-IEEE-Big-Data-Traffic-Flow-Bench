@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E March training windows 206 | eval {'offlike_m': 28, 'runstart_m': 98}
+[     1s] D7_I10_W March training windows 39 | eval {'offlike_m': 12, 'runstart_m': 31}
+[     2s] D7_I210_E March training windows 45 | eval {'offlike_m': 16, 'runstart_m': 23}
+[     2s] D7_I210_W March training windows 271 | eval {'offlike_m': 22, 'runstart_m': 109}
+[     4s] D7_I405_N March training windows 388 | eval {'offlike_m': 28, 'runstart_m': 114}
+[     4s] D7_I405_S March training windows 291 | eval {'offlike_m': 20, 'runstart_m': 99}
+[     5s] D12_I5_N March training windows 100 | eval {'offlike_m': 27, 'runstart_m': 74}
+[     5s] D12_I5_S March training windows 259 | eval {'offlike_m': 24, 'runstart_m': 69}
+[     6s] March training rows 458173 pos 0.242 weight sum 1140201.5
+[   113s] npB trained on 8471739 rows (458173 March) 107s
+[   241s] idB trained on 8471739 rows (458173 March) 128s
+[   369s] fullB trained on 8471739 rows (458173 March) 129s
+
+== offlike_m, days >= 15: n = 177 ==
+np+id          0.8002  vs np+id +0.0000 [+0.0000, +0.0000]  panels+ 0/8
+npid+full_s4   0.8233  vs np+id +0.0231 [+0.0149, +0.0318]  panels+ 8/8
+npB+idB        0.8228  vs np+id +0.0226 [+0.0148, +0.0309]  panels+ 7/8
+npBidB+fullB   0.8398  vs np+id +0.0397 [+0.0288, +0.0513]  panels+ 8/8
+npid+fullB     0.8328  vs np+id +0.0326 [+0.0240, +0.0416]  panels+ 8/8
+fullB          0.8472  vs np+id +0.0470 [+0.0314, +0.0622]  panels+ 7/8
+
+== runstart_m, days >= 15: n = 617 ==
+np+id          0.8648  vs np+id +0.0000 [+0.0000, +0.0000]  panels+ 0/8
+npid+full_s4   0.8840  vs np+id +0.0192 [+0.0141, +0.0243]  panels+ 8/8
+npB+idB        0.8844  vs np+id +0.0196 [+0.0151, +0.0241]  panels+ 8/8
+npBidB+fullB   0.8976  vs np+id +0.0328 [+0.0269, +0.0390]  panels+ 8/8
+npid+fullB     0.8922  vs np+id +0.0274 [+0.0221, +0.0331]  panels+ 8/8
+fullB          0.8918  vs np+id +0.0270 [+0.0181, +0.0361]  panels+ 7/8
+[   385s] DONE
+[run_heavy] exit 0 after 386s

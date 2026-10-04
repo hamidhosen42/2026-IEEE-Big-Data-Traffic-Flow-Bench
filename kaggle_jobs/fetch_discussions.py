@@ -1,6 +1,6 @@
 """Dump the competition discussion forum (all topics + all comments) to discussions/*.md via Kaggle's web API."""
 import json, os, re, time, html, urllib.request
-T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip()
+T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip().splitlines()[0].strip()
 def call(svc, body):
     req = urllib.request.Request(f'https://www.kaggle.com/api/i/{svc}', data=json.dumps(body).encode(),
                                  headers={'Authorization': 'Bearer ' + T, 'Content-Type': 'application/json'}, method='POST')

@@ -1,6 +1,6 @@
 """save_local.py <folder> <submitted_slug> [upstream slugs...] : pull exact kernel sources into submissions/<folder>/ and refresh README."""
 import json, os, sys, time, urllib.request
-T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip(); H = {'Authorization': 'Bearer ' + T}
+T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip().splitlines()[0].strip(); H = {'Authorization': 'Bearer ' + T}
 get = lambda u: json.load(urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=120))
 folder, slug, ups = sys.argv[1], sys.argv[2], sys.argv[3:]
 d = f'submissions/{folder}'; os.makedirs(d, exist_ok=True)

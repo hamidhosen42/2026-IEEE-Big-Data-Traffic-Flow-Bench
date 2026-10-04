@@ -1,0 +1,11 @@
+[2026-10-04 07:03:53] osp helper started
+[2026-10-04 07:15:00] osp status complete
+[2026-10-04 07:15:01]   osp: [   246s] catboost onset trained on 310782 rows (v9 features)
+[2026-10-04 07:15:01]   osp: [   283s] queue rows 174000 dupes 0
+[2026-10-04 07:15:01]   osp: [   286s] CONTROL v13 onset agreement 1.000000 jaccard 1.00000 rows 87000
+[2026-10-04 07:15:01]   osp: [   312s] CONTROL chain-base onset vs base: agreement 1.000000 jaccard 1.00000 changed share 0.00000 rows 87000
+[2026-10-04 07:15:01]   osp: [   313s] CONTROL chain-base onset vs sp2: agreement 0.999161 jaccard 0.79023 changed share 0.00084 rows 87000
+[2026-10-04 07:15:01]   osp: [   313s] CONTROL chain-base onset vs sp4: agreement 0.999345 jaccard 0.83235 changed share 0.00066 rows 87000
+[2026-10-04 07:15:01]   osp: [   313s] CONTROL chain-base onset vs sp8: agreement 0.999414 jaccard 0.84821 changed share 0.00059 rows 87000
+[2026-10-04 07:15:01]   osp: [   313s] OSP DONE
+[2026-10-04 07:15:01] override written for S5 {"type": "queue", "src_kernel": "tfb-t2osp", "src_file": "queue_submission_sp4.csv", "cond": "queue_onset", "thr": 0.0, "max_share": 0.1, "desc": "EXP_COMBO_OSP: chain base + onset rows with the same-scenario prior (sp4: train prior blended per cell with the March/April masked-layer prior of the days before T, smoothed +-2 slots, a=n/(n+4))"}

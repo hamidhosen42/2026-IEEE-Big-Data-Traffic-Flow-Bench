@@ -1,0 +1,22 @@
+[2026-10-04 07:38:58] P1 planner started
+[2026-10-04 09:43:37] tfb-t2ogpv status complete
+[2026-10-04 09:43:38]   ogpv: [   720s] D7_I10_E March ongoing training windows 482 (run-starts 188) rows 81125 pos 0.2336 mean a 0.45
+[2026-10-04 09:43:38]   ogpv: [   730s] D7_I10_W March ongoing training windows 111 (run-starts 44) rows 12493 pos 0.2102 mean a 0.489
+[2026-10-04 09:43:38]   ogpv: [   744s] D7_I210_E March ongoing training windows 133 (run-starts 36) rows 11930 pos 0.2103 mean a 0.512
+[2026-10-04 09:43:38]   ogpv: [   754s] D7_I210_W March ongoing training windows 586 (run-starts 197) rows 89715 pos 0.1787 mean a 0.446
+[2026-10-04 09:43:38]   ogpv: [   773s] D7_I405_N March ongoing training windows 885 (run-starts 201) rows 503291 pos 0.266 mean a 0.464
+[2026-10-04 09:43:38]   ogpv: [   784s] D7_I405_S March ongoing training windows 598 (run-starts 201) rows 110353 pos 0.2892 mean a 0.431
+[2026-10-04 09:43:38]   ogpv: [   799s] D12_I5_N March ongoing training windows 382 (run-starts 96) rows 144487 pos 0.1992 mean a 0.506
+[2026-10-04 09:43:38]   ogpv: [   809s] D12_I5_S March ongoing training windows 532 (run-starts 161) rows 116414 pos 0.2152 mean a 0.456
+[2026-10-04 09:43:38]   ogpv: [  2803s] model npB trained: 12842832 rows, 900 trees, 33.2 min
+[2026-10-04 09:43:38]   ogpv: [  4985s] model idB trained: 12842832 rows, 900 trees, 36.4 min
+[2026-10-04 09:43:38]   ogpv: [  7425s] model fullB trained: 12842832 rows, 900 trees, 40.7 min
+[2026-10-04 09:43:38]   ogpv: [  7536s] pvo vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 5288 vs 5288
+[2026-10-04 09:43:38]   ogpv: [  7536s] pvo vs fs4 on private ongoing rows: changed share 0.00634 jaccard 0.9444 positives 4868 vs 4790
+[2026-10-04 09:43:38]   ogpv: [  7537s] pvo_npid vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 5288 vs 5288
+[2026-10-04 09:43:38]   ogpv: [  7537s] pvo_npid vs fs4 on private ongoing rows: changed share 0.00368 jaccard 0.9671 positives 4772 vs 4790
+[2026-10-04 09:43:38]   ogpv: [  7578s] CONTROL chain-base ongoing vs pvo (validation): agreement 1.000000 changed share 0.00000 rows 43500
+[2026-10-04 09:43:38]   ogpv: [  7578s] CONTROL chain-base ongoing vs pvo (private): agreement 0.993655 changed share 0.00634 rows 43500
+[2026-10-04 09:43:38]   ogpv: [  7578s] OGPV DONE
+[2026-10-04 09:43:38] ongoing part usable: True
+[2026-10-04 09:43:38] P1 override written {"type": "queue2", "parts": [["tfb-t2opv", "queue_submission_pv.csv", "queue_onset", "private"], ["tfb-t2ogpv", "queue_submission_pvo.csv", "queue_ongoing", "private"]], "thr": 0.0, "max_val_changed": 0, "desc": "P1: PRIVATE package (April rows only, March unchanged): onset = same-scenario CatBoost bag (train + released March windows, scenario prior); ongoing = March-augmented F03 np/id/full + scenario prior"}

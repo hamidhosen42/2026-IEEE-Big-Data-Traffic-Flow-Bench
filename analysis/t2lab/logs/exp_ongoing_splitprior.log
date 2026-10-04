@@ -1,0 +1,49 @@
+[run_heavy] slot acquired after 0s
+[   125s] F03 full255 trained: 8013566 rows 125s {"faith3": {"windows": 10255, "rows": 3885219, "wsum": 1165565.1640625, "runstart_windows": 0}, "runstart": {"windows": 10689, "rows": 4128347, "wsum": 4128347.0, "runstart_windows": 10689}}
+full model gain share of prior columns: {'prior': 0.0394, 'prior_now': 0.0087, 'prior_alldays': 0.0153} | top: {'q_last': 0.315, 'vr_last': 0.3, 'dq_hi': 0.128, 'prior': 0.039, 'tod': 0.028, 'prior_alldays': 0.015, 'h': 0.014, 'share_q': 0.014}
+[   129s] D7_I10_E {'offlike_m': 41, 'runstart_m': 188} 4s
+[   130s] D7_I10_W {'offlike_m': 16, 'runstart_m': 44} 1s
+[   131s] D7_I210_E {'offlike_m': 27, 'runstart_m': 36} 1s
+[   134s] D7_I210_W {'offlike_m': 46, 'runstart_m': 197} 4s
+[   147s] D7_I405_N {'offlike_m': 51, 'runstart_m': 201} 13s
+[   152s] D7_I405_S {'offlike_m': 42, 'runstart_m': 201} 5s
+[   156s] D12_I5_N {'offlike_m': 34, 'runstart_m': 96} 5s
+[   161s] D12_I5_S {'offlike_m': 41, 'runstart_m': 161} 4s
+
+== offlike_m: pseudo-March ongoing IoU (window -> panel -> family -> mean) ==
+       arm    all  n_all   d1-5  n_d1-5  d6-15  n_d6-15   d16+  n_d16+
+        np 0.8170    298 0.8205      40 0.8666       81 0.7973     177
+   full_tr 0.7381    298 0.7609      40 0.7454       81 0.7312     177
+   full_s2 0.8060    298 0.7706      40 0.8019       81 0.8141     177
+   full_s4 0.8053    298 0.7695      40 0.8043       81 0.8111     177
+   full_s8 0.7904    298 0.7654      40 0.7976       81 0.7909     177
+  full_s16 0.7848    298 0.7681      40 0.7888       81 0.7846     177
+np+full_s4 0.8331    298 0.8058      40 0.8660       81 0.8257     177
+-- paired vs np (offlike_m)
+       arm  all_diff  all_lo  all_hi  d16+_diff  d16+_lo  d16+_hi panels_pos
+   full_tr   -0.0788 -0.1045 -0.0525    -0.0661  -0.0977  -0.0333        1/8
+   full_s2   -0.0110 -0.0335  0.0112     0.0168  -0.0112   0.0420        6/8
+   full_s4   -0.0117 -0.0337  0.0100     0.0138  -0.0124   0.0385        5/8
+   full_s8   -0.0266 -0.0485 -0.0058    -0.0064  -0.0299   0.0174        3/8
+  full_s16   -0.0322 -0.0546 -0.0108    -0.0127  -0.0370   0.0114        3/8
+np+full_s4    0.0161  0.0097  0.0228     0.0284   0.0206   0.0364        8/8
+
+== runstart_m: pseudo-March ongoing IoU (window -> panel -> family -> mean) ==
+       arm    all  n_all   d1-5  n_d1-5  d6-15  n_d6-15   d16+  n_d16+
+        np 0.8710   1124 0.8572     114 0.8913      393 0.8621     617
+   full_tr 0.8038   1124 0.8228     114 0.8053      393 0.7961     617
+   full_s2 0.8656   1124 0.8314     114 0.8609      393 0.8718     617
+   full_s4 0.8641   1124 0.8347     114 0.8604      393 0.8687     617
+   full_s8 0.8566   1124 0.8313     114 0.8548      393 0.8588     617
+  full_s16 0.8496   1124 0.8334     114 0.8495      393 0.8499     617
+np+full_s4 0.8875   1124 0.8683     114 0.8970      393 0.8848     617
+-- paired vs np (runstart_m)
+       arm  all_diff  all_lo  all_hi  d16+_diff  d16+_lo  d16+_hi panels_pos
+   full_tr   -0.0672 -0.0807 -0.0548    -0.0660  -0.0825  -0.0500        1/8
+   full_s2   -0.0053 -0.0168  0.0048     0.0096  -0.0022   0.0213        6/8
+   full_s4   -0.0068 -0.0178  0.0031     0.0065  -0.0053   0.0177        5/8
+   full_s8   -0.0144 -0.0247 -0.0049    -0.0034  -0.0146   0.0079        4/8
+  full_s16   -0.0214 -0.0319 -0.0121    -0.0122  -0.0235  -0.0008        2/8
+np+full_s4    0.0165  0.0127  0.0205     0.0226   0.0181   0.0274        8/8
+[   163s] DONE
+[run_heavy] exit 0 after 164s

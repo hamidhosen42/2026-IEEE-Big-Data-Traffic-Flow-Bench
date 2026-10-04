@@ -1,1 +1,43 @@
 waiting for ~/.kaggle/access_token ...
+[2026-10-04 00:22:20] START chain v2 | base tfb-c20 submission_TV.csv 0.87271 | done []
+[2026-10-04 00:22:20] network retry status ValueError Invalid header value b'Bearer KGAT_[REDACTED]\n\n\nKGAT_[REDACTED]
+[2026-10-04 00:22:50] network retry status ValueError Invalid header value b'Bearer KGAT_[REDACTED]\n\n\nKGAT_[REDACTED]
+[2026-10-04 00:23:50] START chain v2 | base tfb-c20 submission_TV.csv 0.87271 | done []
+[2026-10-04 00:23:55] FD members complete: ['tfb-t1v13', 'tfb-t1v13s10', 'tfb-t1v13s11']
+[2026-10-04 00:23:57] pushed tfb-e1m version 2
+[2026-10-04 00:28:33] START chain v2 | base tfb-c20 submission_TV.csv 0.87271 | done []
+[2026-10-04 00:29:48] network retry status URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:31:33] network retry status URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:33:18] network retry status URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:35:03] network retry status URLError <urlopen error [Errno 60] Operation timed out>
+[2026-10-04 00:35:40] FD members complete: ['tfb-t1v13', 'tfb-t1v13s10', 'tfb-t1v13s11']
+[2026-10-04 00:35:42] pushed tfb-e1m version 3
+[2026-10-04 00:44:46]   mix: old members 8 | FD members 3 ('tfb-t1v13', 'tfb-t1v13s10', 'tfb-t1v13s11') | W_FD 0.5
+[2026-10-04 00:44:46]   mix: rms speed old-bag vs FD-bag 0.459 | flow 24.71
+[2026-10-04 00:44:46]   mix: info: base (post FDR/TV) vs old bag rms speed 0.228
+[2026-10-04 00:44:50] pushed tfb-e1 version 1
+[2026-10-04 00:55:35] submit tfb-e1 v 1 submission_FDRTV.csv -> complete 0.87334
+[2026-10-04 00:55:43] S1_MIX: LB 0.87334 | delta vs chain base +0.00063 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-04 00:55:46] pushed tfb-e2 version 1
+[2026-10-04 00:58:35]   S2_OG8: queue_ongoing rows changed share 0.00069 | positives 10172 -> 10180
+[2026-10-04 00:59:40] submit tfb-e2 v 1 submission_E2.csv -> complete 0.87343
+[2026-10-04 00:59:48] S2_OG8: LB 0.87343 | delta vs chain base +0.00009 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-04 00:59:48] S3: waiting for auto_chain_oct4b_override_S3.json until 2026-10-04 09:00 UTC
+[2026-10-04 04:57:21] S3 override: {"type": "queue", "src_kernel": "tfb-t2v21", "src_file": "queue_submission_fs2.csv", "cond": "queue_ongoing", "thr": 0.0, "max_share": 0.1, "desc": "EXP_COMBO_v21: chain base + ongoing rows from v21 fs2 (selection-faithful ongoing training: faithful windows 0.3 + run-starts 1.0)"}
+[2026-10-04 04:57:24] pushed tfb-e3 version 1
+[2026-10-04 05:00:43]   S3: queue_ongoing rows changed share 0.00484 | positives 10180 -> 10077
+[2026-10-04 05:01:48] submit tfb-e3 v 1 submission_E3.csv -> complete 0.87817
+[2026-10-04 05:01:55] S3: LB 0.87817 | delta vs chain base +0.00474 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-04 05:01:55] S4: waiting for auto_chain_oct4b_override_S4.json until 2026-10-04 15:00 UTC
+[2026-10-04 07:16:58] S4 override: {"type": "queue", "src_kernel": "tfb-t2v22", "src_file": "queue_submission_fs4.csv", "cond": "queue_ongoing", "thr": 0.0, "max_share": 0.1, "desc": "EXP_COMBO_v22: chain base + ongoing rows from v22 fs4 (selection-faithful F03 bag: np/id x 2 seeds)"}
+[2026-10-04 07:17:00] pushed tfb-e4 version 1
+[2026-10-04 07:21:21]   S4: queue_ongoing rows changed share 0.00089 | positives 10077 -> 10078
+[2026-10-04 07:22:25] submit tfb-e4 v 1 submission_E4.csv -> complete 0.87857
+[2026-10-04 07:22:32] S4: LB 0.87857 | delta vs chain base +0.00040 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-04 07:22:32] S5: waiting for auto_chain_oct4b_override_S5.json until 2026-10-04 21:00 UTC
+[2026-10-04 07:22:32] S5 override: {"type": "queue", "src_kernel": "tfb-t2osp", "src_file": "queue_submission_sp4.csv", "cond": "queue_onset", "thr": 0.0, "max_share": 0.1, "desc": "EXP_COMBO_OSP: chain base + onset rows with the same-scenario prior (sp4: train prior blended per cell with the March/April masked-layer prior of the days before T, smoothed +-2 slots, a=n/(n+4))"}
+[2026-10-04 07:22:35] pushed tfb-e5 version 1
+[2026-10-04 07:25:23]   S5: queue_onset rows changed share 0.00066 | positives 308 -> 315
+[2026-10-04 07:26:28] submit tfb-e5 v 1 submission_E5.csv -> complete 0.87961
+[2026-10-04 07:26:35] S5: LB 0.87961 | delta vs chain base +0.00104 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-04 07:26:35] CHAIN DONE | final base tfb-e5 submission_E5.csv 0.87961 | best 0.87961

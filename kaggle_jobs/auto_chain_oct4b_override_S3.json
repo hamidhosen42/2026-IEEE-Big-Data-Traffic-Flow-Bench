@@ -1,0 +1,9 @@
+{
+ "type": "queue",
+ "src_kernel": "tfb-t2v21",
+ "src_file": "queue_submission_fs2.csv",
+ "cond": "queue_ongoing",
+ "thr": 0.0,
+ "max_share": 0.1,
+ "desc": "EXP_COMBO_v21: chain base + ongoing rows from v21 fs2 (selection-faithful ongoing training: faithful windows 0.3 + run-starts 1.0)"
+}

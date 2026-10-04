@@ -26,6 +26,7 @@ NEEDS = {'queue_submission_fs2.csv': ('fs_np', 'fs_id'), 'queue_submission_fs_np
 
 def log(*a):
     msg = f'[{dt.datetime.utcnow():%Y-%m-%d %H:%M:%S}] ' + ' '.join(str(x) for x in a)
+    msg = re.sub(r'KGAT_[A-Za-z0-9]+', 'KGAT_[REDACTED]', msg)
     print(msg, flush=True); LOG.write(msg + '\n')
 
 

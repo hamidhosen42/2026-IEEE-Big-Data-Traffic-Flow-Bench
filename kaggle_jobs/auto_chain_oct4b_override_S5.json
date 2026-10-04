@@ -1,0 +1,9 @@
+{
+ "type": "queue",
+ "src_kernel": "tfb-t2osp",
+ "src_file": "queue_submission_sp4.csv",
+ "cond": "queue_onset",
+ "thr": 0.0,
+ "max_share": 0.1,
+ "desc": "EXP_COMBO_OSP: chain base + onset rows with the same-scenario prior (sp4: train prior blended per cell with the March/April masked-layer prior of the days before T, smoothed +-2 slots, a=n/(n+4))"
+}

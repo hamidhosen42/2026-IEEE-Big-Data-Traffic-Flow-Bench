@@ -1,7 +1,14 @@
 """Push a script to Kaggle as a private kernel with the competition data attached, poll it, fetch outputs."""
 import json, os, sys, time, urllib.request, urllib.parse
-T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip()
-H = {'Authorization': 'Bearer ' + T, 'Content-Type': 'application/json'}
+TOKEN_F = os.path.expanduser('~/.kaggle/access_token')
+
+
+def _headers():
+    """read the token on every call (first non-empty line), so a rotated token is picked up without a restart."""
+    tok = open(TOKEN_F).read().strip().splitlines()[0].strip()
+    return {'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'}
+
+
 USER = 'hosen42'
 COMP = '2026-ieee-big-data-traffic-flow-bench'
 API = 'https://www.kaggle.com/api/v1'
@@ -9,7 +16,7 @@ API = 'https://www.kaggle.com/api/v1'
 
 def call(method, path, body=None):
     req = urllib.request.Request(API + path, data=json.dumps(body).encode() if body is not None else None,
-                                 headers=H, method=method)
+                                 headers=_headers(), method=method)
     try:
         with urllib.request.urlopen(req, timeout=120) as r:
             return json.load(r)
