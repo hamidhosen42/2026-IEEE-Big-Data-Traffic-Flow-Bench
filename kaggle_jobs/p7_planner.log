@@ -1,1 +1,4 @@
 [2026-10-07 02:22:44] p7 planner start
+[2026-10-07 03:07:45] Q1/Q2 done; base tfb-h1 0.88129
+[2026-10-07 03:07:45] Q3 override written {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on the ramp-member base: April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-07 03:07:45] p7 planner done

@@ -2,6 +2,8 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_FDRTV.csv | 56898478 | 0.88120 | Q2: T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV |
+| submission_FDRTV.csv | 56897994 | 0.88129 | Q1: T1 blackout rows (90 min after each official Task 2 origin) = 0.25 T1 mix + 0.75 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV |
 | submission_G5.csv | 56865768 | 0.88092 | Q5: FINAL CANDIDATE B (hedge): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models, same recipe as the public best); March rows unchanged |
 | submission_G4.csv | 56865673 | 0.88092 | Q4: FINAL CANDIDATE A (same-scenario bet): April onset = CatBoost bag trained with released-March windows + scenario prior; April ongoing = March-augmented F03 np/id/full + scenario prior, all-finite inputs; March rows unchanged |
 | submission_G3.csv | 56865571 | 0.88092 | Q3: March ongoing rows from the F03 bag with all-finite inputs + 13 OCCUPANCY features (occupancy / per-link critical occupancy, neighbours, slope, density agreement); April unchanged |
@@ -50,5 +52,3 @@
 | submission.csv | 56620877 | 0.84499 | SUB_A: T1 LGBM v3 (gap-aware) + T2 LGBM blend70 + T4 NNLS own counts |
 | submission.csv | 56619654 | 0.84357 | PROBE T2: EXP000 base + Task2 LGBM blend70 (only queue rows changed) |
 | submission.csv | 56616281 | 0.80939 | Notebook [0.809 LB TOP 50] Open-Sourcing Physics Pipeline | Version 1 |
-| submission_352472917.csv | 56615110 | error |  |
-| submission.csv | 56518779 | 0.53880 | Notebook Traffic Flow Bench Pipeline | Version 2 |

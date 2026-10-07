@@ -2,3 +2,21 @@
 [2026-10-07 02:22:44] Q1: waiting for auto_chain_oct7_override_Q1.json until 2026-10-07 06:00 UTC
 [2026-10-07 02:22:44] Q1 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp", "w_dark": 0.75, "thr": 0.0001, "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.25 T1 mix + 0.75 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV"}
 [2026-10-07 02:22:48] pushed tfb-h1d version 1
+[2026-10-07 02:28:37] network retry status timeout The read operation timed out
+[2026-10-07 02:33:45]   t1dark: rms speed old-bag vs FD-bag 0.459 | flow 24.71
+[2026-10-07 02:33:45]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.391
+[2026-10-07 02:33:45]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 4.251 flow 169.54 | regular rows: speed 0.451
+[2026-10-07 02:33:47] pushed tfb-h1 version 1
+[2026-10-07 02:44:21] submit tfb-h1 v 1 submission_FDRTV.csv -> complete 0.88129
+[2026-10-07 02:44:28] Q1: LB 0.88129 | delta vs chain base +0.00037 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-07 02:44:28] Q2: waiting for auto_chain_oct7_override_Q2.json until 2026-10-07 10:00 UTC
+[2026-10-07 02:44:28] Q2 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp", "w_dark": 0.5, "thr": 0.0001, "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV"}
+[2026-10-07 02:44:31] pushed tfb-h2d version 1
+[2026-10-07 02:56:01]   t1dark: rms speed old-bag vs FD-bag 0.459 | flow 24.71
+[2026-10-07 02:56:01]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.549
+[2026-10-07 02:56:01]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.5 | rms dark vs mix on blackout rows: speed 4.251 flow 169.54 | regular rows: speed 0.451
+[2026-10-07 02:56:03] pushed tfb-h2 version 1
+[2026-10-07 03:00:20] network retry status timeout The read operation timed out
+[2026-10-07 03:07:05] submit tfb-h2 v 1 submission_FDRTV.csv -> complete 0.88120
+[2026-10-07 03:07:12] Q2: LB 0.88120 | delta vs chain base -0.00009 | rule >= +0.0001 -> DROP (base unchanged)
+[2026-10-07 03:07:12] Q3: waiting for auto_chain_oct7_override_Q3.json until 2026-10-07 14:00 UTC
