@@ -1,0 +1,53 @@
+[2026-10-06 00:02:15] START chain oct6 | base tfb-e5 submission_E5.csv 0.87961 | done []
+[2026-10-06 00:02:15] Q1: waiting for auto_chain_oct6_override_Q1.json until 2026-10-06 06:00 UTC
+[2026-10-06 00:02:15] Q1 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1dark", "w_dark": 0.5, "thr": 0.0001, "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member trained with simulated-blackout transductive rows; recon + TV"}
+[2026-10-06 00:02:19] pushed tfb-g1d version 1
+[2026-10-06 00:14:20]   t1dark: rms speed old-bag vs FD-bag 0.459 | flow 24.71
+[2026-10-06 00:14:20]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.326
+[2026-10-06 00:14:20]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.5 | rms dark vs mix on blackout rows: speed 3.245 flow 152.82 | regular rows: speed 0.401
+[2026-10-06 00:14:22] pushed tfb-g1 version 1
+[2026-10-06 00:24:24] submit tfb-g1 v 1 submission_FDRTV.csv -> complete 0.87990
+[2026-10-06 00:24:31] Q1: LB 0.87990 | delta vs chain base +0.00029 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-06 00:24:31] Q2: waiting for auto_chain_oct6_override_Q2.json until 2026-10-06 10:00 UTC
+[2026-10-06 00:24:31] Q2 override: {"type": "queue2", "parts": [["tfb-t2onaf", "queue_submission_sp4.csv", "queue_onset", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March onset rows from CatBoost onset with ALL-FINITE inputs (ineligible-but-valued cells as features), same sp4 scenario prior; April unchanged"}
+[2026-10-06 00:24:34] pushed tfb-g2 version 1
+[2026-10-06 00:27:23]   Q2: PART tfb-t2onaf/queue_submission_sp4.csv cond=queue_onset split=validation windows=any: rows 43500 | changed 11 share 0.00025 | positives 151 -> 148
+[2026-10-06 00:27:23]   Q2: validation: changed rows 11
+[2026-10-06 00:27:23]   Q2: private: changed rows 0
+[2026-10-06 00:27:23]   Q2: TOTAL changed rows: validation 11 | private 0
+[2026-10-06 00:28:29] submit tfb-g2 v 1 submission_G2.csv -> complete 0.87883
+[2026-10-06 00:28:36] Q2: LB 0.87883 | delta vs chain base -0.00107 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-06 00:28:36] Q3: waiting for auto_chain_oct6_override_Q3.json until 2026-10-06 14:00 UTC
+[2026-10-06 00:28:36] Q3 override: {"type": "queue2", "parts": [["tfb-t2occ", "queue_submission_fs4occ.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the F03 bag with all-finite inputs + 13 OCCUPANCY features (occupancy / per-link critical occupancy, neighbours, slope, density agreement); April unchanged"}
+[2026-10-06 00:28:39] pushed tfb-g3 version 1
+[2026-10-06 00:31:28]   Q3: PART tfb-t2occ/queue_submission_fs4occ.csv cond=queue_ongoing split=validation windows=any: rows 43500 | changed 152 share 0.00349 | positives 5288 -> 5268
+[2026-10-06 00:31:28]   Q3: validation: changed rows 152
+[2026-10-06 00:31:28]   Q3: private: changed rows 0
+[2026-10-06 00:31:28]   Q3: TOTAL changed rows: validation 152 | private 0
+[2026-10-06 00:32:33] submit tfb-g3 v 1 submission_G3.csv -> complete 0.88092
+[2026-10-06 00:32:41] Q3: LB 0.88092 | delta vs chain base +0.00102 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-06 00:32:41] Q4: waiting for auto_chain_oct6_override_Q4.json until 2026-10-06 18:00 UTC
+[2026-10-06 00:32:41] Q4 override: {"type": "queue2", "parts": [["tfb-t2opv", "queue_submission_pv.csv", "queue_onset", "private"], ["tfb-t2ogpvaf", "queue_submission_pvo.csv", "queue_ongoing", "private"]], "thr": 0.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE A (same-scenario bet): April onset = CatBoost bag trained with released-March windows + scenario prior; April ongoing = March-augmented F03 np/id/full + scenario prior, all-finite inputs; March rows unchanged"}
+[2026-10-06 00:32:44] pushed tfb-g4 version 1
+[2026-10-06 00:35:33]   Q4: PART tfb-t2opv/queue_submission_pv.csv cond=queue_onset split=private windows=any: rows 43500 | changed 19 share 0.00044 | positives 164 -> 159
+[2026-10-06 00:35:33]   Q4: validation: changed rows 0
+[2026-10-06 00:35:33]   Q4: private: changed rows 19
+[2026-10-06 00:35:33]   Q4: PART tfb-t2ogpvaf/queue_submission_pvo.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 280 share 0.00644 | positives 4790 -> 4854
+[2026-10-06 00:35:33]   Q4: validation: changed rows 0
+[2026-10-06 00:35:33]   Q4: private: changed rows 280
+[2026-10-06 00:35:33]   Q4: TOTAL changed rows: validation 0 | private 299
+[2026-10-06 00:36:38] submit tfb-g4 v 1 submission_G4.csv -> complete 0.88092
+[2026-10-06 00:36:48] Q4: LB 0.88092 | delta vs chain base +0.00000 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-06 00:36:48] Q5: waiting for auto_chain_oct6_override_Q5.json until 2026-10-06 22:00 UTC
+[2026-10-06 00:36:48] Q5 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models, same recipe as the public best); March rows unchanged"}
+[2026-10-06 00:36:51] pushed tfb-g5 version 1
+[2026-10-06 00:39:40]   Q5: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-06 00:39:40]   Q5: validation: changed rows 0
+[2026-10-06 00:39:40]   Q5: private: changed rows 48
+[2026-10-06 00:39:40]   Q5: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 262 share 0.00602 | positives 4854 -> 4784
+[2026-10-06 00:39:40]   Q5: validation: changed rows 0
+[2026-10-06 00:39:40]   Q5: private: changed rows 262
+[2026-10-06 00:39:40]   Q5: TOTAL changed rows: validation 0 | private 310
+[2026-10-06 00:40:45] submit tfb-g5 v 1 submission_G5.csv -> complete 0.88092
+[2026-10-06 00:40:55] Q5: LB 0.88092 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-06 00:40:55] CHAIN DONE | final base tfb-g4 submission_G4.csv 0.88092 | best 0.88092

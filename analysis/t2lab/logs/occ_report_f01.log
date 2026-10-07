@@ -1,0 +1,45 @@
+== TRAIN OOF: occupancy (13 cols) vs all-finite baseline | folds requested [0, 1] ==
+offlike  np   occ vs af: n=1473 base 0.8796 new 0.8821 diff +0.0025 [+0.0003, +0.0046] p_pos 0.987 panels +6/-2 of 8 windows up/down 520/385
+offlike  np   occ vs af [runstart]: n=1126 base 0.8946 new 0.8972 diff +0.0026 [+0.0001, +0.0051] p_pos 0.981 panels +6/-2 of 8 windows up/down 373/290
+offlike  np   occ vs af [midrun]: n=347 base 0.6689 new 0.6804 diff +0.0114 [+0.0084, +0.0144] p_pos 1.000 panels +7/-1 of 8 windows up/down 147/95
+offlike  id   occ vs af: n=1473 base 0.8848 new 0.8868 diff +0.0020 [-0.0005, +0.0043] p_pos 0.942 panels +7/-1 of 8 windows up/down 488/405
+offlike  id   occ vs af [runstart]: n=1126 base 0.8988 new 0.9002 diff +0.0014 [-0.0008, +0.0036] p_pos 0.892 panels +6/-2 of 8 windows up/down 354/283
+offlike  id   occ vs af [midrun]: n=347 base 0.7093 new 0.7100 diff +0.0007 [-0.0034, +0.0050] p_pos 0.617 panels +5/-3 of 8 windows up/down 134/122
+offlike  npid occ vs af: n=1473 base 0.8837 new 0.8862 diff +0.0025 [+0.0003, +0.0047] p_pos 0.988 panels +6/-2 of 8 windows up/down 487/377
+offlike  npid occ vs af [runstart]: n=1126 base 0.8987 new 0.9002 diff +0.0014 [-0.0007, +0.0036] p_pos 0.911 panels +6/-2 of 8 windows up/down 343/279
+offlike  npid occ vs af [midrun]: n=347 base 0.6800 new 0.6948 diff +0.0148 [+0.0112, +0.0188] p_pos 1.000 panels +7/-0 of 8 windows up/down 144/98
+official np   occ vs af: n=40 base 0.8920 new 0.8921 diff +0.0001 [-0.0081, +0.0085] p_pos 0.510 panels +3/-5 of 8 windows up/down 16/14
+official id   occ vs af: n=40 base 0.8940 new 0.8986 diff +0.0046 [-0.0034, +0.0117] p_pos 0.876 panels +5/-3 of 8 windows up/down 16/13
+official npid occ vs af: n=40 base 0.8963 new 0.8958 diff -0.0006 [-0.0076, +0.0060] p_pos 0.441 panels +5/-3 of 8 windows up/down 16/12
+pseudo   np   occ vs af: n=1055 base 0.8435 new 0.8503 diff +0.0068 [+0.0016, +0.0120] p_pos 1.000 panels +6/-2 of 8 windows up/down 377/294
+pseudo   id   occ vs af: n=1055 base 0.8667 new 0.8649 diff -0.0018 [-0.0068, +0.0034] p_pos 0.267 panels +6/-2 of 8 windows up/down 372/268
+pseudo   npid occ vs af: n=1055 base 0.8558 new 0.8598 diff +0.0040 [+0.0019, +0.0064] p_pos 1.000 panels +8/-0 of 8 windows up/down 356/263
+
+== per fold (offlike) ==
+offlike np   fold 0: n=726 base 0.8809 new 0.8821 diff +0.0012 [-0.0016, +0.0043] p_pos 0.786 panels +6/-2 of 8 windows up/down 259/195
+offlike np   fold 1: n=747 base 0.8781 new 0.8821 diff +0.0039 [+0.0009, +0.0068] p_pos 0.994 panels +7/-1 of 8 windows up/down 261/190
+offlike id   fold 0: n=726 base 0.8849 new 0.8859 diff +0.0010 [-0.0020, +0.0039] p_pos 0.750 panels +6/-2 of 8 windows up/down 241/198
+offlike id   fold 1: n=747 base 0.8843 new 0.8875 diff +0.0032 [-0.0002, +0.0067] p_pos 0.969 panels +6/-2 of 8 windows up/down 247/207
+offlike npid fold 0: n=726 base 0.8851 new 0.8855 diff +0.0004 [-0.0022, +0.0030] p_pos 0.624 panels +6/-2 of 8 windows up/down 233/190
+offlike npid fold 1: n=747 base 0.8821 new 0.8868 diff +0.0047 [+0.0014, +0.0081] p_pos 0.997 panels +6/-2 of 8 windows up/down 254/187
+
+per panel (offlike, npid):
+             n    base     new   delta
+panel                                 
+D12_I5_N   202  0.8450  0.8477  0.0027
+D12_I5_S   202  0.8598  0.8716  0.0118
+D7_I10_E   183  0.8094  0.8124  0.0030
+D7_I10_W    70  0.8905  0.8904 -0.0001
+D7_I210_E  138  0.9453  0.9400 -0.0053
+D7_I210_W  227  0.9073  0.9094  0.0021
+D7_I405_N  243  0.9312  0.9356  0.0044
+D7_I405_S  208  0.8809  0.8822  0.0013
+
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [official]: n 40 max |IoU diff| 0.00e+00
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [offlike]: n 726 max |IoU diff| 0.00e+00
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [pseudo]: n 525 max |IoU diff| 0.00e+00
+
+occ_np255: gain share of the 13 occupancy columns 0.680 | top: o_last 0.534, or_last 0.113, or_slope 0.006, or_max12 0.004, or_n+1 0.003, or_n-1 0.003 | rank of best occ col 1 of 71
+occ_id255: gain share of the 13 occupancy columns 0.700 | top: o_last 0.604, or_last 0.069, or_slope 0.005, or_max12 0.003, or_n+1 0.003, or_n-2 0.003 | rank of best occ col 1 of 77
+
+

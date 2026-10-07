@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 0s
+[     0s] ogcap_run joint folds [0] cols np leaves 511 lr 0.05 trees 900 seed 0 threads 4
+[     6s] cap_joint_np511_l05_t900 fold 0: matrix 6077021 x 58 in 6s
+[   270s] cap_joint_np511_l05_t900 fold 0: 1 model(s) fitted, 270s since start
+[   294s] cap_joint_np511_l05_t900 fold 0: official 0.8884 (n=40), offlike 0.8867 (n=726), pseudo 0.8803 (n=525) | 294s
+[   294s] DONE
+[run_heavy] exit 0 after 294s

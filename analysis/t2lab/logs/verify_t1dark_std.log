@@ -1,0 +1,53 @@
+[run_heavy] slot acquired after 0s
+[    33s] D7_I210_E train rows 839392 p_tr 0.1384
+[    33s] D7_I210_E validation cands 3746 onset 245 | selected 48 onset 24
+[    34s] D7_I210_E private cands 3974 onset 212 | selected 48 onset 24
+[    57s] D7_I210_E fold 0 validation eval blk cells 69196 ord 36916 dark rows 41079 sparse extra hidden 24857
+[    79s] D7_I210_E fold 0 private eval blk cells 67377 ord 36423 dark rows 47442 sparse extra hidden 24447
+[    79s] D7_I210_E fold 0 base rows 1327284 dark extra 88521
+[   162s] D7_I210_E fold 0 base rows 1327284 83s
+[   245s] D7_I210_E fold 0 dark rows 1415805 83s
+[   245s] D7_I210_E fold 0 validation|std|blk n 69196 | speed base 3.611 dark 3.043 (d -0.569) | flow/lane base 58.55 dark 56.24
+[   245s] D7_I210_E fold 0 validation|std|ord n 36916 | speed base 1.505 dark 1.515 (d +0.010) | flow/lane base 32.17 dark 32.11
+[   245s] D7_I210_E fold 0 validation|sparse|blk n 69196 | speed base 3.522 dark 3.023 (d -0.499) | flow/lane base 58.31 dark 55.84
+[   245s] D7_I210_E fold 0 private|std|blk n 67377 | speed base 5.339 dark 5.490 (d +0.151) | flow/lane base 83.68 dark 82.15
+[   245s] D7_I210_E fold 0 private|std|ord n 36423 | speed base 1.520 dark 1.534 (d +0.014) | flow/lane base 31.79 dark 32.02
+[   245s] D7_I210_E fold 0 private|sparse|blk n 67377 | speed base 5.557 dark 5.627 (d +0.070) | flow/lane base 83.61 dark 82.09
+[   268s] D7_I210_E fold 1 validation eval blk cells 69444 ord 36916 dark rows 40916 sparse extra hidden 24991
+[   287s] D7_I210_E fold 1 private eval blk cells 67643 ord 36423 dark rows 47196 sparse extra hidden 24409
+[   288s] D7_I210_E fold 1 base rows 1326389 dark extra 88112
+[   366s] D7_I210_E fold 1 base rows 1326389 78s
+[   452s] D7_I210_E fold 1 dark rows 1414501 87s
+[   452s] D7_I210_E fold 1 validation|std|blk n 69444 | speed base 3.331 dark 2.929 (d -0.402) | flow/lane base 56.47 dark 52.69
+[   452s] D7_I210_E fold 1 validation|std|ord n 36916 | speed base 1.491 dark 1.509 (d +0.018) | flow/lane base 32.06 dark 32.11
+[   452s] D7_I210_E fold 1 validation|sparse|blk n 69444 | speed base 3.400 dark 3.038 (d -0.362) | flow/lane base 56.17 dark 53.06
+[   452s] D7_I210_E fold 1 private|std|blk n 67643 | speed base 5.117 dark 4.900 (d -0.217) | flow/lane base 69.06 dark 69.11
+[   452s] D7_I210_E fold 1 private|std|ord n 36423 | speed base 1.531 dark 1.513 (d -0.017) | flow/lane base 31.95 dark 31.81
+[   452s] D7_I210_E fold 1 private|sparse|blk n 67643 | speed base 5.147 dark 4.930 (d -0.217) | flow/lane base 70.35 dark 71.07
+[   466s] D7_I405_S train rows 746971 p_tr 0.35
+[   466s] D7_I405_S validation cands 3263 onset 235 | selected 48 onset 24
+[   466s] D7_I405_S private cands 2563 onset 184 | selected 48 onset 23
+[   474s] D7_I405_S fold 0 validation eval blk cells 23366 ord 12443 dark rows 12973 sparse extra hidden 8486
+[   481s] D7_I405_S fold 0 private eval blk cells 23132 ord 12608 dark rows 16837 sparse extra hidden 8423
+[   481s] D7_I405_S fold 0 base rows 912841 dark extra 29810
+[   553s] D7_I405_S fold 0 base rows 912841 72s
+[   610s] D7_I405_S fold 0 dark rows 942651 57s
+[   610s] D7_I405_S fold 0 validation|std|blk n 23366 | speed base 10.020 dark 9.430 (d -0.590) | flow/lane base 63.47 dark 62.56
+[   610s] D7_I405_S fold 0 validation|std|ord n 12443 | speed base 1.770 dark 1.752 (d -0.018) | flow/lane base 32.91 dark 32.96
+[   610s] D7_I405_S fold 0 validation|sparse|blk n 23366 | speed base 10.281 dark 9.850 (d -0.431) | flow/lane base 64.32 dark 63.54
+[   610s] D7_I405_S fold 0 private|std|blk n 23132 | speed base 11.301 dark 10.903 (d -0.398) | flow/lane base 94.26 dark 92.83
+[   610s] D7_I405_S fold 0 private|std|ord n 12608 | speed base 2.069 dark 2.041 (d -0.028) | flow/lane base 33.47 dark 33.39
+[   610s] D7_I405_S fold 0 private|sparse|blk n 23132 | speed base 11.685 dark 11.223 (d -0.462) | flow/lane base 96.64 dark 95.14
+[   618s] D7_I405_S fold 1 validation eval blk cells 21579 ord 12443 dark rows 13876 sparse extra hidden 7785
+[   625s] D7_I405_S fold 1 private eval blk cells 23919 ord 12608 dark rows 16241 sparse extra hidden 8670
+[   625s] D7_I405_S fold 1 base rows 913390 dark extra 30117
+[   685s] D7_I405_S fold 1 base rows 913390 60s
+[   754s] D7_I405_S fold 1 dark rows 943507 69s
+[   754s] D7_I405_S fold 1 validation|std|blk n 21579 | speed base 11.319 dark 10.890 (d -0.429) | flow/lane base 86.11 dark 84.81
+[   754s] D7_I405_S fold 1 validation|std|ord n 12443 | speed base 1.797 dark 1.808 (d +0.011) | flow/lane base 32.93 dark 32.96
+[   754s] D7_I405_S fold 1 validation|sparse|blk n 21579 | speed base 11.607 dark 11.070 (d -0.537) | flow/lane base 90.89 dark 89.16
+[   754s] D7_I405_S fold 1 private|std|blk n 23919 | speed base 10.515 dark 10.040 (d -0.476) | flow/lane base 76.80 dark 74.18
+[   754s] D7_I405_S fold 1 private|std|ord n 12608 | speed base 2.127 dark 2.021 (d -0.106) | flow/lane base 33.42 dark 33.57
+[   754s] D7_I405_S fold 1 private|sparse|blk n 23919 | speed base 10.590 dark 10.255 (d -0.335) | flow/lane base 78.39 dark 75.88
+[   754s] done
+[run_heavy] exit 0 after 755s

@@ -1,0 +1,12 @@
+experiment_id,parent_id,hypothesis,change,dataset,features,preprocessing,model,hyperparameters,seed,validation,cv_score,cv_std,public_lb,private_proxy,leakage_risk,overfit_risk,result,decision
+E0,,Reproduce official baseline,No modifications,official train,official,official,official baseline,,fixed official split/local scorer,,,,,Low,Low,Baseline,KEEP if exact score reproduction
+E1,E0,Build blocked-month validation,Freeze month/event folds,train,same,same,baseline,,fixed,blocked time + event-disjoint,,,,,Low,Low,Validation,KEEP
+E2,E1,Improve Task1 with quality-aware interpolation,Spatial+temporal+seasonal interpolation,train,topology+quality,quality-aware,interpolation,,fixed,blocked months,,,,,Low,Low,Pending,KEEP if mean and worst-corridor improve
+E3,E2,Task1 residual ML,LightGBM residual correction,train,spatio-temporal + static,same,LightGBM,,multi-seed,blocked months,,,,,Medium,Low,Pending,KEEP if gain exceeds seed noise
+E4,E3,Joint Task1/Task3 physics refinement,Conservation/FD constrained projection,train,same,physics projection,hybrid,,fixed,blocked months,,,,,Medium,Low,Pending,KEEP on weighted Task1+Task3
+E5,E1,Create train queue-window dataset,Reproduce onset/ongoing windows,train,history-only queue features,strict cutoff,dataset builder,,fixed,event-disjoint,,,,,Low,Medium,Pending,KEEP after leakage audit
+E6,E5,Shockwave-aware queue model,LightGBM classifier + traffic dynamics features,train,gradients/shockwave/topology,history only,LightGBM,,multi-seed,event-disjoint,,,,,Medium,Low,Pending,KEEP on IoU
+E7,E6,IoU-aware queue postprocess,Threshold + spatial/temporal morphology,train,OOF probabilities,OOF-only,postprocess,,fixed,event-disjoint,,,,,Medium,Medium,Pending,KEEP only OOF gains
+E8,E1,Metric-aware ODME optimization,Weighted NNLS/L-BFGS-B,train,"A,c,b",prior regularization,optimizer,,fixed,exact train scorer,,,,,Low,Low,Pending,KEEP exact S_ODME gain
+E9,E3,Alternative graph model,DCRNN/STGCN/GWNet family,train,graph spatio-temporal,same,graph neural net,,multi-seed,blocked months,,,,,High,Low,Pending,KEEP if decorrelated and robust
+E10,E4/E7/E8/E9,Final small diverse ensemble,OOF-weighted blend,train,all,OOF only,ensemble,,fixed,frozen private proxy,,,,,Medium,Low,Pending,KEEP if robust across folds/corridors

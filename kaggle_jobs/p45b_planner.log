@@ -1,0 +1,45 @@
+[2026-10-05 03:04:34] P4/P5 planner started
+[2026-10-05 06:17:31] tfb-t2v24 complete
+[2026-10-05 06:17:32]   tfb-t2v24: [  3105s] model f10_np trained: 11773024 rows x 58 cols, 1800 trees, 43.6 min, weighted True
+[2026-10-05 06:17:32]   tfb-t2v24: [  5957s] model f10_id trained: 11773024 rows x 64 cols, 1800 trees, 47.5 min, weighted True
+[2026-10-05 06:17:32]   tfb-t2v24: [  8782s] model f01_np trained: 11773024 rows x 58 cols, 1800 trees, 47.1 min, weighted True
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11857s] model f01_id trained: 11773024 rows x 64 cols, 1800 trees, 51.3 min, weighted True
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11951s] FOOTPRINT private (vs sw): ongoing windows 40 | g72 windows 12 | mean queued cells at T (q_last) 21.12
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11951s] FOOTPRINT validation (vs sw): ongoing windows 40 | g72 windows 8 | mean queued cells at T (q_last) 22.98
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw vs tfb-t2v22 fs4 | private g72=0: windows changed 16/28 | rows changed 48/32394 (0.1482%) | Jaccard of queued cells 0.9851 | positives 3215 ref 3195
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw vs tfb-t2v22 fs4 | private g72=1: windows changed 12/12 | rows changed 46/11106 (0.4142%) | Jaccard of queued cells 0.9715 | positives 1587 ref 1595
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw vs tfb-t2v22 fs4 | validation g72=0: windows changed 17/32 | rows changed 57/36924 (0.1544%) | Jaccard of queued cells 0.9880 | positives 4719 ref 4732
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw vs tfb-t2v22 fs4 | validation g72=1: windows changed 4/8 | rows changed 11/6576 (0.1673%) | Jaccard of queued cells 0.9805 | positives 561 ref 556
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] CONTROL sw03 vs tfb-t2v22 fs4 | private g72=0: windows changed 0/28 | rows changed 0/32394 (0.0000%) | Jaccard of queued cells 1.0000 | positives 3195 ref 3195
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw03 vs tfb-t2v22 fs4 | private g72=1: windows changed 12/12 | rows changed 46/11106 (0.4142%) | Jaccard of queued cells 0.9715 | positives 1587 ref 1595
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] CONTROL sw03 vs tfb-t2v22 fs4 | validation g72=0: windows changed 0/32 | rows changed 0/36924 (0.0000%) | Jaccard of queued cells 1.0000 | positives 4732 ref 4732
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT sw03 vs tfb-t2v22 fs4 | validation g72=1: windows changed 4/8 | rows changed 11/6576 (0.1673%) | Jaccard of queued cells 0.9805 | positives 561 ref 556
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f10 vs tfb-t2v22 fs4 | private g72=0: windows changed 25/28 | rows changed 76/32394 (0.2346%) | Jaccard of queued cells 0.9763 | positives 3151 ref 3195
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f10 vs tfb-t2v22 fs4 | private g72=1: windows changed 12/12 | rows changed 46/11106 (0.4142%) | Jaccard of queued cells 0.9715 | positives 1587 ref 1595
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f10 vs tfb-t2v22 fs4 | validation g72=0: windows changed 19/32 | rows changed 59/36924 (0.1598%) | Jaccard of queued cells 0.9876 | positives 4715 ref 4732
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f10 vs tfb-t2v22 fs4 | validation g72=1: windows changed 4/8 | rows changed 11/6576 (0.1673%) | Jaccard of queued cells 0.9805 | positives 561 ref 556
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f01 vs tfb-t2v22 fs4 | private g72=0: windows changed 16/28 | rows changed 48/32394 (0.1482%) | Jaccard of queued cells 0.9851 | positives 3215 ref 3195
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f01 vs tfb-t2v22 fs4 | private g72=1: windows changed 9/12 | rows changed 38/11106 (0.3422%) | Jaccard of queued cells 0.9764 | positives 1585 ref 1595
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f01 vs tfb-t2v22 fs4 | validation g72=0: windows changed 17/32 | rows changed 57/36924 (0.1544%) | Jaccard of queued cells 0.9880 | positives 4719 ref 4732
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] FOOTPRINT f01 vs tfb-t2v22 fs4 | validation g72=1: windows changed 8/8 | rows changed 17/6576 (0.2585%) | Jaccard of queued cells 0.9699 | positives 557 ref 556
+[2026-10-05 06:17:32]   tfb-t2v24: [ 11953s] done
+[2026-10-05 06:17:32] tfb-t2v24 usable: True
+[2026-10-05 06:17:32] P4 override written {"type": "queue2", "parts": [["tfb-t2v24", "queue_submission_sw03.csv", "queue_ongoing", "validation", "g72"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows of the spacing-blocked (g72) windows from an F10 pair (np+id 511, all faithful windows 1.0); other windows and April unchanged"}
+[2026-10-05 06:22:32] P4 result {'slot': 'P4', 'score': 0.87939, 'delta': -0.00021999999999999797, 'keep': False}
+[2026-10-05 08:01:02] tfb-t2v22af complete
+[2026-10-05 08:01:04]   tfb-t2v22af: [  4774s] model fs_np trained: 11766026 rows x 58 cols, 1800 trees, 65.6 min, weighted True
+[2026-10-05 08:01:04]   tfb-t2v22af: [  9202s] model fs_id trained: 11766026 rows x 64 cols, 1800 trees, 73.8 min, weighted True
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 13264s] model fs_np1 trained: 11766026 rows x 58 cols, 1800 trees, 67.7 min, weighted True
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17640s] model fs_id1 trained: 11766026 rows x 64 cols, 1800 trees, 72.9 min, weighted True
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17784s] FOOTPRINT private (vs fs2): ongoing windows 40 | mean queued cells at T (q_last) 21.10
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17784s] FOOTPRINT validation (vs fs2): ongoing windows 40 | mean queued cells at T (q_last) 23.00
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs2 vs tfb-t2v22 fs4 | private: windows changed 29/40 | rows changed 95/43500 (0.2184%) | Jaccard of queued cells 0.9803 | positives 4783 ref 4790
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs2 vs tfb-t2v22 fs4 | validation: windows changed 24/40 | rows changed 103/43500 (0.2368%) | Jaccard of queued cells 0.9807 | positives 5273 ref 5288
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs4af vs tfb-t2v22 fs4 | private: windows changed 30/40 | rows changed 84/43500 (0.1931%) | Jaccard of queued cells 0.9826 | positives 4784 ref 4790
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs4af vs tfb-t2v22 fs4 | validation: windows changed 22/40 | rows changed 108/43500 (0.2483%) | Jaccard of queued cells 0.9798 | positives 5274 ref 5288
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs_np vs tfb-t2v22 fs4 | private: windows changed 29/40 | rows changed 129/43500 (0.2966%) | Jaccard of queued cells 0.9734 | positives 4771 ref 4790
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] FOOTPRINT fs_np vs tfb-t2v22 fs4 | validation: windows changed 28/40 | rows changed 138/43500 (0.3172%) | Jaccard of queued cells 0.9742 | positives 5256 ref 5288
+[2026-10-05 08:01:04]   tfb-t2v22af: [ 17790s] done
+[2026-10-05 08:01:04] tfb-t2v22af usable: True
+[2026-10-05 08:01:04] P5 override written {"type": "queue2", "parts": [["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the ALL-FINITE F03 bag (ineligible-but-valued cells as features); April unchanged"}
+[2026-10-05 08:01:04] P4/P5 planner done

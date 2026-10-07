@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 70s
+[    10s] v_f0_s1_np255: fold 0 train rows 6077021 x 74 (base 58 + 16 ck), 10s
+[   128s] v_f0_s1_np255: model ref trained in 118s
+[   270s] v_f0_s1_np255: model ck trained in 142s
+[   270s] v_f0_s1_np255: ck gain share 0.404; top ck {'ck_run': 12599879.0, 'cc_d12': 452155.0, 'cc_d6': 338285.0, 'cc_d24': 260372.0}
+[   291s] v_f0_s1_np255 official: n 40 ref 0.8848 ck 0.9015 diff +0.0166 [+0.0018, +0.0336] p_pos 0.989 panels +6/-2
+[   291s] v_f0_s1_np255 offlike: n 726 ref 0.8781 ck 0.8864 diff +0.0083 [+0.0045, +0.0125] p_pos 1.000 panels +7/-1
+[   291s] v_f0_s1_np255 pseudo: n 525 ref 0.8764 ck 0.8937 diff +0.0174 [+0.0104, +0.0251] p_pos 1.000 panels +7/-0
+[   291s] v_f0_s1_np255 DONE in 291s
+[run_heavy] exit 0 after 363s

@@ -1,0 +1,4 @@
+calib: ocrit equal True | c equal True | estimated 102 102
+offlike/queue_ongoing: windows 403 | all 13 features identical True | max abs diff 0.00e+00 | finite share 0.946
+runstart/queue_ongoing: windows 1572 | all 13 features identical True | max abs diff 0.00e+00 | finite share 0.946
+dense1500/queue_onset: windows 271 | all 13 features identical True | max abs diff 0.00e+00 | finite share 0.946

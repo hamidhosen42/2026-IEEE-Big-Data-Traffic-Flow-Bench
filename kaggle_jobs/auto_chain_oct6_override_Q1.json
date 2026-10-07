@@ -1,0 +1,8 @@
+{
+ "type": "t1dark",
+ "swap_script": "t1_t1dark_swap.py",
+ "dark": "tfb-t1dark",
+ "w_dark": 0.5,
+ "thr": 0.0001,
+ "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member trained with simulated-blackout transductive rows; recon + TV"
+}

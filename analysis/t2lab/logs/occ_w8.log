@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 10s
+[     0s] worker start: budget 22 min, only=None
+[     0s] === task abl_np_f1 (elapsed 0.0 min)
+[   162s] occnoraw_np255 fold 1: 5840595 rows x 70 cols, pos 0.270, trained in 162s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   174s] occnoraw_np255 fold 1: official nan (n=0), offlike 0.8825 (n=747), pseudo 0.8566 (n=530)
+[   174s] === task abl_np_f1 done in 174s
+[   174s] === task seed1_id_f4 (elapsed 2.9 min)
+[   371s] seed1_id255 fold 4: 8008854 rows x 64 cols, pos 0.272, trained in 197s | {"faith3F03": {"windows": 10255, "rows": 3881174}, "runstart": {"windows": 10689, "rows": 4127680}}
+[   371s] === task seed1_id_f4 done in 197s
+[   371s] === task seed1_id_f0 (elapsed 6.2 min)
+[   520s] seed1_id255 fold 0: 6073676 rows x 64 cols, pos 0.269, trained in 150s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   531s] seed1_id255 fold 0: official 0.8982 (n=40), offlike 0.8833 (n=726), pseudo 0.8787 (n=525)
+[   531s] === task seed1_id_f0 done in 161s
+[   531s] === task seed1_id_f1 (elapsed 8.9 min)
+[   678s] seed1_id255 fold 1: 5840595 rows x 64 cols, pos 0.270, trained in 147s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   689s] seed1_id255 fold 1: official nan (n=0), offlike 0.8861 (n=747), pseudo 0.8670 (n=530)
+[   689s] === task seed1_id_f1 done in 158s
+[   689s] === task occs1_np_f2 (elapsed 11.5 min)
+[   849s] occs1_np255 fold 2: 5993382 rows x 71 cols, pos 0.275, trained in 160s | {"faith3F03": {"windows": 7777, "rows": 2902065}, "runstart": {"windows": 8056, "rows": 3091317}}
+[   859s] occs1_np255 fold 2: official nan (n=0), offlike 0.8789 (n=748), pseudo 0.8776 (n=503)
+[   860s] === task occs1_np_f2 done in 171s
+[   860s] === task seed1_np_f3 (elapsed 14.3 min)
+[  1001s] seed1_np255 fold 3: 6057385 rows x 58 cols, pos 0.276, trained in 141s | {"faith3F03": {"windows": 7739, "rows": 2924259}, "runstart": {"windows": 8102, "rows": 3133126}}
+[  1011s] seed1_np255 fold 3: official nan (n=0), offlike 0.8755 (n=771), pseudo 0.8583 (n=500)
+[  1011s] === task seed1_np_f3 done in 152s
+[  1011s] === task occs1_id_f3 (elapsed 16.9 min)
+[  1178s] occs1_id255 fold 3: 6057385 rows x 77 cols, pos 0.276, trained in 166s | {"faith3F03": {"windows": 7739, "rows": 2924259}, "runstart": {"windows": 8102, "rows": 3133126}}
+[  1187s] occs1_id255 fold 3: official nan (n=0), offlike 0.8844 (n=771), pseudo 0.8687 (n=500)
+[  1187s] === task occs1_id_f3 done in 176s
+[  1187s] WORKER DONE ['abl_np_f1', 'seed1_id_f4', 'seed1_id_f0', 'seed1_id_f1', 'occs1_np_f2', 'seed1_np_f3', 'occs1_id_f3'] | elapsed 19.8 min
+[run_heavy] exit 0 after 1198s

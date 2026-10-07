@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 60s
+[     0s] March training rows 458173 pos 0.242 weight sum 1140201.5 | eval blocks 16 0s
+[    19s] masked F03 rows 8040492 regime shares [0.339, 0.331, 0.331]
+[   182s] M0 np: 8040492 masked train rows (weight 5303465), 163s
+[   357s] M0 id: 8040492 masked train rows (weight 5303465), 175s
+[   543s] M0 full: 8040492 masked train rows (weight 5303465), 186s
+[   585s] saved /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/pvval/probs/M0_15_5.pkl ['M_full_s4', 'M_full_tr', 'M_id', 'M_np'] 585s
+[   585s] DONE
+[run_heavy] exit 0 after 646s

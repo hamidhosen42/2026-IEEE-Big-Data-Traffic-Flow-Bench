@@ -1,0 +1,24 @@
+[run_heavy] slot acquired after 351s
+[     1s] D7_I10_E validation candidates 2206 (onset 205 ) selected 48 (onset 24 ) | real blackout targets 20024 of 349187
+[     1s] D7_I10_E private candidates 2392 (onset 226 ) selected 48 (onset 24 ) | real blackout targets 20154 of 315947
+[    11s] D7_I10_E fold 0 validation eval blackout cells 32038 ordinary 17723 dark rows 19193 rand rows so far 106157
+[    20s] D7_I10_E fold 0 private eval blackout cells 32795 ordinary 17342 dark rows 24709 rand rows so far 231940
+[    20s] D7_I10_E fold 0 {'panel': 'D7_I10_E', 'fold': 0, 'n_trees': 600, 'lr': 0.08, 'p': 0.35, 'p_dark': 0.7, 'seeds': [10], 'validation_dark_rows': 19193, 'validation_lwrden_R1': 139871.91707196704, 'validation_fdden_R1': 294756943.73646003, 'validation_lwrden_R2': 143668.7323812041, 'validation_fdden_R2': 280642154.7508085, 'validation_lwrden_R3': 167996.46359784485, 'validation_fdden_R3': 350597446.98756295, 'private_dark_rows': 24709, 'private_lwrden_R1': 153293.34123395398, 'private_fdden_R1': 311895665.30137277, 'private_lwrden_R2': 171280.05984867061, 'private_fdden_R2': 369838850.1857902, 'private_lwrden_R3': 109932.6527556729, 'private_fdden_R3': 239673739.3546696, 'train_rows': 842550, 'rand_rows': 231940, 'dark_rows': 43902, 'bad_r': 0, 'bad_d': 0}
+[   103s] D7_I10_E fold 0 dark rows 1118392 trained+predicted in 83s
+[   189s] D7_I10_E fold 0 darkramp rows 1118392 trained+predicted in 86s
+[   190s] D7_I10_E fold 0 validation_blk n 32038 | speed dark 8.472 darkramp 7.675 | flow/lane dark 81.38 darkramp 78.34
+[   190s] D7_I10_E fold 0 validation_ord n 17723 | speed dark 1.537 darkramp 1.544 | flow/lane dark 30.87 darkramp 30.85
+[   190s] D7_I10_E fold 0 private_blk n 32795 | speed dark 10.320 darkramp 9.933 | flow/lane dark 73.23 darkramp 73.00
+[   190s] D7_I10_E fold 0 private_ord n 17342 | speed dark 1.358 darkramp 1.358 | flow/lane dark 30.55 darkramp 30.97
+[   190s] done 190s
+[   200s] D7_I10_E fold 1 validation eval blackout cells 32310 ordinary 17723 dark rows 18987 rand rows so far 106221
+[   209s] D7_I10_E fold 1 private eval blackout cells 35510 ordinary 17342 dark rows 22832 rand rows so far 231696
+[   209s] D7_I10_E fold 1 {'panel': 'D7_I10_E', 'fold': 1, 'n_trees': 600, 'lr': 0.08, 'p': 0.35, 'p_dark': 0.7, 'seeds': [10], 'validation_dark_rows': 18987, 'validation_lwrden_R1': 139871.91707196704, 'validation_fdden_R1': 294756943.73646003, 'validation_lwrden_R2': 143668.7323812041, 'validation_fdden_R2': 280642154.7508085, 'validation_lwrden_R3': 167996.46359784485, 'validation_fdden_R3': 350597446.98756295, 'private_dark_rows': 22832, 'private_lwrden_R1': 153293.34123395398, 'private_fdden_R1': 311895665.30137277, 'private_lwrden_R2': 171280.05984867061, 'private_fdden_R2': 369838850.1857902, 'private_lwrden_R3': 109932.6527556729, 'private_fdden_R3': 239673739.3546696, 'train_rows': 842550, 'rand_rows': 231696, 'dark_rows': 41819, 'bad_r': 0, 'bad_d': 0}
+[   288s] D7_I10_E fold 1 dark rows 1116065 trained+predicted in 78s
+[   355s] D7_I10_E fold 1 darkramp rows 1116065 trained+predicted in 67s
+[   355s] D7_I10_E fold 1 validation_blk n 32310 | speed dark 7.979 darkramp 7.664 | flow/lane dark 73.47 darkramp 70.81
+[   355s] D7_I10_E fold 1 validation_ord n 17723 | speed dark 1.448 darkramp 1.484 | flow/lane dark 30.95 darkramp 30.83
+[   355s] D7_I10_E fold 1 private_blk n 35510 | speed dark 8.705 darkramp 8.180 | flow/lane dark 79.50 darkramp 78.62
+[   355s] D7_I10_E fold 1 private_ord n 17342 | speed dark 1.351 darkramp 1.352 | flow/lane dark 30.78 darkramp 30.90
+[   355s] done 355s
+[run_heavy] exit 0 after 707s

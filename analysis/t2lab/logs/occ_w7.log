@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 341s
+[     0s] worker start: budget 22 min, only=['og_id_f2', 'og_np_f3', 'og_id_f3', 'pm_og', 'on_f0', 'pm_on', 'seed1_np_f0', 'seed1_np_f1', 'abl_np_f0', 'abl_np_f1']
+[     0s] === task abl_np_f0 (elapsed 0.0 min)
+[   169s] occnoraw_np255 fold 0: 6073676 rows x 70 cols, pos 0.269, trained in 169s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   180s] occnoraw_np255 fold 0: official 0.8948 (n=40), offlike 0.8842 (n=726), pseudo 0.8812 (n=525)
+[   180s] === task abl_np_f0 done in 180s
+[   180s] WORKER DONE ['abl_np_f0'] | elapsed 3.0 min
+[run_heavy] exit 0 after 521s

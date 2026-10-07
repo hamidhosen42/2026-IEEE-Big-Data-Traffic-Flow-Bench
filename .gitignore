@@ -11,3 +11,9 @@ repo/
 __pycache__/
 .DS_Store
 dl.log
+# large lab artifacts (caches of competition data, LightGBM model dumps, probability arrays); results are reproducible from the scripts
+analysis/t2lab/results/**/*.npz
+analysis/t2lab/results/**/model_*.txt
+analysis/t2lab/results/**/probs/
+analysis/t2lab/results/**/probs_*.pkl
+data/t2local/

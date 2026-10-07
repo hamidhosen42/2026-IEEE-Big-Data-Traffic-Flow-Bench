@@ -1,0 +1,8 @@
+{
+ "type": "t1dark",
+ "swap_script": "t1_t1dark_swap.py",
+ "dark": "tfb-t1ramp",
+ "w_dark": 0.75,
+ "thr": 0.0001,
+ "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.25 T1 mix + 0.75 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV"
+}

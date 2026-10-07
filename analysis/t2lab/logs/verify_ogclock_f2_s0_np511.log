@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 291s
+[    10s] v_f2_s0_np511: fold 2 train rows 5997115 x 74 (base 58 + 16 ck), 10s
+[   544s] v_f2_s0_np511: model ref trained in 534s
+[  1237s] v_f2_s0_np511: model ck trained in 693s
+[  1237s] v_f2_s0_np511: ck gain share 0.312; top ck {'ck_run': 15454328.0, 'cc_d12': 876696.0, 'cc_d6': 536192.0, 'cc_d24': 418805.0}
+[  1375s] v_f2_s0_np511 offlike: n 748 ref 0.8830 ck 0.8911 diff +0.0081 [+0.0034, +0.0130] p_pos 1.000 panels +7/-1
+[  1375s] v_f2_s0_np511 pseudo: n 503 ref 0.8800 ck 0.9005 diff +0.0205 [+0.0144, +0.0265] p_pos 1.000 panels +7/-0
+[  1375s] v_f2_s0_np511 DONE in 1375s
+[run_heavy] exit 0 after 1667s

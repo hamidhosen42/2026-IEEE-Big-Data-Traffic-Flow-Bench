@@ -1,0 +1,48 @@
+[run_heavy] slot acquired after 0s
+[     0s] calibration: mine vs occ track, max |d ocrit|, max |d c| per panel [('D7_I10_E', 0.0, 0.0), ('D7_I10_W', 0.0, 0.0), ('D7_I210_E', 0.0, 0.0), ('D7_I210_W', 0.0, 0.0), ('D7_I405_N', 0.0, 0.0), ('D7_I405_S', 0.0, 0.0), ('D12_I5_N', 0.0, 0.0), ('D12_I5_S', 0.0, 0.0)]
+[     3s] fold 0: train rows 6073676 pos 0.2686 built 3s | side-car parity (frac differing, max abs, hasT ok) [('D7_I210_E', 'faith3F03', 0, 0.0, 0.0, True), ('D7_I210_E', 'runstart', 0, 0.0, 0.0, True), ('D12_I5_S', 'faith3F03', 0, 0.0, 0.0, True), ('D12_I5_S', 'runstart', 0, 0.0, 0.0, True)]
+[   142s] fold 0 base_np: 58 cols trained 139s
+[   308s] fold 0 occ_np: 71 cols trained 166s
+[   457s] fold 0 base_id: 64 cols trained 149s
+[   627s] fold 0 occ_id: 77 cols trained 170s
+[   669s] fold 0: eval side-car parity offlike (frac differing, max abs, hasT ok) [('D7_I10_E', 'offlike', 0.0, 0.0, True), ('D7_I10_W', 'offlike', 0.0, 0.0, True), ('D7_I210_E', 'offlike', 0.0, 0.0, True), ('D7_I210_W', 'offlike', 0.0, 0.0, True), ('D7_I405_N', 'offlike', 0.0, 0.0, True), ('D7_I405_S', 'offlike', 0.0, 0.0, True), ('D12_I5_N', 'offlike', 0.0, 0.0, True), ('D12_I5_S', 'offlike', 0.0, 0.0, True)]
+[   669s] fold 0 seed 2 [offlike] np: base 0.8796 occ 0.8848 diff +0.0052 [+0.0020, +0.0086] n=726
+[   669s] fold 0 seed 2 [offlike] id: base 0.8835 occ 0.8857 diff +0.0021 [-0.0008, +0.0050] n=726
+[   669s] fold 0 seed 2 [offlike] npid: base 0.8821 occ 0.8861 diff +0.0040 [+0.0013, +0.0065] n=726
+[   669s] fold 0 seed 2 [official] np: base 0.8878 occ 0.8968 diff +0.0090 [-0.0009, +0.0186] n=40
+[   669s] fold 0 seed 2 [official] id: base 0.8964 occ 0.8950 diff -0.0014 [-0.0067, +0.0037] n=40
+[   669s] fold 0 seed 2 [official] npid: base 0.8959 occ 0.8974 diff +0.0015 [-0.0038, +0.0066] n=40
+[   669s] fold 0 seed 2 [pseudo] np: base 0.8781 occ 0.8806 diff +0.0025 [-0.0001, +0.0049] n=525
+[   669s] fold 0 seed 2 [pseudo] id: base 0.8820 occ 0.8842 diff +0.0022 [-0.0006, +0.0053] n=525
+[   669s] fold 0 seed 2 [pseudo] npid: base 0.8804 occ 0.8828 diff +0.0023 [-0.0001, +0.0049] n=525
+[   669s] fold 0 done in 669s
+[   674s] fold 1: train rows 5840595 pos 0.2703 built 5s | side-car parity (frac differing, max abs, hasT ok) [('D7_I210_E', 'faith3F03', 1, 0.0, 0.0, True), ('D7_I210_E', 'runstart', 1, 0.0, 0.0, True), ('D12_I5_S', 'faith3F03', 1, 0.0, 0.0, True), ('D12_I5_S', 'runstart', 1, 0.0, 0.0, True)]
+[   807s] fold 1 base_np: 58 cols trained 133s
+[   967s] fold 1 occ_np: 71 cols trained 160s
+[  1081s] fold 1 base_id: 64 cols trained 113s
+[  1212s] fold 1 occ_id: 77 cols trained 132s
+[  1250s] fold 1: eval side-car parity offlike (frac differing, max abs, hasT ok) [('D7_I10_E', 'offlike', 0.0, 0.0, True), ('D7_I10_W', 'offlike', 0.0, 0.0, True), ('D7_I210_E', 'offlike', 0.0, 0.0, True), ('D7_I210_W', 'offlike', 0.0, 0.0, True), ('D7_I405_N', 'offlike', 0.0, 0.0, True), ('D7_I405_S', 'offlike', 0.0, 0.0, True), ('D12_I5_N', 'offlike', 0.0, 0.0, True), ('D12_I5_S', 'offlike', 0.0, 0.0, True)]
+[  1250s] fold 1 seed 2 [offlike] np: base 0.8791 occ 0.8833 diff +0.0042 [+0.0014, +0.0069] n=747
+[  1250s] fold 1 seed 2 [offlike] id: base 0.8862 occ 0.8865 diff +0.0003 [-0.0034, +0.0037] n=747
+[  1250s] fold 1 seed 2 [offlike] npid: base 0.8834 occ 0.8865 diff +0.0032 [+0.0007, +0.0057] n=747
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1250s] fold 1 seed 2 [official] np: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1250s] fold 1 seed 2 [official] id: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1250s] fold 1 seed 2 [official] npid: base nan occ nan diff +nan [+nan, +nan] n=0
+[  1250s] fold 1 seed 2 [pseudo] np: base 0.8540 occ 0.8591 diff +0.0051 [+0.0023, +0.0080] n=530
+[  1250s] fold 1 seed 2 [pseudo] id: base 0.8635 occ 0.8662 diff +0.0028 [-0.0070, +0.0127] n=530
+[  1251s] fold 1 seed 2 [pseudo] npid: base 0.8567 occ 0.8635 diff +0.0068 [+0.0036, +0.0102] n=530
+[  1251s] fold 1 done in 581s
+[  1251s] VERIFY TRAIN DONE [0, 1] 2
+[run_heavy] exit 0 after 1251s

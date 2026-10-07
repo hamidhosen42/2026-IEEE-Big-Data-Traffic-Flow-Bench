@@ -1,0 +1,39 @@
+cells 381371 events 384
+
+== headline recomputed from raw cells (bagB -> bagD), speed
+  all 8 panel-months                 n_ev  384 speed 10.114 -> 9.634 d -0.480 [-0.582, -0.379] (-4.7%) win 8/8
+  single seed base -> dark           n_ev  384 speed 10.189 -> 9.712 d -0.477 [-0.578, -0.374] (-4.7%) win 8/8
+  flow/lane bagB -> bagD 82.91 -> 80.54 d -2.37
+
+== drop one panel
+  without D7_I405_S                  n_ev  288 speed 9.931 -> 9.543 d -0.388 [-0.503, -0.268] (-3.9%) win 6/6
+  without D7_I210_W                  n_ev  288 speed 10.362 -> 9.837 d -0.525 [-0.645, -0.410] (-5.1%) win 6/6
+  without D12_I5_S                   n_ev  288 speed 9.669 -> 9.155 d -0.514 [-0.621, -0.403] (-5.3%) win 6/6
+  without D7_I10_E                   n_ev  288 speed 10.516 -> 10.025 d -0.491 [-0.605, -0.379] (-4.7%) win 6/6
+
+== by month
+  validation                         n_ev  192 speed 10.387 -> 9.808 d -0.579 [-0.723, -0.447] (-5.6%) win 4/4
+  private                            n_ev  192 speed 9.850 -> 9.467 d -0.383 [-0.525, -0.241] (-3.9%) win 4/4
+
+== per step k = t - T (pooled over panel-months)
+  k 1..3                             n_ev  384 speed 8.167 -> 7.833 d -0.334 [-0.508, -0.164] (-4.1%) win 8/8
+  k 4..6                             n_ev  384 speed 11.654 -> 10.723 d -0.931 [-1.143, -0.731] (-8.0%) win 8/8
+  k 7..12                            n_ev  384 speed 11.782 -> 11.218 d -0.564 [-0.709, -0.403] (-4.8%) win 7/8
+  k 13..18                           n_ev  384 speed 8.179 -> 8.030 d -0.149 [-0.274, -0.037] (-1.8%) win 6/8
+
+== per-event history visibility (obs/elig in T-12..T-1; real blackouts = 1.00) -- quartiles
+  hvis quartiles [0.51  0.698 0.791]
+  hvis bin 0 (-1.00,0.51]            n_ev   96 speed 10.416 -> 9.944 d -0.472 [-0.627, -0.316] (-4.5%) win 7/8
+  hvis bin 1 (0.51,0.70]             n_ev   96 speed 10.277 -> 9.678 d -0.598 [-0.758, -0.443] (-5.8%) win 8/8
+  hvis bin 2 (0.70,0.79]             n_ev   96 speed 9.960 -> 9.519 d -0.441 [-0.675, -0.236] (-4.4%) win 7/8
+  hvis bin 3 (0.79,2.00]             n_ev   96 speed 9.944 -> 9.515 d -0.429 [-0.631, -0.233] (-4.3%) win 7/8
+  OLS per-event RMSE gain = -0.437 + -0.071 * hvis -> extrapolated at hvis=1.0: -0.508 (mean hvis 0.660); relative gain at 1.0: -5.1%
+
+== by regime
+  R1                                 n_ev  112 speed 10.033 -> 9.547 d -0.486 [-0.652, -0.314] (-4.8%) win 7/8
+  R2                                 n_ev  139 speed 10.081 -> 9.618 d -0.463 [-0.658, -0.286] (-4.6%) win 8/8
+  R3                                 n_ev  133 speed 10.280 -> 9.782 d -0.498 [-0.639, -0.348] (-4.8%) win 8/8
+
+== by condition
+  onset                              n_ev  191 speed 9.725 -> 9.075 d -0.650 [-0.784, -0.527] (-6.7%) win 8/8
+  ongoing                            n_ev  193 speed 10.482 -> 10.152 d -0.330 [-0.465, -0.194] (-3.1%) win 6/8

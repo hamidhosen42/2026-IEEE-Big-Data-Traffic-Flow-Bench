@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 2795s
+[   167s] ck_np_all fold 0: 6077021 rows x 74 cols, 167s | official 0.9030 (n=40), offlike 0.8860 (n=726), pseudo 0.8935 (n=525)
+[   320s] ck_np_all fold 1: 5844108 rows x 74 cols, 153s | official nan (n=0), offlike 0.8815 (n=747), pseudo 0.8645 (n=530)
+[   483s] ck_np_all fold 2: 5997115 rows x 74 cols, 163s | official nan (n=0), offlike 0.8805 (n=748), pseudo 0.8926 (n=503)
+[   653s] ck_np_all fold 3: 6061317 rows x 74 cols, 170s | official nan (n=0), offlike 0.8788 (n=771), pseudo 0.8918 (n=500)
+[   653s] ck_np_all official: 0.9030 n=40
+[   653s] ck_np_all offlike: 0.8816 n=2992
+[   653s] ck_np_all pseudo: 0.8768 n=2058
+[   653s] DONE
+[run_heavy] exit 0 after 3449s

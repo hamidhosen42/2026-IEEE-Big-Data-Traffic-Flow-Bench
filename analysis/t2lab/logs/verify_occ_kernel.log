@@ -1,0 +1,3 @@
+[     2s] D7_I10_E calib kernel vs mine (k=4): max|d ocrit| 0.00e+00 max|d c| 0.00e+00 est 103 | offlike: W 381 kernel==mine True (frac diff 0.0e+00) | runstart: W 1500 kernel==mine True (frac diff 0.0e+00)
+[     3s] D12_I5_S calib kernel vs mine (k=4): max|d ocrit| 0.00e+00 max|d c| 0.00e+00 est 90 | offlike: W 426 kernel==mine True (frac diff 0.0e+00) | runstart: W 1894 kernel==mine True (frac diff 0.0e+00)
+[     3s] KERNEL CHECK DONE

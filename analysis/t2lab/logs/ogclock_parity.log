@@ -1,0 +1,13 @@
+[run_heavy] slot acquired after 305s
+D7_I10_W: emulated per-day visible share mean 0.679, cells visible 0.679 of eligible
+official: rows 846 vs cache 846 | production columns identical: True (max abs diff nan) | y True e True meta True
+official: ck columns == FE cache gathered at (wi, li): True; ck NaN share per column: ck_run 0.00, ck_first 0.89, ck_clear 1.00, ck_frac 0.00, ck_minr 0.00, ck_nep 0.00, cc_first 0.00, cc_peak 0.00, cc_peak_sh 0.00, cc_since_peak 0.00, cc_rel 0.00, cc_d6 0.00, cc_d12 0.00, cc_d24 0.00, cc_age 0.00, cc_area 0.00
+offlike: rows 21864 vs cache 21864 | production columns identical: True (max abs diff nan) | y True e True meta True
+offlike: ck columns == FE cache gathered at (wi, li): True; ck NaN share per column: ck_run 0.00, ck_first 0.86, ck_clear 0.97, ck_frac 0.00, ck_minr 0.00, ck_nep 0.00, cc_first 0.03, cc_peak 0.00, cc_peak_sh 0.00, cc_since_peak 0.00, cc_rel 0.00, cc_d6 0.00, cc_d12 0.00, cc_d24 0.00, cc_age 0.00, cc_area 0.00
+pseudo: rows 792 vs cache 792 | production columns identical: True (max abs diff nan) | y True e True meta True
+pseudo: ck columns == FE cache gathered at (wi, li): True; ck NaN share per column: ck_run 0.00, ck_first 0.12, ck_clear 0.25, ck_frac 0.00, ck_minr 0.00, ck_nep 0.00, cc_first 0.00, cc_peak 0.00, cc_peak_sh 0.00, cc_since_peak 0.00, cc_rel 0.00, cc_d6 0.00, cc_d12 0.00, cc_d24 0.00, cc_age 0.00, cc_area 0.00
+Traceback (most recent call last):
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/ogclock_parity.py", line 85, in <module>
+    P['V'][d[i]][m] = (rng.random(m.sum()) * 120).astype(np.float32)
+IndexError: boolean index did not match indexed array along axis 1; size of axis is 107 but size of corresponding boolean axis is 1
+[run_heavy] exit 1 after 307s

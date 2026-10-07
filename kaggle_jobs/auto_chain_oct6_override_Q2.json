@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2onaf",
+   "queue_submission_sp4.csv",
+   "queue_onset",
+   "validation"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March onset rows from CatBoost onset with ALL-FINITE inputs (ineligible-but-valued cells as features), same sp4 scenario prior; April unchanged"
+}

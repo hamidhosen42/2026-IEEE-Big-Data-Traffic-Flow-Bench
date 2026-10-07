@@ -1,0 +1,118 @@
+[     0s] kernel block identical to lab block: {'ck_ffill': True, 'ck_bfill': True, 'ck_features': True, 'ck_compose': True}
+[     0s] vis_days: n 488 (cache 488), max abs diff 0.0; mean 0.680
+[     1s] D7_I10_E official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     1s] D7_I10_E offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     2s] D7_I10_E runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     3s] D7_I10_E faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     4s] D7_I10_E pseudo: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     4s] D7_I10_E perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[     4s] D7_I10_E perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[     4s] D7_I10_E lab == kernel functions on identical inputs: True
+[     4s] D7_I10_E kernel ck_train: features changed by train data at slots >= T-12: 0 (of 50 windows; must be 0)
+[     5s] D7_I10_E kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 50 windows; must be 0)
+[     5s] D7_I210_E official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     7s] D7_I210_E offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[     9s] D7_I210_E runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    10s] D7_I210_E faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    11s] D7_I210_E pseudo: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    12s] D7_I210_E perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    13s] D7_I210_E perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    13s] D7_I210_E lab == kernel functions on identical inputs: True
+[    13s] D7_I210_E kernel ck_train: features changed by train data at slots >= T-12: 0 (of 60 windows; must be 0)
+[    14s] D7_I210_E kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 60 windows; must be 0)
+[    14s] D7_I210_W official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    14s] D7_I210_W offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    15s] D7_I210_W runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    15s] D7_I210_W faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    15s] D7_I210_W pseudo: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    16s] D7_I210_W perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    16s] D7_I210_W perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    16s] D7_I210_W lab == kernel functions on identical inputs: True
+[    16s] D7_I210_W kernel ck_train: features changed by train data at slots >= T-12: 0 (of 48 windows; must be 0)
+[    16s] D7_I210_W kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 48 windows; must be 0)
+[    16s] D7_I405_S official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    17s] D7_I405_S offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    17s] D7_I405_S runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    18s] D7_I405_S faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    19s] D7_I405_S pseudo: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    19s] D7_I405_S perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    19s] D7_I405_S perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    19s] D7_I405_S lab == kernel functions on identical inputs: True
+[    19s] D7_I405_S kernel ck_train: features changed by train data at slots >= T-12: 0 (of 49 windows; must be 0)
+[    19s] D7_I405_S kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 49 windows; must be 0)
+[    20s] D12_I5_N official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    21s] D12_I5_N offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    22s] D12_I5_N runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    24s] D12_I5_N faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    25s] D12_I5_N pseudo: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    26s] D12_I5_N perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    26s] D12_I5_N perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    26s] D12_I5_N lab == kernel functions on identical inputs: True
+[    27s] D12_I5_N kernel ck_train: features changed by train data at slots >= T-12: 0 (of 43 windows; must be 0)
+[    27s] D12_I5_N kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 43 windows; must be 0)
+[    27s] D7_I10_W official: 5 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    28s] D7_I10_W offlike: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    28s] D7_I10_W runstart: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    29s] D7_I10_W faith3: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    29s] D7_I10_W pseudo: 4 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    29s] D7_I10_W perturb [lab]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    29s] D7_I10_W perturb [kernel]: features changed by data at slots >= T-12 of the day cube: 0 (must be 0); history T-1 reaches features: True; early visible data reaches features: True
+[    29s] D7_I10_W lab == kernel functions on identical inputs: True
+[    29s] D7_I10_W kernel ck_train: features changed by train data at slots >= T-12: 0 (of 56 windows; must be 0)
+[    30s] D7_I10_W kernel ck_split: features changed by masked-day data at slots >= T-12: 0 (of 56 windows; must be 0)
+[    31s] D7_I10_E offlike_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    31s] D7_I10_E runstart_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    33s] D7_I210_E offlike_m: 27 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    34s] D7_I210_E runstart_m: 36 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    35s] D7_I210_W offlike_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    35s] D7_I210_W runstart_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    36s] D7_I405_S offlike_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    36s] D7_I405_S runstart_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    38s] D12_I5_N offlike_m: 34 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    39s] D12_I5_N runstart_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    39s] D7_I10_W offlike_m: 16 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+[    40s] D7_I10_W runstart_m: 40 windows, max abs diff vs cache 0.00e+00, NaN-pattern mismatches 0
+    panel        set  n  max_abs_diff  nan_mismatch
+ D7_I10_E   official  5           0.0             0
+ D7_I10_E    offlike 40           0.0             0
+ D7_I10_E   runstart 40           0.0             0
+ D7_I10_E     faith3 40           0.0             0
+ D7_I10_E     pseudo 40           0.0             0
+D7_I210_E   official  5           0.0             0
+D7_I210_E    offlike 40           0.0             0
+D7_I210_E   runstart 40           0.0             0
+D7_I210_E     faith3 40           0.0             0
+D7_I210_E     pseudo 40           0.0             0
+D7_I210_W   official  5           0.0             0
+D7_I210_W    offlike 40           0.0             0
+D7_I210_W   runstart 40           0.0             0
+D7_I210_W     faith3 40           0.0             0
+D7_I210_W     pseudo 40           0.0             0
+D7_I405_S   official  5           0.0             0
+D7_I405_S    offlike 40           0.0             0
+D7_I405_S   runstart 40           0.0             0
+D7_I405_S     faith3 40           0.0             0
+D7_I405_S     pseudo 40           0.0             0
+ D12_I5_N   official  5           0.0             0
+ D12_I5_N    offlike 40           0.0             0
+ D12_I5_N   runstart 40           0.0             0
+ D12_I5_N     faith3 40           0.0             0
+ D12_I5_N     pseudo 40           0.0             0
+ D7_I10_W   official  5           0.0             0
+ D7_I10_W    offlike 40           0.0             0
+ D7_I10_W   runstart 40           0.0             0
+ D7_I10_W     faith3 40           0.0             0
+ D7_I10_W     pseudo  4           0.0             0
+ D7_I10_E  offlike_m 40           0.0             0
+ D7_I10_E runstart_m 40           0.0             0
+D7_I210_E  offlike_m 27           0.0             0
+D7_I210_E runstart_m 36           0.0             0
+D7_I210_W  offlike_m 40           0.0             0
+D7_I210_W runstart_m 40           0.0             0
+D7_I405_S  offlike_m 40           0.0             0
+D7_I405_S runstart_m 40           0.0             0
+ D12_I5_N  offlike_m 34           0.0             0
+ D12_I5_N runstart_m 40           0.0             0
+ D7_I10_W  offlike_m 16           0.0             0
+ D7_I10_W runstart_m 40           0.0             0
+[    40s] DONE

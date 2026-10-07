@@ -1,0 +1,13 @@
+VIS 0.65: single panel-day share > 0 {'prev_vs_out': 0.395, 'loo_vs_out': 0.399, 'prev_vs_loo': 0.492}
+pooled over panels: median {'prev_vs_out': -708.2, 'loo_vs_out': -764.9, 'prev_vs_loo': -58.8} | share > 0 {'prev_vs_out': 0.305, 'loo_vs_out': 0.362, 'prev_vs_loo': 0.49}
+pooled by month (median):
+        prev_vs_out  loo_vs_out  prev_vs_loo
+month                                       
+203007       -638.0      -952.0        -83.0
+203008         91.0      -195.0        631.0
+203009       -595.0     -1233.0       -119.0
+203010       -749.0     -1230.0        608.0
+203011      -2339.0      -276.0      -1806.0
+203012       -921.0      -718.0        -59.0
+203101       -418.0       145.0      -1104.0
+203102       -490.0      -555.0       -366.0

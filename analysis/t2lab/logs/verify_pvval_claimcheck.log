@@ -1,0 +1,20 @@
+n windows 131 | windows changed 16 | better 14 | worse 2
+per-panel mean diff (B_bag - A_s4): {'D12_I5_S': 0.0938, 'D7_I10_E': 0.0677, 'D12_I5_N': 0.0667, 'D7_I10_W': 0.0513, 'D7_I405_S': 0.0479, 'D7_I210_W': 0.037, 'D7_I210_E': 0.0, 'D7_I405_N': 0.0}
+per-panel n windows: {'D12_I5_N': 15, 'D12_I5_S': 16, 'D7_I10_E': 16, 'D7_I10_W': 13, 'D7_I210_E': 16, 'D7_I210_W': 18, 'D7_I405_N': 21, 'D7_I405_S': 16}
+top-10 window diffs: [1.0, 1.0, 0.667, 0.5, 0.5, 0.5, 0.5, 0.5, 0.333, 0.267]
+sum of all window diffs 5.683 | sum of top-5 3.667
+claimed: {'diff': 0.0455, 'lo': 0.0156, 'hi': 0.0807, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+drop best panel: {'diff': 0.0422, 'lo': 0.0074, 'hi': 0.0861, 'n': 115, 'pos': 5, 'neg': 0, 'drop': 'D12_I5_S'}
+drop best two  : {'diff': 0.0401, 'lo': -0.0044, 'hi': 0.0915, 'n': 99, 'pos': 4, 'neg': 0, 'drop': 'D12_I5_S,D7_I10_E'}
+B_bagL == B_bag per window: True | B_w5 vs B_w40 identical windows: 0.9389312977099237
+B_w2     {'diff': 0.0345, 'lo': 0.0059, 'hi': 0.0646, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+B_w5     {'diff': 0.0441, 'lo': 0.0149, 'hi': 0.078, 'n': 131, 'pos': 6, 'neg': 1, 'drop': ''}
+B_w10    {'diff': 0.0458, 'lo': 0.0158, 'hi': 0.0811, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+B_w20    {'diff': 0.0401, 'lo': 0.0076, 'hi': 0.0756, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+B_w40    {'diff': 0.0393, 'lo': 0.0096, 'hi': 0.075, 'n': 131, 'pos': 6, 'neg': 1, 'drop': ''}
+B_bag    {'diff': 0.0455, 'lo': 0.0156, 'hi': 0.0807, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+B_bagL   {'diff': 0.0455, 'lo': 0.0156, 'hi': 0.0807, 'n': 131, 'pos': 6, 'neg': 0, 'drop': ''}
+AmS_all - A_s4       {'diff': 0.0155, 'lo': -0.0183, 'hi': 0.0482, 'n': 131, 'pos': 4, 'neg': 3, 'drop': ''}
+BmS_all_bag - AmS    {'diff': 0.0254, 'lo': -0.0057, 'hi': 0.0556, 'n': 131, 'pos': 5, 'neg': 2, 'drop': ''}
+days 15-20: {'diff': 0.0454, 'lo': -0.0023, 'hi': 0.0997, 'n': 51, 'pos': 4, 'neg': 0, 'drop': ''}
+days 21-31: {'diff': 0.0436, 'lo': 0.0043, 'hi': 0.0872, 'n': 80, 'pos': 5, 'neg': 0, 'drop': ''}

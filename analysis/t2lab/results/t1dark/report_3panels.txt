@@ -1,0 +1,98 @@
+per panel-month BLACKOUT RMSE (speed km/h | flow per lane veh/h); n_ev events, n_blk cells, wblk scored blackout share
+    panel month  n_ev  n_blk  wblk  dark_rows  bv_base  bv_dark  bv_base2  bv_dark2  bv_bagB  bv_bagD  bv_mix  bv_mixB  bq_base  bq_dark  bq_base2  bq_dark2  bq_bagB  bq_bagD  bq_mix  bq_mixB
+D7_I405_S   val    48  44801 0.019      26729   11.359   10.599    11.336    10.595   11.272   10.512  10.763   10.737   96.276   97.295    96.199    97.522   95.959   97.086  96.063   95.965
+D7_I405_S   pri    48  47882 0.023      33479   10.142    9.417    10.165     9.418   10.062    9.316   9.490    9.466   85.298   83.227    85.622    83.371   85.071   82.821  82.891   82.847
+D7_I210_W   val    48  32368 0.021      19211    9.426    9.262     9.369     9.276    9.341    9.213   9.218    9.181   80.942   73.992    81.123    74.449   80.661   73.809  76.015   75.931
+D7_I210_W   pri    48  36376 0.016      25380    8.530    8.149     8.540     8.187    8.489    8.118   8.203    8.190   84.449   75.586    84.796    75.733   84.233   75.220  78.592   78.555
+ D12_I5_S   val    48  43533 0.018      25829   12.305   11.677    12.281    11.614   12.210   11.560  11.735   11.694   84.622   82.959    84.524    82.314   83.844   82.000  82.507   82.294
+ D12_I5_S   pri    48  43758 0.015      30676   10.820   10.682    10.833    10.742   10.720   10.613  10.497   10.462   80.612   78.652    80.125    78.654   79.633   78.022  78.065   77.752
+
+per panel-month ORDINARY RMSE
+    panel month  n_ord  ov_base  ov_dark  ov_base2  ov_dark2  ov_bagB  ov_bagD  ov_mix  ov_mixB  oq_base  oq_dark  oq_base2  oq_dark2  oq_bagB  oq_bagD  oq_mix  oq_mixB
+D7_I405_S   val  12567    1.849    1.912     1.850     1.860    1.819    1.857   1.848    1.839   32.569   32.693    32.572    32.613   32.230   32.287  32.044   31.968
+D7_I405_S   pri  12405    1.966    1.977     1.949     2.005    1.933    1.965   1.941    1.931   33.587   33.358    33.689    33.355   33.309   32.985  32.878   32.831
+D7_I210_W   val   9152    2.551    2.578     2.558     2.550    2.532    2.541   2.541    2.535   30.931   30.779    30.894    30.832   30.666   30.558  30.410   30.325
+D7_I210_W   pri   9758    1.946    2.064     2.006     2.018    1.951    2.015   1.981    1.986   30.656   30.754    30.588    30.852   30.387   30.562  30.284   30.194
+ D12_I5_S   val  12255    1.306    1.287     1.249     1.318    1.249    1.267   1.259    1.238   27.105   27.212    27.090    27.354   26.817   26.992  26.570   26.499
+ D12_I5_S   pri  11891    1.915    1.914     1.883     1.928    1.866    1.889   1.873    1.855   29.230   29.119    29.228    29.192   28.943   28.870  28.622   28.540
+
+blackout RMSE by condition of the simulated origin (pooled over panels and months)
+  onset    events  143 cells  123015 | speed base 10.034 dark 9.303 base2 10.041 dark2 9.322 bagB 9.970 bagD 9.238 mix 9.462 mixB 9.441 | flow/lane base 67.87 dark 64.26 base2 68.08 dark2 64.35 bagB 67.48 bagD 63.80 mix 64.78 mixB 64.70
+  ongoing  events  145 cells  125703 | speed base 11.125 dark 10.834 base2 11.103 dark2 10.825 bagB 11.024 bagD 10.740 mix 10.741 mixB 10.703 | flow/lane base 100.30 dark 97.83 base2 100.20 dark2 97.83 bagB 99.76 bagD 97.35 mix 97.74 mixB 97.57
+
+pooled RMSE (cell-weighted over panels); delta = B - A with 95% bootstrap CI; win = panel-months where B has the lower RMSE
+  validation blk dark -base  speed 11.240 -> 10.671 d -0.568 [-0.722, -0.417] win 3/3 | flow/lane 88.20 -> 86.39 d -1.81 [-3.49, -0.37] win 2/3
+  validation blk dark2-base2 speed 11.209 -> 10.648 d -0.560 [-0.722, -0.413] win 3/3 | flow/lane 88.18 -> 86.37 d -1.81 [-3.33, -0.36] win 2/3
+  validation blk bagD -bagB  speed 11.150 -> 10.582 d -0.568 [-0.720, -0.421] win 3/3 | flow/lane 87.74 -> 85.93 d -1.80 [-3.45, -0.39] win 2/3
+  validation blk mix  -base  speed 11.240 -> 10.745 d -0.495 [-0.573, -0.421] win 3/3 | flow/lane 88.20 -> 86.20 d -2.01 [-2.99, -1.16] win 3/3
+  validation blk mixB -bagB  speed 11.150 -> 10.710 d -0.440 [-0.518, -0.369] win 3/3 | flow/lane 87.74 -> 86.06 d -1.68 [-2.62, -0.89] win 2/3
+  validation blk base2-base  speed 11.240 -> 11.209 d -0.031 [-0.079, +0.018] win 3/3 | flow/lane 88.20 -> 88.18 d -0.02 [-0.31, +0.24] win 2/3
+  validation ord dark -base  speed 1.906 -> 1.934 d +0.028 [-0.019, +0.076] win 1/3 | flow/lane 30.25 -> 30.29 d +0.04 [-0.09, +0.18] win 1/3
+  validation ord dark2-base2 speed 1.895 -> 1.912 d +0.017 [-0.011, +0.049] win 1/3 | flow/lane 30.24 -> 30.32 d +0.08 [-0.05, +0.23] win 1/3
+  validation ord bagD -bagB  speed 1.875 -> 1.896 d +0.021 [-0.005, +0.048] win 0/3 | flow/lane 29.95 -> 30.00 d +0.05 [-0.07, +0.18] win 1/3
+  validation ord mix  -base  speed 1.906 -> 1.891 d -0.015 [-0.038, +0.008] win 3/3 | flow/lane 30.25 -> 29.73 d -0.53 [-0.60, -0.46] win 3/3
+  validation ord mixB -bagB  speed 1.875 -> 1.880 d +0.005 [-0.016, +0.025] win 1/3 | flow/lane 29.95 -> 29.65 d -0.30 [-0.37, -0.24] win 3/3
+  validation ord base2-base  speed 1.906 -> 1.895 d -0.011 [-0.060, +0.034] win 1/3 | flow/lane 30.25 -> 30.24 d -0.01 [-0.11, +0.08] win 2/3
+  private    blk dark -base  speed 9.958 -> 9.542 d -0.417 [-0.588, -0.243] win 3/3 | flow/lane 83.48 -> 79.55 d -3.93 [-5.82, -2.09] win 3/3
+  private    blk dark2-base2 speed 9.974 -> 9.574 d -0.400 [-0.577, -0.232] win 3/3 | flow/lane 83.54 -> 79.65 d -3.89 [-5.74, -2.11] win 3/3
+  private    blk bagD -bagB  speed 9.881 -> 9.470 d -0.410 [-0.578, -0.240] win 3/3 | flow/lane 83.01 -> 79.08 d -3.93 [-5.80, -2.12] win 3/3
+  private    blk mix  -base  speed 9.958 -> 9.512 d -0.447 [-0.540, -0.348] win 3/3 | flow/lane 83.48 -> 80.05 d -3.43 [-4.41, -2.46] win 3/3
+  private    blk mixB -bagB  speed 9.881 -> 9.486 d -0.394 [-0.488, -0.300] win 3/3 | flow/lane 83.01 -> 79.92 d -3.09 [-4.10, -2.13] win 3/3
+  private    blk base2-base  speed 9.958 -> 9.974 d +0.016 [-0.034, +0.071] win 0/3 | flow/lane 83.48 -> 83.54 d +0.06 [-0.21, +0.36] win 1/3
+  private    ord dark -base  speed 1.942 -> 1.981 d +0.039 [-0.008, +0.083] win 1/3 | flow/lane 31.28 -> 31.18 d -0.10 [-0.25, +0.06] win 2/3
+  private    ord dark2-base2 speed 1.943 -> 1.982 d +0.039 [-0.012, +0.087] win 0/3 | flow/lane 31.30 -> 31.23 d -0.07 [-0.25, +0.12] win 2/3
+  private    ord bagD -bagB  speed 1.915 -> 1.953 d +0.038 [+0.002, +0.075] win 0/3 | flow/lane 31.00 -> 30.90 d -0.10 [-0.24, +0.05] win 2/3
+  private    ord mix  -base  speed 1.942 -> 1.929 d -0.013 [-0.036, +0.008] win 2/3 | flow/lane 31.28 -> 30.70 d -0.58 [-0.66, -0.50] win 3/3
+  private    ord mixB -bagB  speed 1.915 -> 1.921 d +0.006 [-0.014, +0.025] win 2/3 | flow/lane 31.00 -> 30.63 d -0.37 [-0.45, -0.30] win 3/3
+  private    ord base2-base  speed 1.942 -> 1.943 d +0.000 [-0.050, +0.048] win 2/3 | flow/lane 31.28 -> 31.30 d +0.02 [-0.11, +0.16] win 2/3
+  both       blk dark -base  speed 10.599 -> 10.106 d -0.494 [-0.609, -0.383] win 6/6 | flow/lane 85.81 -> 82.94 d -2.86 [-4.21, -1.62] win 5/6
+  both       blk dark2-base2 speed 10.591 -> 10.110 d -0.481 [-0.599, -0.365] win 6/6 | flow/lane 85.83 -> 82.98 d -2.85 [-4.20, -1.63] win 5/6
+  both       blk bagD -bagB  speed 10.516 -> 10.025 d -0.491 [-0.607, -0.382] win 6/6 | flow/lane 85.34 -> 82.48 d -2.86 [-4.21, -1.63] win 5/6
+  both       blk mix  -base  speed 10.599 -> 10.129 d -0.470 [-0.531, -0.411] win 6/6 | flow/lane 85.81 -> 83.09 d -2.72 [-3.48, -1.96] win 6/6
+  both       blk mixB -bagB  speed 10.516 -> 10.099 d -0.417 [-0.478, -0.359] win 6/6 | flow/lane 85.34 -> 82.96 d -2.38 [-3.14, -1.67] win 5/6
+  both       blk base2-base  speed 10.599 -> 10.591 d -0.008 [-0.040, +0.026] win 3/6 | flow/lane 85.81 -> 85.83 d +0.02 [-0.19, +0.22] win 3/6
+  both       ord dark -base  speed 1.924 -> 1.958 d +0.033 [-0.001, +0.069] win 2/6 | flow/lane 30.77 -> 30.74 d -0.03 [-0.13, +0.07] win 3/6
+  both       ord dark2-base2 speed 1.919 -> 1.948 d +0.029 [-0.001, +0.058] win 1/6 | flow/lane 30.77 -> 30.78 d +0.01 [-0.12, +0.12] win 3/6
+  both       ord bagD -bagB  speed 1.895 -> 1.925 d +0.030 [+0.005, +0.055] win 0/6 | flow/lane 30.48 -> 30.46 d -0.03 [-0.12, +0.07] win 3/6
+  both       ord mix  -base  speed 1.924 -> 1.910 d -0.014 [-0.031, +0.004] win 5/6 | flow/lane 30.77 -> 30.22 d -0.55 [-0.61, -0.50] win 6/6
+  both       ord mixB -bagB  speed 1.895 -> 1.900 d +0.005 [-0.009, +0.021] win 3/6 | flow/lane 30.48 -> 30.14 d -0.34 [-0.39, -0.29] win 6/6
+  both       ord base2-base  speed 1.924 -> 1.919 d -0.005 [-0.042, +0.031] win 3/6 | flow/lane 30.77 -> 30.77 d +0.00 [-0.08, +0.10] win 4/6
+
+composite S_state delta (B - A) per panel-month, mean over panel-months, 95% bootstrap CI; x0.35 = S_total share of a
+blackout panel; "all" = arm on every target, "blk-only" = arm on blackout rows only (ordinary cells keep A)
+  dark -base  all      validation dS_state +0.00068 [-0.00011, +0.00148] | 0.35*d +0.000239 | up 2/3
+  dark -base  all      private    dS_state +0.00014 [-0.00071, +0.00115] | 0.35*d +0.000050 | up 2/3
+  dark -base  all      both       dS_state +0.00041 [-0.00012, +0.00106] | 0.35*d +0.000144 | up 4/6
+  dark -base  blk-only validation dS_state +0.00126 [+0.00091, +0.00163] | 0.35*d +0.000442 | up 3/3
+  dark -base  blk-only private    dS_state +0.00086 [+0.00057, +0.00119] | 0.35*d +0.000300 | up 3/3
+  dark -base  blk-only both       dS_state +0.00106 [+0.00088, +0.00132] | 0.35*d +0.000371 | up 6/6
+  dark2-base2 all      validation dS_state +0.00085 [+0.00020, +0.00141] | 0.35*d +0.000298 | up 3/3
+  dark2-base2 all      private    dS_state -0.00006 [-0.00098, +0.00076] | 0.35*d -0.000020 | up 1/3
+  dark2-base2 all      both       dS_state +0.00040 [-0.00009, +0.00094] | 0.35*d +0.000139 | up 4/6
+  dark2-base2 blk-only validation dS_state +0.00126 [+0.00096, +0.00161] | 0.35*d +0.000439 | up 3/3
+  dark2-base2 blk-only private    dS_state +0.00084 [+0.00052, +0.00117] | 0.35*d +0.000293 | up 3/3
+  dark2-base2 blk-only both       dS_state +0.00105 [+0.00082, +0.00128] | 0.35*d +0.000366 | up 6/6
+  bagD -bagB  all      validation dS_state +0.00081 [+0.00024, +0.00135] | 0.35*d +0.000283 | up 3/3
+  bagD -bagB  all      private    dS_state +0.00004 [-0.00059, +0.00084] | 0.35*d +0.000015 | up 1/3
+  bagD -bagB  all      both       dS_state +0.00043 [-0.00001, +0.00092] | 0.35*d +0.000149 | up 4/6
+  bagD -bagB  blk-only validation dS_state +0.00127 [+0.00097, +0.00166] | 0.35*d +0.000445 | up 3/3
+  bagD -bagB  blk-only private    dS_state +0.00085 [+0.00057, +0.00116] | 0.35*d +0.000299 | up 3/3
+  bagD -bagB  blk-only both       dS_state +0.00106 [+0.00087, +0.00124] | 0.35*d +0.000372 | up 6/6
+  mix  -base  all      validation dS_state +0.00169 [+0.00130, +0.00212] | 0.35*d +0.000592 | up 3/3
+  mix  -base  all      private    dS_state +0.00146 [+0.00106, +0.00187] | 0.35*d +0.000511 | up 3/3
+  mix  -base  all      both       dS_state +0.00158 [+0.00130, +0.00189] | 0.35*d +0.000551 | up 6/6
+  mix  -base  blk-only validation dS_state +0.00113 [+0.00092, +0.00133] | 0.35*d +0.000394 | up 3/3
+  mix  -base  blk-only private    dS_state +0.00086 [+0.00073, +0.00103] | 0.35*d +0.000301 | up 3/3
+  mix  -base  blk-only both       dS_state +0.00099 [+0.00089, +0.00112] | 0.35*d +0.000348 | up 6/6
+  mixB -bagB  all      validation dS_state +0.00109 [+0.00075, +0.00147] | 0.35*d +0.000383 | up 3/3
+  mixB -bagB  all      private    dS_state +0.00091 [+0.00060, +0.00132] | 0.35*d +0.000317 | up 2/3
+  mixB -bagB  all      both       dS_state +0.00100 [+0.00074, +0.00129] | 0.35*d +0.000350 | up 5/6
+  mixB -bagB  blk-only validation dS_state +0.00100 [+0.00083, +0.00116] | 0.35*d +0.000351 | up 3/3
+  mixB -bagB  blk-only private    dS_state +0.00077 [+0.00063, +0.00095] | 0.35*d +0.000270 | up 3/3
+  mixB -bagB  blk-only both       dS_state +0.00089 [+0.00079, +0.00102] | 0.35*d +0.000311 | up 6/6
+  base2-base  all      validation dS_state +0.00016 [-0.00047, +0.00080] | 0.35*d +0.000056 | up 2/3
+  base2-base  all      private    dS_state -0.00024 [-0.00119, +0.00052] | 0.35*d -0.000084 | up 2/3
+  base2-base  all      both       dS_state -0.00004 [-0.00061, +0.00051] | 0.35*d -0.000014 | up 4/6
+  base2-base  blk-only validation dS_state +0.00007 [-0.00005, +0.00016] | 0.35*d +0.000024 | up 3/3
+  base2-base  blk-only private    dS_state -0.00003 [-0.00010, +0.00005] | 0.35*d -0.000010 | up 0/3
+  base2-base  blk-only both       dS_state +0.00002 [-0.00005, +0.00008] | 0.35*d +0.000007 | up 3/6

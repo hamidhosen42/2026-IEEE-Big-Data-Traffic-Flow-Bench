@@ -1,0 +1,4 @@
+[2026-10-07 02:22:44] START chain oct7 | base tfb-g4 submission_G4.csv 0.88092 | done []
+[2026-10-07 02:22:44] Q1: waiting for auto_chain_oct7_override_Q1.json until 2026-10-07 06:00 UTC
+[2026-10-07 02:22:44] Q1 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp", "w_dark": 0.75, "thr": 0.0001, "desc": "T1 blackout rows (90 min after each official Task 2 origin) = 0.25 T1 mix + 0.75 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV"}
+[2026-10-07 02:22:48] pushed tfb-h1d version 1

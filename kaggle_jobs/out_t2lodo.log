@@ -1,0 +1,170 @@
+[    21s] D7_I10_E train windows {'queue_ongoing': 3000, 'queue_onset': 265}
+[    34s] D7_I10_W train windows {'queue_ongoing': 1070, 'queue_onset': 134}
+[    60s] D7_I210_E train windows {'queue_ongoing': 3000, 'queue_onset': 276}
+[    73s] D7_I210_W train windows {'queue_ongoing': 3000, 'queue_onset': 311}
+[   102s] D7_I405_N train windows {'queue_ongoing': 3000, 'queue_onset': 355}
+[   117s] D7_I405_S train windows {'queue_ongoing': 3000, 'queue_onset': 271}
+[   139s] D12_I5_N train windows {'queue_ongoing': 3000, 'queue_onset': 255}
+[   153s] D12_I5_S train windows {'queue_ongoing': 3000, 'queue_onset': 264}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   223s] catboost onset trained on 310782 rows (v9 features)
+[   223s] self-inclusive prior of training rows: positives with slot prior == 0: 0 of 6662 | L1: 136 | L7: 148 | mean |L1 - self| on positives 0.0049
+[   279s] catboost onset L1 seed 0 trained
+[   335s] catboost onset L1 seed 1 trained
+[   390s] catboost onset L1 seed 2 trained
+[   446s] catboost onset L7 seed 0 trained
+[   502s] catboost onset L7 seed 1 trained
+[   557s] catboost onset L7 seed 2 trained
+[   560s] D7_I10_E scenario days 31 + 30 visible share 0.505
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   561s] {"panel": "D7_I10_E", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.0, "mean_a4_prior": 0.0656270906329155, "pos_base": 35, "moved_base": 0, "pos_sp4": 35, "moved_sp4": 15, "jac_sp4": 1.0, "pos_mix9": 35, "moved_mix9": 21, "jac_mix9": 1.0, "pos_mix95": 35, "moved_mix95": 19, "jac_mix95": 1.0, "pos_lodo_base": 35, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 35, "moved_lodo_sp4": 15, "jac_lodo_sp4": 1.0, "pos_lodo_mix9": 35, "moved_lodo_mix9": 21, "jac_lodo_mix9": 1.0, "pos_lodo_mix95": 35, "moved_lodo_mix95": 19, "jac_lodo_mix95": 1.0}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   561s] {"panel": "D7_I10_E", "split": "private", "onset_windows": 5, "mean_scen_days": 33.0, "mean_a4_prior": 0.7029244303703308, "pos_base": 32, "moved_base": 0, "pos_sp4": 30, "moved_sp4": 64, "jac_sp4": 0.7714285714285715, "pos_mix9": 30, "moved_mix9": 64, "jac_mix9": 0.7714285714285715, "pos_mix95": 30, "moved_mix95": 64, "jac_mix95": 0.7714285714285715, "pos_lodo_base": 35, "moved_lodo_base": 0, "jac_lodo_base": 0.9142857142857143, "pos_lodo_sp4": 28, "moved_lodo_sp4": 64, "jac_lodo_sp4": 0.7647058823529411, "pos_lodo_mix9": 28, "moved_lodo_mix9": 64, "jac_lodo_mix9": 0.7647058823529411, "pos_lodo_mix95": 28, "moved_lodo_mix95": 64, "jac_lodo_mix95": 0.7647058823529411}
+[   564s] D7_I10_W scenario days 31 + 30 visible share 0.52
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   564s] {"panel": "D7_I10_W", "split": "validation", "onset_windows": 5, "mean_scen_days": 1.6, "mean_a4_prior": 0.0, "pos_base": 5, "moved_base": 0, "pos_sp4": 5, "moved_sp4": 0, "jac_sp4": 1.0, "pos_mix9": 5, "moved_mix9": 0, "jac_mix9": 1.0, "pos_mix95": 5, "moved_mix95": 0, "jac_mix95": 1.0, "pos_lodo_base": 6, "moved_lodo_base": 0, "jac_lodo_base": 0.5714285714285714, "pos_lodo_sp4": 6, "moved_lodo_sp4": 0, "jac_lodo_sp4": 0.5714285714285714, "pos_lodo_mix9": 6, "moved_lodo_mix9": 0, "jac_lodo_mix9": 0.5714285714285714, "pos_lodo_mix95": 6, "moved_lodo_mix95": 0, "jac_lodo_mix95": 0.5714285714285714}
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   565s] {"panel": "D7_I10_W", "split": "private", "onset_windows": 5, "mean_scen_days": 36.2, "mean_a4_prior": 0.6867312788963318, "pos_base": 5, "moved_base": 0, "pos_sp4": 6, "moved_sp4": 19, "jac_sp4": 0.5714285714285714, "pos_mix9": 6, "moved_mix9": 19, "jac_mix9": 0.5714285714285714, "pos_mix95": 6, "moved_mix95": 19, "jac_mix95": 0.5714285714285714, "pos_lodo_base": 5, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 6, "moved_lodo_sp4": 19, "jac_lodo_sp4": 0.5714285714285714, "pos_lodo_mix9": 6, "moved_lodo_mix9": 19, "jac_lodo_mix9": 0.5714285714285714, "pos_lodo_mix95": 6, "moved_lodo_mix95": 19, "jac_lodo_mix95": 0.5714285714285714}
+[   570s] D7_I210_E scenario days 31 + 30 visible share 0.522
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   570s] {"panel": "D7_I210_E", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.0, "mean_a4_prior": 0.058361198753118515, "pos_base": 25, "moved_base": 0, "pos_sp4": 25, "moved_sp4": 5, "jac_sp4": 1.0, "pos_mix9": 25, "moved_mix9": 0, "jac_mix9": 1.0, "pos_mix95": 25, "moved_mix95": 0, "jac_mix95": 1.0, "pos_lodo_base": 25, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 25, "moved_lodo_sp4": 5, "jac_lodo_sp4": 1.0, "pos_lodo_mix9": 25, "moved_lodo_mix9": 0, "jac_lodo_mix9": 1.0, "pos_lodo_mix95": 25, "moved_lodo_mix95": 0, "jac_lodo_mix95": 1.0}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   570s] {"panel": "D7_I210_E", "split": "private", "onset_windows": 5, "mean_scen_days": 33.0, "mean_a4_prior": 0.6859233975410461, "pos_base": 25, "moved_base": 0, "pos_sp4": 25, "moved_sp4": 23, "jac_sp4": 1.0, "pos_mix9": 25, "moved_mix9": 23, "jac_mix9": 1.0, "pos_mix95": 25, "moved_mix95": 23, "jac_mix95": 1.0, "pos_lodo_base": 25, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 25, "moved_lodo_sp4": 23, "jac_lodo_sp4": 1.0, "pos_lodo_mix9": 25, "moved_lodo_mix9": 23, "jac_lodo_mix9": 1.0, "pos_lodo_mix95": 25, "moved_lodo_mix95": 23, "jac_lodo_mix95": 1.0}
+[   573s] D7_I210_W scenario days 31 + 30 visible share 0.497
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   573s] {"panel": "D7_I210_W", "split": "validation", "onset_windows": 5, "mean_scen_days": 1.8, "mean_a4_prior": 0.029941469430923462, "pos_base": 13, "moved_base": 0, "pos_sp4": 13, "moved_sp4": 6, "jac_sp4": 1.0, "pos_mix9": 10, "moved_mix9": 4, "jac_mix9": 0.6428571428571429, "pos_mix95": 10, "moved_mix95": 4, "jac_mix95": 0.6428571428571429, "pos_lodo_base": 13, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 12, "moved_lodo_sp4": 6, "jac_lodo_sp4": 0.9230769230769231, "pos_lodo_mix9": 10, "moved_lodo_mix9": 4, "jac_lodo_mix9": 0.6428571428571429, "pos_lodo_mix95": 10, "moved_lodo_mix95": 4, "jac_lodo_mix95": 0.6428571428571429}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   573s] {"panel": "D7_I210_W", "split": "private", "onset_windows": 5, "mean_scen_days": 32.8, "mean_a4_prior": 0.7013351917266846, "pos_base": 18, "moved_base": 0, "pos_sp4": 19, "moved_sp4": 20, "jac_sp4": 0.9473684210526315, "pos_mix9": 19, "moved_mix9": 20, "jac_mix9": 0.9473684210526315, "pos_mix95": 19, "moved_mix95": 20, "jac_mix95": 0.9473684210526315, "pos_lodo_base": 19, "moved_lodo_base": 0, "jac_lodo_base": 0.9473684210526315, "pos_lodo_sp4": 19, "moved_lodo_sp4": 20, "jac_lodo_sp4": 0.9473684210526315, "pos_lodo_mix9": 19, "moved_lodo_mix9": 20, "jac_lodo_mix9": 0.9473684210526315, "pos_lodo_mix95": 19, "moved_lodo_mix95": 20, "jac_lodo_mix95": 0.9473684210526315}
+[   578s] D7_I405_N scenario days 31 + 30 visible share 0.524
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   579s] {"panel": "D7_I405_N", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.0, "mean_a4_prior": 0.024595117196440697, "pos_base": 9, "moved_base": 0, "pos_sp4": 9, "moved_sp4": 0, "jac_sp4": 1.0, "pos_mix9": 9, "moved_mix9": 24, "jac_mix9": 1.0, "pos_mix95": 9, "moved_mix95": 6, "jac_mix95": 1.0, "pos_lodo_base": 9, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 9, "moved_lodo_sp4": 0, "jac_lodo_sp4": 1.0, "pos_lodo_mix9": 9, "moved_lodo_mix9": 24, "jac_lodo_mix9": 1.0, "pos_lodo_mix95": 9, "moved_lodo_mix95": 6, "jac_lodo_mix95": 1.0}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   579s] {"panel": "D7_I405_N", "split": "private", "onset_windows": 5, "mean_scen_days": 31.8, "mean_a4_prior": 0.7159634232521057, "pos_base": 10, "moved_base": 0, "pos_sp4": 10, "moved_sp4": 60, "jac_sp4": 1.0, "pos_mix9": 10, "moved_mix9": 60, "jac_mix9": 1.0, "pos_mix95": 10, "moved_mix95": 60, "jac_mix95": 1.0, "pos_lodo_base": 10, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 10, "moved_lodo_sp4": 60, "jac_lodo_sp4": 1.0, "pos_lodo_mix9": 10, "moved_lodo_mix9": 60, "jac_lodo_mix9": 1.0, "pos_lodo_mix95": 10, "moved_lodo_mix95": 60, "jac_lodo_mix95": 1.0}
+[   582s] D7_I405_S scenario days 31 + 30 visible share 0.485
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   582s] {"panel": "D7_I405_S", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.0, "mean_a4_prior": 0.0, "pos_base": 31, "moved_base": 0, "pos_sp4": 30, "moved_sp4": 0, "jac_sp4": 0.967741935483871, "pos_mix9": 31, "moved_mix9": 0, "jac_mix9": 1.0, "pos_mix95": 31, "moved_mix95": 0, "jac_mix95": 1.0, "pos_lodo_base": 30, "moved_lodo_base": 0, "jac_lodo_base": 0.90625, "pos_lodo_sp4": 31, "moved_lodo_sp4": 0, "jac_lodo_sp4": 0.9375, "pos_lodo_mix9": 29, "moved_lodo_mix9": 0, "jac_lodo_mix9": 0.9354838709677419, "pos_lodo_mix95": 29, "moved_lodo_mix95": 0, "jac_lodo_mix95": 0.9354838709677419}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   583s] {"panel": "D7_I405_S", "split": "private", "onset_windows": 5, "mean_scen_days": 34.6, "mean_a4_prior": 0.6430695652961731, "pos_base": 29, "moved_base": 0, "pos_sp4": 47, "moved_sp4": 76, "jac_sp4": 0.6170212765957447, "pos_mix9": 47, "moved_mix9": 76, "jac_mix9": 0.6170212765957447, "pos_mix95": 47, "moved_mix95": 76, "jac_mix95": 0.6170212765957447, "pos_lodo_base": 29, "moved_lodo_base": 0, "jac_lodo_base": 1.0, "pos_lodo_sp4": 40, "moved_lodo_sp4": 76, "jac_lodo_sp4": 0.6046511627906976, "pos_lodo_mix9": 40, "moved_lodo_mix9": 76, "jac_lodo_mix9": 0.6046511627906976, "pos_lodo_mix95": 40, "moved_lodo_mix95": 76, "jac_lodo_mix95": 0.6046511627906976}
+[   587s] D12_I5_N scenario days 31 + 30 visible share 0.503
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   587s] {"panel": "D12_I5_N", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.6, "mean_a4_prior": 0.13401979207992554, "pos_base": 12, "moved_base": 0, "pos_sp4": 14, "moved_sp4": 113, "jac_sp4": 0.8571428571428571, "pos_mix9": 12, "moved_mix9": 111, "jac_mix9": 1.0, "pos_mix95": 12, "moved_mix95": 85, "jac_mix95": 1.0, "pos_lodo_base": 15, "moved_lodo_base": 0, "jac_lodo_base": 0.6875, "pos_lodo_sp4": 15, "moved_lodo_sp4": 113, "jac_lodo_sp4": 0.6875, "pos_lodo_mix9": 16, "moved_lodo_mix9": 111, "jac_lodo_mix9": 0.75, "pos_lodo_mix95": 15, "moved_lodo_mix95": 85, "jac_lodo_mix95": 0.6875}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   588s] {"panel": "D12_I5_N", "split": "private", "onset_windows": 5, "mean_scen_days": 33.0, "mean_a4_prior": 0.7031257748603821, "pos_base": 16, "moved_base": 0, "pos_sp4": 14, "moved_sp4": 77, "jac_sp4": 0.875, "pos_mix9": 14, "moved_mix9": 77, "jac_mix9": 0.875, "pos_mix95": 14, "moved_mix95": 77, "jac_mix95": 0.875, "pos_lodo_base": 15, "moved_lodo_base": 0, "jac_lodo_base": 0.9375, "pos_lodo_sp4": 15, "moved_lodo_sp4": 77, "jac_lodo_sp4": 0.9375, "pos_lodo_mix9": 15, "moved_lodo_mix9": 77, "jac_lodo_mix9": 0.9375, "pos_lodo_mix95": 15, "moved_lodo_mix95": 77, "jac_lodo_mix95": 0.9375}
+[   590s] D12_I5_S scenario days 31 + 30 visible share 0.511
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   591s] {"panel": "D12_I5_S", "split": "validation", "onset_windows": 5, "mean_scen_days": 2.0, "mean_a4_prior": 0.10289263725280762, "pos_base": 21, "moved_base": 0, "pos_sp4": 20, "moved_sp4": 21, "jac_sp4": 0.64, "pos_mix9": 19, "moved_mix9": 27, "jac_mix9": 0.6666666666666666, "pos_mix95": 19, "moved_mix95": 21, "jac_mix95": 0.7391304347826086, "pos_lodo_base": 22, "moved_lodo_base": 0, "jac_lodo_base": 0.72, "pos_lodo_sp4": 20, "moved_lodo_sp4": 21, "jac_lodo_sp4": 0.5769230769230769, "pos_lodo_mix9": 17, "moved_lodo_mix9": 27, "jac_lodo_mix9": 0.52, "pos_lodo_mix95": 18, "moved_lodo_mix95": 21, "jac_lodo_mix95": 0.56}
+/kaggle/src/script.py:162: RuntimeWarning: Mean of empty slice
+  'vr_mean12': np.nanmean(np.where(np.isfinite(vr), vr, np.nan), 1),
+/kaggle/src/script.py:163: RuntimeWarning: Mean of empty slice
+  'vr_slope': np.nanmean(vr[:, -3:], 1) - np.nanmean(vr[:, :3], 1),
+/kaggle/src/script.py:164: RuntimeWarning: Mean of empty slice
+  'fr_last': frf[:, -1], 'fr_mean3': np.nanmean(fr[:, -3:], 1), 'fr_slope': np.nanmean(fr[:, -3:], 1) - np.nanmean(fr[:, :3], 1),
+[   591s] {"panel": "D12_I5_S", "split": "private", "onset_windows": 5, "mean_scen_days": 33.0, "mean_a4_prior": 0.699084997177124, "pos_base": 22, "moved_base": 0, "pos_sp4": 13, "moved_sp4": 54, "jac_sp4": 0.4583333333333333, "pos_mix9": 13, "moved_mix9": 54, "jac_mix9": 0.4583333333333333, "pos_mix95": 13, "moved_mix95": 54, "jac_mix95": 0.4583333333333333, "pos_lodo_base": 23, "moved_lodo_base": 0, "jac_lodo_base": 0.8, "pos_lodo_sp4": 13, "moved_lodo_sp4": 54, "jac_lodo_sp4": 0.2962962962962963, "pos_lodo_mix9": 13, "moved_lodo_mix9": 54, "jac_lodo_mix9": 0.2962962962962963, "pos_lodo_mix95": 13, "moved_lodo_mix95": 54, "jac_lodo_mix95": 0.2962962962962963}
+[   591s] queue rows 174000 dupes 0
+    panel      split  onset_windows  mean_scen_days  mean_a4_prior  pos_base  moved_base  pos_sp4  moved_sp4  jac_sp4  pos_mix9  moved_mix9  jac_mix9  pos_mix95  moved_mix95  jac_mix95  pos_lodo_base  moved_lodo_base  jac_lodo_base  pos_lodo_sp4  moved_lodo_sp4  jac_lodo_sp4  pos_lodo_mix9  moved_lodo_mix9  jac_lodo_mix9  pos_lodo_mix95  moved_lodo_mix95  jac_lodo_mix95
+ D7_I10_E validation              5             2.0         0.0656        35           0       35         15   1.0000        35          21    1.0000         35           19     1.0000             35                0         1.0000            35              15        1.0000             35               21         1.0000              35                19          1.0000
+ D7_I10_E    private              5            33.0         0.7029        32           0       30         64   0.7714        30          64    0.7714         30           64     0.7714             35                0         0.9143            28              64        0.7647             28               64         0.7647              28                64          0.7647
+ D7_I10_W validation              5             1.6         0.0000         5           0        5          0   1.0000         5           0    1.0000          5            0     1.0000              6                0         0.5714             6               0        0.5714              6                0         0.5714               6                 0          0.5714
+ D7_I10_W    private              5            36.2         0.6867         5           0        6         19   0.5714         6          19    0.5714          6           19     0.5714              5                0         1.0000             6              19        0.5714              6               19         0.5714               6                19          0.5714
+D7_I210_E validation              5             2.0         0.0584        25           0       25          5   1.0000        25           0    1.0000         25            0     1.0000             25                0         1.0000            25               5        1.0000             25                0         1.0000              25                 0          1.0000
+D7_I210_E    private              5            33.0         0.6859        25           0       25         23   1.0000        25          23    1.0000         25           23     1.0000             25                0         1.0000            25              23        1.0000             25               23         1.0000              25                23          1.0000
+D7_I210_W validation              5             1.8         0.0299        13           0       13          6   1.0000        10           4    0.6429         10            4     0.6429             13                0         1.0000            12               6        0.9231             10                4         0.6429              10                 4          0.6429
+D7_I210_W    private              5            32.8         0.7013        18           0       19         20   0.9474        19          20    0.9474         19           20     0.9474             19                0         0.9474            19              20        0.9474             19               20         0.9474              19                20          0.9474
+D7_I405_N validation              5             2.0         0.0246         9           0        9          0   1.0000         9          24    1.0000          9            6     1.0000              9                0         1.0000             9               0        1.0000              9               24         1.0000               9                 6          1.0000
+D7_I405_N    private              5            31.8         0.7160        10           0       10         60   1.0000        10          60    1.0000         10           60     1.0000             10                0         1.0000            10              60        1.0000             10               60         1.0000              10                60          1.0000
+D7_I405_S validation              5             2.0         0.0000        31           0       30          0   0.9677        31           0    1.0000         31            0     1.0000             30                0         0.9062            31               0        0.9375             29                0         0.9355              29                 0          0.9355
+D7_I405_S    private              5            34.6         0.6431        29           0       47         76   0.6170        47          76    0.6170         47           76     0.6170             29                0         1.0000            40              76        0.6047             40               76         0.6047              40                76          0.6047
+ D12_I5_N validation              5             2.6         0.1340        12           0       14        113   0.8571        12         111    1.0000         12           85     1.0000             15                0         0.6875            15             113        0.6875             16              111         0.7500              15                85          0.6875
+ D12_I5_N    private              5            33.0         0.7031        16           0       14         77   0.8750        14          77    0.8750         14           77     0.8750             15                0         0.9375            15              77        0.9375             15               77         0.9375              15                77          0.9375
+ D12_I5_S validation              5             2.0         0.1029        21           0       20         21   0.6400        19          27    0.6667         19           21     0.7391             22                0         0.7200            20              21        0.5769             17               27         0.5200              18                21          0.5600
+ D12_I5_S    private              5            33.0         0.6991        22           0       13         54   0.4583        13          54    0.4583         13           54     0.4583             23                0         0.8000            13              54        0.2963             13               54         0.2963              13                54          0.2963
+[   596s] CONTROL v13 onset agreement 1.000000 jaccard 1.00000 rows 87000
+[   624s] CONTROL chain-base onset vs base: agreement 0.999345 jaccard 0.83235 changed share 0.00066 rows 87000
+[   624s] CONTROL chain-base onset vs sp4: agreement 1.000000 jaccard 1.00000 changed share 0.00000 rows 87000
+[   624s] CONTROL chain-base onset vs mix9: agreement 0.999759 jaccard 0.93498 changed share 0.00024 rows 87000
+[   624s] CONTROL chain-base onset vs mix95: agreement 0.999782 jaccard 0.94099 changed share 0.00022 rows 87000
+[   624s] CONTROL chain-base onset vs lodo_base: agreement 0.999207 jaccard 0.80286 changed share 0.00079 rows 87000
+[   624s] CONTROL chain-base onset vs lodo_sp4: agreement 0.999563 jaccard 0.88520 changed share 0.00044 rows 87000
+[   624s] CONTROL chain-base onset vs lodo_mix9: agreement 0.999471 jaccard 0.86145 changed share 0.00053 rows 87000
+[   624s] CONTROL chain-base onset vs lodo_mix95: agreement 0.999471 jaccard 0.86145 changed share 0.00053 rows 87000
+[   624s] LODO ONSET DONE
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 501777 bytes to __results__.html

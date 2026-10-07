@@ -1,0 +1,419 @@
+{
+ "root": "tfb-g4",
+ "order": [
+  "tfb-g4",
+  "tfb-t2opv",
+  "tfb-t2ogpvaf",
+  "tfb-g3",
+  "tfb-t2v13",
+  "tfb-e3",
+  "tfb-t2v22af",
+  "tfb-f5",
+  "tfb-t2occ",
+  "tfb-g1",
+  "tfb-t2v21",
+  "tfb-e2",
+  "tfb-t2v22",
+  "tfb-e5",
+  "tfb-g1d",
+  "tfb-t2v20",
+  "tfb-e1",
+  "tfb-t2osp",
+  "tfb-e4",
+  "tfb-t1v11a",
+  "tfb-t1v11b",
+  "tfb-t1v12a",
+  "tfb-t1v12b",
+  "tfb-t1v12s2a",
+  "tfb-t1v12s2b",
+  "tfb-t1v12s3a",
+  "tfb-t1v12s3b",
+  "tfb-t1v12s4a",
+  "tfb-t1v12s4b",
+  "tfb-t1v12s5a",
+  "tfb-t1v12s5b",
+  "tfb-t1v12s6a",
+  "tfb-t1v12s6b",
+  "tfb-t1v12s7a",
+  "tfb-t1v13a",
+  "tfb-t1v13b",
+  "tfb-t1v12s7b",
+  "tfb-t1v13s10a",
+  "tfb-t1v13s10b",
+  "tfb-t1v13s11a",
+  "tfb-t1v13s11b",
+  "tfb-t1darka",
+  "tfb-t1darkb",
+  "tfb-e1m",
+  "tfb-t2lab-full",
+  "tfb-c20",
+  "tfb-c18",
+  "tfb-t2v18",
+  "tfb-c17",
+  "tfb-c16",
+  "tfb-combo15",
+  "tfb-combo13",
+  "tfb-t2v15",
+  "tfb-combo12",
+  "tfb-combo11",
+  "tfb-combo10",
+  "tfb-combo9",
+  "tfb-t1v9-full",
+  "tfb-combo8",
+  "tfb-t2v14",
+  "tfb-combo7",
+  "tfb-swap-v9",
+  "tfb-t2v11",
+  "tfb-t2v12",
+  "tfb-t1v8-full",
+  "tfb-final",
+  "tfb-t2v9-full"
+ ],
+ "edges": {
+  "tfb-g4": [
+   "tfb-t2opv",
+   "tfb-t2ogpvaf",
+   "tfb-g3"
+  ],
+  "tfb-t2opv": [
+   "tfb-t2v13",
+   "tfb-e3"
+  ],
+  "tfb-t2ogpvaf": [
+   "tfb-t2v22af",
+   "tfb-f5"
+  ],
+  "tfb-g3": [
+   "tfb-t2occ",
+   "tfb-g1"
+  ],
+  "tfb-t2v13": [],
+  "tfb-e3": [
+   "tfb-t2v21",
+   "tfb-e2"
+  ],
+  "tfb-t2v22af": [
+   "tfb-t2v22"
+  ],
+  "tfb-f5": [
+   "tfb-e5",
+   "tfb-t2v22af"
+  ],
+  "tfb-t2occ": [
+   "tfb-t2v22af"
+  ],
+  "tfb-g1": [
+   "tfb-g1d"
+  ],
+  "tfb-t2v21": [
+   "tfb-t2v20"
+  ],
+  "tfb-e2": [
+   "tfb-t2v20",
+   "tfb-e1"
+  ],
+  "tfb-t2v22": [],
+  "tfb-e5": [
+   "tfb-t2osp",
+   "tfb-e4"
+  ],
+  "tfb-g1d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-e5",
+   "tfb-t1darka",
+   "tfb-t1darkb"
+  ],
+  "tfb-t2v20": [],
+  "tfb-e1": [
+   "tfb-e1m"
+  ],
+  "tfb-t2osp": [
+   "tfb-t2v13",
+   "tfb-e3"
+  ],
+  "tfb-e4": [
+   "tfb-t2v22",
+   "tfb-e3"
+  ],
+  "tfb-t1v11a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v11b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s2a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s2b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s3a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s3b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s4a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s4b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s5a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s5b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s6a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s6b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s7a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s7b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s10a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s10b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s11a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s11b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1darka": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1darkb": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-e1m": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-c20",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b"
+  ],
+  "tfb-t2lab-full": [],
+  "tfb-c20": [
+   "tfb-c18"
+  ],
+  "tfb-c18": [
+   "tfb-t2v18",
+   "tfb-c17"
+  ],
+  "tfb-t2v18": [],
+  "tfb-c17": [
+   "tfb-c16"
+  ],
+  "tfb-c16": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-combo15",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v12s7b"
+  ],
+  "tfb-combo15": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-combo13"
+  ],
+  "tfb-combo13": [
+   "tfb-t2v15",
+   "tfb-combo12"
+  ],
+  "tfb-t2v15": [],
+  "tfb-combo12": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-combo11",
+   "tfb-t1v12a",
+   "tfb-t1v12b"
+  ],
+  "tfb-combo11": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-combo10"
+  ],
+  "tfb-combo10": [
+   "tfb-t2v15",
+   "tfb-combo9"
+  ],
+  "tfb-combo9": [
+   "tfb-t1v9-full",
+   "tfb-combo8"
+  ],
+  "tfb-t1v9-full": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-combo8": [
+   "tfb-t2v14",
+   "tfb-combo7"
+  ],
+  "tfb-t2v14": [],
+  "tfb-combo7": [
+   "tfb-swap-v9",
+   "tfb-t2v11",
+   "tfb-t2v12",
+   "tfb-t1v8-full",
+   "tfb-t2v13"
+  ],
+  "tfb-swap-v9": [
+   "tfb-final",
+   "tfb-t2v9-full"
+  ],
+  "tfb-t2v11": [],
+  "tfb-t2v12": [],
+  "tfb-t1v8-full": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-final": [],
+  "tfb-t2v9-full": []
+ },
+ "meta": {
+  "tfb-g4": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition",
+  "tfb-t2opv": "Task 2 onset for the PRIVATE month with same-scenario data (pv).  validation (March) and private (April) come from one scenario",
+  "tfb-t2ogpvaf": "Task 2 ONGOING for the PRIVATE month with same-scenario data AND all-finite inputs (ogpvaf) = t2_ongoing_pv.py with every finite",
+  "tfb-g3": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition",
+  "tfb-t2v13": "v13 = v12 with ongoing 511 leaves / lr 0.03 / 1800 trees and 3000 ongoing windows per panel (oofY). Task 2 model (Kaggle): LightGBM cell classifier pe",
+  "tfb-e3": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-t2v22af": "v22af = v22 (F03 bag: np511 + id511, seeds 0 and 1) with ALL-FINITE INPUTS: every finite released speed / flow value",
+  "tfb-f5": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition",
+  "tfb-t2occ": "v26 = v22af (F03 bag: np511 + id511, seeds 0 and 1, ALL-FINITE INPUTS) + 13 OCCUPANCY features.",
+  "tfb-g1": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft",
+  "tfb-t2v21": "v21 = selection-faithful ONGOING training (Task 2). Derived from t2_model_v20.py: same data loading, features, ramp features,",
+  "tfb-e2": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-t2v22": "v22 = v21 restricted to the selection-faithful F03 recipe, bagged: F03 np511 + id511 with seeds 0 and 1 (4 models).",
+  "tfb-e5": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-g1d": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV).",
+  "tfb-t2v20": "v20 = v18 + 4 more ongoing members (np511r / id511r x seeds 2, 3): variant og8 = mean of 8; og4 kept as control (= v18 og4).",
+  "tfb-e1": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft",
+  "tfb-t2osp": "Task 2 onset with a SAME-SCENARIO location prior (osp).  validation (March) and private (April) come from one scenario seed",
+  "tfb-e4": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-t1v11a": "Task 1 v11: transductive rows (v9, LB +0.0017) + ASM features (v10, holdout +0.0005). Compared on the val-month holdout:",
+  "tfb-t1v11b": "Task 1 v11: transductive rows (v9, LB +0.0017) + ASM features (v10, holdout +0.0005). Compared on the val-month holdout:",
+  "tfb-t1v12a": "Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12b": "Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12s2a": "Task 1 v12s2 (bagging member): identical to v11 FTA except seed 2 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12s2b": "Task 1 v12s2 (bagging member): identical to v11 FTA except seed 2 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12s3a": "Task 1 v12s3 (bagging member): identical to v11 FTA except seed 3 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12s3b": "Task 1 v12s3 (bagging member): identical to v11 FTA except seed 3 everywhere it is free: train-row subsample rng(1),",
+  "tfb-t1v12s4a": "Task 1 v12s4 (bagging member, 3 transductive rounds, cap 6x rows): seed 4.",
+  "tfb-t1v12s4b": "Task 1 v12s4 (bagging member, 3 transductive rounds, cap 6x rows): seed 4.",
+  "tfb-t1v12s5a": "Task 1 v12s5 (bagging member, 3 transductive rounds, cap 6x rows): seed 5.",
+  "tfb-t1v12s5b": "Task 1 v12s5 (bagging member, 3 transductive rounds, cap 6x rows): seed 5.",
+  "tfb-t1v12s6a": "Task 1 v12s6 (bagging member, 3 rounds, seed 6, NO holdout: 0.1% kept only so the code path runs; all released val cells usable as transductive target",
+  "tfb-t1v12s6b": "Task 1 v12s6 (bagging member, 3 rounds, seed 6, NO holdout: 0.1% kept only so the code path runs; all released val cells usable as transductive target",
+  "tfb-t1v12s7a": "Task 1 v12s7 (bagging member, 4 transductive rounds, cap 8x rows): seed 7.",
+  "tfb-t1v13a": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1v13b": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1v12s7b": "Task 1 v12s7 (bagging member, 4 transductive rounds, cap 8x rows): seed 7.",
+  "tfb-t1v13s10a": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1v13s10b": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1v13s11a": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1v13s11b": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7.",
+  "tfb-t1darka": "Task 1 t1dark member (= v13 FD-feature member, seed 13) + SIMULATED-BLACKOUT transductive rows.",
+  "tfb-t1darkb": "Task 1 t1dark member (= v13 FD-feature member, seed 13) + SIMULATED-BLACKOUT transductive rows.",
+  "tfb-e1m": "T1 MIX swap (raw, BEFORE FD recon/TV): T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag).",
+  "tfb-t2lab-full": "Task 2 lab (runs on Kaggle): replicate the window builder on train, build pseudo-windows, score strategies.",
+  "tfb-c20": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft",
+  "tfb-c18": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-t2v18": "v18 = v15 + ongoing bagging: np511r and id511r, each with seeds 0 and 1 (row subsample + LightGBM seeds); variants",
+  "tfb-c17": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft",
+  "tfb-c16": "T1 BAG-N swap (COMBO16): equal mean of all listed FTA members (seeds 0-3: 2 rounds; 4,5: 3 rounds; 6: 3 rounds no holdout). Base = COMBO15 (LB 0.86944",
+  "tfb-combo15": "T1 BAG-4 swap (COMBO15): mean of 4 FTA members (v11 seed0, v12 seed1, v12s2 seed2, v12s3 seed3). Base = COMBO13 (LB 0.86899).",
+  "tfb-combo13": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL.",
+  "tfb-t2v15": "v15 = v14 + released ramp-flow features (slots T-3..T-1 only, strictly before T; oofR: ongoing +0.002 in 4/4 folds).",
+  "tfb-combo12": "T1 BAG swap: start from the exact base file (BASE_KERNEL/BASE_FILE); Task 1 rows = mean of T1 v11 FTA (seed 0) and",
+  "tfb-combo11": "COMBO_11: start from the exact COMBO10 file (LB 0.86737); swap ONLY Task 1 rows with T1 v11 FTA (transductive + ASM;",
+  "tfb-combo10": "COMBO_10: start from the exact COMBO9 file (LB 0.86707); replace ONLY queue_ongoing rows with v15 main",
+  "tfb-combo9": "COMBO_9: start from the exact COMBO8 file (LB 0.86537); swap ONLY Task 1 rows with T1 v9 FT (transductive rows; val-month holdout 0.9406 vs F 0.9386, ",
+  "tfb-t1v9-full": "Task 1 v9: transductive rows. Task 1 is offline, so released (observed) cells of the validation and private months",
+  "tfb-combo8": "COMBO_8: start from the exact COMBO7 file (LB 0.86509); replace ONLY queue_ongoing window rows with v14 'id511'",
+  "tfb-t2v14": "v14 = v13 + ongoing variants: identity-kept prior-free (drop only prior/tod/dow) and full-feature 511-leaf models, 50/50 blends (research A I-2). v13 ",
+  "tfb-combo7": "COMBO_7 (T1 F 511 leaves + CatBoost onset + ongoing 511 leaves from t2v13): start from the exact 0.85639 file (v9); swap Task 1 rows (T1 v8 F) and Tas",
+  "tfb-swap-v9": "FINAL v2 submission with ONLY the Task 2 rows replaced by each Task 2 v5 variant (one file per variant).",
+  "tfb-t2v11": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding.",
+  "tfb-t2v12": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding.",
+  "tfb-t1v8-full": "Task 1 (+ Task 3 proxy) pipeline on Kaggle.",
+  "tfb-final": "{\"cells\":[{\"cell_type\":\"markdown\",\"metadata\":{},\"source\":\"# TrafficFlowBench \u2014 multi-task pipeline (final)\\n\\nBuilt from the base notebook *[0.809 LB]",
+  "tfb-t2v9-full": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding."
+ }
+}

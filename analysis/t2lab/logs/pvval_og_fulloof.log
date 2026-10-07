@@ -1,0 +1,43 @@
+[run_heavy] slot acquired after 1522s
+[   148s] pvval_F03_full255 fold 0: 6077021 rows x 69 cols, pos 0.268 (weighted 0.281), 1 model(s) in 148s | {"faith3": {"windows": 7773, "rows": 2974633, "wsum": 892389.68359375, "runstart_windows": 0}, "runstart": {"windows": 7958, "rows": 3102388, "wsum": 3102388.0, "runstart_windows": 7958}}
+[   153s] pvval_F03_full255 fold 0: official 0.9021 (n=40), offlike 0.8915 (n=726)
+[   301s] pvval_F03_full255 fold 1: 5844108 rows x 69 cols, pos 0.270 (weighted 0.283), 1 model(s) in 148s | {"faith3": {"windows": 7476, "rows": 2818302, "wsum": 845490.423828125, "runstart_windows": 0}, "runstart": {"windows": 7951, "rows": 3025806, "wsum": 3025806.0, "runstart_windows": 7951}}
+[   307s] pvval_F03_full255 fold 1: official nan (n=0), offlike 0.8783 (n=747)
+[   470s] pvval_F03_full255 fold 2: 5997115 rows x 69 cols, pos 0.274 (weighted 0.287), 1 model(s) in 163s | {"faith3": {"windows": 7777, "rows": 2905619, "wsum": 871685.53125, "runstart_windows": 0}, "runstart": {"windows": 8056, "rows": 3091496, "wsum": 3091496.0, "runstart_windows": 8056}}
+[   475s] pvval_F03_full255 fold 2: official nan (n=0), offlike 0.8900 (n=748)
+[   647s] pvval_F03_full255 fold 3: 6061317 rows x 69 cols, pos 0.276 (weighted 0.288), 1 model(s) in 172s | {"faith3": {"windows": 7739, "rows": 2927178, "wsum": 878153.208984375, "runstart_windows": 0}, "runstart": {"windows": 8102, "rows": 3134139, "wsum": 3134139.0, "runstart_windows": 8102}}
+[   652s] pvval_F03_full255 fold 3: official nan (n=0), offlike 0.8877 (n=771)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+   offlike              npid+full - np+id                  n=2992  0.8950 vs 0.8788  +0.0161 [+0.0139, +0.0181]  panels +7/-1 of 8
+   offlike           np+id+full/3 - np+id                  n=2992  0.8910 vs 0.8788  +0.0121 [+0.0105, +0.0136]  panels +7/-1 of 8
+   offlike          npid75+full25 - np+id                  n=2992  0.8880 vs 0.8788  +0.0092 [+0.0079, +0.0104]  panels +8/-0 of 8
+   offlike                   full - np+id                  n=2992  0.8864 vs 0.8788  +0.0076 [+0.0025, +0.0126]  panels +6/-2 of 8
+   offlike                     np - np+id                  n=2992  0.8751 vs 0.8788  -0.0037 [-0.0046, -0.0029]  panels +0/-8 of 8
+   offlike                     id - np+id                  n=2992  0.8806 vs 0.8788  +0.0017 [+0.0008, +0.0027]  panels +7/-1 of 8
+offlike/f0              npid+full - np+id                  n=726   0.8969 vs 0.8817  +0.0152 [+0.0116, +0.0192]  panels +7/-1 of 8
+offlike/f1              npid+full - np+id                  n=747   0.8935 vs 0.8798  +0.0138 [+0.0092, +0.0180]  panels +8/-0 of 8
+offlike/f2              npid+full - np+id                  n=748   0.8960 vs 0.8787  +0.0173 [+0.0134, +0.0216]  panels +7/-1 of 8
+offlike/f3              npid+full - np+id                  n=771   0.8930 vs 0.8759  +0.0171 [+0.0130, +0.0213]  panels +7/-1 of 8
+  official              npid+full - np+id                  n=40    0.9110 vs 0.8942  +0.0168 [+0.0085, +0.0261]  panels +7/-1 of 8
+  official           np+id+full/3 - np+id                  n=40    0.9031 vs 0.8942  +0.0090 [+0.0032, +0.0150]  panels +6/-2 of 8
+  official          npid75+full25 - np+id                  n=40    0.9011 vs 0.8942  +0.0069 [+0.0014, +0.0129]  panels +6/-2 of 8
+  official                   full - np+id                  n=40    0.9021 vs 0.8942  +0.0079 [-0.0060, +0.0210]  panels +6/-2 of 8
+  official                     np - np+id                  n=40    0.8899 vs 0.8942  -0.0043 [-0.0084, -0.0005]  panels +3/-5 of 8
+  official                     id - np+id                  n=40    0.8918 vs 0.8942  -0.0024 [-0.0071, +0.0022]  panels +2/-5 of 8
+official/f0              npid+full - np+id                  n=40    0.9110 vs 0.8942  +0.0168 [+0.0085, +0.0261]  panels +7/-1 of 8
+official/f1              npid+full - np+id                  n=0     nan vs nan  +nan [+nan, +nan]  panels +0/-0 of 0
+official/f2              npid+full - np+id                  n=0     nan vs nan  +nan [+nan, +nan]  panels +0/-0 of 0
+official/f3              npid+full - np+id                  n=0     nan vs nan  +nan [+nan, +nan]  panels +0/-0 of 0
+[   657s] DONE
+[run_heavy] exit 0 after 2180s

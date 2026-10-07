@@ -1,0 +1,96 @@
+[run_heavy] slot acquired after 0s
+[     0s] worker start: budget 22 min, only=['build', 'og_np_f0', 'og_id_f0', 'og_np_f1', 'og_id_f1', 'base0']
+[     0s] === task build (elapsed 0.0 min)
+[     3s] occ side-cars D7_I10_E built | ocrit(k=4) q10/50/90 [0.348, 0.365, 0.428]
+[     5s] occ side-cars D7_I10_W built | ocrit(k=4) q10/50/90 [0.307, 0.364, 0.406]
+[    10s] occ side-cars D7_I210_E built | ocrit(k=4) q10/50/90 [0.326, 0.351, 0.372]
+[    10s] occ side-cars D7_I210_W built | ocrit(k=4) q10/50/90 [0.287, 0.346, 0.422]
+[    20s] occ side-cars D7_I405_N built | ocrit(k=4) q10/50/90 [0.353, 0.361, 0.448]
+[    23s] occ side-cars D7_I405_S built | ocrit(k=4) q10/50/90 [0.335, 0.391, 0.463]
+[    29s] occ side-cars D12_I5_N built | ocrit(k=4) q10/50/90 [0.344, 0.42, 0.49]
+[    32s] occ side-cars D12_I5_S built | ocrit(k=4) q10/50/90 [0.338, 0.414, 0.487]
+    panel       set          cond  windows    rows    T_vis  hist_vis  par_has_T  par_vr_T  par_vr_last  par_ok
+ D7_I10_E  official queue_ongoing        5    2112 0.584932  0.831050       True      True         True    True
+ D7_I10_E   offlike queue_ongoing      381  106644 0.545554  0.833705       True      True         True    True
+ D7_I10_E    pseudo queue_ongoing      229   74520 0.540109  0.834565       True      True         True    True
+ D7_I10_E  runstart queue_ongoing     1500  498684 0.544849  0.834641       True      True         True    True
+ D7_I10_E faith3F03 queue_ongoing     1500  501048 0.545164  0.834871       True      True         True    True
+ D7_I10_E  official   queue_onset        5     730 0.594521  0.818265       True      True         True    True
+ D7_I10_E   offlike   queue_onset      252   36792 0.545771  0.835392       True      True         True    True
+ D7_I10_E    pseudo   queue_onset      265   38690 0.547454  0.835392       True      True         True    True
+ D7_I10_E dense1500   queue_onset      265   38690 0.547454  0.835392       True      True         True    True
+ D7_I10_W  official queue_ongoing        5     846 0.596262  0.846106       True      True         True    True
+ D7_I10_W   offlike queue_ongoing      131   21918 0.548976  0.835598       True      True         True    True
+ D7_I10_W    pseudo queue_ongoing        4     792 0.516355  0.828076       True      True         True    True
+ D7_I10_W  runstart queue_ongoing      268   48456 0.542440  0.836739       True      True         True    True
+ D7_I10_W faith3F03 queue_ongoing      522  116784 0.543077  0.838099       True      True         True    True
+ D7_I10_W  official   queue_onset        5     535 0.560748  0.830530       True      True         True    True
+ D7_I10_W   offlike   queue_onset      134   14338 0.542475  0.834228       True      True         True    True
+ D7_I10_W    pseudo   queue_onset      134   14338 0.542475  0.834228       True      True         True    True
+ D7_I10_W dense1500   queue_onset      134   14338 0.542475  0.834228       True      True         True    True
+D7_I210_E  official queue_ongoing        5     528 0.555556  0.833333       True      True         True    True
+D7_I210_E   offlike queue_ongoing      276   29916 0.543100  0.834771       True      True         True    True
+D7_I210_E    pseudo queue_ongoing      439   45906 0.543460  0.834800       True      True         True    True
+D7_I210_E  runstart queue_ongoing      373   45042 0.543514  0.834902       True      True         True    True
+D7_I210_E faith3F03 queue_ongoing      733  144756 0.545817  0.834692       True      True         True    True
+D7_I210_E  official   queue_onset        5    1485 0.554882  0.837093       True      True         True    True
+D7_I210_E   offlike   queue_onset      273   81081 0.543629  0.834723       True      True         True    True
+D7_I210_E    pseudo   queue_onset      276   81972 0.545015  0.834717       True      True         True    True
+D7_I210_E dense1500   queue_onset      276   81972 0.545015  0.834717       True      True         True    True
+D7_I210_W  official queue_ongoing        5    1884 0.543210  0.838683       True      True         True    True
+D7_I210_W   offlike queue_ongoing      448  152190 0.542852  0.835246       True      True         True    True
+D7_I210_W    pseudo queue_ongoing      386  138288 0.541579  0.834285       True      True         True    True
+D7_I210_W  runstart queue_ongoing     2054  698766 0.544129  0.834522       True      True         True    True
+D7_I210_W faith3F03 queue_ongoing     1500  525672 0.543449  0.835267       True      True         True    True
+D7_I210_W  official   queue_onset        5     405 0.575309  0.829424       True      True         True    True
+D7_I210_W   offlike   queue_onset      311   25191 0.548688  0.834743       True      True         True    True
+D7_I210_W    pseudo   queue_onset      311   25191 0.548688  0.834743       True      True         True    True
+D7_I210_W dense1500   queue_onset      311   25191 0.548688  0.834743       True      True         True    True
+D7_I405_N  official queue_ongoing        5    7560 0.556818  0.832765       True      True         True    True
+D7_I405_N   offlike queue_ongoing      506  555834 0.542855  0.834439       True      True         True    True
+D7_I405_N    pseudo queue_ongoing      373  514362 0.543870  0.834372       True      True         True    True
+D7_I405_N  runstart queue_ongoing     1910 1982994 0.543241  0.834659       True      True         True    True
+D7_I405_N faith3F03 queue_ongoing     1500 1490730 0.544227  0.834743       True      True         True    True
+D7_I405_N  official   queue_onset        5    1760 0.569318  0.835417       True      True         True    True
+D7_I405_N   offlike   queue_onset      355  124960 0.542798  0.834699       True      True         True    True
+D7_I405_N    pseudo   queue_onset      355  124960 0.542798  0.834699       True      True         True    True
+D7_I405_N dense1500   queue_onset      355  124960 0.542798  0.834699       True      True         True    True
+D7_I405_S  official queue_ongoing        5    1704 0.581651  0.832875       True      True         True    True
+D7_I405_S   offlike queue_ongoing      403  128700 0.548501  0.834813       True      True         True    True
+D7_I405_S    pseudo queue_ongoing      223   81090 0.546098  0.834770       True      True         True    True
+D7_I405_S  runstart queue_ongoing     1572  553476 0.543730  0.834794       True      True         True    True
+D7_I405_S faith3F03 queue_ongoing     1500  558684 0.542073  0.834483       True      True         True    True
+D7_I405_S  official   queue_onset        5     545 0.568807  0.840214       True      True         True    True
+D7_I405_S   offlike   queue_onset      261   28449 0.544096  0.836093       True      True         True    True
+D7_I405_S    pseudo   queue_onset      271   29539 0.542266  0.835895       True      True         True    True
+D7_I405_S dense1500   queue_onset      271   29539 0.542266  0.835895       True      True         True    True
+ D12_I5_N  official queue_ongoing        5    4140 0.575194  0.835078       True      True         True    True
+ D12_I5_N   offlike queue_ongoing      421  296814 0.545388  0.834538       True      True         True    True
+ D12_I5_N    pseudo queue_ongoing      194  178710 0.548490  0.834965       True      True         True    True
+ D12_I5_N  runstart queue_ongoing     1118  818538 0.543534  0.834750       True      True         True    True
+ D12_I5_N faith3F03 queue_ongoing     1500 1154580 0.544540  0.834519       True      True         True    True
+ D12_I5_N  official   queue_onset        5    1290 0.545736  0.838372       True      True         True    True
+ D12_I5_N   offlike   queue_onset      255   65790 0.544475  0.834862       True      True         True    True
+ D12_I5_N    pseudo   queue_onset      255   65790 0.544475  0.834862       True      True         True    True
+ D12_I5_N dense1500   queue_onset      255   65790 0.544475  0.834862       True      True         True    True
+ D12_I5_S  official queue_ongoing        5    2076 0.568000  0.838833       True      True         True    True
+ D12_I5_S   offlike queue_ongoing      426  176286 0.544155  0.835016       True      True         True    True
+ D12_I5_S    pseudo queue_ongoing      210  104532 0.543810  0.835532       True      True         True    True
+ D12_I5_S  runstart queue_ongoing     1894  827682 0.545438  0.835088       True      True         True    True
+ D12_I5_S faith3F03 queue_ongoing     1500  666108 0.544173  0.835180       True      True         True    True
+ D12_I5_S  official   queue_onset        5     500 0.594000  0.837667       True      True         True    True
+ D12_I5_S   offlike   queue_onset      264   26400 0.551098  0.833801       True      True         True    True
+ D12_I5_S    pseudo   queue_onset      264   26400 0.551098  0.833801       True      True         True    True
+ D12_I5_S dense1500   queue_onset      264   26400 0.551098  0.833801       True      True         True    True
+ALL PARITY OK: True | side-cars 72
+[    32s] === task build done in 32s
+[    32s] === task og_np_f0 (elapsed 0.5 min)
+[   192s] occ_np255 fold 0: 6073676 rows x 71 cols, pos 0.269, trained in 160s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   204s] occ_np255 fold 0: official 0.8921 (n=40), offlike 0.8821 (n=726), pseudo 0.8796 (n=525)
+[   204s] === task og_np_f0 done in 172s
+[   204s] === task og_id_f1 (elapsed 3.4 min)
+[   374s] occ_id255 fold 1: 5840595 rows x 77 cols, pos 0.270, trained in 169s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   384s] occ_id255 fold 1: official nan (n=0), offlike 0.8875 (n=747), pseudo 0.8657 (n=530)
+[   384s] === task og_id_f1 done in 180s
+[   384s] WORKER DONE ['build', 'og_np_f0', 'og_id_f1'] | elapsed 6.4 min
+[run_heavy] exit 0 after 385s

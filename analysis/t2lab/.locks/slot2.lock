@@ -1,0 +1,1 @@
+74270 ../../.venv/bin/python ../t1lab/t1ramp_exp.py all D7_I10_E seeds=10 arms=dark,darkramp tag=_s10

@@ -2,13 +2,13 @@
  "type": "queue2",
  "parts": [
   [
-   "tfb-t2opvm",
-   "queue_submission_pvm.csv",
+   "tfb-t2lodo",
+   "queue_submission_lodo_sp4.csv",
    "queue_onset",
    "validation"
   ]
  ],
  "thr": 0.0,
  "max_val_changed": 100000,
- "desc": "March onset rows from per-day same-scenario CatBoost (train + released March onset windows of the days before each window's day, weight 20, scenario prior); April rows unchanged"
+ "desc": "March onset rows from the LODO CatBoost bag (training rows carry day-excluded priors: leave-one-day-out x3 + leave-week-group-out x3), same sp4 scenario prior; April rows unchanged"
 }

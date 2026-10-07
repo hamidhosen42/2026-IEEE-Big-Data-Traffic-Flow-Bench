@@ -1,0 +1,15 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2v24",
+   "queue_submission_sw03.csv",
+   "queue_ongoing",
+   "validation",
+   "g72"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March ongoing rows of the spacing-blocked (g72) windows from an F10 pair (np+id 511, all faithful windows 1.0); other windows and April unchanged"
+}

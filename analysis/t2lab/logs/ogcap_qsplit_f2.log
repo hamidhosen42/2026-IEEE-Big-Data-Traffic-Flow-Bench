@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 426s
+[     0s] ogcap_run qsplit folds [2] cols np leaves 511 lr 0.05 trees 900 seed 0 threads 4
+[     7s] cap_qsplit_np511_l05_t900 fold 2: matrix 5997115 x 58 in 7s
+[   375s] cap_qsplit_np511_l05_t900 fold 2: 2 model(s) fitted, 375s since start
+[   404s] cap_qsplit_np511_l05_t900 fold 2: official nan (n=0), offlike 0.8804 (n=748), pseudo 0.8816 (n=503) | 404s
+[   404s] DONE
+[run_heavy] exit 0 after 830s

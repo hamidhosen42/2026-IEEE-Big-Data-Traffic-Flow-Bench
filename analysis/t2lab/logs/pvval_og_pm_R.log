@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 406s
+[     0s] March training rows 458173 pos 0.242 weight sum 1140201.5 | eval blocks 16 0s
+[   175s] RB_np: 8013566 train rows (weight 5293896) + 458173 March rows (weight 1140202), 175s
+[   385s] RB_id: 8013566 train rows (weight 5293896) + 458173 March rows (weight 1140202), 210s
+[   631s] RB_full: 8013566 train rows (weight 5293896) + 458173 March rows (weight 1140202), 246s
+[   707s] saved /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/pvval/probs/R_15_5.pkl ['RB_full', 'RB_id', 'RB_np', 'R_full_s4', 'R_full_tr', 'R_id', 'R_np'] 707s
+[   707s] DONE
+[run_heavy] exit 0 after 1114s

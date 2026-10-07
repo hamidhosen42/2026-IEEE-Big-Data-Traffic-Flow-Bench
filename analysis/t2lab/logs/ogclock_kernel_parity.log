@@ -1,0 +1,5 @@
+a/b D7_I405_S offlike: kernel ck_train == lab FE cache: True (403 windows)
+c ck_thin: overall visible share of eligible 0.678; per-day shares around 0.507 / 0.705 / 0.803: 0.29 / 0.40 / 0.31
+d/e validation: day cubes rebuilt from parquet-like frames == released cube: True; ck_split == lab: True; data at/after T-12 ignored (earliest window of each day, n=5): True; windows 10
+d/e private: day cubes rebuilt from parquet-like frames == released cube: True; ck_split == lab: True; data at/after T-12 ignored (earliest window of each day, n=6): True; windows 10
+[     1s] DONE

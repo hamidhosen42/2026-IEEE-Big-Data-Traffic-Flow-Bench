@@ -1,0 +1,47 @@
+members: ['MB11_full', 'MB11_id', 'MB11_np', 'M_full_s4', 'M_full_tr', 'M_id', 'M_np', 'RB11_full', 'RB11_id', 'RB11_np', 'RB_full', 'RB_id', 'RB_np', 'R_full_s4', 'R_full_tr', 'R_id', 'R_np']
+
+== pseudo-March ongoing, days >= 15 ==
+offlike_m R:np+id 0.8002  R:npid+full_tr 0.7866  R:npid+full_s4 0.8233  RB:np+id 0.8228  RB:npid+full 0.8398  R:npid+RB:full 0.8332  RB11:np+id 0.8259  RB11:npid+full 0.8411  MB11:np+id 0.8229  MB11:npid+full 0.8386  M:np+id 0.8018  M:npid+full_s4 0.8230 (n=177)
+  regime 0.5  offlike_m         RB11:npid+full - R:npid+full_s4         n=55    0.8364 vs 0.8167  +0.0197 [+0.0066, +0.0338]  panels +4/-3 of 8
+  regime 0.5  offlike_m         MB11:npid+full - M:npid+full_s4         n=55    0.8193 vs 0.8121  +0.0072 [-0.0095, +0.0258]  panels +6/-2 of 8
+  regime 0.7  offlike_m         RB11:npid+full - R:npid+full_s4         n=44    0.8199 vs 0.7956  +0.0243 [+0.0031, +0.0494]  panels +4/-2 of 7
+  regime 0.7  offlike_m         MB11:npid+full - M:npid+full_s4         n=44    0.8150 vs 0.7967  +0.0183 [-0.0004, +0.0388]  panels +4/-3 of 7
+  regime 0.8  offlike_m         RB11:npid+full - R:npid+full_s4         n=78    0.8506 vs 0.8349  +0.0157 [+0.0018, +0.0320]  panels +6/-1 of 8
+  regime 0.8  offlike_m         MB11:npid+full - M:npid+full_s4         n=78    0.8528 vs 0.8363  +0.0165 [+0.0023, +0.0328]  panels +8/-0 of 8
+runstart_m R:np+id 0.8648  R:npid+full_tr 0.8521  R:npid+full_s4 0.8841  RB:np+id 0.8844  RB:npid+full 0.8976  R:npid+RB:full 0.8924  RB11:np+id 0.8854  RB11:npid+full 0.8973  MB11:np+id 0.8835  MB11:npid+full 0.8971  M:np+id 0.8650  M:npid+full_s4 0.8818 (n=617)
+  regime 0.5 runstart_m         RB11:npid+full - R:npid+full_s4         n=207   0.8770 vs 0.8659  +0.0111 [+0.0025, +0.0199]  panels +6/-2 of 8
+  regime 0.5 runstart_m         MB11:npid+full - M:npid+full_s4         n=207   0.8720 vs 0.8625  +0.0095 [+0.0013, +0.0177]  panels +6/-2 of 8
+  regime 0.7 runstart_m         RB11:npid+full - R:npid+full_s4         n=160   0.8236 vs 0.8159  +0.0077 [-0.0041, +0.0181]  panels +6/-2 of 8
+  regime 0.7 runstart_m         MB11:npid+full - M:npid+full_s4         n=160   0.8267 vs 0.8170  +0.0097 [+0.0013, +0.0175]  panels +5/-3 of 8
+  regime 0.8 runstart_m         RB11:npid+full - R:npid+full_s4         n=250   0.9150 vs 0.9034  +0.0116 [+0.0053, +0.0175]  panels +7/-0 of 8
+  regime 0.8 runstart_m         MB11:npid+full - M:npid+full_s4         n=250   0.9144 vs 0.8995  +0.0148 [+0.0082, +0.0215]  panels +8/-0 of 8
+ offlike_m         R:npid+full_s4 - R:np+id                n=177   0.8233 vs 0.8002  +0.0231 [+0.0149, +0.0318]  panels +8/-0 of 8 | A_s4 - A: train-only full member with blended prior
+ offlike_m           RB:npid+full - R:npid+full_s4         n=177   0.8398 vs 0.8233  +0.0165 [+0.0090, +0.0241]  panels +7/-1 of 8 | B - A_s4: March rows (raw-train regime) = kernel vs fs4+full_s4
+ offlike_m           RB:npid+full - R:np+id                n=177   0.8398 vs 0.8002  +0.0397 [+0.0288, +0.0513]  panels +8/-0 of 8 | B - A: kernel vs production-like
+ offlike_m               RB:np+id - R:np+id                n=177   0.8228 vs 0.8002  +0.0226 [+0.0148, +0.0309]  panels +7/-1 of 8 | npid: March rows, raw-train regime
+ offlike_m         R:npid+RB:full - R:npid+full_s4         n=177   0.8332 vs 0.8233  +0.0099 [+0.0043, +0.0166]  panels +7/-1 of 8 | only the full member March-trained
+ offlike_m         M:npid+full_s4 - R:npid+full_s4         n=177   0.8230 vs 0.8233  -0.0003 [-0.0056, +0.0050]  panels +3/-5 of 8 | masking adaptation of the train-only package (A_mask - A_s4)
+ offlike_m                M:np+id - R:np+id                n=177   0.8018 vs 0.8002  +0.0016 [-0.0035, +0.0069]  panels +5/-3 of 8 | masking adaptation, npid only
+ offlike_m         RB11:npid+full - RB:npid+full           n=177   0.8411 vs 0.8398  +0.0012 [-0.0039, +0.0063]  panels +5/-3 of 8 | March weight x2.2 (= kernel total March weight) vs lab WM 5
+ offlike_m         RB11:npid+full - R:npid+full_s4         n=177   0.8411 vs 0.8233  +0.0178 [+0.0090, +0.0274]  panels +7/-1 of 8 | WM 11 package vs A_s4
+ offlike_m         RB11:npid+full - R:npid+full_s4         n=177   0.8411 vs 0.8233  +0.0178 [+0.0090, +0.0274]  panels +7/-1 of 8 | B11 - A_s4 (raw-train regime, kernel-equivalent March weight)
+ offlike_m             RB11:np+id - R:np+id                n=177   0.8259 vs 0.8002  +0.0257 [+0.0176, +0.0349]  panels +8/-0 of 8 | npid: March rows WM 11, raw-train regime
+ offlike_m         MB11:npid+full - M:npid+full_s4         n=177   0.8386 vs 0.8230  +0.0156 [+0.0056, +0.0261]  panels +8/-0 of 8 | B11_mask - A_mask: March rows WM 11 in the matched (masked) regime
+ offlike_m             MB11:np+id - M:np+id                n=177   0.8229 vs 0.8018  +0.0211 [+0.0126, +0.0301]  panels +7/-1 of 8 | npid: March rows WM 11, masked regime
+ offlike_m         MB11:npid+full - RB11:npid+full         n=177   0.8386 vs 0.8411  -0.0024 [-0.0081, +0.0027]  panels +3/-5 of 8 | B11_mask - B11
+ offlike_m         MB11:npid+full - R:np+id                n=177   0.8386 vs 0.8002  +0.0385 [+0.0265, +0.0503]  panels +8/-0 of 8 | B11_mask - A
+runstart_m         R:npid+full_s4 - R:np+id                n=617   0.8841 vs 0.8648  +0.0192 [+0.0142, +0.0244]  panels +8/-0 of 8 | A_s4 - A: train-only full member with blended prior
+runstart_m           RB:npid+full - R:npid+full_s4         n=617   0.8976 vs 0.8841  +0.0136 [+0.0096, +0.0176]  panels +8/-0 of 8 | B - A_s4: March rows (raw-train regime) = kernel vs fs4+full_s4
+runstart_m           RB:npid+full - R:np+id                n=617   0.8976 vs 0.8648  +0.0328 [+0.0269, +0.0390]  panels +8/-0 of 8 | B - A: kernel vs production-like
+runstart_m               RB:np+id - R:np+id                n=617   0.8844 vs 0.8648  +0.0196 [+0.0150, +0.0241]  panels +8/-0 of 8 | npid: March rows, raw-train regime
+runstart_m         R:npid+RB:full - R:npid+full_s4         n=617   0.8924 vs 0.8841  +0.0084 [+0.0050, +0.0119]  panels +8/-0 of 8 | only the full member March-trained
+runstart_m         M:npid+full_s4 - R:npid+full_s4         n=617   0.8818 vs 0.8841  -0.0023 [-0.0051, +0.0005]  panels +2/-6 of 8 | masking adaptation of the train-only package (A_mask - A_s4)
+runstart_m                M:np+id - R:np+id                n=617   0.8650 vs 0.8648  +0.0001 [-0.0031, +0.0033]  panels +5/-3 of 8 | masking adaptation, npid only
+runstart_m         RB11:npid+full - RB:npid+full           n=617   0.8973 vs 0.8976  -0.0003 [-0.0026, +0.0021]  panels +4/-4 of 8 | March weight x2.2 (= kernel total March weight) vs lab WM 5
+runstart_m         RB11:npid+full - R:npid+full_s4         n=617   0.8973 vs 0.8841  +0.0133 [+0.0088, +0.0181]  panels +6/-2 of 8 | WM 11 package vs A_s4
+runstart_m         RB11:npid+full - R:npid+full_s4         n=617   0.8973 vs 0.8841  +0.0133 [+0.0088, +0.0181]  panels +6/-2 of 8 | B11 - A_s4 (raw-train regime, kernel-equivalent March weight)
+runstart_m             RB11:np+id - R:np+id                n=617   0.8854 vs 0.8648  +0.0206 [+0.0160, +0.0253]  panels +8/-0 of 8 | npid: March rows WM 11, raw-train regime
+runstart_m         MB11:npid+full - M:npid+full_s4         n=617   0.8971 vs 0.8818  +0.0153 [+0.0104, +0.0205]  panels +8/-0 of 8 | B11_mask - A_mask: March rows WM 11 in the matched (masked) regime
+runstart_m             MB11:np+id - M:np+id                n=617   0.8835 vs 0.8650  +0.0185 [+0.0140, +0.0234]  panels +7/-1 of 8 | npid: March rows WM 11, masked regime
+runstart_m         MB11:npid+full - RB11:npid+full         n=617   0.8971 vs 0.8973  -0.0002 [-0.0032, +0.0028]  panels +3/-5 of 8 | B11_mask - B11
+runstart_m         MB11:npid+full - R:np+id                n=617   0.8971 vs 0.8648  +0.0323 [+0.0264, +0.0385]  panels +8/-0 of 8 | B11_mask - A

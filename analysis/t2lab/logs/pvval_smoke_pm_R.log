@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 195s
+[     1s] D7_I10_E March training windows 206 | eval {'offlike_m': 41, 'runstart_m': 188}
+[     1s] D7_I10_W March training windows 39 | eval {'offlike_m': 16, 'runstart_m': 44}
+[     1s] March training rows 38483 pos 0.2315 weight sum 116983.0 | eval blocks 4 1s
+[     4s] RB_np: 887426 train rows (weight 557977) + 38483 March rows (weight 116983), 3s
+[     7s] RB_id: 887426 train rows (weight 557977) + 38483 March rows (weight 116983), 3s
+[     9s] RB_full: 887426 train rows (weight 557977) + 38483 March rows (weight 116983), 3s
+[    15s] saved /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/pvval/probs/R_15_5_smoke.pkl ['RB_full', 'RB_id', 'RB_np', 'R_full_s4', 'R_full_tr', 'R_id', 'R_np'] 15s
+[    15s] DONE
+[run_heavy] exit 0 after 211s

@@ -1,0 +1,75 @@
+[    15s] D7_I10_E {"panel": "D7_I10_E", "x_share": 0.0693, "vis_elig": 0.4961, "offlike_m_n": 41, "offlike_m_Tvis": 0.5824, "offlike_m_histvis": 0.5781, "runstart_m_n": 188, "runstart_m_Tvis": 0.5828, "runstart_m_histvis": 0.5755, "faith3_m_n": 371, "faith3_m_Tvis": 0.5802, "faith3_m_histvis": 0.5811} 15s
+[    18s] D7_I10_W {"panel": "D7_I10_W", "x_share": 0.0693, "vis_elig": 0.5088, "offlike_m_n": 16, "offlike_m_Tvis": 0.6197, "offlike_m_histvis": 0.6256, "runstart_m_n": 44, "runstart_m_Tvis": 0.6345, "runstart_m_histvis": 0.6335, "faith3_m_n": 81, "faith3_m_Tvis": 0.6409, "faith3_m_histvis": 0.6375} 3s
+[    21s] D7_I210_E {"panel": "D7_I210_E", "x_share": 0.0693, "vis_elig": 0.5183, "offlike_m_n": 27, "offlike_m_Tvis": 0.5963, "offlike_m_histvis": 0.596, "runstart_m_n": 36, "runstart_m_Tvis": 0.5935, "runstart_m_histvis": 0.5933, "faith3_m_n": 108, "faith3_m_Tvis": 0.5717, "faith3_m_histvis": 0.5712} 3s
+[    38s] D7_I210_W {"panel": "D7_I210_W", "x_share": 0.0693, "vis_elig": 0.4695, "offlike_m_n": 46, "offlike_m_Tvis": 0.5462, "offlike_m_histvis": 0.5382, "runstart_m_n": 197, "runstart_m_Tvis": 0.5465, "runstart_m_histvis": 0.544, "faith3_m_n": 443, "faith3_m_Tvis": 0.5448, "faith3_m_histvis": 0.5394} 17s
+[   105s] D7_I405_N {"panel": "D7_I405_N", "x_share": 0.0693, "vis_elig": 0.5388, "offlike_m_n": 51, "offlike_m_Tvis": 0.6259, "offlike_m_histvis": 0.6223, "runstart_m_n": 201, "runstart_m_Tvis": 0.6235, "runstart_m_histvis": 0.6198, "faith3_m_n": 752, "faith3_m_Tvis": 0.6162, "faith3_m_histvis": 0.6166} 67s
+[   127s] D7_I405_S {"panel": "D7_I405_S", "x_share": 0.0693, "vis_elig": 0.4743, "offlike_m_n": 42, "offlike_m_Tvis": 0.5799, "offlike_m_histvis": 0.5638, "runstart_m_n": 201, "runstart_m_Tvis": 0.55, "runstart_m_histvis": 0.5465, "faith3_m_n": 453, "faith3_m_Tvis": 0.5441, "faith3_m_histvis": 0.543} 22s
+[   149s] D12_I5_N {"panel": "D12_I5_N", "x_share": 0.0693, "vis_elig": 0.4975, "offlike_m_n": 34, "offlike_m_Tvis": 0.5961, "offlike_m_histvis": 0.5875, "runstart_m_n": 96, "runstart_m_Tvis": 0.5952, "runstart_m_histvis": 0.5954, "faith3_m_n": 320, "faith3_m_Tvis": 0.5896, "faith3_m_histvis": 0.5912} 22s
+[   169s] D12_I5_S {"panel": "D12_I5_S", "x_share": 0.0693, "vis_elig": 0.5075, "offlike_m_n": 41, "offlike_m_Tvis": 0.6059, "offlike_m_histvis": 0.602, "runstart_m_n": 161, "runstart_m_Tvis": 0.6022, "runstart_m_histvis": 0.5976, "faith3_m_n": 437, "faith3_m_Tvis": 0.5878, "faith3_m_histvis": 0.5863} 20s
+       set      arm    n    iou     h1     h2     h3     h4     h5     h6
+ offlike_m    af_np  298 0.8240 0.9380 0.9004 0.8635 0.8127 0.7884 0.7333
+ offlike_m    af_id  298 0.8225 0.9470 0.9050 0.8633 0.8184 0.7812 0.7213
+ offlike_m  af_npid  298 0.8252 0.9396 0.9096 0.8645 0.8220 0.7855 0.7305
+ offlike_m   occ_np  298 0.8270 0.9409 0.9106 0.8679 0.8243 0.7849 0.7285
+ offlike_m   occ_id  298 0.8261 0.9439 0.9082 0.8643 0.8331 0.7871 0.7218
+ offlike_m occ_npid  298 0.8252 0.9414 0.9104 0.8654 0.8222 0.7848 0.7141
+runstart_m    af_np 1124 0.8753 0.9721 0.9444 0.9044 0.8825 0.8381 0.7776
+runstart_m    af_id 1124 0.8755 0.9763 0.9470 0.9037 0.8817 0.8386 0.7757
+runstart_m  af_npid 1124 0.8771 0.9752 0.9481 0.9058 0.8846 0.8428 0.7795
+runstart_m   occ_np 1124 0.8763 0.9701 0.9503 0.9043 0.8845 0.8377 0.7755
+runstart_m   occ_id 1124 0.8772 0.9743 0.9498 0.9052 0.8857 0.8382 0.7782
+runstart_m occ_npid 1124 0.8778 0.9736 0.9517 0.9054 0.8849 0.8399 0.7723
+  faith3_m    af_np 2965 0.7355 0.8723 0.8211 0.7651 0.7184 0.6916 0.6960
+  faith3_m    af_id 2965 0.7438 0.8784 0.8265 0.7757 0.7229 0.7031 0.7068
+  faith3_m  af_npid 2965 0.7397 0.8751 0.8222 0.7699 0.7202 0.6952 0.7033
+  faith3_m   occ_np 2965 0.7436 0.8808 0.8306 0.7778 0.7238 0.6901 0.7059
+  faith3_m   occ_id 2965 0.7485 0.8807 0.8338 0.7822 0.7311 0.6989 0.7104
+  faith3_m occ_npid 2965 0.7473 0.8818 0.8342 0.7812 0.7287 0.6955 0.7134
+
+== PSEUDO-MARCH paired deltas occ vs af (lab.paired_bootstrap) ==
+offlike_m occ_np vs af_np: n=298 base 0.8240 new 0.8270 diff +0.0030 [-0.0028, +0.0082] p_pos 0.854 panels +5/-3 of 8 windows up/down 105/77
+offlike_m occ_np vs af_np [runstart]: n=230 base 0.8404 new 0.8423 diff +0.0019 [-0.0046, +0.0078] p_pos 0.726 panels +5/-3 of 8 windows up/down 73/63
+offlike_m occ_np vs af_np [midrun]: n=68 base 0.6952 new 0.7016 diff +0.0064 [-0.0024, +0.0155] p_pos 0.927 panels +5/-1 of 8 windows up/down 32/14
+offlike_m occ_id vs af_id: n=298 base 0.8225 new 0.8261 diff +0.0036 [-0.0013, +0.0083] p_pos 0.930 panels +5/-3 of 8 windows up/down 98/82
+offlike_m occ_id vs af_id [runstart]: n=230 base 0.8369 new 0.8406 diff +0.0037 [-0.0017, +0.0091] p_pos 0.914 panels +4/-4 of 8 windows up/down 64/64
+offlike_m occ_id vs af_id [midrun]: n=68 base 0.6885 new 0.6962 diff +0.0076 [-0.0012, +0.0159] p_pos 0.960 panels +6/-2 of 8 windows up/down 34/18
+offlike_m occ_npid vs af_npid: n=298 base 0.8252 new 0.8252 diff +0.0000 [-0.0042, +0.0041] p_pos 0.502 panels +5/-3 of 8 windows up/down 87/88
+offlike_m occ_npid vs af_npid [runstart]: n=230 base 0.8413 new 0.8400 diff -0.0012 [-0.0067, +0.0038] p_pos 0.342 panels +5/-3 of 8 windows up/down 57/71
+offlike_m occ_npid vs af_npid [midrun]: n=68 base 0.6935 new 0.6951 diff +0.0016 [-0.0041, +0.0076] p_pos 0.707 panels +4/-4 of 8 windows up/down 30/17
+runstart_m occ_np vs af_np: n=1124 base 0.8753 new 0.8763 diff +0.0010 [-0.0023, +0.0044] p_pos 0.723 panels +4/-4 of 8 windows up/down 410/313
+runstart_m occ_id vs af_id: n=1124 base 0.8755 new 0.8772 diff +0.0018 [-0.0017, +0.0051] p_pos 0.841 panels +5/-3 of 8 windows up/down 379/309
+runstart_m occ_npid vs af_npid: n=1124 base 0.8771 new 0.8778 diff +0.0007 [-0.0024, +0.0037] p_pos 0.683 panels +4/-4 of 8 windows up/down 372/299
+faith3_m occ_np vs af_np: n=2965 base 0.7355 new 0.7436 diff +0.0081 [+0.0056, +0.0106] p_pos 1.000 panels +7/-1 of 8 windows up/down 1302/772
+faith3_m occ_np vs af_np [runstart]: n=378 base 0.8720 new 0.8682 diff -0.0038 [-0.0119, +0.0035] p_pos 0.180 panels +4/-4 of 8 windows up/down 138/111
+faith3_m occ_np vs af_np [midrun]: n=2587 base 0.7153 new 0.7255 diff +0.0102 [+0.0078, +0.0126] p_pos 1.000 panels +8/-0 of 8 windows up/down 1164/661
+faith3_m occ_id vs af_id: n=2965 base 0.7438 new 0.7485 diff +0.0047 [+0.0015, +0.0079] p_pos 0.996 panels +7/-1 of 8 windows up/down 1199/802
+faith3_m occ_id vs af_id [runstart]: n=378 base 0.8711 new 0.8699 diff -0.0012 [-0.0080, +0.0046] p_pos 0.395 panels +5/-3 of 8 windows up/down 124/110
+faith3_m occ_id vs af_id [midrun]: n=2587 base 0.7251 new 0.7307 diff +0.0057 [+0.0017, +0.0092] p_pos 0.995 panels +7/-1 of 8 windows up/down 1075/692
+faith3_m occ_npid vs af_npid: n=2965 base 0.7397 new 0.7473 diff +0.0076 [+0.0052, +0.0101] p_pos 1.000 panels +8/-0 of 8 windows up/down 1196/727
+faith3_m occ_npid vs af_npid [runstart]: n=378 base 0.8745 new 0.8724 diff -0.0020 [-0.0086, +0.0033] p_pos 0.292 panels +4/-4 of 8 windows up/down 119/102
+faith3_m occ_npid vs af_npid [midrun]: n=2587 base 0.7197 new 0.7289 diff +0.0092 [+0.0068, +0.0119] p_pos 1.000 panels +8/-0 of 8 windows up/down 1077/625
+
+per panel (offlike_m): occ_npid vs af_npid
+            n    base     new   delta
+panel                                
+D12_I5_N   34  0.7021  0.7082  0.0062
+D12_I5_S   41  0.7488  0.7623  0.0135
+D7_I10_E   41  0.7980  0.7878 -0.0102
+D7_I10_W   16  0.7957  0.7987  0.0029
+D7_I210_E  27  0.9189  0.9043 -0.0146
+D7_I210_W  46  0.8489  0.8510  0.0021
+D7_I405_N  51  0.9187  0.9155 -0.0032
+D7_I405_S  42  0.8701  0.8737  0.0036
+
+per panel (runstart_m): occ_npid vs af_npid
+             n    base     new   delta
+panel                                 
+D12_I5_N    96  0.8109  0.8215  0.0107
+D12_I5_S   161  0.8496  0.8548  0.0052
+D7_I10_E   188  0.8467  0.8411 -0.0056
+D7_I10_W    44  0.8656  0.8615 -0.0042
+D7_I210_E   36  0.9067  0.8968 -0.0099
+D7_I210_W  197  0.9005  0.9023  0.0018
+D7_I405_N  201  0.9345  0.9340 -0.0004
+D7_I405_S  201  0.9022  0.9104  0.0082
+[   171s] DONE ['og']

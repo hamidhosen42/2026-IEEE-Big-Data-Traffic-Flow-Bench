@@ -1,0 +1,26 @@
+[run_heavy] slot acquired after 275s
+[     2s] group B: targets ['D7_I10_W', 'D7_I210_W', 'D7_I405_S', 'D12_I5_S'] windows {'raw0': 1246, 'mask10': 1246} | base panels ['D7_I10_E', 'D7_I210_E', 'D7_I405_N', 'D12_I5_N'] 2s
+[     4s] source rows raw: windows 2021 rows 583309 weight sum 1477765
+[     6s] source rows masked: windows 2021 rows 371444 weight sum 941120
+[   152s] B base np: base rows 4968046 (weight 3243848) trained 137s
+[   265s] B raw np: base rows 4968046 (weight 3243848) trained 113s
+[   368s] B masked np: base rows 4968046 (weight 3243848) trained 104s
+[   480s] B base id: base rows 4968046 (weight 3243848) trained 105s
+[   616s] B raw id: base rows 4968046 (weight 3243848) trained 137s
+[   748s] B masked id: base rows 4968046 (weight 3243848) trained 132s
+      raw0              raw:np+id - base:np+id             n=1246  0.8525 vs 0.7501  +0.1024 [+0.0957, +0.1088]  panels +4/-0 of 4
+      raw0           masked:np+id - base:np+id             n=1246  0.8532 vs 0.7501  +0.1031 [+0.0966, +0.1093]  panels +4/-0 of 4
+      raw0           masked:np+id - raw:np+id              n=1246  0.8532 vs 0.8525  +0.0007 [-0.0017, +0.0033]  panels +2/-2 of 4
+      raw0                 raw:np - base:np                n=1246  0.8489 vs 0.7474  +0.1015 [+0.0948, +0.1079]  panels +4/-0 of 4
+      raw0              masked:np - base:np                n=1246  0.8487 vs 0.7474  +0.1013 [+0.0950, +0.1074]  panels +4/-0 of 4
+      raw0                 raw:id - base:id                n=1246  0.8542 vs 0.7050  +0.1492 [+0.1399, +0.1579]  panels +4/-0 of 4
+      raw0              masked:id - base:id                n=1246  0.8539 vs 0.7050  +0.1489 [+0.1396, +0.1581]  panels +4/-0 of 4
+    mask10              raw:np+id - base:np+id             n=1246  0.8434 vs 0.7333  +0.1102 [+0.1030, +0.1170]  panels +4/-0 of 4
+    mask10           masked:np+id - base:np+id             n=1246  0.8430 vs 0.7333  +0.1098 [+0.1028, +0.1166]  panels +4/-0 of 4
+    mask10           masked:np+id - raw:np+id              n=1246  0.8430 vs 0.8434  -0.0004 [-0.0032, +0.0024]  panels +2/-2 of 4
+    mask10                 raw:np - base:np                n=1246  0.8393 vs 0.7297  +0.1096 [+0.1029, +0.1163]  panels +4/-0 of 4
+    mask10              masked:np - base:np                n=1246  0.8396 vs 0.7297  +0.1099 [+0.1032, +0.1166]  panels +4/-0 of 4
+    mask10                 raw:id - base:id                n=1246  0.8462 vs 0.6902  +0.1559 [+0.1460, +0.1650]  panels +4/-0 of 4
+    mask10              masked:id - base:id                n=1246  0.8440 vs 0.6902  +0.1538 [+0.1438, +0.1631]  panels +4/-0 of 4
+[   751s] DONE 751s
+[run_heavy] exit 0 after 1027s

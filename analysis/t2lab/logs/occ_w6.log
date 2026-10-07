@@ -1,0 +1,17 @@
+[run_heavy] slot acquired after 125s
+[     0s] worker start: budget 22 min, only=['final_np', 'final_id', 'og_np_f2', 'og_id_f2', 'og_np_f3', 'og_id_f3', 'pm_og', 'on_f0', 'pm_on', 'seed1_np_f0', 'seed1_np_f1']
+[     0s] === task final_id (elapsed 0.0 min)
+[   236s] occ_id255 fold 4: 8008854 rows x 77 cols, pos 0.272, trained in 236s | {"faith3F03": {"windows": 10255, "rows": 3881174}, "runstart": {"windows": 10689, "rows": 4127680}}
+[   236s] === task final_id done in 236s
+[   236s] === task og_id_f3 (elapsed 3.9 min)
+[   428s] occ_id255 fold 3: 6057385 rows x 77 cols, pos 0.276, trained in 192s | {"faith3F03": {"windows": 7739, "rows": 2924259}, "runstart": {"windows": 8102, "rows": 3133126}}
+[   438s] occ_id255 fold 3: official nan (n=0), offlike 0.8844 (n=771), pseudo 0.8769 (n=500)
+[   438s] === task og_id_f3 done in 202s
+[   438s] === task pm_on (elapsed 7.3 min)
+[   468s] === task pm_on done in 30s
+[   468s] === task seed1_np_f1 (elapsed 7.8 min)
+[   602s] seed1_np255 fold 1: 5840595 rows x 58 cols, pos 0.270, trained in 134s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   613s] seed1_np255 fold 1: official nan (n=0), offlike 0.8808 (n=747), pseudo 0.8571 (n=530)
+[   613s] === task seed1_np_f1 done in 145s
+[   613s] WORKER DONE ['final_id', 'og_id_f3', 'pm_on', 'seed1_np_f1'] | elapsed 10.2 min
+[run_heavy] exit 0 after 739s

@@ -1,0 +1,14 @@
+[     0s] D7_I10_W validation cands 563 onset 133 | selected 24 onset 16
+[     0s] D7_I10_W private cands 352 onset 93 | selected 17 onset 10
+[     8s] D7_I10_W fold 0 validation eval blk cells 12971 ord 13815 dark rows 431 sparse extra hidden 4778
+[    15s] D7_I10_W fold 0 private eval blk cells 9520 ord 14180 dark rows 338 sparse extra hidden 3449
+[    15s] D7_I10_W fold 0 base rows 53562 dark extra 769
+[    15s] D7_I10_W fold 0 base rows 53562 1s
+[    16s] D7_I10_W fold 0 dark rows 54331 1s
+[    16s] D7_I10_W fold 0 validation|std|blk n 12971 | speed base 9.016 dark 9.039 (d +0.023) | flow/lane base 122.37 dark 121.85
+[    16s] D7_I10_W fold 0 validation|std|ord n 13815 | speed base 1.381 dark 1.384 (d +0.004) | flow/lane base 34.51 dark 34.56
+[    16s] D7_I10_W fold 0 validation|sparse|blk n 12971 | speed base 9.207 dark 9.231 (d +0.023) | flow/lane base 131.14 dark 130.49
+[    16s] D7_I10_W fold 0 private|std|blk n 9520 | speed base 9.380 dark 9.294 (d -0.086) | flow/lane base 107.81 dark 102.95
+[    16s] D7_I10_W fold 0 private|std|ord n 14180 | speed base 1.467 dark 1.469 (d +0.002) | flow/lane base 35.37 dark 35.36
+[    16s] D7_I10_W fold 0 private|sparse|blk n 9520 | speed base 9.618 dark 9.538 (d -0.081) | flow/lane base 116.44 dark 111.20
+[    16s] done

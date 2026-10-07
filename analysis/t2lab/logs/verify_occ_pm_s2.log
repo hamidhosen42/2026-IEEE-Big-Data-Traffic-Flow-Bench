@@ -1,0 +1,27 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[     6s] final train rows 8008854 pos 0.2717
+[   183s] final base_np trained 176s
+[   386s] final occ_np trained 204s
+[   575s] final base_id trained 189s
+[   793s] final occ_id trained 218s
+[   808s] D7_I10_E pmarch done 15s {'offlike_m': 41, 'runstart_m': 188, 'faith3_m': 371}
+[   811s] D7_I10_W pmarch done 2s {'offlike_m': 16, 'runstart_m': 44, 'faith3_m': 81}
+[   814s] D7_I210_E pmarch done 3s {'offlike_m': 27, 'runstart_m': 36, 'faith3_m': 108}
+[   830s] D7_I210_W pmarch done 16s {'offlike_m': 46, 'runstart_m': 197, 'faith3_m': 443}
+[   891s] D7_I405_N pmarch done 61s {'offlike_m': 51, 'runstart_m': 201, 'faith3_m': 752}
+[   912s] D7_I405_S pmarch done 20s {'offlike_m': 42, 'runstart_m': 201, 'faith3_m': 453}
+[   933s] D12_I5_N pmarch done 21s {'offlike_m': 34, 'runstart_m': 96, 'faith3_m': 320}
+[   953s] D12_I5_S pmarch done 19s {'offlike_m': 41, 'runstart_m': 161, 'faith3_m': 437}
+[   953s] PMARCH seed 2 [offlike_m] np: base 0.8234 occ 0.8268 diff +0.0034 [-0.0024, +0.0093] n=298
+[   953s] PMARCH seed 2 [offlike_m] id: base 0.8228 occ 0.8283 diff +0.0055 [-0.0017, +0.0117] n=298
+[   953s] PMARCH seed 2 [offlike_m] npid: base 0.8258 occ 0.8270 diff +0.0012 [-0.0047, +0.0066] n=298
+[   953s] per panel {'D12_I5_N': 0.0006, 'D12_I5_S': 0.019, 'D7_I10_E': -0.0045, 'D7_I10_W': 0.0058, 'D7_I210_E': -0.0074, 'D7_I210_W': -0.0047, 'D7_I405_N': -0.0018, 'D7_I405_S': 0.0025}
+[   953s] PMARCH seed 2 [runstart_m] np: base 0.8747 occ 0.8775 diff +0.0028 [-0.0006, +0.0063] n=1124
+[   953s] PMARCH seed 2 [runstart_m] id: base 0.8753 occ 0.8792 diff +0.0039 [+0.0002, +0.0074] n=1124
+[   953s] PMARCH seed 2 [runstart_m] npid: base 0.8771 occ 0.8795 diff +0.0024 [-0.0011, +0.0058] n=1124
+[   953s] PMARCH seed 2 [faith3_m] np: base 0.7376 occ 0.7449 diff +0.0072 [+0.0041, +0.0101] n=2965
+[   954s] PMARCH seed 2 [faith3_m] id: base 0.7418 occ 0.7490 diff +0.0072 [+0.0039, +0.0104] n=2965
+[   954s] PMARCH seed 2 [faith3_m] npid: base 0.7416 occ 0.7476 diff +0.0060 [+0.0031, +0.0090] n=2965
+[   954s] VERIFY PM DONE 2
+[run_heavy] exit 0 after 955s

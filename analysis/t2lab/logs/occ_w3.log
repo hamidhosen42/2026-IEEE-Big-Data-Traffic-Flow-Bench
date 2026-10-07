@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 0s
+[     0s] worker start: budget 22 min, only=['build', 'og_np_f0', 'og_id_f0', 'og_np_f1', 'og_id_f1', 'base0']
+[    30s] === task og_id_f0 (elapsed 0.5 min)
+[   199s] occ_id255 fold 0: 6073676 rows x 77 cols, pos 0.269, trained in 169s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   210s] occ_id255 fold 0: official 0.8986 (n=40), offlike 0.8859 (n=726), pseudo 0.8821 (n=525)
+[   210s] === task og_id_f0 done in 180s
+[   210s] WORKER DONE ['og_id_f0'] | elapsed 3.5 min
+[run_heavy] exit 0 after 210s

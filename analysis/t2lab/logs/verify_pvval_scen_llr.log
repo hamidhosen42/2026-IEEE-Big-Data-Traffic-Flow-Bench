@@ -1,0 +1,14 @@
+per panel medians
+           apr_march_vs_train  apr_aprloo_vs_train  apr_march_vs_aprloo  mar_april_vs_train
+panel                                                                                      
+D12_I5_N                617.0               1152.4               -374.0               294.5
+D12_I5_S               -945.9                419.4              -1454.3              -432.0
+D7_I10_E               -647.2                 95.4               -742.9              -251.4
+D7_I10_W                -31.3                -22.2                -18.2               -14.4
+D7_I210_E               -24.8                -33.6                  7.9               -28.0
+D7_I210_W               414.8                619.4               -213.0               -30.3
+D7_I405_N               587.3                508.7                188.7               655.2
+D7_I405_S               111.7                857.5               -512.9                81.6
+share > 0 (single panel-days): {'apr_march_vs_train': 0.467, 'apr_aprloo_vs_train': 0.608, 'apr_march_vs_aprloo': 0.338, 'mar_april_vs_train': 0.339}
+pooled over panels, median per day: {'apr_march_vs_train': 394.3, 'apr_aprloo_vs_train': 2604.2, 'apr_march_vs_aprloo': -2743.7, 'mar_april_vs_train': -318.3}
+pooled share > 0: {'apr_march_vs_train': 0.567, 'apr_aprloo_vs_train': 0.833, 'apr_march_vs_aprloo': 0.133, 'mar_april_vs_train': 0.484}

@@ -37,14 +37,16 @@ def check(t):
 
 
 def restart():
-    for name in ('tfbchain5',):
+    tag = 'oct7'
+    for name in ('tfbchain5', 'tfbchain6', 'tfbchain7'):
         subprocess.run(['screen', '-S', name, '-X', 'quit'], capture_output=True)
-    subprocess.run(['pkill', '-f', 'auto_chain_oct5.py'], capture_output=True)
+    for t in ('oct5', 'oct6', 'oct7'):
+        subprocess.run(['pkill', '-f', f'auto_chain_{t}.py'], capture_output=True)
     time.sleep(3)
     q = '"/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs"'
-    subprocess.run(['screen', '-dmS', 'tfbchain5', 'bash', '-c', f'cd {q} && exec caffeinate -i -s /usr/bin/python3 auto_chain_oct5.py >> auto_chain_oct5.out 2>&1'])
-    state_f = os.path.join(HERE, 'auto_chain_oct5_state.json')
-    log('restarted chain oct5 | chain state exists:', os.path.exists(state_f))
+    for t in ('oct7',):
+        subprocess.run(['screen', '-dmS', 'tfbchain' + t[-1], 'bash', '-c', f'cd {q} && exec caffeinate -i -s /usr/bin/python3 auto_chain_{t}.py >> auto_chain_{t}.out 2>&1'])
+    log('restarted chain(s) for', tag)
 
 
 cur = fingerprint(token())

@@ -1,0 +1,51 @@
+[run_heavy] slot acquired after 1097s
+[     0s] D7_I10_E official (5, 146, 16)
+[     1s] D7_I10_E offlike (381, 146, 16)
+[     1s] D7_I10_E pseudo (229, 146, 16)
+[     3s] D7_I10_E runstart (1500, 146, 16)
+[     9s] D7_I10_E faith3 (3538, 146, 16)
+[    10s] D7_I10_E done in 10s
+[    10s] D7_I10_W official (5, 107, 16)
+[    10s] D7_I10_W offlike (131, 107, 16)
+[    10s] D7_I10_W pseudo (4, 107, 16)
+[    11s] D7_I10_W runstart (268, 107, 16)
+[    11s] D7_I10_W faith3 (590, 107, 16)
+[    12s] D7_I10_W done in 2s
+[    13s] D7_I210_E official (5, 297, 16)
+[    14s] D7_I210_E offlike (276, 297, 16)
+[    16s] D7_I210_E pseudo (439, 297, 16)
+[    18s] D7_I210_E runstart (373, 297, 16)
+[    21s] D7_I210_E faith3 (801, 297, 16)
+[    22s] D7_I210_E done in 11s
+[    23s] D7_I210_W official (5, 81, 16)
+[    23s] D7_I210_W offlike (448, 81, 16)
+[    24s] D7_I210_W pseudo (386, 81, 16)
+[    26s] D7_I210_W runstart (2054, 81, 16)
+[    29s] D7_I210_W faith3 (4103, 81, 16)
+[    30s] D7_I210_W done in 7s
+[    30s] D7_I405_N official (5, 352, 16)
+[    32s] D7_I405_N offlike (506, 352, 16)
+[    33s] D7_I405_N pseudo (373, 352, 16)
+[    38s] D7_I405_N runstart (1910, 352, 16)
+[    56s] D7_I405_N faith3 (7078, 352, 16)
+[    57s] D7_I405_N done in 28s
+[    58s] D7_I405_S official (5, 109, 16)
+[    58s] D7_I405_S offlike (403, 109, 16)
+[    58s] D7_I405_S pseudo (223, 109, 16)
+[    60s] D7_I405_S runstart (1572, 109, 16)
+[    63s] D7_I405_S faith3 (4277, 109, 16)
+[    64s] D7_I405_S done in 6s
+[    64s] D12_I5_N official (5, 258, 16)
+[    65s] D12_I5_N offlike (421, 258, 16)
+[    66s] D12_I5_N pseudo (194, 258, 16)
+[    68s] D12_I5_N runstart (1118, 258, 16)
+[    77s] D12_I5_N faith3 (4326, 258, 16)
+[    77s] D12_I5_N done in 14s
+[    77s] D12_I5_S official (5, 100, 16)
+[    78s] D12_I5_S offlike (426, 100, 16)
+[    78s] D12_I5_S pseudo (210, 100, 16)
+[    80s] D12_I5_S runstart (1894, 100, 16)
+[    83s] D12_I5_S faith3 (4573, 100, 16)
+[    84s] D12_I5_S done in 6s
+[    84s] DONE
+[run_heavy] exit 0 after 1181s

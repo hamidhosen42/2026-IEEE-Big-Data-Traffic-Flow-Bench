@@ -1,0 +1,27 @@
+folds present: [('D7_I210_E', 0), ('D7_I210_E', 1), ('D7_I405_S', 0), ('D7_I405_S', 1)]
+
+== per panel-month BLACKOUT speed RMSE (std view), base -> dark
+  D7_I210_E|validation                     cells  138640    3.474 ->    2.986 d -0.488 [-0.709, -0.264] (-14.0%) win 1/1
+  D7_I210_E|private                        cells  135020    5.229 ->    5.203 d -0.026 [-0.597, +0.424] (-0.5%) win 1/1
+  D7_I405_S|validation                     cells   44945   10.664 ->   10.157 d -0.507 [-0.821, -0.211] (-4.8%) win 1/1
+  D7_I405_S|private                        cells   47051   10.909 ->   10.473 d -0.436 [-0.719, -0.111] (-4.0%) win 1/1
+
+== pooled
+  blackout speed, all                      cells  365656    6.630 ->    6.338 d -0.292 [-0.478, -0.105] (-4.4%) win 4/4
+  blackout flow/lane, all                  cells  365656   71.202 ->   69.516 d -1.685 [-2.704, -0.762] (-2.4%) win 4/4
+  blackout speed, validation               cells  183585    6.079 ->    5.656 d -0.423 [-0.584, -0.278] (-7.0%) win 2/2
+  blackout speed, private                  cells  182071    7.143 ->    6.958 d -0.185 [-0.458, +0.124] (-2.6%) win 2/2
+  blackout speed, onset                    cells  180185    6.671 ->    5.963 d -0.708 [-0.881, -0.539] (-10.6%) win 4/4
+  blackout speed, ongoing                  cells  185471    6.590 ->    6.682 d +0.092 [-0.147, +0.349] (+1.4%) win 3/4
+  blackout speed, k 1..3                   cells   61193    6.215 ->    5.998 d -0.218 [-0.549, +0.116] (-3.5%) win 4/4
+  blackout speed, k 4..6                   cells   60870    8.158 ->    7.155 d -1.003 [-1.482, -0.539] (-12.3%) win 4/4
+  blackout speed, k 7..12                  cells  121716    7.178 ->    7.113 d -0.066 [-0.225, +0.105] (-0.9%) win 3/4
+  blackout speed, k 13..18                 cells  121877    5.272 ->    5.135 d -0.138 [-0.273, -0.009] (-2.6%) win 3/4
+
+== history-sparsified view (extra 50% of observed T-12..T cells hidden)
+  blackout speed, sparse view              cells  365656    6.769 ->    6.488 d -0.281 [-0.443, -0.122] (-4.1%) win 4/4
+  blackout flow/lane, sparse view          cells  365656   72.049 ->   70.548 d -1.500 [-2.512, -0.549] (-2.1%) win 4/4
+
+== ordinary cells (std view; folds counted separately)
+  ordinary speed                           cells  196780    1.634 ->    1.627 d -0.007 [-0.021, +0.007] (-0.4%) win 3/4
+  ordinary flow/lane                       cells  196780   32.301 ->   32.326 d +0.025 [-0.063, +0.117] (+0.1%) win 1/4

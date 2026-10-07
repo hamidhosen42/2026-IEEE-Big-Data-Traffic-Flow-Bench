@@ -1,0 +1,82 @@
+[run_heavy] slot acquired after 40s
+[     0s] kernel functions: log load_panel established iou build_windows ffill_time shift_links dist_to_queued window_features prior_table prior_feats make_rows to_matrix ongoing_keep decode predict_windows score_windows masked_cube scenario_cums blend_prior march_onset_windows
+[     1s] n cols 64 ramp cols 0
+[     2s] {'panel': 'D7_I10_E', 'raw_on_w': 265, 'raw_rows': 29422, 'march_w': 9, 'march_rows': 706, 'eval_w': 16, 'same_eval_as_pvon': True, 'mask_w': 266, 'mask_rows': 19913, 'a_mean': 0.568} 2s
+[     4s] {'panel': 'D7_I10_W', 'raw_on_w': 134, 'raw_rows': 11050, 'march_w': 8, 'march_rows': 582, 'eval_w': 13, 'same_eval_as_pvon': True, 'mask_w': 134, 'mask_rows': 7424, 'a_mean': 0.571} 1s
+[     7s] {'panel': 'D7_I210_E', 'raw_on_w': 276, 'raw_rows': 62564, 'march_w': 11, 'march_rows': 1778, 'eval_w': 16, 'same_eval_as_pvon': True, 'mask_w': 276, 'mask_rows': 41816, 'a_mean': 0.569} 4s
+[     9s] {'panel': 'D7_I210_W', 'raw_on_w': 311, 'raw_rows': 19268, 'march_w': 14, 'march_rows': 551, 'eval_w': 18, 'same_eval_as_pvon': True, 'mask_w': 311, 'mask_rows': 13157, 'a_mean': 0.553} 2s
+[    13s] {'panel': 'D7_I405_N', 'raw_on_w': 355, 'raw_rows': 95500, 'march_w': 15, 'march_rows': 2967, 'eval_w': 21, 'same_eval_as_pvon': True, 'mask_w': 356, 'mask_rows': 62847, 'a_mean': 0.581} 4s
+[    15s] {'panel': 'D7_I405_S', 'raw_on_w': 271, 'raw_rows': 22537, 'march_w': 11, 'march_rows': 578, 'eval_w': 16, 'same_eval_as_pvon': True, 'mask_w': 272, 'mask_rows': 14911, 'a_mean': 0.534} 2s
+[    18s] {'panel': 'D12_I5_N', 'raw_on_w': 255, 'raw_rows': 50188, 'march_w': 6, 'march_rows': 978, 'eval_w': 15, 'same_eval_as_pvon': True, 'mask_w': 255, 'mask_rows': 33548, 'a_mean': 0.561} 3s
+[    20s] {'panel': 'D12_I5_S', 'raw_on_w': 264, 'raw_rows': 20253, 'march_w': 10, 'march_rows': 537, 'eval_w': 16, 'same_eval_as_pvon': True, 'mask_w': 265, 'mask_rows': 13693, 'a_mean': 0.581} 2s
+    panel  raw_on_w  raw_rows  march_w  march_rows  eval_w  same_eval_as_pvon  mask_w  mask_rows  a_mean
+ D7_I10_E       265     29422        9         706      16               True     266      19913   0.568
+ D7_I10_W       134     11050        8         582      13               True     134       7424   0.571
+D7_I210_E       276     62564       11        1778      16               True     276      41816   0.569
+D7_I210_W       311     19268       14         551      18               True     311      13157   0.553
+D7_I405_N       355     95500       15        2967      21               True     356      62847   0.581
+D7_I405_S       271     22537       11         578      16               True     272      14911   0.534
+ D12_I5_N       255     50188        6         978      15               True     255      33548   0.561
+ D12_I5_S       264     20253       10         537      16               True     265      13693   0.581
+[    20s] raw train rows 310782 pos 0.0214 | March rows 8677 pos 0.0222 | masked train rows 207309 pos 0.0237
+[    42s] base seed 0 22s
+[    66s] w10 seed 0 24s
+[    89s] w20 seed 0 23s
+[   113s] w40 seed 0 23s
+[   136s] w5 seed 0 23s
+[   158s] base seed 1 22s
+[   182s] w10 seed 1 23s
+[   205s] w20 seed 1 23s
+[   228s] w40 seed 1 23s
+[   251s] w25 seed 1 23s
+[   274s] w50 seed 1 24s
+[   293s] w100 seed 1 19s
+[   315s] base seed 2 21s
+[   334s] w10 seed 2 19s
+[   356s] w20 seed 2 22s
+[   377s] w40 seed 2 21s
+[   395s] Amask 18s
+[   413s] Bmask w10 18s
+[   432s] Bmask w20 19s
+[   451s] Bmask w40 19s
+
+== pseudo-March onset, days >= 15 , n = 131 windows ==
+base_s0 0.7346  sp4_s0 0.8061  w10_s0 0.8555  w20_s0 0.8531  w40_s0 0.8581  w5_s0 0.8469  bag_s0 0.8544  bagL_s0 0.8520  base_s1 0.7172  sp4_s1 0.8212  w10_s1 0.8410  w20_s1 0.8513  w40_s1 0.8570  w25_s1 0.8494  w50_s1 0.8527  w100_s1 0.8549  bag_s1 0.8512  bagX_s1 0.8586  base_s2 0.6919  sp4_s2 0.8166  w10_s2 0.8473  w20_s2 0.8550  w40_s2 0.8600  bag_s2 0.8618  Amask_s1 0.7894  Bmask_w10_s1 0.8490  Bmask_w20_s1 0.8379  Bmask_w40_s1 0.8430  Bmask_bag_s1 0.8475  base_mean 0.7145  sp4_mean 0.8147  bag_mean 0.8558
+           B         A   n  iou_A  iou_B    diff      lo      hi  pos  neg  win_changed               drop best_panel  best_gain
+      sp4_s0   base_s0 131 0.7346 0.8061  0.0715  0.0187  0.1229    4    4           37                      D12_I5_S     0.3448
+      bag_s0    sp4_s0 131 0.8061 0.8544  0.0483  0.0137  0.0871    6    2           21                     D7_I210_W     0.1037
+      sp4_s1   base_s1 131 0.7172 0.8212  0.1041  0.0517  0.1566    4    3           29                      D12_I5_S     0.3240
+      bag_s1    sp4_s1 131 0.8212 0.8512  0.0300  0.0008  0.0618    5    1           14                      D12_I5_N     0.1000
+      sp4_s2   base_s2 131 0.6919 0.8166  0.1247  0.0686  0.1782    4    3           33                      D7_I10_W     0.4359
+      bag_s2    sp4_s2 131 0.8166 0.8618  0.0451  0.0142  0.0815    6    0           15                     D7_I210_W     0.1019
+    sp4_mean base_mean 131 0.7145 0.8147  0.1001  0.0521  0.1487    4    4           43                      D12_I5_S     0.3031
+    bag_mean  sp4_mean 131 0.8147 0.8558  0.0411  0.0142  0.0731    7    1           24                     D7_I210_W     0.0815
+      w10_s0    sp4_s0 131 0.8061 0.8555  0.0494  0.0157  0.0845    6    1           19                      D7_I10_W     0.1026
+      w20_s0    sp4_s0 131 0.8061 0.8531  0.0470  0.0139  0.0852    6    1           19                     D7_I210_W     0.1019
+      w40_s0    sp4_s0 131 0.8061 0.8581  0.0520  0.0173  0.0929    6    1           21                     D7_I210_W     0.1315
+       w5_s0    sp4_s0 131 0.8061 0.8469  0.0408  0.0099  0.0739    6    2           16                      D7_I10_W     0.1282
+      w10_s1    sp4_s1 131 0.8212 0.8410  0.0197 -0.0106  0.0519    5    2           15                      D12_I5_N     0.1000
+      w20_s1    sp4_s1 131 0.8212 0.8513  0.0301  0.0022  0.0584    5    0           16                      D12_I5_N     0.1000
+      w40_s1    sp4_s1 131 0.8212 0.8570  0.0358  0.0035  0.0683    6    1           17                      D12_I5_N     0.1000
+      w25_s1    sp4_s1 131 0.8212 0.8494  0.0282 -0.0059  0.0630    6    1           16                      D12_I5_N     0.1000
+      w50_s1    sp4_s1 131 0.8212 0.8527  0.0314  0.0007  0.0656    5    2           18                      D12_I5_N     0.1000
+     w100_s1    sp4_s1 131 0.8212 0.8549  0.0336  0.0004  0.0688    6    1           21                     D7_I405_S     0.0719
+      w10_s2    sp4_s2 131 0.8166 0.8473  0.0306  0.0038  0.0607    7    0           18                     D7_I210_W     0.0722
+      w20_s2    sp4_s2 131 0.8166 0.8550  0.0384  0.0063  0.0736    6    1           16                      D12_I5_N     0.0667
+      w40_s2    sp4_s2 131 0.8166 0.8600  0.0434  0.0121  0.0794    6    0           15                      D7_I10_W     0.0897
+     bagL_s0    sp4_s0 131 0.8061 0.8520  0.0459  0.0130  0.0837    6    1           17                      D7_I10_W     0.0897
+     bagL_s0    bag_s0 131 0.8544 0.8520 -0.0025 -0.0118  0.0074    1    3            6                      D12_I5_S     0.0312
+     bagX_s1    sp4_s1 131 0.8212 0.8586  0.0374  0.0089  0.0699    6    1           17                      D12_I5_N     0.1000
+     bagX_s1    bag_s1 131 0.8512 0.8586  0.0074 -0.0013  0.0182    4    0            5                      D12_I5_S     0.0312
+    Amask_s1    sp4_s1 131 0.8212 0.7894 -0.0319 -0.0633 -0.0024    1    5           15                      D12_I5_N     0.0333
+Bmask_bag_s1  Amask_s1 131 0.7894 0.8475  0.0581  0.0259  0.0959    7    0           21                      D7_I10_E     0.1406
+Bmask_bag_s1    bag_s1 131 0.8512 0.8475 -0.0037 -0.0228  0.0155    1    3           11                     D7_I405_N     0.0238
+    bag_mean  sp4_mean 113 0.8465 0.8795  0.0330  0.0068  0.0632    6    1           20          D7_I210_W   D12_I5_N     0.0778
+    bag_mean  sp4_mean  98 0.8256 0.8502  0.0246 -0.0058  0.0570    5    1           18 D7_I210_W,D12_I5_N   D7_I10_E     0.0611
+
+per-panel bag_mean - sp4_mean: {'D12_I5_N': 0.0778, 'D12_I5_S': 0.0104, 'D7_I10_E': 0.0611, 'D7_I10_W': 0.0513, 'D7_I210_E': 0.0163, 'D7_I210_W': 0.0815, 'D7_I405_N': -0.0079, 'D7_I405_S': 0.0387}
+[   454s] parity sp4_s0 vs pvon A_s4: n 131, identical 0.916, mean 0.8115 vs 0.8162
+[   454s] parity bag_s0 vs pvon B_bag: n 131, identical 0.954, mean 0.8573 vs 0.8595
+[   454s] parity base_s0 vs pvon A: n 131, identical 0.962, mean 0.7457 vs 0.7228
+[   454s] DONE
+[run_heavy] exit 0 after 495s

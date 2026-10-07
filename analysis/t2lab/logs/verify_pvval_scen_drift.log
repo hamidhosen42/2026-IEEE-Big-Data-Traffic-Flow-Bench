@@ -1,0 +1,13 @@
+pooled over panels, per day: median by kind {'march': -1643.0, 'train': 1255.0} | share > 0 {'march': 0.375, 'train': 0.652}
+train months (median pooled): {'203006': 99.0, '203007': 824.0, '203008': 2671.0, '203009': 2071.0, '203010': -56.0, '203011': 225.0, '203012': -585.0, '203101': 1401.0, '203102': 1250.0}
+per panel median, march vs train:
+kind       march  train
+panel                  
+D12_I5_N   464.0    1.0
+D12_I5_S  -402.0  -52.0
+D7_I10_E   122.0  -74.0
+D7_I10_W    -7.0   16.0
+D7_I210_E    5.0  -14.0
+D7_I210_W   35.0   -1.0
+D7_I405_N -950.0  528.0
+D7_I405_S  271.0   17.0

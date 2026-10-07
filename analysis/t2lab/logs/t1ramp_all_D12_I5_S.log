@@ -1,0 +1,40 @@
+[run_heavy] slot acquired after 0s
+[     2s] D12_I5_S train chunk 0 rows 103104 in gaps 9770
+[     4s] D12_I5_S train chunk 1 rows 101866 in gaps 13120
+[     6s] D12_I5_S train chunk 2 rows 96229 in gaps 10554
+[     7s] D12_I5_S train chunk 3 rows 103608 in gaps 12344
+[     9s] D12_I5_S train chunk 4 rows 107963 in gaps 11261
+[    11s] D12_I5_S train chunk 5 rows 101141 in gaps 10588
+[    12s] D12_I5_S train chunk 6 rows 105766 in gaps 10549
+[    13s] D12_I5_S train rows 719677 of 719677 | in simulated gaps 78186 | target cells total 2052525
+[    13s] D12_I5_S validation candidates 2206 (onset 212 ) selected 48 (onset 24 ) | real blackout targets 13770 of 228980
+[    13s] D12_I5_S private candidates 2423 (onset 213 ) selected 48 (onset 24 ) | real blackout targets 13725 of 215651
+[    19s] D12_I5_S fold 0 validation eval blackout cells 22223 ordinary 12255 dark rows 12686 rand rows so far 74448
+[    26s] D12_I5_S fold 0 private eval blackout cells 21674 ordinary 11891 dark rows 15498 rand rows so far 161021
+[    26s] D12_I5_S fold 0 {'panel': 'D12_I5_S', 'fold': 0, 'n_trees': 600, 'lr': 0.08, 'p': 0.35, 'p_dark': 0.7, 'seeds': [9, 10], 'validation_dark_rows': 12686, 'validation_lwrden_R1': 189383.88138489897, 'validation_fdden_R1': 281901392.8474678, 'validation_lwrden_R2': 87431.80036561843, 'validation_fdden_R2': 124632245.27691743, 'validation_lwrden_R3': 145972.3021045356, 'validation_fdden_R3': 222983272.9261938, 'private_dark_rows': 15498, 'private_lwrden_R1': 185994.64518104843, 'private_fdden_R1': 251640564.49644896, 'private_lwrden_R2': 148178.35789828343, 'private_fdden_R2': 203979852.9074442, 'private_lwrden_R3': 120025.55641570214, 'private_fdden_R3': 170633299.42204532, 'train_rows': 719677, 'rand_rows': 161021, 'dark_rows': 28184, 'bad_r': 0, 'bad_d': 0}
+[    99s] D12_I5_S fold 0 base rows 880698 trained+predicted in 73s
+[   180s] D12_I5_S fold 0 ramp rows 880698 trained+predicted in 81s
+[   254s] D12_I5_S fold 0 dark rows 908882 trained+predicted in 74s
+[   333s] D12_I5_S fold 0 darkramp rows 908882 trained+predicted in 78s
+[   408s] D12_I5_S fold 0 base2 rows 880698 trained+predicted in 75s
+[   487s] D12_I5_S fold 0 ramp2 rows 880698 trained+predicted in 78s
+[   487s] D12_I5_S fold 0 validation_blk n 22223 | speed base 11.526 ramp 10.795 dark 10.700 darkramp 9.652 | flow/lane base 74.19 ramp 73.50 dark 72.57 darkramp 69.88
+[   487s] D12_I5_S fold 0 validation_ord n 12255 | speed base 1.254 ramp 1.261 dark 1.261 darkramp 1.248 | flow/lane base 26.88 ramp 26.93 dark 27.12 darkramp 27.14
+[   487s] D12_I5_S fold 0 private_blk n 21674 | speed base 10.936 ramp 10.447 dark 10.607 darkramp 9.513 | flow/lane base 73.88 ramp 73.13 dark 74.24 darkramp 71.38
+[   487s] D12_I5_S fold 0 private_ord n 11891 | speed base 1.869 ramp 1.891 dark 1.916 darkramp 1.900 | flow/lane base 29.01 ramp 28.93 dark 28.60 darkramp 29.01
+[   487s] done 487s
+[   494s] D12_I5_S fold 1 validation eval blackout cells 21310 ordinary 12255 dark rows 13143 rand rows so far 74603
+[   500s] D12_I5_S fold 1 private eval blackout cells 22084 ordinary 11891 dark rows 15178 rand rows so far 161138
+[   500s] D12_I5_S fold 1 {'panel': 'D12_I5_S', 'fold': 1, 'n_trees': 600, 'lr': 0.08, 'p': 0.35, 'p_dark': 0.7, 'seeds': [9, 10], 'validation_dark_rows': 13143, 'validation_lwrden_R1': 189383.88138489897, 'validation_fdden_R1': 281901392.8474678, 'validation_lwrden_R2': 87431.80036561843, 'validation_fdden_R2': 124632245.27691743, 'validation_lwrden_R3': 145972.3021045356, 'validation_fdden_R3': 222983272.9261938, 'private_dark_rows': 15178, 'private_lwrden_R1': 185994.64518104843, 'private_fdden_R1': 251640564.49644896, 'private_lwrden_R2': 148178.35789828343, 'private_fdden_R2': 203979852.9074442, 'private_lwrden_R3': 120025.55641570214, 'private_fdden_R3': 170633299.42204532, 'train_rows': 719677, 'rand_rows': 161138, 'dark_rows': 28321, 'bad_r': 0, 'bad_d': 0}
+[   573s] D12_I5_S fold 1 base rows 880815 trained+predicted in 73s
+[   649s] D12_I5_S fold 1 ramp rows 880815 trained+predicted in 76s
+[   721s] D12_I5_S fold 1 dark rows 909136 trained+predicted in 71s
+[   797s] D12_I5_S fold 1 darkramp rows 909136 trained+predicted in 76s
+[   867s] D12_I5_S fold 1 base2 rows 880815 trained+predicted in 70s
+[   941s] D12_I5_S fold 1 ramp2 rows 880815 trained+predicted in 73s
+[   941s] D12_I5_S fold 1 validation_blk n 21310 | speed base 13.057 ramp 12.332 dark 12.620 darkramp 11.539 | flow/lane base 93.65 ramp 91.45 dark 92.67 darkramp 90.06
+[   941s] D12_I5_S fold 1 validation_ord n 12255 | speed base 1.304 ramp 1.321 dark 1.305 darkramp 1.361 | flow/lane base 27.10 ramp 27.23 dark 27.25 darkramp 27.05
+[   941s] D12_I5_S fold 1 private_blk n 22084 | speed base 10.781 ramp 10.232 dark 10.782 darkramp 9.579 | flow/lane base 85.77 ramp 86.81 dark 82.96 darkramp 80.67
+[   941s] D12_I5_S fold 1 private_ord n 11891 | speed base 1.887 ramp 1.935 dark 1.927 darkramp 1.906 | flow/lane base 29.37 ramp 29.31 dark 29.20 darkramp 29.24
+[   941s] done 941s
+[run_heavy] exit 0 after 942s

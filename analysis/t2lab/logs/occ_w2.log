@@ -1,0 +1,15 @@
+[run_heavy] slot acquired after 0s
+[     0s] worker start: budget 22 min, only=['build', 'og_np_f0', 'og_id_f0', 'og_np_f1', 'og_id_f1', 'base0']
+[    40s] === task og_np_f1 (elapsed 0.7 min)
+[   200s] occ_np255 fold 1: 5840595 rows x 71 cols, pos 0.270, trained in 160s | {"faith3F03": {"windows": 7476, "rows": 2815538}, "runstart": {"windows": 7951, "rows": 3025057}}
+[   211s] occ_np255 fold 1: official nan (n=0), offlike 0.8821 (n=747), pseudo 0.8513 (n=530)
+[   211s] === task og_np_f1 done in 171s
+[   211s] === task base0 (elapsed 3.5 min)
+[   349s] occbase_np255 fold 0: 6073676 rows x 58 cols, pos 0.269, trained in 138s | {"faith3F03": {"windows": 7773, "rows": 2971475}, "runstart": {"windows": 7958, "rows": 3102201}}
+[   360s] occbase_np255 fold 0: official 0.8920 (n=40), offlike 0.8809 (n=726), pseudo 0.8770 (n=525)
+[   360s] SANITY base0 vs af_all_np255 [official]: n 40 | max abs IoU diff 0.00e+00 | agg 0.891963 vs 0.891963
+[   360s] SANITY base0 vs af_all_np255 [offlike]: n 726 | max abs IoU diff 0.00e+00 | agg 0.880910 vs 0.880910
+[   360s] SANITY base0 vs af_all_np255 [pseudo]: n 525 | max abs IoU diff 0.00e+00 | agg 0.876984 vs 0.876984
+[   360s] === task base0 done in 149s
+[   360s] WORKER DONE ['og_np_f1', 'base0'] | elapsed 6.0 min
+[run_heavy] exit 0 after 360s

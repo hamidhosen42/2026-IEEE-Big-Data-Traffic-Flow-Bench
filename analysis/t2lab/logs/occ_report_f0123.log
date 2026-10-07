@@ -1,0 +1,74 @@
+== TRAIN OOF: occupancy (13 cols) vs all-finite baseline | folds requested [0, 1, 2, 3] ==
+offlike  np   occ vs af: n=2992 base 0.8782 new 0.8808 diff +0.0026 [+0.0010, +0.0040] p_pos 1.000 panels +7/-1 of 8 windows up/down 1061/794
+offlike  np   occ vs af [runstart]: n=2285 base 0.8922 new 0.8949 diff +0.0027 [+0.0010, +0.0042] p_pos 1.000 panels +6/-2 of 8 windows up/down 764/580
+offlike  np   occ vs af [midrun]: n=707 base 0.6667 new 0.6776 diff +0.0109 [+0.0081, +0.0134] p_pos 1.000 panels +7/-1 of 8 windows up/down 297/214
+offlike  id   occ vs af: n=2992 base 0.8825 new 0.8856 diff +0.0032 [+0.0017, +0.0047] p_pos 1.000 panels +7/-1 of 8 windows up/down 1018/793
+offlike  id   occ vs af [runstart]: n=2285 base 0.8959 new 0.8983 diff +0.0024 [+0.0008, +0.0039] p_pos 0.998 panels +6/-2 of 8 windows up/down 718/575
+offlike  id   occ vs af [midrun]: n=707 base 0.7061 new 0.7082 diff +0.0021 [-0.0007, +0.0050] p_pos 0.915 panels +7/-1 of 8 windows up/down 300/218
+offlike  npid occ vs af: n=2992 base 0.8815 new 0.8843 diff +0.0028 [+0.0013, +0.0041] p_pos 1.000 panels +6/-2 of 8 windows up/down 1001/746
+offlike  npid occ vs af [runstart]: n=2285 base 0.8956 new 0.8976 diff +0.0020 [+0.0005, +0.0034] p_pos 0.997 panels +6/-2 of 8 windows up/down 698/552
+offlike  npid occ vs af [midrun]: n=707 base 0.6773 new 0.6917 diff +0.0144 [+0.0117, +0.0169] p_pos 1.000 panels +7/-0 of 8 windows up/down 303/194
+official np   occ vs af: n=40 base 0.8920 new 0.8921 diff +0.0001 [-0.0081, +0.0085] p_pos 0.510 panels +3/-5 of 8 windows up/down 16/14
+official id   occ vs af: n=40 base 0.8940 new 0.8986 diff +0.0046 [-0.0034, +0.0117] p_pos 0.876 panels +5/-3 of 8 windows up/down 16/13
+official npid occ vs af: n=40 base 0.8963 new 0.8958 diff -0.0006 [-0.0076, +0.0060] p_pos 0.441 panels +5/-3 of 8 windows up/down 16/12
+pseudo   np   occ vs af: n=2058 base 0.8491 new 0.8589 diff +0.0099 [+0.0028, +0.0184] p_pos 1.000 panels +7/-1 of 8 windows up/down 742/555
+pseudo   id   occ vs af: n=2058 base 0.8630 new 0.8681 diff +0.0051 [-0.0038, +0.0161] p_pos 0.828 panels +7/-1 of 8 windows up/down 724/518
+pseudo   npid occ vs af: n=2058 base 0.8582 new 0.8666 diff +0.0084 [+0.0026, +0.0178] p_pos 1.000 panels +8/-0 of 8 windows up/down 697/510
+
+== per fold (offlike) ==
+offlike np   fold 0: n=726 base 0.8809 new 0.8821 diff +0.0012 [-0.0016, +0.0043] p_pos 0.786 panels +6/-2 of 8 windows up/down 259/195
+offlike np   fold 1: n=747 base 0.8781 new 0.8821 diff +0.0039 [+0.0009, +0.0068] p_pos 0.994 panels +7/-1 of 8 windows up/down 261/190
+offlike np   fold 2: n=748 base 0.8770 new 0.8798 diff +0.0028 [+0.0001, +0.0057] p_pos 0.978 panels +6/-2 of 8 windows up/down 277/218
+offlike np   fold 3: n=771 base 0.8775 new 0.8798 diff +0.0023 [-0.0007, +0.0052] p_pos 0.945 panels +6/-2 of 8 windows up/down 264/191
+offlike id   fold 0: n=726 base 0.8849 new 0.8859 diff +0.0010 [-0.0020, +0.0039] p_pos 0.750 panels +6/-2 of 8 windows up/down 241/198
+offlike id   fold 1: n=747 base 0.8843 new 0.8875 diff +0.0032 [-0.0002, +0.0067] p_pos 0.969 panels +6/-2 of 8 windows up/down 247/207
+offlike id   fold 2: n=748 base 0.8805 new 0.8854 diff +0.0049 [+0.0017, +0.0081] p_pos 0.999 panels +8/-0 of 8 windows up/down 274/196
+offlike id   fold 3: n=771 base 0.8804 new 0.8844 diff +0.0040 [+0.0011, +0.0067] p_pos 0.996 panels +7/-1 of 8 windows up/down 256/192
+offlike npid fold 0: n=726 base 0.8851 new 0.8855 diff +0.0004 [-0.0022, +0.0030] p_pos 0.624 panels +6/-2 of 8 windows up/down 233/190
+offlike npid fold 1: n=747 base 0.8821 new 0.8868 diff +0.0047 [+0.0014, +0.0081] p_pos 0.997 panels +6/-2 of 8 windows up/down 254/187
+offlike npid fold 2: n=748 base 0.8798 new 0.8837 diff +0.0039 [+0.0012, +0.0066] p_pos 0.998 panels +8/-0 of 8 windows up/down 268/194
+offlike npid fold 3: n=771 base 0.8794 new 0.8820 diff +0.0025 [-0.0003, +0.0052] p_pos 0.966 panels +6/-2 of 8 windows up/down 246/175
+
+per panel (offlike, npid):
+             n    base     new   delta
+panel                                 
+D12_I5_N   421  0.8552  0.8575  0.0023
+D12_I5_S   426  0.8362  0.8469  0.0107
+D7_I10_E   381  0.8230  0.8262  0.0032
+D7_I10_W   131  0.8894  0.8913  0.0020
+D7_I210_E  276  0.9467  0.9457 -0.0010
+D7_I210_W  448  0.8990  0.9019  0.0029
+D7_I405_N  506  0.9252  0.9276  0.0024
+D7_I405_S  403  0.8772  0.8770 -0.0002
+
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [official]: n 40 max |IoU diff| 0.00e+00
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [offlike]: n 726 max |IoU diff| 0.00e+00
+SANITY base0 (my code path, no occupancy) vs af_all_np255 fold 0 [pseudo]: n 525 max |IoU diff| 0.00e+00
+
+occ_np255: gain share of the 13 occupancy columns 0.697 | top: o_last 0.535, or_last 0.128, or_slope 0.006, or_max12 0.005, or_n+1 0.003, or_n-1 0.003 | rank of best occ col 1 of 71
+occ_id255: gain share of the 13 occupancy columns 0.715 | top: o_last 0.586, or_last 0.102, or_slope 0.005, or_max12 0.004, or_n-3 0.003, or_n+1 0.003 | rank of best occ col 1 of 77
+
+
+== PSEUDO-MARCH (og) occ vs af ==
+offlike_m occ_np vs af_np: n=298 base 0.8240 new 0.8270 diff +0.0030 [-0.0028, +0.0082] p_pos 0.854 panels +5/-3 of 8 windows up/down 105/77
+offlike_m occ_np vs af_np [runstart]: n=230 base 0.8404 new 0.8423 diff +0.0019 [-0.0046, +0.0078] p_pos 0.726 panels +5/-3 of 8 windows up/down 73/63
+offlike_m occ_np vs af_np [midrun]: n=68 base 0.6952 new 0.7016 diff +0.0064 [-0.0024, +0.0155] p_pos 0.927 panels +5/-1 of 8 windows up/down 32/14
+offlike_m occ_id vs af_id: n=298 base 0.8225 new 0.8261 diff +0.0036 [-0.0013, +0.0083] p_pos 0.930 panels +5/-3 of 8 windows up/down 98/82
+offlike_m occ_id vs af_id [runstart]: n=230 base 0.8369 new 0.8406 diff +0.0037 [-0.0017, +0.0091] p_pos 0.914 panels +4/-4 of 8 windows up/down 64/64
+offlike_m occ_id vs af_id [midrun]: n=68 base 0.6885 new 0.6962 diff +0.0076 [-0.0012, +0.0159] p_pos 0.960 panels +6/-2 of 8 windows up/down 34/18
+offlike_m occ_npid vs af_npid: n=298 base 0.8252 new 0.8252 diff +0.0000 [-0.0042, +0.0041] p_pos 0.502 panels +5/-3 of 8 windows up/down 87/88
+offlike_m occ_npid vs af_npid [runstart]: n=230 base 0.8413 new 0.8400 diff -0.0012 [-0.0067, +0.0038] p_pos 0.342 panels +5/-3 of 8 windows up/down 57/71
+offlike_m occ_npid vs af_npid [midrun]: n=68 base 0.6935 new 0.6951 diff +0.0016 [-0.0041, +0.0076] p_pos 0.707 panels +4/-4 of 8 windows up/down 30/17
+runstart_m occ_np vs af_np: n=1124 base 0.8753 new 0.8763 diff +0.0010 [-0.0023, +0.0044] p_pos 0.723 panels +4/-4 of 8 windows up/down 410/313
+runstart_m occ_id vs af_id: n=1124 base 0.8755 new 0.8772 diff +0.0018 [-0.0017, +0.0051] p_pos 0.841 panels +5/-3 of 8 windows up/down 379/309
+runstart_m occ_npid vs af_npid: n=1124 base 0.8771 new 0.8778 diff +0.0007 [-0.0024, +0.0037] p_pos 0.683 panels +4/-4 of 8 windows up/down 372/299
+faith3_m occ_np vs af_np: n=2965 base 0.7355 new 0.7436 diff +0.0081 [+0.0056, +0.0106] p_pos 1.000 panels +7/-1 of 8 windows up/down 1302/772
+faith3_m occ_np vs af_np [runstart]: n=378 base 0.8720 new 0.8682 diff -0.0038 [-0.0119, +0.0035] p_pos 0.180 panels +4/-4 of 8 windows up/down 138/111
+faith3_m occ_np vs af_np [midrun]: n=2587 base 0.7153 new 0.7255 diff +0.0102 [+0.0078, +0.0126] p_pos 1.000 panels +8/-0 of 8 windows up/down 1164/661
+faith3_m occ_id vs af_id: n=2965 base 0.7438 new 0.7485 diff +0.0047 [+0.0015, +0.0079] p_pos 0.996 panels +7/-1 of 8 windows up/down 1199/802
+faith3_m occ_id vs af_id [runstart]: n=378 base 0.8711 new 0.8699 diff -0.0012 [-0.0080, +0.0046] p_pos 0.395 panels +5/-3 of 8 windows up/down 124/110
+faith3_m occ_id vs af_id [midrun]: n=2587 base 0.7251 new 0.7307 diff +0.0057 [+0.0017, +0.0092] p_pos 0.995 panels +7/-1 of 8 windows up/down 1075/692
+faith3_m occ_npid vs af_npid: n=2965 base 0.7397 new 0.7473 diff +0.0076 [+0.0052, +0.0101] p_pos 1.000 panels +8/-0 of 8 windows up/down 1196/727
+faith3_m occ_npid vs af_npid [runstart]: n=378 base 0.8745 new 0.8724 diff -0.0020 [-0.0086, +0.0033] p_pos 0.292 panels +4/-4 of 8 windows up/down 119/102
+faith3_m occ_npid vs af_npid [midrun]: n=2587 base 0.7197 new 0.7289 diff +0.0092 [+0.0068, +0.0119] p_pos 1.000 panels +8/-0 of 8 windows up/down 1077/625
+

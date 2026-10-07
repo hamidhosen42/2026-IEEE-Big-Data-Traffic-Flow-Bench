@@ -1,0 +1,25 @@
+[run_heavy] slot acquired after 0s
+[     7s] k=4: rows built in 7s; train grid rows 406880, e rows 310782, eval windows 214
+[    40s] k=4 arm S: 310782 rows x 64 cols, pos 0.0214, 3 seed(s) in 33s | march_base 0.7140/0.7083/0.6897, march_s4 0.7875/0.7883/0.7812, march_s8 0.8010/0.7860/0.7776
+[    71s] k=4 arm L1: 310782 rows x 64 cols, pos 0.0214, 3 seed(s) in 31s | march_base 0.7278/0.7310/0.7218, march_s4 0.8016/0.7981/0.8041, march_s8 0.8067/0.8036/0.8118
+[   102s] k=4 arm L7: 310782 rows x 64 cols, pos 0.0214, 3 seed(s) in 31s | march_base 0.7268/0.7152/0.7409, march_s4 0.8063/0.8038/0.8197, march_s8 0.8022/0.7977/0.8106
+[   135s] k=4 arm L1_site: 310782 rows x 69 cols, pos 0.0214, 3 seed(s) in 33s | march_base 0.6734/0.6600/0.6671, march_s4 0.6953/0.6855/0.7120, march_s8 0.6888/0.6818/0.7110
+[   167s] k=4 arm L1_tol: 310782 rows x 66 cols, pos 0.0214, 3 seed(s) in 32s | march_base 0.7203/0.7103/0.7136, march_s4 0.7871/0.7892/0.7794, march_s8 0.7698/0.7716/0.7752
+[   199s] k=4 arm L1_sitetol: 310782 rows x 71 cols, pos 0.0214, 3 seed(s) in 32s | march_base 0.6670/0.6566/0.6671, march_s4 0.7028/0.6956/0.6940, march_s8 0.6961/0.6949/0.6897
+[   232s] k=4 arm L1_sitetol_flow: 310782 rows x 75 cols, pos 0.0214, 3 seed(s) in 33s | march_base 0.6712/0.6850/0.6739, march_s4 0.7075/0.7090/0.7100, march_s8 0.7140/0.7072/0.6969
+[   292s] k=4 arm L1_sitetol_jit05: 621564 rows x 71 cols, pos 0.0214, 3 seed(s) in 60s | march_base 0.5725/0.6007/0.5728, march_s4 0.5675/0.6023/0.5759, march_s8 0.5693/0.6067/0.5737
+[   325s] k=4 arm L1_sitetol_drop30: 310782 rows x 71 cols, pos 0.0214, 3 seed(s) in 32s | march_base 0.6215/0.6251/0.6181, march_s4 0.6192/0.6420/0.6285, march_s8 0.6292/0.6389/0.6218
+[   356s] k=4 arm L1_pbal: 310782 rows x 64 cols, pos 0.0214, 3 seed(s) in 32s | march_base 0.7138/0.7220/0.7189, march_s4 0.7994/0.7938/0.7982, march_s8 0.8108/0.8012/0.8020
+[   360s] k=0: rows built in 4s; train grid rows 306353, e rows 234140, eval windows 522
+[   386s] k=0 arm S: 234140 rows x 64 cols, pos 0.0214, 3 seed(s) in 26s | cv 0.8902/0.8877/0.8919, wrong 0.7610/0.7563/0.7654
+[   413s] k=0 arm L1: 234140 rows x 64 cols, pos 0.0214, 3 seed(s) in 26s | cv 0.8886/0.8876/0.8878, wrong 0.7617/0.7643/0.7620
+[   439s] k=0 arm L7: 234140 rows x 64 cols, pos 0.0214, 3 seed(s) in 26s | cv 0.8914/0.8899/0.8909, wrong 0.7683/0.7670/0.7638
+[   466s] k=0 arm L1_site: 234140 rows x 69 cols, pos 0.0214, 3 seed(s) in 27s | cv 0.8271/0.8221/0.8250, wrong 0.7346/0.7428/0.7573
+[   493s] k=0 arm L1_tol: 234140 rows x 66 cols, pos 0.0214, 3 seed(s) in 27s | cv 0.8886/0.8914/0.8888, wrong 0.8114/0.8138/0.7997
+[   520s] k=0 arm L1_sitetol: 234140 rows x 71 cols, pos 0.0214, 3 seed(s) in 27s | cv 0.8158/0.8230/0.8226, wrong 0.7663/0.7811/0.7737
+[   547s] k=0 arm L1_sitetol_flow: 234140 rows x 75 cols, pos 0.0214, 3 seed(s) in 28s | cv 0.8272/0.8486/0.8362, wrong 0.7686/0.7928/0.8008
+[   595s] k=0 arm L1_sitetol_jit05: 468280 rows x 71 cols, pos 0.0214, 3 seed(s) in 48s | cv 0.6859/0.6941/0.6890, wrong 0.6715/0.6770/0.6945
+[   622s] k=0 arm L1_sitetol_drop30: 234140 rows x 71 cols, pos 0.0214, 3 seed(s) in 27s | cv 0.7535/0.7668/0.7416, wrong 0.7356/0.7516/0.7395
+[   649s] k=0 arm L1_pbal: 234140 rows x 64 cols, pos 0.0214, 3 seed(s) in 27s | cv 0.8898/0.8850/0.8882, wrong 0.7592/0.7653/0.7651
+[   649s] DONE
+[run_heavy] exit 0 after 650s

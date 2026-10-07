@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 371s
+
+== label-free footprint (official ongoing windows): occ np+id vs af np+id, decoded masks ==
+            windows  changed  cells_changed  cells_af  cells_occ  mean_jacc
+split                                                                      
+private          40       28            120      4849       4837     0.9607
+validation       40       29            106      5283       5291     0.9649
+[     6s] DONE ['dry']
+[run_heavy] exit 0 after 378s

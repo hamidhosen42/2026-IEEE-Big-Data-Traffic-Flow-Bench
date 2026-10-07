@@ -1,0 +1,9 @@
+
+[candidate files, 2-seed bags (bagB -> bagD)] cells 381371 events 384 | lab conditioning (all cells): speed 10.114 -> 9.634 d -0.480
+  deployment-like (select on O1, score O2), mean over 20 splits:
+   kept events 375.9 of 384 | O2 kept: speed 10.124 -> 9.646 d -0.478 (sd over splits 0.022) | O2 all events d -0.475
+   onset kept d -0.659 | k1..6 kept d -0.667 vs k1..6 all d -0.660
+   queued eval cells in k1..6 per event: median 19, share of events with <= 3: 0.07, <= 10: 0.30
+   events with 1..3 queued eval cells: n 27, d -0.182 (base 8.393)
+   events with 4..10 queued eval cells: n 87, d -0.388 (base 8.750)
+   events with 11..inf queued eval cells: n 270, d -0.526 (base 10.609)

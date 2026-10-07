@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[   114s] trained F10: 8013566 rows 114s
+[   232s] trained F01: 8013566 rows 118s
+pseudo-March offlike_m, n = 298 | flagged 77
+F03          0.8170 vs F03 +0.0000 [+0.0000,+0.0000] panels +0/-0 | flagged 0.7520 | other 0.8453
+F10          0.8086 vs F03 -0.0083 [-0.0152,-0.0020] panels +3/-5 | flagged 0.7643 | other 0.8315
+F01          0.8159 vs F03 -0.0011 [-0.0059,+0.0034] panels +3/-5 | flagged 0.7392 | other 0.8475
+sw_F03|F10   0.8200 vs F03 +0.0030 [+0.0006,+0.0056] panels +7/-1 | flagged 0.7643 | other 0.8453
+sw_F01|F10   0.8218 vs F03 +0.0048 [+0.0004,+0.0093] panels +7/-1 | flagged 0.7643 | other 0.8475
+[   239s] DONE
+[run_heavy] exit 0 after 241s

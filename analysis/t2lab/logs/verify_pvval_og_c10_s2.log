@@ -1,0 +1,60 @@
+[run_heavy] slot acquired after 155s
+[      0s] kernel functions compiled from /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs/t2_ongoing_pv.py ['add_ramp', 'blend_prior_og', 'decode', 'dist_to_queued', 'established', 'ffill_time', 'fill_time', 'iou', 'log', 'march_faithful', 'ongoing_keep', 'prior_feats', 'prior_table', 'scenario', 'shift_links', 'to_matrix', 'window_features'] | MODE train CUT 10 SEED 2 WM 5.0 panels 8
+[     0s] D7_I10_E scenario days 31 + 0
+[      1s] D7_I10_E March train windows (days < 10 ) 108 rs 48 rows 19423 | eval {'offlike_m': 33, 'runstart_m': 140} | mean a train 0.151
+[     1s] D7_I10_W scenario days 31 + 0
+[      1s] D7_I10_W March train windows (days < 10 ) 11 rs 5 rows 1269 | eval {'offlike_m': 15, 'runstart_m': 39} | mean a train 0.062
+[     2s] D7_I210_E scenario days 31 + 0
+[      2s] D7_I210_E March train windows (days < 10 ) 26 rs 7 rows 1565 | eval {'offlike_m': 21, 'runstart_m': 29} | mean a train 0.274
+[     3s] D7_I210_W scenario days 31 + 0
+[      3s] D7_I210_W March train windows (days < 10 ) 159 rs 56 rows 24547 | eval {'offlike_m': 30, 'runstart_m': 141} | mean a train 0.194
+[     4s] D7_I405_N scenario days 31 + 0
+[      4s] D7_I405_N March train windows (days < 10 ) 226 rs 53 rows 130711 | eval {'offlike_m': 37, 'runstart_m': 148} | mean a train 0.205
+[     5s] D7_I405_S scenario days 31 + 0
+[      5s] D7_I405_S March train windows (days < 10 ) 165 rs 59 rows 31700 | eval {'offlike_m': 28, 'runstart_m': 142} | mean a train 0.180
+[     6s] D12_I5_N scenario days 31 + 0
+[      6s] D12_I5_N March train windows (days < 10 ) 35 rs 9 rows 15334 | eval {'offlike_m': 30, 'runstart_m': 87} | mean a train 0.219
+[     6s] D12_I5_S scenario days 31 + 0
+[      7s] D12_I5_S March train windows (days < 10 ) 141 rs 53 rows 30824 | eval {'offlike_m': 29, 'runstart_m': 108} | mean a train 0.210
+[      7s] data built 7s
+[     33s] PARITY A vs claimed R:np+id: windows mine 1057 claimed 1057 matched 1057 only-mine 0 only-claimed 0 | max |iou diff| 1.85e-02 | n diff>1e-6 1
+[     33s] PARITY A_s4 vs claimed R:npid+full_s4: windows mine 1057 claimed 1057 matched 1057 only-mine 0 only-claimed 0 | max |iou diff| 9.61e-03 | n diff>1e-6 3
+[     33s] == final models only ==
+[     33s] offlike_m n 223 A 0.8175 A_s4 0.8363
+[     33s]   offlike_m A_s4 - A: +0.0188 [+0.0112, +0.0264] panels +8/-0 n=223 | drop best panel D12_I5_N (+0.0410): +0.0164 [+0.0086, +0.0249] | per panel D12_I5_N:+0.041 D12_I5_S:+0.022 D7_I10_E:+0.019 D7_I10_W:+0.000 D7_I210_E:+0.011 D7_I210_W:+0.035 D7_I405_N:+0.012 D7_I405_S:+0.010
+[     33s] runstart_m n 834 A 0.8710 A_s4 0.8876
+[     33s]   runstart_m A_s4 - A: +0.0166 [+0.0121, +0.0212] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0323): +0.0118 [+0.0049, +0.0184] | per panel D12_I5_N:+0.028 D12_I5_S:+0.012 D7_I10_E:+0.032 D7_I10_W:-0.006 D7_I210_E:+0.020 D7_I210_W:+0.019 D7_I405_N:+0.010 D7_I405_S:+0.018
+[     42s] F03 rows 8013566 (weight 5293896, pos 0.2715) | March rows 255373 (weight 657284, pos 0.2447) 42s
+[    233s] model npB: 8268939 rows, 500 trees, 191s
+[    406s] model idB: 8268939 rows, 500 trees, 172s
+[    577s] model fullB: 8268939 rows, 500 trees, 172s
+[    577s] == B (seed 2) vs final models ==
+[    577s] offlike_m n 223 A 0.8175 A_s4 0.8363 B 0.8446 B_npid 0.8306 Af_npid+fullB 0.8406
+[    578s]   offlike_m B - A: +0.0271 [+0.0188, +0.0348] panels +7/-1 n=223 | drop best panel D12_I5_N (+0.0522): +0.0265 [+0.0177, +0.0352] | per panel D12_I5_N:+0.052 D12_I5_S:+0.047 D7_I10_E:+0.036 D7_I10_W:-0.006 D7_I210_E:+0.005 D7_I210_W:+0.052 D7_I405_N:+0.010 D7_I405_S:+0.022
+[    578s]   offlike_m B - A_s4: +0.0083 [+0.0029, +0.0136] panels +5/-3 n=223 | drop best panel D12_I5_S (+0.0251): +0.0066 [+0.0016, +0.0119] | per panel D12_I5_N:+0.011 D12_I5_S:+0.025 D7_I10_E:+0.016 D7_I10_W:-0.006 D7_I210_E:-0.007 D7_I210_W:+0.017 D7_I405_N:-0.002 D7_I405_S:+0.012
+[    578s]   offlike_m B_npid - A: +0.0131 [+0.0081, +0.0184] panels +8/-0 n=223 | drop best panel D12_I5_S (+0.0243): +0.0115 [+0.0066, +0.0171] | per panel D12_I5_N:+0.012 D12_I5_S:+0.024 D7_I10_E:+0.023 D7_I10_W:+0.010 D7_I210_E:+0.002 D7_I210_W:+0.016 D7_I405_N:+0.005 D7_I405_S:+0.012
+[    578s]   offlike_m Af_npid+fullB - A_s4: +0.0042 [-0.0000, +0.0083] panels +6/-2 n=223 | drop best panel D12_I5_S (+0.0141): +0.0033 [-0.0014, +0.0076] | per panel D12_I5_N:+0.006 D12_I5_S:+0.014 D7_I10_E:+0.011 D7_I10_W:-0.007 D7_I210_E:-0.007 D7_I210_W:+0.006 D7_I405_N:+0.001 D7_I405_S:+0.009
+[    578s] runstart_m n 834 A 0.8710 A_s4 0.8876 B 0.8944 B_npid 0.8825 Af_npid+fullB 0.8923
+[    578s]   runstart_m B - A: +0.0234 [+0.0186, +0.0283] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0494): +0.0169 [+0.0096, +0.0240] | per panel D12_I5_N:+0.035 D12_I5_S:+0.025 D7_I10_E:+0.049 D7_I10_W:-0.003 D7_I210_E:+0.017 D7_I210_W:+0.025 D7_I405_N:+0.012 D7_I405_S:+0.027
+[    578s]   runstart_m B - A_s4: +0.0068 [+0.0034, +0.0100] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0171): +0.0052 [+0.0008, +0.0097] | per panel D12_I5_N:+0.007 D12_I5_S:+0.013 D7_I10_E:+0.017 D7_I10_W:+0.004 D7_I210_E:-0.003 D7_I210_W:+0.007 D7_I405_N:+0.002 D7_I405_S:+0.009
+[    579s]   runstart_m B_npid - A: +0.0114 [+0.0085, +0.0145] panels +8/-0 n=834 | drop best panel D7_I10_E (+0.0334): +0.0078 [+0.0041, +0.0116] | per panel D12_I5_N:+0.007 D12_I5_S:+0.017 D7_I10_E:+0.033 D7_I10_W:+0.005 D7_I210_E:+0.004 D7_I210_W:+0.008 D7_I405_N:+0.004 D7_I405_S:+0.014
+[    579s]   runstart_m Af_npid+fullB - A_s4: +0.0047 [+0.0019, +0.0073] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0138): +0.0031 [-0.0005, +0.0065] | per panel D12_I5_N:+0.004 D12_I5_S:+0.011 D7_I10_E:+0.014 D7_I10_W:+0.001 D7_I210_E:-0.002 D7_I210_W:+0.003 D7_I405_N:+0.001 D7_I405_S:+0.006
+[    722s] model npA1: 8013566 rows, 500 trees, 144s
+[    870s] model idA1: 8013566 rows, 500 trees, 148s
+[    871s] == matched seed 2: B vs A1 ==
+[    871s] offlike_m n 223 A 0.8175 A_s4 0.8363 B 0.8446 B_npid 0.8306 Af_npid+fullB 0.8406 A1 0.8181 A1_s4 0.8331
+[    871s]   offlike_m A1 - A: +0.0006 [-0.0053, +0.0060] panels +5/-3 n=223 | drop best panel D12_I5_N (+0.0135): -0.0017 [-0.0093, +0.0048] | per panel D12_I5_N:+0.014 D12_I5_S:-0.005 D7_I10_E:+0.001 D7_I10_W:-0.013 D7_I210_E:+0.004 D7_I210_W:-0.000 D7_I405_N:+0.004 D7_I405_S:+0.001
+[    871s]   offlike_m B - A1: +0.0265 [+0.0182, +0.0347] panels +8/-0 n=223 | drop best panel D12_I5_S (+0.0525): +0.0247 [+0.0169, +0.0333] | per panel D12_I5_N:+0.039 D12_I5_S:+0.053 D7_I10_E:+0.035 D7_I10_W:+0.007 D7_I210_E:+0.000 D7_I210_W:+0.052 D7_I405_N:+0.005 D7_I405_S:+0.021
+[    871s]   offlike_m B_npid - A1: +0.0125 [+0.0075, +0.0182] panels +6/-2 n=223 | drop best panel D12_I5_S (+0.0296): +0.0086 [+0.0034, +0.0143] | per panel D12_I5_N:-0.002 D12_I5_S:+0.030 D7_I10_E:+0.023 D7_I10_W:+0.024 D7_I210_E:-0.002 D7_I210_W:+0.017 D7_I405_N:+0.000 D7_I405_S:+0.011
+[    871s]   offlike_m B - A1_s4: +0.0115 [+0.0056, +0.0182] panels +5/-3 n=223 | drop best panel D12_I5_S (+0.0280): +0.0080 [+0.0021, +0.0148] | per panel D12_I5_N:-0.000 D12_I5_S:+0.028 D7_I10_E:+0.019 D7_I10_W:+0.021 D7_I210_E:-0.003 D7_I210_W:+0.019 D7_I405_N:-0.000 D7_I405_S:+0.009
+[    871s]   offlike_m B - A: +0.0271 [+0.0188, +0.0348] panels +7/-1 n=223 | drop best panel D12_I5_N (+0.0522): +0.0265 [+0.0177, +0.0352] | per panel D12_I5_N:+0.052 D12_I5_S:+0.047 D7_I10_E:+0.036 D7_I10_W:-0.006 D7_I210_E:+0.005 D7_I210_W:+0.052 D7_I405_N:+0.010 D7_I405_S:+0.022
+[    872s]   offlike_m B - A_s4: +0.0083 [+0.0029, +0.0136] panels +5/-3 n=223 | drop best panel D12_I5_S (+0.0251): +0.0066 [+0.0016, +0.0119] | per panel D12_I5_N:+0.011 D12_I5_S:+0.025 D7_I10_E:+0.016 D7_I10_W:-0.006 D7_I210_E:-0.007 D7_I210_W:+0.017 D7_I405_N:-0.002 D7_I405_S:+0.012
+[    872s] runstart_m n 834 A 0.8710 A_s4 0.8876 B 0.8944 B_npid 0.8825 Af_npid+fullB 0.8923 A1 0.8733 A1_s4 0.8872
+[    872s]   runstart_m A1 - A: +0.0022 [-0.0005, +0.0049] panels +7/-1 n=834 | drop best panel D7_I210_E (+0.0076): +0.0016 [-0.0011, +0.0040] | per panel D12_I5_N:+0.005 D12_I5_S:-0.002 D7_I10_E:+0.001 D7_I10_W:+0.001 D7_I210_E:+0.008 D7_I210_W:+0.003 D7_I405_N:+0.001 D7_I405_S:+0.001
+[    872s]   runstart_m B - A1: +0.0212 [+0.0163, +0.0262] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0481): +0.0147 [+0.0070, +0.0216] | per panel D12_I5_N:+0.030 D12_I5_S:+0.027 D7_I10_E:+0.048 D7_I10_W:-0.004 D7_I210_E:+0.009 D7_I210_W:+0.023 D7_I405_N:+0.010 D7_I405_S:+0.026
+[    872s]   runstart_m B_npid - A1: +0.0092 [+0.0059, +0.0127] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0321): +0.0057 [+0.0014, +0.0099] | per panel D12_I5_N:+0.002 D12_I5_S:+0.019 D7_I10_E:+0.032 D7_I10_W:+0.004 D7_I210_E:-0.004 D7_I210_W:+0.005 D7_I405_N:+0.003 D7_I405_S:+0.013
+[    872s]   runstart_m B - A1_s4: +0.0072 [+0.0038, +0.0106] panels +6/-2 n=834 | drop best panel D7_I10_E (+0.0204): +0.0060 [+0.0008, +0.0109] | per panel D12_I5_N:-0.000 D12_I5_S:+0.014 D7_I10_E:+0.020 D7_I10_W:+0.011 D7_I210_E:-0.002 D7_I210_W:+0.007 D7_I405_N:+0.002 D7_I405_S:+0.007
+[    872s]   runstart_m B - A: +0.0234 [+0.0186, +0.0283] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0494): +0.0169 [+0.0096, +0.0240] | per panel D12_I5_N:+0.035 D12_I5_S:+0.025 D7_I10_E:+0.049 D7_I10_W:-0.003 D7_I210_E:+0.017 D7_I210_W:+0.025 D7_I405_N:+0.012 D7_I405_S:+0.027
+[    873s]   runstart_m B - A_s4: +0.0068 [+0.0034, +0.0100] panels +7/-1 n=834 | drop best panel D7_I10_E (+0.0171): +0.0052 [+0.0008, +0.0097] | per panel D12_I5_N:+0.007 D12_I5_S:+0.013 D7_I10_E:+0.017 D7_I10_W:+0.004 D7_I210_E:-0.003 D7_I210_W:+0.007 D7_I405_N:+0.002 D7_I405_S:+0.009
+[    873s] DONE 873s
+[run_heavy] exit 0 after 1029s

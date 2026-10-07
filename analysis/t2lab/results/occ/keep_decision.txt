@@ -1,0 +1,32 @@
+TRACK occ: occupancy features (13 cols) on top of the ALL-FINITE F03 baseline (af_all_*), 2026-10-05
+Paired IoU deltas (occ - af), lab.paired_bootstrap 95% CI, per-panel signs (+/-).  Full tables: report.txt, cv_deltas.csv, pmarch/deltas_og4.csv
+
+TRAIN OOF, 4 folds, offlike (official-like) n=2992
+  np   seed 0                 +0.0026 [+0.0010, +0.0040]  7/1
+  id   seed 0                 +0.0032 [+0.0017, +0.0047]  7/1
+  npid seed 0                 +0.0028 [+0.0013, +0.0041]  6/2   run-start (n=2285) +0.0020 [+0.0005, +0.0034] | mid-run (n=707) +0.0144 [+0.0117, +0.0169]
+  npid seed 1 (replicate)     +0.0025 [+0.0011, +0.0039]  7/1
+  bag4 (np,id x seeds 0,1)    +0.0031 [+0.0018, +0.0044]  7/1   run-start +0.0029 [+0.0015, +0.0042] | mid-run +0.0108 [+0.0085, +0.0131]
+  seed noise, same arm npid   af -0.0002 [-0.0013, +0.0007] | occ -0.0005 [-0.0014, +0.0004]
+  pseudo (n=2058) bag4        +0.0057 [+0.0023, +0.0103]  8/0 ; official (n=40) npid -0.0006 [-0.0076, +0.0060]
+  sanity: my code path without occupancy reproduces af_all_np255 fold 0 exactly (max |IoU diff| 0)
+
+PSEUDO-MARCH (new scenario seed; final k=4 models; occupancy from validation_Om)
+                    npid seed 0                     npid seed 1                     bag4
+  offlike_m  n=298  +0.0000 [-0.0042,+0.0041] 5/3   +0.0044 [-0.0005,+0.0096] 6/2   +0.0017 [-0.0031,+0.0063] 5/3
+  runstart_m n=1124 +0.0007 [-0.0024,+0.0037] 4/4   +0.0030 [+0.0002,+0.0060] 5/3   +0.0009 [-0.0025,+0.0041] 5/3
+  faith3_m   n=2965 +0.0076 [+0.0052,+0.0101] 8/0   +0.0074 [+0.0050,+0.0099] 8/0   +0.0071 [+0.0046,+0.0099] 7/1
+  seed noise occ npid1 vs npid: offlike_m +0.0037, runstart_m +0.0021 (af: -0.0007, -0.0002)
+
+FOOTPRINT (released official ongoing windows, decoded np+id masks occ vs af): validation 29/40 windows, 106 cells changed (Jaccard 0.965);
+  private 28/40, 120 cells (0.961).  allfin (af vs eligible-only, LB +0.0009): 25/40, 101 cells (0.962).
+
+ONSET (secondary, report only): fold-0 offlike s0 -0.0007 [-0.0075, +0.0056], bag3 +0.0024 [-0.0028, +0.0081];
+  pseudo-March march_on (n=214) trainprior +0.0147 [-0.0101, +0.0399], sp4 +0.0014 [-0.0221, +0.0254]  -> no detectable effect.
+
+MECHANISM: the occupancy columns take 70 % of the gain (o_last 54-59 %): they substitute for the speed state.  Diagnostic without raw o_last
+  (np, folds 0-1): +0.0037 [+0.0018, +0.0057] vs af, +0.0012 [-0.0007, +0.0032] vs the 13-col arm -> the gain does not come from link identity.
+
+DECISION: KEEP (train-OOF offlike np+id CI > 0 with 6-7/8 panels positive in both seeds and the bag of 4; pseudo-March offlike_m / runstart_m
+  not significantly negative, bag4 +0.0017 / +0.0009).  Kernel: kaggle_jobs/t2_occ_v26.py (variant fs4occ).
+Expected LB: 0.15 x IoU delta; lab bag4 +0.0031 -> +0.0005 at full transfer, about +0.0002 at the usual half transfer; pseudo-March bag4 gives +0.0003 / +0.0001.

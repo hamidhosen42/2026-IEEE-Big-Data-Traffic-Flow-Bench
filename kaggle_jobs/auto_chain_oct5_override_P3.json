@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2lodo",
+   "queue_submission_mix9.csv",
+   "queue_onset",
+   "validation"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March onset rows: production CatBoost + early-month mixture prior mix9 (P2 LODO not kept) (per-cell two-hypothesis prior from the 1-4 March days before each window, W=6, pi=0.9); April rows unchanged"
+}

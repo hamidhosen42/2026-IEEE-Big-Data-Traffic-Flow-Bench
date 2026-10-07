@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2v22af",
+   "queue_submission_fs4af.csv",
+   "queue_ongoing",
+   "validation"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March ongoing rows from the ALL-FINITE F03 bag (ineligible-but-valued cells as features); April unchanged"
+}

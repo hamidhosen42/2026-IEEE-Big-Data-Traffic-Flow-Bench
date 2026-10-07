@@ -1,0 +1,36 @@
+[run_heavy] slot acquired after 296s
+[     5s] target blocks {'raw0': 726, 'mask10': 726} 5s
+[   123s] base np: base rows 5151621 (weight 3373983), 118s
+[   244s] base id: base rows 5151621 (weight 3373983), 120s
+[   374s] base full: base rows 5151621 (weight 3373983), 130s
+base:np+id               raw0 0.8824 (n=726)  mask10 0.8698 (n=726)
+base:npid+full_tr        raw0 0.8983 (n=726)  mask10 0.8902 (n=726)
+base:npid+full_sc        raw0 0.8919 (n=726)  mask10 0.8834 (n=726)
+base:np                  raw0 0.8798 (n=726)  mask10 0.8664 (n=726)
+base:id                  raw0 0.8814 (n=726)  mask10 0.8699 (n=726)
+base:full_tr             raw0 0.8904 (n=726)  mask10 0.8870 (n=726)
+base:full_sc             raw0 0.8784 (n=726)  mask10 0.8738 (n=726)
+[   424s] source rows raw: windows 4221 (run-starts 1150) rows 1784232 pos 0.261 weight sum 4252762
+[   582s] raw np: base rows 5151621 (weight 3373983) + 1784232 source rows (weight 4252762), 158s
+[   748s] raw id: base rows 5151621 (weight 3373983) + 1784232 source rows (weight 4252762), 167s
+[   919s] raw full: base rows 5151621 (weight 3373983) + 1784232 source rows (weight 4252762), 171s
+raw:np+id                raw0 0.8765 (n=726)  mask10 0.8648 (n=726)
+raw:npid+full_tr         raw0 0.8930 (n=726)  mask10 0.8876 (n=726)
+raw:npid+full_sc         raw0 0.8881 (n=726)  mask10 0.8815 (n=726)
+raw:np                   raw0 0.8731 (n=726)  mask10 0.8628 (n=726)
+raw:id                   raw0 0.8753 (n=726)  mask10 0.8642 (n=726)
+raw:full_tr              raw0 0.8879 (n=726)  mask10 0.8826 (n=726)
+raw:full_sc              raw0 0.8818 (n=726)  mask10 0.8760 (n=726)
+[   968s] source rows masked: windows 4221 (run-starts 1150) rows 1164642 pos 0.263 weight sum 2764038
+[  1101s] masked np: base rows 5151621 (weight 3373983) + 1164642 source rows (weight 2764038), 133s
+[  1251s] masked id: base rows 5151621 (weight 3373983) + 1164642 source rows (weight 2764038), 149s
+[  1413s] masked full: base rows 5151621 (weight 3373983) + 1164642 source rows (weight 2764038), 162s
+masked:np+id             raw0 0.8766 (n=726)  mask10 0.8695 (n=726)
+masked:npid+full_tr      raw0 0.8940 (n=726)  mask10 0.8899 (n=726)
+masked:npid+full_sc      raw0 0.8899 (n=726)  mask10 0.8843 (n=726)
+masked:np                raw0 0.8752 (n=726)  mask10 0.8674 (n=726)
+masked:id                raw0 0.8780 (n=726)  mask10 0.8702 (n=726)
+masked:full_tr           raw0 0.8906 (n=726)  mask10 0.8854 (n=726)
+masked:full_sc           raw0 0.8822 (n=726)  mask10 0.8781 (n=726)
+[  1455s] DONE 1455s
+[run_heavy] exit 0 after 1751s

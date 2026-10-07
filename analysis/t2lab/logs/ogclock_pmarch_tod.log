@@ -1,0 +1,14 @@
+[run_heavy] slot acquired after 135s
+[   194s] final np+tod_none: 8013566 rows x 59 cols in 182s
+                   cmp                    set    n   base    new    diff      lo      hi  p_pos panels  d_fn_new  d_fp_old
+np+tod_none vs base_np              offlike_m  298 0.8170 0.8189  0.0019 -0.0109  0.0141 0.6445  +5/-3   -0.0034   -0.0018
+np+tod_none vs base_np       offlike_m:midrun   68 0.6770 0.6934  0.0164  0.0055  0.0272 0.9990  +5/-2   -0.0020   -0.0116
+np+tod_none vs base_np       offlike_m:rs_old  177 0.8786 0.8460 -0.0326 -0.0620 -0.0100 0.0000  +5/-3    0.0037   -0.0049
+np+tod_none vs base_np       offlike_m:rs_new   53 0.6339 0.6520  0.0181 -0.0019  0.0381 0.9595  +5/-2   -0.0045    0.0034
+np+tod_none vs base_np offlike_m:blank_before   43 0.8385 0.8372 -0.0013 -0.0185  0.0188 0.4470  +5/-2    0.0142   -0.0071
+np+tod_none vs base_np     offlike_m:no_blank  255 0.8127 0.8150  0.0023 -0.0114  0.0144 0.6580  +5/-3   -0.0043   -0.0013
+np+tod_none vs base_np      offlike_m:vis<0.6   92 0.7913 0.8014  0.0101 -0.0045  0.0248 0.9185  +5/-2   -0.0055   -0.0019
+np+tod_none vs base_np     offlike_m:vis>=0.6  206 0.8368 0.8350 -0.0018 -0.0164  0.0124 0.4120  +4/-4   -0.0027   -0.0010
+np+tod_none vs base_np             runstart_m 1124 0.8710 0.8740  0.0031 -0.0035  0.0095 0.8300  +5/-3   -0.0024   -0.0039
+[   206s] DONE
+[run_heavy] exit 0 after 343s

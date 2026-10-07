@@ -1,0 +1,22 @@
+               r                                                         r_dev                                                       
+kind       cross march_vs_train march_within trainblock_vs_train within  cross march_vs_train march_within trainblock_vs_train within
+panel                                                                                                                                
+D12_I5_N   0.887          0.799        0.682               0.948  0.895  0.105            NaN        0.857                 NaN  0.026
+D12_I5_S   0.929          0.727        0.805               0.957  0.908 -0.087            NaN        0.660                 NaN -0.105
+D7_I10_E   0.912          0.814        0.877               0.958  0.865 -0.061            NaN        0.710                 NaN -0.076
+D7_I10_W   0.624          0.857        0.601               0.833  0.764  0.077            NaN       -0.113                 NaN  0.198
+D7_I210_E  0.988          0.997        0.950               0.994  0.985 -0.067            NaN       -0.391                 NaN -0.114
+D7_I210_W  0.970          0.920        0.952               0.986  0.972  0.020            NaN        0.760                 NaN  0.077
+D7_I405_N  0.919          0.974        0.935               0.950  0.917  0.035            NaN        0.078                 NaN  0.033
+D7_I405_S  0.942          0.887        0.913               0.965  0.907 -0.021            NaN        0.647                 NaN -0.075
+
+                         r        r_dev      
+                      mean count   mean count
+kind                                         
+cross                0.896    64  0.000    64
+march_vs_train       0.872     8    NaN     0
+march_within         0.840     8  0.401     8
+trainblock_vs_train  0.949    56    NaN     0
+within               0.902    72 -0.005    72
+
+paired within - cross (same month m): raw r +0.004 (pos 31/64), deviation r +0.010 (pos 35/64)

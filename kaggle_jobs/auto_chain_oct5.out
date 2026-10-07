@@ -1,0 +1,47 @@
+[2026-10-05 02:28:23] START chain oct5 | base tfb-e5 submission_E5.csv 0.87961 | done []
+[2026-10-05 02:28:23] P1: waiting for auto_chain_oct5_override_P1.json until 2026-10-05 06:00 UTC
+[2026-10-05 02:28:23] P1 override: {"type": "t1mix", "w_fd": 0.5, "fd_members": ["tfb-t1v13", "tfb-t1v13s10", "tfb-t1v13s11", "tfb-t1v13s12"], "thr": 0.0001, "desc": "T1 = 0.5 FD-feature bag (4 members) + 0.5 old bag(8), recon + TV"}
+[2026-10-05 02:28:25] pushed tfb-f1m version 1
+[2026-10-05 02:39:53]   mix: old members 8 | FD members 4 ('tfb-t1v13', 'tfb-t1v13s10', 'tfb-t1v13s11', 'tfb-t1v13s12') | W_FD 0.5
+[2026-10-05 02:39:53]   mix: rms speed old-bag vs FD-bag 0.444 | flow 23.54
+[2026-10-05 02:39:53]   mix: info: base (post FDR/TV) vs old bag rms speed 0.326
+[2026-10-05 02:39:56] pushed tfb-f1 version 1
+[2026-10-05 02:50:58] submit tfb-f1 v 1 submission_FDRTV.csv -> complete 0.87963
+[2026-10-05 02:51:05] P1: LB 0.87963 | delta vs chain base +0.00002 | rule >= +0.0001 -> DROP (base unchanged)
+[2026-10-05 02:51:05] P2: waiting for auto_chain_oct5_override_P2.json until 2026-10-05 10:00 UTC
+[2026-10-05 02:57:05] P2 override: {"type": "queue2", "parts": [["tfb-t2lodo", "queue_submission_lodo_sp4.csv", "queue_onset", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March onset rows from the LODO CatBoost bag (training rows carry day-excluded priors: leave-one-day-out x3 + leave-week-group-out x3), same sp4 scenario prior; April rows unchanged"}
+[2026-10-05 02:57:07] pushed tfb-f2 version 1
+[2026-10-05 02:59:25]   P2: PART tfb-t2lodo/queue_submission_lodo_sp4.csv cond=queue_onset split=validation: rows 43500 | changed 18 share 0.00041 | positives 151 -> 153
+[2026-10-05 02:59:25]   P2: validation: changed rows 18
+[2026-10-05 02:59:25]   P2: private: changed rows 0
+[2026-10-05 02:59:25]   P2: TOTAL changed rows: validation 18 | private 0
+[2026-10-05 03:00:30] submit tfb-f2 v 1 submission_F2.csv -> complete 0.87465
+[2026-10-05 03:00:37] P2: LB 0.87465 | delta vs chain base -0.00496 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-05 03:00:37] P3: waiting for auto_chain_oct5_override_P3.json until 2026-10-05 14:00 UTC
+[2026-10-05 03:01:07] P3 override: {"type": "queue2", "parts": [["tfb-t2lodo", "queue_submission_mix9.csv", "queue_onset", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March onset rows: production CatBoost + early-month mixture prior mix9 (P2 LODO not kept) (per-cell two-hypothesis prior from the 1-4 March days before each window, W=6, pi=0.9); April rows unchanged"}
+[2026-10-05 03:01:10] pushed tfb-f3 version 1
+[2026-10-05 03:04:29]   P3: PART tfb-t2lodo/queue_submission_mix9.csv cond=queue_onset split=validation: rows 43500 | changed 21 share 0.00048 | positives 151 -> 146
+[2026-10-05 03:04:29]   P3: validation: changed rows 21
+[2026-10-05 03:04:29]   P3: private: changed rows 0
+[2026-10-05 03:04:29]   P3: TOTAL changed rows: validation 21 | private 0
+[2026-10-05 03:05:33] submit tfb-f3 v 1 submission_F3.csv -> complete 0.87817
+[2026-10-05 03:05:40] P3: LB 0.87817 | delta vs chain base -0.00144 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-05 03:05:40] P4: waiting for auto_chain_oct5_override_P4.json until 2026-10-05 18:00 UTC
+[2026-10-05 06:17:43] P4 override: {"type": "queue2", "parts": [["tfb-t2v24", "queue_submission_sw03.csv", "queue_ongoing", "validation", "g72"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows of the spacing-blocked (g72) windows from an F10 pair (np+id 511, all faithful windows 1.0); other windows and April unchanged"}
+[2026-10-05 06:17:46] pushed tfb-f4 version 1
+[2026-10-05 06:20:34]   P4: PART tfb-t2v24/queue_submission_sw03.csv cond=queue_ongoing split=validation windows=g72: rows 6576 | changed 11 share 0.00167 | positives 556 -> 561
+[2026-10-05 06:20:34]   P4: validation: changed rows 11
+[2026-10-05 06:20:34]   P4: private: changed rows 0
+[2026-10-05 06:20:34]   P4: TOTAL changed rows: validation 11 | private 0
+[2026-10-05 06:21:39] submit tfb-f4 v 1 submission_F4.csv -> complete 0.87939
+[2026-10-05 06:21:46] P4: LB 0.87939 | delta vs chain base -0.00022 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-05 06:21:46] P5: waiting for auto_chain_oct5_override_P5.json until 2026-10-05 22:00 UTC
+[2026-10-05 08:01:17] P5 override: {"type": "queue2", "parts": [["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the ALL-FINITE F03 bag (ineligible-but-valued cells as features); April unchanged"}
+[2026-10-05 08:01:20] pushed tfb-f5 version 1
+[2026-10-05 08:04:09]   P5: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=validation windows=any: rows 43500 | changed 108 share 0.00248 | positives 5288 -> 5274
+[2026-10-05 08:04:09]   P5: validation: changed rows 108
+[2026-10-05 08:04:09]   P5: private: changed rows 0
+[2026-10-05 08:04:09]   P5: TOTAL changed rows: validation 108 | private 0
+[2026-10-05 08:05:13] submit tfb-f5 v 1 submission_F5.csv -> complete 0.88051
+[2026-10-05 08:05:20] P5: LB 0.88051 | delta vs chain base +0.00090 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-05 08:05:20] CHAIN DONE | final base tfb-f5 submission_F5.csv 0.88051 | best 0.88051

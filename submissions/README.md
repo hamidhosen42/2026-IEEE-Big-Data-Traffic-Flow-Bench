@@ -2,6 +2,16 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_G5.csv | 56865768 | 0.88092 | Q5: FINAL CANDIDATE B (hedge): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models, same recipe as the public best); March rows unchanged |
+| submission_G4.csv | 56865673 | 0.88092 | Q4: FINAL CANDIDATE A (same-scenario bet): April onset = CatBoost bag trained with released-March windows + scenario prior; April ongoing = March-augmented F03 np/id/full + scenario prior, all-finite inputs; March rows unchanged |
+| submission_G3.csv | 56865571 | 0.88092 | Q3: March ongoing rows from the F03 bag with all-finite inputs + 13 OCCUPANCY features (occupancy / per-link critical occupancy, neighbours, slope, density agreement); April unchanged |
+| submission_G2.csv | 56865482 | 0.87883 | Q2: March onset rows from CatBoost onset with ALL-FINITE inputs (ineligible-but-valued cells as features), same sp4 scenario prior; April unchanged |
+| submission_FDRTV.csv | 56865369 | 0.87990 | Q1: T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member trained with simulated-blackout transductive rows; recon + TV |
+| submission_F5.csv | 56846866 | 0.88051 | P5: March ongoing rows from the ALL-FINITE F03 bag (ineligible-but-valued cells as features); April unchanged |
+| submission_F4.csv | 56844607 | 0.87939 | P4: March ongoing rows of the spacing-blocked (g72) windows from an F10 pair (np+id 511, all faithful windows 1.0); other windows and April unchanged |
+| submission_F3.csv | 56840738 | 0.87817 | P3: March onset rows: production CatBoost + early-month mixture prior mix9 (P2 LODO not kept) (per-cell two-hypothesis prior from the 1-4 March days before each window, W=6, pi=0.9); April rows unchanged |
+| submission_F2.csv | 56840649 | 0.87465 | P2: March onset rows from the LODO CatBoost bag (training rows carry day-excluded priors: leave-one-day-out x3 + leave-week-group-out x3), same sp4 scenario prior; April rows unchanged |
+| submission_FDRTV.csv | 56840469 | 0.87963 | P1: T1 = 0.5 FD-feature bag (4 members) + 0.5 old bag(8), recon + TV |
 | submission_E5.csv | 56817463 | 0.87961 | S5: EXP_COMBO_OSP: chain base + onset rows with the same-scenario prior (sp4: train prior blended per cell with the March/April masked-layer prior of the days before T, smoothed +-2 slots, a=n/(n+4)) |
 | submission_E4.csv | 56817377 | 0.87857 | S4: EXP_COMBO_v22: chain base + ongoing rows from v22 fs4 (selection-faithful F03 bag: np/id x 2 seeds) |
 | submission_E3.csv | 56814685 | 0.87817 | S3: EXP_COMBO_v21: chain base + ongoing rows from v21 fs2 (selection-faithful ongoing training: faithful windows 0.3 + run-starts 1.0) |
@@ -42,5 +52,3 @@
 | submission.csv | 56616281 | 0.80939 | Notebook [0.809 LB TOP 50] Open-Sourcing Physics Pipeline | Version 1 |
 | submission_352472917.csv | 56615110 | error |  |
 | submission.csv | 56518779 | 0.53880 | Notebook Traffic Flow Bench Pipeline | Version 2 |
-| submission.csv | 56282724 | error |  |
-| submission.csv | 56282297 | 0.53880 | Notebook Traffic Flow Bench Pipeline | Version 1 |

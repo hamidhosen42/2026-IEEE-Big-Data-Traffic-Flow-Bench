@@ -1,0 +1,40 @@
+[     0s] kernel functions: log load_panel established iou build_windows ffill_time shift_links dist_to_queued window_features prior_table prior_feats make_rows to_matrix ongoing_keep decode predict_windows score_windows masked_cube scenario_cums blend_prior march_onset_windows
+[     1s] n cols 64 ramp cols 0
+[     1s] {'panel': 'D7_I10_W', 'raw_on_w': 134, 'raw_rows': 11050, 'march_w': 8, 'march_rows': 582, 'eval_w': 13, 'same_eval_as_pvon': True, 'mask_w': 134, 'mask_rows': 7415, 'a_mean': 0.571} 1s
+[     3s] {'panel': 'D12_I5_S', 'raw_on_w': 264, 'raw_rows': 20253, 'march_w': 10, 'march_rows': 537, 'eval_w': 16, 'same_eval_as_pvon': True, 'mask_w': 264, 'mask_rows': 13782, 'a_mean': 0.581} 2s
+   panel  raw_on_w  raw_rows  march_w  march_rows  eval_w  same_eval_as_pvon  mask_w  mask_rows  a_mean
+D7_I10_W       134     11050        8         582      13               True     134       7415   0.571
+D12_I5_S       264     20253       10         537      16               True     264      13782   0.581
+[     4s] raw train rows 31303 pos 0.0296 | March rows 1119 pos 0.0322 | masked train rows 21197 pos 0.0347
+[     4s] base seed 0 1s
+[     5s] w10 seed 0 1s
+[     6s] w20 seed 0 1s
+[     7s] w40 seed 0 1s
+[     8s] w5 seed 0 1s
+[     9s] base seed 1 1s
+[    10s] w10 seed 1 1s
+[    10s] w20 seed 1 1s
+[    11s] w40 seed 1 1s
+[    12s] w25 seed 1 1s
+[    13s] w50 seed 1 1s
+[    14s] w100 seed 1 1s
+[    15s] Amask 1s
+[    15s] Bmask w10 1s
+[    16s] Bmask w20 1s
+[    17s] Bmask w40 1s
+
+== pseudo-March onset, days >= 15 , n = 29 windows ==
+base_s0 0.4306  sp4_s0 0.5345  w10_s0 0.6146  w20_s0 0.6490  w40_s0 0.6635  w5_s0 0.7082  bag_s0 0.7272  bagL_s0 0.6733  base_s1 0.4815  sp4_s1 0.4907  w10_s1 0.6106  w20_s1 0.6026  w40_s1 0.6510  w25_s1 0.5920  w50_s1 0.6405  w100_s1 0.5735  bag_s1 0.6208  bagX_s1 0.6565  Amask_s1 0.5302  Bmask_w10_s1 0.5777  Bmask_w20_s1 0.5726  Bmask_w40_s1 0.6128  Bmask_bag_s1 0.5972  base_mean 0.4560  sp4_mean 0.5126  bag_mean 0.6740
+Traceback (most recent call last):
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/verify_pvval_onset.py", line 294, in <module>
+    out += [cmp('sp4_mean', 'bag_mean', [b1]), cmp('sp4_mean', 'bag_mean', top2)]
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/verify_pvval_onset.py", line 276, in cmp
+    best_panel=dl.idxmax(), best_gain=float(dl.max()))
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/series.py", line 2773, in idxmax
+    i = self.argmax(axis, skipna, *args, **kwargs)
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/base.py", line 755, in argmax
+    result = nanops.nanargmax(delegate, skipna=skipna)
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/nanops.py", line 1148, in nanargmax
+    result = values.argmax(axis)
+ValueError: attempt to get argmax of an empty sequence
+exit 1

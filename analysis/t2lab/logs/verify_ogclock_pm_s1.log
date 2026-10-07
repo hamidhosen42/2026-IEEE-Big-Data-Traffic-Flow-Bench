@@ -1,0 +1,21 @@
+[run_heavy] slot acquired after 0s
+[    11s] np: k=4 train rows 8013566 x 74, 11s
+[   165s] np: model ref trained in 154s
+[   351s] np: model ck trained in 186s
+[   374s] PM seed 1 np offlike_m: n 298 ref 0.8175 ck 0.8201 diff +0.0027 [-0.0055, +0.0105] panels +6/-2 | without best panel D7_I210_W: -0.0036 [-0.0161, +0.0084]
+[   374s] PM seed 1 np offlike_m:midrun: n 68 ref 0.6822 ck 0.6930 diff +0.0108 [-0.0012, +0.0243] panels +6/-1 | without best panel D7_I405_S: +0.0106 [+0.0003, +0.0217]
+[   374s] PM seed 1 np offlike_m:rs_old: n 177 ref 0.8756 ck 0.8701 diff -0.0055 [-0.0203, +0.0084] panels +3/-5 | without best panel D7_I210_W: -0.0126 [-0.0309, +0.0050]
+[   375s] PM seed 1 np offlike_m:rs_new: n 53 ref 0.6324 ck 0.6393 diff +0.0069 [-0.0014, +0.0155] panels +5/-2 | without best panel D12_I5_N: +0.0042 [-0.0073, +0.0144]
+[   375s] PM seed 1 np runstart_m: n 1124 ref 0.8710 ck 0.8730 diff +0.0020 [-0.0041, +0.0081] panels +5/-3 | without best panel D7_I10_E: -0.0025 [-0.0104, +0.0048]
+[   388s] id: k=4 train rows 8013566 x 80, 13s
+[   568s] id: model ref trained in 180s
+[   775s] id: model ck trained in 207s
+[   798s] PM seed 1 id offlike_m: n 298 ref 0.8194 ck 0.8155 diff -0.0039 [-0.0118, +0.0043] panels +4/-4 | without best panel D12_I5_N: -0.0082 [-0.0167, +0.0003]
+[   798s] PM seed 1 id offlike_m:midrun: n 68 ref 0.6828 ck 0.6953 diff +0.0125 [-0.0047, +0.0289] panels +4/-4 | without best panel D7_I210_E: -0.0014 [-0.0211, +0.0177]
+[   798s] PM seed 1 id offlike_m:rs_old: n 177 ref 0.8729 ck 0.8650 diff -0.0079 [-0.0189, +0.0048] panels +4/-4 | without best panel D7_I10_E: -0.0167 [-0.0343, +0.0037]
+[   798s] PM seed 1 id offlike_m:rs_new: n 53 ref 0.6280 ck 0.6322 diff +0.0042 [-0.0053, +0.0133] panels +4/-3 | without best panel D12_I5_N: -0.0084 [-0.0204, +0.0025]
+[   799s] PM seed 1 id runstart_m: n 1124 ref 0.8747 ck 0.8738 diff -0.0010 [-0.0072, +0.0048] panels +4/-4 | without best panel D7_I10_E: -0.0064 [-0.0158, +0.0018]
+[   799s] PM seed 1 np+id blend offlike_m: n 298 ref 0.8193 ck 0.8181 diff -0.0012 [-0.0082, +0.0064] panels +4/-4 | without best panel D7_I210_W: -0.0083 [-0.0202, +0.0022]
+[   799s] PM seed 1 np+id blend runstart_m: n 1124 ref 0.8751 ck 0.8750 diff -0.0001 [-0.0064, +0.0058] panels +5/-3 | without best panel D7_I10_E: -0.0051 [-0.0146, +0.0024]
+[   799s] DONE
+[run_heavy] exit 0 after 800s

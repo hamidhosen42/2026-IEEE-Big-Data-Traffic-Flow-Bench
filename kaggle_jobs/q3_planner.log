@@ -1,0 +1,44 @@
+[2026-10-05 09:45:51] Q3 planner started
+[2026-10-05 09:49:53] smoke complete
+[2026-10-05 09:49:54]   smoke: [    69s] D7_I10_E occupancy: finite share 0.8351 | speed-cube share 0.8351 | ocrit estimated links 85 of 146 q10/50/90 [0.348, 0.36, 0.406]
+[2026-10-05 09:49:54]   smoke: [   125s] D12_I5_S occupancy: finite share 0.8346 | speed-cube share 0.8346 | ocrit estimated links 80 of 100 q10/50/90 [0.341, 0.41, 0.485]
+[2026-10-05 09:49:54]   smoke: [   139s] model fs_np trained: 518531 rows x 71 cols, 40 trees, 0.1 min, weighted True
+[2026-10-05 09:49:54]   smoke: [   148s] model fs_id trained: 518531 rows x 77 cols, 40 trees, 0.1 min, weighted True
+[2026-10-05 09:49:54]   smoke: [   156s] model fs_np1 trained: 518531 rows x 71 cols, 40 trees, 0.1 min, weighted True
+[2026-10-05 09:49:54]   smoke: [   165s] model fs_id1 trained: 518531 rows x 77 cols, 40 trees, 0.1 min, weighted True
+[2026-10-05 09:49:54]   smoke: [   171s] D7_I10_E validation occupancy: history finite share 0.826 (speed 0.826 ) | slot-T finite share 0.495 (speed 0.495 )
+[2026-10-05 09:49:54]   smoke: [   177s] D7_I10_E private occupancy: history finite share 0.831 (speed 0.831 ) | slot-T finite share 0.558 (speed 0.558 )
+[2026-10-05 09:49:54]   smoke: [   183s] D12_I5_S validation occupancy: history finite share 0.837 (speed 0.837 ) | slot-T finite share 0.629 (speed 0.629 )
+[2026-10-05 09:49:54]   smoke: [   189s] D12_I5_S private occupancy: history finite share 0.84 (speed 0.84 ) | slot-T finite share 0.666 (speed 0.666 )
+[2026-10-05 09:49:54]   smoke: [   189s] FOOTPRINT private (vs fs2occ): ongoing windows 10 | mean queued cells at T (q_last) 16.90
+[2026-10-05 09:49:54]   smoke: [   189s] FOOTPRINT validation (vs fs2occ): ongoing windows 10 | mean queued cells at T (q_last) 13.30
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs2occ vs tfb-t2v22af fs4af | private: windows changed 10/10 | rows changed 156/7380 (2.1138%) | Jaccard of queued cells 0.8542 | positives 1035 ref 949
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs2occ vs tfb-t2v22af fs4af | validation: windows changed 9/10 | rows changed 83/7380 (1.1247%) | Jaccard of queued cells 0.9002 | positives 820 ref 761
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs4occ vs tfb-t2v22af fs4af | private: windows changed 10/10 | rows changed 157/7380 (2.1274%) | Jaccard of queued cells 0.8530 | positives 1030 ref 949
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs4occ vs tfb-t2v22af fs4af | validation: windows changed 9/10 | rows changed 80/7380 (1.0840%) | Jaccard of queued cells 0.9035 | positives 817 ref 761
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs_np vs tfb-t2v22af fs4af | private: windows changed 10/10 | rows changed 156/7380 (2.1138%) | Jaccard of queued cells 0.8538 | positives 1029 ref 949
+[2026-10-05 09:49:54]   smoke: [   192s] FOOTPRINT fs_np vs tfb-t2v22af fs4af | validation: windows changed 10/10 | rows changed 86/7380 (1.1653%) | Jaccard of queued cells 0.8969 | positives 821 ref 761
+[2026-10-05 09:49:54]   smoke: [   192s] done
+[2026-10-05 15:13:36] full complete
+[2026-10-05 15:13:38]   full: [   107s] D7_I10_E occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 103 of 146 q10/50/90 [0.348, 0.365, 0.428]
+[2026-10-05 15:13:38]   full: [   193s] D7_I10_W occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 79 of 107 q10/50/90 [0.307, 0.364, 0.406]
+[2026-10-05 15:13:38]   full: [   292s] D7_I210_E occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 131 of 297 q10/50/90 [0.326, 0.351, 0.372]
+[2026-10-05 15:13:38]   full: [   373s] D7_I210_W occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 71 of 81 q10/50/90 [0.287, 0.346, 0.422]
+[2026-10-05 15:13:38]   full: [   481s] D7_I405_N occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 351 of 352 q10/50/90 [0.353, 0.361, 0.448]
+[2026-10-05 15:13:38]   full: [   568s] D7_I405_S occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 102 of 109 q10/50/90 [0.335, 0.392, 0.463]
+[2026-10-05 15:13:38]   full: [   671s] D12_I5_N occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 229 of 258 q10/50/90 [0.344, 0.42, 0.49]
+[2026-10-05 15:13:38]   full: [   752s] D12_I5_S occupancy: finite share 0.8347 | speed-cube share 0.8347 | ocrit estimated links 90 of 100 q10/50/90 [0.338, 0.413, 0.483]
+[2026-10-05 15:13:38]   full: [  5219s] model fs_np trained: 11766026 rows x 71 cols, 1800 trees, 71.9 min, weighted True
+[2026-10-05 15:13:38]   full: [ 10025s] model fs_id trained: 11766026 rows x 77 cols, 1800 trees, 80.1 min, weighted True
+[2026-10-05 15:13:38]   full: [ 14681s] model fs_np1 trained: 11766026 rows x 71 cols, 1800 trees, 77.6 min, weighted True
+[2026-10-05 15:13:38]   full: [ 19457s] model fs_id1 trained: 11766026 rows x 77 cols, 1800 trees, 79.6 min, weighted True
+[2026-10-05 15:13:38]   full: [ 19599s] FOOTPRINT private (vs fs2occ): ongoing windows 40 | mean queued cells at T (q_last) 21.10
+[2026-10-05 15:13:38]   full: [ 19599s] FOOTPRINT validation (vs fs2occ): ongoing windows 40 | mean queued cells at T (q_last) 23.00
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs2occ vs tfb-t2v22af fs4af | private: windows changed 31/40 | rows changed 117/43500 (0.2690%) | Jaccard of queued cells 0.9758 | positives 4751 ref 4784
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs2occ vs tfb-t2v22af fs4af | validation: windows changed 24/40 | rows changed 107/43500 (0.2460%) | Jaccard of queued cells 0.9799 | positives 5255 ref 5274
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs4occ vs tfb-t2v22af fs4af | private: windows changed 31/40 | rows changed 106/43500 (0.2437%) | Jaccard of queued cells 0.9780 | positives 4750 ref 4784
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs4occ vs tfb-t2v22af fs4af | validation: windows changed 21/40 | rows changed 96/43500 (0.2207%) | Jaccard of queued cells 0.9820 | positives 5268 ref 5274
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs_np vs tfb-t2v22af fs4af | private: windows changed 30/40 | rows changed 150/43500 (0.3448%) | Jaccard of queued cells 0.9689 | positives 4726 ref 4784
+[2026-10-05 15:13:38]   full: [ 19610s] FOOTPRINT fs_np vs tfb-t2v22af fs4af | validation: windows changed 23/40 | rows changed 129/43500 (0.2966%) | Jaccard of queued cells 0.9758 | positives 5247 ref 5274
+[2026-10-05 15:13:38]   full: [ 19610s] done
+[2026-10-05 15:13:38] Q3 override written {"type": "queue2", "parts": [["tfb-t2occ", "queue_submission_fs4occ.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the F03 bag with all-finite inputs + 13 OCCUPANCY features (occupancy / per-link critical occupancy, neighbours, slope, density agreement); April unchanged"}

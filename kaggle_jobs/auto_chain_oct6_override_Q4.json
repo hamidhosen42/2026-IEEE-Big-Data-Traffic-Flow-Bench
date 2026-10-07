@@ -1,0 +1,20 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2opv",
+   "queue_submission_pv.csv",
+   "queue_onset",
+   "private"
+  ],
+  [
+   "tfb-t2ogpvaf",
+   "queue_submission_pvo.csv",
+   "queue_ongoing",
+   "private"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 0,
+ "desc": "FINAL CANDIDATE A (same-scenario bet): April onset = CatBoost bag trained with released-March windows + scenario prior; April ongoing = March-augmented F03 np/id/full + scenario prior, all-finite inputs; March rows unchanged"
+}

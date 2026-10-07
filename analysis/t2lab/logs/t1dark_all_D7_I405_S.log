@@ -1,0 +1,32 @@
+[run_heavy] slot acquired after 1072s
+[     2s] D7_I405_S train chunk 0 rows 108840 in gaps 10133
+[     4s] D7_I405_S train chunk 1 rows 104114 in gaps 13258
+[     6s] D7_I405_S train chunk 2 rows 94856 in gaps 10839
+[     8s] D7_I405_S train chunk 3 rows 109900 in gaps 12801
+[    10s] D7_I405_S train chunk 4 rows 111871 in gaps 11397
+[    12s] D7_I405_S train chunk 5 rows 109107 in gaps 13388
+[    13s] D7_I405_S train chunk 6 rows 108314 in gaps 12353
+[    14s] D7_I405_S train rows 747002 of 747002 | in simulated gaps 84169 | target cells total 2129875
+[    14s] D7_I405_S validation candidates 3263 (onset 235 ) selected 48 (onset 24 ) | real blackout targets 14970 of 281838
+[    14s] D7_I405_S private candidates 2563 (onset 184 ) selected 48 (onset 23 ) | real blackout targets 15075 of 253054
+[    21s] D7_I405_S fold 0 validation eval blackout cells 21882 ordinary 12567 dark rows 13647 rand rows so far 75871
+[    27s] D7_I405_S fold 0 private eval blackout cells 24195 ordinary 12405 dark rows 16536 rand rows so far 166383
+[    28s] D7_I405_S fold 0 {'panel': 'D7_I405_S', 'fold': 0, 'n_trees': 450, 'lr': 0.1, 'p': 0.35, 'p_dark': 0.7, 'validation_dark_rows': 13647, 'private_dark_rows': 16536, 'train_rows': 747002, 'rand_rows': 166383, 'dark_rows': 30183, 'bad_r': 0, 'bad_d': 0}
+[    98s] D7_I405_S fold 0 base rows 913385 trained+predicted in 71s
+[   166s] D7_I405_S fold 0 dark rows 943568 trained+predicted in 67s
+[   166s] D7_I405_S fold 0 validation_blk n 21882 | speed RMSE base 10.585 dark 9.884 | flow/lane RMSE base 64.38 dark 65.98
+[   166s] D7_I405_S fold 0 validation_ord n 12567 | speed RMSE base 1.861 dark 1.931 | flow/lane RMSE base 32.65 dark 32.89
+[   166s] D7_I405_S fold 0 private_blk n 24195 | speed RMSE base 10.280 dark 9.549 | flow/lane RMSE base 77.73 dark 76.12
+[   166s] D7_I405_S fold 0 private_ord n 12405 | speed RMSE base 1.960 dark 1.965 | flow/lane RMSE base 33.60 dark 33.47
+[   166s] done 166s
+[   173s] D7_I405_S fold 1 validation eval blackout cells 22919 ordinary 12567 dark rows 13082 rand rows so far 76270
+[   180s] D7_I405_S fold 1 private eval blackout cells 23687 ordinary 12405 dark rows 16943 rand rows so far 166564
+[   180s] D7_I405_S fold 1 {'panel': 'D7_I405_S', 'fold': 1, 'n_trees': 450, 'lr': 0.1, 'p': 0.35, 'p_dark': 0.7, 'validation_dark_rows': 13082, 'private_dark_rows': 16943, 'train_rows': 747002, 'rand_rows': 166564, 'dark_rows': 30025, 'bad_r': 0, 'bad_d': 0}
+[   250s] D7_I405_S fold 1 base rows 913566 trained+predicted in 70s
+[   319s] D7_I405_S fold 1 dark rows 943591 trained+predicted in 69s
+[   319s] D7_I405_S fold 1 validation_blk n 22919 | speed RMSE base 12.052 dark 11.239 | flow/lane RMSE base 119.00 dark 119.78
+[   319s] D7_I405_S fold 1 validation_ord n 12567 | speed RMSE base 1.836 dark 1.892 | flow/lane RMSE base 32.48 dark 32.49
+[   319s] D7_I405_S fold 1 private_blk n 23687 | speed RMSE base 9.998 dark 9.280 | flow/lane RMSE base 92.39 dark 89.91
+[   319s] D7_I405_S fold 1 private_ord n 12405 | speed RMSE base 1.972 dark 1.989 | flow/lane RMSE base 33.57 dark 33.25
+[   319s] done 319s
+[run_heavy] exit 0 after 1392s

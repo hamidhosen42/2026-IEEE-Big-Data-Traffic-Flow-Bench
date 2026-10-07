@@ -1,0 +1,31 @@
+[    24s] occ catboost onset trained on 310782 rows 23s pos rate 0.0214
+[    24s] D7_I10_E {"panel": "D7_I10_E", "x_share": 0.0693, "vis_elig": 0.4961, "on_n": 25} 1s
+[    25s] D7_I10_W {"panel": "D7_I10_W", "x_share": 0.0693, "vis_elig": 0.5088, "on_n": 21} 0s
+[    26s] D7_I210_E {"panel": "D7_I210_E", "x_share": 0.0693, "vis_elig": 0.5183, "on_n": 27} 1s
+[    26s] D7_I210_W {"panel": "D7_I210_W", "x_share": 0.0693, "vis_elig": 0.4695, "on_n": 32} 0s
+[    27s] D7_I405_N {"panel": "D7_I405_N", "x_share": 0.0693, "vis_elig": 0.5388, "on_n": 35} 1s
+[    28s] D7_I405_S {"panel": "D7_I405_S", "x_share": 0.0693, "vis_elig": 0.4743, "on_n": 27} 0s
+[    29s] D12_I5_N {"panel": "D12_I5_N", "x_share": 0.0693, "vis_elig": 0.4975, "on_n": 21} 1s
+[    29s] D12_I5_S {"panel": "D12_I5_S", "x_share": 0.0693, "vis_elig": 0.5075, "on_n": 26} 0s
+     set            arm   n    iou     h1     h2     h3     h4     h5     h6
+march_on  af_trainprior 214 0.7183 0.9922 0.9922 0.9837 0.9797 0.9801 0.7236
+march_on         af_sp4 214 0.7914 0.9922 0.9922 0.9837 0.9797 0.9801 0.7992
+march_on occ_trainprior 214 0.7330 0.9922 0.9922 0.9837 0.9797 0.9801 0.7397
+march_on        occ_sp4 214 0.7928 0.9922 0.9922 0.9837 0.9797 0.9801 0.8050
+
+== PSEUDO-MARCH paired deltas occ vs af (lab.paired_bootstrap) ==
+march_on occ_trainprior vs af_trainprior: n=214 base 0.7183 new 0.7330 diff +0.0147 [-0.0101, +0.0399] p_pos 0.879 panels +5/-1 of 8 windows up/down 13/6
+march_on occ_sp4 vs af_sp4: n=214 base 0.7914 new 0.7928 diff +0.0014 [-0.0221, +0.0254] p_pos 0.543 panels +3/-2 of 8 windows up/down 13/12
+
+per panel (march_on): occ_sp4 vs af_sp4
+            n    base     new   delta
+panel                                
+D12_I5_N   21  0.8571  0.8571  0.0000
+D12_I5_S   26  0.6756  0.6962  0.0205
+D7_I10_E   25  0.8200  0.7833 -0.0367
+D7_I10_W   21  0.5476  0.5556  0.0079
+D7_I210_E  27  1.0000  1.0000  0.0000
+D7_I210_W  32  0.6890  0.7232  0.0342
+D7_I405_N  35  0.9452  0.9452  0.0000
+D7_I405_S  27  0.7966  0.7816 -0.0150
+[    29s] DONE ['on']

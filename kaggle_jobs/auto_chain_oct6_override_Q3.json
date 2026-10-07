@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2occ",
+   "queue_submission_fs4occ.csv",
+   "queue_ongoing",
+   "validation"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March ongoing rows from the F03 bag with all-finite inputs + 13 OCCUPANCY features (occupancy / per-link critical occupancy, neighbours, slope, density agreement); April unchanged"
+}

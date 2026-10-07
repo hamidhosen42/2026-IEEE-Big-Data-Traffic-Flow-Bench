@@ -1,0 +1,26 @@
+[run_heavy] slot acquired after 0s
+[     0s] folds present [np.int64(0), np.int64(1), np.int64(2), np.int64(3)]
+[     1s] [offlike] seed 2 np: base 0.8780 occ 0.8816 diff +0.0035 [+0.0020, +0.0051] n=2992 panels +7/-1 | runstart +0.0032 [+0.0017, +0.0047] n=2285 panels +7/-1 | midrun +0.0119 [+0.0089, +0.0147] n=707 panels +6/-2 | drop D12_I5_S +0.0026 [+0.0010, +0.0042] n=2566 panels +6/-1 | runstart & drop D12_I5_S +0.0026 [+0.0010, +0.0043] n=1995 panels +6/-1
+[     1s]    per panel np: {'D12_I5_N': 0.0012, 'D12_I5_S': 0.0087, 'D7_I10_E': 0.0033, 'D7_I10_W': 0.009, 'D7_I210_E': -0.0012, 'D7_I210_W': 0.0022, 'D7_I405_N': 0.0034, 'D7_I405_S': 0.0018}
+[     1s]    per fold np: {0: 0.0052, 1: 0.0042, 2: 0.0014, 3: 0.0036}
+[     1s]    drop my best panel D7_I10_W (np): +0.0028 [+0.0012, +0.0044] n=2861 panels +6/-1
+[     1s] [offlike] seed 2 id: base 0.8831 occ 0.8846 diff +0.0015 [-0.0000, +0.0030] n=2992 panels +5/-3 | runstart +0.0016 [+0.0001, +0.0032] n=2285 panels +6/-2 | midrun +0.0053 [+0.0017, +0.0084] n=707 panels +5/-3 | drop D12_I5_S +0.0010 [-0.0010, +0.0029] n=2566 panels +4/-3 | runstart & drop D12_I5_S +0.0014 [-0.0002, +0.0030] n=1995 panels +5/-2
+[     1s]    per panel id: {'D12_I5_N': -0.0004, 'D12_I5_S': 0.0032, 'D7_I10_E': 0.0037, 'D7_I10_W': 0.0031, 'D7_I210_E': -0.0011, 'D7_I210_W': 0.0028, 'D7_I405_N': 0.0024, 'D7_I405_S': -0.0017}
+[     1s]    per fold id: {0: 0.0021, 1: 0.0003, 2: 0.0016, 3: 0.0024}
+[     1s]    drop my best panel D7_I10_E (id): +0.0014 [-0.0007, +0.0034] n=2611 panels +4/-3
+[     2s] [offlike] seed 2 npid: base 0.8814 occ 0.8838 diff +0.0024 [+0.0010, +0.0037] n=2992 panels +6/-2 | runstart +0.0022 [+0.0007, +0.0036] n=2285 panels +6/-2 | midrun +0.0045 [+0.0015, +0.0070] n=707 panels +7/-1 | drop D12_I5_S +0.0016 [+0.0001, +0.0030] n=2566 panels +5/-2 | runstart & drop D12_I5_S +0.0015 [-0.0001, +0.0030] n=1995 panels +5/-2
+[     2s]    per panel npid: {'D12_I5_N': 0.0004, 'D12_I5_S': 0.007, 'D7_I10_E': 0.003, 'D7_I10_W': 0.0055, 'D7_I210_E': -0.001, 'D7_I210_W': 0.0023, 'D7_I405_N': 0.0022, 'D7_I405_S': -0.0002}
+[     2s]    per fold npid: {0: 0.004, 1: 0.0032, 2: 0.0011, 3: 0.0019}
+[     2s]    drop my best panel D12_I5_S (npid): +0.0016 [+0.0001, +0.0030] n=2566 panels +5/-2
+[     2s] [pseudo] seed 2 np: base 0.8594 occ 0.8561 diff -0.0033 [-0.0189, +0.0057] n=2058 panels +4/-4
+[     2s] [pseudo] seed 2 id: base 0.8655 occ 0.8678 diff +0.0023 [-0.0036, +0.0084] n=2058 panels +6/-1
+[     2s] [pseudo] seed 2 npid: base 0.8627 occ 0.8638 diff +0.0011 [-0.0041, +0.0059] n=2058 panels +6/-2
+[     2s] [official] seed 2 np: base 0.8878 occ 0.8968 diff +0.0090 [-0.0009, +0.0186] n=40 panels +5/-3
+[     2s] [official] seed 2 id: base 0.8964 occ 0.8950 diff -0.0014 [-0.0067, +0.0037] n=40 panels +3/-5
+[     2s] [official] seed 2 npid: base 0.8959 occ 0.8974 diff +0.0015 [-0.0038, +0.0066] n=40 panels +3/-5
+[     2s] NOISE offlike base_np seed 2 vs af:af_all_np255 seed 0: -0.0002 [-0.0014, +0.0010] n=2992 panels +5/-3
+[     3s] NOISE offlike occ_np seed 2 vs occ_np255 seed 0: +0.0008 [-0.0004, +0.0020] n=2992 panels +6/-2
+[     3s] NOISE offlike base_id seed 2 vs af:af_all_id255 seed 0: +0.0006 [-0.0005, +0.0018] n=2992 panels +5/-3
+[     3s] NOISE offlike occ_id seed 2 vs occ_id255 seed 0: -0.0010 [-0.0023, +0.0001] n=2992 panels +3/-5
+[     3s] SUMMARY DONE
+[run_heavy] exit 0 after 3s

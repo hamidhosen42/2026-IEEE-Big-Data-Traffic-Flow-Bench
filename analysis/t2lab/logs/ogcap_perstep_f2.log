@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 275s
+[     0s] ogcap_run perstep folds [2] cols np leaves 511 lr 0.05 trees 900 seed 0 threads 4
+[     7s] cap_perstep_np511_l05_t900 fold 2: matrix 5997115 x 58 in 7s
+[   744s] cap_perstep_np511_l05_t900 fold 2: 6 model(s) fitted, 744s since start
+[   780s] cap_perstep_np511_l05_t900 fold 2: official nan (n=0), offlike 0.8760 (n=748), pseudo 0.8815 (n=503) | 780s
+[   780s] DONE
+[run_heavy] exit 0 after 1056s

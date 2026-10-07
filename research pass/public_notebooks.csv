@@ -1,0 +1,5 @@
+rank_found,notebook,author,public_lb,cv,runtime,notes,evidence,url
+1,[0.809 LB TOP 50] Open-Sourcing Physics Pipeline,Sōsuke Aizen +2,0.80939,UNVERIFIED,45m50s,Physics/ML pipeline; external Task2 dataset input visible,VERIFIED PUBLIC RESULT,https://www.kaggle.com/code/soukeaizenz/0-809-lb-top-50-open-sourcing-physics-pipeline
+2,Traffic Flow Bench Pipeline,Lâm Huy,0.71846,UNVERIFIED,28m56s,Pipeline; details require code-level extraction,VERIFIED PUBLIC RESULT,https://www.kaggle.com/code/lamhuy8904/traffic-flow-bench-pipeline
+3,Hydrodynamic Traffic Reconstruction & Queue ODME,Avik Das,0.63952,UNVERIFIED,30m58s,Hydrodynamic framing; GitHub-linked,VERIFIED PUBLIC RESULT,https://www.kaggle.com/code/avikdas567/hydrodynamic-traffic-reconstruction-queue-odme
+4,2026 IEEE Big Data-Traffic Flow Bench/3,Chaitanya Jamble,0.40218,UNVERIFIED,9m44s,Best notebook version indexed as 0.40651 V3,VERIFIED PUBLIC RESULT,https://www.kaggle.com/code/chaitanyajamble/2026-ieee-big-data-traffic-flow-bench-3

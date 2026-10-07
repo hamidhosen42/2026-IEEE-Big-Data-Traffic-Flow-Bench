@@ -1,0 +1,60 @@
+[run_heavy] slot acquired after 0s
+[     0s] calibration: mine vs occ track, max |d ocrit|, max |d c| per panel [('D7_I10_E', 0.0, 0.0), ('D7_I10_W', 0.0, 0.0), ('D7_I210_E', 0.0, 0.0), ('D7_I210_W', 0.0, 0.0), ('D7_I405_N', 0.0, 0.0), ('D7_I405_S', 0.0, 0.0), ('D12_I5_N', 0.0, 0.0), ('D12_I5_S', 0.0, 0.0)]
+[     4s] fold 2: train rows 5993382 pos 0.2746 built 4s | side-car parity (frac differing, max abs, hasT ok) [('D7_I210_E', 'faith3F03', 2, 0.0, 0.0, True), ('D7_I210_E', 'runstart', 2, 0.0, 0.0, True), ('D12_I5_S', 'faith3F03', 2, 0.0, 0.0, True), ('D12_I5_S', 'runstart', 2, 0.0, 0.0, True)]
+[   145s] fold 2 base_np: 58 cols trained 140s
+[   308s] fold 2 occ_np: 71 cols trained 163s
+[   455s] fold 2 base_id: 64 cols trained 148s
+[   625s] fold 2 occ_id: 77 cols trained 170s
+[   665s] fold 2: eval side-car parity offlike (frac differing, max abs, hasT ok) [('D7_I10_E', 'offlike', 0.0, 0.0, True), ('D7_I10_W', 'offlike', 0.0, 0.0, True), ('D7_I210_E', 'offlike', 0.0, 0.0, True), ('D7_I210_W', 'offlike', 0.0, 0.0, True), ('D7_I405_N', 'offlike', 0.0, 0.0, True), ('D7_I405_S', 'offlike', 0.0, 0.0, True), ('D12_I5_N', 'offlike', 0.0, 0.0, True), ('D12_I5_S', 'offlike', 0.0, 0.0, True)]
+[   665s] fold 2 seed 2 [offlike] np: base 0.8776 occ 0.8790 diff +0.0014 [-0.0014, +0.0040] n=748
+[   665s] fold 2 seed 2 [offlike] id: base 0.8808 occ 0.8823 diff +0.0016 [-0.0008, +0.0039] n=748
+[   665s] fold 2 seed 2 [offlike] npid: base 0.8799 occ 0.8810 diff +0.0011 [-0.0013, +0.0035] n=748
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[   665s] fold 2 seed 2 [official] np: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[   665s] fold 2 seed 2 [official] id: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[   665s] fold 2 seed 2 [official] npid: base nan occ nan diff +nan [+nan, +nan] n=0
+[   665s] fold 2 seed 2 [pseudo] np: base 0.8758 occ 0.8782 diff +0.0024 [-0.0011, +0.0059] n=503
+[   665s] fold 2 seed 2 [pseudo] id: base 0.8768 occ 0.8795 diff +0.0027 [-0.0000, +0.0056] n=503
+[   665s] fold 2 seed 2 [pseudo] npid: base 0.8770 occ 0.8795 diff +0.0025 [-0.0002, +0.0054] n=503
+[   665s] fold 2 done in 665s
+[   670s] fold 3: train rows 6057385 pos 0.2760 built 5s | side-car parity (frac differing, max abs, hasT ok) [('D7_I210_E', 'faith3F03', 3, 0.0, 0.0, True), ('D7_I210_E', 'runstart', 3, 0.0, 0.0, True), ('D12_I5_S', 'faith3F03', 3, 0.0, 0.0, True), ('D12_I5_S', 'runstart', 3, 0.0, 0.0, True)]
+[   808s] fold 3 base_np: 58 cols trained 138s
+[   971s] fold 3 occ_np: 71 cols trained 163s
+[  1086s] fold 3 base_id: 64 cols trained 116s
+[  1221s] fold 3 occ_id: 77 cols trained 135s
+[  1258s] fold 3: eval side-car parity offlike (frac differing, max abs, hasT ok) [('D7_I10_E', 'offlike', 0.0, 0.0, True), ('D7_I10_W', 'offlike', 0.0, 0.0, True), ('D7_I210_E', 'offlike', 0.0, 0.0, True), ('D7_I210_W', 'offlike', 0.0, 0.0, True), ('D7_I405_N', 'offlike', 0.0, 0.0, True), ('D7_I405_S', 'offlike', 0.0, 0.0, True), ('D12_I5_N', 'offlike', 0.0, 0.0, True), ('D12_I5_S', 'offlike', 0.0, 0.0, True)]
+[  1258s] fold 3 seed 2 [offlike] np: base 0.8764 occ 0.8800 diff +0.0036 [+0.0005, +0.0067] n=771
+[  1258s] fold 3 seed 2 [offlike] id: base 0.8819 occ 0.8843 diff +0.0024 [-0.0009, +0.0051] n=771
+[  1258s] fold 3 seed 2 [offlike] npid: base 0.8806 occ 0.8825 diff +0.0019 [-0.0013, +0.0047] n=771
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1258s] fold 3 seed 2 [official] np: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1258s] fold 3 seed 2 [official] id: base nan occ nan diff +nan [+nan, +nan] n=0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[  1258s] fold 3 seed 2 [official] npid: base nan occ nan diff +nan [+nan, +nan] n=0
+[  1258s] fold 3 seed 2 [pseudo] np: base 0.8717 occ 0.8597 diff -0.0120 [-0.0291, +0.0052] n=500
+[  1259s] fold 3 seed 2 [pseudo] id: base 0.8737 occ 0.8752 diff +0.0015 [-0.0013, +0.0038] n=500
+[  1259s] fold 3 seed 2 [pseudo] npid: base 0.8745 occ 0.8709 diff -0.0036 [-0.0083, +0.0013] n=500
+[  1259s] fold 3 done in 593s
+[  1259s] VERIFY TRAIN DONE [2, 3] 2
+[run_heavy] exit 0 after 1260s

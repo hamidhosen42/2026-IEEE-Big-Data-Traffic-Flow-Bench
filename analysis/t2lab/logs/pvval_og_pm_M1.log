@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 821s
+[     0s] March training rows 458173 pos 0.242 weight sum 2508443.5 | eval blocks 16 0s
+[     0s] masked F03 rows 8040492 regime shares [0.339, 0.331, 0.331]
+[   213s] M1 np: 8040492 masked train rows (weight 5303465) + 458173 March rows, 213s
+[   425s] M1 id: 8040492 masked train rows (weight 5303465) + 458173 March rows, 212s
+[   604s] M1 full: 8040492 masked train rows (weight 5303465) + 458173 March rows, 178s
+[   635s] saved /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/pvval/probs/M1_15_11.pkl ['MB_full', 'MB_id', 'MB_np'] 635s
+[   635s] DONE
+[run_heavy] exit 0 after 1458s

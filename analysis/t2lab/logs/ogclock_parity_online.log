@@ -1,0 +1,5 @@
+D7_I10_W: emulated per-day visible share mean 0.679, cells visible 0.679 of eligible
+online rule: perturbing after T: windows with any ck change 0/80
+online rule: perturbing hidden cells before T-12: windows with any ck change 0/80
+online rule: perturbing visible cells before T-12: windows with any ck change 80/80
+[     1s] DONE

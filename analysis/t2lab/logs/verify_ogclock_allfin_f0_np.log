@@ -1,0 +1,17 @@
+[run_heavy] slot acquired after 0s
+[     5s] D7_I10_E: all-finite ck built (5s)
+[     6s] D7_I10_W: all-finite ck built (6s)
+[    12s] D7_I210_E: all-finite ck built (12s)
+[    15s] D7_I210_W: all-finite ck built (15s)
+[    29s] D7_I405_N: all-finite ck built (29s)
+[    33s] D7_I405_S: all-finite ck built (33s)
+[    41s] D12_I5_N: all-finite ck built (41s)
+[    45s] D12_I5_S: all-finite ck built (45s)
+[    46s] allfin np fold 0: train rows 6073676 x 74
+[   178s] allfin np: model ref trained in 132s
+[   340s] allfin np: model ck trained in 162s
+[   360s] allfin np f0 s0 official: n 40 ref 0.8920 ck 0.8990 diff +0.0070 [-0.0045, +0.0194] panels +5/-3
+[   360s] allfin np f0 s0 offlike: n 726 ref 0.8809 ck 0.8864 diff +0.0055 [+0.0016, +0.0094] panels +6/-2
+[   360s] allfin np f0 s0 pseudo: n 525 ref 0.8770 ck 0.8932 diff +0.0162 [+0.0106, +0.0220] panels +6/-1
+[   360s] DONE in 360s
+[run_heavy] exit 0 after 361s

@@ -1,0 +1,64 @@
+{
+ "base_kernel": "tfb-f5",
+ "base_file": "submission_F5.csv",
+ "base_score": 0.88051,
+ "best_score": 0.88051,
+ "recon": {
+  "gate": 0.6,
+  "a": 0.75,
+  "logr": 0.5,
+  "tv": [
+   0.0075,
+   0.001,
+   0.02,
+   0.005
+  ]
+ },
+ "raw_kernel": "tfb-e1m",
+ "raw_file": "submission_T1MIX.csv",
+ "fd_used": [
+  "tfb-t1v13",
+  "tfb-t1v13s10",
+  "tfb-t1v13s11"
+ ],
+ "done": [
+  {
+   "slot": "P1",
+   "score": 0.87963,
+   "delta": 2.0000000000020002e-05,
+   "keep": false
+  },
+  {
+   "slot": "P2",
+   "score": 0.87465,
+   "delta": -0.0049599999999999644,
+   "keep": false
+  },
+  {
+   "slot": "P3",
+   "score": 0.87817,
+   "delta": -0.0014399999999999968,
+   "keep": false
+  },
+  {
+   "slot": "P4",
+   "score": 0.87939,
+   "delta": -0.00021999999999999797,
+   "keep": false
+  },
+  {
+   "slot": "P5",
+   "score": 0.88051,
+   "delta": 0.0009000000000000119,
+   "keep": true
+  }
+ ],
+ "versions": {
+  "tfb-f1m": 1,
+  "tfb-f1": 1,
+  "tfb-f2": 1,
+  "tfb-f3": 1,
+  "tfb-f4": 1,
+  "tfb-f5": 1
+ }
+}

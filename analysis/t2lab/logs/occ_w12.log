@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 912s
+[     0s] worker start: budget 22 min, only=None
+[     0s] === task pm_og4 (elapsed 0.0 min)
+[   288s] === task pm_og4 done in 288s
+[   288s] WORKER DONE ['pm_og4'] | elapsed 4.8 min
+[run_heavy] exit 0 after 1200s

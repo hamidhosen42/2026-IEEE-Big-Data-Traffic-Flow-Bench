@@ -1,0 +1,15 @@
+[run_heavy] slot acquired after 150s
+[     0s] worker start: budget 22 min, only=['final_np', 'final_id', 'og_np_f2', 'og_id_f2', 'og_np_f3', 'og_id_f3', 'pm_og', 'on_f0', 'pm_on', 'seed1_np_f0', 'seed1_np_f1']
+[     0s] === task og_np_f2 (elapsed 0.0 min)
+[   172s] occ_np255 fold 2: 5993382 rows x 71 cols, pos 0.275, trained in 171s | {"faith3F03": {"windows": 7777, "rows": 2902065}, "runstart": {"windows": 8056, "rows": 3091317}}
+[   183s] occ_np255 fold 2: official nan (n=0), offlike 0.8798 (n=748), pseudo 0.8787 (n=503)
+[   183s] === task og_np_f2 done in 183s
+[   183s] === task og_np_f3 (elapsed 3.0 min)
+[   364s] occ_np255 fold 3: 6057385 rows x 71 cols, pos 0.276, trained in 182s | {"faith3F03": {"windows": 7739, "rows": 2924259}, "runstart": {"windows": 8102, "rows": 3133126}}
+[   375s] occ_np255 fold 3: official nan (n=0), offlike 0.8798 (n=771), pseudo 0.8737 (n=500)
+[   375s] === task og_np_f3 done in 192s
+[   375s] === task on_f0 (elapsed 6.2 min)
+[   458s] onset occ fold 0: 234140 train rows, pos 0.0214, 83s | offlike occ_s0 0.8951, occ_bag 0.8950, rebase_s0 0.8958
+[   458s] === task on_f0 done in 83s
+[   458s] WORKER DONE ['og_np_f2', 'og_np_f3', 'on_f0'] | elapsed 7.6 min
+[run_heavy] exit 0 after 609s

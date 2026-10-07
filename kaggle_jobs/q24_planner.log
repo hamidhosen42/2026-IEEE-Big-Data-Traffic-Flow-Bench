@@ -1,0 +1,21 @@
+[2026-10-05 08:09:35] Q2/Q4 planner started
+[2026-10-05 08:19:42]   onaf: [   402s] catboost onset trained on 310782 rows (v9 features)
+[2026-10-05 08:19:42]   onaf: [   475s] CONTROL v13 onset agreement 0.999701 jaccard 0.91950 rows 87000
+[2026-10-05 08:19:42]   onaf: [   535s] CONTROL chain-base onset vs base: agreement 0.999184 jaccard 0.79656 changed share 0.00082 rows 87000
+[2026-10-05 08:19:42]   onaf: [   535s] CONTROL chain-base onset vs sp2: agreement 0.999609 jaccard 0.89474 changed share 0.00039 rows 87000
+[2026-10-05 08:19:42]   onaf: [   535s] CONTROL chain-base onset vs sp4: agreement 0.999621 jaccard 0.89846 changed share 0.00038 rows 87000
+[2026-10-05 08:19:42]   onaf: [   535s] CONTROL chain-base onset vs sp8: agreement 0.999529 jaccard 0.87798 changed share 0.00047 rows 87000
+[2026-10-05 08:19:42]   onaf: [   535s] ONSET AF DONE
+[2026-10-05 08:19:42] Q2 override written {"type": "queue2", "parts": [["tfb-t2onaf", "queue_submission_sp4.csv", "queue_onset", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March onset rows from CatBoost onset with ALL-FINITE inputs (ineligible-but-valued cells as features), same sp4 scenario prior; April unchanged"}
+[2026-10-05 10:38:25]   ogpvaf: [  3232s] model npB trained: 12835268 rows, 900 trees, 37.4 min
+[2026-10-05 10:38:25]   ogpvaf: [  5709s] model idB trained: 12835268 rows, 900 trees, 41.3 min
+[2026-10-05 10:38:25]   ogpvaf: [  8466s] model fullB trained: 12835268 rows, 900 trees, 46.0 min
+[2026-10-05 10:38:25]   ogpvaf: [  8591s] pvo vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 5274 vs 5274
+[2026-10-05 10:38:25]   ogpvaf: [  8591s] pvo vs fs4 on private ongoing rows: changed share 0.00602 jaccard 0.9471 positives 4854 vs 4784
+[2026-10-05 10:38:25]   ogpvaf: [  8592s] pvo_npid vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 5274 vs 5274
+[2026-10-05 10:38:25]   ogpvaf: [  8592s] pvo_npid vs fs4 on private ongoing rows: changed share 0.00329 jaccard 0.9704 positives 4735 vs 4784
+[2026-10-05 10:38:25]   ogpvaf: [  8623s] CONTROL chain-base ongoing vs pvo (validation): agreement 1.000000 changed share 0.00000 rows 43500
+[2026-10-05 10:38:25]   ogpvaf: [  8623s] CONTROL chain-base ongoing vs pvo (private): agreement 0.993563 changed share 0.00644 rows 43500
+[2026-10-05 10:38:25]   ogpvaf: [  8623s] OGPVAF DONE
+[2026-10-05 10:38:25] Q4 override updated {"type": "queue2", "parts": [["tfb-t2opv", "queue_submission_pv.csv", "queue_onset", "private"], ["tfb-t2ogpvaf", "queue_submission_pvo.csv", "queue_ongoing", "private"]], "thr": 0.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE A (same-scenario bet): April onset = CatBoost bag trained with released-March windows + scenario prior; April ongoing = March-augmented F03 np/id/full + scenario prior, all-finite inputs; March rows unchanged"}
+[2026-10-05 10:40:25] Q2/Q4 planner done
