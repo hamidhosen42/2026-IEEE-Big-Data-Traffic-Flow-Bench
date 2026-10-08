@@ -6,3 +6,40 @@
 [     6s] D7_I210_W validation faithful candidates 230 (onset FC 39 , ongoing RS 191 ) selected 48 (onset 24 ) | random candidates 3310 selected per fold [24, 24]
 [     6s] D7_I210_W private faithful candidates 241 (onset FC 43 , ongoing RS 198 ) selected 48 (onset 24 ) | random candidates 3150 selected per fold [24, 24]
 [    22s] D7_I210_W fold 0 validation eval blackouts 24 (onset 11 ) cells 16283 ordinary 8551 dark rows R/F 9607 10138
+[    36s] D7_I210_W fold 0 private eval blackouts 24 (onset 13 ) cells 18579 ordinary 8908 dark rows R/F 12659 12868
+[    36s] D7_I210_W fold 0 {"panel": "D7_I210_W", "fold": 0, "n_trees": 30, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 9607, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 10138, "validation_darkF_n": 24, "validation_darkF_onset": 13, "validation_lwrden_R1": 65895.15467010142, "validation_fdden_R1": 86566416.27416596, "validation_lwrden_R2": 124478.328110459, "validation_fdden_R2": 151399116.60439217, "validation_lwrden_R3": 198571.13540521375, "validation_fdden_R3": 229906884.15106437, "private_darkR_rows": 12659, "private_darkR_n": 24, "private_darkR_onset": 12, "private_darkF_rows": 12868, "private_darkF_n": 24, "private_darkF_onset": 11, "private_lwrden_R1": 130631.40387201543, "private_fdden_R1": 176100417.92360637, "private_lwrden_R2": 145690.0964704809, "private_fdden_R2": 177723269.1844624, "private_lwrden_R3": 67916.89943666148, "private_fdden_R3": 92073431.99801482, "darkR_rows": 22266, "darkF_rows": 23006, "train_rows": 77789, "rand_rows": 127877}
+[    46s] D7_I210_W fold 0 base rows 205666 trained+predicted in 10s
+[    51s] D7_I210_W fold 0 base2 rows 205666 trained+predicted in 5s
+[    59s] D7_I210_W fold 0 dR rows 227932 trained+predicted in 8s
+[    67s] D7_I210_W fold 0 dR2 rows 227932 trained+predicted in 8s
+[    72s] D7_I210_W fold 0 dF rows 228672 trained+predicted in 5s
+[    81s] D7_I210_W fold 0 bsR timing columns share of speed gain 0.3117 top {np.str_('bs_cond'): 0.0, np.str_('bs_k'): 0.0011, np.str_('bs_brk'): 0.0006, np.str_('bs_pre_v0'): 0.0191, np.str_('bs_pre_vu1'): 0.0032, np.str_('bs_pre_vu2'): 0.0032}
+[    81s] D7_I210_W fold 0 bsR rows 227932 trained+predicted in 9s
+[    89s] D7_I210_W fold 0 bs timing columns share of speed gain 0.2653 top {np.str_('bs_cond'): 0.0009, np.str_('bs_k'): 0.0043, np.str_('bs_brk'): 0.0017, np.str_('bs_pre_v0'): 0.0129, np.str_('bs_pre_vu1'): 0.0071, np.str_('bs_pre_vu2'): 0.0039}
+[    90s] D7_I210_W fold 0 bs rows 228672 trained+predicted in 8s
+[    96s] D7_I210_W fold 0 bs2 timing columns share of speed gain 0.2531 top {np.str_('bs_cond'): 0.0041, np.str_('bs_k'): 0.0003, np.str_('bs_brk'): 0.0017, np.str_('bs_pre_v0'): 0.0133, np.str_('bs_pre_vu1'): 0.0076, np.str_('bs_pre_vu2'): 0.001}
+[    97s] D7_I210_W fold 0 bs2 rows 228672 trained+predicted in 7s
+[    98s] D7_I210_W fold 0 validation_blk n 16283 | speed base 9.135 base2 9.091 dR 7.839 dR2 7.765 dF 8.063 bsR 8.384 bs 8.116 bs2 8.075 | flow/lane base 81.44 base2 81.43 dR 76.67 dR2 76.87 dF 74.71 bsR 77.06 bs 76.09 bs2 76.04
+[    98s] D7_I210_W fold 0 validation_ord n 8551 | speed base 2.435 base2 2.430 dR 2.463 dR2 2.538 dF 2.539 bsR 2.384 bs 2.448 bs2 2.544 | flow/lane base 31.14 base2 31.08 dR 31.48 dR2 31.43 dF 31.66 bsR 31.13 bs 31.12 bs2 31.20
+[    98s] D7_I210_W fold 0 private_blk n 18579 | speed base 10.346 base2 10.299 dR 9.536 dR2 9.408 dF 9.427 bsR 9.890 bs 9.525 bs2 9.457 | flow/lane base 110.18 base2 110.34 dR 104.53 dR2 104.19 dF 106.09 bsR 113.17 bs 102.58 bs2 102.71
+[    98s] D7_I210_W fold 0 private_ord n 8908 | speed base 2.087 base2 2.083 dR 2.231 dR2 2.203 dF 2.277 bsR 2.066 bs 2.145 bs2 2.229 | flow/lane base 32.33 base2 32.15 dR 32.57 dR2 32.49 dF 32.67 bsR 32.15 bs 32.10 bs2 32.18
+[   112s] D7_I210_W fold 1 validation eval blackouts 24 (onset 13 ) cells 16919 ordinary 8551 dark rows R/F 9540 9785
+[   124s] D7_I210_W fold 1 private eval blackouts 24 (onset 11 ) cells 18427 ordinary 8908 dark rows R/F 12898 12917
+[   124s] D7_I210_W fold 1 {"panel": "D7_I210_W", "fold": 1, "n_trees": 30, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 9540, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 9785, "validation_darkF_n": 24, "validation_darkF_onset": 11, "validation_lwrden_R1": 65895.15467010142, "validation_fdden_R1": 86566416.27416596, "validation_lwrden_R2": 124478.328110459, "validation_fdden_R2": 151399116.60439217, "validation_lwrden_R3": 198571.13540521375, "validation_fdden_R3": 229906884.15106437, "private_darkR_rows": 12898, "private_darkR_n": 24, "private_darkR_onset": 12, "private_darkF_rows": 12917, "private_darkF_n": 24, "private_darkF_onset": 13, "private_lwrden_R1": 130631.40387201543, "private_fdden_R1": 176100417.92360637, "private_lwrden_R2": 145690.0964704809, "private_fdden_R2": 177723269.1844624, "private_lwrden_R3": 67916.89943666148, "private_fdden_R3": 92073431.99801482, "darkR_rows": 22438, "darkF_rows": 22702, "train_rows": 77789, "rand_rows": 127742}
+[   130s] D7_I210_W fold 1 base rows 205531 trained+predicted in 7s
+[   135s] D7_I210_W fold 1 base2 rows 205531 trained+predicted in 5s
+[   143s] D7_I210_W fold 1 dR rows 227969 trained+predicted in 8s
+[   148s] D7_I210_W fold 1 dR2 rows 227969 trained+predicted in 4s
+[   156s] D7_I210_W fold 1 dF rows 228233 trained+predicted in 8s
+[   163s] D7_I210_W fold 1 bsR timing columns share of speed gain 0.2866 top {np.str_('bs_cond'): 0.0001, np.str_('bs_k'): 0.0017, np.str_('bs_brk'): 0.0, np.str_('bs_pre_v0'): 0.0122, np.str_('bs_pre_vu1'): 0.0119, np.str_('bs_pre_vu2'): 0.0037}
+[   163s] D7_I210_W fold 1 bsR rows 227969 trained+predicted in 8s
+[   170s] D7_I210_W fold 1 bs timing columns share of speed gain 0.2971 top {np.str_('bs_cond'): 0.0001, np.str_('bs_k'): 0.0001, np.str_('bs_brk'): 0.0046, np.str_('bs_pre_v0'): 0.0158, np.str_('bs_pre_vu1'): 0.0057, np.str_('bs_pre_vu2'): 0.0053}
+[   170s] D7_I210_W fold 1 bs rows 228233 trained+predicted in 7s
+[   179s] D7_I210_W fold 1 bs2 timing columns share of speed gain 0.2969 top {np.str_('bs_cond'): 0.0006, np.str_('bs_k'): 0.0005, np.str_('bs_brk'): 0.0034, np.str_('bs_pre_v0'): 0.0238, np.str_('bs_pre_vu1'): 0.0024, np.str_('bs_pre_vu2'): 0.0051}
+[   179s] D7_I210_W fold 1 bs2 rows 228233 trained+predicted in 9s
+[   179s] D7_I210_W fold 1 validation_blk n 16919 | speed base 7.874 base2 7.908 dR 6.899 dR2 6.818 dF 6.506 bsR 7.371 bs 6.986 bs2 6.934 | flow/lane base 66.31 base2 66.21 dR 60.93 dR2 61.27 dF 61.49 bsR 66.89 bs 58.48 bs2 59.06
+[   179s] D7_I210_W fold 1 validation_ord n 8551 | speed base 2.365 base2 2.372 dR 2.463 dR2 2.470 dF 2.459 bsR 2.414 bs 2.383 bs2 2.452 | flow/lane base 31.16 base2 31.22 dR 31.56 dR2 31.38 dF 31.83 bsR 31.11 bs 31.29 bs2 31.25
+[   179s] D7_I210_W fold 1 private_blk n 18427 | speed base 8.582 base2 8.575 dR 7.208 dR2 7.035 dF 6.461 bsR 7.313 bs 6.761 bs2 6.690 | flow/lane base 59.61 base2 59.42 dR 57.06 dR2 57.39 dF 57.67 bsR 59.59 bs 54.13 bs2 54.56
+[   179s] D7_I210_W fold 1 private_ord n 8908 | speed base 2.049 base2 2.073 dR 2.140 dR2 2.138 dF 2.102 bsR 2.088 bs 2.074 bs2 2.100 | flow/lane base 32.19 base2 32.09 dR 32.59 dR2 32.21 dF 32.67 bsR 32.03 bs 32.26 bs2 32.29
+[   179s] done
+[run_heavy] exit 0 after 182s

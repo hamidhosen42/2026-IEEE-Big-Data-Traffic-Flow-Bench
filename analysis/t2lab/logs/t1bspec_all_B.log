@@ -1,0 +1,84 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I405_S train pseudo origins 492 onset 271 first-crossing at T+6 (truth) 259
+[     6s] D7_I405_S train chunk 0 rows 108840 in gaps 10133 bs finite in gaps 0.891
+[     8s] D7_I405_S train chunk 1 rows 104114 in gaps 13258 bs finite in gaps 0.876
+[    15s] D7_I405_S train chunk 2 rows 94856 in gaps 10839 bs finite in gaps 0.891
+[    19s] D7_I405_S train chunk 3 rows 109900 in gaps 12801 bs finite in gaps 0.878
+[    22s] D7_I405_S train chunk 4 rows 111871 in gaps 11397 bs finite in gaps 0.879
+[    25s] D7_I405_S train chunk 5 rows 109107 in gaps 13388 bs finite in gaps 0.883
+[    28s] D7_I405_S train chunk 6 rows 108314 in gaps 12353 bs finite in gaps 0.885
+[    31s] D7_I405_S train rows identical to the t1ramp cache (base + ramp columns)
+[    31s] D7_I405_S train rows 747002 | in gaps 84169
+[    32s] D7_I405_S validation faithful candidates 217 (onset FC 28 , ongoing RS 189 ) selected 48 (onset 24 ) | random candidates 3263 selected per fold [24, 24]
+[    32s] D7_I405_S private faithful candidates 183 (onset FC 22 , ongoing RS 161 ) selected 48 (onset 22 ) | random candidates 2563 selected per fold [24, 24]
+[    41s] D7_I405_S fold 0 validation eval blackouts 24 (onset 14 ) cells 22411 ordinary 11846 dark rows R/F 13009 13463
+[    49s] D7_I405_S fold 0 private eval blackouts 24 (onset 12 ) cells 24130 ordinary 11732 dark rows R/F 16410 16207
+[    49s] D7_I405_S fold 0 {"panel": "D7_I405_S", "fold": 0, "n_trees": 600, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 13009, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 13463, "validation_darkF_n": 24, "validation_darkF_onset": 10, "validation_lwrden_R1": 85737.17053476792, "validation_fdden_R1": 151668697.03011116, "validation_lwrden_R2": 152007.02035414937, "validation_fdden_R2": 271004935.4940529, "validation_lwrden_R3": 202294.64060913015, "validation_fdden_R3": 348607545.204943, "private_darkR_rows": 16410, "private_darkR_n": 24, "private_darkR_onset": 11, "private_darkF_rows": 16207, "private_darkF_n": 24, "private_darkF_onset": 10, "private_lwrden_R1": 98777.88649571686, "private_fdden_R1": 163050598.52181163, "private_lwrden_R2": 194754.63045686018, "private_fdden_R2": 321674389.46848667, "private_lwrden_R3": 144244.01577413565, "private_fdden_R3": 243100292.97991434, "darkR_rows": 29419, "darkF_rows": 29670, "train_rows": 747002, "rand_rows": 166516}
+[   115s] D7_I405_S fold 0 base rows 913518 trained+predicted in 65s
+[   181s] D7_I405_S fold 0 base2 rows 913518 trained+predicted in 66s
+[   255s] D7_I405_S fold 0 dR rows 942937 trained+predicted in 74s
+[   327s] D7_I405_S fold 0 dR2 rows 942937 trained+predicted in 72s
+[   400s] D7_I405_S fold 0 dF rows 943188 trained+predicted in 73s
+[   479s] D7_I405_S fold 0 bsR timing columns share of speed gain 0.3364 top {np.str_('bs_cond'): 0.0004, np.str_('bs_k'): 0.004, np.str_('bs_brk'): 0.0101, np.str_('bs_pre_v0'): 0.0088, np.str_('bs_pre_vu1'): 0.0073, np.str_('bs_pre_vu2'): 0.0072}
+[   483s] D7_I405_S fold 0 bsR rows 942937 trained+predicted in 82s
+[   557s] D7_I405_S fold 0 bs timing columns share of speed gain 0.3329 top {np.str_('bs_cond'): 0.0013, np.str_('bs_k'): 0.0121, np.str_('bs_brk'): 0.0077, np.str_('bs_pre_v0'): 0.01, np.str_('bs_pre_vu1'): 0.0071, np.str_('bs_pre_vu2'): 0.0083}
+[   561s] D7_I405_S fold 0 bs rows 943188 trained+predicted in 78s
+[   636s] D7_I405_S fold 0 bs2 timing columns share of speed gain 0.3301 top {np.str_('bs_cond'): 0.0027, np.str_('bs_k'): 0.0099, np.str_('bs_brk'): 0.011, np.str_('bs_pre_v0'): 0.0113, np.str_('bs_pre_vu1'): 0.0067, np.str_('bs_pre_vu2'): 0.0074}
+[   640s] D7_I405_S fold 0 bs2 rows 943188 trained+predicted in 79s
+[   641s] D7_I405_S fold 0 validation_blk n 22411 | speed base 7.860 base2 7.970 dR 7.652 dR2 7.625 dF 7.038 bsR 6.975 bs 6.588 bs2 6.530 | flow/lane base 58.42 base2 58.45 dR 55.56 dR2 55.70 dF 54.53 bsR 55.27 bs 54.93 bs2 54.39
+[   641s] D7_I405_S fold 0 validation_ord n 11846 | speed base 1.741 base2 1.733 dR 1.744 dR2 1.775 dF 1.766 bsR 1.771 bs 1.766 bs2 1.738 | flow/lane base 31.81 base2 31.61 dR 31.64 dR2 31.69 dF 31.59 bsR 31.55 bs 31.67 bs2 31.75
+[   641s] D7_I405_S fold 0 private_blk n 24130 | speed base 10.046 base2 10.009 dR 8.661 dR2 8.713 dF 8.097 bsR 7.648 bs 7.308 bs2 7.263 | flow/lane base 71.44 base2 71.61 dR 67.60 dR2 67.76 dF 66.47 bsR 62.05 bs 62.88 bs2 62.48
+[   641s] D7_I405_S fold 0 private_ord n 11732 | speed base 1.890 base2 1.868 dR 1.888 dR2 1.900 dF 1.845 bsR 1.863 bs 1.857 bs2 1.847 | flow/lane base 32.01 base2 32.06 dR 31.84 dR2 31.91 dF 31.75 bsR 31.67 bs 31.64 bs2 31.76
+[   649s] D7_I405_S fold 1 validation eval blackouts 24 (onset 10 ) cells 22793 ordinary 11846 dark rows R/F 14170 13410
+[   658s] D7_I405_S fold 1 private eval blackouts 24 (onset 10 ) cells 23267 ordinary 11732 dark rows R/F 16725 16922
+[   658s] D7_I405_S fold 1 {"panel": "D7_I405_S", "fold": 1, "n_trees": 600, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 14170, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 13410, "validation_darkF_n": 24, "validation_darkF_onset": 14, "validation_lwrden_R1": 85737.17053476792, "validation_fdden_R1": 151668697.03011116, "validation_lwrden_R2": 152007.02035414937, "validation_fdden_R2": 271004935.4940529, "validation_lwrden_R3": 202294.64060913015, "validation_fdden_R3": 348607545.204943, "private_darkR_rows": 16725, "private_darkR_n": 24, "private_darkR_onset": 12, "private_darkF_rows": 16922, "private_darkF_n": 24, "private_darkF_onset": 12, "private_lwrden_R1": 98777.88649571686, "private_fdden_R1": 163050598.52181163, "private_lwrden_R2": 194754.63045686018, "private_fdden_R2": 321674389.46848667, "private_lwrden_R3": 144244.01577413565, "private_fdden_R3": 243100292.97991434, "darkR_rows": 30895, "darkF_rows": 30332, "train_rows": 747002, "rand_rows": 167135}
+[   718s] D7_I405_S fold 1 base rows 914137 trained+predicted in 60s
+[   778s] D7_I405_S fold 1 base2 rows 914137 trained+predicted in 60s
+[   846s] D7_I405_S fold 1 dR rows 945032 trained+predicted in 68s
+[   924s] D7_I405_S fold 1 dR2 rows 945032 trained+predicted in 77s
+[  1001s] D7_I405_S fold 1 dF rows 944469 trained+predicted in 77s
+[  1083s] D7_I405_S fold 1 bsR timing columns share of speed gain 0.3424 top {np.str_('bs_cond'): 0.001, np.str_('bs_k'): 0.0054, np.str_('bs_brk'): 0.0072, np.str_('bs_pre_v0'): 0.0098, np.str_('bs_pre_vu1'): 0.0076, np.str_('bs_pre_vu2'): 0.0087}
+[  1087s] D7_I405_S fold 1 bsR rows 945032 trained+predicted in 86s
+[  1168s] D7_I405_S fold 1 bs timing columns share of speed gain 0.336 top {np.str_('bs_cond'): 0.0013, np.str_('bs_k'): 0.0095, np.str_('bs_brk'): 0.0083, np.str_('bs_pre_v0'): 0.0099, np.str_('bs_pre_vu1'): 0.0065, np.str_('bs_pre_vu2'): 0.0063}
+[  1172s] D7_I405_S fold 1 bs rows 944469 trained+predicted in 85s
+[  1254s] D7_I405_S fold 1 bs2 timing columns share of speed gain 0.3282 top {np.str_('bs_cond'): 0.0028, np.str_('bs_k'): 0.0092, np.str_('bs_brk'): 0.0111, np.str_('bs_pre_v0'): 0.0092, np.str_('bs_pre_vu1'): 0.006, np.str_('bs_pre_vu2'): 0.0071}
+[  1257s] D7_I405_S fold 1 bs2 rows 944469 trained+predicted in 85s
+[  1258s] D7_I405_S fold 1 validation_blk n 22793 | speed base 11.455 base2 11.439 dR 9.439 dR2 9.455 dF 9.261 bsR 9.195 bs 8.926 bs2 8.908 | flow/lane base 80.20 base2 80.72 dR 78.37 dR2 78.67 dF 78.21 bsR 82.05 bs 80.69 bs2 80.49
+[  1258s] D7_I405_S fold 1 validation_ord n 11846 | speed base 1.729 base2 1.691 dR 1.783 dR2 1.736 dF 1.715 bsR 1.750 bs 1.743 bs2 1.706 | flow/lane base 31.56 base2 31.81 dR 31.69 dR2 31.70 dF 31.73 bsR 31.63 bs 31.64 bs2 31.55
+[  1258s] D7_I405_S fold 1 private_blk n 23267 | speed base 11.524 base2 11.512 dR 10.064 dR2 10.096 dF 9.896 bsR 10.213 bs 9.963 bs2 9.899 | flow/lane base 100.90 base2 100.80 dR 97.18 dR2 97.29 dF 96.29 bsR 97.52 bs 97.67 bs2 97.22
+[  1258s] D7_I405_S fold 1 private_ord n 11732 | speed base 1.852 base2 1.851 dR 1.898 dR2 1.876 dF 1.869 bsR 1.850 bs 1.851 bs2 1.805 | flow/lane base 32.02 base2 31.95 dR 31.68 dR2 31.68 dF 31.69 bsR 31.68 bs 31.60 bs2 31.57
+[  1258s] D12_I5_S train pseudo origins 474 onset 264 first-crossing at T+6 (truth) 263
+[  1260s] D12_I5_S train chunk 0 rows 103104 in gaps 9770 bs finite in gaps 0.9
+[  1262s] D12_I5_S train chunk 1 rows 101866 in gaps 13120 bs finite in gaps 0.877
+[  1264s] D12_I5_S train chunk 2 rows 96229 in gaps 10554 bs finite in gaps 0.904
+[  1265s] D12_I5_S train chunk 3 rows 103608 in gaps 12344 bs finite in gaps 0.873
+[  1267s] D12_I5_S train chunk 4 rows 107963 in gaps 11261 bs finite in gaps 0.872
+[  1269s] D12_I5_S train chunk 5 rows 101141 in gaps 10588 bs finite in gaps 0.889
+[  1271s] D12_I5_S train chunk 6 rows 105766 in gaps 10549 bs finite in gaps 0.864
+[  1271s] D12_I5_S train rows identical to the t1ramp cache (base + ramp columns)
+[  1271s] D12_I5_S train rows 719677 | in gaps 78186
+[  1272s] D12_I5_S validation faithful candidates 175 (onset FC 25 , ongoing RS 150 ) selected 48 (onset 24 ) | random candidates 2206 selected per fold [24, 24]
+[  1272s] D12_I5_S private faithful candidates 210 (onset FC 26 , ongoing RS 184 ) selected 48 (onset 24 ) | random candidates 2423 selected per fold [24, 24]
+[  1280s] D12_I5_S fold 0 validation eval blackouts 24 (onset 12 ) cells 22120 ordinary 11627 dark rows R/F 12983 12942
+[  1287s] D12_I5_S fold 0 private eval blackouts 24 (onset 10 ) cells 21720 ordinary 11165 dark rows R/F 15237 15441
+[  1288s] D12_I5_S fold 0 {"panel": "D12_I5_S", "fold": 0, "n_trees": 600, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 12983, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 12942, "validation_darkF_n": 24, "validation_darkF_onset": 12, "validation_lwrden_R1": 189383.88138489897, "validation_fdden_R1": 281901392.8474678, "validation_lwrden_R2": 87431.80036561843, "validation_fdden_R2": 124632245.27691743, "validation_lwrden_R3": 145972.3021045356, "validation_fdden_R3": 222983272.9261938, "private_darkR_rows": 15237, "private_darkR_n": 24, "private_darkR_onset": 12, "private_darkF_rows": 15441, "private_darkF_n": 24, "private_darkF_onset": 14, "private_lwrden_R1": 185994.64518104843, "private_fdden_R1": 251640564.49644896, "private_lwrden_R2": 148178.35789828343, "private_fdden_R2": 203979852.9074442, "private_lwrden_R3": 120025.55641570214, "private_fdden_R3": 170633299.42204532, "darkR_rows": 28220, "darkF_rows": 28383, "train_rows": 719677, "rand_rows": 161303}
+[  1349s] D12_I5_S fold 0 base rows 880980 trained+predicted in 61s
+[  1405s] D12_I5_S fold 0 base2 rows 880980 trained+predicted in 56s
+[  1465s] D12_I5_S fold 0 dR rows 909200 trained+predicted in 61s
+[  1526s] D12_I5_S fold 0 dR2 rows 909200 trained+predicted in 61s
+[  1587s] D12_I5_S fold 0 dF rows 909363 trained+predicted in 60s
+[  1657s] D12_I5_S fold 0 bsR timing columns share of speed gain 0.3818 top {np.str_('bs_cond'): 0.0008, np.str_('bs_k'): 0.0036, np.str_('bs_brk'): 0.0043, np.str_('bs_pre_v0'): 0.0123, np.str_('bs_pre_vu1'): 0.0095, np.str_('bs_pre_vu2'): 0.0174}
+[  1662s] D12_I5_S fold 0 bsR rows 909200 trained+predicted in 75s
+[  1732s] D12_I5_S fold 0 bs timing columns share of speed gain 0.3807 top {np.str_('bs_cond'): 0.0004, np.str_('bs_k'): 0.0033, np.str_('bs_brk'): 0.0042, np.str_('bs_pre_v0'): 0.0129, np.str_('bs_pre_vu1'): 0.0126, np.str_('bs_pre_vu2'): 0.0159}
+[  1736s] D12_I5_S fold 0 bs rows 909363 trained+predicted in 75s
+[  1808s] D12_I5_S fold 0 bs2 timing columns share of speed gain 0.3799 top {np.str_('bs_cond'): 0.0004, np.str_('bs_k'): 0.0036, np.str_('bs_brk'): 0.0045, np.str_('bs_pre_v0'): 0.0128, np.str_('bs_pre_vu1'): 0.0125, np.str_('bs_pre_vu2'): 0.0159}
+[  1812s] D12_I5_S fold 0 bs2 rows 909363 trained+predicted in 76s
+[  1813s] D12_I5_S fold 0 validation_blk n 22120 | speed base 12.173 base2 12.195 dR 10.528 dR2 10.575 dF 10.147 bsR 10.144 bs 9.976 bs2 10.021 | flow/lane base 84.41 base2 84.21 dR 79.56 dR2 79.92 dF 77.48 bsR 79.56 bs 78.19 bs2 79.12
+[  1813s] D12_I5_S fold 0 validation_ord n 11627 | speed base 1.314 base2 1.284 dR 1.276 dR2 1.349 dF 1.331 bsR 1.275 bs 1.291 bs2 1.248 | flow/lane base 26.11 base2 26.04 dR 26.17 dR2 26.04 dF 26.44 bsR 26.22 bs 26.39 bs2 25.94
+[  1813s] D12_I5_S fold 0 private_blk n 21720 | speed base 10.911 base2 10.954 dR 9.623 dR2 9.563 dF 9.372 bsR 9.159 bs 9.034 bs2 9.161 | flow/lane base 89.86 base2 89.50 dR 82.37 dR2 82.51 dF 81.38 bsR 79.75 bs 80.26 bs2 78.47
+[  1813s] D12_I5_S fold 0 private_ord n 11165 | speed base 1.848 base2 1.869 dR 1.951 dR2 1.945 dF 1.909 bsR 1.889 bs 1.879 bs2 1.868 | flow/lane base 29.10 base2 28.91 dR 28.81 dR2 29.06 dF 28.85 bsR 28.98 bs 28.90 bs2 29.00
+[  1820s] D12_I5_S fold 1 validation eval blackouts 24 (onset 12 ) cells 22012 ordinary 11627 dark rows R/F 12701 13164
+[  1828s] D12_I5_S fold 1 private eval blackouts 24 (onset 14 ) cells 22162 ordinary 11165 dark rows R/F 15972 15198
+[  1828s] D12_I5_S fold 1 {"panel": "D12_I5_S", "fold": 1, "n_trees": 600, "lr": 0.08, "p": 0.35, "p_dark": 0.7, "seeds": [9, 10], "validation_darkR_rows": 12701, "validation_darkR_n": 24, "validation_darkR_onset": 12, "validation_darkF_rows": 13164, "validation_darkF_n": 24, "validation_darkF_onset": 12, "validation_lwrden_R1": 189383.88138489897, "validation_fdden_R1": 281901392.8474678, "validation_lwrden_R2": 87431.80036561843, "validation_fdden_R2": 124632245.27691743, "validation_lwrden_R3": 145972.3021045356, "validation_fdden_R3": 222983272.9261938, "private_darkR_rows": 15972, "private_darkR_n": 24, "private_darkR_onset": 10, "private_darkF_rows": 15198, "private_darkF_n": 24, "private_darkF_onset": 10, "private_lwrden_R1": 185994.64518104843, "private_fdden_R1": 251640564.49644896, "private_lwrden_R2": 148178.35789828343, "private_fdden_R2": 203979852.9074442, "private_lwrden_R3": 120025.55641570214, "private_fdden_R3": 170633299.42204532, "darkR_rows": 28673, "darkF_rows": 28362, "train_rows": 719677, "rand_rows": 161293}
+[  1885s] D12_I5_S fold 1 base rows 880970 trained+predicted in 56s
+[  1941s] D12_I5_S fold 1 base2 rows 880970 trained+predicted in 57s

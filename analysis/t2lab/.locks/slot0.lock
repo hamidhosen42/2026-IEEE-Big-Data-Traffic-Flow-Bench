@@ -1,1 +1,0 @@
-92995 .venv/bin/python -W ignore analysis/t1lab/t1bspec_exp.py all D7_I210_W n_trees=30
