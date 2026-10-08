@@ -84,3 +84,16 @@
 [  1985s] D7_I210_W fold 1 base2 rows 677933 trained+predicted in 51s
 [  2041s] D7_I210_W fold 1 dR rows 700371 trained+predicted in 56s
 [  2096s] D7_I210_W fold 1 dR2 rows 700371 trained+predicted in 55s
+[  2151s] D7_I210_W fold 1 dF rows 700635 trained+predicted in 55s
+[  2214s] D7_I210_W fold 1 bsR timing columns share of speed gain 0.3109 top {np.str_('bs_cond'): 0.0012, np.str_('bs_k'): 0.0035, np.str_('bs_brk'): 0.0037, np.str_('bs_pre_v0'): 0.0112, np.str_('bs_pre_vu1'): 0.0084, np.str_('bs_pre_vu2'): 0.0096}
+[  2217s] D7_I210_W fold 1 bsR rows 700371 trained+predicted in 66s
+[  2278s] D7_I210_W fold 1 bs timing columns share of speed gain 0.3167 top {np.str_('bs_cond'): 0.0002, np.str_('bs_k'): 0.0035, np.str_('bs_brk'): 0.0047, np.str_('bs_pre_v0'): 0.0144, np.str_('bs_pre_vu1'): 0.0083, np.str_('bs_pre_vu2'): 0.0078}
+[  2281s] D7_I210_W fold 1 bs rows 700635 trained+predicted in 64s
+[  2342s] D7_I210_W fold 1 bs2 timing columns share of speed gain 0.3122 top {np.str_('bs_cond'): 0.0009, np.str_('bs_k'): 0.0041, np.str_('bs_brk'): 0.0049, np.str_('bs_pre_v0'): 0.0158, np.str_('bs_pre_vu1'): 0.0083, np.str_('bs_pre_vu2'): 0.0082}
+[  2345s] D7_I210_W fold 1 bs2 rows 700635 trained+predicted in 64s
+[  2346s] D7_I210_W fold 1 validation_blk n 16919 | speed base 6.610 base2 6.603 dR 5.815 dR2 5.783 dF 5.526 bsR 6.225 bs 5.636 bs2 5.553 | flow/lane base 62.28 base2 61.44 dR 52.61 dR2 52.88 dF 51.91 bsR 55.58 bs 50.22 bs2 50.22
+[  2346s] D7_I210_W fold 1 validation_ord n 8551 | speed base 2.232 base2 2.228 dR 2.339 dR2 2.277 dF 2.250 bsR 2.296 bs 2.224 bs2 2.271 | flow/lane base 29.03 base2 29.08 dR 28.91 dR2 28.98 dF 29.01 bsR 28.89 bs 29.03 bs2 28.88
+[  2346s] D7_I210_W fold 1 private_blk n 18427 | speed base 7.334 base2 7.397 dR 6.330 dR2 6.262 dF 5.847 bsR 6.238 bs 5.834 bs2 5.853 | flow/lane base 54.38 base2 54.33 dR 51.65 dR2 52.02 dF 52.26 bsR 48.34 bs 48.31 bs2 48.21
+[  2346s] D7_I210_W fold 1 private_ord n 8908 | speed base 1.788 base2 1.868 dR 1.829 dR2 1.806 dF 1.870 bsR 1.890 bs 1.856 bs2 1.848 | flow/lane base 28.84 base2 28.92 dR 29.00 dR2 28.84 dF 28.81 bsR 28.99 bs 28.93 bs2 28.77
+[  2346s] done
+[run_heavy] exit 0 after 2348s

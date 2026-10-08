@@ -1,0 +1,113 @@
+panels: ['D12_I5_S', 'D7_I10_E', 'D7_I210_W', 'D7_I405_S'] | arms: ['FEATR', 'PLACE', 'PROD', 'PROD2', 'SPEC', 'SPEC2', 'SPECAVG', 'bagB', 'base', 'base2', 'bs', 'bs2', 'bsR', 'dF', 'dR', 'dR2']
+per panel-month BLACKOUT RMSE (faithful evaluation blackouts; speed km/h | flow per lane veh/h)
+    panel month  n_ev  n_on  n_blk  bv_bagB  bv_dR  bv_dF  bv_bsR  bv_bs  bv_PROD  bv_PROD2  bv_SPEC  bv_SPECAVG  bq_bagB  bq_dR  bq_dF  bq_bsR  bq_bs  bq_PROD  bq_PROD2  bq_SPEC  bq_SPECAVG
+ D12_I5_S   val    48    24  44132   11.496 10.227  9.793   9.591  9.535   10.189    10.163    9.554       9.620   78.698 75.302 73.382  73.717 72.541   74.673    74.298   71.667      71.579
+ D12_I5_S   pri    48    24  43882   10.044  9.257  8.728   8.753  8.289    9.051     8.979    8.241       8.348   79.723 74.632 72.592  73.952 72.494   74.348    74.032   71.623      71.328
+ D7_I10_E   val    48    24  64084    8.214  7.219  6.984   6.671  6.286    7.188     7.154    6.424       6.603   80.430 77.582 77.379  75.834 75.918   76.781    76.564   75.540      74.885
+ D7_I10_E   pri    48    24  68060    9.662  8.613  8.358   8.593  8.304    8.590     8.527    8.310       8.225   84.892 84.920 83.129  78.968 80.933   83.864    83.640   80.509      81.171
+D7_I210_W   val    48    24  33202    7.556  6.566  6.378   6.826  6.653    6.537     6.471    6.558       6.397   70.027 62.341 61.534  62.382 60.085   61.822    61.482   58.847      58.818
+D7_I210_W   pri    48    24  37006    8.514  7.820  7.447   7.635  7.505    7.737     7.693    7.467       7.446   83.254 79.133 79.276  74.766 75.222   78.594    78.357   74.346      74.975
+D7_I405_S   val    48    24  45204    9.785  8.600  8.235   8.170  7.854    8.455     8.413    7.882       7.927   70.095 68.024 67.513  70.064 69.133   67.407    67.287   67.651      66.559
+D7_I405_S   pri    48    22  47397   10.713  9.376  9.025   8.999  8.713    9.267     9.247    8.730       8.745   86.877 83.442 82.467  81.414 81.826   83.040    82.894   81.098      81.036
+
+per panel-month ORDINARY RMSE (raw members; deployment never uses the specialist here)
+    panel month  ov_bagB  ov_dR  ov_dF  ov_bsR  ov_bs  oq_bagB  oq_dR  oq_dF  oq_bsR  oq_bs
+ D12_I5_S   val    1.380  1.393  1.411   1.399  1.411   25.863 26.184 26.309  26.227 26.265
+ D12_I5_S   pri    1.815  1.909  1.887   1.883  1.876   28.567 28.690 28.676  28.644 28.624
+ D7_I10_E   val    1.521  1.547  1.526   1.518  1.514   30.520 30.631 30.646  30.558 30.617
+ D7_I10_E   pri    1.345  1.335  1.346   1.320  1.321   29.766 30.250 30.183  30.074 30.113
+D7_I210_W   val    2.246  2.343  2.256   2.275  2.246   28.936 28.964 29.036  28.959 29.008
+D7_I210_W   pri    1.824  1.886  1.906   1.913  1.877   28.838 29.058 28.885  28.881 29.032
+D7_I405_S   val    1.699  1.764  1.741   1.760  1.755   31.463 31.662 31.660  31.594 31.656
+D7_I405_S   pri    1.843  1.893  1.857   1.857  1.854   31.769 31.758 31.721  31.672 31.618
+
+blackout RMSE by condition (pooled)
+  onset    events  190 cells  188866 | speed bagB 7.791 dR 7.242 dF 6.850 bsR 6.983 bs 6.686 PROD 7.064 PROD2 7.023 SPEC 6.626 SPECAVG 6.628 | flow/lane bagB 68.81 dR 66.83 dF 65.92 bsR 64.17 bs 63.29 PROD 65.96 PROD2 65.74 SPEC 62.80 SPECAVG 63.28
+  ongoing  events  194 cells  194101 | speed bagB 11.078 dR 9.647 dF 9.337 bsR 9.262 bs 9.008 PROD 9.635 PROD2 9.588 SPEC 9.072 SPECAVG 9.113 | flow/lane bagB 89.71 dR 85.76 dF 84.59 bsR 83.93 bs 84.45 PROD 85.26 PROD2 85.01 SPEC 83.45 SPECAVG 82.94
+
+pooled RMSE, both months; delta = B - A with 95% bootstrap CI (events / days resampled); win = panel-months B lower
+  blk          SPEC    -PROD   speed 8.465 -> 7.960 (-6.0%) [-0.634, -0.386] win 7/8 | flow/lane 76.36 -> 73.99 (-3.1%) [-3.40, -1.45]
+  blk          SPECAVG -PROD   speed 8.465 -> 7.985 (-5.7%) [-0.550, -0.419] win 8/8 | flow/lane 76.36 -> 73.90 (-3.2%) [-3.02, -1.95]
+  blk          SPECAVG -PROD2  speed 8.421 -> 7.985 (-5.2%) [-0.501, -0.376] win 8/8 | flow/lane 76.12 -> 73.90 (-2.9%) [-2.78, -1.72]
+  blk          SPEC2   -PROD2  speed 8.421 -> 7.913 (-6.0%) [-0.635, -0.386] win 7/8 | flow/lane 76.12 -> 73.63 (-3.3%) [-3.51, -1.60]
+  blk          SPEC2   -PROD   speed 8.465 -> 7.913 (-6.5%) [-0.682, -0.432] win 8/8 | flow/lane 76.36 -> 73.63 (-3.6%) [-3.74, -1.83]
+  blk          PROD2   -PROD   speed 8.465 -> 8.421 (-0.5%) [-0.056, -0.034] win 8/8 | flow/lane 76.36 -> 76.12 (-0.3%) [-0.31, -0.17]
+  blk          PLACE   -PROD   speed 8.465 -> 8.225 (-2.8%) [-0.334, -0.158] win 8/8 | flow/lane 76.36 -> 75.61 (-1.0%) [-1.41, -0.11]
+  blk          FEATR   -PROD   speed 8.465 -> 8.146 (-3.8%) [-0.419, -0.214] win 7/8 | flow/lane 76.36 -> 73.97 (-3.1%) [-3.45, -1.34]
+  blk          bs      -dR     speed 8.546 -> 7.948 (-7.0%) [-0.765, -0.444] win 7/8 | flow/lane 77.01 -> 74.76 (-2.9%) [-3.56, -1.02]
+  blk          dR2     -dR     speed 8.546 -> 8.525 (-0.2%) [-0.049, +0.005] win 6/8 | flow/lane 77.01 -> 77.02 (+0.0%) [-0.16, +0.18]
+  blk          bs2     -bs     speed 7.948 -> 7.954 (+0.1%) [-0.029, +0.045] win 4/8 | flow/lane 74.76 -> 74.90 (+0.2%) [-0.21, +0.52]
+  blk/onset    SPEC    -PROD   speed 7.064 -> 6.626 (-6.2%) [-0.569, -0.302] win 7/8 | flow/lane 65.96 -> 62.80 (-4.8%) [-4.19, -2.18]
+  blk/onset    SPECAVG -PROD   speed 7.064 -> 6.628 (-6.2%) [-0.506, -0.363] win 8/8 | flow/lane 65.96 -> 63.28 (-4.1%) [-3.21, -2.20]
+  blk/onset    SPECAVG -PROD2  speed 7.023 -> 6.628 (-5.6%) [-0.465, -0.322] win 8/8 | flow/lane 65.74 -> 63.28 (-3.7%) [-2.95, -1.98]
+  blk/onset    SPEC2   -PROD2  speed 7.023 -> 6.573 (-6.4%) [-0.581, -0.307] win 7/8 | flow/lane 65.74 -> 62.57 (-4.8%) [-4.23, -2.13]
+  blk/onset    SPEC2   -PROD   speed 7.064 -> 6.573 (-7.0%) [-0.620, -0.348] win 8/8 | flow/lane 65.96 -> 62.57 (-5.1%) [-4.47, -2.35]
+  blk/onset    PROD2   -PROD   speed 7.064 -> 7.023 (-0.6%) [-0.054, -0.030] win 8/8 | flow/lane 65.96 -> 65.74 (-0.3%) [-0.29, -0.16]
+  blk/onset    PLACE   -PROD   speed 7.064 -> 6.794 (-3.8%) [-0.365, -0.175] win 8/8 | flow/lane 65.96 -> 65.40 (-0.9%) [-0.95, -0.22]
+  blk/onset    FEATR   -PROD   speed 7.064 -> 6.817 (-3.5%) [-0.349, -0.149] win 7/8 | flow/lane 65.96 -> 63.45 (-3.8%) [-3.51, -1.50]
+  blk/onset    bs      -dR     speed 7.242 -> 6.686 (-7.7%) [-0.728, -0.376] win 7/8 | flow/lane 66.83 -> 63.29 (-5.3%) [-4.85, -2.27]
+  blk/onset    dR2     -dR     speed 7.242 -> 7.229 (-0.2%) [-0.046, +0.018] win 6/8 | flow/lane 66.83 -> 66.88 (+0.1%) [-0.14, +0.22]
+  blk/onset    bs2     -bs     speed 6.686 -> 6.668 (-0.3%) [-0.069, +0.032] win 4/8 | flow/lane 63.29 -> 63.87 (+0.9%) [+0.05, +1.26]
+  blk/ongoing  SPEC    -PROD   speed 9.635 -> 9.072 (-5.8%) [-0.766, -0.368] win 7/8 | flow/lane 85.26 -> 83.45 (-2.1%) [-3.48, -0.19]
+  blk/ongoing  SPECAVG -PROD   speed 9.635 -> 9.113 (-5.4%) [-0.624, -0.428] win 8/8 | flow/lane 85.26 -> 82.94 (-2.7%) [-3.24, -1.44]
+  blk/ongoing  SPECAVG -PROD2  speed 9.588 -> 9.113 (-5.0%) [-0.571, -0.382] win 8/8 | flow/lane 85.01 -> 82.94 (-2.4%) [-3.00, -1.13]
+  blk/ongoing  SPEC2   -PROD2  speed 9.588 -> 9.028 (-5.8%) [-0.758, -0.370] win 7/8 | flow/lane 85.01 -> 82.99 (-2.4%) [-3.63, -0.47]
+  blk/ongoing  SPEC2   -PROD   speed 9.635 -> 9.028 (-6.3%) [-0.813, -0.416] win 8/8 | flow/lane 85.26 -> 82.99 (-2.7%) [-3.89, -0.77]
+  blk/ongoing  PROD2   -PROD   speed 9.635 -> 9.588 (-0.5%) [-0.065, -0.031] win 8/8 | flow/lane 85.26 -> 85.01 (-0.3%) [-0.36, -0.16]
+  blk/ongoing  PLACE   -PROD   speed 9.635 -> 9.411 (-2.3%) [-0.357, -0.083] win 8/8 | flow/lane 85.26 -> 84.37 (-1.1%) [-2.02, +0.23]
+  blk/ongoing  FEATR   -PROD   speed 9.635 -> 9.257 (-3.9%) [-0.544, -0.227] win 7/8 | flow/lane 85.26 -> 82.94 (-2.7%) [-4.16, -0.55]
+  blk/ongoing  bs      -dR     speed 9.647 -> 9.008 (-6.6%) [-0.892, -0.395] win 7/8 | flow/lane 85.76 -> 84.45 (-1.5%) [-3.42, +0.77]
+  blk/ongoing  dR2     -dR     speed 9.647 -> 9.620 (-0.3%) [-0.069, +0.014] win 6/8 | flow/lane 85.76 -> 85.75 (-0.0%) [-0.28, +0.22]
+  blk/ongoing  bs2     -bs     speed 9.008 -> 9.032 (+0.3%) [-0.023, +0.078] win 4/8 | flow/lane 84.45 -> 84.25 (-0.2%) [-0.71, +0.32]
+  ord          SPEC    -PROD   speed 1.698 -> 1.681 (-1.0%) [-0.035, -0.001] win 7/8 | flow/lane 29.41 -> 29.39 (-0.1%) [-0.07, +0.03]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1bspec_report.py:194: RuntimeWarning: divide by zero encountered in matmul
+  bJ = np.array(bd) @ np.array([0.35, 0.10, 0.05])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1bspec_report.py:194: RuntimeWarning: overflow encountered in matmul
+  bJ = np.array(bd) @ np.array([0.35, 0.10, 0.05])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1bspec_report.py:194: RuntimeWarning: invalid value encountered in matmul
+  bJ = np.array(bd) @ np.array([0.35, 0.10, 0.05])
+  ord          SPECAVG -PROD   speed 1.698 -> 1.677 (-1.2%) [-0.030, -0.012] win 8/8 | flow/lane 29.41 -> 29.28 (-0.4%) [-0.16, -0.10]
+  ord          SPECAVG -PROD2  speed 1.685 -> 1.677 (-0.5%) [-0.017, +0.000] win 6/8 | flow/lane 29.26 -> 29.28 (+0.0%) [-0.02, +0.04]
+  ord          SPEC2   -PROD2  speed 1.685 -> 1.670 (-0.9%) [-0.031, -0.000] win 6/8 | flow/lane 29.26 -> 29.25 (-0.0%) [-0.06, +0.03]
+  ord          SPEC2   -PROD   speed 1.698 -> 1.670 (-1.7%) [-0.046, -0.012] win 7/8 | flow/lane 29.41 -> 29.25 (-0.5%) [-0.21, -0.11]
+  ord          PROD2   -PROD   speed 1.698 -> 1.685 (-0.8%) [-0.019, -0.007] win 8/8 | flow/lane 29.41 -> 29.26 (-0.5%) [-0.18, -0.12]
+  ord          PLACE   -PROD   speed 1.698 -> 1.685 (-0.8%) [-0.025, -0.001] win 5/8 | flow/lane 29.41 -> 29.40 (-0.0%) [-0.07, +0.06]
+  ord          FEATR   -PROD   speed 1.698 -> 1.687 (-0.7%) [-0.027, +0.005] win 6/8 | flow/lane 29.41 -> 29.36 (-0.2%) [-0.10, +0.00]
+  ord          bs      -dR     speed 1.729 -> 1.701 (-1.6%) [-0.051, -0.005] win 7/8 | flow/lane 29.83 -> 29.79 (-0.1%) [-0.11, +0.03]
+  ord          dR2     -dR     speed 1.729 -> 1.724 (-0.3%) [-0.021, +0.009] win 4/8 | flow/lane 29.83 -> 29.79 (-0.1%) [-0.12, +0.04]
+  ord          bs2     -bs     speed 1.701 -> 1.691 (-0.6%) [-0.028, +0.008] win 5/8 | flow/lane 29.79 -> 29.72 (-0.2%) [-0.14, -0.01]
+
+J proxy delta (B - A), BLACKOUT ROWS ONLY (deployment), mean over panel-months, 95% bootstrap CI; up = panel-months dJ > 0
+  SPEC    -PROD   validation dS_state +0.00101 dLWR +0.00145 dS_FD -0.00001 | dJ +0.000499 [+0.000359, +0.000653] up 4/4
+  SPEC    -PROD   private    dS_state +0.00091 dLWR +0.00065 dS_FD -0.00001 | dJ +0.000382 [+0.000275, +0.000497] up 4/4
+  SPEC    -PROD   both       dS_state +0.00096 dLWR +0.00105 dS_FD -0.00001 | dJ +0.000441 [+0.000362, +0.000534] up 8/8
+  SPECAVG -PROD   validation dS_state +0.00095 dLWR +0.00073 dS_FD -0.00000 | dJ +0.000405 [+0.000332, +0.000486] up 4/4
+  SPECAVG -PROD   private    dS_state +0.00091 dLWR +0.00033 dS_FD -0.00001 | dJ +0.000350 [+0.000299, +0.000410] up 4/4
+  SPECAVG -PROD   both       dS_state +0.00093 dLWR +0.00053 dS_FD -0.00001 | dJ +0.000378 [+0.000327, +0.000433] up 8/8
+  SPECAVG -PROD2  validation dS_state +0.00087 dLWR +0.00060 dS_FD -0.00001 | dJ +0.000366 [+0.000298, +0.000442] up 4/4
+  SPECAVG -PROD2  private    dS_state +0.00081 dLWR +0.00030 dS_FD -0.00001 | dJ +0.000314 [+0.000263, +0.000370] up 4/4
+  SPECAVG -PROD2  both       dS_state +0.00084 dLWR +0.00045 dS_FD -0.00001 | dJ +0.000340 [+0.000292, +0.000394] up 8/8
+  SPEC2   -PROD2  validation dS_state +0.00103 dLWR +0.00138 dS_FD -0.00001 | dJ +0.000498 [+0.000364, +0.000639] up 4/4
+  SPEC2   -PROD2  private    dS_state +0.00091 dLWR +0.00063 dS_FD -0.00001 | dJ +0.000381 [+0.000281, +0.000488] up 4/4
+  SPEC2   -PROD2  both       dS_state +0.00097 dLWR +0.00100 dS_FD -0.00001 | dJ +0.000440 [+0.000349, +0.000532] up 8/8
+  SPEC2   -PROD   validation dS_state +0.00111 dLWR +0.00150 dS_FD -0.00001 | dJ +0.000537 [+0.000390, +0.000699] up 4/4
+  SPEC2   -PROD   private    dS_state +0.00100 dLWR +0.00066 dS_FD -0.00001 | dJ +0.000416 [+0.000313, +0.000524] up 4/4
+  SPEC2   -PROD   both       dS_state +0.00105 dLWR +0.00108 dS_FD -0.00001 | dJ +0.000477 [+0.000395, +0.000580] up 8/8
+  PROD2   -PROD   validation dS_state +0.00008 dLWR +0.00012 dS_FD +0.00000 | dJ +0.000041 [+0.000020, +0.000068] up 4/4
+  PROD2   -PROD   private    dS_state +0.00009 dLWR +0.00003 dS_FD +0.00000 | dJ +0.000036 [+0.000026, +0.000047] up 4/4
+  PROD2   -PROD   both       dS_state +0.00009 dLWR +0.00008 dS_FD +0.00000 | dJ +0.000038 [+0.000027, +0.000054] up 8/8
+  PLACE   -PROD   validation dS_state +0.00045 dLWR +0.00023 dS_FD +0.00001 | dJ +0.000181 [+0.000086, +0.000276] up 4/4
+  PLACE   -PROD   private    dS_state +0.00047 dLWR +0.00027 dS_FD +0.00001 | dJ +0.000192 [+0.000117, +0.000273] up 4/4
+  PLACE   -PROD   both       dS_state +0.00046 dLWR +0.00025 dS_FD +0.00001 | dJ +0.000187 [+0.000126, +0.000253] up 8/8
+  FEATR   -PROD   validation dS_state +0.00072 dLWR +0.00138 dS_FD -0.00002 | dJ +0.000388 [+0.000251, +0.000521] up 3/4
+  FEATR   -PROD   private    dS_state +0.00058 dLWR +0.00081 dS_FD -0.00002 | dJ +0.000285 [+0.000191, +0.000382] up 4/4
+  FEATR   -PROD   both       dS_state +0.00065 dLWR +0.00110 dS_FD -0.00002 | dJ +0.000336 [+0.000251, +0.000423] up 7/8
+  bs      -dR     validation dS_state +0.00115 dLWR +0.00194 dS_FD -0.00001 | dJ +0.000595 [+0.000400, +0.000771] up 4/4
+  bs      -dR     private    dS_state +0.00105 dLWR +0.00087 dS_FD -0.00002 | dJ +0.000452 [+0.000311, +0.000599] up 4/4
+  bs      -dR     both       dS_state +0.00110 dLWR +0.00140 dS_FD -0.00001 | dJ +0.000524 [+0.000412, +0.000642] up 8/8
+  dR2     -dR     validation dS_state +0.00000 dLWR +0.00033 dS_FD +0.00000 | dJ +0.000034 [-0.000022, +0.000100] up 3/4
+  dR2     -dR     private    dS_state +0.00006 dLWR +0.00008 dS_FD +0.00000 | dJ +0.000029 [+0.000003, +0.000058] up 3/4
+  dR2     -dR     both       dS_state +0.00003 dLWR +0.00020 dS_FD +0.00000 | dJ +0.000032 [-0.000001, +0.000072] up 6/8
+  bs2     -bs     validation dS_state -0.00001 dLWR +0.00013 dS_FD +0.00000 | dJ +0.000010 [-0.000032, +0.000053] up 3/4
+  bs2     -bs     private    dS_state -0.00002 dLWR +0.00001 dS_FD +0.00000 | dJ -0.000006 [-0.000043, +0.000032] up 2/4
+  bs2     -bs     both       dS_state -0.00001 dLWR +0.00007 dS_FD +0.00000 | dJ +0.000002 [-0.000027, +0.000031] up 5/8

@@ -1,0 +1,48 @@
+kernel BCOLS 30 | PANELS ['D7_I10_E', 'D7_I10_W', 'D7_I210_E', 'D7_I210_W', 'D7_I405_N']
+validation official origins [(0, 98, 0), (1, 110, 0), (2, 56, 0), (3, 62, 0), (3, 138, 0), (0, 170, 1), (0, 242, 1), (1, 207, 1), (2, 145, 1), (2, 217, 1)] | faithful cands 230 selected 48 onset 24
+validation hidden eligible cells inside official blackouts 11177 onset 5604 ongoing 5573 | NaN timing outside True
+   finite share on blackout targets bs_pre_v0 0.949
+   finite share on blackout targets bs_pre_vu1 0.933
+   finite share on blackout targets bs_pre_vu2 0.921
+   finite share on blackout targets bs_pre_vd1 0.936
+   finite share on blackout targets bs_pre_vd2 0.925
+   finite share on blackout targets bs_pre_q0 0.949
+   finite share on blackout targets bs_pre_qu1 0.933
+   finite share on blackout targets bs_pre_qu2 0.921
+   finite share on blackout targets bs_pre_qd1 0.936
+   finite share on blackout targets bs_pre_qd2 0.925
+   finite share on blackout targets bs_post_v0 0.874
+   finite share on blackout targets bs_post_vu1 0.862
+   finite share on blackout targets bs_post_vu2 0.851
+   finite share on blackout targets bs_post_vd1 0.864
+   finite share on blackout targets bs_post_vd2 0.85
+   finite share on blackout targets bs_post_q0 0.874
+   finite share on blackout targets bs_post_qu1 0.862
+   finite share on blackout targets bs_post_qu2 0.851
+   finite share on blackout targets bs_post_qd1 0.864
+   finite share on blackout targets bs_post_qd2 0.85
+   finite share on blackout targets bs_ron_rel 0.716
+   finite share on blackout targets bs_roff_rel 0.529
+validation simulated-blackout rows 33434 timing finite True onset share 0.494 | pwd_v mean |.| 0.0036
+private official origins [(0, 57, 0), (1, 62, 0), (2, 57, 0), (3, 64, 0), (3, 142, 0), (0, 149, 1), (0, 225, 1), (1, 134, 1), (1, 206, 1), (2, 150, 1)] | faithful cands 241 selected 48 onset 24
+private hidden eligible cells inside official blackouts 11156 onset 5540 ongoing 5616 | NaN timing outside True
+   finite share on blackout targets bs_pre_vu2 0.941
+   finite share on blackout targets bs_pre_vd2 0.943
+   finite share on blackout targets bs_pre_qu2 0.941
+   finite share on blackout targets bs_pre_qd2 0.943
+   finite share on blackout targets bs_post_v0 0.945
+   finite share on blackout targets bs_post_vu1 0.927
+   finite share on blackout targets bs_post_vu2 0.915
+   finite share on blackout targets bs_post_vd1 0.93
+   finite share on blackout targets bs_post_vd2 0.92
+   finite share on blackout targets bs_post_q0 0.945
+   finite share on blackout targets bs_post_qu1 0.927
+   finite share on blackout targets bs_post_qu2 0.915
+   finite share on blackout targets bs_post_qd1 0.93
+   finite share on blackout targets bs_post_qd2 0.92
+   finite share on blackout targets bs_ron_rel 0.713
+   finite share on blackout targets bs_roff_rel 0.534
+private simulated-blackout rows 36451 timing finite True onset share 0.492 | pwd_v mean |.| 0.0026
+train: pseudo origins in the first 40 days 105 onset 45 | file onset share 0.445
+train: target rows 227181 in gaps 37670 onset share 0.427 boundary finite 0.885
+KERNEL FUNCTION TEST OK
