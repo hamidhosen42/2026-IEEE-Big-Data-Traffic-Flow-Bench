@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_id_base: 64 production + 0 static + 0 step columns; folds (0,), final 0
+[   127s] og_id_base fold 0: 6077021 rows x 64 cols trained in 127s
+[   137s] og_id_base fold 0: official 0.8918 (n=40), offlike 0.8826 (n=726), pseudo 0.8795 (n=525)
+[   149s] og_id_base done
+[   149s] === og_id_all2: 64 production + 98 static + 5 step columns; folds (0,), final 0
+[   405s] og_id_all2 fold 0: 6077021 rows x 167 cols trained in 256s
+[   416s] og_id_all2 fold 0: official 0.9130 (n=40), offlike 0.9042 (n=726), pseudo 0.9022 (n=525)
+[   427s] og_id_all2 done
+[   427s] DONE
+[run_heavy] exit 0 after 428s

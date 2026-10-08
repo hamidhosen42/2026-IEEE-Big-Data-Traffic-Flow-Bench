@@ -1,0 +1,16 @@
+[run_heavy] slot acquired after 0s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs/t2_occ_v26.py:166: RuntimeWarning: Mean of empty slice
+  on3 = np.nanmean(ON[d[:, None], t[:, None] + np.arange(-3, 0)[None]], 1) / capl
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs/t2_occ_v26.py:167: RuntimeWarning: Mean of empty slice
+  off3 = np.nanmean(OFF[d[:, None], t[:, None] + np.arange(-3, 0)[None]], 1) / capl
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs/t2_occ_v26.py:168: RuntimeWarning: Mean of empty slice
+  on12 = np.nanmean(ON[d[:, None], t[:, None] + np.arange(-H, -3)[None]], 1) / capl
+kernel compiled | OG_STATIC 98 | OG_STEP ['kx_lo3', 'kx_hi3', 'kx_lo6', 'kx_hi6', 'kx_min3'] | ALLFIN True OCC True | VARIANTS ['fs2ogf', 'fs4ogf', 'fs2ogf1', 'fs_npogf']
+A D7_I10_W offlike: kernel (21834, 172) lab (21834, 172) | identical True | differing columns []
+A D7_I10_W runstart: kernel (48066, 172) lab (48066, 172) | identical True | differing columns []
+B D7_I10_W: 131 offlike windows | v27 rows (21888, 185) in 0.1s (incl. v26 rows) | v26 rows (21888, 82)
+B (1) v26 columns unchanged in v27: True | differing []
+B (2) ogfeat columns == lab functions on the all-finite inputs: True | differing []
+B (3) all 185 cols | np 174 | id 180 | ogfeat finite share min 0.132 median 1.000 | below 0.5: {'e_rel': 0.132} | inf anywhere False | row MB/1M rows 740
+KERNEL PARITY + SMOKE OK
+[run_heavy] exit 0 after 2s

@@ -1,0 +1,15 @@
+{
+ "type": "t1dark",
+ "swap_script": "t1_t1dark_swap.py",
+ "dark": "tfb-t1ramp",
+ "w_dark": 0.75,
+ "thr": 0.0001,
+ "fd_members": [
+  "tfb-t1v13",
+  "tfb-t1v13s10",
+  "tfb-t1v13s11",
+  "tfb-t1dark",
+  "tfb-t1ramp"
+ ],
+ "desc": "T1 FD bag on ALL rows + the blackout member and the ramp member (5 FD members: v13, s10, s11, t1dark, t1ramp; W_FD 0.5); blackout rows 0.25 mix + 0.75 ramp member; recon + TV"
+}

@@ -1,0 +1,16 @@
+[run_heavy] slot acquired after 0s
+[     3s] D7_I10_E rows built 578705 3s
+[     4s] D7_I10_W rows built 672118 4s
+[     7s] D7_I210_E rows built 786803 7s
+[    10s] D7_I210_W rows built 1486055 10s
+[    24s] D7_I405_N rows built 3456033 24s
+[    26s] D7_I405_S rows built 4086648 26s
+[    33s] D12_I5_N rows built 5219569 33s
+[    36s] D12_I5_S rows built 6074119 36s
+[    38s] train rows 6074119 pos 0.2685 | base 71 cols | new 174 cols
+[   152s] base_afocc trained in 114s
+[   390s] all2_afocc trained in 232s
+official: n 40 | base 0.8910 | new 0.9066 | paired {'diff': 0.015516978240805666, 'lo': 0.001188727066289145, 'hi': 0.031000682595993805, 'p_pos': 0.9815, 'n_windows': 40}
+offlike: n 726 | base 0.8834 | new 0.9030 | paired {'diff': 0.019608607046232088, 'lo': 0.01328035800847003, 'hi': 0.025357678087464853, 'p_pos': 1.0, 'n_windows': 726}
+[   395s] OVERLAP DONE
+[run_heavy] exit 0 after 396s

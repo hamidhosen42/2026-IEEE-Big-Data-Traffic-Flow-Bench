@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 0s
+[     0s] D7_I210_W train pseudo origins 697 onset 310 first-crossing at T+6 (truth) 298
+[     5s] D7_I210_W train chunk 0 rows 77789 in gaps 13011 bs finite in gaps 0.884
+[     5s] D7_I210_W train rows identical to the t1ramp cache (base + ramp columns)
+[     5s] D7_I210_W train rows 77789 | in gaps 13011
+[     6s] D7_I210_W validation faithful candidates 230 (onset FC 39 , ongoing RS 191 ) selected 48 (onset 24 ) | random candidates 3310 selected per fold [24, 24]
+[     6s] D7_I210_W private faithful candidates 241 (onset FC 43 , ongoing RS 198 ) selected 48 (onset 24 ) | random candidates 3150 selected per fold [24, 24]
+[    22s] D7_I210_W fold 0 validation eval blackouts 24 (onset 11 ) cells 16283 ordinary 8551 dark rows R/F 9607 10138

@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 0s
+kernel compiled | OG_STATIC 98 | OG_STEP ['kx_lo3', 'kx_hi3', 'kx_lo6', 'kx_hi6', 'kx_min3'] | ALLFIN True OCC True | VARIANTS ['fs2ogf', 'fs4ogf', 'fs2ogf1', 'fs_npogf']
+A D12_I5_S offlike: kernel (175014, 172) lab (175014, 172) | identical True | differing columns []
+A D12_I5_S runstart: kernel (826128, 172) lab (826128, 172) | identical True | differing columns []
+B D12_I5_S: 426 offlike windows | v27 rows (175230, 185) in 0.3s (incl. v26 rows) | v26 rows (175230, 82)
+B (1) v26 columns unchanged in v27: True | differing []
+B (2) ogfeat columns == lab functions on the all-finite inputs: True | differing []
+B (3) all 185 cols | np 174 | id 180 | ogfeat finite share min 0.298 median 1.000 | below 0.5: {'e_rel': 0.298} | inf anywhere False | row MB/1M rows 740
+KERNEL PARITY + SMOKE OK
+[run_heavy] exit 0 after 8s

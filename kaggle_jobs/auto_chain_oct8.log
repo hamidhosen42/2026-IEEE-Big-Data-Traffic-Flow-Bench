@@ -1,0 +1,14 @@
+[2026-10-08 02:07:52] START chain oct8 | base tfb-h5 submission_FDRTV.csv 0.88145 | done []
+[2026-10-08 02:07:52] Q1: waiting for auto_chain_oct8_override_Q1.json until 2026-10-08 06:00 UTC
+[2026-10-08 02:07:52] Q1 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on tfb-h5 (5-member FD bag + ramp blackout): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-08 02:07:55] pushed tfb-i1 version 1
+[2026-10-08 02:10:13]   Q1: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-08 02:10:13]   Q1: validation: changed rows 0
+[2026-10-08 02:10:13]   Q1: private: changed rows 48
+[2026-10-08 02:10:13]   Q1: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 262 share 0.00602 | positives 4854 -> 4784
+[2026-10-08 02:10:13]   Q1: validation: changed rows 0
+[2026-10-08 02:10:13]   Q1: private: changed rows 262
+[2026-10-08 02:10:13]   Q1: TOTAL changed rows: validation 0 | private 310
+[2026-10-08 02:11:18] submit tfb-i1 v 1 submission_I1.csv -> complete 0.88145
+[2026-10-08 02:11:27] Q1: LB 0.88145 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-08 02:11:27] Q2: waiting for auto_chain_oct8_override_Q2.json until 2026-10-08 12:00 UTC

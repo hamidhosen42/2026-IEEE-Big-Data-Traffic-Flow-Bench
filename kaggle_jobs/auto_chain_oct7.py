@@ -255,18 +255,21 @@ def act_queue2(slot, slug, parts, thr, max_val_changed, desc, folder):
     return apply(sc, slot, slug, f'submission_{out_name}.csv', thr)
 
 
-def act_t1dark(slot, pfx, swap_script, dark, w_dark, thr, desc, folder):
+def act_t1dark(slot, pfx, swap_script, dark, w_dark, thr, desc, folder, fd_members=None):
     """raw T1 mix of the base's members with the blackout rows overridden by the dark member, then FD recon + TV, then submit."""
     for k in (dark + 'a', dark + 'b'):
         if not complete(k):
             return skip(slot, f'{k} not complete')
-    fdm = list(state.get('fd_used') or [])
+    fdm = list(fd_members or state.get('fd_used') or [])                   # oct7: optional FD-member override
+    for k in fdm:
+        if not (complete(k + 'a') and complete(k + 'b')):
+            return skip(slot, f'{k} not complete')
     write_variant(swap_script, f'swap_{pfx}d.py', [
         (r"^BASE_KERNEL, BASE_FILE, OUT_NAME = .*$", f"BASE_KERNEL, BASE_FILE, OUT_NAME = '{state['base_kernel']}', '{state['base_file']}', 'T1DARK'"),
         (r"^W_DARK = .*$", f"W_DARK = {w_dark}"),
         (r"^DARK_MEMBER = .*$", f"DARK_MEMBER = '{dark}'"),
         (r"^FD_MEMBERS = .*$", 'FD_MEMBERS = ' + repr(tuple(fdm)))])
-    push(f'{pfx}d', os.path.join(HERE, f'swap_{pfx}d.py'), [state['base_kernel']] + [k + p for k in OLD + tuple(fdm) + (dark,) for p in 'ab'])
+    push(f'{pfx}d', os.path.join(HERE, f'swap_{pfx}d.py'), list(dict.fromkeys([state['base_kernel']] + [k + p for k in OLD + tuple(fdm) + (dark,) for p in 'ab'])))
     wait(f'{pfx}d'); ok, t, _ = ok_log(f'{pfx}d', 'T1DARK OK')
     for line in t.splitlines():
         if 'blackout rows' in line or 'rms speed' in line:
@@ -279,7 +282,7 @@ def act_t1dark(slot, pfx, swap_script, dark, w_dark, thr, desc, folder):
     sc = submit(pfx, 'submission_FDRTV.csv', desc, folder, [f'{pfx}d', state['base_kernel']])
 
     def on_keep():
-        state.update(raw_kernel=f'{pfx}d', raw_file='submission_T1DARK.csv')
+        state.update(raw_kernel=f'{pfx}d', raw_file='submission_T1DARK.csv', fd_used=fdm)
     return apply(sc, slot, pfx, 'submission_FDRTV.csv', thr, on_keep)
 
 
@@ -329,7 +332,7 @@ def run_override(slot, pfx, ov, folder):
         return act_queue(slot, pfx, ov['src_kernel'], ov['src_file'], ov.get('cond', 'queue_ongoing'), ov.get('thr', 0.0), ov.get('max_share', 0.02), desc, folder)
     if typ == 't1dark':
         return act_t1dark(slot, pfx, ov.get('swap_script', 't1_t1dark_swap.py'), ov.get('dark', 'tfb-t1dark'), ov.get('w_dark', 0.5),
-                          ov.get('thr', 0.0001), desc, folder)
+                          ov.get('thr', 0.0001), desc, folder, ov.get('fd_members'))
     if typ == 'queue2':
         return act_queue2(slot, pfx, ov['parts'], ov.get('thr', 0.0), ov.get('max_val_changed', 0), desc, folder)
     if typ == 'recon':

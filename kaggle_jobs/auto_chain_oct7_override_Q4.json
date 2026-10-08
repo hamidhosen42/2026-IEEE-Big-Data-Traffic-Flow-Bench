@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2ogfc",
+   "queue_submission_fs4ogf.csv",
+   "queue_ongoing",
+   "validation"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 100000,
+ "desc": "March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corridor context, per-link kinematics, queue-end demand/supply, volatility-normalised speed; nothing after T); April unchanged [bag of 4]"
+}

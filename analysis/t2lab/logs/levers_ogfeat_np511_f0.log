@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     0s] === og_np_base_L511: 58 production + 0 static + 0 step columns; folds (0,), final 0
+[   238s] og_np_base_L511 fold 0: 6077021 rows x 58 cols trained in 238s
+[   262s] og_np_base_L511 fold 0: official 0.8884 (n=40), offlike 0.8867 (n=726), pseudo 0.8803 (n=525)
+[   288s] og_np_base_L511 done
+[   288s] === og_np_all2_L511: 58 production + 98 static + 5 step columns; folds (0,), final 0
+[   770s] og_np_all2_L511 fold 0: 6077021 rows x 161 cols trained in 482s
+[   793s] og_np_all2_L511 fold 0: official 0.9033 (n=40), offlike 0.9059 (n=726), pseudo 0.9041 (n=525)
+[   820s] og_np_all2_L511 done
+[   820s] DONE
+[run_heavy] exit 0 after 821s

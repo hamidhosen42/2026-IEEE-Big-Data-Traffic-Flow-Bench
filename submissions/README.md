@@ -2,6 +2,10 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_I1.csv | 56929045 | 0.88145 | Q1: FINAL CANDIDATE B (hedge) on tfb-h5 (5-member FD bag + ramp blackout): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged |
+| submission_FDRTV.csv | 56908727 | 0.88145 | Q5: T1 FD bag on ALL rows + the blackout member and the ramp member (5 FD members: v13, s10, s11, t1dark, t1ramp; W_FD 0.5); blackout rows 0.25 mix + 0.75 ramp member; recon + TV |
+| submission_H4.csv | 56908135 | 0.88008 | Q4: March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corridor context, per-link kinematics, queue-end demand/supply, volatility-normalised speed; nothing after T); April unchanged [bag of 4] |
+| submission_H3.csv | 56898576 | 0.88129 | Q3: FINAL CANDIDATE B (hedge) on the ramp-member base: April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged |
 | submission_FDRTV.csv | 56898478 | 0.88120 | Q2: T1 blackout rows (90 min after each official Task 2 origin) = 0.5 T1 mix + 0.5 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV |
 | submission_FDRTV.csv | 56897994 | 0.88129 | Q1: T1 blackout rows (90 min after each official Task 2 origin) = 0.25 T1 mix + 0.75 member with simulated-blackout rows + 9 RAMP features (ramp-anchored flow transfer; ramps are released in the blackouts); recon + TV |
 | submission_G5.csv | 56865768 | 0.88092 | Q5: FINAL CANDIDATE B (hedge): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models, same recipe as the public best); March rows unchanged |
@@ -48,7 +52,3 @@
 | submission_og_noprior.csv | 56643037 | 0.85309 | EXP_T2_j: FINAL v2 + ongoing windows prior-free only (og_noprior) |
 | submission_zero_ongoing.csv | 56627217 | 0.73657 | PROBE: FINAL v2 with ONGOING queue zeroed |
 | submission_zero_onset.csv | 56627188 | 0.73711 | PROBE: FINAL v2 with ONSET queue zeroed |
-| submission.csv | 56626886 | 0.84855 | FINAL v2: T2 LGBM blend70 + T1 LGBM profile-free (gap-aware, occ) + T4 NNLS own counts |
-| submission.csv | 56620877 | 0.84499 | SUB_A: T1 LGBM v3 (gap-aware) + T2 LGBM blend70 + T4 NNLS own counts |
-| submission.csv | 56619654 | 0.84357 | PROBE T2: EXP000 base + Task2 LGBM blend70 (only queue rows changed) |
-| submission.csv | 56616281 | 0.80939 | Notebook [0.809 LB TOP 50] Open-Sourcing Physics Pipeline | Version 1 |

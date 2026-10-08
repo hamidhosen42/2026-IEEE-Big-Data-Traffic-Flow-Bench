@@ -1,0 +1,30 @@
+[2026-10-07 03:59:35] p7c planner start
+[2026-10-07 04:03:38] smoke tfb-t2ogfsm complete | traceback False | done True
+[2026-10-07 09:05:17] tfb-t2ogfa status complete | marker True | traceback False | queue_submission_fs2ogf.csv True
+[2026-10-07 09:05:17]    tfb-t2ogfa [   851s] new feature finite share / mean (first 200k rows): {'c_q3': (1.0, 0.119), 'c_q6': (1.0, 0.122), 'c_q9': (1.0, 0.123), 'c_q12': (1.0, 0.121), 'c_d3': (1.0, -0.002), 'c_d6': (1.0, -0.006), 'c_d12': (1.0, -0.004), 'c_rel6': (1.0, -0.021), 'c_n0': (1.0, 
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18328s] FOOTPRINT private (vs fs2ogf): ongoing windows 40 | mean queued cells at T (q_last) 21.10
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18328s] FOOTPRINT validation (vs fs2ogf): ongoing windows 40 | mean queued cells at T (q_last) 23.00
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18332s] FOOTPRINT: reference rows matched 174000 of 174000 | unmatched ongoing rows 0
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18332s] FOOTPRINT fs2ogf vs tfb-t2occ fs4occ | private: windows changed 36/40 | rows changed 297/43500 (0.6828%) | Jaccard of queued cells 0.9392 | positives 4723 ref 4750
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18332s] FOOTPRINT fs2ogf vs tfb-t2occ fs4occ | validation: windows changed 29/40 | rows changed 299/43500 (0.6874%) | Jaccard of queued cells 0.9452 | positives 5355 ref 5268
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18332s] FOOTPRINT fs_npogf vs tfb-t2occ fs4occ | private: windows changed 37/40 | rows changed 315/43500 (0.7241%) | Jaccard of queued cells 0.9355 | positives 4701 ref 4750
+[2026-10-07 09:05:17]    tfb-t2ogfa [ 18332s] FOOTPRINT fs_npogf vs tfb-t2occ fs4occ | validation: windows changed 31/40 | rows changed 309/43500 (0.7103%) | Jaccard of queued cells 0.9434 | positives 5341 ref 5268
+[2026-10-07 10:21:43] tfb-t2ogfb status complete | marker True | traceback False | queue_submission_fs2ogf1.csv True
+[2026-10-07 10:21:43]    tfb-t2ogfb [   978s] new feature finite share / mean (first 200k rows): {'c_q3': (1.0, 0.119), 'c_q6': (1.0, 0.122), 'c_q9': (1.0, 0.123), 'c_q12': (1.0, 0.121), 'c_d3': (1.0, -0.002), 'c_d6': (1.0, -0.006), 'c_d12': (1.0, -0.004), 'c_rel6': (1.0, -0.021), 'c_n0': (1.0, 
+[2026-10-07 10:21:43]    tfb-t2ogfb [ 22898s] FOOTPRINT private (vs fs2ogf1): ongoing windows 40 | mean queued cells at T (q_last) 21.10
+[2026-10-07 10:21:43]    tfb-t2ogfb [ 22898s] FOOTPRINT validation (vs fs2ogf1): ongoing windows 40 | mean queued cells at T (q_last) 23.00
+[2026-10-07 10:21:43]    tfb-t2ogfb [ 22904s] FOOTPRINT: reference rows matched 174000 of 174000 | unmatched ongoing rows 0
+[2026-10-07 10:21:43]    tfb-t2ogfb [ 22904s] FOOTPRINT fs2ogf1 vs tfb-t2occ fs4occ | private: windows changed 37/40 | rows changed 303/43500 (0.6966%) | Jaccard of queued cells 0.9380 | positives 4721 ref 4750
+[2026-10-07 10:21:43]    tfb-t2ogfb [ 22904s] FOOTPRINT fs2ogf1 vs tfb-t2occ fs4occ | validation: windows changed 29/40 | rows changed 313/43500 (0.7195%) | Jaccard of queued cells 0.9428 | positives 5365 ref 5268
+[2026-10-07 10:21:44] pushed tfb-t2ogfc {'versionNumber': 1, 'error': ''}
+[2026-10-07 10:23:16] tfb-t2ogfc status complete | marker True | traceback False | queue_submission_fs4ogf.csv True
+[2026-10-07 10:23:16]    tfb-t2ogfc [    12s] CONTROL fs2ogf recomputed vs tfb-t2ogfa/**/queue_submission_fs2ogf.csv: rows 174000 | agreement 1.000000
+[2026-10-07 10:23:16]    tfb-t2ogfc [    12s] CONTROL fs2ogf1 recomputed vs tfb-t2ogfb/**/queue_submission_fs2ogf1.csv: rows 174000 | agreement 1.000000
+[2026-10-07 10:23:16]    tfb-t2ogfc [    16s] FOOTPRINT fs4ogf vs tfb-t2occ fs4occ | private: windows changed 36/40 | rows changed 293/43500 (0.6736%) | Jaccard 0.9400 | positives 4721 ref 4750
+[2026-10-07 10:23:16]    tfb-t2ogfc [    16s] FOOTPRINT fs4ogf vs tfb-t2occ fs4occ | validation: windows changed 28/40 | rows changed 304/43500 (0.6989%) | Jaccard 0.9444 | positives 5358 ref 5268
+[2026-10-07 10:23:16]    tfb-t2ogfc [    16s] FOOTPRINT fs2ogf vs tfb-t2occ fs4occ | private: windows changed 36/40 | rows changed 297/43500 (0.6828%) | Jaccard 0.9392 | positives 4723 ref 4750
+[2026-10-07 10:23:16]    tfb-t2ogfc [    16s] FOOTPRINT fs2ogf vs tfb-t2occ fs4occ | validation: windows changed 29/40 | rows changed 299/43500 (0.6874%) | Jaccard 0.9452 | positives 5355 ref 5268
+[2026-10-07 10:23:16] fs4ogf validation share changed 0.0069889999999999996
+[2026-10-07 10:23:16] Q4 override written {"type": "queue2", "parts": [["tfb-t2ogfc", "queue_submission_fs4ogf.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corridor context, per-link kinematics, queue-end demand/supply, volatility-normalised speed; nothing after T); April unchanged [bag of 4]"}
+[2026-10-07 10:23:16] Q5 override exists -> kept
+[2026-10-07 10:23:16] p7c planner done

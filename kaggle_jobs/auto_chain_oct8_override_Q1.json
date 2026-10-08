@@ -1,0 +1,20 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2osp",
+   "queue_submission_base.csv",
+   "queue_onset",
+   "private"
+  ],
+  [
+   "tfb-t2v22af",
+   "queue_submission_fs4af.csv",
+   "queue_ongoing",
+   "private"
+  ]
+ ],
+ "thr": 1.0,
+ "max_val_changed": 0,
+ "desc": "FINAL CANDIDATE B (hedge) on tfb-h5 (5-member FD bag + ramp blackout): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"
+}

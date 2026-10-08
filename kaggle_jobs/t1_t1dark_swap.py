@@ -42,7 +42,9 @@ print('info: base (post FDR/TV) vs old bag rms speed', round(float(np.sqrt(np.me
 out = base.copy()
 out.loc[iss, 'speed_kmh'] = W_FD * vf_ + (1 - W_FD) * vo; out.loc[iss, 'flow_vph'] = W_FD * qf_ + (1 - W_FD) * qo
 # ---- t1dark: blackout rows (timestamp in (origin, origin + 90 min] of an official window of the panel) <- dark member
-vd, qd = load((f'{DARK_MEMBER}a', f'{DARK_MEMBER}b'), 'state_submission_FTA.csv')
+_D = [load((f'{k}a', f'{k}b'), 'state_submission_FTA.csv') for k in DARK_MEMBER.split('+')]   # '+'-joined = mean of members
+vd, qd = np.mean([x[0] for x in _D], 0), np.mean([x[1] for x in _D], 0)
+print('dark members', DARK_MEMBER.split('+'))
 kk = ks.set_index(ks.submission_id.astype('int64')).reindex(sid)
 assert kk.panel.notna().all(), 'state rows without a key'
 inb = np.zeros(len(sid), bool)

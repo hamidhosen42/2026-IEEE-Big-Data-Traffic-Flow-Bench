@@ -1,8 +1,8 @@
 {
- "base_kernel": "tfb-h1",
+ "base_kernel": "tfb-h5",
  "base_file": "submission_FDRTV.csv",
- "base_score": 0.88129,
- "best_score": 0.88129,
+ "base_score": 0.88145,
+ "best_score": 0.88145,
  "recon": {
   "gate": 0.6,
   "a": 0.75,
@@ -14,12 +14,14 @@
    0.005
   ]
  },
- "raw_kernel": "tfb-h1d",
+ "raw_kernel": "tfb-h5d",
  "raw_file": "submission_T1DARK.csv",
  "fd_used": [
   "tfb-t1v13",
   "tfb-t1v13s10",
-  "tfb-t1v13s11"
+  "tfb-t1v13s11",
+  "tfb-t1dark",
+  "tfb-t1ramp"
  ],
  "done": [
   {
@@ -33,12 +35,34 @@
    "score": 0.8812,
    "delta": -9.00000000000345e-05,
    "keep": false
+  },
+  {
+   "slot": "Q3",
+   "score": 0.88129,
+   "delta": 0.0,
+   "keep": false
+  },
+  {
+   "slot": "Q4",
+   "score": 0.88008,
+   "delta": -0.0012100000000000444,
+   "keep": false
+  },
+  {
+   "slot": "Q5",
+   "score": 0.88145,
+   "delta": 0.00015999999999993797,
+   "keep": true
   }
  ],
  "versions": {
   "tfb-h1d": 1,
   "tfb-h1": 1,
   "tfb-h2d": 1,
-  "tfb-h2": 1
+  "tfb-h2": 1,
+  "tfb-h3": 1,
+  "tfb-h4": 1,
+  "tfb-h5d": 1,
+  "tfb-h5": 1
  }
 }

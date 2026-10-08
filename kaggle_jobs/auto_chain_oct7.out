@@ -20,3 +20,35 @@
 [2026-10-07 03:07:05] submit tfb-h2 v 1 submission_FDRTV.csv -> complete 0.88120
 [2026-10-07 03:07:12] Q2: LB 0.88120 | delta vs chain base -0.00009 | rule >= +0.0001 -> DROP (base unchanged)
 [2026-10-07 03:07:12] Q3: waiting for auto_chain_oct7_override_Q3.json until 2026-10-07 14:00 UTC
+[2026-10-07 03:08:12] Q3 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on the ramp-member base: April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-07 03:08:15] pushed tfb-h3 version 1
+[2026-10-07 03:10:33]   Q3: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-07 03:10:33]   Q3: validation: changed rows 0
+[2026-10-07 03:10:33]   Q3: private: changed rows 48
+[2026-10-07 03:10:33]   Q3: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 262 share 0.00602 | positives 4854 -> 4784
+[2026-10-07 03:10:33]   Q3: validation: changed rows 0
+[2026-10-07 03:10:33]   Q3: private: changed rows 262
+[2026-10-07 03:10:33]   Q3: TOTAL changed rows: validation 0 | private 310
+[2026-10-07 03:11:38] submit tfb-h3 v 1 submission_H3.csv -> complete 0.88129
+[2026-10-07 03:11:47] Q3: LB 0.88129 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-07 03:11:47] Q4: waiting for auto_chain_oct7_override_Q4.json until 2026-10-07 18:00 UTC
+[2026-10-07 07:42:55] START chain oct7 | base tfb-h1 submission_FDRTV.csv 0.88129 | done ['Q1', 'Q2', 'Q3']
+[2026-10-07 07:42:55] Q4: waiting for auto_chain_oct7_override_Q4.json until 2026-10-07 18:00 UTC
+[2026-10-07 10:23:28] Q4 override: {"type": "queue2", "parts": [["tfb-t2ogfc", "queue_submission_fs4ogf.csv", "queue_ongoing", "validation"]], "thr": 0.0, "max_val_changed": 100000, "desc": "March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corridor context, per-link kinematics, queue-end demand/supply, volatility-normalised speed; nothing after T); April unchanged [bag of 4]"}
+[2026-10-07 10:23:30] pushed tfb-h4 version 1
+[2026-10-07 10:26:20]   Q4: PART tfb-t2ogfc/queue_submission_fs4ogf.csv cond=queue_ongoing split=validation windows=any: rows 43500 | changed 304 share 0.00699 | positives 5268 -> 5358
+[2026-10-07 10:26:20]   Q4: validation: changed rows 304
+[2026-10-07 10:26:20]   Q4: private: changed rows 0
+[2026-10-07 10:26:20]   Q4: TOTAL changed rows: validation 304 | private 0
+[2026-10-07 10:27:25] submit tfb-h4 v 1 submission_H4.csv -> complete 0.88008
+[2026-10-07 10:27:31] Q4: LB 0.88008 | delta vs chain base -0.00121 | rule >= +0.0000 -> DROP (base unchanged)
+[2026-10-07 10:27:31] Q5: waiting for auto_chain_oct7_override_Q5.json until 2026-10-07 22:00 UTC
+[2026-10-07 10:27:31] Q5 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp", "w_dark": 0.75, "thr": 0.0001, "fd_members": ["tfb-t1v13", "tfb-t1v13s10", "tfb-t1v13s11", "tfb-t1dark", "tfb-t1ramp"], "desc": "T1 FD bag on ALL rows + the blackout member and the ramp member (5 FD members: v13, s10, s11, t1dark, t1ramp; W_FD 0.5); blackout rows 0.25 mix + 0.75 ramp member; recon + TV"}
+[2026-10-07 10:27:41] pushed tfb-h5d version 1
+[2026-10-07 10:42:45]   t1dark: rms speed old-bag vs FD-bag 0.461 | flow 26.21
+[2026-10-07 10:42:45]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.549
+[2026-10-07 10:42:45]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 3.629 flow 140.88 | regular rows: speed 0.394
+[2026-10-07 10:42:46] pushed tfb-h5 version 1
+[2026-10-07 10:54:19] submit tfb-h5 v 1 submission_FDRTV.csv -> complete 0.88145
+[2026-10-07 10:54:26] Q5: LB 0.88145 | delta vs chain base +0.00016 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-07 10:54:26] CHAIN DONE | final base tfb-h5 submission_FDRTV.csv 0.88145 | best 0.88145

@@ -1,1 +1,1 @@
-75481 ../../.venv/bin/python ../t1lab/t1ramp_report.py B=1000
+92995 .venv/bin/python -W ignore analysis/t1lab/t1bspec_exp.py all D7_I210_W n_trees=30
