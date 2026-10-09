@@ -1,0 +1,19 @@
+[run_heavy] slot acquired after 0s
+[     2s] {'panel': 'D7_I10_W', 'src': '2030-08-09..2030-09-08', 'base_rows': 6590, 'src_w': 21, 'src_rows': 1217, 'ev_src_per_day': 0.68} 2s
+[     4s] {'panel': 'D12_I5_S', 'src': '2030-08-09..2030-09-08', 'base_rows': 12788, 'src_w': 31, 'src_rows': 1614, 'ev_src_per_day': 1.23} 2s
+   panel                    src  base_rows  src_w  src_rows  ev_src_per_day
+D7_I10_W 2030-08-09..2030-09-08       6590     21      1217            0.68
+D12_I5_S 2030-08-09..2030-09-08      12788     31      1614            1.23
+[     4s] base rows (19378, 74) source rows (2831, 74) pos 0.0297 0.03
+[     8s] B seed 0 pv trained (4s)
+[    11s] B seed 0 a1 trained (7s)
+[    13s] B seed 0 a2 trained (10s)
+[    16s] B seed 0 a3 trained (13s)
+[    19s] B seed 0 all models trained (15s)
+[    22s] B seed 1 pv trained (3s)
+[    25s] B seed 1 a1 trained (6s)
+[    28s] B seed 1 a2 trained (9s)
+[    31s] B seed 1 a3 trained (12s)
+[    34s] B seed 1 all models trained (15s)
+[    34s] stage B DONE 34s
+[run_heavy] exit 0 after 35s

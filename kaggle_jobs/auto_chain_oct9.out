@@ -26,3 +26,15 @@
 [2026-10-09 03:49:55] Q4: waiting for auto_chain_oct9_override_Q4.json until 2026-10-09 18:00 UTC
 [2026-10-09 08:44:59] START chain oct9 | base tfb-i4 submission_FDRTV.csv 0.88176 | done ['Q1', 'Q2', 'Q3']
 [2026-10-09 08:44:59] Q4: waiting for auto_chain_oct9_override_Q4.json until 2026-10-09 18:00 UTC
+[2026-10-09 09:45:30] Q4 override: {"type": "queue2", "parts": [["tfb-t2ogpvogf", "queue_submission_pvogfv.csv", "queue_ongoing", "private"]], "thr": 0.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE A2 (same-scenario bet) on tfb-i4: April ongoing = March-augmented F03 np/id/full bag + scenario prior + 103 ogfeat columns (pvogfv; many-day pseudo-March +0.020 IoU 8/8, FM-PM private +0.0015); March rows unchanged"}
+[2026-10-09 09:45:33] pushed tfb-j4 version 1
+[2026-10-09 09:48:21]   Q4: PART tfb-t2ogpvogf/queue_submission_pvogfv.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 251 share 0.00577 | positives 4854 -> 4767
+[2026-10-09 09:48:21]   Q4: validation: changed rows 0
+[2026-10-09 09:48:21]   Q4: private: changed rows 251
+[2026-10-09 09:48:21]   Q4: TOTAL changed rows: validation 0 | private 251
+[2026-10-09 09:49:26] submit tfb-j4 v 1 submission_J4.csv -> complete 0.88176
+[2026-10-09 09:49:34] Q4: LB 0.88176 | delta vs chain base +0.00000 | rule >= +0.0000 -> KEEP (new base)
+[2026-10-09 09:49:34] Q5: waiting for auto_chain_oct9_override_Q5.json until 2026-10-09 22:00 UTC
+[2026-10-09 09:49:34] Q5 override: {"type": "skip", "desc": "free"}
+[2026-10-09 09:49:34] Q5 SKIPPED: override: skip
+[2026-10-09 09:49:34] CHAIN DONE | final base tfb-j4 submission_J4.csv 0.88176 | best 0.88179

@@ -1,0 +1,19 @@
+[run_heavy] slot acquired after 0s
+[     3s] {'panel': 'D7_I10_W', 'march_w': 8, 'march_rows': 582, 'eval_w': 13, 'train_rows': 11050, 'ev_train': 134, 'ev_march': 21, 'ev_train_per_day': 0.49, 'ev_march_per_day': 0.68} 1s
+[     4s] {'panel': 'D12_I5_S', 'march_w': 10, 'march_rows': 537, 'eval_w': 16, 'train_rows': 20253, 'ev_train': 286, 'ev_march': 27, 'ev_train_per_day': 1.05, 'ev_march_per_day': 0.87} 1s
+   panel  march_w  march_rows  eval_w  train_rows  ev_train  ev_march  ev_train_per_day  ev_march_per_day
+D7_I10_W        8         582      13       11050       134        21              0.49              0.68
+D12_I5_S       10         537      16       20253       286        27              1.05              0.87
+[     4s] train rows (31303, 74) March rows (1119, 74) pos 0.0296 0.0322
+[     8s] A seed 0 pv trained (4s)
+[    11s] A seed 0 a1 trained (7s)
+[    14s] A seed 0 a2 trained (10s)
+[    17s] A seed 0 a3 trained (13s)
+[    19s] A seed 0 all models trained (15s)
+[    22s] A seed 1 pv trained (3s)
+[    25s] A seed 1 a1 trained (6s)
+[    28s] A seed 1 a2 trained (9s)
+[    31s] A seed 1 a3 trained (12s)
+[    33s] A seed 1 all models trained (15s)
+[    34s] stage A DONE 32s
+[run_heavy] exit 0 after 34s

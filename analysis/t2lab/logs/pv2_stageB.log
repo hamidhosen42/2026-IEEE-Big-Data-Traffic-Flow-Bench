@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 0s
+[     4s] {'panel': 'D7_I10_E', 'src': '2030-08-09..2030-09-08', 'base_rows': 18641, 'src_w': 31, 'src_rows': 2327, 'ev_src_per_day': 1.06} 3s
+[     6s] {'panel': 'D7_I10_W', 'src': '2030-08-09..2030-09-08', 'base_rows': 6590, 'src_w': 21, 'src_rows': 1217, 'ev_src_per_day': 0.68} 3s
+[    13s] {'panel': 'D7_I210_E', 'src': '2030-08-09..2030-09-08', 'base_rows': 39469, 'src_w': 33, 'src_rows': 5014, 'ev_src_per_day': 1.06} 6s
+[    15s] {'panel': 'D7_I210_W', 'src': '2030-08-09..2030-09-08', 'base_rows': 12196, 'src_w': 36, 'src_rows': 1456, 'ev_src_per_day': 1.39} 2s
+[    21s] {'panel': 'D7_I405_N', 'src': '2030-08-09..2030-09-08', 'base_rows': 61160, 'src_w': 40, 'src_rows': 7154, 'ev_src_per_day': 1.55} 6s
+[    24s] {'panel': 'D7_I405_S', 'src': '2030-08-09..2030-09-08', 'base_rows': 14239, 'src_w': 32, 'src_rows': 1781, 'ev_src_per_day': 1.13} 2s
+[    27s] {'panel': 'D12_I5_N', 'src': '2030-08-09..2030-09-08', 'base_rows': 32797, 'src_w': 28, 'src_rows': 3370, 'ev_src_per_day': 1.0} 4s
+[    29s] {'panel': 'D12_I5_S', 'src': '2030-08-09..2030-09-08', 'base_rows': 12788, 'src_w': 31, 'src_rows': 1614, 'ev_src_per_day': 1.23} 2s
+    panel                    src  base_rows  src_w  src_rows  ev_src_per_day
+ D7_I10_E 2030-08-09..2030-09-08      18641     31      2327            1.06
+ D7_I10_W 2030-08-09..2030-09-08       6590     21      1217            0.68
+D7_I210_E 2030-08-09..2030-09-08      39469     33      5014            1.06
+D7_I210_W 2030-08-09..2030-09-08      12196     36      1456            1.39
+D7_I405_N 2030-08-09..2030-09-08      61160     40      7154            1.55
+D7_I405_S 2030-08-09..2030-09-08      14239     32      1781            1.13
+ D12_I5_N 2030-08-09..2030-09-08      32797     28      3370            1.00
+ D12_I5_S 2030-08-09..2030-09-08      12788     31      1614            1.23
+[    30s] base rows (197880, 74) source rows (23933, 74) pos 0.0214 0.0241
+[   112s] B seed 0 pv trained (82s)
+[   165s] B seed 0 a1 trained (135s)
+[   208s] B seed 0 a2 trained (178s)
+[   248s] B seed 0 a3 trained (219s)
+[   276s] B seed 0 all models trained (246s)
+[   331s] B seed 1 pv trained (55s)
+[   369s] B seed 1 a1 trained (93s)
+[   410s] B seed 1 a2 trained (134s)
+[   451s] B seed 1 a3 trained (175s)
+[   480s] B seed 1 all models trained (204s)
+[   481s] stage B DONE 481s
+[run_heavy] exit 0 after 482s

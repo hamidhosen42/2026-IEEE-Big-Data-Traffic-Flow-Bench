@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 0s
+[     3s] {'panel': 'D7_I10_E', 'march_w': 9, 'march_rows': 706, 'eval_w': 16, 'train_rows': 29422, 'ev_train': 286, 'ev_march': 27, 'ev_train_per_day': 1.05, 'ev_march_per_day': 0.87} 3s
+[     4s] {'panel': 'D7_I10_W', 'march_w': 8, 'march_rows': 582, 'eval_w': 13, 'train_rows': 11050, 'ev_train': 134, 'ev_march': 21, 'ev_train_per_day': 0.49, 'ev_march_per_day': 0.68} 1s
+[     9s] {'panel': 'D7_I210_E', 'march_w': 11, 'march_rows': 1778, 'eval_w': 16, 'train_rows': 62564, 'ev_train': 287, 'ev_march': 30, 'ev_train_per_day': 1.05, 'ev_march_per_day': 0.97} 5s
+[    10s] {'panel': 'D7_I210_W', 'march_w': 14, 'march_rows': 551, 'eval_w': 18, 'train_rows': 19268, 'ev_train': 397, 'ev_march': 39, 'ev_train_per_day': 1.45, 'ev_march_per_day': 1.26} 1s
+[    16s] {'panel': 'D7_I405_N', 'march_w': 15, 'march_rows': 2967, 'eval_w': 21, 'train_rows': 95500, 'ev_train': 401, 'ev_march': 40, 'ev_train_per_day': 1.47, 'ev_march_per_day': 1.29} 6s
+[    17s] {'panel': 'D7_I405_S', 'march_w': 11, 'march_rows': 578, 'eval_w': 16, 'train_rows': 22537, 'ev_train': 280, 'ev_march': 28, 'ev_train_per_day': 1.03, 'ev_march_per_day': 0.9} 1s
+[    20s] {'panel': 'D12_I5_N', 'march_w': 6, 'march_rows': 978, 'eval_w': 15, 'train_rows': 50188, 'ev_train': 281, 'ev_march': 24, 'ev_train_per_day': 1.03, 'ev_march_per_day': 0.77} 3s
+[    21s] {'panel': 'D12_I5_S', 'march_w': 10, 'march_rows': 537, 'eval_w': 16, 'train_rows': 20253, 'ev_train': 286, 'ev_march': 27, 'ev_train_per_day': 1.05, 'ev_march_per_day': 0.87} 1s
+    panel  march_w  march_rows  eval_w  train_rows  ev_train  ev_march  ev_train_per_day  ev_march_per_day
+ D7_I10_E        9         706      16       29422       286        27              1.05              0.87
+ D7_I10_W        8         582      13       11050       134        21              0.49              0.68
+D7_I210_E       11        1778      16       62564       287        30              1.05              0.97
+D7_I210_W       14         551      18       19268       397        39              1.45              1.26
+D7_I405_N       15        2967      21       95500       401        40              1.47              1.29
+D7_I405_S       11         578      16       22537       280        28              1.03              0.90
+ D12_I5_N        6         978      15       50188       281        24              1.03              0.77
+ D12_I5_S       10         537      16       20253       286        27              1.05              0.87
+[    21s] train rows (310782, 74) March rows (8677, 74) pos 0.0214 0.0222
+[   125s] A seed 0 pv trained (103s)
+[   190s] A seed 0 a1 trained (169s)
+[   244s] A seed 0 a2 trained (223s)
+[   300s] A seed 0 a3 trained (279s)
+[   337s] A seed 0 all models trained (316s)
+[   406s] A seed 1 pv trained (69s)
+[   457s] A seed 1 a1 trained (120s)
+[   511s] A seed 1 a2 trained (174s)
+[   564s] A seed 1 a3 trained (227s)
+[   598s] A seed 1 all models trained (261s)
+[   599s] stage A DONE 598s
+[run_heavy] exit 0 after 599s

@@ -1,0 +1,14 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2ogpvogf",
+   "queue_submission_pvogfv.csv",
+   "queue_ongoing",
+   "private"
+  ]
+ ],
+ "thr": 0.0,
+ "max_val_changed": 0,
+ "desc": "FINAL CANDIDATE A2 (same-scenario bet) on tfb-i4: April ongoing = March-augmented F03 np/id/full bag + scenario prior + 103 ogfeat columns (pvogfv; many-day pseudo-March +0.020 IoU 8/8, FM-PM private +0.0015); March rows unchanged"
+}

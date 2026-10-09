@@ -1,0 +1,40 @@
+== stage A (many-day pseudo-March, 131 windows of days >= 15): levels (seed-mean) ==
+  arm    iou     s0     s1
+    A 0.7034 0.7066 0.7002
+ A_s4 0.8117 0.8123 0.8111
+   pv 0.8507 0.8578 0.8437
+   a1 0.8615 0.8652 0.8578
+   a2 0.8581 0.8518 0.8644
+   a3 0.8651 0.8574 0.8728
+   b1 0.8469 0.8518 0.8421
+monly 0.6886 0.6715 0.7057
+   b2 0.8181 0.8205 0.8158
+parity seed 0 pv vs pvon_step2 B_bag: n 131, identical 1.000
+parity seed 0 A_s4 vs pvon_step2 A_s4: n 131, identical 1.000
+parity seed 0 A vs pvon_step2 A: n 131, identical 1.000
+
+== PRE-REGISTERED decision table (candidate - pv) ==
+arm    iou    ref    diff      lo      hi  pos  neg  changed   n      s0      s1   off40  off40_pos  offlike_f0  gate1  gate2  ADOPT
+ a1 0.8615 0.8507  0.0108 -0.0215  0.0459    3    4       28 131  0.0074  0.0141 -0.0079          1     -0.0028  False  False  False
+ a2 0.8581 0.8507  0.0074 -0.0250  0.0418    2    5       28 131 -0.0060  0.0208 -0.0200          0      0.0064  False  False  False
+ a3 0.8651 0.8507  0.0144 -0.0175  0.0487    2    4       28 131 -0.0004  0.0291 -0.0282          0      0.0089  False  False  False
+ b1 0.8469 0.8507 -0.0038 -0.0173  0.0112    2    4       13 131 -0.0060 -0.0015 -0.0020          1     -0.0096  False  False  False
+ b2 0.8181 0.8507 -0.0326 -0.0603 -0.0046    0    7       24 131 -0.0373 -0.0278 -0.0426          1     -0.0178  False  False  False
+
+== stage B levels (seed-mean) ==
+official {'A_s4': 0.8706, 'pv': 0.88, 'a1': 0.8721, 'a2': 0.86, 'a3': 0.8518, 'b1': 0.878, 'monly': 0.7725, 'b2': 0.8374}
+offlike {'A_s4': 0.8518, 'pv': 0.8577, 'a1': 0.8549, 'a2': 0.8641, 'a3': 0.8667, 'b1': 0.8481, 'monly': 0.7751, 'b2': 0.84}
+
+== reference: pv - A_s4 (many-day) == {'arm': 'pv', 'iou': 0.8507, 'ref': 0.8117, 'diff': 0.039, 'lo': 0.0095, 'hi': 0.0726, 'pos': 6, 'neg': 0, 'changed': 22, 'n': 131}
+a1 per-panel delta: {'D12_I5_N': -0.017, 'D12_I5_S': 0.094, 'D7_I10_E': -0.005, 'D7_I10_W': 0.051, 'D7_I210_E': 0.0, 'D7_I210_W': 0.01, 'D7_I405_N': -0.012, 'D7_I405_S': -0.035}
+a2 per-panel delta: {'D12_I5_N': -0.011, 'D12_I5_S': 0.172, 'D7_I10_E': -0.005, 'D7_I10_W': -0.083, 'D7_I210_E': 0.0, 'D7_I210_W': 0.022, 'D7_I405_N': -0.012, 'D7_I405_S': -0.023}
+a3 per-panel delta: {'D12_I5_N': -0.011, 'D12_I5_S': 0.151, 'D7_I10_E': 0.0, 'D7_I10_W': -0.058, 'D7_I210_E': 0.0, 'D7_I210_W': 0.055, 'D7_I405_N': -0.007, 'D7_I405_S': -0.015}
+b1 per-panel delta: {'D12_I5_N': 0.0, 'D12_I5_S': 0.016, 'D7_I10_E': -0.005, 'D7_I10_W': -0.019, 'D7_I210_E': 0.0, 'D7_I210_W': 0.008, 'D7_I405_N': -0.018, 'D7_I405_S': -0.011}
+b2 per-panel delta: {'D12_I5_N': -0.044, 'D12_I5_S': -0.044, 'D7_I10_E': -0.012, 'D7_I10_W': -0.045, 'D7_I210_E': 0.0, 'D7_I210_W': -0.031, 'D7_I405_N': -0.012, 'D7_I405_S': -0.072}
+A_s4  seed0 zero-overlap windows  15 loss share 0.623 under 0.208 over 0.170 mean n_pred 2.06 (true 2.18)
+pv    seed0 zero-overlap windows  11 loss share 0.598 under 0.195 over 0.207 mean n_pred 2.11 (true 2.18)
+a1    seed0 zero-overlap windows  10 loss share 0.564 under 0.211 over 0.225 mean n_pred 2.13 (true 2.18)
+a2    seed0 zero-overlap windows   9 loss share 0.477 under 0.214 over 0.273 mean n_pred 2.15 (true 2.18)
+a3    seed0 zero-overlap windows   8 loss share 0.444 under 0.252 over 0.304 mean n_pred 2.15 (true 2.18)
+b1    seed0 zero-overlap windows  12 loss share 0.625 under 0.172 over 0.203 mean n_pred 2.11 (true 2.18)
+b2    seed0 zero-overlap windows  10 loss share 0.431 under 0.206 over 0.363 mean n_pred 2.24 (true 2.18)

@@ -1,6 +1,6 @@
 {
- "base_kernel": "tfb-i4",
- "base_file": "submission_FDRTV.csv",
+ "base_kernel": "tfb-j4",
+ "base_file": "submission_J4.csv",
  "base_score": 0.88176,
  "best_score": 0.88179,
  "recon": {
@@ -42,11 +42,24 @@
    "score": 0.88176,
    "delta": 0.0,
    "keep": false
+  },
+  {
+   "slot": "Q4",
+   "score": 0.88176,
+   "delta": 0.0,
+   "keep": true
+  },
+  {
+   "slot": "Q5",
+   "score": null,
+   "keep": false,
+   "why": "override: skip"
   }
  ],
  "versions": {
   "tfb-j1d": 1,
   "tfb-j1": 1,
-  "tfb-j3": 1
+  "tfb-j3": 1,
+  "tfb-j4": 1
  }
 }

@@ -22,3 +22,17 @@
 [2026-10-09 08:45:01]    tfb-t2ogpvogfsm [   269s] VETO (> 10 cells outside the queue at T vs pvo): private ongoing windows vetoed 0/10 [] | pvogf windows changed vs pvo 10
 [2026-10-09 08:45:01]    tfb-t2ogpvogfsm [   300s] CONTROL chain-base ongoing vs pvogf (validation): agreement 1.000000 changed share 0.00000 rows 7380
 [2026-10-09 08:45:01]    tfb-t2ogpvogfsm [   300s] CONTROL chain-base ongoing vs pvogf (private): agreement 0.980623 changed share 0.01938 rows 7380
+[2026-10-09 09:45:20] tfb-t2ogpvogf status complete | done True | traceback False | files ['queue_submission_pvogf.csv', 'queue_submission_pvogf_npid.csv', 'queue_submission_pvogfv.csv', 't2pvogf_probs.npz', 't2pvogf_veto_windows.csv']
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvo reference rows matched 174000 of 174000
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogf vs pvo | validation: rows changed 0/87000 (0.0000%) | windows changed 0/80 | positives 5274 vs pvo 5274 | Jaccard 1.0000
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogf vs pvo | private: rows changed 251/87000 (0.2885%) | windows changed 33/80 | positives 4767 vs pvo 4854 | Jaccard 0.9491
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogf_npid vs pvo | validation: rows changed 0/87000 (0.0000%) | windows changed 0/80 | positives 5274 vs pvo 5274 | Jaccard 1.0000
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogf_npid vs pvo | private: rows changed 308/87000 (0.3540%) | windows changed 35/80 | positives 4726 vs pvo 4854 | Jaccard 0.9377
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogfv vs pvo | validation: rows changed 0/87000 (0.0000%) | windows changed 0/80 | positives 5274 vs pvo 5274 | Jaccard 1.0000
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] CONTROL pvogfv vs pvo | private: rows changed 251/87000 (0.2885%) | windows changed 33/80 | positives 4767 vs pvo 4854 | Jaccard 0.9491
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16399s] VETO (> 10 cells outside the queue at T vs pvo): private ongoing windows vetoed 0/40 [] | pvogf windows changed vs pvo 33
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16432s] CONTROL chain-base ongoing vs pvogf (validation): agreement 1.000000 changed share 0.00000 rows 43500
+[2026-10-09 09:45:20]    tfb-t2ogpvogf [ 16432s] CONTROL chain-base ongoing vs pvogf (private): agreement 0.991195 changed share 0.00880 rows 43500
+[2026-10-09 09:45:20] Q4 override written {"type": "queue2", "parts": [["tfb-t2ogpvogf", "queue_submission_pvogfv.csv", "queue_ongoing", "private"]], "thr": 0.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE A2 (same-scenario bet) on tfb-i4: April ongoing = March-augmented F03 np/id/full bag + scenario prior + 103 ogfeat columns (pvogfv; many-day pseudo-March +0.020 IoU 8/8, FM-PM private +0.0015); March rows unchanged"}
+[2026-10-09 09:45:20] Q5 override written {"type": "skip", "desc": "free"}
+[2026-10-09 09:45:20] p9b planner done
