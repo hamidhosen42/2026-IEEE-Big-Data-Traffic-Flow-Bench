@@ -1,0 +1,252 @@
+{
+ "tfb-par-t4": {
+  "priority": "required",
+  "minutes": 20,
+  "stages": [
+   "t4"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-final",
+   "hosen42/tfb-j4",
+   "hosen42/tfb-j3"
+  ],
+  "desc": "Task 4 NNLS (tfb-final cell 7) -> skeleton; path_flow must equal tfb-final and both final files exactly"
+ },
+ "tfb-par-onsetsp": {
+  "priority": "required",
+  "minutes": 10,
+  "stages": [
+   "onset_sp"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2osp"
+  ],
+  "desc": "Task 2 onset CatBoost + same-scenario prior (tfb-t2osp): base / sp2 / sp4 / sp8 queue files exactly"
+ },
+ "tfb-par-onsetpv": {
+  "priority": "required",
+  "minutes": 15,
+  "stages": [
+   "onset_pv"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2opv",
+   "hosen42/tfb-t2osp"
+  ],
+  "desc": "Task 2 onset pv bag (tfb-t2opv): base / sp4 / pv / pvb exactly; base and sp4 also against tfb-t2osp"
+ },
+ "tfb-par-t1mix": {
+  "priority": "required",
+  "minutes": 15,
+  "stages": [
+   "t1_mix"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t1v11a",
+   "hosen42/tfb-t1v11b",
+   "hosen42/tfb-t1v12a",
+   "hosen42/tfb-t1v12b",
+   "hosen42/tfb-t1v12s2a",
+   "hosen42/tfb-t1v12s2b",
+   "hosen42/tfb-t1v12s3a",
+   "hosen42/tfb-t1v12s3b",
+   "hosen42/tfb-t1v12s4a",
+   "hosen42/tfb-t1v12s4b",
+   "hosen42/tfb-t1v12s5a",
+   "hosen42/tfb-t1v12s5b",
+   "hosen42/tfb-t1v12s6a",
+   "hosen42/tfb-t1v12s6b",
+   "hosen42/tfb-t1v12s7a",
+   "hosen42/tfb-t1v12s7b",
+   "hosen42/tfb-t1v13a",
+   "hosen42/tfb-t1v13b",
+   "hosen42/tfb-t1v13s10a",
+   "hosen42/tfb-t1v13s10b",
+   "hosen42/tfb-t1v13s11a",
+   "hosen42/tfb-t1v13s11b",
+   "hosen42/tfb-t1darka",
+   "hosen42/tfb-t1darkb",
+   "hosen42/tfb-t1rampa",
+   "hosen42/tfb-t1rampb",
+   "hosen42/tfb-t1ramp2a",
+   "hosen42/tfb-t1ramp2b",
+   "hosen42/tfb-t1bspeca",
+   "hosen42/tfb-t1bspecb",
+   "hosen42/tfb-t1bspecc",
+   "hosen42/tfb-i4d"
+  ],
+  "desc": "T1 mix + blackout override (tfb-i4d) from the 31 original member outputs; every row vs tfb-i4d"
+ },
+ "tfb-par-t1recon": {
+  "priority": "required",
+  "minutes": 20,
+  "stages": [
+   "t1_recon"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-i4d",
+   "hosen42/tfb-i4"
+  ],
+  "desc": "FD recon + 1-D TV (tfb-i4) on the original tfb-i4d file; FDR / FDRTV / TV vs tfb-i4"
+ },
+ "tfb-par-asma2": {
+  "priority": "required",
+  "minutes": 8,
+  "stages": [
+   "assemble"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-i4",
+   "hosen42/tfb-t2osp",
+   "hosen42/tfb-t2occ",
+   "hosen42/tfb-t2opv",
+   "hosen42/tfb-t2ogpvogf",
+   "hosen42/tfb-j4"
+  ],
+  "desc": "queue assembly A2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j4 submission_J4.csv"
+ },
+ "tfb-par-asmb2": {
+  "priority": "required",
+  "minutes": 8,
+  "stages": [
+   "assemble"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-i4",
+   "hosen42/tfb-t2osp",
+   "hosen42/tfb-t2occ",
+   "hosen42/tfb-t2ogveto",
+   "hosen42/tfb-j3"
+  ],
+  "desc": "queue assembly B2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j3 submission_J3.csv"
+ },
+ "tfb-par-chaint1": {
+  "priority": "integration",
+  "minutes": 45,
+  "stages": [
+   "t4",
+   "t1_mix",
+   "t1_recon"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t1v11a",
+   "hosen42/tfb-t1v11b",
+   "hosen42/tfb-t1v12a",
+   "hosen42/tfb-t1v12b",
+   "hosen42/tfb-t1v12s2a",
+   "hosen42/tfb-t1v12s2b",
+   "hosen42/tfb-t1v12s3a",
+   "hosen42/tfb-t1v12s3b",
+   "hosen42/tfb-t1v12s4a",
+   "hosen42/tfb-t1v12s4b",
+   "hosen42/tfb-t1v12s5a",
+   "hosen42/tfb-t1v12s5b",
+   "hosen42/tfb-t1v12s6a",
+   "hosen42/tfb-t1v12s6b",
+   "hosen42/tfb-t1v12s7a",
+   "hosen42/tfb-t1v12s7b",
+   "hosen42/tfb-t1v13a",
+   "hosen42/tfb-t1v13b",
+   "hosen42/tfb-t1v13s10a",
+   "hosen42/tfb-t1v13s10b",
+   "hosen42/tfb-t1v13s11a",
+   "hosen42/tfb-t1v13s11b",
+   "hosen42/tfb-t1darka",
+   "hosen42/tfb-t1darkb",
+   "hosen42/tfb-t1rampa",
+   "hosen42/tfb-t1rampb",
+   "hosen42/tfb-t1ramp2a",
+   "hosen42/tfb-t1ramp2b",
+   "hosen42/tfb-t1bspeca",
+   "hosen42/tfb-t1bspecb",
+   "hosen42/tfb-t1bspecc",
+   "hosen42/tfb-j4"
+  ],
+  "desc": "production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow vs tfb-j4"
+ },
+ "tfb-par-chaint2a2": {
+  "priority": "integration",
+  "minutes": 30,
+  "stages": [
+   "onset_sp",
+   "onset_pv",
+   "assemble"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-i4",
+   "hosen42/tfb-t2occ",
+   "hosen42/tfb-t2ogpvogf",
+   "hosen42/tfb-j4"
+  ],
+  "desc": "A2 queue rows with the onset stages rerun (ongoing rows from the original producers) vs tfb-j4, every row"
+ },
+ "tfb-par-chaint2b2": {
+  "priority": "integration",
+  "minutes": 20,
+  "stages": [
+   "onset_sp",
+   "assemble"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-i4",
+   "hosen42/tfb-t2occ",
+   "hosen42/tfb-t2ogveto",
+   "hosen42/tfb-j3"
+  ],
+  "desc": "B2 queue rows with the onset stage rerun (ongoing rows from the original producers) vs tfb-j3, every row"
+ },
+ "tfb-par-lean1": {
+  "priority": "optional",
+  "minutes": 30,
+  "stages": [
+   "t1_mix",
+   "t1_recon"
+  ],
+  "pick": "A2",
+  "recipe": "lean1",
+  "sources": [
+   "hosen42/tfb-t1v12s4a",
+   "hosen42/tfb-t1v12s4b",
+   "hosen42/tfb-t1v12s5a",
+   "hosen42/tfb-t1v12s5b",
+   "hosen42/tfb-t1v12s6a",
+   "hosen42/tfb-t1v12s6b",
+   "hosen42/tfb-t1v12s7a",
+   "hosen42/tfb-t1v12s7b",
+   "hosen42/tfb-t1v13a",
+   "hosen42/tfb-t1v13b",
+   "hosen42/tfb-t1v13s10a",
+   "hosen42/tfb-t1v13s10b",
+   "hosen42/tfb-t1v13s11a",
+   "hosen42/tfb-t1v13s11b",
+   "hosen42/tfb-t1rampa",
+   "hosen42/tfb-t1rampb",
+   "hosen42/tfb-t1bspeca",
+   "hosen42/tfb-t1bspecb",
+   "hosen42/tfb-t1bspecc",
+   "hosen42/tfb-i4d",
+   "hosen42/tfb-i4"
+  ],
+  "desc": "DESIGN 3.3 decision data: lean-1 mix (19 member outputs) + recon/TV; state RMS vs the full-recipe tfb-i4d / tfb-i4 (DIFF expected)"
+ }
+}
