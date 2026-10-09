@@ -1,0 +1,256 @@
+22:46:39 pushed tfb-par-t4 v 1
+22:47:32 pushed tfb-par-onsetsp v 1
+22:48:26 pushed tfb-par-onsetpv v 1
+22:49:19 pushed tfb-par-t1mix v 1
+22:54:38 pushed tfb-par-t1recon v 1
+22:57:43 pushed tfb-par-asma2 v 1
+22:58:37 pushed tfb-par-asmb2 v 1
+23:02:50 pushed tfb-par-chaint1 v 1
+23:04:50 pushed tfb-par-chaint2a2 v 1
+23:05:43 pushed tfb-par-chaint2b2 v 1
+23:07:42 pushed tfb-par-lean1 v 1
+23:08:29 == tfb-par-t4 complete
+23:08:29     PARITY KERNEL tfb-par-t4 | tfb 0.1.0-m1 tree 99d458e7d118 | stages ['t4'] | pick A2 | recipe full
+23:08:29     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:29     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:29     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "AMD EPYC 7B12", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:29     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:29     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:29     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:29     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "AMD EPYC 7B12", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:29     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:29     PARITY t4_vs_tfb-final ids status=EXACT rows=6980503 bytes_identical=False
+23:08:29     PARITY t4_vs_tfb-final odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:29     PARITY t4_vs_tfb-j4 ids status=EXACT rows=6980503 bytes_identical=False
+23:08:29     PARITY t4_vs_tfb-j4 odme.path_flow status=NUMERIC rows=70708 n_diff=390 max_abs=8.527e-14 max_rel=3.937e-16
+23:08:29     PARITY t4_vs_tfb-j3 ids status=EXACT rows=6980503 bytes_identical=False
+23:08:29     PARITY t4_vs_tfb-j3 odme.path_flow status=NUMERIC rows=70708 n_diff=390 max_abs=8.527e-14 max_rel=3.937e-16
+23:08:29     PARITY SUMMARY verdict=CLOSE EXACT=4 NUMERIC=2 DIFF=0 FAIL=0 SKIP=0
+23:08:29     PARITY KERNEL DONE in 569s
+23:08:30 == tfb-par-onsetsp complete
+23:08:30     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:30     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:30     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:30     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:30     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:30     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:30     [   282s] CONTROL v13 skipped: FileNotFoundError kernel output tfb-t2v13/queue_submission.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-t2v13/queue_submission.csv', '/kaggle/input/**/tfb-t2v13/**/queue_submission.csv']); run the st
+23:08:30     [   307s] CONTROL base skipped: FileNotFoundError kernel output tfb-e3/submission_E3.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-e3/submission_E3.csv', '/kaggle/input/**/tfb-e3/**/submission_E3.csv']); run the stage that produces 
+23:08:30     PARITY onsetsp_base queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=308 pos_orig=308
+23:08:30     PARITY onsetsp_base queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_base queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=157 pos_orig=157
+23:08:30     PARITY onsetsp_base queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_base queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:30     PARITY onsetsp_sp2 queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=315 pos_orig=315
+23:08:30     PARITY onsetsp_sp2 queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp2 queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=164 pos_orig=164
+23:08:30     PARITY onsetsp_sp2 queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp2 queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:30     PARITY onsetsp_sp4 queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=315 pos_orig=315
+23:08:30     PARITY onsetsp_sp4 queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp4 queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=164 pos_orig=164
+23:08:30     PARITY onsetsp_sp4 queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp4 queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:30     PARITY onsetsp_sp8 queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=313 pos_orig=313
+23:08:30     PARITY onsetsp_sp8 queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp8 queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=161 pos_orig=161
+23:08:30     PARITY onsetsp_sp8 queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:30     PARITY onsetsp_sp8 queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=152 pos_orig=152
+23:08:30     PARITY SUMMARY verdict=PASS EXACT=20 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:30     PARITY KERNEL DONE in 340s
+23:08:31 == tfb-par-onsetpv complete
+23:08:31     PARITY onsetpv_base queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=157 pos_orig=157
+23:08:31     PARITY onsetpv_base queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_base queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY onsetpv_sp4 queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=315 pos_orig=315
+23:08:31     PARITY onsetpv_sp4 queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_sp4 queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=164 pos_orig=164
+23:08:31     PARITY onsetpv_sp4 queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_sp4 queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY onsetpv_pv queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=310 pos_orig=310
+23:08:31     PARITY onsetpv_pv queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_pv queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=159 pos_orig=159
+23:08:31     PARITY onsetpv_pv queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_pv queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY onsetpv_pvb queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=310 pos_orig=310
+23:08:31     PARITY onsetpv_pvb queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_pvb queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=159 pos_orig=159
+23:08:31     PARITY onsetpv_pvb queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_pvb queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY onsetpv_base_vs_osp queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=308 pos_orig=308
+23:08:31     PARITY onsetpv_base_vs_osp queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_base_vs_osp queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=157 pos_orig=157
+23:08:31     PARITY onsetpv_base_vs_osp queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_base_vs_osp queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY onsetpv_sp4_vs_osp queue status=EXACT rows=174000 unmatched=0 n_diff=0 pos_ours=315 pos_orig=315
+23:08:31     PARITY onsetpv_sp4_vs_osp queue.private.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_sp4_vs_osp queue.private.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=164 pos_orig=164
+23:08:31     PARITY onsetpv_sp4_vs_osp queue.validation.queue_ongoing status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=0 pos_orig=0
+23:08:31     PARITY onsetpv_sp4_vs_osp queue.validation.queue_onset status=EXACT rows=43500 n_diff=0 windows_diff=0 min_jaccard=1 pos_ours=151 pos_orig=151
+23:08:31     PARITY SUMMARY verdict=PASS EXACT=30 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:31     PARITY KERNEL DONE in 459s
+23:08:33 == tfb-par-t1mix complete
+23:08:33     PARITY KERNEL tfb-par-t1mix | tfb 0.1.0-m1 tree 6d97a69f2b95 | stages ['t1_mix'] | pick A2 | recipe full
+23:08:33     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:33     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:33     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:33     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:33     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:33     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:33     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:33     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:33     PARITY t1mix_vs_tfb-i4d ids status=EXACT rows=6980503 bytes_identical=True
+23:08:33     PARITY t1mix_vs_tfb-i4d state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:33     PARITY t1mix_vs_tfb-i4d state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:33     PARITY t1mix_vs_tfb-i4d queue status=EXACT rows=174000 n_diff=0 pos_ours=10432 pos_orig=10432 n_diff_validation=0 n_diff_private=0
+23:08:33     PARITY t1mix_vs_tfb-i4d odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:33     PARITY SUMMARY verdict=PASS EXACT=5 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:33     PARITY KERNEL DONE in 772s
+23:08:34 == tfb-par-t1recon complete
+23:08:34     PARITY KERNEL tfb-par-t1recon | tfb 0.1.0-m1 tree 43e897b4ab5d | stages ['t1_recon'] | pick A2 | recipe full
+23:08:34     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:34     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:34     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:34     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:34     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:34     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:34     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:34     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:34     PARITY t1recon_FDRTV ids status=EXACT rows=6980503 bytes_identical=True
+23:08:34     PARITY t1recon_FDRTV state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_FDRTV state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_FDRTV queue status=EXACT rows=174000 n_diff=0 pos_ours=10432 pos_orig=10432 n_diff_validation=0 n_diff_private=0
+23:08:34     PARITY t1recon_FDRTV odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:34     PARITY t1recon_FDR ids status=EXACT rows=6980503 bytes_identical=True
+23:08:34     PARITY t1recon_FDR state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_FDR state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_FDR queue status=EXACT rows=174000 n_diff=0 pos_ours=10432 pos_orig=10432 n_diff_validation=0 n_diff_private=0
+23:08:34     PARITY t1recon_FDR odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:34     PARITY t1recon_TV ids status=EXACT rows=6980503 bytes_identical=True
+23:08:34     PARITY t1recon_TV state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_TV state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:34     PARITY t1recon_TV queue status=EXACT rows=174000 n_diff=0 pos_ours=10432 pos_orig=10432 n_diff_validation=0 n_diff_private=0
+23:08:34     PARITY t1recon_TV odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:34     PARITY SUMMARY verdict=PASS EXACT=15 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:34     PARITY KERNEL DONE in 590s
+23:08:36 == tfb-par-asma2 complete
+23:08:36     PARITY KERNEL tfb-par-asma2 | tfb 0.1.0-m1 tree 015d781155f1 | stages ['assemble'] | pick A2 | recipe full
+23:08:36     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:36     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:36     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:36     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:36     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:36     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:36     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:36     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:36     PARITY asm_A2_vs_tfb-j4 ids status=EXACT rows=6980503 bytes_identical=True
+23:08:36     PARITY asm_A2_vs_tfb-j4 state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:36     PARITY asm_A2_vs_tfb-j4 state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:36     PARITY asm_A2_vs_tfb-j4 queue status=EXACT rows=174000 n_diff=0 pos_ours=10345 pos_orig=10345 n_diff_validation=0 n_diff_private=0
+23:08:36     PARITY asm_A2_vs_tfb-j4 odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:36     PARITY SUMMARY verdict=PASS EXACT=5 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:36     PARITY KERNEL DONE in 149s
+23:08:37 == tfb-par-asmb2 complete
+23:08:37     PARITY KERNEL tfb-par-asmb2 | tfb 0.1.0-m1 tree 015d781155f1 | stages ['assemble'] | pick B2 | recipe full
+23:08:37     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:37     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:37     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:37     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:37     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:08:37     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:08:37     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:08:37     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:08:37     PARITY asm_B2_vs_tfb-j3 ids status=EXACT rows=6980503 bytes_identical=True
+23:08:37     PARITY asm_B2_vs_tfb-j3 state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:37     PARITY asm_B2_vs_tfb-j3 state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:08:37     PARITY asm_B2_vs_tfb-j3 queue status=EXACT rows=174000 n_diff=0 pos_ours=10285 pos_orig=10285 n_diff_validation=0 n_diff_private=0
+23:08:37     PARITY asm_B2_vs_tfb-j3 odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:08:37     PARITY SUMMARY verdict=PASS EXACT=5 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:08:37     PARITY KERNEL DONE in 195s
+23:14:53 == tfb-par-chaint2b2 complete
+23:14:53     PARITY KERNEL tfb-par-chaint2b2 | tfb 0.1.0-m1 tree ad40f37f6af1 | stages ['onset_sp', 'assemble'] | pick B2 | recipe full
+23:14:53     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:14:53     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:14:53     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:14:53     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:14:53     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:14:53     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:14:53     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:14:53     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:14:53     [   298s] CONTROL v13 skipped: FileNotFoundError kernel output tfb-t2v13/queue_submission.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-t2v13/queue_submission.csv', '/kaggle/input/**/tfb-t2v13/**/queue_submission.csv']); run the st
+23:14:53     [   319s] CONTROL base skipped: FileNotFoundError kernel output tfb-e3/submission_E3.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-e3/submission_E3.csv', '/kaggle/input/**/tfb-e3/**/submission_E3.csv']); run the stage that produces 
+23:14:53     PARITY chaint2_B2_vs_tfb-j3 ids status=EXACT rows=6980503 bytes_identical=True
+23:14:53     PARITY chaint2_B2_vs_tfb-j3 state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:14:53     PARITY chaint2_B2_vs_tfb-j3 state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:14:53     PARITY chaint2_B2_vs_tfb-j3 queue status=EXACT rows=174000 n_diff=0 pos_ours=10285 pos_orig=10285 n_diff_validation=0 n_diff_private=0
+23:14:53     PARITY chaint2_B2_vs_tfb-j3 odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:14:53     PARITY SUMMARY verdict=PASS EXACT=5 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:14:53     PARITY KERNEL DONE in 500s
+23:22:06 == tfb-par-chaint2a2 complete
+23:22:06     PARITY KERNEL tfb-par-chaint2a2 | tfb 0.1.0-m1 tree 83a0d2b2eb59 | stages ['onset_sp', 'onset_pv', 'assemble'] | pick A2 | recipe full
+23:22:06     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:22:06     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:22:06     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:22:06     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:22:06     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:22:06     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:22:06     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:22:06     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:22:06     [   296s] CONTROL v13 skipped: FileNotFoundError kernel output tfb-t2v13/queue_submission.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-t2v13/queue_submission.csv', '/kaggle/input/**/tfb-t2v13/**/queue_submission.csv']); run the st
+23:22:06     [   320s] CONTROL base skipped: FileNotFoundError kernel output tfb-e3/submission_E3.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-e3/submission_E3.csv', '/kaggle/input/**/tfb-e3/**/submission_E3.csv']); run the stage that produces 
+23:22:06     [   417s] CONTROL v13 skipped: FileNotFoundError kernel output tfb-t2v13/queue_submission.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-t2v13/queue_submission.csv', '/kaggle/input/**/tfb-t2v13/**/queue_submission.csv']); run the st
+23:22:06     [   438s] CONTROL base skipped: FileNotFoundError kernel output tfb-e3/submission_E3.csv not found (looked in ['/kaggle/working/tfb_work/kernels/tfb-e3/submission_E3.csv', '/kaggle/input/**/tfb-e3/**/submission_E3.csv']); run the stage that produces 
+23:22:06     PARITY chaint2_A2_vs_tfb-j4 ids status=EXACT rows=6980503 bytes_identical=True
+23:22:06     PARITY chaint2_A2_vs_tfb-j4 state.speed_kmh status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:22:06     PARITY chaint2_A2_vs_tfb-j4 state.flow_vph status=EXACT rows=6735795 n_diff=0 max_abs=0 rms=0
+23:22:06     PARITY chaint2_A2_vs_tfb-j4 queue status=EXACT rows=174000 n_diff=0 pos_ours=10345 pos_orig=10345 n_diff_validation=0 n_diff_private=0
+23:22:06     PARITY chaint2_A2_vs_tfb-j4 odme.path_flow status=EXACT rows=70708 n_diff=0 max_abs=0 max_rel=0
+23:22:06     PARITY SUMMARY verdict=PASS EXACT=5 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+23:22:06     PARITY KERNEL DONE in 952s
+23:33:24 == tfb-par-lean1 complete
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.validation.all status=DIFF rows=3451376 n_diff=3451354 max_abs=11.62 rms=0.09065
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.validation.blackout status=DIFF rows=64720 n_diff=64718 max_abs=4.086 rms=0.1499
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.validation.ordinary status=DIFF rows=3386656 n_diff=3386636 max_abs=11.62 rms=0.08913
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.private.all status=DIFF rows=3284419 n_diff=3284409 max_abs=9.051 rms=0.09342
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.private.blackout status=DIFF rows=63745 n_diff=63743 max_abs=3.81 rms=0.1463
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.speed_kmh.private.ordinary status=DIFF rows=3220674 n_diff=3220666 max_abs=9.051 rms=0.09207
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph status=DIFF rows=6735795 n_diff=6735795 max_abs=260 rms=7.133
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.validation.all status=DIFF rows=3451376 n_diff=3451376 max_abs=260 rms=7.094
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.validation.blackout status=DIFF rows=64720 n_diff=64720 max_abs=125.4 rms=6.073
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.validation.ordinary status=DIFF rows=3386656 n_diff=3386656 max_abs=260 rms=7.112
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.private.all status=DIFF rows=3284419 n_diff=3284419 max_abs=248.5 rms=7.174
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.private.blackout status=DIFF rows=63745 n_diff=63745 max_abs=82.49 rms=5.281
+23:33:24     PARITY lean1_raw_vs_full_tfb-i4d state.flow_vph.private.ordinary status=DIFF rows=3220674 n_diff=3220674 max_abs=248.5 rms=7.207
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 ids status=EXACT rows=6980503 bytes_identical=False
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh status=DIFF rows=6735795 n_diff=6735763 max_abs=34.19 rms=0.0977
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.validation.all status=DIFF rows=3451376 n_diff=3451354 max_abs=34.19 rms=0.09924
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.validation.blackout status=DIFF rows=64720 n_diff=64718 max_abs=22.37 rms=0.223
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.validation.ordinary status=DIFF rows=3386656 n_diff=3386636 max_abs=34.19 rms=0.09532
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.private.all status=DIFF rows=3284419 n_diff=3284409 max_abs=23.31 rms=0.09605
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.private.blackout status=DIFF rows=63745 n_diff=63743 max_abs=20.91 rms=0.2186
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.speed_kmh.private.ordinary status=DIFF rows=3220674 n_diff=3220666 max_abs=23.31 rms=0.09199
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph status=DIFF rows=6735795 n_diff=6735795 max_abs=808.1 rms=6.805
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.validation.all status=DIFF rows=3451376 n_diff=3451376 max_abs=771.4 rms=6.773
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.validation.blackout status=DIFF rows=64720 n_diff=64720 max_abs=676.9 rms=8.493
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.validation.ordinary status=DIFF rows=3386656 n_diff=3386656 max_abs=771.4 rms=6.735
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.private.all status=DIFF rows=3284419 n_diff=3284419 max_abs=808.1 rms=6.84
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.private.blackout status=DIFF rows=63745 n_diff=63745 max_abs=721.5 rms=7.981
+23:33:24     PARITY lean1_final_vs_full_tfb-i4 state.flow_vph.private.ordinary status=DIFF rows=3220674 n_diff=3220674 max_abs=808.1 rms=6.815
+23:33:24     PARITY SUMMARY verdict=CLOSE EXACT=2 NUMERIC=0 DIFF=28 FAIL=0 SKIP=0
+23:33:24     PARITY KERNEL DONE in 1384s
+23:40:29 == tfb-par-chaint1 error
+23:40:29     PARITY KERNEL tfb-par-chaint1 | tfb 0.1.0-m1 tree 644707d88fad | stages ['t4', 't1_mix', 't1_recon'] | pick A2 | recipe full
+23:40:29     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:40:29     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:40:29     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:40:29     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:40:29     ENV python 3.13.15 | Linux-6.18.48+-x86_64-with-glibc2.39
+23:40:29     ENV packages {"numpy": "2.1.3", "pandas": "2.3.3", "scipy": "1.16.3", "lightgbm": "4.6.0", "catboost": "1.2.10", "pyarrow": "23.0.1", "scikit-learn": "1.6.1"}
+23:40:29     ENV cpu {"machine": "x86_64", "processor": "x86_64", "nproc": 4, "model": "Intel(R) Xeon(R) CPU @ 2.20GHz", "flags": ["avx", "avx2", "fma", "sse4_2"], "mem_gb": 31.3}
+23:40:29     ENV threads {"OMP_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null, "MKL_NUM_THREADS": null, "VECLIB_MAXIMUM_THREADS": null, "PYTHONHASHSEED": null}
+23:40:29     Traceback (most recent call last):
+23:40:29     AssertionError: written path_flow differs from base
+23:40:29     Traceback (most recent call last):
+23:40:29         raise StageError(f'stage {stage} failed with exit code {p.returncode} after {dt:.0f}s (log above)')
+23:40:29     tfb.runner.StageError: stage t1_recon failed with exit code 1 after 194s (log above)
+23:41:29 ALL DONE

@@ -1,8 +1,8 @@
 # TrafficFlowBench final picks — reproduction code (team hosen42)
 
-> **Draft (milestone 1).** The framework and the light stages are ported and smoke-tested. The heavy stages (pseudo
-> windows, the Task 1 LightGBM members and the Task 2 ongoing LightGBM producers) are registered but **not ported yet**
-> (milestone 2). Until then, their outputs must be provided as files (see *Development*).
+> **Draft (milestone 2).** Every stage of both picks is ported.
+> - Milestone 1 (light stages) passed Kaggle parity on 2026-10-09. The path_flow fix is to be re-confirmed with `tfb-par-t4` / `tfb-par-chaint1`.
+> - The milestone-2 parity kernels (pseudo windows, Task 1 members, Task 2 ongoing) are generated and dry-run locally, and are waiting for their Kaggle runs.
 
 One entry script rebuilds either final submission of the 2026 IEEE Big Data Cup – TrafficFlowBench competition from the
 released data:
@@ -44,20 +44,22 @@ mtimes). It reruns everything downstream of a changed input. A crashed stage lea
 ## Stages
 
 Each stage is the original Kaggle kernel, vendored into `tfb/stages/` with only its I/O and recipe-constant lines changed.
+Within one Task 1 family the 2–16 parts differ only in constants, so each family is one template. The constants come from `tfb/config.py` (`t1_part_cfg`).
+`tests/test_templates.py` renders every template with each part's constants and checks that the result equals that part's original source as an AST, for all 31 parts and ogfa/ogfb.
 Every changed line ends in `# [TFB]`, and `tests/test_static.py` enforces this. A stage writes the files of the kernel it
 reproduces into `<work>/kernels/<kernel>/`. It reads upstream results through `TFB.kfile(<kernel>, <file>)` instead of
 `/kaggle/input/**/<kernel>/**/<file>`.
 
 | Stage | Reproduces | Source (`lineage_src/`) | Writes | Kaggle runtime | Peak RAM | Status |
 |---|---|---|---|---:|---:|---|
-| `pseudo` | `tfb-t2lab-full` | `tfb-t2lab-full.py` (`build_windows(P, cap=None)`) | `pseudo_<panel>.npz` | 203 s | small | M2 |
-| `t1_members` | 15 members × parts a/b(/c) | `tfb-t1v11a.py` … `tfb-t1bspecc.py` | `state_submission_FTA.csv` | 4.6–9.6 h per member | 26.6–28.0 GB | M2 |
+| `pseudo` | `tfb-t2lab-full` | `tfb-t2lab-full.py` (`build_windows(P, cap=None)`) | `pseudo_<panel>.npz` (self-checked: counts + SHA-1) | 203 s | small | M2 |
+| `t1m:<part>` (`t1_members` = all parts of the recipe) | 15 members × parts a/b(/c): 31 kernels (lean1: 19) | 6 family templates `t1_{fta,fta_v11,fd,dark,ramp,bspec}.py` from `tfb-t1v12s4a`, `v11a`, `v13a`, `darka`, `rampa`, `bspeca` | `state_submission_FTA.csv` | 1.3–5.6 h per part | 26.6–28.0 GB | M2 |
 | `t4` | `tfb-final` cell 7 | `tfb-final.py` (notebook) | `submission.csv` skeleton (odme rows = NNLS, state / queue rows 0), `odme_path_flow.csv` | ≈ 15 min | small | **M1** |
 | `onset_sp` | `tfb-t2osp` | `tfb-t2osp.py` | `queue_submission_{base,sp2,sp4,sp8}.csv` | 333 s | < 8 GB (est.) | **M1** |
 | `onset_pv` (A2) | `tfb-t2opv` | `tfb-t2opv.py` | `queue_submission_{base,sp4,pv,pvb}.csv` | 523 s | < 8 GB (est.) | **M1** |
-| `ongoing_val` | `tfb-t2occ` | `tfb-t2occ.py` | `queue_submission_fs4occ.csv`, `t2v26occ_probs.npz` | 5.5 h | 12–16 GB (est.) | M2 |
-| `ongoing_pvogf` (A2) | `tfb-t2ogpvogf` | `tfb-t2ogpvogf.py` | `queue_submission_pvogfv.csv` | 4.6 h | 20–26 GB (est.) | M2 |
-| `ogfeat_a/b`, `ogfeat_comb`, `ogveto` (B2) | `tfb-t2ogfa/b/c`, `tfb-t2ogveto` | same names | `queue_submission_veto10.csv` | 5.1 + 6.4 h + 1 min | 20–25 GB (est.) | M2 |
+| `ongoing_val` | `tfb-t2occ` | `tfb-t2occ.py` (`t2_occ.py`) | `queue_submission_fs4occ.csv`, `t2v26occ_probs.npz` | 5.5 h | 12–16 GB (est.) | M2 |
+| `ongoing_pvogf` (A2) | `tfb-t2ogpvogf` | `tfb-t2ogpvogf.py` (`t2_pvogf.py`) | `queue_submission_pvogf.csv` (= pvogfv on private rows: 0/40 vetoes, so the pvo reference is not needed) | 4.6 h | 20–26 GB (est.) | M2 |
+| `ogfeat_a/b`, `ogfeat_comb`, `ogveto` (B2) | `tfb-t2ogfa/b/c`, `tfb-t2ogveto` | template `t2_ogfeat.py` (part a / b), `t2_ogfc.py`, `t2_ogveto.py` | `queue_submission_veto10.csv` | 5.1 + 6.4 h + 1 min | 20–25 GB (est.) | M2 |
 | `t1_mix` | `tfb-i4d` | `tfb-i4d.py` (`t1_t1dark_swap.py`) | `submission_T1DARK.csv` | 444 s | ≈ 10 GB (est.) | **M1** |
 | `t1_recon` | `tfb-i4` | `tfb-i4.py` (`swap_fdrecon.py`) | `submission_{FDR,FDRTV,TV}.csv` | 499 s | 6–10 GB (est.) | **M1** |
 | `assemble` | `tfb-j4` (A2) / `tfb-j3` (B2) | `tfb-j3.py` (`swap_queue2.py`) | `submission_J4.csv` / `submission_J3.csv` | 97 s | small | **M1** |
@@ -114,6 +116,8 @@ reproduces into `<work>/kernels/<kernel>/`. It reads upstream results through `T
 
 ```bash
 python tests/test_static.py                       # level 0: vendored diffs only on [TFB] lines; constants = original kernels
+python tests/test_templates.py                    # level 0: each family template rendered per part == the original part (31 + 2)
+python tests/test_csv_roundtrip.py                # the path_flow CSV fixed point (reproduces the 2026-10-09 chaint1 failure)
 python tests/make_fixture.py /tmp/fx              # miniature release + stand-in member / ongoing outputs (local files only)
 python run_all.py --data-root /tmp/fx/kaggle_public --work-dir /tmp/fx/work --pick A2 --recipe full \
        --stages light --smoke --seed-kernel-outputs /tmp/fx/kernels
@@ -136,17 +140,24 @@ python tests/dryrun_parity.py /tmp/fx             # runs every generated kernel 
 
 Queue rows and path_flow must be EXACT. For state rows the kernel reports max |Δ| and RMS per split and for blackout / ordinary rows separately. `kaggle_parity/SOURCES.md` lists the sources and the push command of each kernel.
 
-## Local smoke results (milestone 1, fixture: 3 panels, 381,170 rows)
+## Local smoke results
 
-| Stage | Local time | Peak RSS | Notes |
-|---|---:|---:|---|
-| t4 | 7 s | 0.5 GB | 0 unmatched odme keys |
-| onset_sp | 7 s | 0.7 GB | CONTROL lookups (tfb-t2v13, tfb-e3) are absent and skipped, as designed |
-| onset_pv | 19 s | 0.85 GB | `pv == sp4 on validation rows: True` |
-| t1_mix | 5–8 s | 0.9 GB | blackout share 2.07 % (the kernel gate needs 0.5–5 %) |
-| t1_recon | 7 s | 1.0 GB | 0 panels excluded; R and T exercised |
-| assemble A2 / B2 | 1 s | 0.4 GB | 29,520 / 29,520 queue rows covered |
+**Fixture.** `tests/make_fixture.py` builds the fixture from local files only:
+- D7_I10_E and D12_I5_S: fake release rebuilt from the lab exports, plus occupancy and real train window indexes;
+- D12_I405_S: the real local files;
+- D7_I10_W: a station-level clone of D12_I405_S with the real D7_I10_W windows, for the member SMOKE runs;
+- 408,000 state rows, 29,520 queue rows, 4,842 odme rows.
 
-All 11 generated parity kernels were dry-run against a fake `/kaggle/input`:
-- 10 returned PASS. Every rerun was byte-identical to the first run on this machine.
-- `tfb-par-lean1` returned CLOSE, as expected: the lean recipe differs from the full one by design.
+**Runs.** All stages run with `--smoke`, which turns on the kernels' own SMOKE switches.
+
+| Stages | Result |
+|---|---|
+| light A2 / B2 (t4, onset_sp, onset_pv, t1_mix, t1_recon, assemble) | all done (1–20 s each); B2 reuses every cached stage |
+| pseudo | done; builder matches 7 of the 10 official train windows (D7_I10_E) |
+| ongoing_val, ongoing_pvogf (A2) | done (35 s / 51 s); pvogf validation rows = fs4occ; no pvo → pvogf only |
+| ogfeat_a / ogfeat_b / ogfeat_comb / ogveto (B2) | done; ogfc control "recomputed vs ogfa / ogfb files: agreement 1.000000" |
+| members `t1m:` v13a, v12s4a, v11a, darka, rampa, bspeca, bspecc | done (7–11 s each), all SMOKE gates OK; bspec c keeps 13/21 train days (60 %) |
+
+**Local dry run of the generated parity kernels** (`tests/dryrun_parity.py`; stand-in originals = earlier smoke outputs):
+- 25 of the 49 kernels ran: 23 returned PASS (byte-identical reruns) and lean1 returned CLOSE by design. The other 24 were skipped because no local stand-in exists for them (member parts not smoke-run).
+- `tfb-par-v12s4a` returned CLOSE: 4 of 42,499 flow values differed by 1.1e-13 vph (one ulp) between two runs on this Mac. That is threading or summation-order noise, and it is harmless for state rows.

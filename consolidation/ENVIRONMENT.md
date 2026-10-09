@@ -30,16 +30,28 @@ No log recorded the package versions. Fill this table from either source, and pr
    - Compare the image of each parity run with B before reading a non-EXACT result as a porting bug.
    - The image of a run can be read with the same `GET /kernels/pull` trace used for `lineage_A2.json`.
 
-| Package | Image B version | Used by |
-|---|---|---|
-| python | 3.13.x (TBD) | all |
-| numpy | TBD | all |
-| pandas | TBD | all (CSV writer / parser defaults matter: float round trips) |
-| scipy | TBD | `t4` (`scipy.optimize.nnls`) |
-| lightgbm | TBD | Task 1 members, Task 2 ongoing (milestone 2) |
-| catboost | TBD | `onset_sp`, `onset_pv` |
-| pyarrow | TBD | parquet reads |
-| scikit-learn | TBD (probably unused; check in milestone 2) | – |
+Measured on 2026-10-09: the `ENV` lines of all 11 milestone-1 parity kernels. That image reproduced every image-B
+stage byte for byte: t1mix, t1recon, asma2/b and chaint2a2/b gave identical files, and onset sp/pv was EXACT.
+
+| Package | Kaggle image of the parity runs (2026-10-09) | Image B (original runs) | Used by |
+|---|---|---|---|
+| python | 3.13.15 | 3.13 (minor not logged) | all |
+| numpy | 2.1.3 | TBD (`pip freeze`) | all |
+| pandas | 2.3.3 | TBD | all (the default CSV float parser matters: see "CSV round trips" below) |
+| scipy | 1.16.3 | TBD | `t4` (`scipy.optimize.nnls`; EXACT vs tfb-final, which ran in image A) |
+| lightgbm | 4.6.0 | TBD | Task 1 members, Task 2 ongoing |
+| catboost | 1.2.10 | TBD | `onset_sp`, `onset_pv` (EXACT) |
+| pyarrow | 23.0.1 | TBD | parquet reads |
+| scikit-learn | 1.6.1 | TBD | not imported by any stage |
+
+The parity image ran on 4 vCPU (AMD EPYC 7B12 or Intel Xeon 2.20 GHz; AVX2 + FMA, no AVX-512) with 31.3 GB RAM.
+Until image B's own `pip freeze` is available, **pin the versions in the second column**: they are proven to reproduce
+the original outputs for every stage tested so far.
+
+**CSV round trips.** pandas' default float parser (`read_csv`, `float_precision=None`) is not correctly rounded.
+- One write + read cycle can move a value by an ulp, and repeated cycles converge only after several steps.
+- The Kaggle chain wrote path_flow through 26+ such cycles. The `t4` stage therefore writes the fixed point of that cycle, which is exactly the chain's value (`tests/test_csv_roundtrip.py`).
+- Keep pandas' default parser: do not switch to `float_precision='round_trip'` or pyarrow CSV parsing anywhere.
 
 For reference, the local lab environment is **not** the Kaggle environment. It was used only for the local smoke runs:
 Python 3.9.6 (macOS arm64), numpy 2.0.2, pandas 2.3.3, scipy 1.13.1, lightgbm 4.6.0, catboost 1.2.10, pyarrow 21.0.0,

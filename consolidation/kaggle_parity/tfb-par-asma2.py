@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 015d781155f16288f1ea5e37ef5a1c3629d2d42a | generated 2026-10-09 22:41
+#   tfb 0.1.0-m1 | modules tree sha1 71ad70ad32596d2427aef4aa1a95f8d07af763cd | generated 2026-10-10 00:21
 # Parity kernel tfb-par-asma2 (required, ~8 min on Kaggle CPU): queue assembly A2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j4 submission_J4.csv
 # Stages ['assemble'] | pick A2 | recipe full | overrides {}
 # Kernel sources to attach (6, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-asma2", "priority": "required", "minutes": 8, "stages": ["assemble"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "queue assembly A2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j4 submission_J4.csv", "sources": ["tfb-i4", "tfb-t2osp", "tfb-t2occ", "tfb-t2opv", "tfb-t2ogpvogf", "tfb-j4"], "checks": [{"type": "submission", "ours": ["tfb-j4", "submission_J4.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["state", "queue", "odme"], "label": "asm_A2_vs_tfb-j4"}], "tfb_version": "0.1.0-m1", "tree_sha1": "015d781155f16288f1ea5e37ef5a1c3629d2d42a", "generated": "2026-10-09 22:41"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-asma2", "priority": "required", "minutes": 8, "stages": ["assemble"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "queue assembly A2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j4 submission_J4.csv", "sources": ["tfb-i4", "tfb-t2osp", "tfb-t2occ", "tfb-t2opv", "tfb-t2ogpvogf", "tfb-j4"], "checks": [{"type": "submission", "ours": ["tfb-j4", "submission_J4.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["state", "queue", "odme"], "label": "asm_A2_vs_tfb-j4"}], "tfb_version": "0.1.0-m1", "tree_sha1": "71ad70ad32596d2427aef4aa1a95f8d07af763cd", "generated": "2026-10-10 00:21"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).
@@ -134,10 +134,12 @@ QUEUE_PARTS_ORIGINAL = {
 PICK_KERNEL = {'A2': ('tfb-j4', 'J4'), 'B2': ('tfb-j3', 'J3')}
 ASSEMBLE = dict(base=('tfb-i4', 'submission_FDRTV.csv'), require_full_cover=True)
 
-# ------------------------------------------------------------------ Task 1 members (milestone 2; DESIGN 1.3)
+# ------------------------------------------------------------------ Task 1 members (DESIGN 1.3)
 # Common LightGBM: 511 leaves, min_data 100, lr 0.04, 1500 trees, max_bin 63, ff 0.8, bf 0.8, num_threads 4, MAX_ROWS 600k.
+# family -> template module tfb/stages/t1_<family>.py (rendered with a part's constants it equals that part's original source;
+# tests/test_templates.py checks all 31 parts). tx_cap = cap of the transductive rows in units of MAX_ROWS.
 T1_MEMBERS = {
-    'tfb-t1v11':    dict(family='fta',   row_rng=0,  rounds=2, rng_base=1000,  tx_cap=4, holdout=0.15,  lgb_seeds=None,         image='A'),
+    'tfb-t1v11':    dict(family='fta_v11', row_rng=0,  rounds=2, rng_base=1000,  tx_cap=4, holdout=0.15,  lgb_seeds=None,         image='A'),
     'tfb-t1v12':    dict(family='fta',   row_rng=1,  rounds=2, rng_base=2000,  tx_cap=4, holdout=0.15,  lgb_seeds=(1, 11, 21),  image='A'),
     'tfb-t1v12s2':  dict(family='fta',   row_rng=2,  rounds=2, rng_base=3000,  tx_cap=4, holdout=0.15,  lgb_seeds=(2, 12, 22),  image='A'),
     'tfb-t1v12s3':  dict(family='fta',   row_rng=3,  rounds=2, rng_base=4000,  tx_cap=4, holdout=0.15,  lgb_seeds=(3, 13, 23),  image='A'),
@@ -151,8 +153,50 @@ T1_MEMBERS = {
     'tfb-t1dark':   dict(family='dark',  row_rng=13, rounds=3, rng_base=14000, tx_cap=6, holdout=0.15,  lgb_seeds=(13, 23, 33), image='B', dark_seed=1300),
     'tfb-t1ramp':   dict(family='ramp',  row_rng=13, rounds=3, rng_base=14000, tx_cap=6, holdout=0.15,  lgb_seeds=(13, 23, 33), image='B', dark_seed=1300),
     'tfb-t1ramp2':  dict(family='ramp',  row_rng=17, rounds=3, rng_base=18000, tx_cap=6, holdout=0.15,  lgb_seeds=(17, 27, 37), image='B', dark_seed=1700),
-    'tfb-t1bspec':  dict(family='bspec', row_rng=13, rounds=0, rng_base=None,  tx_cap=6, holdout=0.15,  lgb_seeds=(13, 23, 33), image='B', dark_seed=1300,
-                         dark_n=48, panel_overrides={'D7_I405_N': dict(max_rows=420_000, train_day_mod5_keep=(0, 1, 3))}),
+    'tfb-t1bspec':  dict(family='bspec', row_rng=13, rounds=3, rng_base=14000, tx_cap=6, holdout=0.15,  lgb_seeds=(13, 23, 33), image='B', dark_seed=1300,
+                         panel_overrides={'D7_I405_N': dict(max_rows=420_000, train_day_mod5_keep=(0, 1, 3))}),
+}
+DARK_N = 48
+# Kaggle runtime (s) and peak RSS (GB) of every original part (lineage_A2.json), for scheduling the parity kernels
+T1_PART_RUNTIME_S = {
+    'tfb-t1v11a': 20200, 'tfb-t1v11b': 14196, 'tfb-t1v12a': 11811, 'tfb-t1v12b': 8656, 'tfb-t1v12s2a': 11009, 'tfb-t1v12s2b': 5380,
+    'tfb-t1v12s3a': 11126, 'tfb-t1v12s3b': 8361, 'tfb-t1v12s4a': 12545, 'tfb-t1v12s4b': 8874, 'tfb-t1v12s5a': 9577, 'tfb-t1v12s5b': 9085,
+    'tfb-t1v12s6a': 12930, 'tfb-t1v12s6b': 8746, 'tfb-t1v12s7a': 13794, 'tfb-t1v12s7b': 9666, 'tfb-t1v13a': 14046, 'tfb-t1v13b': 10716,
+    'tfb-t1v13s10a': 14041, 'tfb-t1v13s10b': 7293, 'tfb-t1v13s11a': 15267, 'tfb-t1v13s11b': 7690, 'tfb-t1darka': 15334, 'tfb-t1darkb': 11850,
+    'tfb-t1rampa': 16717, 'tfb-t1rampb': 12194, 'tfb-t1ramp2a': 16249, 'tfb-t1ramp2b': 11655, 'tfb-t1bspeca': 14035, 'tfb-t1bspecb': 13266,
+    'tfb-t1bspecc': 4541,
+}
+
+
+def t1_part_panels(member, part):
+    if T1_MEMBERS[member]['family'] == 'bspec':
+        return {'a': PANELS_ALL[:4], 'b': PANELS_ALL[5:], 'c': ['D7_I405_N']}[part]
+    return {'a': PANELS_ALL[:5], 'b': PANELS_ALL[5:]}[part]
+
+
+def t1_part_cfg(kernel, threads=4):
+    """constants of one member part (kernel slug, e.g. 'tfb-t1v12s4a') for its family template."""
+    member, part = kernel[:-1], kernel[-1]
+    m = T1_MEMBERS[member]
+    panels = t1_part_panels(member, part)
+    ov = {}
+    for p in panels:
+        ov.update(m.get('panel_overrides', {}).get(p, {}) if len(panels) == 1 else {})
+    return dict(member=member, part=part, family=m['family'], panels=list(panels), rounds=m['rounds'], row_rng=m['row_rng'],
+                rng_base=m['rng_base'], tx_cap=m['tx_cap'], holdout=m['holdout'], lgb_seeds=m['lgb_seeds'],
+                dark_n=DARK_N, dark_seed=m.get('dark_seed'), max_rows=ov.get('max_rows', 600_000),
+                train_day_mod5_keep=ov.get('train_day_mod5_keep'), threads=int(threads))
+
+
+PSEUDO_EXPECTED = {   # tfb-t2lab-full outputs: (windows, onset, ongoing, sha1(json([[d, t, cond], ...]))) - counts = lineage_A2.json
+    'D7_I10_E': (494, 265, 229, '15de06a99c8ddd3e087d05a7bc7917149aaa6e33'),
+    'D7_I10_W': (138, 134, 4, 'c60153bacc2b908a332681f1e0681acefe23af7a'),
+    'D7_I210_E': (715, 276, 439, '948787a55c488812f53387c6bc4edcb789ed394a'),
+    'D7_I210_W': (697, 310, 387, '1d86321888dc6a1f723899303545cbad5e8923d8'),
+    'D7_I405_N': (728, 353, 375, '74aac66ff5287a6035a30c102076a8f90e3810fa'),
+    'D7_I405_S': (492, 271, 221, '04ea5e775fc2a6cf0e780f382f0b6bb10bccab5f'),
+    'D12_I5_N': (449, 255, 194, '021a82439570d618ea2000f193708c2607a23d43'),
+    'D12_I5_S': (474, 264, 210, '735269728e36cf59990ad07f2700c65076ef5eb8'),
 }
 
 # ------------------------------------------------------------------ stages
@@ -167,17 +211,24 @@ STAGES = {
     't1_mix':      dict(module='t1_mix',    kernel='tfb-i4d',   outputs=['submission_T1DARK.csv'], m=1),
     't1_recon':    dict(module='t1_recon',  kernel='tfb-i4',    outputs=['submission_FDR.csv', 'submission_FDRTV.csv', 'submission_TV.csv'], m=1),
     'assemble':    dict(module='assemble',  kernel=None,        outputs=None, m=1),          # kernel / output from PICK_KERNEL
-    # ---- milestone 2 (not ported yet)
-    'pseudo':        dict(module=None, kernel='tfb-t2lab-full', outputs=[f'pseudo_{p}.npz' for p in PANELS_T2], m=2),
-    't1_members':    dict(module=None, kernel=None, outputs=['state_submission_FTA.csv'], m=2),   # one kernel per member part
-    'ongoing_val':   dict(module=None, kernel='tfb-t2occ',     outputs=['queue_submission_fs4occ.csv'], m=2),   # + t2v26occ_probs.npz (qlast) for B2
-    'ongoing_pvaf':  dict(module=None, kernel='tfb-t2ogpvaf',  outputs=['queue_submission_pvo.csv'], m=2),
-    'ongoing_pvogf': dict(module=None, kernel='tfb-t2ogpvogf', outputs=['queue_submission_pvogfv.csv|queue_submission_pvogf.csv'], m=2),
-    'ogfeat_a':      dict(module=None, kernel='tfb-t2ogfa',    outputs=['queue_submission_fs2ogf.csv'], m=2),
-    'ogfeat_b':      dict(module=None, kernel='tfb-t2ogfb',    outputs=['queue_submission_fs2ogf1.csv'], m=2),
-    'ogfeat_comb':   dict(module=None, kernel='tfb-t2ogfc',    outputs=['queue_submission_fs4ogf.csv'], m=2),
-    'ogveto':        dict(module=None, kernel='tfb-t2ogveto',  outputs=['queue_submission_veto10.csv'], m=2),
+    # ---- milestone 2
+    'pseudo':        dict(module='pseudo', kernel='tfb-t2lab-full', outputs=[f'pseudo_{p}.npz' for p in PANELS_T2], m=2),
+    't1_members':    dict(module=None, kernel=None, outputs=None, m=2),          # expands to one 't1m:<part kernel>' stage per part
+    'ongoing_val':   dict(module='t2_occ', kernel='tfb-t2occ',
+                          outputs=['queue_submission_fs4occ.csv', 'queue_submission_fs2occ.csv', 'queue_submission_fs_np.csv', 't2v26occ_probs.npz'], m=2),
+    'ongoing_pvaf':  dict(module=None, kernel='tfb-t2ogpvaf', outputs=['queue_submission_pvo.csv'], m=2),   # not needed (0/40 vetoes); not ported
+    'ongoing_pvogf': dict(module='t2_pvogf', kernel='tfb-t2ogpvogf', outputs=['queue_submission_pvogf.csv', 'queue_submission_pvogf_npid.csv'], m=2),
+    'ogfeat_a':      dict(module='t2_ogfeat', kernel='tfb-t2ogfa', outputs=['queue_submission_fs2ogf.csv', 't2v27a_probs.npz'], m=2),
+    'ogfeat_b':      dict(module='t2_ogfeat', kernel='tfb-t2ogfb', outputs=['queue_submission_fs2ogf1.csv', 't2v27b_probs.npz'], m=2),
+    'ogfeat_comb':   dict(module='t2_ogfc', kernel='tfb-t2ogfc', outputs=['queue_submission_fs4ogf.csv'], m=2),
+    'ogveto':        dict(module='t2_ogveto', kernel='tfb-t2ogveto', outputs=['queue_submission_veto10.csv', 't2ogveto_windows.csv'], m=2),
 }
+T1_PART_OUTPUTS = ['state_submission_FTA.csv', 'state_submission.csv', 't1_valholdout.csv']
+# production references of the ongoing kernels (the originals read these files from other kernels):
+#   pvogf copies its VALIDATION rows from REF_V22 (tfb-t2v22af fs4af in the original; the final file never uses them, so the
+#   entry script points it at fs4occ). The pvo veto reference is optional (need_pvo False): without it no pvogfv is written
+#   and assemble uses pvogf (identical private rows: 0/40 windows were vetoed).
+ONGOING_REFS = dict(ref_v22=('tfb-t2occ', 'queue_submission_fs4occ.csv'))
 LIGHT_STAGES = ['t4', 'onset_sp', 'onset_pv', 't1_mix', 't1_recon', 'assemble']
 
 
@@ -188,11 +239,23 @@ def plan(pick, recipe):
         t2 += (['ongoing_pvaf'] if ONGOING['need_pvo'] else []) + ['ongoing_pvogf']
     else:
         t2 += ['ogfeat_a', 'ogfeat_b', 'ogfeat_comb', 'ogveto']
-    return ['pseudo', 't1_members', 't4'] + t2 + ['t1_mix', 't1_recon', 'assemble']
+    return ['pseudo', 't1_members', 't4'] + t2 + ['t1_mix', 't1_recon', 'assemble']   # 't1_members' -> expand()
 
 
-def stage_cfg(stage, pick, recipe):
+def is_member_stage(stage):
+    return stage.startswith('t1m:')
+
+
+def stage_module(stage):
+    if is_member_stage(stage):
+        return 't1_' + T1_MEMBERS[stage[4:-1]]['family']
+    return STAGES[stage]['module']
+
+
+def stage_cfg(stage, pick, recipe, threads=4):
     """the constants a stage file reads through TFB.cfg (JSON-serialisable)."""
+    if is_member_stage(stage):
+        return t1_part_cfg(stage[4:], threads)
     if stage == 't1_mix':
         bag = T1_BAGS[recipe]
         return dict(T1_MIX, members=list(bag['old_fta']), fd_members=list(bag['fd']), dark_member=bag['dark'], recipe=recipe)
@@ -205,26 +268,44 @@ def stage_cfg(stage, pick, recipe):
         return dict(T4)
     if stage in ('onset_sp', 'onset_pv'):
         return dict(ONSET)
+    if stage == 'pseudo':
+        return dict(expected={k: list(v) for k, v in PSEUDO_EXPECTED.items()})
+    if stage == 'ongoing_pvogf':
+        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'])
+    if stage == 'ogfeat_a':
+        return dict(part='a', tag='v27a')
+    if stage == 'ogfeat_b':
+        return dict(part='b', tag='v27b')
     return {}
 
 
 def stage_kernel(stage, pick):
+    if is_member_stage(stage):
+        return stage[4:]
     if stage == 'assemble':
         return PICK_KERNEL[pick][0]
     return STAGES[stage]['kernel']
 
 
-def stage_outputs(stage, pick):
+def stage_outputs(stage, pick, smoke=False):
+    if is_member_stage(stage):
+        return list(T1_PART_OUTPUTS)
+    if stage == 'pseudo' and smoke:                  # the kernel's SMOKE switch: PANELS[:2]
+        return [f'pseudo_{p}.npz' for p in PANELS_T2[:2]]
     if stage == 'assemble':
         return [f'submission_{PICK_KERNEL[pick][1]}.csv']
     return list(STAGES[stage]['outputs'])
 
 
-def stage_inputs(stage, pick, recipe, cfg=None):
-    """(kernel, file) pairs a stage reads besides the competition data."""
+T1_SMOKE_PANELS = ['D12_I405_S', 'D7_I10_W']      # the member kernels' own SMOKE panel override (fta: both, other families: D7_I10_W)
+
+
+def stage_inputs(stage, pick, recipe, cfg=None, smoke=False):
+    """(kernel, file) pairs a stage reads besides the competition data (optional CONTROL inputs are not listed)."""
     cfg = cfg if cfg is not None else stage_cfg(stage, pick, recipe)
+    if is_member_stage(stage):
+        return [('tfb-t2lab-full', f'pseudo_{p}.npz') for p in (T1_SMOKE_PANELS if smoke else cfg['panels']) if p in PANELS_T2]
     if stage == 't1_mix':
-        bag = T1_BAGS[recipe]
         ins = [tuple(cfg['base'])]
         for m in cfg['members'] + cfg['fd_members']:
             ins += [(k, 'state_submission_FTA.csv') for k in member_parts(m)[:2]]
@@ -235,7 +316,22 @@ def stage_inputs(stage, pick, recipe, cfg=None):
         return [tuple(cfg['base'])]
     if stage == 'assemble':
         return [tuple(cfg['base'])] + [(p[0], p[1]) for p in cfg['parts']]
+    if stage == 'ongoing_pvogf':
+        return [tuple(cfg['ref_v22'])]
+    if stage == 'ogfeat_comb':
+        return [('tfb-t2ogfa', 't2v27a_probs.npz'), ('tfb-t2ogfb', 't2v27b_probs.npz'),
+                ('tfb-t2ogfa', 'queue_submission_fs2ogf.csv'), ('tfb-t2ogfb', 'queue_submission_fs2ogf1.csv')]
+    if stage == 'ogveto':
+        return [('tfb-t2occ', 'queue_submission_fs4occ.csv'), ('tfb-t2ogfc', 'queue_submission_fs4ogf.csv'), ('tfb-t2occ', 't2v26occ_probs.npz')]
     return []
+
+
+def expand(stages, recipe):
+    """replace 't1_members' by the member-part stages of the recipe."""
+    out = []
+    for st in stages:
+        out += [f't1m:{k}' for k in t1_member_kernels(recipe)] if st == 't1_members' else [st]
+    return out
 '''
 MODULES['tfb/runtime.py'] = '''"""Path layer shared by every stage: competition data root, the stage's output folder and "kernel output X" lookup.
 
@@ -378,7 +474,7 @@ class Runner:
         return find_kernel_output(self.kernels_dir, self.input_roots, kernel, fname)
 
     def cfg(self, stage):
-        cfg = C.stage_cfg(stage, self.pick, self.recipe)
+        cfg = C.stage_cfg(stage, self.pick, self.recipe, self.threads)
         cfg.update(self.overrides.get(stage, {}))
         return cfg
 
@@ -417,29 +513,28 @@ class Runner:
 
     # ------------------------------------------------------------------ one stage
     def run_stage(self, stage):
-        spec = C.STAGES[stage]
+        module = C.stage_module(stage)
         kernel = C.stage_kernel(stage, self.pick)
-        outs = C.stage_outputs(stage, self.pick)
-        if spec['module'] is None:                                   # milestone 2: accept provided outputs only
-            kernels = C.t1_member_kernels(self.recipe) if stage == 't1_members' else [kernel]
-            miss = [(k, o) for k in kernels for o in outs if not self.resolve(k, o)]
+        outs = C.stage_outputs(stage, self.pick, smoke=self.smoke)
+        if module is None:                                           # not ported (optional stage): accept provided outputs only
+            miss = [(kernel, o) for o in outs if not self.resolve(kernel, o)]
             if miss:
-                raise StageError(f'stage {stage} is not ported yet (milestone 2) and its outputs are missing: {miss[:6]}'
-                                 f'{" ..." if len(miss) > 6 else ""} - provide them with --seed-kernel-outputs / --input-root')
-            self.log(f'[tfb] {stage:12s} provided (milestone-2 stage; {len(kernels)} kernel(s) found)')
+                raise StageError(f'stage {stage} is not ported and its outputs are missing: {miss} - provide them with '
+                                 f'--seed-kernel-outputs / --input-root')
+            self.log(f'[tfb] {stage:12s} provided (not ported; outputs found)')
             return 'provided'
         cfg = self.cfg(stage)
-        inputs = C.stage_inputs(stage, self.pick, self.recipe, cfg)
+        inputs = C.stage_inputs(stage, self.pick, self.recipe, cfg, smoke=self.smoke)
         miss = [(k, f) for k, f in inputs if not self.resolve(k, f)]
         if miss:
             raise StageError(f'stage {stage}: missing inputs {miss[:8]}{" ..." if len(miss) > 8 else ""}')
         in_paths = [self.resolve(k, f)[0] for k, f in inputs]
         out_dir = os.path.join(self.kernels_dir, kernel)
         os.makedirs(out_dir, exist_ok=True)
-        src = os.path.join(STAGE_DIR, spec['module'] + '.py')
+        src = os.path.join(STAGE_DIR, module + '.py')
         fp_obj = dict(stage=stage, code=_sha1_file(src), runtime=_sha1_file(os.path.join(os.path.dirname(STAGE_DIR), 'runtime.py')),
                       cfg=cfg, smoke=self.smoke, inputs=[_sig(p) for p in in_paths], data=os.path.abspath(self.data_root),
-                      threads=self.threads if stage == 't1_members' else None)
+                      threads=self.threads if C.is_member_stage(stage) else None)
         fp = hashlib.sha1(json.dumps(fp_obj, sort_keys=True, default=str).encode()).hexdigest()
         done_p = os.path.join(out_dir, '.done.json')
         if not self.force and os.path.exists(done_p):
@@ -450,7 +545,7 @@ class Runner:
         if os.path.exists(done_p):
             os.remove(done_p)
         ctx = dict(rel=self.data_root, out=out_dir, work_dir=self.work_dir, kernels_dir=self.kernels_dir, input_roots=self.input_roots,
-                   stage=stage, module=spec['module'], kernel=kernel, pick=self.pick, recipe=self.recipe, smoke=self.smoke,
+                   stage=stage, module=module, kernel=kernel, pick=self.pick, recipe=self.recipe, smoke=self.smoke,
                    threads=self.threads, cfg=cfg)
         ctx_p = os.path.join(out_dir, '.tfb_ctx.json')
         with open(ctx_p, 'w') as f:
@@ -512,13 +607,13 @@ class Runner:
 
 def parse_stages(arg, pick, recipe):
     if arg in (None, '', 'all'):
-        return C.plan(pick, recipe)
+        return C.expand(C.plan(pick, recipe), recipe)
     if arg == 'light':
         return [s for s in C.LIGHT_STAGES if s in C.plan(pick, recipe)]
-    out = [s.strip() for s in arg.split(',') if s.strip()]
-    bad = [s for s in out if s not in C.STAGES]
+    out = C.expand([s.strip() for s in arg.split(',') if s.strip()], recipe)
+    bad = [s for s in out if s not in C.STAGES and not (C.is_member_stage(s) and s[4:-1] in C.T1_MEMBERS)]
     if bad:
-        raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)}')
+        raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)} and t1m:<member part kernel>')
     return out
 '''
 MODULES['tfb/stage_exec.py'] = '''"""Run one stage in this process:  python -m tfb.stage_exec <ctx.json>
@@ -533,7 +628,26 @@ import sys
 import time
 
 
+def _darwin_rss_in_kb():
+    """macOS reports ru_maxrss in bytes, Linux (Kaggle, the reference platform) in KiB; the Task 1 kernels print / gate peak
+    RSS assuming KiB. Local development on macOS only: present the value in KiB (no effect on Linux)."""
+    import resource
+    orig = resource.getrusage
+
+    class _RU:
+        def __init__(self, ru):
+            self._ru = ru
+
+        def __getattr__(self, k):
+            v = getattr(self._ru, k)
+            return v // 1024 if k == 'ru_maxrss' else v
+
+    resource.getrusage = lambda who: _RU(orig(who))
+
+
 def main(ctx_path):
+    if sys.platform == 'darwin':
+        _darwin_rss_in_kb()
     import tfb.runtime as rt
     rt.ctx = rt.Ctx.load(ctx_path)
     os.makedirs(rt.ctx.out, exist_ok=True)
@@ -721,6 +835,9 @@ def compare_submission(ours, orig, check, tasks=('state', 'queue', 'odme'), rel=
     if not orig or not os.path.exists(orig):
         _line(check, '-', 'SKIP', orig=orig)
         return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
     a = pd.read_csv(ours)
     b = pd.read_csv(orig)
     same = len(a) == len(b) and np.array_equal(a.submission_id.to_numpy(), b.submission_id.to_numpy())
@@ -777,6 +894,9 @@ def compare_queue_file(ours, orig, check, rel=None):
     if not orig or not os.path.exists(orig):
         _line(check, '-', 'SKIP', orig=orig)
         return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
     a = pd.read_csv(ours, dtype={'window_id': str, 'link_id': str})
     b = pd.read_csv(orig, dtype={'window_id': str, 'link_id': str})
     for x in (a, b):
@@ -802,6 +922,81 @@ def compare_queue_file(ours, orig, check, rel=None):
                 jw.append(1.0 if uni == 0 else inter / uni)
             _line(check, f'queue.{s}.{c}', 'EXACT' if not g.d.any() else 'FAIL', rows=len(g), n_diff=int(g.d.sum()),
                   windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
+
+
+STATE_KEYS = ['panel', 'timestamp', 'station_id', 'link_id', 'mask_regime']
+
+
+def compare_state_file(ours, orig, check):
+    """Task 1 member output (panel, timestamp, station_id, link_id, mask_regime, speed_kmh, flow_vph): row set, then speed /
+    flow max |d| and RMS overall, per split (timestamp month) and per panel."""
+    if not orig or not os.path.exists(orig):
+        _line(check, '-', 'SKIP', orig=orig)
+        return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
+    dt = {'station_id': str, 'link_id': str, 'mask_regime': str, 'panel': str, 'timestamp': str}
+    a, b = pd.read_csv(ours, dtype=dt), pd.read_csv(orig, dtype=dt)
+    same_order = len(a) == len(b) and (a[STATE_KEYS].to_numpy() == b[STATE_KEYS].to_numpy()).all()
+    if not same_order:
+        m = b.merge(a, on=STATE_KEYS, how='outer', suffixes=('_o', '_r'), indicator=True)
+        unmatched = int((m._merge != 'both').sum())
+        m = m[m._merge == 'both']
+        a = m[STATE_KEYS].assign(speed_kmh=m.speed_kmh_r, flow_vph=m.flow_vph_r)
+        b = m[STATE_KEYS].assign(speed_kmh=m.speed_kmh_o, flow_vph=m.flow_vph_o)
+    else:
+        unmatched = 0
+    _line(check, 'rows', 'EXACT' if same_order else ('FAIL' if unmatched else 'NUMERIC'), rows_ours=len(a), unmatched=unmatched,
+          same_order=same_order, bytes_identical=_sha256(ours) == _sha256(orig))
+    split = np.where(b.timestamp.str[:7].to_numpy() == '2031-03', 'validation', 'private')
+    for col in ('speed_kmh', 'flow_vph'):
+        d = a[col].to_numpy(np.float64) - b[col].to_numpy(np.float64)
+        nd, mx, rms = _stat(d)
+        _line(check, f'state.{col}', 'EXACT' if nd == 0 else ('NUMERIC' if mx < 1e-6 else 'DIFF'), rows=len(d), n_diff=nd,
+              max_abs=f'{mx:.4g}', rms=f'{rms:.4g}')
+        if nd:
+            for s in ('validation', 'private'):
+                ms = split == s
+                nd2, mx2, rms2 = _stat(d[ms])
+                _line(check, f'state.{col}.{s}', 'EXACT' if nd2 == 0 else ('NUMERIC' if mx2 < 1e-6 else 'DIFF'), rows=int(ms.sum()),
+                      n_diff=nd2, max_abs=f'{mx2:.4g}', rms=f'{rms2:.4g}')
+            for p, idx in pd.Series(np.arange(len(d))).groupby(b.panel.to_numpy()).indices.items():
+                nd2, mx2, rms2 = _stat(d[idx])
+                _line(check, f'state.{col}.{p}', 'EXACT' if nd2 == 0 else ('NUMERIC' if mx2 < 1e-6 else 'DIFF'), rows=len(idx),
+                      n_diff=nd2, max_abs=f'{mx2:.4g}', rms=f'{rms2:.4g}')
+
+
+def compare_npz(ours, orig, check):
+    """every array of two .npz files: integer / bool / string arrays must be EXACT; float arrays report max |d|
+    (probabilities: the decoded queue files are the decisive check)."""
+    if not orig or not os.path.exists(orig):
+        _line(check, '-', 'SKIP', orig=orig)
+        return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
+    A, B = np.load(ours, allow_pickle=True), np.load(orig, allow_pickle=True)
+    ka, kb = set(A.files), set(B.files)
+    _line(check, 'keys', 'EXACT' if ka == kb else 'FAIL', n_ours=len(ka), n_orig=len(kb), only_ours=sorted(ka - kb)[:5], only_orig=sorted(kb - ka)[:5])
+    worst, n_exact, n_float_diff, bad = 0.0, 0, 0, []
+    for k in sorted(ka & kb):
+        x, y = A[k], B[k]
+        if x.shape != y.shape:
+            bad.append(f'{k}:shape'); continue
+        if x.dtype.kind == 'f' and y.dtype.kind == 'f':
+            d = np.abs(x.astype(np.float64) - y.astype(np.float64))
+            m = float(np.nanmax(d)) if d.size else 0.0
+            if m == 0 and np.array_equal(np.isnan(x), np.isnan(y)):
+                n_exact += 1
+            else:
+                n_float_diff += 1; worst = max(worst, m)
+        elif np.array_equal(x, y):
+            n_exact += 1
+        else:
+            bad.append(k)
+    st = 'FAIL' if bad else ('EXACT' if n_float_diff == 0 else ('NUMERIC' if worst < 1e-6 else 'DIFF'))
+    _line(check, 'arrays', st, arrays=len(ka & kb), exact=n_exact, float_diff=n_float_diff, max_abs=f'{worst:.4g}', mismatched=bad[:6])
 
 
 def summary(save=None):
@@ -931,6 +1126,10 @@ def main():
         print(f"--- check {c['label']}: ours {ours} | original {orig}", flush=True)
         if c['type'] == 'submission':
             parity.compare_submission(ours, orig, c['label'], tasks=c['tasks'], rel=rel)
+        elif c['type'] == 'state':
+            parity.compare_state_file(ours, orig, c['label'])
+        elif c['type'] == 'npz':
+            parity.compare_npz(ours, orig, c['label'])
         else:
             parity.compare_queue_file(ours, orig, c['label'], rel=rel)
     parity.summary(save=os.path.join(kwd, f"parity_{SPEC['slug']}.json"))

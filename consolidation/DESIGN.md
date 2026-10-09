@@ -232,6 +232,25 @@ Memory allows only one T1 member at a time (peak 26.6–28 GB), and pvogf or ogf
   3. Optionally use one public slot on lean-1. Its queue rows equal A2's, so the public delta *is* the T1 effect, which transfers to private.
 - Freeze lean-1 if the public Δ ≥ −0.0005. Otherwise take lean-1 + t1ramp2 or full.
 
+**Measured (Kaggle parity kernel `tfb-par-lean1`, 2026-10-09).** Lean-1 mix built from the existing member outputs, then recon + TV, compared with the full-recipe files. All 6,735,795 state rows; split rows: validation 3,451,376 / private 3,284,419; blackout rows 64,720 / 63,745.
+
+| Comparison | Rows | Speed RMS (km/h) | Speed max \|Δ\| | Flow RMS (vph) | Flow max \|Δ\| |
+|---|---|---:|---:|---:|---:|
+| raw mix vs `tfb-i4d` | all | 0.092 | 11.6 | 7.13 | 260 |
+| | blackout, validation / private | 0.150 / 0.146 | 4.1 / 3.8 | 6.07 / 5.28 | 125 / 82 |
+| | ordinary, validation / private | 0.089 / 0.092 | 11.6 / 9.1 | 7.11 / 7.21 | 260 / 249 |
+| **final (recon + TV) vs `tfb-i4`** | **all** | **0.098** | 34.2 | **6.81** | 808 |
+| | blackout, validation / private | 0.223 / 0.219 | 22.4 / 20.9 | 8.49 / 7.98 | 677 / 722 |
+| | ordinary, validation / private | 0.095 / 0.092 | 34.2 / 23.3 | 6.74 / 6.82 | 771 / 808 |
+
+- **Bound check.** The loose bound |ΔS_speed| ≤ RMS(Δv)/25 and |ΔS_flow| ≤ RMS(Δq)/600 (§4.7) gives, with weights 0.35·(0.54, 0.46):
+  - speed: 0.35·0.54·0.098/25 ≈ 0.0007;
+  - flow: 0.35·0.46·6.8/600 ≈ 0.0018.
+  - This is a loose worst-case bound (sum ≈ 0.0026), not an estimate. The RMS above measures how far lean-1 moves from the full recipe, not how much worse it is.
+  - The expected Δ therefore remains the §3.2 estimate (−0.0002 to −0.0003) until the public probe measures it.
+- **Blackout rows.** They move about 2.3× more in speed RMS after recon + TV (0.22 vs 0.095). The blackout member (t1bspec) is the same in both recipes, so this comes from the 0.25 raw-mix share and from recon/TV gating on those rows.
+- **Status.** The public probe of lean-1 (one slot) is still the deciding test.
+
 ---
 
 ## 4. Entry-script architecture

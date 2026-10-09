@@ -12,6 +12,7 @@ import difflib
 import hashlib
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -25,6 +26,10 @@ LINEAGE = json.load(open(f'{CONS}/lineage_A2.json'))
 VENDORED = {                      # stage module -> original kernel source
     't1_mix': 'tfb-i4d.py', 't1_recon': 'tfb-i4.py', 'assemble': 'tfb-j3.py',
     'onset_sp': 'tfb-t2osp.py', 'onset_pv': 'tfb-t2opv.py', 't4_nnls': 'tfb-final.py#cell7',
+    # milestone 2 (templates: vs their representative part; every part is checked by tests/test_templates.py)
+    'pseudo': 'tfb-t2lab-full.py', 't1_fta': 'tfb-t1v12s4a.py', 't1_fta_v11': 'tfb-t1v11a.py', 't1_fd': 'tfb-t1v13a.py',
+    't1_dark': 'tfb-t1darka.py', 't1_ramp': 'tfb-t1rampa.py', 't1_bspec': 'tfb-t1bspeca.py',
+    't2_occ': 'tfb-t2occ.py', 't2_pvogf': 'tfb-t2ogpvogf.py', 't2_ogfeat': 'tfb-t2ogfa.py', 't2_ogfc': 'tfb-t2ogfc.py', 't2_ogveto': 'tfb-t2ogveto.py',
 }
 
 
@@ -70,7 +75,7 @@ def test_vendored_diff():
             if tag in ('replace', 'insert'):
                 for j in range(j1, j2):
                     patched += 1
-                    if '[TFB]' not in b[j]:
+                    if '[TFB]' not in b[j] and b[j].strip():       # blank separator lines need no marker
                         bad.append(f'unmarked line {j + 1}: {b[j][:90]}')
             if tag in ('replace', 'delete'):
                 deleted += i2 - i1
@@ -78,7 +83,7 @@ def test_vendored_diff():
                     near = [b[j] for j in (j1 - 1, j1) if 0 <= j < len(b)]
                     if not any('[TFB]' in x for x in near):
                         bad.append(f'deleted original lines {i1 + 1}-{i2} without an adjacent [TFB] line')
-        kag = [i + 1 for i, line in enumerate(b) if '/kaggle/' in line]
+        kag = [i + 1 for i, line in enumerate(b) if re.search(r"['\"]/kaggle/", line)]   # a quoted /kaggle path (prose in docstrings is fine)
         check(not bad and not kag, f'vendored {mod:9s} vs {orig:22s}: {patched} patched/added lines, {deleted} original lines replaced/removed'
               + (f' | {bad[:3]}' if bad else '') + (f' | /kaggle/ paths on lines {kag}' if kag else ''), fails)
     assert not fails, fails

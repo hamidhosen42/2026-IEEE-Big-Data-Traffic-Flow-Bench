@@ -111,6 +111,93 @@ def task4(rel, panel, rng):
         write_csv(pd.DataFrame(dict(panel=panel, departure_time=DEP[split], path_id=pids, path_flow=0.0)), f'{d}/sample_submission_path_flow.csv')
 
 
+def add_station_cols(rel, panel):
+    """fake-release layers of a Task 2 panel: + date, milepost, occupancy (station_id = 'S_' + link_id) so the Task 1 /
+    occupancy kernels can read them; topology + free_speed_kmh (the pseudo-window kernel reads it there)."""
+    net = f'{rel}/corridors/{panel}/network'
+    topo = pd.read_csv(f'{net}/lwr_mainline_topology.csv', dtype={'link_id': str})
+    lk = pd.read_csv(f'{net}/links.csv', dtype={'link_id': str}).set_index('link_id')
+    topo['free_speed_kmh'] = topo.link_id.map(lk.free_speed_kmh).fillna(105.0).to_numpy()
+    topo.to_csv(f'{net}/lwr_mainline_topology.csv', index=False)
+    mp = dict(zip(topo.link_id, topo.order_index.astype(float) * 0.5))
+    lanes = lk.lanes.fillna(4).to_dict()
+    for f in sorted(glob.glob(f'{rel}/corridors/{panel}/*/mainline_states*/*/*.parquet')):
+        d = pd.read_parquet(f)
+        d['link_id'] = d.link_id.astype(str)
+        d['station_id'] = 'S_' + d.link_id
+        d['date'] = d.timestamp.str[:10]
+        d['milepost'] = d.link_id.map(mp).astype(float)
+        ln = d.link_id.map(lanes).fillna(4).to_numpy()
+        d['occupancy'] = np.clip(d.flow_vph.to_numpy() / np.maximum(d.speed_kmh.to_numpy(), 1.0) / ln / 150.0, 0, 1)
+        d.to_parquet(f, index=False)
+    for f in sorted(glob.glob(f'{rel}/task2/{panel}/*/window_history.parquet')):   # the occupancy kernels read it here too
+        d = pd.read_parquet(f)
+        ln = d.link_id.astype(str).map(lanes).fillna(4).to_numpy()
+        d['occupancy'] = np.clip(d.flow_vph.to_numpy() / np.maximum(d.speed_kmh.to_numpy(), 1.0) / ln / 150.0, 0, 1)
+        d.to_parquet(f, index=False)
+
+
+def shift_month(src_dir, dst_dir, frm='2031-04', to='2031-03'):
+    """synthesise a missing released month from another one (dates and file names shifted; values unchanged)."""
+    for f in sorted(glob.glob(f'{src_dir}/*/*.parquet')):
+        d = pd.read_parquet(f)
+        for c in ('date', 'timestamp'):
+            if c in d.columns:
+                d[c] = d[c].astype(str).str.replace(frm, to, regex=False)
+        out = f'{dst_dir}/{os.path.basename(os.path.dirname(f)).replace(frm, to)}/{os.path.basename(f).replace(frm.replace("-", "_"), to.replace("-", "_"))}'
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        d.to_parquet(out, index=False)
+
+
+def station_panel(rel, src_panel, dst_panel):
+    """a station-level Task 1 panel from the real local D12_I405_S files: train full (days of the masked layer only, so the
+    SMOKE day subset is the same in both layers), train masked, private masked + ramps, validation = private shifted to March."""
+    S, D = f'{REAL}/corridors/{src_panel}', f'{rel}/corridors/{dst_panel}'
+    if not os.path.exists(f'{D}/network'):
+        shutil.copytree(f'{S}/network', f'{D}/network')
+    mdays = {os.path.basename(f)[-18:-8] for f in glob.glob(f'{S}/train/mainline_states_masked/*/*.parquet')}
+    for f in sorted(glob.glob(f'{S}/train/mainline_states/*/*.parquet')):
+        if os.path.basename(f)[-18:-8] in mdays:
+            out = f'{D}/train/mainline_states/{os.path.basename(os.path.dirname(f))}/{os.path.basename(f)}'
+            os.makedirs(os.path.dirname(out), exist_ok=True)
+            shutil.copy(f, out)
+    for sub in ('train/mainline_states_masked', 'private/mainline_states_masked', 'private/ramp_states'):
+        if os.path.exists(f'{S}/{sub}') and not os.path.exists(f'{D}/{sub}'):
+            shutil.copytree(f'{S}/{sub}', f'{D}/{sub}')
+    os.makedirs(f'{D}/train/ramp_states', exist_ok=True)
+    shift_month(f'{D}/private/mainline_states_masked', f'{D}/validation/mainline_states_masked')
+    shift_month(f'{D}/private/ramp_states', f'{D}/validation/ramp_states')
+    return sorted(os.path.basename(f)[-18:-8] for f in glob.glob(f'{D}/train/mainline_states/*/*.parquet'))   # train days (files)
+
+
+def t1_templates(rel, panel, splits, rng, cap=150000):
+    """Task 1 templates = masked eligible cells (speed blanked) of the masked layer (subsampled)."""
+    for split in splits:
+        fs = sorted(glob.glob(f'{rel}/corridors/{panel}/{split}/mainline_states_masked/*/*.parquet'))
+        d = pd.concat([pd.read_parquet(f, columns=['timestamp', 'station_id', 'link_id', 'speed_kmh', 'is_score_eligible', 'mask_regime']) for f in fs])
+        t = d[(d.is_score_eligible == 1) & d.speed_kmh.isna()][['timestamp', 'station_id', 'link_id', 'mask_regime']]
+        t = t.iloc[np.sort(rng.choice(len(t), min(cap, len(t)), replace=False))]
+        write_csv(t.assign(speed_kmh=0, flow_vph=0), f'{rel}/task1/{panel}/{split}/sample_submission_state.csv')
+
+
+def train_window_index(rel, panel, n_days=40):
+    """the real official train window index of the panel (lab export), restricted to the first n_days train days of the
+    fixture (the pseudo-window kernel's SMOKE switch loads 40 days and indexes every official window's day); a panel with
+    none left gets 4 synthetic windows (the Task 1 members only check that the file exists)."""
+    days = sorted(os.path.basename(f)[-18:-8].replace('_', '-') for f in glob.glob(f'{rel}/corridors/{panel}/train/mainline_states/*/*.parquet'))
+    out = f'{rel}/task2/{panel}/train/window_index.csv'
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    subprocess.check_call([sys.executable, '-c', f"import lab; lab.window_index('{panel}', 'train').to_csv('{out}', index=False)"],
+                          cwd=f'{ROOT}/analysis/t2lab', stdout=subprocess.DEVNULL)
+    wi = pd.read_csv(out, dtype=str)
+    wi = wi[wi.forecast_origin.str[:10].isin(set(days[:n_days]))]
+    if len(wi) == 0:
+        wi = pd.DataFrame([dict(window_id=f'Q2_{panel}_train_{i:03d}', panel=panel, split='train', date=days[5 * i + 2],
+                                forecast_origin=f'{days[5 * i + 2]}T08:00:00Z', condition=('queue_onset', 'queue_ongoing')[i % 2],
+                                history_coverage='0.8') for i in range(4)])
+    wi.to_csv(out, index=False)
+
+
 def state_rows(rel, panel, split, rng, gap_links=10, gap_share=0.025, cap=60000):
     fs = sorted(glob.glob(f'{rel}/corridors/{panel}/{split}/mainline_states_masked/*/*.parquet'))
     if not fs:
@@ -159,10 +246,28 @@ def main():
     for p in T2P:
         refile_masked(rel, p)
         fd_from_links(rel, p)
-    # 2. real D12_I405_S / D12_I405_N files
-    for p in ('D12_I405_S', 'D12_I405_N'):
-        shutil.copytree(f'{REAL}/corridors/{p}/network', f'{rel}/corridors/{p}/network')
-    shutil.copytree(f'{REAL}/corridors/D12_I405_S/private/mainline_states_masked', f'{rel}/corridors/D12_I405_S/private/mainline_states_masked')
+        add_station_cols(rel, p)
+    for p in T2P:
+        train_window_index(rel, p)
+    # 2. station-level panels from the real local D12_I405_S files: D12_I405_S itself and a clone named D7_I10_W (the Task 1
+    #    member SMOKE panels) with the real D7_I10_W window index; real D12_I405_N network files
+    shutil.copytree(f'{REAL}/corridors/D12_I405_N/network', f'{rel}/corridors/D12_I405_N/network')
+    station_panel(rel, 'D12_I405_S', 'D12_I405_S')
+    wdays = station_panel(rel, 'D12_I405_S', 'D7_I10_W')
+    tmp = f'{out}/_fakerel_w'
+    subprocess.check_call([sys.executable, 'pvogf_fakerel.py', tmp, 'panels=D7_I10_W', 'ndays=3'], cwd=f'{ROOT}/analysis/t2lab',
+                          stdout=subprocess.DEVNULL)
+    for sp in ('validation', 'private'):
+        os.makedirs(f'{rel}/task2/D7_I10_W/{sp}', exist_ok=True)
+        shutil.copy(f'{tmp}/kaggle_public/task2/D7_I10_W/{sp}/window_index.csv', f'{rel}/task2/D7_I10_W/{sp}/window_index.csv')
+    shutil.rmtree(tmp)
+    train_window_index(rel, 'D7_I10_W')
+    t1_templates(rel, 'D12_I405_S', ('train', 'validation'), rng)
+    t1_templates(rel, 'D7_I10_W', ('train', 'validation', 'private'), rng)
+    z = np.load(f'{ROOT}/kaggle_jobs/out/t2lab_full/pseudo_D7_I10_W.npz', allow_pickle=True)    # real pseudo windows (seed for
+    keep = z['d'] < len(wdays)                                                                  # the member smoke runs)
+    os.makedirs(f'{out}/kernels_t1/tfb-t2lab-full', exist_ok=True)
+    np.savez_compressed(f'{out}/kernels_t1/tfb-t2lab-full/pseudo_D7_I10_W.npz', d=z['d'][keep], t=z['t'][keep], cond=z['cond'][keep])
     for f in ('README.md',):
         shutil.copy(f'{REAL}/{f}', f'{rel}/{f}')
     shutil.copytree(f'{REAL}/config', f'{rel}/config')

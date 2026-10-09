@@ -65,7 +65,7 @@ class Runner:
         return find_kernel_output(self.kernels_dir, self.input_roots, kernel, fname)
 
     def cfg(self, stage):
-        cfg = C.stage_cfg(stage, self.pick, self.recipe)
+        cfg = C.stage_cfg(stage, self.pick, self.recipe, self.threads)
         cfg.update(self.overrides.get(stage, {}))
         return cfg
 
@@ -104,29 +104,28 @@ class Runner:
 
     # ------------------------------------------------------------------ one stage
     def run_stage(self, stage):
-        spec = C.STAGES[stage]
+        module = C.stage_module(stage)
         kernel = C.stage_kernel(stage, self.pick)
-        outs = C.stage_outputs(stage, self.pick)
-        if spec['module'] is None:                                   # milestone 2: accept provided outputs only
-            kernels = C.t1_member_kernels(self.recipe) if stage == 't1_members' else [kernel]
-            miss = [(k, o) for k in kernels for o in outs if not self.resolve(k, o)]
+        outs = C.stage_outputs(stage, self.pick, smoke=self.smoke)
+        if module is None:                                           # not ported (optional stage): accept provided outputs only
+            miss = [(kernel, o) for o in outs if not self.resolve(kernel, o)]
             if miss:
-                raise StageError(f'stage {stage} is not ported yet (milestone 2) and its outputs are missing: {miss[:6]}'
-                                 f'{" ..." if len(miss) > 6 else ""} - provide them with --seed-kernel-outputs / --input-root')
-            self.log(f'[tfb] {stage:12s} provided (milestone-2 stage; {len(kernels)} kernel(s) found)')
+                raise StageError(f'stage {stage} is not ported and its outputs are missing: {miss} - provide them with '
+                                 f'--seed-kernel-outputs / --input-root')
+            self.log(f'[tfb] {stage:12s} provided (not ported; outputs found)')
             return 'provided'
         cfg = self.cfg(stage)
-        inputs = C.stage_inputs(stage, self.pick, self.recipe, cfg)
+        inputs = C.stage_inputs(stage, self.pick, self.recipe, cfg, smoke=self.smoke)
         miss = [(k, f) for k, f in inputs if not self.resolve(k, f)]
         if miss:
             raise StageError(f'stage {stage}: missing inputs {miss[:8]}{" ..." if len(miss) > 8 else ""}')
         in_paths = [self.resolve(k, f)[0] for k, f in inputs]
         out_dir = os.path.join(self.kernels_dir, kernel)
         os.makedirs(out_dir, exist_ok=True)
-        src = os.path.join(STAGE_DIR, spec['module'] + '.py')
+        src = os.path.join(STAGE_DIR, module + '.py')
         fp_obj = dict(stage=stage, code=_sha1_file(src), runtime=_sha1_file(os.path.join(os.path.dirname(STAGE_DIR), 'runtime.py')),
                       cfg=cfg, smoke=self.smoke, inputs=[_sig(p) for p in in_paths], data=os.path.abspath(self.data_root),
-                      threads=self.threads if stage == 't1_members' else None)
+                      threads=self.threads if C.is_member_stage(stage) else None)
         fp = hashlib.sha1(json.dumps(fp_obj, sort_keys=True, default=str).encode()).hexdigest()
         done_p = os.path.join(out_dir, '.done.json')
         if not self.force and os.path.exists(done_p):
@@ -137,7 +136,7 @@ class Runner:
         if os.path.exists(done_p):
             os.remove(done_p)
         ctx = dict(rel=self.data_root, out=out_dir, work_dir=self.work_dir, kernels_dir=self.kernels_dir, input_roots=self.input_roots,
-                   stage=stage, module=spec['module'], kernel=kernel, pick=self.pick, recipe=self.recipe, smoke=self.smoke,
+                   stage=stage, module=module, kernel=kernel, pick=self.pick, recipe=self.recipe, smoke=self.smoke,
                    threads=self.threads, cfg=cfg)
         ctx_p = os.path.join(out_dir, '.tfb_ctx.json')
         with open(ctx_p, 'w') as f:
@@ -199,11 +198,11 @@ class Runner:
 
 def parse_stages(arg, pick, recipe):
     if arg in (None, '', 'all'):
-        return C.plan(pick, recipe)
+        return C.expand(C.plan(pick, recipe), recipe)
     if arg == 'light':
         return [s for s in C.LIGHT_STAGES if s in C.plan(pick, recipe)]
-    out = [s.strip() for s in arg.split(',') if s.strip()]
-    bad = [s for s in out if s not in C.STAGES]
+    out = C.expand([s.strip() for s in arg.split(',') if s.strip()], recipe)
+    bad = [s for s in out if s not in C.STAGES and not (C.is_member_stage(s) and s[4:-1] in C.T1_MEMBERS)]
     if bad:
-        raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)}')
+        raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)} and t1m:<member part kernel>')
     return out

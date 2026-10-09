@@ -91,6 +91,9 @@ def compare_submission(ours, orig, check, tasks=('state', 'queue', 'odme'), rel=
     if not orig or not os.path.exists(orig):
         _line(check, '-', 'SKIP', orig=orig)
         return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
     a = pd.read_csv(ours)
     b = pd.read_csv(orig)
     same = len(a) == len(b) and np.array_equal(a.submission_id.to_numpy(), b.submission_id.to_numpy())
@@ -147,6 +150,9 @@ def compare_queue_file(ours, orig, check, rel=None):
     if not orig or not os.path.exists(orig):
         _line(check, '-', 'SKIP', orig=orig)
         return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
     a = pd.read_csv(ours, dtype={'window_id': str, 'link_id': str})
     b = pd.read_csv(orig, dtype={'window_id': str, 'link_id': str})
     for x in (a, b):
@@ -172,6 +178,81 @@ def compare_queue_file(ours, orig, check, rel=None):
                 jw.append(1.0 if uni == 0 else inter / uni)
             _line(check, f'queue.{s}.{c}', 'EXACT' if not g.d.any() else 'FAIL', rows=len(g), n_diff=int(g.d.sum()),
                   windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
+
+
+STATE_KEYS = ['panel', 'timestamp', 'station_id', 'link_id', 'mask_regime']
+
+
+def compare_state_file(ours, orig, check):
+    """Task 1 member output (panel, timestamp, station_id, link_id, mask_regime, speed_kmh, flow_vph): row set, then speed /
+    flow max |d| and RMS overall, per split (timestamp month) and per panel."""
+    if not orig or not os.path.exists(orig):
+        _line(check, '-', 'SKIP', orig=orig)
+        return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
+    dt = {'station_id': str, 'link_id': str, 'mask_regime': str, 'panel': str, 'timestamp': str}
+    a, b = pd.read_csv(ours, dtype=dt), pd.read_csv(orig, dtype=dt)
+    same_order = len(a) == len(b) and (a[STATE_KEYS].to_numpy() == b[STATE_KEYS].to_numpy()).all()
+    if not same_order:
+        m = b.merge(a, on=STATE_KEYS, how='outer', suffixes=('_o', '_r'), indicator=True)
+        unmatched = int((m._merge != 'both').sum())
+        m = m[m._merge == 'both']
+        a = m[STATE_KEYS].assign(speed_kmh=m.speed_kmh_r, flow_vph=m.flow_vph_r)
+        b = m[STATE_KEYS].assign(speed_kmh=m.speed_kmh_o, flow_vph=m.flow_vph_o)
+    else:
+        unmatched = 0
+    _line(check, 'rows', 'EXACT' if same_order else ('FAIL' if unmatched else 'NUMERIC'), rows_ours=len(a), unmatched=unmatched,
+          same_order=same_order, bytes_identical=_sha256(ours) == _sha256(orig))
+    split = np.where(b.timestamp.str[:7].to_numpy() == '2031-03', 'validation', 'private')
+    for col in ('speed_kmh', 'flow_vph'):
+        d = a[col].to_numpy(np.float64) - b[col].to_numpy(np.float64)
+        nd, mx, rms = _stat(d)
+        _line(check, f'state.{col}', 'EXACT' if nd == 0 else ('NUMERIC' if mx < 1e-6 else 'DIFF'), rows=len(d), n_diff=nd,
+              max_abs=f'{mx:.4g}', rms=f'{rms:.4g}')
+        if nd:
+            for s in ('validation', 'private'):
+                ms = split == s
+                nd2, mx2, rms2 = _stat(d[ms])
+                _line(check, f'state.{col}.{s}', 'EXACT' if nd2 == 0 else ('NUMERIC' if mx2 < 1e-6 else 'DIFF'), rows=int(ms.sum()),
+                      n_diff=nd2, max_abs=f'{mx2:.4g}', rms=f'{rms2:.4g}')
+            for p, idx in pd.Series(np.arange(len(d))).groupby(b.panel.to_numpy()).indices.items():
+                nd2, mx2, rms2 = _stat(d[idx])
+                _line(check, f'state.{col}.{p}', 'EXACT' if nd2 == 0 else ('NUMERIC' if mx2 < 1e-6 else 'DIFF'), rows=len(idx),
+                      n_diff=nd2, max_abs=f'{mx2:.4g}', rms=f'{rms2:.4g}')
+
+
+def compare_npz(ours, orig, check):
+    """every array of two .npz files: integer / bool / string arrays must be EXACT; float arrays report max |d|
+    (probabilities: the decoded queue files are the decisive check)."""
+    if not orig or not os.path.exists(orig):
+        _line(check, '-', 'SKIP', orig=orig)
+        return
+    if not os.path.exists(ours):
+        _line(check, '-', 'FAIL', note='the rerun did not write this file', ours=ours)
+        return
+    A, B = np.load(ours, allow_pickle=True), np.load(orig, allow_pickle=True)
+    ka, kb = set(A.files), set(B.files)
+    _line(check, 'keys', 'EXACT' if ka == kb else 'FAIL', n_ours=len(ka), n_orig=len(kb), only_ours=sorted(ka - kb)[:5], only_orig=sorted(kb - ka)[:5])
+    worst, n_exact, n_float_diff, bad = 0.0, 0, 0, []
+    for k in sorted(ka & kb):
+        x, y = A[k], B[k]
+        if x.shape != y.shape:
+            bad.append(f'{k}:shape'); continue
+        if x.dtype.kind == 'f' and y.dtype.kind == 'f':
+            d = np.abs(x.astype(np.float64) - y.astype(np.float64))
+            m = float(np.nanmax(d)) if d.size else 0.0
+            if m == 0 and np.array_equal(np.isnan(x), np.isnan(y)):
+                n_exact += 1
+            else:
+                n_float_diff += 1; worst = max(worst, m)
+        elif np.array_equal(x, y):
+            n_exact += 1
+        else:
+            bad.append(k)
+    st = 'FAIL' if bad else ('EXACT' if n_float_diff == 0 else ('NUMERIC' if worst < 1e-6 else 'DIFF'))
+    _line(check, 'arrays', st, arrays=len(ka & kb), exact=n_exact, float_diff=n_float_diff, max_abs=f'{worst:.4g}', mismatched=bad[:6])
 
 
 def summary(save=None):

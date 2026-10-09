@@ -1,0 +1,9 @@
+10-10 00:25:34 order ['tfb-par-t4', 'tfb-par-chaint1', 'tfb-par-pseudo', 'tfb-par-occ', 'tfb-par-pvogf', 'tfb-par-v12s4a', 'tfb-par-v12s4b', 'tfb-par-v12s5a', 'tfb-par-v12s5b', 'tfb-par-v12s6a', 'tfb-par-v12s6b', 'tfb-par-v12s7a', 'tfb-par-v12s7b', 'tfb-par-v13a', 'tfb-par-v13b', 'tfb-par-v13s10a', 'tfb-par-v13s10b', 'tfb-par-v13s11a', 'tfb-par-v13s11b', 'tfb-par-rampa', 'tfb-par-rampb', 'tfb-par-bspeca', 'tfb-par-bspecb', 'tfb-par-bspecc', 'tfb-par-ogfa', 'tfb-par-ogfb', 'tfb-par-ogfc', 'tfb-par-ogveto', 'tfb-par-v11a', 'tfb-par-v11b', 'tfb-par-v12a', 'tfb-par-v12b', 'tfb-par-v12s2a', 'tfb-par-v12s2b', 'tfb-par-v12s3a', 'tfb-par-v12s3b', 'tfb-par-darka', 'tfb-par-darkb', 'tfb-par-ramp2a', 'tfb-par-ramp2b']
+10-10 00:25:37 pushed tfb-par-t4 v 2 | est min 20
+10-10 00:26:40 pushed tfb-par-chaint1 v 2 | est min 45
+10-10 00:27:44 pushed tfb-par-pseudo v 1 | est min 8
+10-10 00:28:48 pushed tfb-par-occ v 1 | est min 342
+10-10 00:31:53 == tfb-par-pseudo complete
+10-10 00:31:53     PARITY SUMMARY verdict=PASS EXACT=16 NUMERIC=0 DIFF=0 FAIL=0 SKIP=0
+10-10 00:31:53     PARITY KERNEL DONE in 210s
+10-10 00:31:58 pushed tfb-par-pvogf v 1 | est min 288

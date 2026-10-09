@@ -55,7 +55,29 @@ for panel in PANELS:
         rows.append(pd.DataFrame({'panel': panel, 'departure_time': dep, 'path_id': pids, 'path_flow': f}))
         log(panel, split, 'paths', len(pids), 'S_link(own counts)', round(s_link, 6), 'dev/prior', round(np.abs(f - b).sum() / b.sum(), 4))
 odme = pd.concat(rows, ignore_index=True)
-odme.to_csv(f'{TFB.out}/odme_path_flow.csv', index=False)  # [TFB] the Task 4 table itself (parity / reuse)
+odme.to_csv(f'{TFB.out}/odme_path_flow.csv', index=False)  # [TFB] the Task 4 table itself (raw NNLS output; parity / reuse)
+# [TFB] pandas' default CSV float parser is not correctly rounded, so one to_csv + read_csv cycle g() is not idempotent:
+# [TFB] some values move by an ulp on each of the first cycles. In the Kaggle chain path_flow went through 26+ cycles
+# [TFB] (tfb-final -> ... -> tfb-j4) and ended on fixed points of g (tfb-i4 asserts g(x) == x). Writing that fixed point
+# [TFB] here makes every later cycle of the entry script a no-op and reproduces the chain's values.
+import io  # [TFB]
+
+
+def _csv_cycle(v):  # [TFB] one write + read with pandas defaults, exactly as every swap kernel did
+    return pd.read_csv(io.StringIO(pd.DataFrame({'path_flow': v}).to_csv(index=False)))['path_flow'].to_numpy()  # [TFB]
+
+
+_pf = odme.path_flow.to_numpy(np.float64)  # [TFB]
+_first = _csv_cycle(_pf)  # [TFB] = what tfb-final's own submission.csv parses to
+for _it in range(1, 101):  # [TFB]
+    _nx = _csv_cycle(_pf)  # [TFB]
+    if np.array_equal(_nx, _pf):  # [TFB]
+        break  # [TFB]
+    _pf = _nx  # [TFB]
+assert np.array_equal(_csv_cycle(_pf), _pf), f'path_flow has no CSV fixed point after {_it} cycles ({int((_csv_cycle(_pf) != _pf).sum())} values)'  # [TFB]
+log('path_flow CSV fixed point after', _it - 1, 'cycles | values moved vs the first parse (tfb-final file):', int((_pf != _first).sum()),  # [TFB]
+    '| max |d|', float(np.abs(_pf - _first).max()))  # [TFB]
+odme['path_flow'] = _pf  # [TFB]
 
 tables = {'odme': odme}  # [TFB] state / queue tables come from later stages; their rows stay 0 in the skeleton
 for task, fr in tables.items():

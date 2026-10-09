@@ -8,12 +8,12 @@
 --pick        A2 = tfb-j4 (candidate A) | B2 = tfb-j3 (hedge B)
 --recipe      full = all 15 Task 1 members | lean1 = 9 members (DESIGN.md 3.3; expected private delta -0.0002..-0.0003)
 --stages      all (default) | light (t4, onset_sp, onset_pv, t1_mix, t1_recon, assemble) | comma list of stage names
---threads     LightGBM threads of the Task 1 members (milestone 2); every Task 2 / Task 4 stage keeps the Kaggle value (4)
+--threads     LightGBM threads of the Task 1 members (Kaggle: 4); every Task 2 / Task 4 stage keeps the Kaggle value (4)
 Result: <work>/submission_<pick>_<recipe>.csv (+ .sha256), manifest.json, and per stage .done.json (runtime, peak RSS).
 
-Milestone 1 ports the light stages. The heavy stages (pseudo windows, Task 1 members, Task 2 ongoing) are registered but
-not ported yet: until then their outputs can be provided with --seed-kernel-outputs DIR (DIR/<kernel>/<file>, e.g.
-downloaded Kaggle kernel outputs) or --input-root DIR[:glob].
+Every stage of both picks is ported (milestone 2). Development only: outputs of a stage can be provided instead of
+recomputed with --seed-kernel-outputs DIR (DIR/<kernel>/<file>, e.g. downloaded Kaggle outputs) or --input-root DIR[:glob].
+Single member parts: --stages t1m:tfb-t1v12s4a (all parts of the recipe: t1_members).
 """
 import argparse
 import json
@@ -48,7 +48,7 @@ def main(argv=None):
     ap.add_argument('--pick', choices=C.PICKS, default='A2')
     ap.add_argument('--recipe', choices=C.RECIPES, default='lean1')
     ap.add_argument('--stages', default='all')
-    ap.add_argument('--threads', type=int, default=4, help='Task 1 member LightGBM threads (milestone 2)')
+    ap.add_argument('--threads', type=int, default=4, help='Task 1 member LightGBM threads (Kaggle: 4)')
     ap.add_argument('--env-threads', type=int, default=4, help='OMP / BLAS threads of every stage process (Kaggle: 4 vCPU)')
     ap.add_argument('--smoke', action='store_true', help='kernel SMOKE switches (subsets); never for a real submission')
     ap.add_argument('--force', action='store_true', help='rerun the selected stages even if cached')
@@ -66,8 +66,7 @@ def main(argv=None):
         roots.append(dict(root=os.path.abspath(root), mode=mode or 'flat'))
     if a.list:
         for s in stages:
-            st = C.STAGES[s]
-            print(f'{s:14s} kernel {C.stage_kernel(s, a.pick) or "(per member)":16s} milestone {st["m"]}  outputs {C.stage_outputs(s, a.pick)}')
+            print(f'{s:20s} module {str(C.stage_module(s)):12s} kernel {C.stage_kernel(s, a.pick):16s} outputs {C.stage_outputs(s, a.pick)}')
         return 0
     r = Runner(a.data_root, a.work_dir, a.pick, a.recipe, threads=a.threads, env_threads=a.env_threads, smoke=a.smoke,
                input_roots=roots, overrides=parse_set(a.set), force=a.force)

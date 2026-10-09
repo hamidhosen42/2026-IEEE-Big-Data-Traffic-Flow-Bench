@@ -1,6 +1,6 @@
 {
  "tfb-par-t4": {
-  "priority": "required",
+  "priority": "re-push (fix)",
   "minutes": 20,
   "stages": [
    "t4"
@@ -12,7 +12,7 @@
    "hosen42/tfb-j4",
    "hosen42/tfb-j3"
   ],
-  "desc": "Task 4 NNLS (tfb-final cell 7) -> skeleton; path_flow must equal tfb-final and both final files exactly"
+  "desc": "Task 4 NNLS (tfb-final cell 7) -> skeleton at the CSV fixed point of path_flow: EXACT vs tfb-j4 / tfb-j3 required (vs tfb-final NUMERIC expected: ~390 values the 26-cycle chain moved by an ulp)"
  },
  "tfb-par-onsetsp": {
   "priority": "required",
@@ -135,7 +135,7 @@
   "desc": "queue assembly B2 (4 condition x split parts on the original tfb-i4 file) vs tfb-j3 submission_J3.csv"
  },
  "tfb-par-chaint1": {
-  "priority": "integration",
+  "priority": "re-push (fix)",
   "minutes": 45,
   "stages": [
    "t4",
@@ -178,7 +178,7 @@
    "hosen42/tfb-t1bspecc",
    "hosen42/tfb-j4"
   ],
-  "desc": "production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow vs tfb-j4"
+  "desc": "production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow EXACT vs tfb-j4"
  },
  "tfb-par-chaint2a2": {
   "priority": "integration",
@@ -248,5 +248,536 @@
    "hosen42/tfb-i4"
   ],
   "desc": "DESIGN 3.3 decision data: lean-1 mix (19 member outputs) + recon/TV; state RMS vs the full-recipe tfb-i4d / tfb-i4 (DIFF expected)"
+ },
+ "tfb-par-pseudo": {
+  "priority": "lean1 + full",
+  "minutes": 8,
+  "stages": [
+   "pseudo"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full"
+  ],
+  "desc": "pseudo windows (tfb-t2lab-full, hidden input of every Task 1 member): d / t / cond arrays exactly; the stage also self-checks counts + SHA-1"
+ },
+ "tfb-par-occ": {
+  "priority": "A2 + B2",
+  "minutes": 342,
+  "stages": [
+   "ongoing_val"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2occ"
+  ],
+  "desc": "March ongoing (tfb-t2occ): fs4occ / fs2occ / fs_np queue files exactly + probabilities and qlast (t2v26occ_probs.npz)"
+ },
+ "tfb-par-pvogf": {
+  "priority": "A2",
+  "minutes": 288,
+  "stages": [
+   "ongoing_pvogf"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2ogpvogf",
+   "hosen42/tfb-t2v22af",
+   "hosen42/tfb-t2ogpvaf"
+  ],
+  "desc": "April ongoing of A2 (tfb-t2ogpvogf) with the original references attached (fs4af validation copy, pvo veto): pvogf / pvogf_npid / pvogfv exactly + probabilities"
+ },
+ "tfb-par-ogfa": {
+  "priority": "B2",
+  "minutes": 320,
+  "stages": [
+   "ogfeat_a"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2ogfa"
+  ],
+  "desc": "ogfeat seed-0 pair (tfb-t2ogfa, template t2_ogfeat part a): fs2ogf / fs_npogf exactly + probabilities"
+ },
+ "tfb-par-ogfb": {
+  "priority": "B2",
+  "minutes": 397,
+  "stages": [
+   "ogfeat_b"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2ogfb"
+  ],
+  "desc": "ogfeat seed-1 pair (tfb-t2ogfb, template t2_ogfeat part b): fs2ogf1 exactly + probabilities"
+ },
+ "tfb-par-ogfc": {
+  "priority": "B2",
+  "minutes": 8,
+  "stages": [
+   "ogfeat_comb"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2ogfa",
+   "hosen42/tfb-t2ogfb",
+   "hosen42/tfb-t2ogfc"
+  ],
+  "desc": "fs4ogf = mean of the 4 ogfeat models (tfb-t2ogfc) from the original ogfa / ogfb outputs: exactly"
+ },
+ "tfb-par-ogveto": {
+  "priority": "B2",
+  "minutes": 8,
+  "stages": [
+   "ogveto"
+  ],
+  "pick": "B2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2occ",
+   "hosen42/tfb-t2ogfc",
+   "hosen42/tfb-t2ogveto"
+  ],
+  "desc": "veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly"
+ },
+ "tfb-par-v11a": {
+  "priority": "full only",
+  "minutes": 348,
+  "stages": [
+   "t1m:tfb-t1v11a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v11a"
+  ],
+  "desc": "Task 1 member part tfb-t1v11a (template t1_fta_v11, original image A, 5.6 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v11b": {
+  "priority": "full only",
+  "minutes": 248,
+  "stages": [
+   "t1m:tfb-t1v11b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v11b"
+  ],
+  "desc": "Task 1 member part tfb-t1v11b (template t1_fta_v11, original image A, 3.9 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12a": {
+  "priority": "full only",
+  "minutes": 208,
+  "stages": [
+   "t1m:tfb-t1v12a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12a (template t1_fta, original image A, 3.3 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12b": {
+  "priority": "full only",
+  "minutes": 156,
+  "stages": [
+   "t1m:tfb-t1v12b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12b (template t1_fta, original image A, 2.4 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s2a": {
+  "priority": "full only",
+  "minutes": 195,
+  "stages": [
+   "t1m:tfb-t1v12s2a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s2a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s2a (template t1_fta, original image A, 3.1 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s2b": {
+  "priority": "full only",
+  "minutes": 101,
+  "stages": [
+   "t1m:tfb-t1v12s2b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s2b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s2b (template t1_fta, original image A, 1.5 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s3a": {
+  "priority": "full only",
+  "minutes": 197,
+  "stages": [
+   "t1m:tfb-t1v12s3a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s3a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s3a (template t1_fta, original image A, 3.1 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s3b": {
+  "priority": "full only",
+  "minutes": 151,
+  "stages": [
+   "t1m:tfb-t1v12s3b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s3b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s3b (template t1_fta, original image A, 2.3 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s4a": {
+  "priority": "lean1 + full",
+  "minutes": 221,
+  "stages": [
+   "t1m:tfb-t1v12s4a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s4a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s4a (template t1_fta, original image A, 3.5 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s4b": {
+  "priority": "lean1 + full",
+  "minutes": 159,
+  "stages": [
+   "t1m:tfb-t1v12s4b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s4b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s4b (template t1_fta, original image A, 2.5 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s5a": {
+  "priority": "lean1 + full",
+  "minutes": 171,
+  "stages": [
+   "t1m:tfb-t1v12s5a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s5a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s5a (template t1_fta, original image A, 2.7 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s5b": {
+  "priority": "lean1 + full",
+  "minutes": 163,
+  "stages": [
+   "t1m:tfb-t1v12s5b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s5b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s5b (template t1_fta, original image A, 2.5 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s6a": {
+  "priority": "lean1 + full",
+  "minutes": 227,
+  "stages": [
+   "t1m:tfb-t1v12s6a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s6a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s6a (template t1_fta, original image A, 3.6 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s6b": {
+  "priority": "lean1 + full",
+  "minutes": 157,
+  "stages": [
+   "t1m:tfb-t1v12s6b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s6b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s6b (template t1_fta, original image A, 2.4 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s7a": {
+  "priority": "lean1 + full",
+  "minutes": 241,
+  "stages": [
+   "t1m:tfb-t1v12s7a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s7a"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s7a (template t1_fta, original image A, 3.8 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v12s7b": {
+  "priority": "lean1 + full",
+  "minutes": 173,
+  "stages": [
+   "t1m:tfb-t1v12s7b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v12s7b"
+  ],
+  "desc": "Task 1 member part tfb-t1v12s7b (template t1_fta, original image A, 2.7 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13a": {
+  "priority": "lean1 + full",
+  "minutes": 246,
+  "stages": [
+   "t1m:tfb-t1v13a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13a"
+  ],
+  "desc": "Task 1 member part tfb-t1v13a (template t1_fd, original image A, 3.9 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13b": {
+  "priority": "lean1 + full",
+  "minutes": 190,
+  "stages": [
+   "t1m:tfb-t1v13b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13b"
+  ],
+  "desc": "Task 1 member part tfb-t1v13b (template t1_fd, original image A, 3.0 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13s10a": {
+  "priority": "lean1 + full",
+  "minutes": 246,
+  "stages": [
+   "t1m:tfb-t1v13s10a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13s10a"
+  ],
+  "desc": "Task 1 member part tfb-t1v13s10a (template t1_fd, original image B, 3.9 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13s10b": {
+  "priority": "lean1 + full",
+  "minutes": 133,
+  "stages": [
+   "t1m:tfb-t1v13s10b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13s10b"
+  ],
+  "desc": "Task 1 member part tfb-t1v13s10b (template t1_fd, original image B, 2.0 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13s11a": {
+  "priority": "lean1 + full",
+  "minutes": 266,
+  "stages": [
+   "t1m:tfb-t1v13s11a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13s11a"
+  ],
+  "desc": "Task 1 member part tfb-t1v13s11a (template t1_fd, original image B, 4.2 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-v13s11b": {
+  "priority": "lean1 + full",
+  "minutes": 140,
+  "stages": [
+   "t1m:tfb-t1v13s11b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1v13s11b"
+  ],
+  "desc": "Task 1 member part tfb-t1v13s11b (template t1_fd, original image B, 2.1 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-darka": {
+  "priority": "full only",
+  "minutes": 267,
+  "stages": [
+   "t1m:tfb-t1darka"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1darka"
+  ],
+  "desc": "Task 1 member part tfb-t1darka (template t1_dark, original image B, 4.3 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-darkb": {
+  "priority": "full only",
+  "minutes": 209,
+  "stages": [
+   "t1m:tfb-t1darkb"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1darkb"
+  ],
+  "desc": "Task 1 member part tfb-t1darkb (template t1_dark, original image B, 3.3 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-rampa": {
+  "priority": "lean1 + full",
+  "minutes": 290,
+  "stages": [
+   "t1m:tfb-t1rampa"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1rampa"
+  ],
+  "desc": "Task 1 member part tfb-t1rampa (template t1_ramp, original image B, 4.6 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-rampb": {
+  "priority": "lean1 + full",
+  "minutes": 215,
+  "stages": [
+   "t1m:tfb-t1rampb"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1rampb"
+  ],
+  "desc": "Task 1 member part tfb-t1rampb (template t1_ramp, original image B, 3.4 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-ramp2a": {
+  "priority": "full only",
+  "minutes": 282,
+  "stages": [
+   "t1m:tfb-t1ramp2a"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1ramp2a"
+  ],
+  "desc": "Task 1 member part tfb-t1ramp2a (template t1_ramp, original image B, 4.5 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-ramp2b": {
+  "priority": "full only",
+  "minutes": 206,
+  "stages": [
+   "t1m:tfb-t1ramp2b"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1ramp2b"
+  ],
+  "desc": "Task 1 member part tfb-t1ramp2b (template t1_ramp, original image B, 3.2 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-bspeca": {
+  "priority": "lean1 + full",
+  "minutes": 245,
+  "stages": [
+   "t1m:tfb-t1bspeca"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1bspeca"
+  ],
+  "desc": "Task 1 member part tfb-t1bspeca (template t1_bspec, original image B, 3.9 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-bspecb": {
+  "priority": "lean1 + full",
+  "minutes": 233,
+  "stages": [
+   "t1m:tfb-t1bspecb"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1bspecb"
+  ],
+  "desc": "Task 1 member part tfb-t1bspecb (template t1_bspec, original image B, 3.7 h on Kaggle): state_submission_FTA.csv vs the original part"
+ },
+ "tfb-par-bspecc": {
+  "priority": "lean1 + full",
+  "minutes": 87,
+  "stages": [
+   "t1m:tfb-t1bspecc"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-t2lab-full",
+   "hosen42/tfb-t1bspecc"
+  ],
+  "desc": "Task 1 member part tfb-t1bspecc (template t1_bspec, original image B, 1.3 h on Kaggle): state_submission_FTA.csv vs the original part"
  }
 }

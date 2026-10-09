@@ -10,7 +10,26 @@ import sys
 import time
 
 
+def _darwin_rss_in_kb():
+    """macOS reports ru_maxrss in bytes, Linux (Kaggle, the reference platform) in KiB; the Task 1 kernels print / gate peak
+    RSS assuming KiB. Local development on macOS only: present the value in KiB (no effect on Linux)."""
+    import resource
+    orig = resource.getrusage
+
+    class _RU:
+        def __init__(self, ru):
+            self._ru = ru
+
+        def __getattr__(self, k):
+            v = getattr(self._ru, k)
+            return v // 1024 if k == 'ru_maxrss' else v
+
+    resource.getrusage = lambda who: _RU(orig(who))
+
+
 def main(ctx_path):
+    if sys.platform == 'darwin':
+        _darwin_rss_in_kb()
     import tfb.runtime as rt
     rt.ctx = rt.Ctx.load(ctx_path)
     os.makedirs(rt.ctx.out, exist_ok=True)
