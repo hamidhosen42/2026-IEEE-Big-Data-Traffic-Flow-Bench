@@ -1,0 +1,17 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE MD seeds [0, 1] members ['base_np', 'base_id', 'base_full', 'ogf_np', 'ogf_id', 'ogf_full'] trees 500 leaves 255 threads 6
+[     0s] rows: F03 8008828 (pos 0.2717, weight 5292024) | March 458138 (weight 1140096, days <= 14)
+[   139s] seed 0 base_np: 58 cols, trained 134s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'n_q_hist_win', 'h']
+[   286s] seed 0 base_id: 64 cols, trained 143s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_lo', 'dq_hi', 'pos']
+[   445s] seed 0 base_full: 69 cols, trained 155s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'prior', 'tod']
+[   730s] seed 0 ogf_np: 161 cols, trained 279s, predicted 7s | gain share of ogfeat cols 0.682 | top5 ['k2_z', 'vr_last', 'q_last', 'k2_dvm5_3', 'h']
+[  1035s] seed 0 ogf_id: 167 cols, trained 300s, predicted 5s | gain share of ogfeat cols 0.768 | top5 ['k2_z', 'vr_last', 'k2_dvm5_3', 'kx_hi6', 'h']
+[  1324s] seed 0 ogf_full: 172 cols, trained 285s, predicted 4s | gain share of ogfeat cols 0.606 | top5 ['k2_z', 'vr_last', 'prior', 'q_last', 'k2_dvm5_3']
+[  1466s] seed 1 base_np: 58 cols, trained 139s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'n_q_hist_win', 'h']
+[  1618s] seed 1 base_id: 64 cols, trained 147s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'pos', 'n_q_hist_win']
+[  1778s] seed 1 base_full: 69 cols, trained 157s, predicted 4s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'prior', 'tod']
+[  2052s] seed 1 ogf_np: 161 cols, trained 269s, predicted 4s | gain share of ogfeat cols 0.497 | top5 ['k2_z', 'vr_last', 'q_last', 'dq_hi', 'k2_dvm5_3']
+[  2349s] seed 1 ogf_id: 167 cols, trained 293s, predicted 4s | gain share of ogfeat cols 0.566 | top5 ['k2_z', 'vr_last', 'q_last', 'k2_dvm5_3', 'kx_hi6']
+[  2651s] seed 1 ogf_full: 172 cols, trained 298s, predicted 4s | gain share of ogfeat cols 0.595 | top5 ['k2_z', 'vr_last', 'q_last', 'prior', 'k2_dvm5_3']
+[  2651s] PVOGF TRAIN DONE MD 2651s
+[run_heavy] exit 0 after 2651s

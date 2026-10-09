@@ -1,6 +1,6 @@
 # All submitted notebooks
 
-One notebook per Kaggle submission, in submission order (58 submissions; best public LB #58, 0.88145).
+One notebook per Kaggle submission, in submission order (64 submissions; best public LB #63, 0.88179).
 Each file is the exact source of the kernel whose output was submitted. Swap kernels read upstream kernel outputs; their upstream sources are in `submissions/<folder>/upstream__*`. #1, #3 and #5 were submitted straight from Kaggle notebooks (current version).
 Rebuild: `.venv/bin/python kaggle_jobs/build_all_notebooks.py`.
 
@@ -64,3 +64,9 @@ Rebuild: `.venv/bin/python kaggle_jobs/build_all_notebooks.py`.
 | 56 | 2026-10-07 | 56_H4__LB0.88008.ipynb | `tfb-h4` | 0.88008 | Q4: March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corrido |
 | 57 | 2026-10-07 | 57_H5__LB0.88145.ipynb | `tfb-h5` | 0.88145 | Q5: T1 FD bag on ALL rows + the blackout member and the ramp member (5 FD members: v13, s10, s11, t1dark, t1ramp; W_FD 0.5); blackout rows 0 |
 | 58 | 2026-10-08 | 58_I1__LB0.88145.ipynb | `tfb-i1` | 0.88145 | Q1: FINAL CANDIDATE B (hedge) on tfb-h5 (5-member FD bag + ramp blackout): April onset = production CatBoost with the train prior; April ong |
+| 59 | 2026-10-08 | 59_I2__LB0.88156.ipynb | `tfb-i2` | 0.88156 | Q2: T1: second ramp member (seed 17): blackout rows 0.25 mix + 0.75 mean of the two ramp members; FD bag of 6 on all rows (v13, s10, s11, t1 |
+| 60 | 2026-10-08 | 60_I3__LB0.88156.ipynb | `tfb-i3` | 0.88156 | Q3: FINAL CANDIDATE B (hedge) on tfb-i2 (two ramp members): April onset = production CatBoost with the train prior; April ongoing = all-fini |
+| 61 | 2026-10-08 | 61_I4__LB0.88176.ipynb | `tfb-i4` | 0.88176 | Q4: T1 blackout rows = 0.25 mix + 0.75 BLACKOUT SPECIALIST (trained on official-like blackout placement: onset queues start at T+30, ongoing |
+| 62 | 2026-10-08 | 62_I5__LB0.88176.ipynb | `tfb-i5` | 0.88176 | Q5: FINAL CANDIDATE B (hedge) on tfb-i4 (blackout specialist): April onset = production CatBoost with the train prior; April ongoing = all-f |
+| 63 | 2026-10-09 | 63_J1__LB0.88179.ipynb | `tfb-j1` | 0.88179 | Q1: T1 FD bag on ALL rows + the blackout specialist (7 FD members: v13, s10, s11, t1dark, t1ramp, t1ramp2, t1bspec; W_FD 0.5); blackout rows |
+| 64 | 2026-10-09 | 64_J3__LB0.88176.ipynb | `tfb-j3` | 0.88176 | Q3: FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a grow |

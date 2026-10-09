@@ -1,1 +1,7 @@
 [2026-10-08 02:07:52] p8 planner start
+[2026-10-08 06:39:15] tfb-t1ramp2a status complete | traceback False | state rows/NaN ('4067879', '0') | ok True
+[2026-10-08 06:39:17] tfb-t1ramp2b status complete | traceback False | state rows/NaN ('2667916', '0') | ok True
+[2026-10-08 06:39:17] Q2 override written {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp+tfb-t1ramp2", "w_dark": 0.75, "thr": 0.0001, "fd_members": ["tfb-t1v13", "tfb-t1v13s10", "tfb-t1v13s11", "tfb-t1dark", "tfb-t1ramp", "tfb-t1ramp2"], "desc": "T1: second ramp member (seed 17): blackout rows 0.25 mix + 0.75 mean of the two ramp members; FD bag of 6 on all rows (v13, s10, s11, t1dark, t1ramp, t1ramp2; W_FD 0.5); recon + TV"}
+[2026-10-08 07:05:17] Q2 done; base tfb-i2 0.88156
+[2026-10-08 07:05:17] Q3 override written {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on tfb-i2 (two ramp members): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-08 07:05:17] p8 planner done

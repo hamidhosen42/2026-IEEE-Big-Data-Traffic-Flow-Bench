@@ -1,0 +1,4 @@
+[2026-10-08 13:50:53] p9 planner start
+[2026-10-09 00:34:58] Q1 done; base tfb-i4 0.88176
+[2026-10-09 00:34:58] Q2 override written {"type": "skip", "desc": "base unchanged (tfb-i4) -> hedge B is tfb-i5"}
+[2026-10-09 00:34:58] p9 planner done

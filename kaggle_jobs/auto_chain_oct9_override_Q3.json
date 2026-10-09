@@ -1,0 +1,20 @@
+{
+ "type": "queue2",
+ "parts": [
+  [
+   "tfb-t2osp",
+   "queue_submission_base.csv",
+   "queue_onset",
+   "private"
+  ],
+  [
+   "tfb-t2ogveto",
+   "queue_submission_veto10.csv",
+   "queue_ongoing",
+   "private"
+  ]
+ ],
+ "thr": 1.0,
+ "max_val_changed": 0,
+ "desc": "FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a growth veto (veto10: window keeps fs4occ if ogfeat adds >10 cells outside the queue at T; FM-PM private +0.0036 vs fs4occ); March rows unchanged"
+}

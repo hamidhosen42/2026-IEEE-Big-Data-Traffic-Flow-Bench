@@ -1,0 +1,98 @@
+[run_heavy] slot acquired after 0s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+[     3s] train fold 0 done
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+[     6s] train fold 2 done
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:58: RuntimeWarning: Mean of empty slice
+  qu = np.nanmean(q[i, up]) if up else np.nan; ku = np.nanmean(k[i, up]) if up else np.nan
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+[     9s] pseudo-March done
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/xfer_shock_lib.py:59: RuntimeWarning: Mean of empty slice
+  qc = np.nanmean(q[i, cq]); kc = np.nanmean(k[i, cq])
+== lab gates (aggregated dIoU vs base) ==
+pmarch    offlike_m  n   298 | all2 +0.0245 (7/8) | shockA -0.0165 (2/8) | shockB +0.0048 (4/8) | veto10 +0.0269 (7/8) | positives shockA -3.202%
+pmarch    runstart_m n  1124 | all2 +0.0065 (6/8) | shockA -0.0102 (2/8) | shockB -0.0036 (4/8) | veto10 +0.0096 (7/8) | positives shockA -3.445%
+train_f0  offlike    n   726 | all2 +0.0196 (8/8) | shockA -0.0616 (0/8) | shockB -0.0497 (2/8) | veto10 +0.0171 (7/8) | positives shockA -3.617%
+train_f0  runstart   n  2731 | all2 +0.0133 (8/8) | shockA -0.0412 (1/8) | shockB -0.0331 (1/8) | veto10 +0.0124 (8/8) | positives shockA -3.796%
+train_f2  offlike    n   748 | all2 +0.0236 (8/8) | shockA -0.0620 (0/8) | shockB -0.0462 (2/8) | veto10 +0.0221 (8/8) | positives shockA -4.078%
+train_f2  runstart   n  2633 | all2 +0.0126 (8/8) | shockA -0.0406 (1/8) | shockB -0.0335 (1/8) | veto10 +0.0121 (8/8) | positives shockA -4.001%
+== FM-PM (pre-registered: panel-exact, +-2 h, all-cell counts, pseudo-March offlike_m + runstart_m, baseline = base/fs4occ) ==
+   arm  validation_win  validation_cells  validation_fm_iou  validation_fm_lb  private_win  private_cells  private_fm_iou  private_fm_lb  PASS
+  all2              28               304           -0.00469          -0.00070           36            293         0.01794        0.00269 False
+shockA              17               134           -0.00837          -0.00126           19            196        -0.02281       -0.00342 False
+shockB              31               294           -0.00360          -0.00054           40            435        -0.00102       -0.00015 False
+veto10              24               190            0.00276           0.00041           35            281         0.02406        0.00361 False
+[run_heavy] exit 0 after 11s

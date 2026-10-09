@@ -1,0 +1,102 @@
+TRANSFER TABLE NOTES (2026-10-08, read-only analysis)
+
+CONVENTIONS
+- lb_delta = public LB of the probe minus LB of its actual base (base_slug). Bases from kaggle_jobs/auto_chain_*.log and
+  *_state.json: chain oct4b bases are sequential (c20 -> E1 -> E2 -> E3 -> E4 -> E5); chain oct5 (F1..F5) all vs E5;
+  chain oct6 started from E5 (not F5): G1 vs E5, G2 vs G1, G3 vs G1 (so G3 = allfin + occ vs fs4), G4 vs G3, G5 vs G4;
+  chain oct7: H1 vs G4, H2 built with W 0.5 (listed vs G4 = +0.00028; chain logged -0.00009 vs H1), H3/H4/H5 vs H1;
+  oct3: c16 vs COMBO15, c17 vs c16, c18 vs c17, c19 vs c18, c20 vs c18. COMBO2D/COMBO3/COMBO4/COMBO5 are one-factor
+  siblings (research/86217_vs_85860_diff.md); COMBO15 is on COMBO13 (not COMBO14).
+- lb_iou_delta = lb_delta/0.15 for onset or ongoing rows; = lb_delta/0.30 for both-T2 rows (mean IoU of both conditions).
+- Lab cells: IoU deltas (new arm - base arm) of the condition changed. official40 = official train windows (40 per condition,
+  fold 0 / 4-fold); offlike = official-like train OOF (ongoing 2,992 windows; onset fold-0 n=522); pseudo = current-style
+  pseudo windows in train (4-fold); offlike_m / runstart_m = pseudo-March ongoing sets (298 / 1124 windows);
+  gate_other = other pseudo-March numbers (EXP_024 gate, pmarch2, v16/v17 gate, pseudo-March 214 onset windows,
+  month-start replay). For the both-T2 rows the lab cell is S_queue (both conditions).
+- lab_T1_proxy is on the LB-point scale: either 0.35 x val-month-holdout dS_state (rows 07,08,14,20,22,23,26,28,17,19), or a
+  lab J = 0.35 dS_state + 0.10 dLWR + 0.05 dS_FD (rows 34,37,38,53,54,57), or 0.35 x blackout-row dS_state (row 48).
+  ratio_T1 = lb_delta / lab_T1_proxy. For holdout rows LB/dS_state = ratio_T1 x 0.35 (≈0.85-0.92 for D/E/F/FT).
+- Ratio = LB IoU delta / lab IoU delta. A negative ratio means the signs disagree.
+- PRE/POST: each sources entry is tagged. PRE = recorded before the probe. POST = recorded after it, or computed on 10-08 by a
+  search agent from caches (exact arm, or the closest analog). When the exact arm was only available post-hoc, the cell
+  holds the exact-arm value and the PRE proxy goes in the note (e.g. ON30).
+- Row 24 (COMBO7) also retrained the CatBoost onset, so it is not a clean one-factor probe. Row 07 (SUB_A) also changed T4.
+- Rows with NO lab number (kept for completeness): 29 COMBO12 bag-2, 32 COMBO15 bag-4, 39 E2 og8, 43 F1. Rows 35 og4 and
+  33 bag-8 have only an LB forecast. Rows 51/52/55/58 are private-only (public unchanged by construction).
+- Excluded probes: #1-#5 (copy of a public notebook, two upload errors, the base public notebook); no lab.
+
+EXTRA RATIOS (official40 and pseudo_train; not in the CSV columns)
+id                      comp       lb_iou    off40  r_off   pseudo  r_pse
+06_PROBE_T2             both-T2   +0.1139  +0.1479  +0.77  +0.1808  +0.63
+09_PROBE_COND_onset0    onset     -0.7429  -0.9171  +0.81  -0.8843  +0.84
+10_PROBE_COND_ongoing0  ongoing   -0.7465  -0.8483  +0.88  -0.9170  +0.81
+11_OG_NOPRIOR           ongoing   +0.0303  -0.0124  -2.44 -0.00880  -3.44
+12_ON30                 onset     -0.0261  -0.0880  +0.30  -0.0754  +0.35
+13_T2_CATBOOST_ONSET    onset     +0.0038  +0.0222  +0.17 +0.00870  +0.44
+15_V9_WEEKDAY_PRIOR     both-T2   +0.0110 +0.00760  +1.45 +0.00110 +10.00
+16_OG_PERS30            ongoing   -0.0122  -0.0187  +0.65  -0.0145  +0.84
+18_COMBO3               ongoing   +0.0073  +0.0102  +0.71 +0.00730  +1.00
+21_COMBO5               ongoing   +0.0022 +0.00570  +0.39 +0.00340  +0.65
+24_COMBO7               ongoing   +0.0121 +0.00750  +1.62 +0.00590  +2.06
+25_COMBO8               ongoing   +0.0019 +0.00630  +0.30 +0.00950  +0.20
+27_COMBO10              ongoing   +0.0020 +0.00420  +0.48 +0.00200  +1.00
+30_COMBO13              ongoing   +0.0031 -0.00630  -0.50 -0.00950  -0.33
+31_COMBO14              onset     -0.0138  -0.0264  +0.52 -0.00130 +10.62
+36_COMBO19_ON19         onset     -0.0869                 +0.00640 -13.57
+40_E3                   ongoing   +0.0316  +0.0376  +0.84  -0.0281  -1.12
+41_E4                   ongoing   +0.0027                 +0.00020 +13.35
+46_F4                   ongoing   -0.0015 +0.00070  -2.10                
+47_F5                   ongoing   +0.0060 +0.00210  +2.86 +0.00170  +3.53
+49_G2                   onset     -0.0071  -0.0125  +0.57 +0.00550  -1.30
+50_G3                   ongoing   +0.0068 +0.00160  +4.25  +0.0101  +0.67
+56_H4                   ongoing   -0.0081  +0.0155  -0.52  +0.0237  -0.34
+
+SIGN AGREEMENT (diagnostics 06/09/10 excluded; n = rows with a number; PRE and POST mixed, see sources)
+onset   : official40 4/4 (ratio 0.17-0.57; pre: cat, COMBO14 analog, G2 s0); pseudo 3/5; offlike 0/1 (G2);
+          pseudo-March gate 2/7 (median ratio -0.33). Only sp4 (E5) transferred positively among the pseudo-March wins
+          (ratio 0.08 on all windows; 0.26 vs days 1-5). The onset failures had pseudo-March / CV gains of +0.004..+0.03, and the
+          LB lost 0.007-0.087 IoU. On the official-40 windows, G2 s0 (-0.0125) and the COMBO14 mix (-0.0264) both predicted a drop.
+ongoing : official40 9/13 (median 0.48); offlike 4/8 (3 of the 8 are POST analogs); pseudo 9/13 (median 0.67);
+          offlike_m 4/6 (agreeing ratios 0.92-1.50); runstart_m 4/5 (agreeing 1.46-1.82); gate 4/6.
+          Misses: F4 g72 (small: all sets +0.0007..+0.0041, LB -0.0015 IoU) and H4 ogfeat (all sets +0.009..+0.026, LB
+          -0.008 IoU). og_noprior and pers30 inverted the train sets (prior-free / persistence = March-shift effects).
+T1      : 15/15 sign agreement. Holdout-based: LB ≈ 0.85-0.92 x dS_state (ratio_T1 2.4-2.6) for D/E/F/FT. Lower for FTA (≈0.6)
+          and T1B (0.41). J-proxy-based ratios: FDR 1.28, G1 0.95, E1 0.86, TV 0.52, H1 0.54, H2 0.54, H5 1.6 (tiny).
+
+PER-WINDOW / PER-PANEL RESULT FILES FOR THESE ARMS (all paths relative to the project root)
+Kaggle-era T2 OOF (per window; truth/eligibility/fold):
+  kaggle_jobs/out/{t2oof (P/Pn/Pc/qlast), oof9o, oofG (Pn/Pb/Ps), oofX (P255/Pbig/Pslow), oofY (P255/P511/P255half), oofR, oofF, t2oofH}/<pfx>_<PANEL>_{pseudo_f0-3|official_f0}.npz
+  kaggle_jobs/out/t2v2_full/t2_cv_scores.csv, out/t2v3_full/t2_cv_scores.csv, out/t2m_full/t2_cv_scores.csv (per window by strategy)
+  analysis/t2_oof_results.csv (summary; per-condition columns are plain window means)
+Pseudo-March gate:
+  kaggle_jobs/out/{pmarch_smoke,pmarch,pmarch2}/pseudo_march*_scores.csv (per window by variant)
+  kaggle_jobs/out/{t2v16,t2v17}/gate_probs_<PANEL>.npz (scored with analysis/gate_posthoc.py)
+t2lab ongoing arms:
+  data/t2local/cache/oof/<arm>/results.pkl + probs__{official,offlike,pseudo}__<PANEL>.npz + fold*.pkl
+    arms: A_np255, A_np511_f0, fc_A_np255, fc_A_id255, fc_F03_np255, fc_F03_id255, fc_F03_np511, fc_F01_np255, fc_F03N_np255,
+          fc_F10_np255, fc_FD_np255, fc_G_np255, fc_H_np255, fc_RS_np255
+  data/t2local/cache/allfin/oof/af_{all_np,all_id,base_np,xlab_np}255/fold*.pkl
+  data/t2local/cache/occ/oof/{occ,seed1,occs1}_{np,id}255, occbase_np255
+  data/t2local/cache/ogfeat/arms/og_{np,id}_* (fold*.pkl, pm_f*.pkl = pseudo-March), og_np_all2_L511, og_np_base_L511
+  data/t2local/cache/ogcap/oof/cap_*, data/t2local/cache/ogmodel/oof/og_*, data/t2local/cache/ogmodel/pmarch
+Pseudo-March pickles / per-panel tables:
+  analysis/t2lab/results/firstcross/{pmarch_np255_A_F03_G.pkl, pmarch_deltas_np255_A_F03_G.csv, deltas_prelim2.csv, per_panel_prelim2.csv}
+  analysis/t2lab/results/allfin/{cv_deltas.csv, onset_cv.pkl, pmarch/pmarch_og_on.pkl, pmarch/deltas_og_on.csv, pmarch/summary_og_on.csv}
+  analysis/t2lab/results/occ/{keep_decision.txt, report.txt, perpanel_*.csv, pmarch/pmarch_og.pkl, pmarch/pmarch_og4.pkl, pmarch/summary_og4.csv, pmarch/perpanel_*.csv}
+  analysis/t2lab/results/ogmodel/{s6_switch_cached_arms.csv, g72_offlike.pkl, g72_official.pkl, g72_pmarch.pkl}, analysis/t2lab/results/ogmodel_g72_pmarch_switch.pkl
+  analysis/t2lab/results/ogcap/pmarch_np511_l05_t900.pkl, summary_np511_*.csv, deltas_np511_*.csv
+  analysis/t2lab/results/ogfeat/overlap_v27_f0.pkl
+Onset arms (no onset arms in data/t2local/cache/oof/):
+  analysis/t2lab/results/splitprior/{march_onset_variants.pkl, summary.csv, deltas.csv}, results/splitprior_noramp/, splitprior_* variants
+  analysis/t2lab/results/onset_insplit_{early,signal}.csv
+  analysis/t2lab/results/early/{official_forecast.csv, official_forecast.txt, final_march.txt, final_e1.pkl, final_e2h18.pkl, official_check.pkl, indist_insample.txt, robust.txt, scanA-E*.pkl}
+  analysis/t2lab/results/ideas/onset/{S,L1,L7,...}__k{0,4}.pkl (LODO, per window + probabilities)
+  COMBO19 cv_onset_v19.csv / cv_onset_v19_windows.csv: Kaggle-only, NOT local.
+T1:
+  kaggle_jobs/out/t1v3_full/log.txt, t1v4_full/log.txt, t1v4_smoke/t1_valholdout.csv, t1v8_full/stdout.txt (A/B/D/E/F per panel),
+  kaggle_jobs/out/t1v9_smoke, t1v10_smoke, t1v11_smoke, t1v12_smoke (t1_valholdout.csv), kaggle_jobs/queue_oct3_t1.log
+  analysis/t2lab/results/recon/{scan_long.csv, scan_stats.pkl, paneldiag_gate.csv, paneldiag_band.csv}; logs exp_recon_members_o0/o1.log, exp_recon_scan_AB.log
+  analysis/t2lab/results/t1dark/{report_4panels.txt, report_3panels.txt, summary.csv, <panel>_f{0,1}[_s10].npz}; results/verify_t1dark/*.npz
+  analysis/t2lab/results/t1ramp/{report_4panels.txt, summary.csv, <panel>_f{0,1}[_s10].npz}; logs t1ramp_report.log, t1ramp_report_3p.log
+  Not local: full-run logs for T1 v5/v6/v7/v9/v11/v12/v13 (kernel sources only).
+Agent scratch scripts that produced the "computed 10-08" numbers: scratchpad/ongoing_agent/{oofcmp.py, armagg.py, npid_blend.py}, scratchpad/onset_agent/

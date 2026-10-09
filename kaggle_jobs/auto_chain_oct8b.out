@@ -1,0 +1,23 @@
+[2026-10-08 09:24:19] START chain oct8b | base tfb-i2 submission_FDRTV.csv 0.88156 | done []
+[2026-10-08 09:24:19] Q4: waiting for auto_chain_oct8b_override_Q4.json until 2026-10-08 22:30 UTC
+[2026-10-08 13:19:53] Q4 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1bspec", "w_dark": 0.75, "thr": 0.0001, "desc": "T1 blackout rows = 0.25 mix + 0.75 BLACKOUT SPECIALIST (trained on official-like blackout placement: onset queues start at T+30, ongoing inside queues; 30 timing columns: onset/ongoing flag, offset, boundary values before/after the gap, ramp flow over the gap); FD bag unchanged; recon + TV"}
+[2026-10-08 13:20:04] pushed tfb-i4d version 1
+[2026-10-08 13:30:02]   t1dark: rms speed old-bag vs FD-bag 0.478 | flow 27.15
+[2026-10-08 13:30:02]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.549
+[2026-10-08 13:30:02]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 4.128 flow 197.21 | regular rows: speed 0.386
+[2026-10-08 13:30:04] pushed tfb-i4 version 1
+[2026-10-08 13:40:35] submit tfb-i4 v 1 submission_FDRTV.csv -> complete 0.88176
+[2026-10-08 13:40:43] Q4: LB 0.88176 | delta vs chain base +0.00020 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-08 13:40:43] Q5: waiting for auto_chain_oct8b_override_Q5.json until 2026-10-08 23:40 UTC
+[2026-10-08 13:41:43] Q5 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on tfb-i4 (blackout specialist): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-08 13:41:46] pushed tfb-i5 version 1
+[2026-10-08 13:45:06]   Q5: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-08 13:45:06]   Q5: validation: changed rows 0
+[2026-10-08 13:45:06]   Q5: private: changed rows 48
+[2026-10-08 13:45:06]   Q5: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 262 share 0.00602 | positives 4854 -> 4784
+[2026-10-08 13:45:06]   Q5: validation: changed rows 0
+[2026-10-08 13:45:06]   Q5: private: changed rows 262
+[2026-10-08 13:45:06]   Q5: TOTAL changed rows: validation 0 | private 310
+[2026-10-08 13:46:11] submit tfb-i5 v 1 submission_I5.csv -> complete 0.88176
+[2026-10-08 13:46:20] Q5: LB 0.88176 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-08 13:46:20] CHAIN DONE | final base tfb-i4 submission_FDRTV.csv 0.88176 | best 0.88176

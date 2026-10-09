@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE FULL seeds [0] members ['base_np', 'base_id', 'base_full', 'ogf_np', 'ogf_id', 'ogf_full'] trees 500 leaves 255 threads 4
+[     0s] rows: F03 8008828 (pos 0.2717, weight 5292024) | March 1069732 (weight 2638046, days <= 30)
+[   189s] seed 0 base_np: 58 cols, trained 189s, predicted 0s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'dq_lo', 'n_q_hist_win']
+[   388s] seed 0 base_id: 64 cols, trained 199s, predicted 0s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'dq_lo', 'pos']
+[   604s] seed 0 base_full: 69 cols, trained 216s, predicted 0s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'tod', 'prior']
+[   972s] seed 0 ogf_np: 161 cols, trained 368s, predicted 0s | gain share of ogfeat cols 0.699 | top5 ['k2_z', 'vr_last', 'q_last', 'dq_lo', 'k2_dvm5_3']
+[  1373s] seed 0 ogf_id: 167 cols, trained 400s, predicted 0s | gain share of ogfeat cols 0.789 | top5 ['k2_z', 'vr_last', 'k2_dvm5_3', 'kx_hi6', 'h']
+[  1788s] seed 0 ogf_full: 172 cols, trained 416s, predicted 0s | gain share of ogfeat cols 0.651 | top5 ['k2_z', 'vr_last', 'q_last', 'k2_dvm5_3', 'kx_hi6']
+[  1788s] PVOGF TRAIN DONE FULL 1788s
+[run_heavy] exit 0 after 1789s

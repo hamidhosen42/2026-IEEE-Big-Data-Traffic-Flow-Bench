@@ -257,7 +257,8 @@ def act_queue2(slot, slug, parts, thr, max_val_changed, desc, folder):
 
 def act_t1dark(slot, pfx, swap_script, dark, w_dark, thr, desc, folder, fd_members=None):
     """raw T1 mix of the base's members with the blackout rows overridden by the dark member, then FD recon + TV, then submit."""
-    for k in [m + p for m in dark.split('+') for p in 'ab']:
+    dparts = [m + p for m in dark.split('+') for p in 'ab'] + [m + 'c' for m in dark.split('+') if complete(m + 'c')]
+    for k in dparts:
         if not complete(k):
             return skip(slot, f'{k} not complete')
     fdm = list(fd_members or state.get('fd_used') or [])                   # oct7: optional FD-member override
@@ -269,7 +270,7 @@ def act_t1dark(slot, pfx, swap_script, dark, w_dark, thr, desc, folder, fd_membe
         (r"^W_DARK = .*$", f"W_DARK = {w_dark}"),
         (r"^DARK_MEMBER = .*$", f"DARK_MEMBER = '{dark}'"),
         (r"^FD_MEMBERS = .*$", 'FD_MEMBERS = ' + repr(tuple(fdm)))])
-    push(f'{pfx}d', os.path.join(HERE, f'swap_{pfx}d.py'), list(dict.fromkeys([state['base_kernel']] + [k + p for k in OLD + tuple(fdm) + tuple(dark.split('+')) for p in 'ab'])))
+    push(f'{pfx}d', os.path.join(HERE, f'swap_{pfx}d.py'), list(dict.fromkeys([state['base_kernel']] + [k + p for k in OLD + tuple(fdm) for p in 'ab'] + dparts)))
     wait(f'{pfx}d'); ok, t, _ = ok_log(f'{pfx}d', 'T1DARK OK')
     for line in t.splitlines():
         if 'blackout rows' in line or 'rms speed' in line:

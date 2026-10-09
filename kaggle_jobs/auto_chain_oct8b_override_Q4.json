@@ -1,0 +1,8 @@
+{
+ "type": "t1dark",
+ "swap_script": "t1_t1dark_swap.py",
+ "dark": "tfb-t1bspec",
+ "w_dark": 0.75,
+ "thr": 0.0001,
+ "desc": "T1 blackout rows = 0.25 mix + 0.75 BLACKOUT SPECIALIST (trained on official-like blackout placement: onset queues start at T+30, ongoing inside queues; 30 timing columns: onset/ongoing flag, offset, boundary values before/after the gap, ramp flow over the gap); FD bag unchanged; recon + TV"
+}

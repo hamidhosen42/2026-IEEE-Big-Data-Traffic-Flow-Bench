@@ -2,6 +2,12 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_J3.csv | 56989460 | 0.88176 | Q3: FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a growth veto (veto10: window keeps fs4occ if ogfeat adds >10 cells outside the queue at T; FM-PM private +0.0036 vs fs4occ); March rows unchanged |
+| submission_FDRTV.csv | 56981375 | 0.88179 | Q1: T1 FD bag on ALL rows + the blackout specialist (7 FD members: v13, s10, s11, t1dark, t1ramp, t1ramp2, t1bspec; W_FD 0.5); blackout rows 0.25 mix + 0.75 specialist; recon + TV |
+| submission_I5.csv | 56956515 | 0.88176 | Q5: FINAL CANDIDATE B (hedge) on tfb-i4 (blackout specialist): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged |
+| submission_FDRTV.csv | 56956277 | 0.88176 | Q4: T1 blackout rows = 0.25 mix + 0.75 BLACKOUT SPECIALIST (trained on official-like blackout placement: onset queues start at T+30, ongoing inside queues; 30 timing columns: onset/ongoing flag, offset, boundary values before/after the gap, ramp flow over the gap); FD bag unchanged; recon + TV |
+| submission_I3.csv | 56940941 | 0.88156 | Q3: FINAL CANDIDATE B (hedge) on tfb-i2 (two ramp members): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged |
+| submission_FDRTV.csv | 56940650 | 0.88156 | Q2: T1: second ramp member (seed 17): blackout rows 0.25 mix + 0.75 mean of the two ramp members; FD bag of 6 on all rows (v13, s10, s11, t1dark, t1ramp, t1ramp2; W_FD 0.5); recon + TV |
 | submission_I1.csv | 56929045 | 0.88145 | Q1: FINAL CANDIDATE B (hedge) on tfb-h5 (5-member FD bag + ramp blackout): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged |
 | submission_FDRTV.csv | 56908727 | 0.88145 | Q5: T1 FD bag on ALL rows + the blackout member and the ramp member (5 FD members: v13, s10, s11, t1dark, t1ramp; W_FD 0.5); blackout rows 0.25 mix + 0.75 ramp member; recon + TV |
 | submission_H4.csv | 56908135 | 0.88008 | Q4: March ongoing rows from the F03 bag (all-finite + occupancy) with 103 extra ONGOING features from the 60-min history and slot T (corridor context, per-link kinematics, queue-end demand/supply, volatility-normalised speed; nothing after T); April unchanged [bag of 4] |
@@ -46,9 +52,3 @@
 | submission_T1B_T2cat.csv | 56658171 | 0.85513 | EXP_COMBO_1: 0.85309 + T1 low-rank + T2 onset CatBoost |
 | submission_og_pers30.csv | 56658135 | 0.85126 | EXP_T2_n: og_noprior + 30% last-valid persistence on ongoing |
 | submission_main.csv | 56657293 | 0.85639 | EXP_T2_m: v9 (weekday-class priors + broad ongoing keep), og_noprior recipe |
-| submission_T1B.csv | 56657287 | 0.85455 | EXP_T1_n: 0.85309 + Task 1 low-rank SVD features (T1 v5 B) |
-| submission_main.csv | 56656952 | 0.85366 | EXP_T2_p: onset CatBoost + ongoing prior-free LGB (else = 0.85309 pipeline) |
-| submission_on30.csv | 56645587 | 0.84917 | EXP_T2_k: og_noprior + onset 30/70 (more prior-free onset) |
-| submission_og_noprior.csv | 56643037 | 0.85309 | EXP_T2_j: FINAL v2 + ongoing windows prior-free only (og_noprior) |
-| submission_zero_ongoing.csv | 56627217 | 0.73657 | PROBE: FINAL v2 with ONGOING queue zeroed |
-| submission_zero_onset.csv | 56627188 | 0.73711 | PROBE: FINAL v2 with ONSET queue zeroed |

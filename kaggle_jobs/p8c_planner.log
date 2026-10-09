@@ -1,0 +1,8 @@
+[2026-10-08 09:24:19] p8c planner start
+[2026-10-08 13:19:32] tfb-t1bspeca status complete | traceback False | state rows/NaN ('2648649', '0') | ok True
+[2026-10-08 13:19:34] tfb-t1bspecb status complete | traceback False | state rows/NaN ('2667916', '0') | ok True
+[2026-10-08 13:19:36] tfb-t1bspecc status complete | traceback False | state rows/NaN ('1419230', '0') | ok True
+[2026-10-08 13:19:36] Q4 override written {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1bspec", "w_dark": 0.75, "thr": 0.0001, "desc": "T1 blackout rows = 0.25 mix + 0.75 BLACKOUT SPECIALIST (trained on official-like blackout placement: onset queues start at T+30, ongoing inside queues; 30 timing columns: onset/ongoing flag, offset, boundary values before/after the gap, ramp flow over the gap); FD bag unchanged; recon + TV"}
+[2026-10-08 13:41:36] Q4 done; base tfb-i4 0.88176
+[2026-10-08 13:41:36] Q5 override written {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on tfb-i4 (blackout specialist): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-08 13:41:36] p8c planner done

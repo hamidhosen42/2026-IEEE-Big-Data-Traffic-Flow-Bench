@@ -1,0 +1,21 @@
+[run_heavy] slot acquired after 0s
+[     3s] D7_I10_E rows built 566744 3s
+[     5s] D7_I10_W rows built 673986 5s
+[     8s] D7_I210_E rows built 780279 8s
+[    10s] D7_I210_W rows built 1472723 10s
+[    25s] D7_I405_N rows built 3420155 25s
+[    28s] D7_I405_S rows built 4077994 28s
+[    35s] D12_I5_N rows built 5125018 35s
+[    38s] D12_I5_S rows built 5993656 38s
+[    39s] train rows 5993656 pos 0.2746 | base 71 cols | new 174 cols
+[   154s] base_afocc trained in 115s
+[   410s] all2_afocc trained in 231s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/fromnumeric.py:3596: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/numpy/_core/_methods.py:138: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+official: n 0 | base nan | new nan | paired {'diff': nan, 'lo': nan, 'hi': nan, 'p_pos': 0.0, 'n_windows': 0}
+offlike: n 748 | base 0.8812 | new 0.9047 | paired {'diff': 0.02357069557391288, 'lo': 0.018221000911081406, 'hi': 0.029631085309253076, 'p_pos': 1.0, 'n_windows': 748}
+runstart: n 2633 | base 0.9141 | new 0.9267 | paired {'diff': 0.012539466207649168, 'lo': 0.008557952686475405, 'hi': 0.016809446167968176, 'p_pos': 1.0, 'n_windows': 2633}
+[   435s] XFER OGF DIAG DONE
+[run_heavy] exit 0 after 436s

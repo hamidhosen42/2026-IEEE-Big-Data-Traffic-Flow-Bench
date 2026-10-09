@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 0s
+ast.parse OK
+[     2s] CONTROL onset rows 87000 == fs4occ: True | onset positives 0
+[     2s] CONTROL validation: ongoing windows 40 | vetoed 4 ['Q2_D7_I10_E_validation_007', 'Q2_D7_I10_E_validation_010', 'Q2_D7_I10_W_validation_008', 'Q2_D7_I210_W_validation_009'] | rows changed vs fs4occ 190/43500 | vs fs4ogf 114/43500 | positives ongoing fs4occ 5268 fs4ogf 5358 veto10 5244
+[     2s] CONTROL private: ongoing windows 40 | vetoed 1 ['Q2_D7_I210_W_private_006'] | rows changed vs fs4occ 281/43500 | vs fs4ogf 12/43500 | positives ongoing fs4occ 4750 fs4ogf 4721 veto10 4709
+rows compared 87000 | fs4occ csv == decode(probs): 87000 | fs4ogf csv == decode(probs): 87000
+validation: veto10 kernel == lab decisions on 43500/43500 rows
+private: veto10 kernel == lab decisions on 43500/43500 rows
+LOCAL TEST PASSED: kernel veto10 rows == lab veto10 decisions on every ongoing cell
+[run_heavy] exit 0 after 5s

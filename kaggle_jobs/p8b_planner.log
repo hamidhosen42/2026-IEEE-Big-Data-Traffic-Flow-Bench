@@ -1,1 +1,7 @@
 [2026-10-08 03:00:38] p8b planner start
+[2026-10-08 06:55:51] tfb-t1bspeca status error
+[2026-10-08 07:11:51] Q3 done; base tfb-i2 0.88156 | fd_used ['tfb-t1v13', 'tfb-t1v13s10', 'tfb-t1v13s11', 'tfb-t1dark', 'tfb-t1ramp', 'tfb-t1ramp2']
+[2026-10-08 07:11:51] Q4 override written {"type": "skip", "desc": "t1bspec members not clean in time"}
+[2026-10-08 07:12:51] Q4 done; base tfb-i2 0.88156
+[2026-10-08 07:12:51] Q5 override written {"type": "skip", "desc": "base unchanged after Q4"}
+[2026-10-08 07:12:51] p8b planner done

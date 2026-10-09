@@ -1,0 +1,4 @@
+[run_heavy] slot acquired after 0s
+[     1s] {"panel": "D7_I10_W", "f03_faith3_windows": 522, "f03_faith3_rows": 88418, "f03_runstart_windows": 268, "f03_runstart_rows": 36741, "f03_rows": 125159, "f03_pos": 0.2285892367362976, "march_windows": 111, "march_rs": 44, "march_rows": 12485, "march_pos": 0.21033239887865438, "march_mean_a": 0.488, "march_rows_lt_cut": 4814, "offlike_m_n": 12, "runstart_m_n": 31, "priv_windows": 10, "priv_ongoing": 5, "priv_rows": 798, "priv_mean_a": 0.673, "priv_jd_min": 40, "secs": 1.0}
+[     1s] PVOGF BUILD DONE 1s
+[run_heavy] exit 0 after 1s

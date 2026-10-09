@@ -84,7 +84,7 @@ REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]
 OUT = '/kaggle/working'
 PANELS = ['D7_I10_E', 'D7_I10_W', 'D7_I210_E', 'D7_I210_W', 'D7_I405_N', 'D7_I405_S',
           'D12_I5_N', 'D12_I5_S', 'D12_I405_N', 'D12_I405_S']
-PANELS = PANELS[:5]
+PANELS = PANELS[:4]                        # 10-08: D7_I405_N moved to t1_bspec_member_c.py (OOM at 30 GB)
 SMOKE = False
 N_TREES, MAX_ROWS = (60, 150_000) if SMOKE else (300, 600_000)
 if SMOKE:

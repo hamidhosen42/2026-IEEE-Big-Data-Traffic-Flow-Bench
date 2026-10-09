@@ -32,8 +32,12 @@ def load(kernels, fname):
             pd.Series(m.flow_vph.to_numpy(), index=idx).reindex(sid).to_numpy())
 
 
+def _parts(k):                                      # a, b and an optional part c (panel split for memory)
+    return tuple(x for x in (f'{k}a', f'{k}b', f'{k}c') if x != f'{k}c' or glob.glob(f'/kaggle/input/**/{x}/**/state_submission_FTA.csv', recursive=True))
+
+
 M = [load((f'{k}a', f'{k}b'), 'state_submission_FTA.csv') for k in MEMBERS]
-MF = [load((f'{k}a', f'{k}b'), 'state_submission_FTA.csv') for k in FD_MEMBERS]
+MF = [load(_parts(k), 'state_submission_FTA.csv') for k in FD_MEMBERS]
 print('old members', len(M), '| FD members', len(MF), FD_MEMBERS, '| W_FD', W_FD)
 vo, qo = np.mean([m[0] for m in M], 0), np.mean([m[1] for m in M], 0)
 vf_, qf_ = np.mean([m[0] for m in MF], 0), np.mean([m[1] for m in MF], 0)
@@ -42,7 +46,7 @@ print('info: base (post FDR/TV) vs old bag rms speed', round(float(np.sqrt(np.me
 out = base.copy()
 out.loc[iss, 'speed_kmh'] = W_FD * vf_ + (1 - W_FD) * vo; out.loc[iss, 'flow_vph'] = W_FD * qf_ + (1 - W_FD) * qo
 # ---- t1dark: blackout rows (timestamp in (origin, origin + 90 min] of an official window of the panel) <- dark member
-_D = [load((f'{k}a', f'{k}b'), 'state_submission_FTA.csv') for k in DARK_MEMBER.split('+')]   # '+'-joined = mean of members
+_D = [load(_parts(k), 'state_submission_FTA.csv') for k in DARK_MEMBER.split('+')]   # '+'-joined = mean of members
 vd, qd = np.mean([x[0] for x in _D], 0), np.mean([x[1] for x in _D], 0)
 print('dark members', DARK_MEMBER.split('+'))
 kk = ks.set_index(ks.submission_id.astype('int64')).reindex(sid)

@@ -1,0 +1,21 @@
+[run_heavy] slot acquired after 0s
+[     3s] D7_I10_E oof rows built 3s
+[     4s] D7_I10_W oof rows built 4s
+[     7s] D7_I210_E oof rows built 7s
+[     9s] D7_I210_W oof rows built 9s
+[    27s] D7_I405_N oof rows built 27s
+[    30s] D7_I405_S oof rows built 30s
+[    36s] D12_I5_N oof rows built 36s
+[    39s] D12_I5_S oof rows built 39s
+[    39s] rows F03 6074119 + March 1073361
+[   186s] base_np: 58 cols, 147s
+[   319s] base_id: 64 cols, 133s
+[   452s] base_full: 69 cols, 134s
+[   669s] ogf_np: 161 cols, 216s
+[   890s] ogf_id: 167 cols, 222s
+[  1119s] ogf_full: 172 cols, 228s
+[  1119s] TRAIN OOF fold 0 official: n 40 | pvo 0.9065 | pvo-ogf 0.9161 | diff +0.0095 [+0.0033, +0.0158] panels +7/8
+[  1119s] TRAIN OOF fold 0 offlike: n 726 | pvo 0.8955 | pvo-ogf 0.9095 | diff +0.0140 [+0.0093, +0.0188] panels +6/8
+[  1119s] TRAIN OOF fold 0 runstart: n 2731 | pvo 0.9179 | pvo-ogf 0.9266 | diff +0.0087 [+0.0059, +0.0114] panels +8/8
+[  1119s] PVOGF OOF DONE 1119s
+[run_heavy] exit 0 after 1120s

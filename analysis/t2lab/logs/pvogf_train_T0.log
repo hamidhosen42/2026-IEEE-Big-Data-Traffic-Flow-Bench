@@ -1,0 +1,9 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE T0 seeds [0] members ['base_np', 'base_id', 'ogf_np', 'ogf_id'] trees 500 leaves 255 threads 4
+[     0s] rows: F03 8008828 (pos 0.2717, weight 5292024) | March 0 (weight 0)
+[   169s] seed 0 base_np: 58 cols, trained 162s, predicted 7s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'dq_lo', 'n_q_hist_win']
+[   350s] seed 0 base_id: 64 cols, trained 175s, predicted 6s | gain share of ogfeat cols 0.000 | top5 ['vr_last', 'q_last', 'dq_hi', 'dq_lo', 'pos']
+[   703s] seed 0 ogf_np: 161 cols, trained 347s, predicted 7s | gain share of ogfeat cols 0.698 | top5 ['k2_z', 'vr_last', 'q_last', 'dq_lo', 'k2_dvm5_3']
+[  1088s] seed 0 ogf_id: 167 cols, trained 378s, predicted 7s | gain share of ogfeat cols 0.777 | top5 ['k2_z', 'vr_last', 'k2_dvm5_3', 'h', 'kx_hi6']
+[  1088s] PVOGF TRAIN DONE T0 1088s
+[run_heavy] exit 0 after 1088s

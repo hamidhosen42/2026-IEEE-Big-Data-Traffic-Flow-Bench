@@ -1,0 +1,71 @@
+[run_heavy] slot acquired after 0s
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+pvogf_smoke:484: RuntimeWarning: Mean of empty slice
+pvogf_smoke:485: RuntimeWarning: Mean of empty slice
+pvogf_smoke:486: RuntimeWarning: Mean of empty slice
+pvogf_smoke:117: RuntimeWarning: Mean of empty slice
+pvogf_smoke:118: RuntimeWarning: Mean of empty slice
+pvogf_smoke:119: RuntimeWarning: Mean of empty slice
+[    68s] C smoke kernel finished in 68s; log lines 52
+    [    22s] pvogf features: all 172, np 161, id 167 | new 103 | Xe (518491, 172) 0.36 GB | Xm (197001, 172) | new-column finite share (first 200k F03 rows) min 0.263
+    [    34s] model npB trained: 715492 rows, 60 trees, 0.2 min
+    [    47s] model idB trained: 715492 rows, 60 trees, 0.2 min
+    [    59s] model fullB trained: 715492 rows, 60 trees, 0.2 min
+    [    59s] REF pvo: /private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/pvogf_fake/tfb-t2ogpvaf/queue_submission_pvo.csv 29520 rows
+    [    67s] pvogf vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 359 vs 359
+    [    67s] pvogf vs fs4 on private ongoing rows: changed share 0.16436 jaccard 0.0335 positives 936 vs 361
+    [    67s] pvogf_npid vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 359 vs 359
+    [    67s] pvogf_npid vs fs4 on private ongoing rows: changed share 0.16612 jaccard 0.0331 positives 949 vs 361
+    [    67s] pvogfv vs fs4 on validation ongoing rows: changed share 0.00000 jaccard 1.0000 positives 359 vs 359
+    [    67s] pvogfv vs fs4 on private ongoing rows: changed share 0.14363 jaccard 0.0337 positives 773 vs 361
+    [    67s] queue rows 29520 dupes 0
+    [    67s] CONTROL pvo reference rows matched 29520 of 29520
+    [    67s] CONTROL pvogf vs pvo | validation: rows changed 1057/14760 (7.1612%) | windows changed 20/20 | positives 359 vs pvo 734 | Jaccard 0.0167
+    [    67s] CONTROL pvogf vs pvo | private: rows changed 1564/14760 (10.5962%) | windows changed 20/20 | positives 936 vs pvo 714 | Jaccard 0.0268
+    [    67s] CONTROL pvogf_npid vs pvo | validation: rows changed 1057/14760 (7.1612%) | windows changed 20/20 | positives 359 vs pvo 734 | Jaccard 0.0167
+    [    67s] CONTROL pvogf_npid vs pvo | private: rows changed 1577/14760 (10.6843%) | windows changed 20/20 | positives 949 vs pvo 714 | Jaccard 0.0265
+    [    67s] CONTROL pvogfv vs pvo | validation: rows changed 1057/14760 (7.1612%) | windows changed 20/20 | positives 359 vs pvo 734 | Jaccard 0.0167
+    [    67s] CONTROL pvogfv vs pvo | private: rows changed 1347/14760 (9.1260%) | windows changed 19/20 | positives 773 vs pvo 714 | Jaccard 0.0494
+    [    67s] VETO (> 10 cells outside the queue at T vs pvo): private ongoing windows vetoed 1/10 ['Q2_D12_I5_S_private_008'] | pvogf windows changed vs pvo 10
+    [    67s] CONTROL base skipped: FileNotFoundError [Errno 2] No such file or directory: '/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/pvogf_fake/kag
+    [    67s] PVOGF DONE
+[    68s] C pvogf: rows 29520 (= template 29520) | onset rows all 0: True | validation ongoing rows == fs4af reference: True | private ongoing positives 936
+[    68s] C pvogf_npid: rows 29520 (= template 29520) | onset rows all 0: True | validation ongoing rows == fs4af reference: True | private ongoing positives 949
+[    68s] C pvogfv: rows 29520 (= template 29520) | onset rows all 0: True | validation ongoing rows == fs4af reference: True | private ongoing positives 773
+[    68s] C probs npz keys 10 | veto windows file (10, 7) vetoed 1
+[    68s] PVOGF KERNEL TEST DONE ['C']
+[run_heavy] exit 0 after 68s

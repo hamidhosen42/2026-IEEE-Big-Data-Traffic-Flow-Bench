@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE MD seeds [99] members ['base_np', 'ogf_full'] trees 3 leaves 255 threads 6
+[     0s] rows: F03 8008828 (pos 0.2717, weight 5292024) | March 458138 (weight 1140096, days <= 14)
+[    10s] seed 99 base_np: 58 cols, trained 10s, predicted 0s | gain share of ogfeat cols 0.000 | top5 ['q_last', 'dq_lo', 'vr_slope', 'vr_last', 'dq_hi30']
+[    26s] seed 99 ogf_full: 172 cols, trained 15s, predicted 0s | gain share of ogfeat cols 0.378 | top5 ['q_last', 'k2_z', 'vr_last', 'k2_dvm5_3', 'prior']
+[    26s] PVOGF TRAIN DONE MD 26s
+[run_heavy] exit 0 after 26s

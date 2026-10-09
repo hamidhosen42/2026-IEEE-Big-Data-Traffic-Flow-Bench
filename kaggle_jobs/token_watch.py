@@ -37,14 +37,14 @@ def check(t):
 
 
 def restart():
-    tag = 'oct8'
-    for name in ('tfbchain5', 'tfbchain6', 'tfbchain7', 'tfbchain8'):
+    tag = 'oct9'
+    for name in ('tfbchain5', 'tfbchain6', 'tfbchain7', 'tfbchain8', 'tfbchain9'):
         subprocess.run(['screen', '-S', name, '-X', 'quit'], capture_output=True)
-    for t in ('oct5', 'oct6', 'oct7', 'oct8'):
+    for t in ('oct5', 'oct6', 'oct7', 'oct8', 'oct9'):
         subprocess.run(['pkill', '-f', f'auto_chain_{t}.py'], capture_output=True)
     time.sleep(3)
     q = '"/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/kaggle_jobs"'
-    for t in ('oct8',):
+    for t in ('oct9',):
         subprocess.run(['screen', '-dmS', 'tfbchain' + t[-1], 'bash', '-c', f'cd {q} && exec caffeinate -i -s /usr/bin/python3 auto_chain_{t}.py >> auto_chain_{t}.out 2>&1'])
     log('restarted chain(s) for', tag)
 

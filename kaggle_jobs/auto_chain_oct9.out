@@ -1,0 +1,28 @@
+[2026-10-09 00:02:05] START chain oct9 | base tfb-i4 submission_FDRTV.csv 0.88176 | done []
+[2026-10-09 00:02:05] Q1: waiting for auto_chain_oct9_override_Q1.json until 2026-10-09 06:00 UTC
+[2026-10-09 00:02:05] Q1 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1bspec", "w_dark": 0.75, "thr": 0.0001, "fd_members": ["tfb-t1v13", "tfb-t1v13s10", "tfb-t1v13s11", "tfb-t1dark", "tfb-t1ramp", "tfb-t1ramp2", "tfb-t1bspec"], "desc": "T1 FD bag on ALL rows + the blackout specialist (7 FD members: v13, s10, s11, t1dark, t1ramp, t1ramp2, t1bspec; W_FD 0.5); blackout rows 0.25 mix + 0.75 specialist; recon + TV"}
+[2026-10-09 00:02:22] pushed tfb-j1d version 1
+[2026-10-09 00:16:54]   t1dark: rms speed old-bag vs FD-bag 0.492 | flow 28.22
+[2026-10-09 00:16:54]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.589
+[2026-10-09 00:16:54]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 3.864 flow 184.36 | regular rows: speed 0.365
+[2026-10-09 00:16:57] pushed tfb-j1 version 1
+[2026-10-09 00:34:37] submit tfb-j1 v 1 submission_FDRTV.csv -> complete 0.88179
+[2026-10-09 00:34:44] Q1: LB 0.88179 | delta vs chain base +0.00003 | rule >= +0.0001 -> DROP (base unchanged)
+[2026-10-09 00:34:44] Q2: waiting for auto_chain_oct9_override_Q2.json until 2026-10-09 10:00 UTC
+[2026-10-09 00:35:14] Q2 override: {"type": "skip", "desc": "base unchanged (tfb-i4) -> hedge B is tfb-i5"}
+[2026-10-09 00:35:14] Q2 SKIPPED: override: skip
+[2026-10-09 00:35:14] Q3: waiting for auto_chain_oct9_override_Q3.json until 2026-10-09 14:00 UTC
+[2026-10-09 03:45:46] Q3 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2ogveto", "queue_submission_veto10.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a growth veto (veto10: window keeps fs4occ if ogfeat adds >10 cells outside the queue at T; FM-PM private +0.0036 vs fs4occ); March rows unchanged"}
+[2026-10-09 03:45:50] pushed tfb-j3 version 1
+[2026-10-09 03:48:39]   Q3: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-09 03:48:39]   Q3: validation: changed rows 0
+[2026-10-09 03:48:39]   Q3: private: changed rows 48
+[2026-10-09 03:48:39]   Q3: PART tfb-t2ogveto/queue_submission_veto10.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 321 share 0.00738 | positives 4854 -> 4709
+[2026-10-09 03:48:39]   Q3: validation: changed rows 0
+[2026-10-09 03:48:39]   Q3: private: changed rows 321
+[2026-10-09 03:48:39]   Q3: TOTAL changed rows: validation 0 | private 369
+[2026-10-09 03:49:44] submit tfb-j3 v 1 submission_J3.csv -> complete 0.88176
+[2026-10-09 03:49:55] Q3: LB 0.88176 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-09 03:49:55] Q4: waiting for auto_chain_oct9_override_Q4.json until 2026-10-09 18:00 UTC
+[2026-10-09 08:44:59] START chain oct9 | base tfb-i4 submission_FDRTV.csv 0.88176 | done ['Q1', 'Q2', 'Q3']
+[2026-10-09 08:44:59] Q4: waiting for auto_chain_oct9_override_Q4.json until 2026-10-09 18:00 UTC

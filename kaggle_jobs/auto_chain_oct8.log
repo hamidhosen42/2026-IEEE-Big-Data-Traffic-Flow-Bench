@@ -12,3 +12,32 @@
 [2026-10-08 02:11:18] submit tfb-i1 v 1 submission_I1.csv -> complete 0.88145
 [2026-10-08 02:11:27] Q1: LB 0.88145 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
 [2026-10-08 02:11:27] Q2: waiting for auto_chain_oct8_override_Q2.json until 2026-10-08 12:00 UTC
+[2026-10-08 04:57:26] START chain oct8 | base tfb-h5 submission_FDRTV.csv 0.88145 | done ['Q1']
+[2026-10-08 04:57:26] Q2: waiting for auto_chain_oct8_override_Q2.json until 2026-10-08 12:00 UTC
+[2026-10-08 06:39:28] Q2 override: {"type": "t1dark", "swap_script": "t1_t1dark_swap.py", "dark": "tfb-t1ramp+tfb-t1ramp2", "w_dark": 0.75, "thr": 0.0001, "fd_members": ["tfb-t1v13", "tfb-t1v13s10", "tfb-t1v13s11", "tfb-t1dark", "tfb-t1ramp", "tfb-t1ramp2"], "desc": "T1: second ramp member (seed 17): blackout rows 0.25 mix + 0.75 mean of the two ramp members; FD bag of 6 on all rows (v13, s10, s11, t1dark, t1ramp, t1ramp2; W_FD 0.5); recon + TV"}
+[2026-10-08 06:39:40] pushed tfb-i2d version 1
+[2026-10-08 06:54:13]   t1dark: rms speed old-bag vs FD-bag 0.478 | flow 27.15
+[2026-10-08 06:54:13]   t1dark: info: base (post FDR/TV) vs old bag rms speed 0.563
+[2026-10-08 06:54:13]   t1dark: t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 3.213 flow 121.07 | regular rows: speed 0.327
+[2026-10-08 06:54:15] pushed tfb-i2 version 1
+[2026-10-08 07:04:16] submit tfb-i2 v 1 submission_FDRTV.csv -> complete 0.88156
+[2026-10-08 07:04:23] Q2: LB 0.88156 | delta vs chain base +0.00011 | rule >= +0.0001 -> KEEP (new base)
+[2026-10-08 07:04:23] Q3: waiting for auto_chain_oct8_override_Q3.json until 2026-10-08 16:00 UTC
+[2026-10-08 07:05:23] Q3 override: {"type": "queue2", "parts": [["tfb-t2osp", "queue_submission_base.csv", "queue_onset", "private"], ["tfb-t2v22af", "queue_submission_fs4af.csv", "queue_ongoing", "private"]], "thr": 1.0, "max_val_changed": 0, "desc": "FINAL CANDIDATE B (hedge) on tfb-i2 (two ramp members): April onset = production CatBoost with the train prior; April ongoing = all-finite F03 bag (train-only models); March rows unchanged"}
+[2026-10-08 07:05:27] pushed tfb-i3 version 1
+[2026-10-08 07:09:47]   Q3: PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 43500 | changed 48 share 0.00110 | positives 159 -> 157
+[2026-10-08 07:09:47]   Q3: validation: changed rows 0
+[2026-10-08 07:09:47]   Q3: private: changed rows 48
+[2026-10-08 07:09:47]   Q3: PART tfb-t2v22af/queue_submission_fs4af.csv cond=queue_ongoing split=private windows=any: rows 43500 | changed 262 share 0.00602 | positives 4854 -> 4784
+[2026-10-08 07:09:47]   Q3: validation: changed rows 0
+[2026-10-08 07:09:47]   Q3: private: changed rows 262
+[2026-10-08 07:09:47]   Q3: TOTAL changed rows: validation 0 | private 310
+[2026-10-08 07:10:52] submit tfb-i3 v 1 submission_I3.csv -> complete 0.88156
+[2026-10-08 07:11:02] Q3: LB 0.88156 | delta vs chain base +0.00000 | rule >= +1.0000 -> DROP (base unchanged)
+[2026-10-08 07:11:02] Q4: waiting for auto_chain_oct8_override_Q4.json until 2026-10-08 20:00 UTC
+[2026-10-08 07:12:02] Q4 override: {"type": "skip", "desc": "t1bspec members not clean in time"}
+[2026-10-08 07:12:02] Q4 SKIPPED: override: skip
+[2026-10-08 07:12:02] Q5: waiting for auto_chain_oct8_override_Q5.json until 2026-10-08 23:00 UTC
+[2026-10-08 07:13:02] Q5 override: {"type": "skip", "desc": "base unchanged after Q4"}
+[2026-10-08 07:13:02] Q5 SKIPPED: override: skip
+[2026-10-08 07:13:02] CHAIN DONE | final base tfb-i2 submission_FDRTV.csv 0.88156 | best 0.88156
