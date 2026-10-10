@@ -1,0 +1,64 @@
+[2026-10-10 07:29:43] start
+[2026-10-10 11:04:47] tfb-t1catba complete | state rows/NaN ('1855989', '0') | peak 26.12 | ok True
+[2026-10-10 11:04:47]     [  6560s] D7_I405_N panel time 6544s peak RSS 26.12 GB
+[2026-10-10 11:04:47]     [ 12692s] D7_I10_W panel time 6131s peak RSS 26.12 GB
+[2026-10-10 11:04:47]     val_FTA         0.9395
+[2026-10-10 11:04:47]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-10 11:04:47]     panel  val_temporal  val_base  val_FTA
+[2026-10-10 11:04:47]     mean val_FTA 0.9395
+[2026-10-10 11:38:59] tfb-t1catbb complete | state rows/NaN ('1772218', '0') | peak 21.97 | ok True
+[2026-10-10 11:38:59]     [  6646s] D7_I210_E panel time 6638s peak RSS 21.97 GB
+[2026-10-10 11:38:59]     [ 11741s] D7_I210_W panel time 5095s peak RSS 21.97 GB
+[2026-10-10 11:38:59]     [ 14811s] D12_I405_S panel time 3070s peak RSS 21.97 GB
+[2026-10-10 11:38:59]     val_FTA         0.9408
+[2026-10-10 11:38:59]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-10 11:38:59]     panel  val_temporal  val_base  val_FTA
+[2026-10-10 11:38:59]     mean val_FTA 0.93993
+[2026-10-10 11:39:00] tfb-t1catbc complete | state rows/NaN ('1555739', '0') | peak 19.27 | ok True
+[2026-10-10 11:39:00]     [  5905s] D12_I5_N panel time 5895s peak RSS 19.27 GB
+[2026-10-10 11:39:00]     [ 11556s] D12_I5_S panel time 5651s peak RSS 19.27 GB
+[2026-10-10 11:39:00]     val_FTA         0.9441
+[2026-10-10 11:39:00]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-10 11:39:00]     panel  val_temporal  val_base  val_FTA
+[2026-10-10 11:39:00]     mean val_FTA 0.9441
+[2026-10-10 12:23:15] tfb-t1catbd complete | state rows/NaN ('1551849', '0') | peak 10.91 | ok True
+[2026-10-10 12:23:15]     [  6001s] D7_I10_E panel time 5992s peak RSS 10.91 GB
+[2026-10-10 12:23:15]     [ 11933s] D7_I405_S panel time 5932s peak RSS 10.91 GB
+[2026-10-10 12:23:15]     [ 17471s] D12_I405_N panel time 5538s peak RSS 10.91 GB
+[2026-10-10 12:23:15]     val_FTA         0.9455
+[2026-10-10 12:23:15]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-10 12:23:15]     panel  val_temporal  val_base  val_FTA
+[2026-10-10 12:23:15]     mean val_FTA 0.9455
+[2026-10-10 12:23:17] pushed tfb-k1d v 1
+[2026-10-10 12:34:51] tfb-k1d complete | OK marker True | traceback False
+[2026-10-10 12:34:51]     rms speed old-bag vs FD-bag 0.478 | flow 27.15
+[2026-10-10 12:34:51]     info: base (post FDR/TV) vs old bag rms speed 0.589
+[2026-10-10 12:34:51]     t1catb parts abcd | W_CATB 0.35 | rms catb vs mix: speed 0.595 flow 39.85 | corr speed 0.99932
+[2026-10-10 12:34:51]     t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 4.195 flow 198.91 | regular rows: speed 0.393
+[2026-10-10 12:34:53] pushed tfb-k1 v 1
+[2026-10-10 12:48:29] tfb-k1 complete | files ['submission_FDR.csv', 'submission_FDRTV.csv', 'submission_TV.csv'] | traceback False
+[2026-10-10 12:48:29]     D12_I405_N   validation cells  403699 gate share 0.0179 n_gate   7211 | median -0.0012 IQR [-0.0159, +0.0133]
+[2026-10-10 12:48:29]     D12_I405_N   private    cells  395290 gate share 0.0240 n_gate   9472 | median +0.0019 IQR [-0.0123, +0.0164]
+[2026-10-10 12:48:29]     D12_I405_S   validation cells  206390 gate share 0.0069 n_gate   1428 | median +0.0011 IQR [-0.0205, +0.0223]
+[2026-10-10 12:48:29]     D12_I405_S   private    cells  183011 gate share 0.0216 n_gate   3957 | median +0.0006 IQR [-0.0208, +0.0226]
+[2026-10-10 12:48:29]     D12_I5_N     validation cells 1145958 gate share 0.0224 n_gate  25633 | median +0.0001 IQR [-0.0153, +0.0152]
+[2026-10-10 12:48:29]     D12_I5_N     private    cells 1134209 gate share 0.0317 n_gate  35949 | median +0.0004 IQR [-0.0151, +0.0157]
+[2026-10-10 12:48:29]     D12_I5_S     validation cells  453083 gate share 0.0477 n_gate  21634 | median +0.0005 IQR [-0.0148, +0.0160]
+[2026-10-10 12:48:29]     D12_I5_S     private    cells  444409 gate share 0.0624 n_gate  27740 | median -0.0001 IQR [-0.0153, +0.0154]
+[2026-10-10 12:48:29]     D7_I10_E     validation cells  642189 gate share 0.0289 n_gate  18567 | median +0.0014 IQR [-0.0165, +0.0188]
+[2026-10-10 12:48:29]     D7_I10_E     private    cells  643263 gate share 0.0376 n_gate  24209 | median -0.0003 IQR [-0.0182, +0.0173]
+[2026-10-10 12:48:29]     D7_I10_W     validation cells  486048 gate share 0.0047 n_gate   2289 | median -0.0003 IQR [-0.0160, +0.0158]
+[2026-10-10 12:48:29]     D7_I10_W     private    cells  492059 gate share 0.0038 n_gate   1871 | median +0.0003 IQR [-0.0157, +0.0155]
+[2026-10-10 12:48:29]     D7_I210_E    validation cells 1351539 gate share 0.0088 n_gate  11908 | median -0.0001 IQR [-0.0218, +0.0212]
+[2026-10-10 12:48:29]     D7_I210_E    private    cells 1326428 gate share 0.0098 n_gate  13016 | median -0.0005 IQR [-0.0222, +0.0214]
+[2026-10-10 12:48:29]     D7_I210_W    validation cells  331083 gate share 0.0533 n_gate  17660 | median -0.0005 IQR [-0.0198, +0.0192]
+[2026-10-10 12:48:29]     D7_I210_W    private    cells  358093 gate share 0.0438 n_gate  15683 | median +0.0004 IQR [-0.0195, +0.0195]
+[2026-10-10 12:48:29]     D7_I405_N    validation cells 1693357 gate share 0.0804 n_gate 136113 | median -0.0002 IQR [-0.0223, +0.0220]
+[2026-10-10 12:48:29]     D7_I405_N    private    cells 1549167 gate share 0.0703 n_gate 108936 | median +0.0006 IQR [-0.0215, +0.0225]
+[2026-10-10 12:48:29]     D7_I405_S    validation cells  453142 gate share 0.0882 n_gate  39982 | median -0.0014 IQR [-0.0192, +0.0161]
+[2026-10-10 12:48:29]     D7_I405_S    private    cells  457775 gate share 0.0786 n_gate  35970 | median -0.0002 IQR [-0.0177, +0.0176]
+[2026-10-10 12:48:29]     EXCLUDED panels: []
+[2026-10-10 12:48:29]     R: gate share 0.0398 | median |log r| in gate 0.0045
+[2026-10-10 12:48:29]     FDR: state rows changed 3.9807% (268131) | median |dv| 0.110 km/h | median |dq| 6.74 vph | max |dv| 22.41 | max |dq| 936.3
+[2026-10-10 12:48:29]     DONE | excluded []
+[2026-10-10 12:48:29] READY
