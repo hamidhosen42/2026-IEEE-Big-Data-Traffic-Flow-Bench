@@ -1,0 +1,142 @@
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+ARCHIVED EXPERIMENT — not recomputed model results
+Runtime package versions: {"python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]", "numpy": "2.1.3", "pandas": "2.3.3", "pyarrow": "23.0.1", "sklearn": "1.6.1", "torch": "2.11.0+cpu", "joblib": "1.6.0"}
+Writing /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+Writing /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+Writing /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+Appending to /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+All three module syntax and source hashes verified
+START_DIRECTIONAL_PROFILE_PANEL D12_I5_N
+PROFILE_DAYS 31 245
+PROFILE_DAYS 62 245
+PROFILE_DAYS 93 245
+PROFILE_DAYS 124 245
+PROFILE_DAYS 155 245
+PROFILE_DAYS 186 245
+PROFILE_DAYS 217 245
+PROFILE_DAYS 245 245
+TREE_SAMPLE_DAYS D12_I5_N 31 rows 23808
+TREE_SAMPLE_DAYS D12_I5_N 62 rows 47616
+TREE_SAMPLE_DAYS D12_I5_N 93 rows 71424
+TREE_SAMPLE_DAYS D12_I5_N 124 rows 95232
+TREE_SAMPLE_DAYS D12_I5_N 155 rows 119040
+TREE_SAMPLE_DAYS D12_I5_N 186 rows 142848
+TREE_SAMPLE_DAYS D12_I5_N 217 rows 166656
+TREE_SAMPLE_DAYS D12_I5_N 245 rows 188160
+FIT_TREE_HEAD D12_I5_N speed 188160
+FIT_TREE_HEAD D12_I5_N flow 188160
+TREE_PREDICT_FEB D12_I5_N 2031-02-01 16850
+TREE_PREDICT_FEB D12_I5_N 2031-02-02 11315
+TREE_PREDICT_FEB D12_I5_N 2031-02-03 28494
+TREE_PREDICT_FEB D12_I5_N 2031-02-04 17050
+TREE_PREDICT_FEB D12_I5_N 2031-02-05 11243
+TREE_PREDICT_FEB D12_I5_N 2031-02-06 28413
+TREE_PREDICT_FEB D12_I5_N 2031-02-07 17016
+TREE_PREDICT_FEB D12_I5_N 2031-02-08 11476
+TREE_PREDICT_FEB D12_I5_N 2031-02-09 11195
+TREE_PREDICT_FEB D12_I5_N 2031-02-10 17058
+TREE_PREDICT_FEB D12_I5_N 2031-02-11 11374
+TREE_PREDICT_FEB D12_I5_N 2031-02-12 28408
+TREE_PREDICT_FEB D12_I5_N 2031-02-13 28510
+TREE_PREDICT_FEB D12_I5_N 2031-02-14 11213
+TREE_PREDICT_FEB D12_I5_N 2031-02-15 28234
+TREE_PREDICT_FEB D12_I5_N 2031-02-16 11352
+TREE_PREDICT_FEB D12_I5_N 2031-02-17 28112
+TREE_PREDICT_FEB D12_I5_N 2031-02-18 11323
+TREE_PREDICT_FEB D12_I5_N 2031-02-19 28323
+TREE_PREDICT_FEB D12_I5_N 2031-02-20 28352
+TREE_PREDICT_FEB D12_I5_N 2031-02-21 28413
+TREE_PREDICT_FEB D12_I5_N 2031-02-22 11490
+TREE_PREDICT_FEB D12_I5_N 2031-02-23 11274
+TREE_PREDICT_FEB D12_I5_N 2031-02-24 28651
+TREE_PREDICT_FEB D12_I5_N 2031-02-25 17066
+TREE_PREDICT_FEB D12_I5_N 2031-02-26 11335
+TREE_PREDICT_FEB D12_I5_N 2031-02-27 11474
+TREE_PREDICT_FEB D12_I5_N 2031-02-28 11290
+START_DIRECTIONAL_PROFILE_PANEL D7_I10_W
+PROFILE_DAYS 31 245
+PROFILE_DAYS 62 245
+PROFILE_DAYS 93 245
+PROFILE_DAYS 124 245
+PROFILE_DAYS 155 245
+PROFILE_DAYS 186 245
+PROFILE_DAYS 217 245
+PROFILE_DAYS 245 245
+TREE_SAMPLE_DAYS D7_I10_W 31 rows 23808
+TREE_SAMPLE_DAYS D7_I10_W 62 rows 47616
+TREE_SAMPLE_DAYS D7_I10_W 93 rows 71424
+TREE_SAMPLE_DAYS D7_I10_W 124 rows 95232
+TREE_SAMPLE_DAYS D7_I10_W 155 rows 119040
+TREE_SAMPLE_DAYS D7_I10_W 186 rows 142848
+TREE_SAMPLE_DAYS D7_I10_W 217 rows 166656
+TREE_SAMPLE_DAYS D7_I10_W 245 rows 188160
+FIT_TREE_HEAD D7_I10_W speed 188160
+FIT_TREE_HEAD D7_I10_W flow 188160
+TREE_PREDICT_FEB D7_I10_W 2031-02-01 4637
+TREE_PREDICT_FEB D7_I10_W 2031-02-02 7144
+TREE_PREDICT_FEB D7_I10_W 2031-02-03 7175
+TREE_PREDICT_FEB D7_I10_W 2031-02-04 7137
+TREE_PREDICT_FEB D7_I10_W 2031-02-05 7031
+TREE_PREDICT_FEB D7_I10_W 2031-02-06 11765
+TREE_PREDICT_FEB D7_I10_W 2031-02-07 4680
+TREE_PREDICT_FEB D7_I10_W 2031-02-08 7006
+TREE_PREDICT_FEB D7_I10_W 2031-02-09 7082
+TREE_PREDICT_FEB D7_I10_W 2031-02-10 11861
+TREE_PREDICT_FEB D7_I10_W 2031-02-11 7036
+TREE_PREDICT_FEB D7_I10_W 2031-02-12 11837
+TREE_PREDICT_FEB D7_I10_W 2031-02-13 11967
+TREE_PREDICT_FEB D7_I10_W 2031-02-14 7074
+TREE_PREDICT_FEB D7_I10_W 2031-02-15 4792
+TREE_PREDICT_FEB D7_I10_W 2031-02-16 7097
+TREE_PREDICT_FEB D7_I10_W 2031-02-17 7039
+TREE_PREDICT_FEB D7_I10_W 2031-02-18 7016
+TREE_PREDICT_FEB D7_I10_W 2031-02-19 11723
+TREE_PREDICT_FEB D7_I10_W 2031-02-20 7052
+TREE_PREDICT_FEB D7_I10_W 2031-02-21 4665
+TREE_PREDICT_FEB D7_I10_W 2031-02-22 7001
+TREE_PREDICT_FEB D7_I10_W 2031-02-23 7064
+TREE_PREDICT_FEB D7_I10_W 2031-02-24 11780
+TREE_PREDICT_FEB D7_I10_W 2031-02-25 11726
+TREE_PREDICT_FEB D7_I10_W 2031-02-26 4623
+TREE_PREDICT_FEB D7_I10_W 2031-02-27 6982
+TREE_PREDICT_FEB D7_I10_W 2031-02-28 7053
+DIRECTIONAL_PROFILE_PANEL_RESULT {"panel": "D12_I5_N", "macro_S_state": {"cnn_control": 0.9219784440036983, "tree_diagnostic": 0.9344750163875156, "blend70_candidate": 0.9346867573583543}, "primary_macro_delta": 0.012708313354655942, "daily_wins": 28, "daily_losses": 0, "daily_ties": 0}
+DIRECTIONAL_PROFILE_PANEL_RESULT {"panel": "D7_I10_W", "macro_S_state": {"cnn_control": 0.9380645732570655, "tree_diagnostic": 0.936685506585806, "blend70_candidate": 0.9386272680828903}, "primary_macro_delta": 0.0005626948258248277, "daily_wins": 25, "daily_losses": 3, "daily_ties": 0}
+DIRECTIONAL_PROFILE_RESULT {"two_panel_macro": {"cnn_control": 0.9300215086303819, "tree_diagnostic": 0.9355802614866608, "blend70_candidate": 0.9366570127206223}, "seconds": 335.61826010799996}
+D12_I5_N NEW RUN: regime-level aggregate scores
+D12_I5_N Density-change diagnostic only: [{"method": "cnn_control", "n": 659677, "MAE": 0.27309314127998435, "RMSE": 0.9464261106084594, "bias": -0.0009786055264367796}, {"method": "tree_diagnostic", "n": 659677, "MAE": 0.27217025236048287, "RMSE": 0.8737804196902658, "bias": -0.0005646212427483302}, {"method": "blend70_candidate", "n": 659677, "MAE": 0.26137087097288714, "RMSE": 0.8217018528877816, "bias": -0.0007871096473090264}]
+D7_I10_W NEW RUN: regime-level aggregate scores
+D7_I10_W Density-change diagnostic only: [{"method": "cnn_control", "n": 282805, "MAE": 0.2483763407468817, "RMSE": 0.5449197191904315, "bias": 0.0010339017370541695}, {"method": "tree_diagnostic", "n": 282805, "MAE": 0.26785854377975216, "RMSE": 0.6975394940417713, "bias": 0.00036289465945663285}, {"method": "blend70_candidate", "n": 282805, "MAE": 0.2528379559582243, "RMSE": 0.585718243771749, "bias": 0.000597180308699787}]
+NEW RUN: two-panel macro only {"cnn_control": 0.9300215086303819, "tree_diagnostic": 0.9355802614866608, "blend70_candidate": 0.9366570127206223}
+Official leaderboard score: None
+Aggregate-only summary: directional_profile_aggregate_summary.json
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 220613 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Support files will be in __results___files/
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Writing 816298 bytes to __results__.html

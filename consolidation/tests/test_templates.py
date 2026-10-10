@@ -123,7 +123,8 @@ def test_t1_templates():
 
 def test_t2_ogfeat_template():
     fails = []
-    for kernel, cfg in (('tfb-t2ogfa', C.stage_cfg('ogfeat_a', 'B2', 'full')), ('tfb-t2ogfb', C.stage_cfg('ogfeat_b', 'B2', 'full'))):
+    for kernel, cfg in (('tfb-t2ogfa', dict(C.stage_cfg('ogfeat_a', 'B2', 'full'), lgb_repro=None)),     # lgb_repro None = the original
+                        ('tfb-t2ogfb', dict(C.stage_cfg('ogfeat_b', 'B2', 'full'), lgb_repro=None))):  # setting (the only addition)
         a = ast.dump(render_template(f'{CONS}/tfb/stages/t2_ogfeat.py', cfg))
         b = ast.dump(normalise_original(open(f'{LSRC}/{kernel}.py').read(), dict(cfg, panels=None)))
         check(a == b, f'template t2_ogfeat rendered for {kernel} == original source (AST)', fails)

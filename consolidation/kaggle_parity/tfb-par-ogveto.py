@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 299c4872ceceeacdd309783f3e23930f7895f67a | generated 2026-10-10 00:21
+#   tfb 0.1.0-m1 | modules tree sha1 12912f5faec9502461aceb434922a27309ddcd9d | generated 2026-10-10 11:39
 # Parity kernel tfb-par-ogveto (B2, ~8 min on Kaggle CPU): veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly
 # Stages ['ogveto'] | pick B2 | recipe full | overrides {}
 # Kernel sources to attach (3, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-ogveto", "priority": "B2", "minutes": 8, "stages": ["ogveto"], "pick": "B2", "recipe": "full", "overrides": {}, "desc": "veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly", "sources": ["tfb-t2occ", "tfb-t2ogfc", "tfb-t2ogveto"], "checks": [{"type": "queue", "ours": ["tfb-t2ogveto", "queue_submission_veto10.csv"], "orig": ["tfb-t2ogveto", "queue_submission_veto10.csv"], "label": "ogveto_queue_submission_veto10"}], "tfb_version": "0.1.0-m1", "tree_sha1": "299c4872ceceeacdd309783f3e23930f7895f67a", "generated": "2026-10-10 00:21"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-ogveto", "priority": "B2", "minutes": 8, "stages": ["ogveto"], "pick": "B2", "recipe": "full", "overrides": {}, "desc": "veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly", "sources": ["tfb-t2occ", "tfb-t2ogfc", "tfb-t2ogveto"], "checks": [{"type": "queue", "ours": ["tfb-t2ogveto", "queue_submission_veto10.csv"], "orig": ["tfb-t2ogveto", "queue_submission_veto10.csv"], "label": "ogveto_queue_submission_veto10"}], "tfb_version": "0.1.0-m1", "tree_sha1": "12912f5faec9502461aceb434922a27309ddcd9d", "generated": "2026-10-10 11:39"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).
@@ -108,6 +108,15 @@ ONGOING = dict(
 
 # ------------------------------------------------------------------ Task 4 (stage t4 = tfb-final cell 7)
 T4 = dict(lam=0.05)
+
+# ------------------------------------------------------------------ LightGBM reproducibility (Task 2 ongoing stages)
+# The original kernels ran LightGBM with num_threads=4, verbose=-1 and neither `deterministic` nor `force_row_wise/col_wise`:
+# LightGBM then picks row- or col-wise histograms by a timing test and sums multithreaded histograms in no fixed order, so
+# a rerun is not bit-repeatable (Kaggle parity 2026-10-10: occ 22 / pvogf 24 queue cells of 87,000 changed). The entry
+# script fixes the code path so that every rerun on the same hardware / version / threads gives the same file. It cannot
+# reproduce the original file exactly (its own path was never logged). None = original behaviour. Task 1 members keep the
+# original setting (their effect is smooth; deterministic mode would add runtime to the 60 h of member training).
+LGB_REPRO = dict(deterministic=True, force_row_wise=True)
 
 # ------------------------------------------------------------------ queue assembly (stage assemble = swap_queue2.py)
 # One part per (condition, split) block; together they cover every queue row (the T4 skeleton's queue rows are 0).
@@ -270,12 +279,14 @@ def stage_cfg(stage, pick, recipe, threads=4):
         return dict(ONSET)
     if stage == 'pseudo':
         return dict(expected={k: list(v) for k, v in PSEUDO_EXPECTED.items()})
+    if stage == 'ongoing_val':
+        return dict(lgb_repro=dict(LGB_REPRO))
     if stage == 'ongoing_pvogf':
-        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'])
+        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'], lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_a':
-        return dict(part='a', tag='v27a')
+        return dict(part='a', tag='v27a', lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_b':
-        return dict(part='b', tag='v27b')
+        return dict(part='b', tag='v27b', lgb_repro=dict(LGB_REPRO))
     return {}
 
 
@@ -920,8 +931,11 @@ def compare_queue_file(ours, orig, check, rel=None):
                 uni = int(((w_all.a == 1) | (w_all.b == 1)).sum())
                 inter = int(((w_all.a == 1) & (w_all.b == 1)).sum())
                 jw.append(1.0 if uni == 0 else inter / uni)
+            # score bound (DESIGN 4.7): Jaccard distance is a metric, so per window |dIoU| <= 1 - J; one official window is worth
+            # 0.15 / 40 = 0.00375 of the total score per IoU unit -> |dS| <= 0.00375 * sum_w (1 - J_w) for this block
             _line(check, f'queue.{s}.{c}', 'EXACT' if not g.d.any() else 'FAIL', rows=len(g), n_diff=int(g.d.sum()),
-                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
+                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', sum_1mJ=f'{sum(1 - j for j in jw):.4f}',
+                  score_bound=f'{0.00375 * sum(1 - j for j in jw):.5f}', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
 
 
 STATE_KEYS = ['panel', 'timestamp', 'station_id', 'link_id', 'mask_regime']

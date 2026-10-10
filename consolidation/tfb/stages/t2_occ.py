@@ -469,6 +469,8 @@ def decode(p):
 
 PARAMS = dict(objective='binary', learning_rate=0.05, num_leaves=63, min_data_in_leaf=100, feature_fraction=0.7,
               bagging_fraction=0.8, bagging_freq=1, lambda_l2=2.0, verbose=-1, num_threads=4)
+if TFB.cfg['lgb_repro'] is not None:  # [TFB] reproducibility switch (tfb/config.py LGB_REPRO): deterministic=True, force_row_wise=True;
+    PARAMS.update(TFB.cfg['lgb_repro'])  # [TFB] None = the original setting (auto row/col-wise choice by timing, not repeatable)
 
 
 PRIOR_COLS = {'prior', 'prior_now', 'prior_alldays', 'pos', 'tod', 'dow', 'lanes', 'cap_lane', 'length', 'cap_ratio_hi', 'cap_ratio_lo'}

@@ -1,0 +1,94 @@
+/usr/local/lib/python3.13/dist-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+competition data: /kaggle/input/2026-ieee-big-data-traffic-flow-bench/kaggle_public
+models: ['t1_unet_s51', 't1_unet_s52', 't1_v4', 't1_v5', 't1_v6', 't2_cnn_s30', 't2_cnn_s31', 't2_cnn_s32', 't2_v11', 't2_v12', 't2_v13', 't2_v14', 't2_v15', 't2_v16', 't2_v20']
+LightGBM (3 models) done 4018s
+U-Net (2 seeds) done 5132s
+validation: 3,451,376 cells
+private: 3,284,419 cells
+LightGBM family v11 (4 members) done 5433s
+LightGBM family v15 (2 members) done 5510s
+LightGBM family v18 (1 members) done 5548s
+CNN seed 30 done 5791s
+CNN seed 31 done 5793s
+CNN seed 32 done 5796s
+Task 2 files written 5800s
+[validation] D7_I10_E: S_link=1.0000 zeros=2362 sum=91561 dev/|b|=0.303
+[validation] D7_I10_E: S_link=1.0000 zeros=2362 sum=91561 dev/|b|=0.303
+[private] D7_I10_E: S_link=1.0000 zeros=2389 sum=96136 dev/|b|=0.296
+[private] D7_I10_E: S_link=1.0000 zeros=2389 sum=96136 dev/|b|=0.296
+[validation] D7_I10_W: S_link=0.9999 zeros=3017 sum=103149 dev/|b|=0.346
+[validation] D7_I10_W: S_link=0.9999 zeros=3017 sum=103149 dev/|b|=0.346
+[private] D7_I10_W: S_link=1.0000 zeros=2908 sum=98725 dev/|b|=0.337
+[private] D7_I10_W: S_link=1.0000 zeros=2908 sum=98725 dev/|b|=0.337
+[validation] D7_I210_E: S_link=1.0000 zeros=917 sum=53464 dev/|b|=0.313
+[validation] D7_I210_E: S_link=1.0000 zeros=917 sum=53464 dev/|b|=0.313
+[private] D7_I210_E: S_link=1.0000 zeros=847 sum=54998 dev/|b|=0.305
+[private] D7_I210_E: S_link=1.0000 zeros=847 sum=54998 dev/|b|=0.305
+[validation] D7_I210_W: S_link=0.9999 zeros=1871 sum=70822 dev/|b|=0.321
+[validation] D7_I210_W: S_link=0.9999 zeros=1871 sum=70822 dev/|b|=0.321
+[private] D7_I210_W: S_link=0.9999 zeros=1911 sum=73106 dev/|b|=0.352
+[private] D7_I210_W: S_link=0.9999 zeros=1911 sum=73106 dev/|b|=0.352
+[validation] D7_I405_N: S_link=1.0000 zeros=1122 sum=72676 dev/|b|=0.344
+[validation] D7_I405_N: S_link=1.0000 zeros=1122 sum=72676 dev/|b|=0.344
+[private] D7_I405_N: S_link=1.0000 zeros=1254 sum=73268 dev/|b|=0.339
+[private] D7_I405_N: S_link=1.0000 zeros=1254 sum=73268 dev/|b|=0.339
+[validation] D7_I405_S: S_link=1.0000 zeros=2478 sum=76764 dev/|b|=0.350
+[validation] D7_I405_S: S_link=1.0000 zeros=2478 sum=76764 dev/|b|=0.350
+[private] D7_I405_S: S_link=1.0000 zeros=2507 sum=80110 dev/|b|=0.339
+[private] D7_I405_S: S_link=1.0000 zeros=2507 sum=80110 dev/|b|=0.339
+[validation] D12_I5_N: S_link=1.0000 zeros=1724 sum=105105 dev/|b|=0.278
+[validation] D12_I5_N: S_link=1.0000 zeros=1724 sum=105105 dev/|b|=0.278
+[private] D12_I5_N: S_link=1.0000 zeros=1672 sum=104913 dev/|b|=0.279
+[private] D12_I5_N: S_link=1.0000 zeros=1672 sum=104913 dev/|b|=0.279
+[validation] D12_I5_S: S_link=1.0000 zeros=2617 sum=114320 dev/|b|=0.262
+[validation] D12_I5_S: S_link=1.0000 zeros=2617 sum=114320 dev/|b|=0.262
+[private] D12_I5_S: S_link=1.0000 zeros=2690 sum=117970 dev/|b|=0.276
+[private] D12_I5_S: S_link=1.0000 zeros=2690 sum=117970 dev/|b|=0.276
+[validation] D12_I405_N: S_link=0.9999 zeros=462 sum=47068 dev/|b|=0.476
+[validation] D12_I405_N: S_link=0.9999 zeros=462 sum=47068 dev/|b|=0.476
+[private] D12_I405_N: S_link=0.9999 zeros=470 sum=47418 dev/|b|=0.483
+[private] D12_I405_N: S_link=0.9999 zeros=470 sum=47418 dev/|b|=0.483
+[validation] D12_I405_S: S_link=0.9998 zeros=303 sum=36930 dev/|b|=0.617
+[validation] D12_I405_S: S_link=0.9998 zeros=303 sum=36930 dev/|b|=0.617
+[private] D12_I405_S: S_link=0.9996 zeros=282 sum=42417 dev/|b|=0.573
+[private] D12_I405_S: S_link=0.9996 zeros=282 sum=42417 dev/|b|=0.573
+wrote validation 35354
+wrote private 35354
+wrote validation 35354
+wrote private 35354
+Task 4 done 6228s
+key 6980503 31s
+key 6980503 31s
+state unmatched 0 dups 0
+state unmatched 0 dups 0
+queue unmatched 0
+queue unmatched 0
+odme unmatched 0
+odme unmatched 0
+state speed/flow stats {'speed_kmh': {'min': 9.661030467351278, 'mean': 111.26927758120695, 'max': 128.00370034586587}, 'flow_vph': {'min': 363.42282, 'mean': 3914.5577312500277, 'max': 11438.609}}
+queue mean 0.06117816091954023 odme min 0.0
+wrote /kaggle/working/submission.csv 6980503 117s
+state speed/flow stats {'speed_kmh': {'min': 9.661030467351278, 'mean': 111.26927758120695, 'max': 128.00370034586587}, 'flow_vph': {'min': 363.42282, 'mean': 3914.5577312500277, 'max': 11438.609}}
+queue mean 0.06117816091954023 odme min 0.0
+wrote /kaggle/working/submission.csv 6980503 117s
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 2278868 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Support files will be in __results___files/
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Writing 368234 bytes to __results__.html

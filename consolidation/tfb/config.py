@@ -84,6 +84,15 @@ ONGOING = dict(
 # ------------------------------------------------------------------ Task 4 (stage t4 = tfb-final cell 7)
 T4 = dict(lam=0.05)
 
+# ------------------------------------------------------------------ LightGBM reproducibility (Task 2 ongoing stages)
+# The original kernels ran LightGBM with num_threads=4, verbose=-1 and neither `deterministic` nor `force_row_wise/col_wise`:
+# LightGBM then picks row- or col-wise histograms by a timing test and sums multithreaded histograms in no fixed order, so
+# a rerun is not bit-repeatable (Kaggle parity 2026-10-10: occ 22 / pvogf 24 queue cells of 87,000 changed). The entry
+# script fixes the code path so that every rerun on the same hardware / version / threads gives the same file. It cannot
+# reproduce the original file exactly (its own path was never logged). None = original behaviour. Task 1 members keep the
+# original setting (their effect is smooth; deterministic mode would add runtime to the 60 h of member training).
+LGB_REPRO = dict(deterministic=True, force_row_wise=True)
+
 # ------------------------------------------------------------------ queue assembly (stage assemble = swap_queue2.py)
 # One part per (condition, split) block; together they cover every queue row (the T4 skeleton's queue rows are 0).
 # Provenance of each block in the Kaggle chain:
@@ -245,12 +254,14 @@ def stage_cfg(stage, pick, recipe, threads=4):
         return dict(ONSET)
     if stage == 'pseudo':
         return dict(expected={k: list(v) for k, v in PSEUDO_EXPECTED.items()})
+    if stage == 'ongoing_val':
+        return dict(lgb_repro=dict(LGB_REPRO))
     if stage == 'ongoing_pvogf':
-        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'])
+        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'], lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_a':
-        return dict(part='a', tag='v27a')
+        return dict(part='a', tag='v27a', lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_b':
-        return dict(part='b', tag='v27b')
+        return dict(part='b', tag='v27b', lgb_repro=dict(LGB_REPRO))
     return {}
 
 

@@ -33,17 +33,19 @@ Each kernel is a single file. Attach the competition data and the kernel sources
 |---|---|---:|---|---|---|
 | `tfb-par-lean1` | optional | 30 | t1_mix, t1_recon (A2, lean1) | DESIGN 3.3 decision data: lean-1 mix (19 member outputs) + recon/TV; state RMS vs the full-recipe tfb-i4d / tfb-i4 (DIFF expected) | 21: tfb-i4d, tfb-i4 + 19 Task 1 member parts of the lean1 recipe (a/b, bspec a/b/c; see the push command) |
 
-## Milestone 2 - pseudo windows and Task 2 ongoing (7 kernels, 22.9 Kaggle-hours)
+## Milestone 2 - pseudo windows and Task 2 ongoing (9 kernels, 33.4 Kaggle-hours)
 
 | Kernel | Priority | ~min | Stages (pick, recipe) | What it checks | Kernel sources |
 |---|---|---:|---|---|---|
 | `tfb-par-pseudo` | lean1 + full | 8 | pseudo (A2, full) | pseudo windows (tfb-t2lab-full, hidden input of every Task 1 member): d / t / cond arrays exactly; the stage also self-checks counts + SHA-1 | 1: tfb-t2lab-full |
-| `tfb-par-occ` | A2 + B2 | 342 | ongoing_val (A2, full) | March ongoing (tfb-t2occ): fs4occ / fs2occ / fs_np queue files exactly + probabilities and qlast (t2v26occ_probs.npz) | 1: tfb-t2occ |
-| `tfb-par-pvogf` | A2 | 288 | ongoing_pvogf (A2, full) | April ongoing of A2 (tfb-t2ogpvogf) with the original references attached (fs4af validation copy, pvo veto): pvogf / pvogf_npid / pvogfv exactly + probabilities | 3: tfb-t2ogpvogf, tfb-t2v22af, tfb-t2ogpvaf |
+| `tfb-par-occ` | A2 + B2 | 342 | ongoing_val (A2, full) | March ongoing (tfb-t2occ), production setting LGB_REPRO: fs4occ / fs2occ / fs_np vs the original (LightGBM drift expected; score_bound per block) + probabilities / qlast | 1: tfb-t2occ |
+| `tfb-par-pvogf` | A2 | 288 | ongoing_pvogf (A2, full) | April ongoing of A2 (tfb-t2ogpvogf), LGB_REPRO, original references attached (fs4af, pvo): pvogf / npid / pvogfv vs the original (drift expected; score_bound) + probabilities | 3: tfb-t2ogpvogf, tfb-t2v22af, tfb-t2ogpvaf |
 | `tfb-par-ogfa` | B2 | 320 | ogfeat_a (B2, full) | ogfeat seed-0 pair (tfb-t2ogfa, template t2_ogfeat part a): fs2ogf / fs_npogf exactly + probabilities | 1: tfb-t2ogfa |
 | `tfb-par-ogfb` | B2 | 397 | ogfeat_b (B2, full) | ogfeat seed-1 pair (tfb-t2ogfb, template t2_ogfeat part b): fs2ogf1 exactly + probabilities | 1: tfb-t2ogfb |
 | `tfb-par-ogfc` | B2 | 8 | ogfeat_comb (B2, full) | fs4ogf = mean of the 4 ogfeat models (tfb-t2ogfc) from the original ogfa / ogfb outputs: exactly | 3: tfb-t2ogfa, tfb-t2ogfb, tfb-t2ogfc |
 | `tfb-par-ogveto` | B2 | 8 | ogveto (B2, full) | veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly | 3: tfb-t2occ, tfb-t2ogfc, tfb-t2ogveto |
+| `tfb-par-pvogfrep` | A2 repeatability | 288 | ongoing_pvogf (A2, full) | second run of tfb-par-pvogf (same inputs, LGB_REPRO on) compared with the FIRST run's output: EXACT = the entry script is repeatable on Kaggle | 3: tfb-par-pvogf, tfb-t2v22af, tfb-t2ogpvaf |
+| `tfb-par-occrep` | A2 + B2 repeatability | 342 | ongoing_val (A2, full) | second run of tfb-par-occ (LGB_REPRO on) compared with the FIRST run's output: EXACT = repeatable on Kaggle | 1: tfb-par-occ |
 
 ## Milestone 2 - Task 1 member parts of the lean-1 recipe (also in full) (19 kernels, 63.4 Kaggle-hours)
 
@@ -108,6 +110,8 @@ python kaggle_jobs/kjob.py push tfb-par-ogfa consolidation/kaggle_parity/tfb-par
 python kaggle_jobs/kjob.py push tfb-par-ogfb consolidation/kaggle_parity/tfb-par-ogfb.py hosen42/tfb-t2ogfb
 python kaggle_jobs/kjob.py push tfb-par-ogfc consolidation/kaggle_parity/tfb-par-ogfc.py hosen42/tfb-t2ogfa hosen42/tfb-t2ogfb hosen42/tfb-t2ogfc
 python kaggle_jobs/kjob.py push tfb-par-ogveto consolidation/kaggle_parity/tfb-par-ogveto.py hosen42/tfb-t2occ hosen42/tfb-t2ogfc hosen42/tfb-t2ogveto
+python kaggle_jobs/kjob.py push tfb-par-pvogfrep consolidation/kaggle_parity/tfb-par-pvogfrep.py hosen42/tfb-par-pvogf hosen42/tfb-t2v22af hosen42/tfb-t2ogpvaf
+python kaggle_jobs/kjob.py push tfb-par-occrep consolidation/kaggle_parity/tfb-par-occrep.py hosen42/tfb-par-occ
 python kaggle_jobs/kjob.py push tfb-par-v11a consolidation/kaggle_parity/tfb-par-v11a.py hosen42/tfb-t2lab-full hosen42/tfb-t1v11a
 python kaggle_jobs/kjob.py push tfb-par-v11b consolidation/kaggle_parity/tfb-par-v11b.py hosen42/tfb-t2lab-full hosen42/tfb-t1v11b
 python kaggle_jobs/kjob.py push tfb-par-v12a consolidation/kaggle_parity/tfb-par-v12a.py hosen42/tfb-t2lab-full hosen42/tfb-t1v12a

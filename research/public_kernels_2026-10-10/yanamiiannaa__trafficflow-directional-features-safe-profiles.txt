@@ -1,0 +1,1713 @@
+# ===== CELL 0 [markdown] =====
+# TrafficFlowBench: directional features and leak-free historical profiles
+
+## tl;dr
+
+Can a small tree model add useful information to a temporal CNN? This fixed two-corridor pilot combines **70% tree + 30% archived CNN**. In the completed original experiment, the equal-panel February state score increased from **0.930022 to 0.936657**, with most of the gain on D12_I5_N.
+
+**Evidence status:** the saved table and chart below display scores from [original run 355235394](https://www.kaggle.com/code/yanamiiannaa/trafficflow-state-directional-profile-pilot?scriptVersionId=355235394). A [private clean replay of this reorganized code, version 355506254](https://www.kaggle.com/code/yanamiiannaa/trafficflow-directional-features-safe-profiles?scriptVersionId=355506254), completed in **372.4 seconds** and reproduced all six scores exactly. Its only persisted output was the aggregate summary. A second private replay, **version 355514076**, used the minimal CNN package and completed in **477.0 seconds**, again matching all six scores exactly. That run mounted the packaging Notebook output; the Dataset-linked input route is a separate final verification step. Runtimes are historical observations, not guarantees for another environment.
+
+February had already been inspected during development. This is an **exploratory validation comparison**, not an untouched final test, leaderboard result, or official submission. Reproduction requires the official release and the minimal CNN controls Dataset linked below.
+
+# ===== CELL 1 [markdown] =====
+## Context & methods
+
+### The reconstruction problem
+
+Task 1 recovers missing speed and flow from the remaining observations. The [official TrafficFlowBench repository](https://github.com/jacky850/trafficflowbench-public) defines three masking regimes: R1, R2 and R3 remove 20%, 30% and 50% of eligible cells. Flow error is evaluated per lane.
+
+This pilot trains the tree on **245 days from June 2030 through January 2031**, then evaluates February 2031. Each corridor has its own models. Existing eight-month CNN predictions are replayed against their archived values and kept unchanged as the control.
+
+### What the tree sees
+
+Each target has **27 features**:
+
+- Seven temporal features: visible-only interpolated speed and flow, an observation indicator, left/right gap lengths, and sine/cosine time-of-day encoding
+- Sixteen directional features: separate before, after, upstream and downstream observations, each carrying speed, flow, distance and a presence indicator
+- Four historical features: weekday-by-five-minute-slot speed and flow profiles, plus interpolated deviations of visible observations from those profiles
+
+Upstream and downstream neighbors follow the released mainline topology. At each timestamp, the nearest originally visible station in each direction is chosen within five topology hops, with stable station/link-ID tie breaks. Distances are hops in space and minutes in time. Missing directions retain NaNs and a zero presence indicator. A wholly unobserved station-day has zero interpolated profile residuals.
+
+### Key assumptions and leakage boundaries
+
+1. **Apply the complete mask before sampling targets.** The link-time mask is shared by stations on a link. At most 256 hidden targets are sampled per day and regime, without replacement; every unselected hidden cell stays unavailable to features.
+2. **Exclude the whole target training day from profiles.** All valid observations from that day are subtracted before forming weekday-slot profiles and every fallback. The fallback sequence is slot mean across weekdays, station-pair mean, then global mean. February profiles use June–January only.
+3. **Freeze both panels before reading February truth in this run.** This protects the current dataflow; it does not undo earlier exploratory exposure to February.
+4. **This is offline reconstruction.** Later visible observations can inform interpolation. These features must not be reused unchanged for causal queue forecasting.
+
+### One fixed model and blend
+
+Separate `HistGradientBoostingRegressor` heads predict speed and per-lane-flow residuals relative to visible-only temporal interpolation. Speed is scaled by 25 and per-lane flow by 600. The fixed settings are **150 iterations, 31 leaves, learning rate 0.05, L2 regularization 10, seed 2031, and early stopping off**. Both heads use the same sampled rows, at most **188,160 per panel**.
+
+Predicted residuals are added to interpolation, negative values are clipped to zero, and total flow is recovered using lane count. The single primary candidate is **0.70 × tree + 0.30 × archived CNN**. There is no weight search or hyperparameter sweep; the pure tree is diagnostic only.
+
+# ===== CELL 2 [markdown] =====
+## Data and required inputs
+
+Attach exactly **two** Kaggle inputs:
+
+1. The official **2026-ieee-big-data-traffic-flow-bench** release, including June 2030–February 2031 training observations, masked February observations, Task 1 templates, and network metadata
+2. [**TrafficFlow Directional Profile CNN Controls**](https://www.kaggle.com/datasets/yanamiiannaa/trafficflow-directional-profile-cnn-controls), the minimal CNN dependency Dataset
+
+**Attach the Dataset once, without the original archived CNN outputs or the packaging Notebook output.** They contain the same directory names; mounting multiple copies would produce duplicate input discovery.
+
+The package contains **14 files, 20,139,732 bytes**: twelve original panel files, the projected two-panel `selection.json`, and `pack_manifest.json`. Private packaging completed in **29.8 seconds**, preserving all twelve original file hashes. It contains no raw observations, truth columns, full competition submission CSV, or unrelated-panel artifacts.
+
+Within the bundle, each of `task1_eight_month_two_panel/D12_I5_N/` and `task1_eight_month_remaining/D7_I10_W/` contains `model.pt`, `station_pairs.csv`, `normalization.npz`, `frozen_feb_predictions.parquet`, `frozen_prediction_manifest.json`, and `report.json`. The latter root also contains `selection.json`, limited to both panel names, their model/prediction hashes, and `best_version == 355153863`.
+
+**Provenance, not extra inputs:** D12's files originate from archived output version **355191253**; D7's files and the selection metadata originate from archived output version **355199589**. These versions document the source of the bundle and do not need to be attached separately. The internal `best_version` field is distinct from the source output version and remains unchanged.
+
+**Verified minimal-input replay:** version **355514076** completed in **477.0 seconds**, with all six scores exactly matching the original experiment. Its backend attached the packaging Notebook output, not the Dataset. The Dataset distributes the same 14 files with unchanged bytes; mounting that Dataset directly is the remaining final input-route check. This distinction does not change the model method or the verified package results. The preserved helper module contains an older January-only training routine, not the eight-month auxiliary pipeline, and cannot recreate these archived controls.
+
+The pilot checks input identities, original model settings, model/prediction/template hashes, 245 training days, target IDs, and exact control score reproduction. Replay uses `rtol=2e-6` and `atol=2e-5`; the blend uses the archived values themselves. No modeling code or hash checks were changed for the bundle.
+
+No competition observations are bundled into this notebook or the minimal dependency Dataset. The original notebook code and the shared minimal dependency package use Apache-2.0; third-party notices and licenses remain applicable.
+
+# ===== CELL 3 [markdown] =====
+## Results from the archived experiment
+
+Within each regime, squared errors are pooled before calculating:
+
+`S_state = 0.54 × max(0, 1 − RMSE_speed / 25) + 0.46 × max(0, 1 − RMSE_flow_per_lane / 600)`
+
+The three regime scores receive equal weight. The final table row below then gives the two panels equal weight. These six panel/method values are the only observations used by the chart; no daily curve is reconstructed.
+
+# ===== CELL 4 [code] =====
+import os
+for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ[key] = "2"
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Historical results from original run 355235394, not a new fit.
+recorded_scores = pd.DataFrame({
+    "Panel": ["D12_I5_N", "D7_I10_W"],
+    "CNN control": [0.9219784440036983, 0.9380645732570655],
+    "Tree diagnostic": [0.9344750163875156, 0.936685506585806],
+    "Fixed blend": [0.9346867573583543, 0.9386272680828903],
+}).set_index("Panel")
+result_table = recorded_scores.copy()
+result_table.loc["Equal-panel mean"] = recorded_scores.mean()
+result_table["Blend minus CNN"] = result_table["Fixed blend"] - result_table["CNN control"]
+print("ARCHIVED EXPERIMENT — not recomputed model results")
+display(result_table.round(6))
+
+plt.rcParams.update({"font.size": 11, "axes.spines.top": False, "axes.spines.right": False})
+fig, axes = plt.subplots(1, 2, figsize=(11.2, 3.7), sharex=True, sharey=True)
+methods = ["CNN control", "Tree diagnostic", "Fixed blend"]
+colors = ["#64748B", "#D97706", "#0F766E"]
+markers = ["o", "s", "D"]
+for ax, (panel, row) in zip(axes, recorded_scores.iterrows()):
+    for y, (method, color, marker) in enumerate(zip(methods, colors, markers)):
+        value = row[method]
+        ax.scatter(value, y, s=85, color=color, marker=marker, zorder=3)
+        ax.annotate(f"{value:.6f}", (value, y), xytext=(7, 8), textcoords="offset points", fontsize=10)
+    ax.set_title(panel, fontweight="bold")
+    ax.set_yticks(range(3), methods)
+    ax.set_xlim(0.918, 0.944)
+    ax.set_ylim(-0.5, 2.6)
+    ax.grid(axis="x", color="#E2E8F0", linewidth=0.8)
+    ax.set_xlabel("February macro S_state (higher is better)")
+    delta = row["Fixed blend"] - row["CNN control"]
+    ax.text(0.02, 0.96, f"Blend gain: {delta:+.6f}", transform=ax.transAxes, va="top", fontsize=10)
+fig.suptitle("Archived run · six recorded scores · no new fit", fontsize=13, fontweight="bold")
+fig.tight_layout()
+plt.show()
+
+
+# ===== CELL 5 [markdown] =====
+### What changed, and what did not
+
+The blend beat the CNN on **all 28 February days for D12_I5_N** and **25 of 28 days for D7_I10_W**. D7 also had a small R3 regression, approximately **0.920029 → 0.920013**. These counts and the R3 observation are from the original run, not inferred from the six-point chart.
+
+Trees explain most of the D12 improvement. On D7, the pure tree trails the CNN, while their fixed blend improves the macro score. That is consistent with complementary errors, though this experiment does not isolate the contribution of individual feature groups.
+
+## Takeaways
+
+- Directional observations and whole-day-excluded profiles are a useful candidate complement to this fixed CNN control
+- The gains differ substantially by corridor, and one difficult regime regresses slightly
+- Further corridor-level evaluation is warranted; this pilot establishes neither full-competition improvement nor an official physics-score gain
+- No competition submission file is produced and no score is submitted by this notebook
+
+The remainder is the reproducible implementation. The two legacy helper modules are retained byte-for-byte so that replay behavior can be checked, while the active two-panel pipeline is split into focused sections.
+
+# ===== CELL 6 [markdown] =====
+## Reproduction: setup
+
+Use Kaggle **CPU**, **Internet off**, and a **clean Save & Run All** after attaching the inputs above. The runtime uses the preinstalled scientific Python stack; it does not install packages or download third-party code.
+
+The expired absolute date cutoff has been removed. Resource limits remain: two CPU threads, a 60-minute worker budget, a 3.5 GiB combined driver/worker/process-tree RSS cap, and a 3,630-second outer guard. The original 6 min 28 s is a historical run time, not a guarantee for another runtime.
+
+All models, row-level predictions, sampled IDs, profile statistics, audit files and raw logs are written under **`/kaggle/temp/trafficflow_directional_profiles/`**. They are temporary private-session artifacts and are not automatically durable. Only a deliberately selected aggregate summary is exported to `/kaggle/working`. This keeps saved notebook artifacts limited to aggregate results.
+
+# ===== CELL 7 [code] =====
+from pathlib import Path
+import ast, hashlib, json, os, subprocess, sys, time
+
+for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ[key] = "2"
+os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
+
+import numpy, pandas, pyarrow, psutil, sklearn, torch, joblib
+pyarrow.set_cpu_count(2)
+pyarrow.set_io_thread_count(2)
+
+scratch = Path("/kaggle/temp/trafficflow_directional_profiles")
+scripts = scratch / "scripts"
+scripts.mkdir(parents=True, exist_ok=True)
+environment = dict(python=sys.version, numpy=numpy.__version__, pandas=pandas.__version__,
+                   pyarrow=pyarrow.__version__, sklearn=sklearn.__version__,
+                   torch=torch.__version__, joblib=joblib.__version__)
+(scratch / "environment.json").write_text(json.dumps(environment, indent=2))
+print("Runtime package versions:", json.dumps(environment))
+
+
+# ===== CELL 8 [markdown] =====
+## Preserved CNN replay helpers
+
+These cells write, but do not run, the original helper modules. They are collapsed by default where the viewer supports it. Their legacy standalone training/submission entry points are retained for byte-level fidelity and **are not called by this notebook**. Only the active two-panel worker below is launched. No old submission CSV or ODME model is needed for this path.
+
+# ===== CELL 9 [markdown] =====
+### Helper A1 · data layout and temporal features
+
+Original loading, interpolation and CNN architecture helpers.
+
+# ===== CELL 10 [code] =====
+%%writefile /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+"""Ten-corridor Task 1 temporal CNN residual validation; Kaggle CPU, Internet off.
+
+January 2031 unmasked train observations supply labels. February 2031 Task 1
+masked observations supply predictions. February truth is opened only after
+prediction/model hashes are frozen. Never use this offline method for Task 2.
+"""
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ[_v] = "2"
+
+import hashlib
+import json
+import math
+import signal
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+SEED = 2031
+EPOCHS = 5
+BATCH = 64
+LR = 0.001
+FUSION = 0.5
+RATES = {"R1": 0.20, "R2": 0.30, "R3": 0.50}
+OUT = Path("/kaggle/working/tcn_ten_panel")
+KEY = ["timestamp", "station_id", "link_id"]
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def locate():
+    found = []
+    for base, dirs, _ in os.walk("/kaggle/input"):
+        p = Path(base)
+        if {"corridors", "task1", "config"} <= set(dirs) and (p / "config/corridors.json").is_file():
+            found.append(p); dirs[:] = []
+    assert len(found) == 1, f"Expected exactly one official release, got {found}"
+    return found[0]
+
+
+def read_parquet(path, columns):
+    import pyarrow.parquet as pq
+    d = pq.ParquetFile(path).read(columns=columns).to_pandas()
+    for k in KEY:
+        if k in d:
+            d[k] = d[k].astype(str)
+    return d
+
+
+def make_index(d, pair_index, expected_day):
+    import numpy as np
+    import pandas as pd
+    assert not d.duplicated(KEY).any()
+    assert d.timestamp.str[:10].eq(expected_day).all()
+    times = pd.to_datetime(d.timestamp, utc=True)
+    assert (times.dt.minute % 5 == 0).all() and (times.dt.second == 0).all()
+    slot = (times.dt.hour.to_numpy() * 12 + times.dt.minute.to_numpy() // 5).astype(int)
+    keys = list(zip(d.station_id, d.link_id))
+    assert set(keys) <= set(pair_index)
+    series = np.fromiter((pair_index[k] for k in keys), dtype=np.int32, count=len(keys))
+    assert len(d) == len(pair_index) * 288
+    assert len(np.unique(series * 288 + slot)) == len(d)
+    return series, slot
+
+
+def day_data(path, pair_index, lanes, day, masked):
+    import numpy as np
+    cols = KEY + ["speed_kmh", "flow_vph", "pct_observed", "is_score_eligible"]
+    if masked:
+        cols += ["occupancy", "density_occ_linear_vehpkm"]
+    d = read_parquet(path, cols)
+    si, ti = make_index(d, pair_index, day)
+    vals = d[["speed_kmh", "flow_vph"]].to_numpy(float)
+    vals[:, 1] /= lanes[si]
+    eligible = (d.pct_observed.to_numpy(float) >= 75) & np.isfinite(vals).all(axis=1)
+    n = len(pair_index)
+    truth = np.full((2, n, 288), np.nan, dtype=np.float32)
+    ok = np.zeros((n, 288), dtype=bool)
+    truth[:, si[eligible], ti[eligible]] = vals[eligible].T
+    ok[si[eligible], ti[eligible]] = True
+    return d, truth, ok, si, ti
+
+
+def features(truth, observed, fallback):
+    import numpy as np
+    n = observed.shape[0]
+    assert truth.shape == (2, n, 288)
+    base = np.empty_like(truth)
+    t = np.arange(288)
+    for j in range(n):
+        seen = np.flatnonzero(observed[j])
+        for c in range(2):
+            base[c, j] = (np.interp(t, seen, truth[c, j, seen]) if len(seen)
+                          else np.full(288, fallback[c, j]))
+    prev = np.maximum.accumulate(np.where(observed, t[None, :], -1), axis=1)
+    nxt = np.minimum.accumulate(np.where(observed, t[None, :], 288)[:, ::-1], axis=1)[:, ::-1]
+    left = np.clip(t[None, :] - prev, 0, 72) / 72.0
+    right = np.clip(nxt - t[None, :], 0, 72) / 72.0
+    sine = np.broadcast_to(np.sin(2 * np.pi * t / 288), (n, 288))
+    cosine = np.broadcast_to(np.cos(2 * np.pi * t / 288), (n, 288))
+    x = np.stack([base[0] / 25, base[1] / 600, observed.astype(float),
+                  left, right, sine, cosine], axis=1).astype(np.float32)
+    assert np.isfinite(x).all()
+    return x, base
+
+
+def net_model():
+    import torch
+    from torch import nn
+    net = nn.Sequential(nn.Conv1d(7, 16, 5, padding=2), nn.GELU(),
+                        nn.Conv1d(16, 16, 5, padding=4, dilation=2), nn.GELU(),
+                        nn.Conv1d(16, 16, 5, padding=8, dilation=4), nn.GELU(),
+                        nn.Conv1d(16, 2, 1))
+    nn.init.zeros_(net[-1].weight)
+    nn.init.zeros_(net[-1].bias)
+    return net
+
+
+
+
+# ===== CELL 11 [markdown] =====
+### Helper A2 · legacy January-only training routine
+
+Retained unchanged for its source hash; not used to retrain the control.
+
+# ===== CELL 12 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+def train_predict(release, panel, deadline):
+    import numpy as np
+    import pandas as pd
+    import torch
+    from torch.utils.data import DataLoader, TensorDataset
+    torch.manual_seed(SEED)
+    np.random.seed(SEED)
+    p = release / "corridors" / panel
+    panel_out = OUT / panel
+    jan = sorted((p / "train/mainline_states/year_month=2031-01").glob("*.parquet"))
+    assert len(jan) == 31
+    fd = pd.read_csv(p / "network/fd_parameters.csv", dtype={"link_id": str})
+    assert not fd.link_id.duplicated().any() and fd.lanes.between(1, 16).all()
+    lane_map = fd.set_index("link_id").lanes.to_dict()
+    first = read_parquet(jan[0], KEY)
+    pairs = sorted(set(zip(first.station_id, first.link_id)))
+    assert pairs and len(pairs) == len(set(pairs))
+    pair_index = {k: i for i, k in enumerate(pairs)}
+    lanes = np.array([lane_map[link] for _, link in pairs], dtype=float)
+    raw_days, valid_days = [], []
+    for path in jan:
+        day = path.name.replace("synthetic_mainline_", "").replace(".parquet", "").replace("_", "-")
+        assert day.startswith("2031-01-")
+        _, truth, eligible, _, _ = day_data(path, pair_index, lanes, day, False)
+        raw_days.append(truth); valid_days.append(eligible)
+    raw = np.stack(raw_days)
+    valid = np.stack(valid_days)
+    fallback = np.empty((2, len(pairs)), dtype=np.float32)
+    for c in range(2):
+        total = np.nansum(np.where(valid, raw[:, c], np.nan), axis=(0, 2))
+        count = valid.sum(axis=(0, 2))
+        assert (count > 0).all()
+        fallback[c] = total / count
+    # Fixed January pseudo-masks only; all targets are removed from the model
+    # input. One mask per link/time is shared by stations on that link.
+    link_names = sorted({link for _, link in pairs})
+    link_to_row = {link: i for i, link in enumerate(link_names)}
+    pair_link = np.array([link_to_row[link] for _, link in pairs])
+    xs, ys, ms = [], [], []
+    for day_idx, path in enumerate(jan):
+        day = path.stem.replace("synthetic_mainline_", "")
+        for regime, rate in RATES.items():
+            token = f"{panel}|{day}|{regime}|{SEED}"
+            seed = int.from_bytes(hashlib.sha256(token.encode()).digest()[:8], "big")
+            rng = np.random.default_rng(seed)
+            hidden = rng.random((len(link_names), 288))[pair_link] < rate
+            target = valid[day_idx] & hidden
+            observed = valid[day_idx] & ~hidden
+            x, _ = features(raw[day_idx], observed, fallback)
+            y = np.stack([raw[day_idx, 0] / 25, raw[day_idx, 1] / 600], axis=1)
+            y = np.nan_to_num(y, nan=0.0).astype(np.float32)
+            xs.append(x); ys.append(y); ms.append(target.astype(np.float32))
+    X = np.concatenate(xs); Y = np.concatenate(ys); M = np.concatenate(ms)
+    assert len(X) == len(jan) * len(RATES) * len(pairs) and M.sum() > 0
+    loader = DataLoader(TensorDataset(torch.from_numpy(X), torch.from_numpy(Y), torch.from_numpy(M)),
+                        batch_size=BATCH, shuffle=True, num_workers=0,
+                        generator=torch.Generator().manual_seed(SEED))
+    model = net_model()
+    opt = torch.optim.Adam(model.parameters(), lr=LR)
+    losses = []
+    for epoch in range(EPOCHS):
+        weighted, count = 0.0, 0.0
+        model.train()
+        for xb, yb, mb in loader:
+            assert time.monotonic() < deadline, "30-minute cap"
+            opt.zero_grad(set_to_none=True)
+            pred = xb[:, :2] + FUSION * model(xb)
+            error = pred - yb
+            loss = ((0.54 * error[:, 0].square() + 0.46 * error[:, 1].square()) * mb).sum() / mb.sum()
+            assert torch.isfinite(loss)
+            loss.backward(); opt.step()
+            weighted += float(loss) * float(mb.sum()); count += float(mb.sum())
+        losses.append(weighted / count)
+        print("TRAIN_EPOCH", epoch + 1, losses[-1], flush=True)
+    panel_out.mkdir(parents=True, exist_ok=False)
+    model_path = panel_out / "model.pt"
+    torch.save(model.state_dict(), model_path)
+    template_path = release / "task1" / panel / "train/sample_submission_state.csv"
+    targets = pd.read_csv(template_path,
+                          dtype={"timestamp": str, "station_id": str, "link_id": str, "mask_regime": str})
+    assert {"panel", *KEY, "mask_regime"} <= set(targets.columns)
+    targets = targets.loc[targets.timestamp.str.startswith("2031-02-")].copy()
+    assert len(targets) > 0 and targets.panel.eq(panel).all()
+    assert targets.mask_regime.isin(RATES).all()
+    assert not targets.duplicated(["panel", *KEY, "mask_regime"]).any()
+    assert not targets.duplicated(KEY).any()
+    days = sorted(targets.timestamp.str[:10].unique())
+    assert len(days) == 28
+    result_parts = []
+    model.eval()
+    for day in days:
+        files = list((p / "train/mainline_states_masked").glob(
+            f"mask_regime=*/synthetic_mainline_{day.replace('-', '_')}.parquet"))
+        assert len(files) == 1
+        d, obs, observed, _, _ = day_data(files[0], pair_index, lanes, day, True)
+        target = targets.loc[targets.timestamp.str[:10].eq(day)].copy()
+        assert len(target) > 0 and target.mask_regime.nunique() == 1
+        check = target[KEY + ["mask_regime"]].merge(d, on=KEY, how="left",
+                 validate="one_to_one", indicator=True)
+        assert len(check) == len(target) and check._merge.eq("both").all()
+        for col in ("speed_kmh", "flow_vph", "occupancy", "density_occ_linear_vehpkm"):
+            assert check[col].isna().all(), (day, col)
+        assert target.mask_regime.eq(files[0].parent.name.split("=", 1)[1]).all()
+        assert check.is_score_eligible.eq(1).all()
+        x, base = features(obs, observed, fallback)
+        with torch.no_grad():
+            resid = np.concatenate([model(torch.from_numpy(part)).numpy()
+                                    for part in np.array_split(x, math.ceil(len(x) / BATCH))], axis=0)
+        fused = np.maximum(0, x[:, :2] + FUSION * resid)
+        ids = list(zip(target.station_id.astype(str), target.link_id.astype(str)))
+        si = np.fromiter((pair_index[k] for k in ids), dtype=np.int32, count=len(ids))
+        ts = pd.to_datetime(target.timestamp, utc=True)
+        ti = (ts.dt.hour.to_numpy() * 12 + ts.dt.minute.to_numpy() // 5).astype(int)
+        target["linear_speed"] = np.maximum(0, base[0, si, ti])
+        target["linear_flow"] = np.maximum(0, base[1, si, ti] * lanes[si])
+        target["cnn_speed"] = fused[si, 0, ti] * 25
+        target["cnn_flow"] = fused[si, 1, ti] * 600 * lanes[si]
+        assert np.isfinite(target[["linear_speed", "linear_flow", "cnn_speed", "cnn_flow"]].to_numpy()).all()
+        result_parts.append(target[["panel", *KEY, "mask_regime", "linear_speed", "linear_flow", "cnn_speed", "cnn_flow"]])
+        print("PREDICT_DAY", panel, day, len(target), flush=True)
+    result = pd.concat(result_parts, ignore_index=True)
+    assert len(result) == len(targets) and not result.duplicated(["panel", *KEY, "mask_regime"]).any()
+    identifier = ["panel", *KEY, "mask_regime"]
+    actual_ids = pd.MultiIndex.from_frame(result[identifier])
+    target_ids = pd.MultiIndex.from_frame(targets[identifier])
+    assert actual_ids.difference(target_ids).empty and target_ids.difference(actual_ids).empty
+    prediction_path = panel_out / "frozen_feb_predictions.parquet"
+    result.to_parquet(prediction_path, index=False)
+    frozen = {"panel": panel, "train_month": "2031-01", "validation_month": "2031-02",
+              "epochs": EPOCHS, "batch": BATCH, "lr": LR, "fusion": FUSION, "seed": SEED,
+              "train_loss_by_epoch": losses, "target_rows": len(result),
+              "template_sha256": sha(template_path), "series": len(pairs),
+              "model_sha256": sha(model_path), "predictions_sha256": sha(prediction_path)}
+    (panel_out / "frozen_prediction_manifest.json").write_text(json.dumps(frozen, indent=2))
+    print("PREDICTIONS_FROZEN", json.dumps(frozen), flush=True)
+
+
+
+
+# ===== CELL 13 [markdown] =====
+### Helper A3 · legacy evaluation and entry point
+
+This module is imported by the active worker, never executed as its own program.
+
+# ===== CELL 14 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_ten_panel.py
+def evaluate(release, panel):
+    import numpy as np
+    import pandas as pd
+    p = release / "corridors" / panel
+    panel_out = OUT / panel
+    manifest = json.loads((panel_out / "frozen_prediction_manifest.json").read_text())
+    pred_path = panel_out / "frozen_feb_predictions.parquet"
+    assert sha(pred_path) == manifest["predictions_sha256"]
+    assert sha(panel_out / "model.pt") == manifest["model_sha256"]
+    assert sha(release / "task1" / panel / "train/sample_submission_state.csv") == manifest["template_sha256"]
+    pred = pd.read_parquet(pred_path)
+    lane_map = pd.read_csv(p / "network/fd_parameters.csv", dtype={"link_id": str}).set_index("link_id").lanes
+    scores = []
+    for day in sorted(pred.timestamp.str[:10].unique()):
+        path = p / "train/mainline_states/year_month=2031-02" / f"synthetic_mainline_{day.replace('-', '_')}.parquet"
+        truth = read_parquet(path, KEY + ["speed_kmh", "flow_vph", "is_score_eligible", "pct_observed"])
+        truth = truth.rename(columns={"speed_kmh": "true_speed", "flow_vph": "true_flow"})
+        d = pred.loc[pred.timestamp.str[:10].eq(day)].merge(truth, on=KEY, how="left",
+              validate="one_to_one", indicator=True)
+        assert d._merge.eq("both").all() and d.is_score_eligible.eq(1).all() and d.pct_observed.ge(75).all()
+        assert np.isfinite(d[["true_speed", "true_flow"]].to_numpy()).all()
+        lane = d.link_id.map(lane_map).to_numpy(float)
+        assert np.isfinite(lane).all() and (lane > 0).all()
+        for method in ("linear", "cnn"):
+            speed_error = d[f"{method}_speed"].to_numpy(float) - d.true_speed.to_numpy(float)
+            flow_error = (d[f"{method}_flow"].to_numpy(float) - d.true_flow.to_numpy(float)) / lane
+            scores.append({"day": day, "regime": d.mask_regime.iloc[0], "method": method,
+                           "n": len(d), "speed_sq": float(np.square(speed_error).sum()),
+                           "flow_sq": float(np.square(flow_error).sum())})
+    daily = pd.DataFrame(scores)
+    daily.to_csv(panel_out / "daily_scores.csv", index=False)
+    results = []
+    for (method, regime), group in daily.groupby(["method", "regime"]):
+        n = int(group.n.sum())
+        speed_rmse = math.sqrt(group.speed_sq.sum() / n)
+        flow_rmse = math.sqrt(group.flow_sq.sum() / n)
+        score = .54 * max(0, 1 - speed_rmse / 25) + .46 * max(0, 1 - flow_rmse / 600)
+        results.append({"method": method, "regime": regime, "n": n,
+                        "speed_rmse": speed_rmse, "flow_per_lane_rmse": flow_rmse,
+                        "S_state": score})
+    macro = {method: sum(r["S_state"] for r in results if r["method"] == method) / 3
+             for method in ("linear", "cnn")}
+    assert {r["regime"] for r in results if r["method"] == "linear"} == set(RATES)
+    outcome = {"official_local_task1_metric": True, "panel": panel, "feb_target_rows": len(pred),
+               "regimes": results, "macro_S_state": macro,
+               "cnn_minus_linear": macro["cnn"] - macro["linear"],
+               "scope": "panel-specific Jan train / Feb holdout; not leaderboard or Task 2",
+               "model_sha256": manifest["model_sha256"],
+               "predictions_sha256": manifest["predictions_sha256"]}
+    (panel_out / "outcome.json").write_text(json.dumps(outcome, indent=2))
+    print("PANEL_OUTCOME", json.dumps(outcome), flush=True)
+    return outcome
+
+
+def aggregate(outcomes, families):
+    assert len(outcomes) == len(families) == 10
+    assert {r["panel"] for r in outcomes} == set(families)
+    panel_scores = [{"panel": row["panel"], "family": families[row["panel"]],
+                     "linear": row["macro_S_state"]["linear"],
+                     "cnn": row["macro_S_state"]["cnn"],
+                     "difference": row["cnn_minus_linear"]} for row in outcomes]
+    family_scores = []
+    for family in sorted(set(families.values())):
+        group = [r for r in panel_scores if r["family"] == family]
+        assert len(group) == 2
+        family_scores.append({"family": family,
+                              "linear": sum(r["linear"] for r in group) / 2,
+                              "cnn": sum(r["cnn"] for r in group) / 2,
+                              "difference": sum(r["difference"] for r in group) / 2})
+    assert len(family_scores) == 5
+    return {"method": "fixed five-epoch temporal CNN residual at fusion 0.5",
+            "panel_scores": panel_scores, "family_scores": family_scores,
+            "panel_regime_scores": [dict(panel=r["panel"], **detail)
+                                    for r in outcomes for detail in r["regimes"]],
+            "equal_family_macro": {k: sum(r[k] for r in family_scores) / 5
+                                   for k in ("linear", "cnn", "difference")},
+            "panels_improved": sum(r["difference"] > 0 for r in panel_scores),
+            "worst_panel_difference": min(r["difference"] for r in panel_scores),
+            "submitted": False,
+            "score_limit": "local February Task 1 only; no hidden composite estimate"}
+
+
+def watched():
+    import psutil
+    start = time.monotonic()
+    proc = subprocess.Popen([sys.executable, __file__, "--worker"], start_new_session=True)
+    peak = 0
+    try:
+        while proc.poll() is None:
+            try:
+                root = psutil.Process(proc.pid)
+                rss = sum(p.memory_info().rss for p in [root, *root.children(recursive=True)] if p.is_running())
+            except psutil.NoSuchProcess:
+                rss = 0
+            peak = max(peak, rss)
+            if rss > 3_500_000_000 or time.monotonic() - start > 2700:
+                os.killpg(proc.pid, signal.SIGTERM)
+                raise RuntimeError(f"resource cap: rss={rss}, seconds={time.monotonic()-start:.1f}")
+            time.sleep(0.5)
+        assert proc.returncode == 0, f"worker exit {proc.returncode}"
+    finally:
+        if proc.poll() is None:
+            os.killpg(proc.pid, signal.SIGKILL)
+    print("WATCHDOG", json.dumps({"seconds": time.monotonic()-start, "peak_rss_bytes": peak}), flush=True)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2 and sys.argv[1] == "--worker":
+        import torch  # preinstalled Kaggle CPU dependency; never pip install
+        import pyarrow
+        torch.set_num_threads(2)
+        torch.set_num_interop_threads(1)
+        release = locate()
+        deadline = time.monotonic() + 2690
+        manifest = json.loads((release / "config/corridors.json").read_text())
+        panels = [p["corridor_id"] for p in manifest["panels"]]
+        families = {p["corridor_id"]: p["family_id"] for p in manifest["panels"]}
+        assert len(panels) == len(set(panels)) == 10
+        assert len(set(families.values())) == 5
+        OUT.mkdir(parents=True, exist_ok=False)
+        outcomes = []
+        for panel in panels:
+            assert time.monotonic() < deadline, "45-minute cap"
+            train_predict(release, panel, deadline)
+            assert time.monotonic() < deadline, "45-minute cap"
+            outcomes.append(evaluate(release, panel))
+            import gc
+            gc.collect()
+        summary = aggregate(outcomes, families)
+        (OUT / "ten_panel_summary.json").write_text(json.dumps(summary, indent=2))
+        print("TEN_PANEL_SUMMARY", json.dumps(summary), flush=True)
+    else:
+        watched()
+
+
+# ===== CELL 15 [markdown] =====
+### Helper B1 · archived inference support
+
+Retained unchanged; the active pipeline calls only the existing day-level inference path.
+
+# ===== CELL 16 [code] =====
+%%writefile /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+"""Frozen January CNN Task 1 inference; Kaggle CPU, Internet off.
+
+Inputs: official TrafficFlow release, ten-panel CNN v2 output, exact .70325
+ODME v3 submission. No February/March/April truth or training is read.
+"""
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ[_v] = "2"
+
+import csv
+import hashlib
+import json
+import math
+import shutil
+import signal
+import subprocess
+import sys
+import time
+from collections import Counter
+from pathlib import Path
+
+TOTAL = 6_980_503
+COUNTS = {"state": 6_735_795, "queue": 174_000, "odme": 70_708}
+BASE_SHA = "b7c39019b4607d502502a1a9979f02827ff298732ba75217d01ab6f12db4ae81"
+BASE_BYTES = 311_373_379
+SOURCE_SHA = "42881e7b30eaec69d00fe56c0823fce6ebbbfda432814af4288a0859348bc44f"
+HEADER = b"submission_id,task,speed_kmh,flow_vph,queue_pred,path_flow\n"
+KEYS = {"state": ["timestamp", "station_id", "link_id", "mask_regime"],
+        "queue": ["window_id", "timestamp", "link_id"],
+        "odme": ["departure_time", "path_id", "origin_zone", "destination_zone"]}
+FILES = {"state": ("task1", "sample_submission_state.csv"),
+         "queue": ("task2", "sample_submission_queue.csv"),
+         "odme": ("task4", "sample_submission_path_flow.csv")}
+SPLITS = {"validation": ("2031-03", 31), "private": ("2031-04", 30)}
+OUT = Path("/kaggle/working/submission_tcn_fixed_odme.csv")
+REPORT = Path("/kaggle/working/tcn_full_inference_audit.json")
+SCRATCH = Path("/kaggle/working/tcn_full_inference_tmp")
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with Path(path).open("rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def locate():
+    releases, model_roots, baselines = [], [], []
+    for base, dirs, files in os.walk("/kaggle/input"):
+        p = Path(base)
+        if "submission_key.csv" in files and {"corridors", "config", "task1"} <= set(dirs):
+            releases.append(p)
+        if "frozen_prediction_manifest.json" in files and p.parent.name == "tcn_ten_panel":
+            model_roots.append(p.parent)
+        if "submission_odme_lambda005.csv" in files:
+            candidate = p / "submission_odme_lambda005.csv"
+            if candidate.stat().st_size == BASE_BYTES:
+                baselines.append(candidate)
+    model_roots = sorted(set(model_roots))
+    assert len(releases) == len(model_roots) == len(baselines) == 1, (releases, model_roots, baselines)
+    release, models, baseline = releases[0], model_roots[0], baselines[0]
+    assert digest(baseline) == BASE_SHA, "Incorrect .70325 ODME baseline"
+    scripts = list(models.parent.glob("trafficflow_tcn_ten_panel.py"))
+    assert len(scripts) == 1 and digest(scripts[0]) == SOURCE_SHA, "CNN source differs from frozen v2"
+    return release, models, baseline
+
+
+def part_path(task, panel, split):
+    return SCRATCH / f"{task}__{panel}__{split}.csv"
+
+
+def make_parts(release, panels, deadline):
+    """Stream full ID contract into small per-task partitions, checking sample IDs."""
+    import numpy as np
+    import pandas as pd
+    assert not SCRATCH.exists() and not OUT.exists() and not REPORT.exists()
+    assert shutil.disk_usage(OUT.parent).free > 1_200_000_000
+    SCRATCH.mkdir()
+    key_path, sample_path = release / "submission_key.csv", release / "sample_submission.csv"
+    count, combinations, last = Counter(), Counter(), 0
+    kr = pd.read_csv(key_path, dtype=str, keep_default_na=False, chunksize=100_000)
+    sr = pd.read_csv(sample_path, dtype=str, keep_default_na=False, chunksize=100_000)
+    for k, s in zip(kr, sr, strict=True):
+        assert time.monotonic() < deadline
+        assert list(s.columns) == ["submission_id", "task", "speed_kmh", "flow_vph", "queue_pred", "path_flow"]
+        assert len(k) == len(s) and {"submission_id", "task", "panel", "split", *KEYS["state"], *KEYS["queue"], *KEYS["odme"]} <= set(k)
+        ids = pd.to_numeric(k.submission_id).to_numpy(np.int64)
+        assert np.array_equal(ids, np.arange(last + 1, last + len(k) + 1))
+        assert k.submission_id.equals(s.submission_id) and k.task.equals(s.task)
+        assert (s[["speed_kmh", "flow_vph", "queue_pred", "path_flow"]].apply(pd.to_numeric).to_numpy() == 0).all()
+        assert k.task.isin(COUNTS).all() and k.panel.isin(panels).all() and k.split.isin(SPLITS).all()
+        for (task, panel, split), g in k.groupby(["task", "panel", "split"], sort=False):
+            path = part_path(task, panel, split)
+            g[["submission_id", *KEYS[task]]].to_csv(path, mode="a", index=False, header=not path.exists())
+            count[task] += len(g)
+            combinations[(task, panel, split)] += len(g)
+        last = int(ids[-1])
+    assert last == TOTAL and dict(count) == COUNTS, (last, count)
+    return {"key_sha256": digest(key_path), "sample_sha256": digest(sample_path),
+            "counts": dict(count), "nonempty_partitions": [
+                {"task": task, "panel": panel, "split": split, "rows": rows}
+                for (task, panel, split), rows in sorted(combinations.items())]}
+
+
+def load_targets(release, task, panel, split):
+    import pandas as pd
+    keys = KEYS[task]
+    part = pd.read_csv(part_path(task, panel, split), dtype=str, keep_default_na=False)
+    assert len(part) and not part.submission_id.duplicated().any() and not part.duplicated(keys).any()
+    folder, name = FILES[task]
+    template = pd.read_csv(release / folder / panel / split / name, dtype=str, keep_default_na=False)
+    assert set(keys) <= set(template) and not template.duplicated(keys).any()
+    if "panel" in template:
+        assert template.panel.eq(panel).all()
+    comparison = part[keys].merge(template[keys], on=keys, how="outer", validate="one_to_one", indicator=True)
+    assert len(comparison) == len(part) == len(template) and comparison._merge.eq("both").all(), (task, panel, split)
+    return part
+
+
+def validate_aux_partition(release, task, panel, split, nonempty):
+    """Absence is allowed only when the full key scan found zero matching IDs."""
+    import pandas as pd
+    assert task in ("queue", "odme")
+    key = (task, panel, split)
+    part = part_path(*key)
+    folder, name = FILES[task]
+    template = release / folder / panel / split / name
+    if key in nonempty:
+        assert part.is_file() and template.is_file()
+        targets = load_targets(release, task, panel, split)
+        assert len(targets) == nonempty[key]
+        return len(targets)
+    assert not part.exists(), ("unexpected partition", key)
+    if template.is_file():
+        frame = pd.read_csv(template, dtype=str, keep_default_na=False)
+        assert set(KEYS[task]) <= set(frame) and len(frame) == 0, ("nonempty template without IDs", key)
+    # A missing template is also valid when the exhaustive submission-key scan
+    # found no IDs for this task/panel/split combination.
+    return 0
+
+
+
+
+# ===== CELL 17 [markdown] =====
+### Helper B2 · original January normalization support
+
+The active experiment loads the original saved normalization instead of changing it.
+
+# ===== CELL 18 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+def january_fallback(release, panel):
+    """Rebuild only the original January per-series mean; never fit a model."""
+    import numpy as np
+    import pandas as pd
+    import trafficflow_tcn_ten_panel as original
+    p = release / "corridors" / panel
+    jan = sorted((p / "train/mainline_states/year_month=2031-01").glob("*.parquet"))
+    assert len(jan) == 31
+    fd = pd.read_csv(p / "network/fd_parameters.csv", dtype={"link_id": str})
+    assert not fd.link_id.duplicated().any() and fd.lanes.between(1, 16).all()
+    lane_map = fd.set_index("link_id").lanes.to_dict()
+    first = original.read_parquet(jan[0], original.KEY)
+    pairs = sorted(set(zip(first.station_id, first.link_id)))
+    assert pairs and len(pairs) == len(set(pairs))
+    pair_index = {key: i for i, key in enumerate(pairs)}
+    lanes = np.asarray([lane_map[link] for _, link in pairs], dtype=float)
+    raw_days, valid_days = [], []
+    for path in jan:
+        day = path.stem.replace("synthetic_mainline_", "").replace("_", "-")
+        assert day.startswith("2031-01-")
+        _, raw, valid, _, _ = original.day_data(path, pair_index, lanes, day, False)
+        raw_days.append(raw)
+        valid_days.append(valid)
+    raw = np.stack(raw_days)
+    valid = np.stack(valid_days)
+    fallback = np.empty((2, len(pairs)), dtype=np.float32)
+    counts = valid.sum(axis=(0, 2))
+    assert (counts > 0).all()
+    for c in range(2):
+        total = np.nansum(np.where(valid, raw[:, c], np.nan), axis=(0, 2))
+        fallback[c] = total / counts
+    assert np.isfinite(fallback).all() and (fallback >= 0).all()
+    return pair_index, lanes, fallback
+
+
+def verify_model(models, release, panel, source):
+    import torch
+    panel_dir = models / panel
+    manifest_path, model_path = panel_dir / "frozen_prediction_manifest.json", panel_dir / "model.pt"
+    manifest = json.loads(manifest_path.read_text())
+    assert manifest["panel"] == panel and manifest["train_month"] == "2031-01" and manifest["validation_month"] == "2031-02"
+    assert (manifest["epochs"], manifest["batch"], manifest["lr"], manifest["fusion"], manifest["seed"]) == (5, 64, .001, .5, 2031)
+    assert digest(model_path) == manifest["model_sha256"]
+    assert digest(release / "task1" / panel / "train/sample_submission_state.csv") == manifest["template_sha256"]
+    frozen = panel_dir / "frozen_feb_predictions.parquet"
+    if frozen.exists():
+        assert digest(frozen) == manifest["predictions_sha256"]
+    model = source.net_model()
+    state = torch.load(model_path, map_location="cpu", weights_only=True)
+    model.load_state_dict(state, strict=True)
+    model.eval()
+    with torch.no_grad():
+        probe = model(torch.zeros((2, 7, 288), dtype=torch.float32))
+    assert probe.shape == (2, 2, 288) and torch.isfinite(probe).all()
+    return model, {"manifest_sha256": digest(manifest_path), "model_sha256": manifest["model_sha256"],
+                   "source_sha256": SOURCE_SHA, "series": manifest["series"], "forward_check": True}
+
+
+
+
+# ===== CELL 19 [markdown] =====
+### Helper B3 · exact CNN day replay
+
+This is the immutable day-level prediction implementation used to verify archived controls.
+
+# ===== CELL 20 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+def predict_day(release, panel, split, day, targets, pair_index, lanes, fallback, model, values, covered):
+    import numpy as np
+    import pandas as pd
+    import torch
+    import trafficflow_tcn_ten_panel as original
+    p = release / "corridors" / panel
+    paths = list((p / split / "mainline_states_masked").glob(
+        f"mask_regime=*/synthetic_mainline_{day.replace('-', '_')}.parquet"))
+    assert len(paths) == 1, (panel, split, day, paths)
+    masked = paths[0]
+    d, truth, observed, _, _ = original.day_data(masked, pair_index, lanes, day, True)
+    assert len(targets) and targets.mask_regime.nunique() == 1
+    check = targets[original.KEY + ["mask_regime"]].merge(d, on=original.KEY,
+                 how="left", validate="one_to_one", indicator=True)
+    assert len(check) == len(targets) and check._merge.eq("both").all()
+    assert check.mask_regime.eq(masked.parent.name.split("=", 1)[1]).all()
+    assert check[["speed_kmh", "flow_vph", "occupancy", "density_occ_linear_vehpkm"]].isna().all().all()
+    assert check.is_score_eligible.eq(1).all()
+    x, _ = original.features(truth, observed, fallback)
+    with torch.no_grad():
+        residues = [model(torch.from_numpy(part)).numpy() for part in np.array_split(x, math.ceil(len(x) / 64))]
+    fused = np.maximum(0, x[:, :2] + .5 * np.concatenate(residues, axis=0))
+    ids = list(zip(targets.station_id, targets.link_id))
+    si = np.fromiter((pair_index[key] for key in ids), dtype=np.int32, count=len(ids))
+    ts = pd.to_datetime(targets.timestamp, utc=True)
+    assert ts.dt.minute.mod(5).eq(0).all() and ts.dt.second.eq(0).all()
+    ti = (ts.dt.hour.to_numpy() * 12 + ts.dt.minute.to_numpy() // 5).astype(int)
+    result = np.column_stack([fused[si, 0, ti] * 25,
+                              fused[si, 1, ti] * 600 * lanes[si]]).astype(np.float64)
+    assert np.isfinite(result).all() and (result >= 0).all()
+    sids = pd.to_numeric(targets.submission_id).to_numpy(np.int64)
+    assert np.unique(sids).size == len(sids) and ((sids > 0) & (sids <= TOTAL)).all()
+    assert (covered[sids] == 0).all(), "Repeated state ID"
+    values[sids] = result
+    covered[sids] = 1
+    print("PREDICT_DAY", panel, split, day, len(sids), flush=True)
+    return len(sids)
+
+
+
+
+# ===== CELL 21 [markdown] =====
+### Helper B4 · dormant full-submission entry point
+
+Preserved for hash fidelity. It is never invoked by this experiment.
+
+# ===== CELL 22 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_tcn_full_inference.py
+def predict_all(release, models, panels, deadline):
+    import numpy as np
+    import torch
+    import trafficflow_tcn_ten_panel as original
+    torch.set_num_threads(2)
+    torch.set_num_interop_threads(1)
+    values = np.memmap(SCRATCH / "state_values.f64", dtype="float64", mode="w+", shape=(TOTAL + 1, 2))
+    covered = np.memmap(SCRATCH / "state_covered.u8", dtype="uint8", mode="w+", shape=(TOTAL + 1,))
+    covered[:] = 0
+    audit, predicted = [], 0
+    for panel in panels:
+        assert time.monotonic() < deadline
+        model, model_audit = verify_model(models, release, panel, original)
+        pair_index, lanes, fallback = january_fallback(release, panel)
+        assert len(pair_index) == model_audit["series"]
+        model_audit["panel"] = panel
+        audit.append(model_audit)
+        for split, (month, expected_days) in SPLITS.items():
+            target = load_targets(release, "state", panel, split)
+            assert target.timestamp.str.startswith(month + "-").all()
+            days = sorted(target.timestamp.str[:10].unique())
+            assert len(days) == expected_days
+            for day in days:
+                assert time.monotonic() < deadline
+                day_target = target.loc[target.timestamp.str[:10].eq(day)]
+                predicted += predict_day(release, panel, split, day, day_target,
+                                         pair_index, lanes, fallback, model, values, covered)
+            del target
+        del model
+    assert predicted == COUNTS["state"] and int(covered.sum()) == predicted and covered[0] == 0
+    values.flush(); covered.flush()
+    del values, covered
+    return audit
+
+
+def assemble(baseline, deadline):
+    import numpy as np
+    values = np.memmap(SCRATCH / "state_values.f64", dtype="float64", mode="r", shape=(TOTAL + 1, 2))
+    covered = np.memmap(SCRATCH / "state_covered.u8", dtype="uint8", mode="r", shape=(TOTAL + 1,))
+    partial = OUT.with_suffix(".partial.csv")
+    assert not partial.exists()
+    unchanged = hashlib.sha256()
+    tasks = Counter()
+    with baseline.open("rb") as src, partial.open("wb") as dst:
+        assert src.readline() == HEADER
+        dst.write(HEADER)
+        for sid, line in enumerate(src, 1):
+            if sid % 100_000 == 0:
+                assert time.monotonic() < deadline
+            fields = line.rstrip(b"\r\n").split(b",")
+            assert len(fields) == 6 and int(fields[0]) == sid
+            task = fields[1].decode("ascii")
+            assert task in COUNTS
+            tasks[task] += 1
+            if task == "state":
+                assert covered[sid] == 1 and fields[4:6] == [b"0", b"0"]
+                speed, flow = values[sid]
+                assert np.isfinite(speed) and np.isfinite(flow) and speed >= 0 and flow >= 0
+                dst.write(b",".join((fields[0], fields[1], format(speed, ".12g").encode(),
+                                     format(flow, ".12g").encode(), fields[4], fields[5])) + b"\n")
+            else:
+                assert covered[sid] == 0
+                dst.write(line)
+                unchanged.update(line)
+    assert sid == TOTAL and dict(tasks) == COUNTS
+    assert digest(baseline) == BASE_SHA
+    readback = hashlib.sha256()
+    with baseline.open("rb") as src, partial.open("rb") as dst:
+        assert src.readline() == dst.readline() == HEADER
+        for sid, (before, after) in enumerate(zip(src, dst, strict=True), 1):
+            if sid % 100_000 == 0:
+                assert time.monotonic() < deadline
+            a = after.rstrip(b"\r\n").split(b",")
+            b = before.rstrip(b"\r\n").split(b",")
+            assert len(a) == len(b) == 6 and int(a[0]) == sid and a[:2] == b[:2]
+            if a[1] == b"state":
+                assert a[:2] == b[:2] and a[4:] == b[4:]
+                assert a[2] == format(values[sid, 0], ".12g").encode()
+                assert a[3] == format(values[sid, 1], ".12g").encode()
+                assert all(math.isfinite(float(v)) and float(v) >= 0 for v in a[2:4])
+            else:
+                assert after == before
+                readback.update(after)
+        assert sid == TOTAL and readback.digest() == unchanged.digest()
+    partial.replace(OUT)
+    return {"rows": TOTAL, "task_counts": dict(tasks), "queue_odme_byte_identical": True,
+            "state_other_fields_byte_identical": True, "independent_readback": True,
+            "output_sha256": digest(OUT), "output_bytes": OUT.stat().st_size}
+
+
+def build():
+    import trafficflow_tcn_ten_panel as original
+    release, models, baseline = locate()
+    manifest = json.loads((release / "config/corridors.json").read_text())
+    panels = [row["corridor_id"] for row in manifest["panels"]]
+    assert len(panels) == len(set(panels)) == 10
+    assert digest(Path(original.__file__)) == SOURCE_SHA
+    deadline = time.monotonic() + 2690
+    contract = make_parts(release, panels, deadline)
+    nonempty = {(row["task"], row["panel"], row["split"]): row["rows"]
+                for row in contract["nonempty_partitions"]}
+    for panel in panels:
+        for split in SPLITS:
+            for task in ("queue", "odme"):
+                validate_aux_partition(release, task, panel, split, nonempty)
+    model_audit = predict_all(release, models, panels, deadline)
+    result = assemble(baseline, deadline)
+    report = {"complete": True, "submitted": False, "method": "frozen Jan 2031 five-epoch CNN, fusion 0.5",
+              "baseline_sha256": BASE_SHA, "contract": contract, "models": model_audit, **result,
+              "scope": "formal validation/private state only; queue and ODME copied byte-for-byte"}
+    REPORT.write_text(json.dumps(report, indent=2))
+    print("CANDIDATE_READY", json.dumps({k: report[k] for k in
+          ("rows", "task_counts", "queue_odme_byte_identical", "output_sha256", "output_bytes")}), flush=True)
+
+
+def watched():
+    import psutil
+    start = time.monotonic()
+    proc = subprocess.Popen([sys.executable, __file__, "--worker"], start_new_session=True)
+    peak = 0
+    try:
+        while proc.poll() is None:
+            try:
+                root = psutil.Process(proc.pid)
+                rss = sum(q.memory_info().rss for q in [root, *root.children(recursive=True)] if q.is_running())
+            except psutil.NoSuchProcess:
+                rss = 0
+            peak = max(peak, rss)
+            if rss > 3_500_000_000 or time.monotonic() - start > 2700:
+                os.killpg(proc.pid, signal.SIGTERM)
+                raise RuntimeError(f"Resource cap: RSS={rss}, seconds={time.monotonic()-start:.1f}")
+            time.sleep(.5)
+        assert proc.returncode == 0, f"worker exit={proc.returncode}"
+    finally:
+        if proc.poll() is None:
+            os.killpg(proc.pid, signal.SIGKILL)
+    print("WATCHDOG", json.dumps({"seconds": time.monotonic()-start, "peak_rss_bytes": peak}), flush=True)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2 and sys.argv[1] == "--worker":
+        build()
+    else:
+        watched()
+
+
+# ===== CELL 23 [markdown] =====
+## Active directional/profile pipeline
+
+The next cells assemble a single auditable worker script. Writing it in sections keeps the methodology readable while allowing a separate process to enforce the original time and memory limits. Run these cells in order.
+
+# ===== CELL 24 [markdown] =====
+### 1 · Lock the experiment
+
+Exactly two panels, 27 features, seed 2031 and one fixed tree configuration. Only the absolute cutoff and artifact directory differ from the original experiment.
+
+# ===== CELL 25 [code] =====
+%%writefile /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+"""Fixed Task 1 two-panel tree pilot. Independently implemented; no submission."""
+import os
+for key in ("OMP_NUM_THREADS","OPENBLAS_NUM_THREADS","MKL_NUM_THREADS","NUMEXPR_NUM_THREADS"):
+    os.environ[key]="2"
+import gc
+import hashlib
+import json
+import math
+import time
+from collections import deque
+from pathlib import Path
+import joblib
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.ensemble import HistGradientBoostingRegressor
+import trafficflow_tcn_ten_panel as base
+import trafficflow_tcn_full_inference as full
+
+PANELS=("D12_I5_N","D7_I10_W")
+MONTHS=tuple(str(p) for p in pd.period_range("2030-06","2031-01",freq="M"))
+VERSIONS={"D12_I5_N":355191253,"D7_I10_W":355199589}
+ROOT_NAMES={"D12_I5_N":"task1_eight_month_two_panel","D7_I10_W":"task1_eight_month_remaining"}
+OUT=Path("/kaggle/temp/trafficflow_directional_profiles/run")
+MAX_SECONDS=3600
+SAMPLE_CAP=256
+MAX_ROWS=245*3*SAMPLE_CAP
+MAX_HOPS=5
+SEED=2031
+SCALE=np.asarray([25.,600.],dtype=np.float32)
+CONFIG=dict(loss="squared_error",max_iter=150,max_leaf_nodes=31,learning_rate=.05,
+    l2_regularization=10,random_state=SEED,early_stopping=False)
+SOURCE_SHA={"trafficflow_tcn_ten_panel.py":"42881e7b30eaec69d00fe56c0823fce6ebbbfda432814af4288a0859348bc44f",
+    "trafficflow_tcn_full_inference.py":"cc8354ee5e418777d6eac5ab0e9bfa70bb8290651501786ce760d3c57e57fe02"}
+FEATURES=["linear_speed_25","linear_flow_per_lane_600","observed","legacy_left_gap_72",
+    "legacy_right_gap_72","clock_sin","clock_cos"]+[
+    direction+"_"+field for direction in ("before","after","upstream","downstream")
+    for field in ("speed_25","flow_per_lane_600","distance_minutes_or_hops","present")]+[
+    "weekday_slot_profile_speed_25","weekday_slot_profile_flow_per_lane_600",
+    "profile_residual_time_interp_speed_25","profile_residual_time_interp_flow_per_lane_600"]
+IDS=["panel",*base.KEY,"mask_regime"]
+METHODS=("cnn_control","tree_diagnostic","blend70_candidate")
+
+
+def bounded(deadline):
+    assert time.monotonic()<deadline,"Runtime limit reached"
+
+
+def sha(path):
+    h=hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda:stream.read(1<<20),b""):h.update(block)
+    return h.hexdigest()
+
+
+def save(path,value):Path(path).write_text(json.dumps(value,indent=2,allow_nan=False)+"\n")
+def read(path):return json.loads(Path(path).read_text())
+
+
+
+
+# ===== CELL 26 [markdown] =====
+### 2 · Verify the inputs and replay the CNN
+
+Require exact archived identities, normalization, target coverage, model hashes and prediction replay. Control and blend use the archived prediction values.
+
+# ===== CELL 27 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def locate():
+    release=base.locate();found={p:[] for p in PANELS}
+    for directory,dirs,files in os.walk("/kaggle/input"):
+        root=Path(directory)
+        if root.resolve()==release.resolve():dirs[:]=[];continue
+        for panel in PANELS:
+            if root.name==ROOT_NAMES[panel] and (root/panel/"model.pt").is_file():found[panel].append(root/panel)
+    assert all(len(v)==1 for v in found.values()),"Attach official release and complete outputs 355191253 plus 355199589"
+    folders={p:v[0] for p,v in found.items()}
+    selection=read(folders["D7_I10_W"].parent/"selection.json")
+    assert set(PANELS)<=set(selection["selected_panels"]) and selection["best_version"]==355153863
+    return release,folders,selection
+
+
+def frozen_control(release,panel,folder,selection,deadline):
+    bounded(deadline);manifest=read(folder/"frozen_prediction_manifest.json");report=read(folder/"report.json")
+    assert manifest["panel"]==report["panel"]==panel and manifest["train_months"]==list(MONTHS)
+    assert report["train_days"]==245 and manifest["validation_month"]=="2031-02"
+    assert [manifest[k] for k in ("epochs","batch","lr","fusion","seed","auxiliary_weight")]==[5,64,.001,.5,2031,.02]
+    assert report["baseline_reproduced"] and report["auxiliary_weight"]==.02
+    model_hash=sha(folder/"model.pt");pred_hash=sha(folder/"frozen_feb_predictions.parquet")
+    assert model_hash==manifest["model_sha256"]==report["model_sha256"]
+    assert pred_hash==manifest["predictions_sha256"]==report["frozen_prediction_sha256"]
+    assert selection["reports"][panel]["model_sha256"]==model_hash
+    assert selection["reports"][panel]["frozen_prediction_sha256"]==pred_hash
+    if panel=="D12_I5_N":
+        assert model_hash=="d5b2874946a9f40793a28ee918f58f3e635cb686e636d53d842f0f457d1a5fe3"
+        assert pred_hash=="28143f4a91c361e46b203556d5651fce1f8438edd722926b74a0e17c43285a06"
+        assert abs(report["macro_S_state_expanded"]-.9219784440036983)<1e-12
+    pairs=pd.read_csv(folder/"station_pairs.csv",dtype=str,keep_default_na=False)
+    assert list(pairs)==["station_id","link_id"] and not pairs.duplicated().any()
+    pair_index={tuple(row):i for i,row in enumerate(pairs.itertuples(index=False,name=None))}
+    with np.load(folder/"normalization.npz",allow_pickle=False) as data:
+        lanes=data["lanes"].copy();fallback=data["fallback"].copy()
+    assert lanes.shape==(len(pairs),) and fallback.shape==(2,len(pairs))
+    assert np.isfinite(lanes).all() and (lanes>0).all() and np.isfinite(fallback).all()
+    template=release/"task1"/panel/"train/sample_submission_state.csv"
+    assert sha(template)==manifest["template_sha256"]
+    target=pd.read_csv(template,dtype=str,keep_default_na=False)
+    target=target.loc[target.timestamp.str.startswith("2031-02-"),IDS].copy().reset_index(drop=True)
+    assert target.panel.eq(panel).all() and not target.duplicated(IDS).any() and not target.duplicated(base.KEY).any()
+    assert target.timestamp.str[:10].nunique()==28 and set(target.mask_regime)==set(base.RATES)
+    archived=pd.read_parquet(folder/"frozen_feb_predictions.parquet")
+    for key in IDS:archived[key]=archived[key].astype(str)
+    keys=pd.MultiIndex.from_frame(archived[IDS]);want=pd.MultiIndex.from_frame(target[IDS])
+    assert len(keys)==len(want)==manifest["target_rows"] and keys.is_unique and want.is_unique
+    ix=keys.get_indexer(want);assert (ix>=0).all()
+    expected=archived.iloc[ix][["cnn_speed","cnn_flow"]].to_numpy(float)
+    assert np.isfinite(expected).all() and (expected>=0).all()
+    model=base.net_model();model.load_state_dict(torch.load(folder/"model.pt",map_location="cpu",weights_only=True),strict=True);model.eval()
+    replay_target=target.copy();replay_target["submission_id"]=np.arange(1,len(target)+1).astype(str)
+    values=np.full((len(target)+1,2),np.nan);covered=np.zeros(len(target)+1,np.uint8)
+    days=target.timestamp.str[:10]
+    for day in sorted(days.unique()):
+        bounded(deadline)
+        full.predict_day(release,panel,"train",day,replay_target.loc[days.eq(day)],pair_index,lanes,fallback,model,values,covered)
+    assert covered[0]==0 and (covered[1:]==1).all()
+    np.testing.assert_allclose(values[1:],expected,rtol=2e-6,atol=2e-5)
+    target[["cnn_control_speed","cnn_control_flow"]]=expected
+    audit=dict(panel=panel,source_version=VERSIONS[panel],current_best_version=355199589,
+        model_sha256=model_hash,predictions_sha256=pred_hash,template_sha256=sha(template),rows=len(target),
+        max_absolute_replay_difference=np.abs(values[1:]-expected).max(axis=0).tolist(),
+        control_and_blend_use_exact_archived_values=True,CNN_retrained=False,validation_truth_read=False,
+        other_input_hashes={name:sha(folder/name) for name in ("station_pairs.csv","normalization.npz","report.json","frozen_prediction_manifest.json")})
+    del model,archived,replay_target,values;gc.collect()
+    return target,pair_index,lanes,report,audit
+
+
+
+
+# ===== CELL 28 [markdown] =====
+### 3 · Enumerate training days and directional neighbors
+
+Require all 245 days and traverse upstream/downstream topology separately, up to five hops.
+
+# ===== CELL 29 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def training_paths(release,panel):
+    paths=[]
+    for month in MONTHS:
+        period=pd.Period(month,freq="M")
+        directory=release/"corridors"/panel/"train/mainline_states"/("year_month="+month)
+        chosen=sorted(directory.glob("*.parquet"))
+        expected=["synthetic_mainline_"+d.strftime("%Y_%m_%d")+".parquet" for d in pd.date_range(period.start_time,period.end_time,freq="D")]
+        assert [p.name for p in chosen]==expected
+        paths.extend(chosen)
+    assert len(paths)==245 and len(set(paths))==245
+    return paths
+
+
+def day_name(path):return path.stem.removeprefix("synthetic_mainline_").replace("_","-")
+
+
+def graph_candidates(release,panel,pairs):
+    path=release/"corridors"/panel/"network/lwr_mainline_topology.csv"
+    topo=pd.read_csv(path,dtype=str,keep_default_na=False)
+    assert {"link_id","incoming_link_ids","outgoing_link_ids"}<=set(topo) and topo.link_id.is_unique
+    rows=topo.set_index("link_id");by_link={}
+    for i,(station,link) in enumerate(pairs):by_link.setdefault(link,[]).append(i)
+    assert set(by_link)<=set(rows.index)
+    by_start={}
+    for link in by_link:
+        sides=[]
+        for column in ("incoming_link_ids","outgoing_link_ids"):
+            queue=deque([(link,0)]);seen={link};candidates=[]
+            while queue:
+                current,hops=queue.popleft()
+                if hops>=MAX_HOPS or current not in rows.index:continue
+                for nxt in rows.at[current,column].split(";"):
+                    nxt=nxt.strip()
+                    if not nxt or nxt in seen:continue
+                    seen.add(nxt);candidates.extend((j,hops+1) for j in by_link.get(nxt,[]));queue.append((nxt,hops+1))
+            sides.append(sorted(candidates,key=lambda x:(x[1],pairs[x[0]])))
+        by_start[link]=sides
+    result=[by_start[link] for station,link in pairs]
+    assert any(side for sides in result for side in sides)
+    return result,dict(path=str(path.relative_to(release)),sha256=sha(path),max_hops=MAX_HOPS,
+        distance_unit="mainline topology hops; temporal distances are minutes",tie_break="station_id, link_id",
+        same_link_stations_excluded=True,offset_estimation_or_neighbor_blending=False)
+
+
+
+
+# ===== CELL 30 [markdown] =====
+### 4 · Build whole-day-excluded historical profiles
+
+Accumulate June–January sums/counts once. For training, remove every valid cell of the target day from all fallback levels.
+
+# ===== CELL 31 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def profile_totals(paths,pair_index,lanes,deadline):
+    n=len(pair_index);sums=np.zeros((7,2,n,288),np.float64);counts=np.zeros((7,n,288),np.int32)
+    sources=[]
+    for i,path in enumerate(paths):
+        bounded(deadline);day=day_name(path);assert "2030-06-01"<=day<"2031-02-01"
+        _,raw,valid,_,_=base.day_data(path,pair_index,lanes,day,False)
+        weekday=pd.Timestamp(day).dayofweek
+        sums[weekday]+=np.where(valid[None],raw,0);counts[weekday]+=valid.astype(np.int32)
+        sources.append(dict(day=day,path=str(path),bytes=path.stat().st_size,sha256=sha(path),observed_cells=int(valid.sum())))
+        if (i+1)%31==0 or i+1==len(paths):print("PROFILE_DAYS",i+1,len(paths),flush=True)
+    assert counts.sum()>0 and np.isfinite(sums).all()
+    return sums,counts,sources
+
+
+def profile_for_day(sums,counts,day,raw=None,valid=None):
+    """All fallbacks also exclude every valid cell of the target training day."""
+    weekday=pd.Timestamp(day).dayofweek
+    assert (raw is None)==(valid is None)
+    local_s=sums[weekday].copy();local_c=counts[weekday].copy()
+    slot_s=sums.sum(axis=0);slot_c=counts.sum(axis=0)
+    if raw is not None:
+        assert "2030-06-01"<=day<"2031-02-01" and raw.shape==local_s.shape and valid.shape==local_c.shape
+        contribution=np.where(valid[None],raw,0).astype(np.float64)
+        local_s-=contribution;local_c-=valid.astype(np.int32)
+        slot_s-=contribution;slot_c-=valid.astype(np.int32)
+        np.testing.assert_array_equal(counts[weekday]-local_c,valid.astype(np.int32))
+        assert int(counts.sum()-slot_c.sum())==int(valid.sum())
+    else:assert day.startswith("2031-02-"),"This pilot only predicts the frozen February holdout"
+    assert (local_c>=0).all() and (slot_c>=0).all() and slot_c.sum()>0
+    global_mean=slot_s.sum(axis=(1,2))/slot_c.sum()
+    station_count=slot_c.sum(axis=1)
+    station_mean=np.divide(slot_s.sum(axis=2),station_count[None],
+        out=np.broadcast_to(global_mean[:,None],(2,len(station_count))).copy(),where=station_count[None]>0)
+    slot_mean=np.divide(slot_s,slot_c[None],out=np.broadcast_to(station_mean[:,:,None],slot_s.shape).copy(),where=slot_c[None]>0)
+    profile=np.divide(local_s,local_c[None],out=slot_mean.copy(),where=local_c[None]>0).astype(np.float32)
+    assert np.isfinite(profile).all() and np.isfinite(station_mean).all()
+    return profile,station_mean.astype(np.float32),dict(whole_day_cells_removed=int(valid.sum()) if valid is not None else 0,
+        weekday_slot_missing_fraction=float((local_c==0).mean()),slot_missing_fraction=float((slot_c==0).mean()),
+        station_fallback_missing_count=int((station_count==0).sum()),target_day_excluded=(raw is not None))
+
+
+
+
+# ===== CELL 32 [markdown] =====
+### 5 · Construct visible-only features
+
+Temporal and directional observations must come from the original visible mask. Hidden targets never become feature sources.
+
+# ===== CELL 33 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def feature_grid(raw,observed,profile,fallback,graph):
+    """Only original visible cells can be endpoints or spatial neighbors."""
+    n=observed.shape[0];assert raw.shape==profile.shape==(2,n,288) and len(graph)==n
+    visible=np.where(observed[None],raw,np.nan).astype(np.float32)
+    assert np.isnan(visible[:,~observed]).all()
+    legacy,_=base.features(visible,observed,fallback)
+    x=np.full((n,288,len(FEATURES)),np.nan,np.float32);x[:,:,:7]=legacy.transpose(0,2,1)
+    t=np.arange(288);prev=np.maximum.accumulate(np.where(observed,t[None],-1),axis=1)
+    nxt=np.minimum.accumulate(np.where(observed,t[None],288)[:,::-1],axis=1)[:,::-1]
+    for side,indices in enumerate((prev,nxt)):
+        present=(indices>=0)&(indices<288);offset=7+4*side;safe=np.clip(indices,0,287)
+        for c in range(2):x[:,:,offset+c]=np.where(present,np.take_along_axis(visible[c],safe,axis=1)/SCALE[c],np.nan)
+        x[:,:,offset+2]=np.where(present,np.abs(t[None]-indices)*5,np.nan)
+        x[:,:,offset+3]=present
+    for side in range(2):
+        offset=15+4*side;x[:,:,offset+3]=0
+        for i,sides in enumerate(graph):
+            remaining=np.ones(288,bool)
+            for j,hops in sides[side]:
+                take=remaining&observed[j]
+                if take.any():
+                    for c in range(2):x[i,take,offset+c]=visible[c,j,take]/SCALE[c]
+                    x[i,take,offset+2]=hops;x[i,take,offset+3]=1;remaining[take]=False
+                if not remaining.any():break
+    x[:,:,23:25]=(profile/SCALE[:,None,None]).transpose(1,2,0)
+    residual=visible-profile
+    for i in range(n):
+        seen=np.flatnonzero(observed[i])
+        for c in range(2):
+            x[i,:,25+c]=np.interp(t,seen,residual[c,i,seen])/SCALE[c] if len(seen) else 0.
+    assert x.shape==(n,288,27) and not np.isinf(x).any()
+    assert np.isfinite(x[:,:,:7]).all() and np.isfinite(x[:,:,23:]).all()
+    np.testing.assert_array_equal(x[:,:,2].astype(bool),observed)
+    for offset in (7,11,15,19):
+        present=x[:,:,offset+3].astype(bool)
+        assert np.isfinite(x[:,:,offset:offset+3][present]).all()
+        assert np.isnan(x[:,:,offset:offset+3][~present]).all()
+    return x
+
+
+
+
+# ===== CELL 34 [markdown] =====
+### 6 · Sample masked targets and fit the two tree heads
+
+Apply each complete link-time mask before sampling. The speed and flow heads use the same rows and fixed hyperparameters.
+
+# ===== CELL 35 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def train_trees(paths,panel,pair_index,lanes,graph,sums,counts,folder,deadline):
+    x_all=np.empty((MAX_ROWS,len(FEATURES)),np.float32);y_all=np.empty((MAX_ROWS,2),np.float32)
+    links=sorted({link for station,link in pair_index});link_index={link:i for i,link in enumerate(links)}
+    pair_link=np.asarray([link_index[link] for station,link in pair_index]);offset=0;audits=[];sample_rows=[]
+    for day_no,path in enumerate(paths):
+        bounded(deadline);day=day_name(path);token_day=path.stem.removeprefix("synthetic_mainline_")
+        _,raw,valid,_,_=base.day_data(path,pair_index,lanes,day,False)
+        profile,fallback,pa=profile_for_day(sums,counts,day,raw,valid)
+        assert pa["target_day_excluded"] and pa["whole_day_cells_removed"]==int(valid.sum())
+        for regime,rate in base.RATES.items():
+            bounded(deadline);token=f"{panel}|{token_day}|{regime}|{SEED}"
+            seed=int.from_bytes(hashlib.sha256(token.encode()).digest()[:8],"big")
+            hidden=np.random.default_rng(seed).random((len(links),288))[pair_link]<rate
+            target=valid&hidden;observed=valid&~hidden
+            assert not (target&observed).any() and not observed[hidden].any()
+            x=feature_grid(raw,observed,profile,fallback,graph)
+            eligible=np.flatnonzero(target.ravel());sample_seed=int.from_bytes(hashlib.sha256((token+"|tree_sample256").encode()).digest()[:8],"big")
+            pick=np.sort(np.random.default_rng(sample_seed).choice(eligible,size=min(SAMPLE_CAP,len(eligible)),replace=False))
+            assert not observed.ravel()[pick].any() and len(pick)<=SAMPLE_CAP and len(np.unique(pick))==len(pick)
+            flat=x.reshape(-1,len(FEATURES));end=offset+len(pick);assert end<=MAX_ROWS
+            x_all[offset:end]=flat[pick]
+            y_all[offset:end]=raw.transpose(1,2,0).reshape(-1,2)[pick]/SCALE-flat[pick,:2]
+            sample_rows.append(pd.DataFrame(dict(day=day,regime=regime,pair_index=pick//288,slot=pick%288)))
+            audits.append(dict(day=day,regime=regime,eligible_target_cells=len(eligible),sampled_cells=len(pick),
+                complete_mask_sha256=hashlib.sha256(hidden.tobytes()).hexdigest(),sample_indices_sha256=hashlib.sha256(pick.tobytes()).hexdigest(),
+                profile=pa,unselected_mask_targets_remain_hidden=True))
+            offset=end
+        if (day_no+1)%31==0 or day_no+1==len(paths):print("TREE_SAMPLE_DAYS",panel,day_no+1,"rows",offset,flush=True)
+    x_all=x_all[:offset].copy();y_all=y_all[:offset].copy()
+    assert 0<offset<=MAX_ROWS and len(audits)==245*3 and np.isfinite(y_all).all() and not np.isinf(x_all).any()
+    sample=pd.concat(sample_rows,ignore_index=True)
+    assert len(sample)==offset and not sample.duplicated(["day","regime","pair_index","slot"]).any()
+    sample.to_parquet(folder/"sampled_training_ids.parquet",index=False)
+    models={};model_hashes={}
+    for c,channel in enumerate(("speed","flow")):
+        bounded(deadline);print("FIT_TREE_HEAD",panel,channel,offset,flush=True)
+        model=HistGradientBoostingRegressor(**CONFIG).fit(x_all,y_all[:,c])
+        bounded(deadline);assert model.n_iter_==150 and model.n_features_in_==len(FEATURES)
+        path=folder/("tree_"+channel+".joblib");joblib.dump(model,path);reloaded=joblib.load(path)
+        np.testing.assert_array_equal(model.predict(x_all[:256]),reloaded.predict(x_all[:256]))
+        models[channel]=reloaded;model_hashes[channel]=sha(path)
+    training=dict(panel=panel,days=245,strata=len(audits),sampled_cells=offset,max_sampled_cells=MAX_ROWS,
+        max_per_day_regime=SAMPLE_CAP,model_config=CONFIG,target="Residual from visible-only temporal interpolation; speed/25 and flow-per-lane/600",
+        X_sha256=hashlib.sha256(x_all.tobytes()).hexdigest(),Y_sha256=hashlib.sha256(y_all.tobytes()).hexdigest(),
+        sampled_ids_sha256=sha(folder/"sampled_training_ids.parquet"),model_sha256=model_hashes,
+        profile_excludes_entire_training_target_day=True,February_used_for_training_or_profiles=False,
+        all_original_masks_applied_before_sampling=True,fit_models=2,feature_names=FEATURES)
+    save(folder/"training.json",training);save(folder/"sampling_and_profile_audit.json",audits)
+    del x_all,y_all,sample_rows,sample;gc.collect()
+    return models,training
+
+
+
+
+# ===== CELL 36 [markdown] =====
+### 7 · Freeze February predictions
+
+Validate that speed, flow, occupancy and density are masked at target rows. Save exact archived CNN values and the fixed 70/30 blend.
+
+# ===== CELL 37 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def freeze_february(release,panel,control,pair_index,lanes,graph,sums,counts,models,folder,deadline):
+    pred=control.copy();days=pred.timestamp.str[:10];profile_audit=[];clipped={"speed":0,"flow":0}
+    for method in ("tree_diagnostic","blend70_candidate"):
+        pred[method+"_speed"]=np.nan;pred[method+"_flow"]=np.nan
+    for day in sorted(days.unique()):
+        bounded(deadline);use=days.eq(day);target=pred.loc[use,IDS]
+        paths=list((release/"corridors"/panel/"train/mainline_states_masked").glob("mask_regime=*/synthetic_mainline_"+day.replace("-","_")+".parquet"))
+        assert len(paths)==1 and target.mask_regime.nunique()==1
+        d,raw,observed,_,_=base.day_data(paths[0],pair_index,lanes,day,True)
+        check=target.merge(d,on=base.KEY,how="left",validate="one_to_one",indicator=True)
+        assert check._merge.eq("both").all() and check.is_score_eligible.eq(1).all()
+        assert check[["speed_kmh","flow_vph","occupancy","density_occ_linear_vehpkm"]].isna().all().all()
+        assert target.mask_regime.eq(paths[0].parent.name.split("=",1)[1]).all()
+        si=np.asarray([pair_index[(s,l)] for s,l in zip(target.station_id,target.link_id,strict=True)])
+        stamp=pd.to_datetime(target.timestamp,utc=True);ti=(stamp.dt.hour*12+stamp.dt.minute//5).to_numpy(int)
+        assert not observed[si,ti].any()
+        profile,fallback,pa=profile_for_day(sums,counts,day)
+        assert not pa["target_day_excluded"] and pa["whole_day_cells_removed"]==0
+        grid=feature_grid(raw,observed,profile,fallback,graph);features=grid[si,ti]
+        values=np.column_stack([features[:,c]+models[channel].predict(features) for c,channel in enumerate(("speed","flow"))])
+        assert np.isfinite(values).all()
+        for c,channel in enumerate(("speed","flow")):clipped[channel]+=int((values[:,c]<0).sum())
+        values=np.maximum(values,0)*SCALE
+        values[:,1]*=lanes[si]
+        cnn=pred.loc[use,["cnn_control_speed","cnn_control_flow"]].to_numpy(float)
+        pred.loc[use,["tree_diagnostic_speed","tree_diagnostic_flow"]]=values
+        pred.loc[use,["blend70_candidate_speed","blend70_candidate_flow"]]=.7*values+.3*cnn
+        profile_audit.append(dict(day=day,rows=int(use.sum()),masked_source_sha256=sha(paths[0]),profile=pa))
+        print("TREE_PREDICT_FEB",panel,day,int(use.sum()),flush=True)
+    columns=[m+"_"+c for m in METHODS for c in ("speed","flow")]
+    assert pred[IDS].equals(control[IDS]) and not pred.duplicated(IDS).any()
+    assert np.isfinite(pred[columns]).all().all() and (pred[columns]>=0).all().all()
+    np.testing.assert_array_equal(pred[["cnn_control_speed","cnn_control_flow"]],control[["cnn_control_speed","cnn_control_flow"]])
+    path=folder/"frozen_february_predictions.parquet";pred.to_parquet(path,index=False)
+    manifest=dict(panel=panel,rows=len(pred),days=28,predictions_sha256=sha(path),profile_sufficient_statistics_sha256=sha(folder/"profile_sufficient_statistics.npz"),
+        model_sha256={channel:sha(folder/("tree_"+channel+".joblib")) for channel in models},
+        fixed_tree_weight=.7,fixed_CNN_weight=.3,primary_candidate="blend70_candidate",pure_tree_diagnostic_only=True,
+        original_frozen_CNN_values_preserved=True,February_truth_read=False,target_IDs_preserved=True,
+        negative_raw_tree_predictions_clipped=clipped,profile_audit=profile_audit)
+    save(folder/"frozen_prediction_manifest.json",manifest)
+    return manifest
+
+
+
+
+# ===== CELL 38 [markdown] =====
+### 8 · Define the state metric and diagnostic
+
+Pool channel errors before scoring. The density-change diagnostic is not an organizer physics score and never selects or vetoes the candidate.
+
+# ===== CELL 39 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def score_sums(row):
+    n=int(row["n"]);assert n>0
+    speed=math.sqrt(row["speed_sse"]/n);flow=math.sqrt(row["flow_lane_sse"]/n)
+    return dict(n=n,speed_RMSE=speed,flow_per_lane_RMSE=flow,speed_MAE=row["speed_abs"]/n,
+        flow_per_lane_MAE=row["flow_lane_abs"]/n,speed_bias=row["speed_error_sum"]/n,
+        flow_per_lane_bias=row["flow_lane_error_sum"]/n,
+        S_state=.54*max(0,1-speed/25)+.46*max(0,1-flow/600))
+
+
+def density_differences(raw,observed,truth,valid,si,ti,day_predictions,lanes):
+    """Station-level five-minute delta(q_per_lane/max(v,1)); diagnostic only."""
+    target=np.zeros_like(observed);target[si,ti]=True;supported=observed|target
+    supported &= valid & (truth[0]>=0) & (truth[1]>=0)
+    use=supported[:,1:]&supported[:,:-1]&(target[:,1:]|target[:,:-1])
+    actual=truth[1]/np.maximum(truth[0],1.)
+    actual_delta=np.diff(actual,axis=1);result=[]
+    for method in METHODS:
+        filled=raw.copy();filled[0,si,ti]=day_predictions[method+"_speed"].to_numpy(float)
+        filled[1,si,ti]=day_predictions[method+"_flow"].to_numpy(float)/lanes[si]
+        density=filled[1]/np.maximum(filled[0],1.)
+        error=(np.diff(density,axis=1)-actual_delta)[use]
+        assert np.isfinite(error).all()
+        result.append(dict(method=method,n=len(error),absolute_error_sum=float(np.abs(error).sum()),
+            squared_error_sum=float(np.square(error).sum()),error_sum=float(error.sum())))
+    return result
+
+
+
+
+# ===== CELL 40 [markdown] =====
+### 9 · Evaluate only after the freeze
+
+Read February truth only in evaluation. Verify the CNN scores against archived reports; retain regime aggregates and paired daily comparisons.
+
+# ===== CELL 41 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def evaluate(release,panel,folder,pair_index,lanes,baseline_report,deadline):
+    manifest=read(folder/"frozen_prediction_manifest.json");path=folder/"frozen_february_predictions.parquet"
+    assert sha(path)==manifest["predictions_sha256"]
+    pred=pd.read_parquet(path);assert len(pred)==manifest["rows"]
+    scores=[];density=[]
+    for day in sorted(pred.timestamp.str[:10].unique()):
+        bounded(deadline);part=pred.loc[pred.timestamp.str[:10].eq(day)].copy();assert part.mask_regime.nunique()==1
+        regime=part.mask_regime.iloc[0];p=release/"corridors"/panel/"train"
+        name="synthetic_mainline_"+day.replace("-","_")+".parquet"
+        truth_frame,truth,valid,_,_=base.day_data(p/"mainline_states/year_month=2031-02"/name,pair_index,lanes,day,False)
+        d=part.merge(truth_frame[base.KEY+["speed_kmh","flow_vph","pct_observed","is_score_eligible"]],
+            on=base.KEY,how="left",validate="one_to_one",indicator=True)
+        assert d._merge.eq("both").all() and d.is_score_eligible.eq(1).all() and d.pct_observed.ge(75).all()
+        si=np.asarray([pair_index[(s,l)] for s,l in zip(d.station_id,d.link_id,strict=True)])
+        stamp=pd.to_datetime(d.timestamp,utc=True);ti=(stamp.dt.hour*12+stamp.dt.minute//5).to_numpy(int)
+        assert np.isfinite(d[["speed_kmh","flow_vph"]]).all().all()
+        for method in METHODS:
+            ev=d[method+"_speed"].to_numpy(float)-d.speed_kmh.to_numpy(float)
+            eq=(d[method+"_flow"].to_numpy(float)-d.flow_vph.to_numpy(float))/lanes[si]
+            scores.append(dict(day=day,regime=regime,method=method,n=len(d),speed_sse=float(np.square(ev).sum()),
+                flow_lane_sse=float(np.square(eq).sum()),speed_abs=float(np.abs(ev).sum()),flow_lane_abs=float(np.abs(eq).sum()),
+                speed_error_sum=float(ev.sum()),flow_lane_error_sum=float(eq.sum())))
+        _,raw,observed,_,_=base.day_data(p/"mainline_states_masked"/("mask_regime="+regime)/name,pair_index,lanes,day,True)
+        density.extend(dict(day=day,regime=regime,**r) for r in density_differences(raw,observed,truth,valid,si,ti,d,lanes))
+    daily=[dict(day=r["day"],regime=r["regime"],method=r["method"],**score_sums(r)) for r in scores]
+    aggregate=[]
+    for method in METHODS:
+        for regime in base.RATES:
+            selected=[r for r in scores if r["method"]==method and r["regime"]==regime];assert selected
+            sums={k:sum(r[k] for r in selected) for k in ("n","speed_sse","flow_lane_sse","speed_abs","flow_lane_abs","speed_error_sum","flow_lane_error_sum")}
+            aggregate.append(dict(method=method,regime=regime,**score_sums(sums)))
+    macro={m:float(np.mean([r["S_state"] for r in aggregate if r["method"]==m])) for m in METHODS}
+    expected={r["regime"]:r["S_state"] for r in baseline_report["regimes"] if r["method"]=="eight_month"}
+    assert set(expected)==set(base.RATES)
+    for row in aggregate:
+        if row["method"]=="cnn_control":assert abs(row["S_state"]-expected[row["regime"]])<1e-10
+    assert abs(macro["cnn_control"]-baseline_report["macro_S_state_expanded"])<1e-10
+    differences=[]
+    for day in sorted(pred.timestamp.str[:10].unique()):
+        a=next(r for r in daily if r["day"]==day and r["method"]=="cnn_control")
+        b=next(r for r in daily if r["day"]==day and r["method"]=="blend70_candidate")
+        differences.append(dict(day=day,regime=a["regime"],n=a["n"],cnn_S_state=a["S_state"],candidate_S_state=b["S_state"],
+            delta=b["S_state"]-a["S_state"],speed_RMSE_delta=b["speed_RMSE"]-a["speed_RMSE"],
+            flow_per_lane_RMSE_delta=b["flow_per_lane_RMSE"]-a["flow_per_lane_RMSE"]))
+    density_summary=[]
+    for method in METHODS:
+        rows=[r for r in density if r["method"]==method];n=sum(r["n"] for r in rows)
+        density_summary.append(dict(method=method,n=n,MAE=sum(r["absolute_error_sum"] for r in rows)/n if n else None,
+            RMSE=math.sqrt(sum(r["squared_error_sum"] for r in rows)/n) if n else None,
+            bias=sum(r["error_sum"] for r in rows)/n if n else None))
+    report=dict(panel=panel,February_target_rows=len(pred),baseline_reproduced=True,macro_S_state=macro,regimes=aggregate,
+        primary_macro_delta=macro["blend70_candidate"]-macro["cnn_control"],
+        daily_wins=sum(r["delta"]>1e-12 for r in differences),daily_losses=sum(r["delta"] < -1e-12 for r in differences),
+        daily_ties=sum(abs(r["delta"])<=1e-12 for r in differences),daily_differences=differences,
+        station_delta_density_proxy=density_summary,density_diagnostic_only=True,density_veto=False,
+        density_scope="Within-day, consecutive 5-minute station pairs, shared observed-or-target support, target-touching edges; q/lanes/max(v,1); not an organizer physics score",
+        primary_candidate="blend70_candidate",pure_tree_diagnostic_only=True,official_local_task1_metric=True,
+        submitted=False,competition_CSV_generated=False,leaderboard_score=None)
+    save(folder/"report.json",report)
+    pd.DataFrame(daily).to_csv(folder/"daily_scores.csv",index=False)
+    pd.DataFrame(aggregate).to_csv(folder/"regime_scores.csv",index=False)
+    pd.DataFrame(differences).to_csv(folder/"daily_differences.csv",index=False)
+    pd.DataFrame(density).to_csv(folder/"density_difference_diagnostic.csv",index=False)
+    return report
+
+
+
+
+# ===== CELL 42 [markdown] =====
+### 10 · Sequence both panels and preserve the freeze boundary
+
+Freeze and hash complete predictions for both panels before evaluating either panel. The worker produces no competition submission.
+
+# ===== CELL 43 [code] =====
+%%writefile -a /kaggle/temp/trafficflow_directional_profiles/scripts/trafficflow_state_directional_profile.py
+def run():
+    started=time.monotonic();deadline=started+MAX_SECONDS;bounded(deadline)
+    assert not OUT.exists(),"Use clean Save & Run All"
+    torch.set_num_threads(2);torch.set_num_interop_threads(2)
+    assert len(FEATURES)==27 and base.SEED==2031 and base.RATES=={"R1":.2,"R2":.3,"R3":.5}
+    for name,digest in SOURCE_SHA.items():assert sha(Path(__file__).parent/name)==digest
+    release,folders,selection=locate();OUT.mkdir();contexts={};manifests={};training={}
+    save(OUT/"locked_plan.json",dict(panels=PANELS,input_versions=VERSIONS,train_months=MONTHS,validation_month="2031-02",
+        feature_names=FEATURES,model_config=CONFIG,max_hops=MAX_HOPS,max_sampled_cells_per_panel=MAX_ROWS,
+        max_sampled_cells_both_panels=2*MAX_ROWS,full_original_masks=True,profile_excludes_entire_target_day=True,
+        main_candidate_weights=dict(tree=.7,frozen_eight_month_CNN=.3),candidate_count=1,search=False,
+        pure_tree_diagnostic_only=True,multiscale_features=False,queue_and_ODME_frozen=True,CNN_retrained=False,
+        current_best_unchanged=dict(version=355199589,score=.83285),runtime_cap_seconds=MAX_SECONDS,
+        source_sha256=SOURCE_SHA,worker_sha256=sha(__file__)))
+    for panel in PANELS:
+        bounded(deadline);began=time.monotonic();folder=OUT/panel;folder.mkdir()
+        print("START_DIRECTIONAL_PROFILE_PANEL",panel,flush=True)
+        control,pair_index,lanes,baseline_report,replay=frozen_control(release,panel,folders[panel],selection,deadline)
+        save(folder/"CNN_replay.json",replay)
+        pairs=list(pair_index);pd.DataFrame(pairs,columns=["station_id","link_id"]).to_csv(folder/"station_pairs.csv",index=False)
+        graph,topology=graph_candidates(release,panel,pairs);save(folder/"topology.json",topology)
+        paths=training_paths(release,panel);sums,counts,sources=profile_totals(paths,pair_index,lanes,deadline)
+        np.savez_compressed(folder/"profile_sufficient_statistics.npz",sums=sums,counts=counts,lanes=lanes)
+        save(folder/"training_sources.json",sources)
+        models,audit=train_trees(paths,panel,pair_index,lanes,graph,sums,counts,folder,deadline);training[panel]=audit
+        manifests[panel]=freeze_february(release,panel,control,pair_index,lanes,graph,sums,counts,models,folder,deadline)
+        contexts[panel]=(pair_index,lanes,baseline_report)
+        save(folder/"pre_evaluation_runtime.json",dict(seconds=time.monotonic()-began))
+        del control,models,sums,counts,graph;gc.collect()
+    assert set(manifests)==set(PANELS) and sum(r["sampled_cells"] for r in training.values())<=2*MAX_ROWS
+    save(OUT/"both_panels_frozen_before_truth.json",dict(manifests=manifests,February_truth_read=False))
+    results={}
+    for panel in PANELS:
+        bounded(deadline);pair_index,lanes,baseline_report=contexts[panel]
+        for other in PANELS:
+            assert sha(OUT/other/"frozen_february_predictions.parquet")==manifests[other]["predictions_sha256"]
+        results[panel]=evaluate(release,panel,OUT/panel,pair_index,lanes,baseline_report,deadline)
+        print("DIRECTIONAL_PROFILE_PANEL_RESULT",json.dumps(dict(panel=panel,
+            macro_S_state=results[panel]["macro_S_state"],primary_macro_delta=results[panel]["primary_macro_delta"],
+            daily_wins=results[panel]["daily_wins"],daily_losses=results[panel]["daily_losses"],daily_ties=results[panel]["daily_ties"])),flush=True)
+    bounded(deadline)
+    summary=dict(status="fixed_two_panel_tree_candidate_evaluated_not_submitted",results=results,training=training,
+        two_panel_macro={m:float(np.mean([r["macro_S_state"][m] for r in results.values()])) for m in METHODS},
+        scope="Previously inspected full February holdout; two panels only, no full-competition or leaderboard estimate",
+        candidate_count=1,fit_tree_heads=4,CNN_retrained=False,all_predictions_frozen_before_any_February_truth=True,
+        queue_and_ODME_frozen=True,competition_CSV_generated=False,submitted=False,leaderboard_score=None,
+        density_veto=False,seconds=time.monotonic()-started,runtime_cap_seconds=MAX_SECONDS)
+    save(OUT/"summary.json",summary)
+    print("DIRECTIONAL_PROFILE_RESULT",json.dumps(dict(two_panel_macro=summary["two_panel_macro"],seconds=summary["seconds"])),flush=True)
+
+
+if __name__=="__main__":run()
+
+
+# ===== CELL 44 [markdown] =====
+## Checks before training
+
+Compile every assembled module and verify its expected source hash. The two replay helper hashes are unchanged from the original notebook. The active worker hash changes only for the removed absolute cutoff and temporary artifact destination. Input, replay, masking and freeze assertions run inside the worker.
+
+# ===== CELL 45 [code] =====
+expected_hashes = {'trafficflow_tcn_ten_panel.py': '42881e7b30eaec69d00fe56c0823fce6ebbbfda432814af4288a0859348bc44f', 'trafficflow_tcn_full_inference.py': 'cc8354ee5e418777d6eac5ab0e9bfa70bb8290651501786ce760d3c57e57fe02', 'trafficflow_state_directional_profile.py': 'a29b7e68e9146b75c30cb9c614850287e440dac18afc7f24b5afd31ee5c99b71'}
+for name, expected in expected_hashes.items():
+    source_text = (scripts / name).read_text()
+    compile(source_text, name, "exec")
+    actual = hashlib.sha256(source_text.encode()).hexdigest()
+    assert actual == expected, f"Source changed: {name}"
+print("All three module syntax and source hashes verified")
+
+
+# ===== CELL 46 [markdown] =====
+## Run the fixed experiment
+
+This is the only cell that fits models. It fits four tree heads, replays rather than retrains the CNNs, and keeps the original runtime/memory protections. Progress lines expose counts and aggregate scores, not raw observations or target truth.
+
+# ===== CELL 47 [code] =====
+# Keep raw errors and arrays in the temporary log, out of saved notebook outputs.
+safe_progress = (
+    "PROFILE_DAYS ", "TREE_SAMPLE_DAYS ", "FIT_TREE_HEAD ", "TREE_PREDICT_FEB ",
+    "START_DIRECTIONAL_PROFILE_PANEL ", "DIRECTIONAL_PROFILE_PANEL_RESULT ", "DIRECTIONAL_PROFILE_RESULT ",
+)
+def show_progress(line):
+    if line.startswith(safe_progress):
+        print(line.rstrip(), flush=True)
+
+log=scratch / "run.log"
+started=time.monotonic();peak=0
+with log.open("w") as writer,log.open("r") as reader:
+    proc=subprocess.Popen([sys.executable,str(scripts/"trafficflow_state_directional_profile.py")],
+        stdout=writer,stderr=subprocess.STDOUT)
+    try:
+        while proc.poll() is None:
+            assert time.monotonic()-started<3630,"60-minute pilot cap"
+            try:
+                worker=psutil.Process(proc.pid)
+                processes=[worker,*worker.children(recursive=True)]
+                rss=psutil.Process().memory_info().rss+sum(p.memory_info().rss for p in processes if p.is_running())
+                peak=max(peak,rss)
+                assert rss<int(3.5*1024**3),"3.5 GiB combined memory cap"
+            except psutil.NoSuchProcess:pass
+            for line in reader:show_progress(line)
+            time.sleep(1)
+        for line in reader:show_progress(line)
+        assert proc.returncode==0,"Pilot failed; see "+str(log)
+    finally:
+        if proc.poll() is None:
+            proc.terminate()
+            try:proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:proc.kill();proc.wait()
+        (scratch / "runtime.json").write_text(json.dumps(dict(
+            seconds=time.monotonic()-started,peak_combined_rss_bytes=peak,exit_code=proc.returncode),indent=2))
+
+
+# ===== CELL 48 [markdown] =====
+## Inspect new aggregate results
+
+This section is populated only by a successful fresh Kaggle run. Its numbers must be compared with, not silently substituted for, the historical results above. The public export contains no raw input rows, row-level predictions, sampled target IDs, profile sufficient statistics or model weights.
+
+# ===== CELL 49 [code] =====
+root = scratch / "run"
+summary = json.loads((root / "summary.json").read_text())
+assert summary["status"] == "fixed_two_panel_tree_candidate_evaluated_not_submitted"
+assert summary["candidate_count"] == 1 and summary["fit_tree_heads"] == 4 and not summary["CNN_retrained"]
+assert not summary["submitted"] and not summary["competition_CSV_generated"] and not summary["density_veto"]
+assert summary["all_predictions_frozen_before_any_February_truth"]
+
+display(pandas.DataFrame([
+    dict(panel=panel, **report["macro_S_state"], delta=report["primary_macro_delta"],
+         daily_wins=report["daily_wins"], daily_losses=report["daily_losses"], daily_ties=report["daily_ties"])
+    for panel, report in summary["results"].items()
+]))
+for panel, report in summary["results"].items():
+    assert report["baseline_reproduced"]
+    print(panel, "NEW RUN: regime-level aggregate scores")
+    display(pandas.DataFrame(report["regimes"]))
+    print(panel, "Density-change diagnostic only:", json.dumps(report["station_delta_density_proxy"]))
+print("NEW RUN: two-panel macro only", json.dumps(summary["two_panel_macro"]))
+print("Official leaderboard score:", summary["leaderboard_score"])
+
+aggregate_export = {
+    "evidence": "Fresh execution of this notebook; exploratory February validation, two panels only",
+    "two_panel_macro": summary["two_panel_macro"],
+    "panels": {
+        panel: {key: report[key] for key in (
+            "macro_S_state", "primary_macro_delta", "daily_wins", "daily_losses", "daily_ties", "regimes"
+        )} for panel, report in summary["results"].items()
+    },
+    "submitted": False,
+    "leaderboard_score": None,
+    "source_sha256": expected_hashes,
+    "environment": environment,
+}
+public_summary = Path("/kaggle/working/directional_profile_aggregate_summary.json")
+public_summary.write_text(json.dumps(aggregate_export, indent=2, allow_nan=False) + "\n")
+print("Aggregate-only summary:", public_summary.name)
+
+
+# ===== CELL 50 [markdown] =====
+## License, credit, limitations, and next steps
+
+**License:** original code in this notebook is licensed under the [Apache License, Version 2.0 (Apache-2.0)](https://www.apache.org/licenses/LICENSE-2.0). This declaration does not replace the licenses or attribution requirements of referenced third-party work.
+
+- Benchmark definitions and evaluation conventions follow the [official TrafficFlowBench repository](https://github.com/jacky850/trafficflowbench-public), whose code is [MIT licensed](https://github.com/jacky850/trafficflowbench-public/blob/main/LICENSE), copyright © 2026 TrafficFlowBench organizers
+- The [public trees/U-Net/CNN notebook](https://www.kaggle.com/code/yeashusemwal/trafficflowbench-trees-u-net-cnn-lb-0-85/output) provided conceptual inspiration for combining tree and neural predictions. This feature pipeline was independently implemented; no third-party script was downloaded or executed
+- The completed scores are traceable to [original version 355235394](https://www.kaggle.com/code/yanamiiannaa/trafficflow-state-directional-profile-pilot?scriptVersionId=355235394). The two original archived CNN outputs are provenance references; attach the minimal CNN controls Dataset above instead of those originals
+- This edition reorganizes code and removes an expired date guard. Static/synthetic checks and the completed private replay support this implementation; they do not guarantee identical numbers on every future software stack
+- The minimal-package replay is complete: version 355514076 took 477.0 seconds and matched all six scores exactly. That run used the packaging Notebook output. The Dataset carries the same fourteen files; a direct Dataset-mounted replay is a separate final input-route verification
+
+The next scientific step is broader corridor-level evaluation with a genuinely untouched evaluation protocol, followed by focused ablations. This notebook intentionally leaves weights, features and hyperparameters fixed.

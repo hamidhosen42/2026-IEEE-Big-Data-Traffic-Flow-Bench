@@ -1,0 +1,25 @@
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+Release 1.0 rebuilt 2026-09-11 | contract 2.0.0
+Python 3.12.13 | pandas 2.3.3 | numpy 2.0.2 | matplotlib 3.10.0
+Five February corridors | held-out days: {'D12_I405_N': 8, 'D12_I5_N': 20, 'D7_I405_N': 20, 'D12_I5_S': 20, 'D7_I10_E': 20} | paired target cells: 1359715
+Separate January backtest | 12 days | 74,431 paired target cells
+Temporal leads the long-gap Spatial branch in 4 of 5 corridors; the two added corridors have zero mixed-channel long-gap targets.
+Published scorer target cells: 1,434,146 | missing predictions: 0
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 215647 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Support files will be in __results___files/
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Making directory __results___files
+[NbConvertApp] Writing 497315 bytes to __results__.html

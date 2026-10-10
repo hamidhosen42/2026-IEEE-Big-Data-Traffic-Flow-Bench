@@ -1,0 +1,47 @@
+{
+ "languageNullable": "python",
+ "kernelTypeNullable": "notebook",
+ "isPrivateNullable": false,
+ "enableGpuNullable": true,
+ "enableTpuNullable": false,
+ "enableInternetNullable": false,
+ "currentVersionNumberNullable": 1,
+ "dockerImageNullable": "gcr.io/kaggle-private-byod/python@sha256:2757e0c7d1e0a9cb43da657b97e223c321a98f5014bdf64f44f2f6b083ad2b2f",
+ "machineShapeNullable": "NvidiaTeslaT4",
+ "id": 137664564,
+ "ref": "sujanmajhisuzan/trafficflowbench-top-rank-pipeline-0-90-target",
+ "title": "TrafficFlowBench: Top Rank Pipeline | 0.90+ Target",
+ "author": "ItsmeSujan",
+ "slug": "trafficflowbench-top-rank-pipeline-0-90-target",
+ "lastRunTime": "2026-10-07T05:50:26.8997726Z",
+ "language": "python",
+ "hasLanguage": true,
+ "kernelType": "notebook",
+ "hasKernelType": true,
+ "isPrivate": false,
+ "hasIsPrivate": true,
+ "enableGpu": true,
+ "hasEnableGpu": true,
+ "enableTpu": false,
+ "hasEnableTpu": true,
+ "enableInternet": false,
+ "hasEnableInternet": true,
+ "categoryIds": [
+  "gpu"
+ ],
+ "datasetDataSources": [
+  "anubisyy/trafficflowbench-086517-public-assets"
+ ],
+ "kernelDataSources": [],
+ "competitionDataSources": [
+  "2026-ieee-big-data-traffic-flow-bench"
+ ],
+ "modelDataSources": [],
+ "totalVotes": 2,
+ "currentVersionNumber": 1,
+ "hasCurrentVersionNumber": true,
+ "dockerImage": "gcr.io/kaggle-private-byod/python@sha256:2757e0c7d1e0a9cb43da657b97e223c321a98f5014bdf64f44f2f6b083ad2b2f",
+ "hasDockerImage": true,
+ "machineShape": "NvidiaTeslaT4",
+ "hasMachineShape": true
+}

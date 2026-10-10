@@ -176,8 +176,11 @@ def compare_queue_file(ours, orig, check, rel=None):
                 uni = int(((w_all.a == 1) | (w_all.b == 1)).sum())
                 inter = int(((w_all.a == 1) & (w_all.b == 1)).sum())
                 jw.append(1.0 if uni == 0 else inter / uni)
+            # score bound (DESIGN 4.7): Jaccard distance is a metric, so per window |dIoU| <= 1 - J; one official window is worth
+            # 0.15 / 40 = 0.00375 of the total score per IoU unit -> |dS| <= 0.00375 * sum_w (1 - J_w) for this block
             _line(check, f'queue.{s}.{c}', 'EXACT' if not g.d.any() else 'FAIL', rows=len(g), n_diff=int(g.d.sum()),
-                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
+                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', sum_1mJ=f'{sum(1 - j for j in jw):.4f}',
+                  score_bound=f'{0.00375 * sum(1 - j for j in jw):.5f}', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
 
 
 STATE_KEYS = ['panel', 'timestamp', 'station_id', 'link_id', 'mask_regime']

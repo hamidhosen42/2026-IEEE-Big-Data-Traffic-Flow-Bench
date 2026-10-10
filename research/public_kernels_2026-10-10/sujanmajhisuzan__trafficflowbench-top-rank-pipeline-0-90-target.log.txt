@@ -1,0 +1,58 @@
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+Initialized pipeline with 4 threads.
+Competition Data Root: /kaggle/input/competitions/2026-ieee-big-data-traffic-flow-bench/kaggle_public
+Public Assets Root: /kaggle/input/datasets/anubisyy/trafficflowbench-086517-public-assets
+
+>>> [1/4] Running Task 1: Traffic State Reconstruction...
+State inference device: GPU
+D7_I10_E validation 337512
+D7_I10_W validation 233060
+D7_I210_E validation 625014
+D7_I210_W validation 205973
+D7_I405_N validation 673133
+D7_I405_S validation 271939
+D12_I5_N validation 588468
+D12_I5_S validation 219222
+D12_I405_N validation 203337
+D12_I405_S validation 93718
+D7_I10_E private 303294
+D7_I10_W private 203699
+D7_I210_E private 581196
+D7_I210_W private 158901
+D7_I405_N private 746097
+D7_I405_S private 243603
+D12_I5_N private 543092
+D12_I5_S private 204957
+D12_I405_N private 192164
+D12_I405_S private 107416
+Task 1 raw output rows: 6,735,795
+Task 1 state reconstruction finished in 267.6s
+
+>>> [2/4] Running Task 2: Queue Forecasting with Structural Onset & Spatial Smoothing...
+Task 2 completed! Predicted 174,000 cells, positive cells: 10,753
+
+>>> [3/4] Running Task 4: High-Precision ODME Optimization...
+Task 4 completed! Generated 70,708 path-flow predictions.
+
+>>> [4/4] Assembling final submission.csv with official submission keys...
+--- SUBMISSION INTEGRITY AUDIT ---
+Total submission rows: 6,980,503
+Task row breakdown: {'state': 6735795, 'queue': 174000, 'odme': 70708}
+SHA256 digest: fb2a858f39a1cbf3fb2a50e2c09ee93dba820f1975d3abe4a08ec2aa3ecbd48c
+Total execution time: 523.4 seconds
+🎉 SUCCESS! Final submission.csv ready for leaderboard upload!
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 29524 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Writing 352804 bytes to __results__.html

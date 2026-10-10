@@ -1,0 +1,31 @@
+[run_heavy] slot acquired after 0s
+[    11s] D7_I405_S fold 0: rows 913518 (train 747002 + transductive 166516) cols 94; eval cells and tv/tq == t1bspec
+[   179s]   catboost v depth 8 it 2000: 168s
+[   429s]   catboost v depth 10 it 1000: 250s
+[   588s]   catboost q depth 8 it 2000: 159s
+[   859s]   catboost q depth 10 it 1000: 272s
+[   859s] D7_I405_S fold 0 catb done in 849s -> D7_I405_S_f0_catb.npz
+[   933s] D7_I405_S fold 0 base3 done in 73s -> D7_I405_S_f0_base3.npz
+[   944s] D7_I405_S fold 1: rows 914137 (train 747002 + transductive 167135) cols 94; eval cells and tv/tq == t1bspec
+[  1093s]   catboost v depth 8 it 2000: 148s
+[  1332s]   catboost v depth 10 it 1000: 240s
+[  1492s]   catboost q depth 8 it 2000: 160s
+[  1755s]   catboost q depth 10 it 1000: 263s
+[  1755s] D7_I405_S fold 1 catb done in 811s -> D7_I405_S_f1_catb.npz
+[  1825s] D7_I405_S fold 1 base3 done in 70s -> D7_I405_S_f1_base3.npz
+[  1835s] D12_I5_S fold 0: rows 880980 (train 719677 + transductive 161303) cols 94; eval cells and tv/tq == t1bspec
+[  1990s]   catboost v depth 8 it 2000: 154s
+[  2229s]   catboost v depth 10 it 1000: 240s
+[  2396s]   catboost q depth 8 it 2000: 167s
+[  2656s]   catboost q depth 10 it 1000: 259s
+[  2656s] D12_I5_S fold 0 catb done in 821s -> D12_I5_S_f0_catb.npz
+[  2723s] D12_I5_S fold 0 base3 done in 67s -> D12_I5_S_f0_base3.npz
+[  2734s] D12_I5_S fold 1: rows 880970 (train 719677 + transductive 161293) cols 94; eval cells and tv/tq == t1bspec
+[  2887s]   catboost v depth 8 it 2000: 153s
+[  3149s]   catboost v depth 10 it 1000: 262s
+[  3320s]   catboost q depth 8 it 2000: 171s
+[  3586s]   catboost q depth 10 it 1000: 266s
+[  3586s] D12_I5_S fold 1 catb done in 852s -> D12_I5_S_f1_catb.npz
+[  3640s] D12_I5_S fold 1 base3 done in 54s -> D12_I5_S_f1_base3.npz
+[  3640s] done
+[run_heavy] exit 0 after 3641s

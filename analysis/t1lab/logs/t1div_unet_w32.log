@@ -1,0 +1,67 @@
+[run_heavy] slot acquired after 0s
+[     2s] loaded [('D12_I5_S', (273, 100, 288)), ('D7_I10_E', (273, 146, 288)), ('D7_I210_W', (273, 81, 288)), ('D7_I405_S', (273, 109, 288))]
+[     5s] 10 steps done; est. 0.78 h total (incl. load)
+[    34s] epoch 0: loss 1.67617
+[    83s] epoch 1: loss 0.65027
+[   130s] epoch 2: loss 0.42577
+[   177s] epoch 3: loss 0.36216
+[   225s] epoch 4: loss 0.32136
+[   273s] epoch 5: loss 0.31454
+[   321s] epoch 6: loss 0.27169
+[   369s] epoch 7: loss 0.25701
+[   417s] epoch 8: loss 0.22510
+[   464s] epoch 9: loss 0.18635
+[   511s] epoch 10: loss 0.18236
+[   558s] epoch 11: loss 0.17499
+[   606s] epoch 12: loss 0.17745
+[   655s] epoch 13: loss 0.16065
+[   704s] epoch 14: loss 0.11909
+[   753s] epoch 15: loss 0.11911
+[   805s] epoch 16: loss 0.11091
+[   856s] epoch 17: loss 0.11099
+[   902s] epoch 18: loss 0.10188
+[   947s] epoch 19: loss 0.10162
+[   996s] epoch 20: loss 0.08724
+[  1042s] epoch 21: loss 0.09047
+[  1089s] epoch 22: loss 0.07400
+[  1139s] epoch 23: loss 0.07404
+[  1189s] epoch 24: loss 0.07117
+[  1240s] epoch 25: loss 0.06844
+[  1291s] epoch 26: loss 0.05763
+[  1341s] epoch 27: loss 0.06613
+[  1389s] epoch 28: loss 0.05616
+[  1440s] epoch 29: loss 0.05987
+[  1442s] D12_I5_S 0 validation_blk unet speed rmse 12.846 | base 12.173
+[  1442s] D12_I5_S 0 validation_ord unet speed rmse 2.659 | base 1.314
+[  1443s] D12_I5_S 0 private_blk unet speed rmse 13.472 | base 10.911
+[  1443s] D12_I5_S 0 private_ord unet speed rmse 3.265 | base 1.848
+[  1443s] D12_I5_S 1 validation_blk unet speed rmse 12.626 | base 10.887
+[  1443s] D12_I5_S 1 validation_ord unet speed rmse 2.663 | base 1.482
+[  1444s] D12_I5_S 1 private_blk unet speed rmse 13.352 | base 9.217
+[  1444s] D12_I5_S 1 private_ord unet speed rmse 3.265 | base 1.82
+[  1444s] D7_I10_E 0 validation_blk unet speed rmse 6.986 | base 7.231
+[  1444s] D7_I10_E 0 validation_ord unet speed rmse 2.374 | base 1.54
+[  1444s] D7_I10_E 0 private_blk unet speed rmse 9.761 | base 10.523
+[  1444s] D7_I10_E 0 private_ord unet speed rmse 2.293 | base 1.331
+[  1445s] D7_I10_E 1 validation_blk unet speed rmse 8.518 | base 9.206
+[  1445s] D7_I10_E 1 validation_ord unet speed rmse 2.383 | base 1.528
+[  1445s] D7_I10_E 1 private_blk unet speed rmse 8.732 | base 8.904
+[  1445s] D7_I10_E 1 private_ord unet speed rmse 2.29 | base 1.366
+[  1446s] D7_I210_W 0 validation_blk unet speed rmse 9.454 | base 8.552
+[  1446s] D7_I210_W 0 validation_ord unet speed rmse 3.127 | base 2.305
+[  1446s] D7_I210_W 0 private_blk unet speed rmse 12.089 | base 9.58
+[  1446s] D7_I210_W 0 private_ord unet speed rmse 3.107 | base 1.863
+[  1446s] D7_I210_W 1 validation_blk unet speed rmse 8.687 | base 6.61
+[  1446s] D7_I210_W 1 validation_ord unet speed rmse 3.123 | base 2.232
+[  1447s] D7_I210_W 1 private_blk unet speed rmse 13.047 | base 7.334
+[  1447s] D7_I210_W 1 private_ord unet speed rmse 3.224 | base 1.788
+[  1447s] D7_I405_S 0 validation_blk unet speed rmse 11.168 | base 7.86
+[  1447s] D7_I405_S 0 validation_ord unet speed rmse 2.762 | base 1.741
+[  1448s] D7_I405_S 0 private_blk unet speed rmse 10.66 | base 10.046
+[  1448s] D7_I405_S 0 private_ord unet speed rmse 2.946 | base 1.89
+[  1448s] D7_I405_S 1 validation_blk unet speed rmse 11.318 | base 11.455
+[  1448s] D7_I405_S 1 validation_ord unet speed rmse 2.761 | base 1.729
+[  1448s] D7_I405_S 1 private_blk unet speed rmse 11.689 | base 11.524
+[  1448s] D7_I405_S 1 private_ord unet speed rmse 2.932 | base 1.852
+[  1448s] done
+[run_heavy] exit 0 after 1456s

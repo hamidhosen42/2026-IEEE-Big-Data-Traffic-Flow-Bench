@@ -1,0 +1,96 @@
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+Data: /kaggle/input/competitions/2026-ieee-big-data-traffic-flow-bench/kaggle_public
+Assets: /kaggle/input/trafficflowbench-086517-public-assets
+Model directory: /kaggle/input/trafficflowbench-086517-public-assets
+Training: False Inference: True
+{'numpy': '2.1.3', 'pandas': '2.3.3', 'scipy': '1.16.3', 'lightgbm': '4.6.0', 'catboost': '1.2.10', 'pyarrow': '23.0.1'}
+All asset checksums passed.
+Writing tfb_source/config.py
+Writing tfb_source/base_panel.py
+Writing tfb_source/state_model.py
+Writing tfb_source/prepare_state.py
+Writing tfb_source/train_state.py
+Writing tfb_source/state_inference.py
+Writing tfb_source/queue_ongoing.py
+Writing tfb_source/queue_features.py
+Writing tfb_source/train_ongoing.py
+Writing tfb_source/train_onset.py
+Writing tfb_source/train_onset_catboost.py
+Training disabled; source files above are ready to use.
+State inference device: GPU
+D7_I10_E validation 337512
+D7_I10_W validation 233060
+D7_I210_E validation 625014
+D7_I210_W validation 205973
+D7_I405_N validation 673133
+D7_I405_S validation 271939
+D12_I5_N validation 588468
+D12_I5_S validation 219222
+D12_I405_N validation 203337
+D12_I405_S validation 93718
+D7_I10_E private 303294
+D7_I10_W private 203699
+D7_I210_E private 581196
+D7_I210_W private 158901
+D7_I405_N private 746097
+D7_I405_S private 243603
+D12_I5_N private 543092
+D12_I5_S private 204957
+D12_I405_N private 192164
+D12_I405_S private 107416
+Queue rows: 174,000; positive cells: 10,362
+D7_I10_E validation iterations: 2688 success: True
+D7_I10_W validation iterations: 3353 success: True
+D7_I210_E validation iterations: 2573 success: True
+D7_I210_W validation iterations: 1748 success: True
+D7_I405_N validation iterations: 5844 success: True
+D7_I405_S validation iterations: 2305 success: True
+D12_I5_N validation iterations: 4936 success: True
+D12_I5_S validation iterations: 2447 success: True
+D12_I405_N validation iterations: 326 success: True
+D12_I405_S validation iterations: 52 success: True
+D7_I10_E private iterations: 1719 success: True
+D7_I10_W private iterations: 3601 success: True
+D7_I210_E private iterations: 1872 success: True
+D7_I210_W private iterations: 1230 success: True
+D7_I405_N private iterations: 3421 success: True
+D7_I405_S private iterations: 2060 success: True
+D12_I5_N private iterations: 4627 success: True
+D12_I5_S private iterations: 2100 success: True
+D12_I405_N private iterations: 296 success: True
+D12_I405_S private iterations: 48 success: True
+{
+  "rows": 6980503,
+  "task_rows": {
+    "state": 6735795,
+    "queue": 174000,
+    "odme": 70708
+  },
+  "sha256": "f89f3b1118f945f6afb854c42bd689f04e870638b484b0d17aae58ce8295e0b4",
+  "recorded_solution_score": 0.86517,
+  "versions": {
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "scipy": "1.16.3",
+    "lightgbm": "4.6.0",
+    "catboost": "1.2.10",
+    "pyarrow": "23.0.1"
+  },
+  "rebuilt_warm_start": false
+}
+Saved: /kaggle/working/submission.csv
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 122023 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Writing 717628 bytes to __results__.html

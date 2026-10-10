@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 4155855c4549392378e0df890c7a4dc3504d1b8d | generated 2026-10-10 00:21
+#   tfb 0.1.0-m1 | modules tree sha1 ca92c6634e911ee5d57349584116537ddde158ee | generated 2026-10-10 11:39
 # Parity kernel tfb-par-t1mix (required, ~15 min on Kaggle CPU): T1 mix + blackout override (tfb-i4d) from the 31 original member outputs; every row vs tfb-i4d
 # Stages ['t1_mix'] | pick A2 | recipe full | overrides {"t1_mix": {"base": ["orig:tfb-i4d", "submission_T1DARK.csv"]}}
 # Kernel sources to attach (32, plus the competition data):
@@ -16,7 +16,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-t1mix", "priority": "required", "minutes": 15, "stages": ["t1_mix"], "pick": "A2", "recipe": "full", "overrides": {"t1_mix": {"base": ["orig:tfb-i4d", "submission_T1DARK.csv"]}}, "desc": "T1 mix + blackout override (tfb-i4d) from the 31 original member outputs; every row vs tfb-i4d", "sources": ["tfb-t1v11a", "tfb-t1v11b", "tfb-t1v12a", "tfb-t1v12b", "tfb-t1v12s2a", "tfb-t1v12s2b", "tfb-t1v12s3a", "tfb-t1v12s3b", "tfb-t1v12s4a", "tfb-t1v12s4b", "tfb-t1v12s5a", "tfb-t1v12s5b", "tfb-t1v12s6a", "tfb-t1v12s6b", "tfb-t1v12s7a", "tfb-t1v12s7b", "tfb-t1v13a", "tfb-t1v13b", "tfb-t1v13s10a", "tfb-t1v13s10b", "tfb-t1v13s11a", "tfb-t1v13s11b", "tfb-t1darka", "tfb-t1darkb", "tfb-t1rampa", "tfb-t1rampb", "tfb-t1ramp2a", "tfb-t1ramp2b", "tfb-t1bspeca", "tfb-t1bspecb", "tfb-t1bspecc", "tfb-i4d"], "checks": [{"type": "submission", "ours": ["tfb-i4d", "submission_T1DARK.csv"], "orig": ["tfb-i4d", "submission_T1DARK.csv"], "tasks": ["state", "queue", "odme"], "label": "t1mix_vs_tfb-i4d"}], "tfb_version": "0.1.0-m1", "tree_sha1": "4155855c4549392378e0df890c7a4dc3504d1b8d", "generated": "2026-10-10 00:21"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-t1mix", "priority": "required", "minutes": 15, "stages": ["t1_mix"], "pick": "A2", "recipe": "full", "overrides": {"t1_mix": {"base": ["orig:tfb-i4d", "submission_T1DARK.csv"]}}, "desc": "T1 mix + blackout override (tfb-i4d) from the 31 original member outputs; every row vs tfb-i4d", "sources": ["tfb-t1v11a", "tfb-t1v11b", "tfb-t1v12a", "tfb-t1v12b", "tfb-t1v12s2a", "tfb-t1v12s2b", "tfb-t1v12s3a", "tfb-t1v12s3b", "tfb-t1v12s4a", "tfb-t1v12s4b", "tfb-t1v12s5a", "tfb-t1v12s5b", "tfb-t1v12s6a", "tfb-t1v12s6b", "tfb-t1v12s7a", "tfb-t1v12s7b", "tfb-t1v13a", "tfb-t1v13b", "tfb-t1v13s10a", "tfb-t1v13s10b", "tfb-t1v13s11a", "tfb-t1v13s11b", "tfb-t1darka", "tfb-t1darkb", "tfb-t1rampa", "tfb-t1rampb", "tfb-t1ramp2a", "tfb-t1ramp2b", "tfb-t1bspeca", "tfb-t1bspecb", "tfb-t1bspecc", "tfb-i4d"], "checks": [{"type": "submission", "ours": ["tfb-i4d", "submission_T1DARK.csv"], "orig": ["tfb-i4d", "submission_T1DARK.csv"], "tasks": ["state", "queue", "odme"], "label": "t1mix_vs_tfb-i4d"}], "tfb_version": "0.1.0-m1", "tree_sha1": "ca92c6634e911ee5d57349584116537ddde158ee", "generated": "2026-10-10 11:39"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).
@@ -114,6 +114,15 @@ ONGOING = dict(
 
 # ------------------------------------------------------------------ Task 4 (stage t4 = tfb-final cell 7)
 T4 = dict(lam=0.05)
+
+# ------------------------------------------------------------------ LightGBM reproducibility (Task 2 ongoing stages)
+# The original kernels ran LightGBM with num_threads=4, verbose=-1 and neither `deterministic` nor `force_row_wise/col_wise`:
+# LightGBM then picks row- or col-wise histograms by a timing test and sums multithreaded histograms in no fixed order, so
+# a rerun is not bit-repeatable (Kaggle parity 2026-10-10: occ 22 / pvogf 24 queue cells of 87,000 changed). The entry
+# script fixes the code path so that every rerun on the same hardware / version / threads gives the same file. It cannot
+# reproduce the original file exactly (its own path was never logged). None = original behaviour. Task 1 members keep the
+# original setting (their effect is smooth; deterministic mode would add runtime to the 60 h of member training).
+LGB_REPRO = dict(deterministic=True, force_row_wise=True)
 
 # ------------------------------------------------------------------ queue assembly (stage assemble = swap_queue2.py)
 # One part per (condition, split) block; together they cover every queue row (the T4 skeleton's queue rows are 0).
@@ -276,12 +285,14 @@ def stage_cfg(stage, pick, recipe, threads=4):
         return dict(ONSET)
     if stage == 'pseudo':
         return dict(expected={k: list(v) for k, v in PSEUDO_EXPECTED.items()})
+    if stage == 'ongoing_val':
+        return dict(lgb_repro=dict(LGB_REPRO))
     if stage == 'ongoing_pvogf':
-        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'])
+        return dict(ref_v22=list(ONGOING_REFS['ref_v22']), veto_g=ONGOING['veto_g'], lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_a':
-        return dict(part='a', tag='v27a')
+        return dict(part='a', tag='v27a', lgb_repro=dict(LGB_REPRO))
     if stage == 'ogfeat_b':
-        return dict(part='b', tag='v27b')
+        return dict(part='b', tag='v27b', lgb_repro=dict(LGB_REPRO))
     return {}
 
 
@@ -926,8 +937,11 @@ def compare_queue_file(ours, orig, check, rel=None):
                 uni = int(((w_all.a == 1) | (w_all.b == 1)).sum())
                 inter = int(((w_all.a == 1) & (w_all.b == 1)).sum())
                 jw.append(1.0 if uni == 0 else inter / uni)
+            # score bound (DESIGN 4.7): Jaccard distance is a metric, so per window |dIoU| <= 1 - J; one official window is worth
+            # 0.15 / 40 = 0.00375 of the total score per IoU unit -> |dS| <= 0.00375 * sum_w (1 - J_w) for this block
             _line(check, f'queue.{s}.{c}', 'EXACT' if not g.d.any() else 'FAIL', rows=len(g), n_diff=int(g.d.sum()),
-                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
+                  windows_diff=len(jw), min_jaccard=f'{min(jw):.4f}' if jw else '1', sum_1mJ=f'{sum(1 - j for j in jw):.4f}',
+                  score_bound=f'{0.00375 * sum(1 - j for j in jw):.5f}', pos_ours=int(g.a.sum()), pos_orig=int(g.b.sum()))
 
 
 STATE_KEYS = ['panel', 'timestamp', 'station_id', 'link_id', 'mask_regime']

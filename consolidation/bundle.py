@@ -136,13 +136,13 @@ SPECS_M2 = [
          sources=['tfb-t2lab-full'],
          checks=same('tfb-t2lab-full', [f'pseudo_{p}.npz' for p in C.PANELS_T2], 'pseudo', npz)),
     dict(slug='tfb-par-occ', priority='A2 + B2', minutes=int(19630 / 60) + 15, stages=['ongoing_val'], pick='A2', recipe='full', overrides={},
-         desc='March ongoing (tfb-t2occ): fs4occ / fs2occ / fs_np queue files exactly + probabilities and qlast (t2v26occ_probs.npz)',
+         desc='March ongoing (tfb-t2occ), production setting LGB_REPRO: fs4occ / fs2occ / fs_np vs the original (LightGBM drift expected; score_bound per block) + probabilities / qlast',
          sources=['tfb-t2occ'],
          checks=same('tfb-t2occ', ['queue_submission_fs4occ.csv', 'queue_submission_fs2occ.csv', 'queue_submission_fs_np.csv'], 'occ')
          + same('tfb-t2occ', ['t2v26occ_probs.npz'], 'occ', npz)),
     dict(slug='tfb-par-pvogf', priority='A2', minutes=int(16399 / 60) + 15, stages=['ongoing_pvogf'], pick='A2', recipe='full',
          overrides={'ongoing_pvogf': {'ref_v22': ['tfb-t2v22af', 'queue_submission_fs4af.csv']}},
-         desc='April ongoing of A2 (tfb-t2ogpvogf) with the original references attached (fs4af validation copy, pvo veto): pvogf / pvogf_npid / pvogfv exactly + probabilities',
+         desc='April ongoing of A2 (tfb-t2ogpvogf), LGB_REPRO, original references attached (fs4af, pvo): pvogf / npid / pvogfv vs the original (drift expected; score_bound) + probabilities',
          sources=['tfb-t2ogpvogf', 'tfb-t2v22af', 'tfb-t2ogpvaf'],
          checks=same('tfb-t2ogpvogf', ['queue_submission_pvogf.csv', 'queue_submission_pvogf_npid.csv', 'queue_submission_pvogfv.csv'], 'pvogf')
          + same('tfb-t2ogpvogf', ['t2pvogf_probs.npz'], 'pvogf', npz)),
@@ -162,6 +162,18 @@ SPECS_M2 = [
          desc='veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly',
          sources=['tfb-t2occ', 'tfb-t2ogfc', 'tfb-t2ogveto'],
          checks=same('tfb-t2ogveto', ['queue_submission_veto10.csv'], 'ogveto')),
+    # repeatability of the production setting (LGB_REPRO) across Kaggle sessions: rerun and compare with the parity kernel's own output
+    dict(slug='tfb-par-pvogfrep', priority='A2 repeatability', minutes=int(16399 / 60) + 15, stages=['ongoing_pvogf'], pick='A2', recipe='full',
+         overrides={'ongoing_pvogf': {'ref_v22': ['tfb-t2v22af', 'queue_submission_fs4af.csv']}},
+         desc='second run of tfb-par-pvogf (same inputs, LGB_REPRO on) compared with the FIRST run\'s output: EXACT = the entry script is repeatable on Kaggle',
+         sources=['tfb-par-pvogf', 'tfb-t2v22af', 'tfb-t2ogpvaf'],
+         checks=[queue(('tfb-t2ogpvogf', f), ('tfb-par-pvogf', f), f'rep_{f[17:-4]}') for f in ('queue_submission_pvogf.csv', 'queue_submission_pvogfv.csv')]
+         + [npz(('tfb-t2ogpvogf', 't2pvogf_probs.npz'), ('tfb-par-pvogf', 't2pvogf_probs.npz'), 'rep_probs')]),
+    dict(slug='tfb-par-occrep', priority='A2 + B2 repeatability', minutes=int(19630 / 60) + 15, stages=['ongoing_val'], pick='A2', recipe='full', overrides={},
+         desc='second run of tfb-par-occ (LGB_REPRO on) compared with the FIRST run\'s output: EXACT = repeatable on Kaggle',
+         sources=['tfb-par-occ'],
+         checks=[queue(('tfb-t2occ', 'queue_submission_fs4occ.csv'), ('tfb-par-occ', 'queue_submission_fs4occ.csv'), 'rep_fs4occ'),
+                 npz(('tfb-t2occ', 't2v26occ_probs.npz'), ('tfb-par-occ', 't2v26occ_probs.npz'), 'rep_probs')]),
 ] + [member_spec(p) for p in C.t1_member_kernels('full')]
 SPECS = SPECS + SPECS_M2
 
@@ -334,7 +346,8 @@ def main():
 
 M1_PASSED = ('tfb-par-onsetsp', 'tfb-par-onsetpv', 'tfb-par-t1mix', 'tfb-par-t1recon', 'tfb-par-asma2', 'tfb-par-asmb2',
              'tfb-par-chaint2a2', 'tfb-par-chaint2b2')
-M2_T2 = ('tfb-par-pseudo', 'tfb-par-occ', 'tfb-par-pvogf', 'tfb-par-ogfa', 'tfb-par-ogfb', 'tfb-par-ogfc', 'tfb-par-ogveto')
+M2_T2 = ('tfb-par-pseudo', 'tfb-par-occ', 'tfb-par-pvogf', 'tfb-par-ogfa', 'tfb-par-ogfb', 'tfb-par-ogfc', 'tfb-par-ogveto',
+         'tfb-par-pvogfrep', 'tfb-par-occrep')
 
 
 def _src_note(s):

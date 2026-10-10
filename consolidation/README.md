@@ -109,7 +109,11 @@ reproduces into `<work>/kernels/<kernel>/`. It reads upstream results through `T
   - `PYTHONHASHSEED=0`;
   - `OMP_NUM_THREADS = OPENBLAS_NUM_THREADS = MKL_NUM_THREADS = 4` (the Kaggle values);
   - the stage folder as the working directory (`catboost_info/` lands there, as in `/kaggle/working`).
-- CSV round trips are the same as in the Kaggle chain (pandas defaults). Floats therefore pass the same parse/print sequence.
+- CSV round trips are the same as in the Kaggle chain (pandas defaults). `t4` writes path_flow at its CSV fixed point, which is the chain's value.
+- **LightGBM** (DESIGN §4.8): the original kernels did not fix LightGBM's histogram path, so their exact files cannot be reproduced.
+  - The Task 2 LightGBM stages use `deterministic=True, force_row_wise=True` (`tfb/config.py LGB_REPRO`) so that reruns are repeatable.
+  - Expected drift vs the submitted files: a few dozen of 87,000 ongoing cells. Private bound ≈ 0.0012, expected about 0.
+  - Task 1 members keep the original setting (smooth NUMERIC drift).
 - Locally, a second run of every light stage reproduces the first byte for byte (see *Local smoke results*).
 
 ## Development and parity testing

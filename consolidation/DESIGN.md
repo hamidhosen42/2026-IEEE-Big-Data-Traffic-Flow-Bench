@@ -436,6 +436,57 @@ Levels 1–3 can run on Kaggle with the original kernels attached as sources, so
 - total expected |Δ| ≤ 0.001;
 - worst-case total ≤ 0.002.
 
+### 4.8 LightGBM reruns are not bit-reproducible (Kaggle parity round 2, 2026-10-10)
+
+**Measured.** Everything else reproduced exactly:
+- **EXACT:** onset (CatBoost), T4, the swaps, the pseudo windows (16/16 arrays).
+- **NUMERIC:** chaint1 state (≤ 9e-13).
+
+The LightGBM ongoing reruns drift from the originals:
+
+| Rerun | Changed cells | Detail | Probabilities |
+|---|---|---|---|
+| tfb-t2occ fs4occ | 22 of 87,000 ongoing | validation 11 in 8 windows; private 11 in 9 windows, min J 0.944 | 64/96 arrays differ, max 0.136 |
+| tfb-t2ogpvogf pvogf / pvogfv | 24 private, in 11 windows | min J 0.867; positives 4767 = 4767 | max 0.20 |
+
+**Why.** The originals ran LightGBM with `num_threads=4`, `verbose=-1`, and neither `deterministic` nor `force_row_wise/col_wise`.
+- LightGBM then picks row- or col-wise histograms by a silent timing test.
+- It also sums the multithreaded histograms in no fixed order.
+- Kaggle sessions land on different CPUs (round 1 logged both AMD EPYC 7B12 and Intel Xeon 2.20 GHz).
+- A 511-leaf, 1800-tree model amplifies one different split into probability changes of 0.1–0.2 on a few cells. Decode then flips about 1 cell in 4,000.
+
+The original path was never logged, so **no setting can reproduce the original files exactly**. On one machine both settings repeat: local SMOKE test, 4 runs in parallel, switch on and off, all identical.
+
+**Private-score bound.** The Jaccard distance is a metric, so per window |ΔIoU| ≤ 1 − J. With 0.00375 per window-IoU unit:
+- **A2 (pvogf private rows, 24 cells / 11 windows, about 119 queued cells per window):**
+  - Σ(1 − J) ≈ 0.13 (the min-J window) + 22/119 ≈ 0.32, so |ΔS| ≲ **0.0012**.
+  - Pessimistic (all 11 windows at J = 0.867): 0.0055.
+  - The expected value is about 0, because flips sit on the decode boundary and go both ways. SD ≈ 0.00375 · ½ · √Σ(1 − J)² ≈ **0.0003**.
+- **B2:**
+  - fs4occ private (11 cells / 9 windows) enters veto10 only through qlast and the vetoed window.
+  - fs4ogf (ogfa/ogfb) is not measured yet; assume pvogf-like, about 0.001–0.0013.
+- Validation-row drift moves the public score only.
+
+**Against the rules.** Even the pessimistic case (0.0055) is inside the 1 % rule (about 0.0088). The realistic bound (0.0012) uses about 60 % of our ±0.002 budget; add lean-1 (expected −0.0003). Onset, T4 and the swaps add nothing; T1 adds NUMERIC noise (members pending).
+
+**Setting adopted (`tfb/config.py LGB_REPRO`).**
+- The Task 2 LightGBM stages (`t2_occ`, `t2_pvogf`, `t2_ogfeat`) add `deterministic=True, force_row_wise=True` to their params, with `num_threads=4` kept.
+- With that, every rerun on the same hardware, LightGBM version and thread count writes the same file. LightGBM does not promise identical results across CPUs or builds.
+- **Trade-off:** the entry script then writes, every time, a file that differs from the submitted one by about the drift above (expected 0, realistic bound ≈ 0.0012 private).
+- `--set <stage>.lgb_repro=null` restores the original behaviour.
+- Task 1 members keep the original setting. Their drift is smooth, and deterministic mode would add runtime to about 60 h of training.
+- Parity kernels `tfb-par-pvogfrep` / `tfb-par-occrep` measure run-to-run repeatability across Kaggle sessions.
+
+**Option for the team: submit the consolidated output before Nov 6.**
+- Build A2 (and B2) with the entry script on Kaggle (repro setting, chosen recipe), submit both, and select them. The selected submission is then the reproducible file: the organizers' rerun matches it exactly if their platform matches Kaggle, and differs by T1 noise only otherwise.
+- **Cost:**
+  - compute: lean-1 about 85 Kaggle-h, full about 130 h, i.e. 1–1.5 days at 5 sessions, competing with the parity runs;
+  - 2 submission slots;
+  - the public score moves by about ±0.001 (noise, expected 0);
+  - the new files must be validated before Nov 3 (code freeze).
+- **Worth it mostly if lean-1 is adopted.** Lean-1 alone moves the rerun by an expected −0.0003, and a lean-1 submission removes that gap.
+- Without resubmitting, the 1 % rule still holds with a wide margin. This is the team's call.
+
 ---
 
 ## 5. Timeline (Oct 9 → Nov 10)
@@ -487,6 +538,7 @@ Levels 1–3 can run on Kaggle with the original kernels attached as sources, so
   - ≥ 1 veto → pvo (2.4 h) stays.
   - Then rerun the lineage trace to add tfb-j4 to `lineage_A2.json` (method: BFS over `kernelDataSources` via `kjob.call('GET', '/kernels/pull?…')`, logs via `/kernels/output`, log text only).
 - **Porting bugs** are the largest real risk to the 1 % rule. Level 1 member parity on Kaggle is the guard.
+- **LightGBM drift** (§4.8): the T2 ongoing reruns differ from the originals by about 1 cell in 4,000 (A2 private bound ≈ 0.0012). The entry script uses `LGB_REPRO` for repeatable reruns. Submitting the consolidated output is optional insurance.
 - **Environment.** No single environment reproduces both images. Image-A members will drift smoothly, while T2 private producers ran on B. Pin B's versions from the image digest.
 - **T2 lumpiness.** One onset flip ≈ 0.001–0.002 private. Requirements: exact CatBoost (proven A→B), LightGBM with the same version and 4 threads, the decode-tie audit. The FM-PM gate and the Jaccard bound quantify any residue.
 - **RAM.** 32 GB is the minimum (T1 member peak 28.0 GB); 48–64 GB is comfortable. bspec part c must keep its reduced settings.

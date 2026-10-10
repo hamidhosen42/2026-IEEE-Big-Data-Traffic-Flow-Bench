@@ -273,7 +273,7 @@
   "sources": [
    "hosen42/tfb-t2occ"
   ],
-  "desc": "March ongoing (tfb-t2occ): fs4occ / fs2occ / fs_np queue files exactly + probabilities and qlast (t2v26occ_probs.npz)"
+  "desc": "March ongoing (tfb-t2occ), production setting LGB_REPRO: fs4occ / fs2occ / fs_np vs the original (LightGBM drift expected; score_bound per block) + probabilities / qlast"
  },
  "tfb-par-pvogf": {
   "priority": "A2",
@@ -288,7 +288,7 @@
    "hosen42/tfb-t2v22af",
    "hosen42/tfb-t2ogpvaf"
   ],
-  "desc": "April ongoing of A2 (tfb-t2ogpvogf) with the original references attached (fs4af validation copy, pvo veto): pvogf / pvogf_npid / pvogfv exactly + probabilities"
+  "desc": "April ongoing of A2 (tfb-t2ogpvogf), LGB_REPRO, original references attached (fs4af, pvo): pvogf / npid / pvogfv vs the original (drift expected; score_bound) + probabilities"
  },
  "tfb-par-ogfa": {
   "priority": "B2",
@@ -345,6 +345,34 @@
    "hosen42/tfb-t2ogveto"
   ],
   "desc": "veto10 (tfb-t2ogveto) from the original fs4occ / qlast / fs4ogf: exactly"
+ },
+ "tfb-par-pvogfrep": {
+  "priority": "A2 repeatability",
+  "minutes": 288,
+  "stages": [
+   "ongoing_pvogf"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-par-pvogf",
+   "hosen42/tfb-t2v22af",
+   "hosen42/tfb-t2ogpvaf"
+  ],
+  "desc": "second run of tfb-par-pvogf (same inputs, LGB_REPRO on) compared with the FIRST run's output: EXACT = the entry script is repeatable on Kaggle"
+ },
+ "tfb-par-occrep": {
+  "priority": "A2 + B2 repeatability",
+  "minutes": 342,
+  "stages": [
+   "ongoing_val"
+  ],
+  "pick": "A2",
+  "recipe": "full",
+  "sources": [
+   "hosen42/tfb-par-occ"
+  ],
+  "desc": "second run of tfb-par-occ (LGB_REPRO on) compared with the FIRST run's output: EXACT = repeatable on Kaggle"
  },
  "tfb-par-v11a": {
   "priority": "full only",
