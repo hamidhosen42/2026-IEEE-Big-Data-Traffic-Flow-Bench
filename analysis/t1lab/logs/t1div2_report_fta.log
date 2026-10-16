@@ -1,0 +1,48 @@
+[run_heavy] slot acquired after 0s
+tables D12_I5_S
+tables D7_I10_E
+tables D7_I210_W
+tables D7_I405_S
+
+RAW member RMSE pooled over panel-month-folds (speed km/h | flow per lane) and corr(error, mix error):
+  ord: base v1.727/q29.69/corr0.971 base2 v1.731/q29.69/corr0.971 base3 v1.727/q29.70/corr0.962 catbfta v1.729/q30.08/corr0.954 catb v1.693/q29.53/corr0.973 lgbfta v1.753/q30.23/corr0.973 | stand-in fta mix v1.676
+  blk: base v9.501/q78.61/corr0.979 base2 v9.519/q78.59/corr0.979 base3 v9.526/q78.69/corr0.972 catbfta v9.374/q79.35/corr0.961 catb v9.341/q78.33/corr0.975 lgbfta v9.567/q79.81/corr0.979 | stand-in fta mix v9.260
+post base3@0.15  deploy dS_state -0.00000 dLWR +0.00003 dS_FD +0.00000 | dJ +0.000002 [-0.000054, +0.000055] up 6/8 (val -0.000021 pri +0.000025)
+post base3@0.15  ord    dS_state -0.00000 dLWR +0.00005 dS_FD +0.00000 | dJ +0.000003 [-0.000054, +0.000056] up 6/8 (val -0.000021 pri +0.000027)
+post base3@0.15  blk    dS_state -0.00000 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000001 [-0.000004, +0.000001] up 4/8 (val -0.000000 pri -0.000002)
+post base3@0.25  deploy dS_state -0.00001 dLWR -0.00011 dS_FD +0.00000 | dJ -0.000013 [-0.000085, +0.000058] up 3/8 (val -0.000036 pri +0.000010)
+post base3@0.25  ord    dS_state -0.00000 dLWR -0.00010 dS_FD +0.00000 | dJ -0.000011 [-0.000084, +0.000061] up 3/8 (val -0.000035 pri +0.000013)
+post base3@0.25  blk    dS_state -0.00000 dLWR -0.00001 dS_FD +0.00000 | dJ -0.000002 [-0.000006, +0.000001] up 3/8 (val -0.000001 pri -0.000003)
+post base3@0.35  deploy dS_state -0.00004 dLWR -0.00043 dS_FD -0.00000 | dJ -0.000058 [-0.000150, +0.000033] up 2/8 (val -0.000081 pri -0.000034)
+post base3@0.35  ord    dS_state -0.00004 dLWR -0.00040 dS_FD -0.00000 | dJ -0.000054 [-0.000147, +0.000037] up 2/8 (val -0.000078 pri -0.000029)
+post base3@0.35  blk    dS_state -0.00000 dLWR -0.00003 dS_FD -0.00000 | dJ -0.000004 [-0.000008, -0.000000] up 2/8 (val -0.000003 pri -0.000005)
+post catbfta@0.15 deploy dS_state -0.00000 dLWR +0.00045 dS_FD +0.00001 | dJ +0.000044 [-0.000001, +0.000093] up 6/8 (val +0.000102 pri -0.000013) | vs base3 +0.000042 [-0.000041, +0.000130] 5/8
+post catbfta@0.15 ord    dS_state -0.00001 dLWR +0.00044 dS_FD +0.00001 | dJ +0.000042 [-0.000002, +0.000090] up 5/8 (val +0.000100 pri -0.000016) | vs base3 +0.000039 [-0.000044, +0.000125] 5/8
+post catbfta@0.15 blk    dS_state +0.00000 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000002 [+0.000000, +0.000004] up 6/8 (val +0.000002 pri +0.000003) | vs base3 +0.000004 [+0.000001, +0.000007] 7/8
+post catbfta@0.25 deploy dS_state -0.00006 dLWR +0.00043 dS_FD +0.00001 | dJ +0.000022 [-0.000056, +0.000104] up 5/8 (val +0.000110 pri -0.000065) | vs base3 +0.000035 [-0.000088, +0.000169] 5/8
+post catbfta@0.25 ord    dS_state -0.00006 dLWR +0.00041 dS_FD +0.00001 | dJ +0.000018 [-0.000060, +0.000098] up 5/8 (val +0.000107 pri -0.000070) | vs base3 +0.000030 [-0.000093, +0.000161] 5/8
+post catbfta@0.25 blk    dS_state +0.00000 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000004 [+0.000000, +0.000007] up 5/8 (val +0.000003 pri +0.000005) | vs base3 +0.000006 [+0.000002, +0.000011] 8/8
+post catbfta@0.35 deploy dS_state -0.00009 dLWR +0.00026 dS_FD +0.00000 | dJ -0.000005 [-0.000122, +0.000111] up 4/8 (val +0.000146 pri -0.000157) | vs base3 +0.000052 [-0.000137, +0.000244] 5/8
+post catbfta@0.35 ord    dS_state -0.00010 dLWR +0.00024 dS_FD +0.00000 | dJ -0.000009 [-0.000126, +0.000106] up 4/8 (val +0.000143 pri -0.000162) | vs base3 +0.000044 [-0.000143, +0.000238] 5/8
+post catbfta@0.35 blk    dS_state +0.00001 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000004 [-0.000000, +0.000008] up 6/8 (val +0.000003 pri +0.000005) | vs base3 +0.000008 [+0.000003, +0.000014] 7/8
+raw  base3@0.15  deploy dS_state +0.00005 dLWR +0.00025 dS_FD +0.00001 | dJ +0.000044 [-0.000011, +0.000104] up 7/8 (val +0.000039 pri +0.000048)
+raw  base3@0.15  ord    dS_state +0.00005 dLWR +0.00027 dS_FD +0.00001 | dJ +0.000045 [-0.000010, +0.000106] up 7/8 (val +0.000041 pri +0.000050)
+raw  base3@0.15  blk    dS_state -0.00000 dLWR -0.00002 dS_FD -0.00000 | dJ -0.000002 [-0.000003, -0.000001] up 2/8 (val -0.000002 pri -0.000002)
+raw  base3@0.25  deploy dS_state +0.00004 dLWR +0.00008 dS_FD +0.00001 | dJ +0.000022 [-0.000066, +0.000122] up 5/8 (val +0.000014 pri +0.000030)
+raw  base3@0.25  ord    dS_state +0.00004 dLWR +0.00011 dS_FD +0.00001 | dJ +0.000026 [-0.000064, +0.000125] up 5/8 (val +0.000018 pri +0.000034)
+raw  base3@0.25  blk    dS_state -0.00000 dLWR -0.00003 dS_FD -0.00000 | dJ -0.000004 [-0.000006, -0.000002] up 1/8 (val -0.000003 pri -0.000004)
+raw  base3@0.35  deploy dS_state -0.00001 dLWR -0.00042 dS_FD -0.00000 | dJ -0.000045 [-0.000168, +0.000087] up 1/8 (val -0.000057 pri -0.000033)
+raw  base3@0.35  ord    dS_state -0.00001 dLWR -0.00037 dS_FD -0.00000 | dJ -0.000039 [-0.000161, +0.000091] up 1/8 (val -0.000052 pri -0.000026)
+raw  base3@0.35  blk    dS_state -0.00000 dLWR -0.00005 dS_FD -0.00000 | dJ -0.000006 [-0.000009, -0.000004] up 1/8 (val -0.000006 pri -0.000007)
+raw  catbfta@0.15 deploy dS_state +0.00000 dLWR +0.00102 dS_FD +0.00001 | dJ +0.000104 [+0.000027, +0.000180] up 6/8 (val +0.000151 pri +0.000057) | vs base3 +0.000060 [-0.000056, +0.000162] 4/8
+raw  catbfta@0.15 ord    dS_state -0.00000 dLWR +0.00099 dS_FD +0.00001 | dJ +0.000099 [+0.000022, +0.000175] up 6/8 (val +0.000147 pri +0.000050) | vs base3 +0.000053 [-0.000063, +0.000154] 4/8
+raw  catbfta@0.15 blk    dS_state +0.00001 dLWR +0.00003 dS_FD +0.00000 | dJ +0.000005 [+0.000004, +0.000007] up 8/8 (val +0.000004 pri +0.000006) | vs base3 +0.000007 [+0.000005, +0.000010] 8/8
+raw  catbfta@0.25 deploy dS_state -0.00005 dLWR +0.00118 dS_FD +0.00001 | dJ +0.000101 [-0.000028, +0.000228] up 5/8 (val +0.000180 pri +0.000021) | vs base3 +0.000078 [-0.000115, +0.000247] 4/8
+raw  catbfta@0.25 ord    dS_state -0.00006 dLWR +0.00113 dS_FD +0.00001 | dJ +0.000093 [-0.000036, +0.000221] up 5/8 (val +0.000175 pri +0.000012) | vs base3 +0.000067 [-0.000126, +0.000237] 4/8
+raw  catbfta@0.25 blk    dS_state +0.00001 dLWR +0.00005 dS_FD +0.00000 | dJ +0.000007 [+0.000005, +0.000010] up 8/8 (val +0.000006 pri +0.000009) | vs base3 +0.000011 [+0.000008, +0.000016] 8/8
+raw  catbfta@0.35 deploy dS_state -0.00015 dLWR +0.00096 dS_FD +0.00000 | dJ +0.000042 [-0.000137, +0.000220] up 4/8 (val +0.000161 pri -0.000077) | vs base3 +0.000087 [-0.000178, +0.000321] 4/8
+raw  catbfta@0.35 ord    dS_state -0.00016 dLWR +0.00090 dS_FD +0.00000 | dJ +0.000033 [-0.000149, +0.000211] up 4/8 (val +0.000155 pri -0.000088) | vs base3 +0.000072 [-0.000196, +0.000307] 4/8
+raw  catbfta@0.35 blk    dS_state +0.00001 dLWR +0.00006 dS_FD +0.00000 | dJ +0.000009 [+0.000006, +0.000013] up 8/8 (val +0.000006 pri +0.000011) | vs base3 +0.000015 [+0.000011, +0.000021] 8/8
+
+GATE (post, deploy; stand-in fta, ctrl base3): {'catbfta': False}
+[run_heavy] exit 0 after 27s

@@ -1,0 +1,50 @@
+[run_heavy] slot acquired after 0s
+train template rows 517726
+validation template rows 105520
+private template rows 105520
+t1_xgb_member_a[smoke]:450: RuntimeWarning: Mean of empty slice
+t1_xgb_member_a[smoke]:230: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: invalid value encountered in matmul
+t1_xgb_member_a[smoke]:244: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:244: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:244: RuntimeWarning: invalid value encountered in matmul
+[     1s] D12_I405_S features 98 (v12 78 + FD 20 ) FD finite share min 0.5688 {'fdk_v-1+0': 0.569, 'fdq_v-1+0': 0.569, 'fdk_v+1+0': 0.569, 'fdq_v+1+0': 0.569, 'fdk_v0-1': 0.596, 'fdq_v0-1': 0.596, 'fdk_v0+1': 0.596, 'fdq_v0+1': 0.596}
+[     1s] D12_I405_S gap origins 0 targets in simulated gaps 0 validation gap share of targets 0.0
+t1_xgb_member_a[smoke]:230: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: invalid value encountered in matmul
+[     2s] D12_I405_S validation transductive rows so far 12674
+t1_xgb_member_a[smoke]:230: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: invalid value encountered in matmul
+[     2s] D12_I405_S private transductive rows so far 27710
+[     3s]   xgboost depth 9 rounds 40 rows 58970: 1s, peak RSS 0.69 GB
+[     3s]   xgboost depth 9 rounds 40 rows 58970: 0s, peak RSS 0.74 GB
+[     3s] D12_I405_S FTA speed top features {'fdk_ratio': 0.0, 'tk': 0.0, 'to': 0.0, 'lr_o': 0.0, 'fdk_asm_v-18': 0.0, 'fdk_asm_v+18': 0.0, 'lr_q': 0.0, 'fdv_tq': 0.0, 'tv': 0.0, 'sv': 0.0}
+[     3s] D12_I405_S train+transductive rows 58970
+[     3s] D12_I405_S VALIDATION-month internal holdout S_state {'temporal': 0.8961, 'base': 0.9061, 'FTA': 0.9222}
+t1_xgb_member_a[smoke]:230: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: invalid value encountered in matmul
+[     3s] D12_I405_S validation template rows 105520 predicted 13581 unmapped 91939 speed range [16.2, 121.1] flow<50 share 0.0
+t1_xgb_member_a[smoke]:230: RuntimeWarning: divide by zero encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: overflow encountered in matmul
+t1_xgb_member_a[smoke]:230: RuntimeWarning: invalid value encountered in matmul
+[     4s] D12_I405_S private template rows 105520 predicted 13581 unmapped 91939 speed range [16.2, 121.1] flow<50 share 0.0
+[     4s] D12_I405_S panel time 4s peak RSS 0.76 GB
+
+===== validation-month internal holdout (family-mean S_state) =====
+val_temporal    0.8961
+val_base        0.9061
+val_FTA         0.9222
+
+===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+     panel  val_temporal  val_base  val_FTA
+D12_I405_S        0.8961    0.9061   0.9222
+mean val_FTA 0.9222
+[     4s] state rows 27162 NaN 0
+[     4s] peak RSS 0.76 GB
+[     4s] SMOKE gates OK: features 98 no all-NaN FD columns, peak RSS < 25 GB
+SMOKE OK: state rows 27162 speed {'min': 16.22, 'mean': 113.15, 'max': 121.08} | holdout [{'panel': 'D12_I405_S', 'family': 'D12_I405', 'val_temporal': 0.8961, 'val_base': 0.9061, 'val_FTA': 0.9222}]
+[run_heavy] exit 0 after 8s

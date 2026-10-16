@@ -1,0 +1,23 @@
+[run_heavy] slot acquired after 0s
+[   145s]   catboost v depth 8 it 2000: 144s
+[   368s]   catboost v depth 10 it 1000: 223s
+[   523s]   catboost q depth 8 it 2000: 155s
+[   756s]   catboost q depth 10 it 1000: 234s
+[   756s] D7_I10_E fold 0 catbfta done in 756s -> D7_I10_E_f0_catbfta.npz
+[   904s]   catboost v depth 8 it 2000: 148s
+[  1124s]   catboost v depth 10 it 1000: 220s
+[  1279s]   catboost q depth 8 it 2000: 155s
+[  1513s]   catboost q depth 10 it 1000: 235s
+[  1513s] D7_I10_E fold 1 catbfta done in 757s -> D7_I10_E_f1_catbfta.npz
+[  1618s]   catboost v depth 8 it 2000: 104s
+[  1763s]   catboost v depth 10 it 1000: 145s
+[  1868s]   catboost q depth 8 it 2000: 105s
+[  2023s]   catboost q depth 10 it 1000: 155s
+[  2023s] D7_I210_W fold 0 catbfta done in 509s -> D7_I210_W_f0_catbfta.npz
+[  2110s]   catboost v depth 8 it 2000: 87s
+[  2245s]   catboost v depth 10 it 1000: 135s
+[  2331s]   catboost q depth 8 it 2000: 86s
+[  2474s]   catboost q depth 10 it 1000: 143s
+[  2474s] D7_I210_W fold 1 catbfta done in 451s -> D7_I210_W_f1_catbfta.npz
+[  2474s] done
+[run_heavy] exit 0 after 2475s

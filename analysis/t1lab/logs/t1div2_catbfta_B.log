@@ -1,0 +1,23 @@
+[run_heavy] slot acquired after 0s
+[   129s]   catboost v depth 8 it 2000: 129s
+[   320s]   catboost v depth 10 it 1000: 191s
+[   459s]   catboost q depth 8 it 2000: 139s
+[   658s]   catboost q depth 10 it 1000: 199s
+[   658s] D7_I405_S fold 0 catbfta done in 658s -> D7_I405_S_f0_catbfta.npz
+[   788s]   catboost v depth 8 it 2000: 129s
+[   976s]   catboost v depth 10 it 1000: 188s
+[  1115s]   catboost q depth 8 it 2000: 139s
+[  1316s]   catboost q depth 10 it 1000: 201s
+[  1316s] D7_I405_S fold 1 catbfta done in 658s -> D7_I405_S_f1_catbfta.npz
+[  1446s]   catboost v depth 8 it 2000: 129s
+[  1633s]   catboost v depth 10 it 1000: 187s
+[  1765s]   catboost q depth 8 it 2000: 132s
+[  1959s]   catboost q depth 10 it 1000: 194s
+[  1959s] D12_I5_S fold 0 catbfta done in 643s -> D12_I5_S_f0_catbfta.npz
+[  2077s]   catboost v depth 8 it 2000: 118s
+[  2250s]   catboost v depth 10 it 1000: 173s
+[  2363s]   catboost q depth 8 it 2000: 113s
+[  2537s]   catboost q depth 10 it 1000: 174s
+[  2537s] D12_I5_S fold 1 catbfta done in 578s -> D12_I5_S_f1_catbfta.npz
+[  2537s] done
+[run_heavy] exit 0 after 2538s

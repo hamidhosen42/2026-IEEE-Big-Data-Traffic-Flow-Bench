@@ -1,1 +1,1 @@
-13560 .venv/bin/python -u -W ignore::RuntimeWarning analysis/t2lab/extcal_report.py
+59671 .venv/bin/python -u analysis/t1lab/t1div_report.py stand=catb cands=lgbbig,xgb ctrl=lgbbig B=1000 out=_r2big

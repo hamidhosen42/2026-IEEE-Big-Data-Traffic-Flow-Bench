@@ -3,12 +3,12 @@ A temporary kaggle_public (argv[1]) gets symlinked corridors (the private month 
 validation release) and Task 1 templates rebuilt from the masked layers
 (template = eligible cells blanked in the masked layer, as the official templates); the kernel runs with SMOKE = True
 (every 9th day, CatBoost 60 / 30 iterations), PANELS = [D12_I405_S], OUT = argv[1]/out; peak_gb patched for macOS.
-Usage: t1catb_kernel_smoke.py <TMPDIR> [part=a]"""
+Usage: t1catb_kernel_smoke.py <TMPDIR> [part=a] [family=catb|xgb]   (xgb: kaggle_jobs/t1_xgb_member_<part>.py, 40 rounds)"""
 import glob, os, re, sys
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
-TMP = os.path.abspath(sys.argv[1]); PART = sys.argv[2] if len(sys.argv) > 2 else 'a'
+TMP = os.path.abspath(sys.argv[1]); PART = sys.argv[2] if len(sys.argv) > 2 else 'a'; FAM = sys.argv[3] if len(sys.argv) > 3 else 'catb'
 PANEL = 'D12_I405_S'
 REL = os.path.join(TMP, 'kaggle_public'); OUT = os.path.join(TMP, 'out')
 os.makedirs(REL, exist_ok=True); os.makedirs(OUT, exist_ok=True)
@@ -32,7 +32,7 @@ for split in ('train', 'validation', 'private'):
     t['timestamp'] = pd.to_datetime(t.timestamp, utc=True).dt.strftime('%Y-%m-%dT%H:%M:%SZ')
     t.to_csv(f'{d}/sample_submission_state.csv', index=False)
     print(split, 'template rows', len(t), flush=True)
-src = open(os.path.join(ROOT, 'kaggle_jobs', f't1_catb_member_{PART}.py')).read()
+src = open(os.path.join(ROOT, 'kaggle_jobs', f't1_{FAM}_member_{PART}.py')).read()
 rep = [("REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]", f"REL = {REL!r}"),
        ("OUT = '/kaggle/working'", f"OUT = {OUT!r}"),
        ("SMOKE = False", "SMOKE = True"),
@@ -41,7 +41,7 @@ rep = [("REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]", 
 for a, b in rep:
     assert src.count(a) == 1, a
     src = src.replace(a, b)
-exec(compile(src, f't1_catb_member_{PART}[smoke]', 'exec'), {'__name__': '__main__'})
+exec(compile(src, f't1_{FAM}_member_{PART}[smoke]', 'exec'), {'__name__': '__main__'})
 S = pd.read_csv(f'{OUT}/state_submission_FTA.csv')
 assert len(S) > 0 and S[['speed_kmh', 'flow_vph']].notna().all().all()
 print('SMOKE OK: state rows', len(S), 'speed', S.speed_kmh.describe()[['min', 'mean', 'max']].round(2).to_dict(),

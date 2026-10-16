@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 0s
+[   245s] D7_I405_S fold 0 lgbbig done in 245s -> D7_I405_S_f0_lgbbig.npz
+[   485s] D7_I405_S fold 1 lgbbig done in 240s -> D7_I405_S_f1_lgbbig.npz
+[   725s] D12_I5_S fold 0 lgbbig done in 240s -> D12_I5_S_f0_lgbbig.npz
+[   958s] D12_I5_S fold 1 lgbbig done in 233s -> D12_I5_S_f1_lgbbig.npz
+[   958s] done
+[run_heavy] exit 0 after 959s

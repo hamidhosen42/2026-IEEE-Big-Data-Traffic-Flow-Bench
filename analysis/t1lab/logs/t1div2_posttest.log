@@ -1,0 +1,5 @@
+[run_heavy] slot acquired after 1853s
+cells 24834 changed by post 17721 | max |dv| lab-vs-kernel 0.0 max |dq| 0.0
+n bad 0 t of bad [] d []
+post parity OK
+[run_heavy] exit 0 after 1855s

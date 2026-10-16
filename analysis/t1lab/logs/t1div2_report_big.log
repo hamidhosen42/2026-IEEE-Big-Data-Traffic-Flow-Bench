@@ -1,0 +1,48 @@
+[run_heavy] slot acquired after 0s
+tables D12_I5_S
+tables D7_I10_E
+tables D7_I210_W
+tables D7_I405_S
+
+RAW member RMSE pooled over panel-month-folds (speed km/h | flow per lane) and corr(error, mix error):
+  ord: base v1.727/q29.69/corr0.981 base2 v1.731/q29.69/corr0.980 lgbbig v1.711/q29.50/corr0.968 xgb v1.653/q28.50/corr0.957 catb v1.693/q29.53/corr0.973 | stand-in catb mix v1.678
+  blk: base v9.501/q78.61/corr0.987 base2 v9.519/q78.59/corr0.985 lgbbig v9.583/q79.54/corr0.974 xgb v9.258/q77.46/corr0.961 catb v9.341/q78.33/corr0.974 | stand-in catb mix v9.283
+post lgbbig@0.15 deploy dS_state +0.00008 dLWR +0.00011 dS_FD -0.00000 | dJ +0.000038 [+0.000011, +0.000070] up 6/8 (val +0.000040 pri +0.000036)
+post lgbbig@0.15 ord    dS_state +0.00008 dLWR +0.00011 dS_FD -0.00000 | dJ +0.000039 [+0.000013, +0.000070] up 6/8 (val +0.000043 pri +0.000036)
+post lgbbig@0.15 blk    dS_state -0.00000 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000001 [-0.000003, +0.000000] up 2/8 (val -0.000003 pri -0.000000)
+post lgbbig@0.25 deploy dS_state +0.00003 dLWR -0.00005 dS_FD -0.00001 | dJ +0.000005 [-0.000057, +0.000076] up 3/8 (val -0.000021 pri +0.000031)
+post lgbbig@0.25 ord    dS_state +0.00003 dLWR -0.00004 dS_FD -0.00001 | dJ +0.000007 [-0.000056, +0.000077] up 3/8 (val -0.000018 pri +0.000031)
+post lgbbig@0.25 blk    dS_state -0.00000 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000001 [-0.000004, +0.000001] up 3/8 (val -0.000003 pri -0.000000)
+post lgbbig@0.35 deploy dS_state +0.00002 dLWR -0.00029 dS_FD -0.00001 | dJ -0.000024 [-0.000105, +0.000063] up 3/8 (val -0.000049 pri -0.000000)
+post lgbbig@0.35 ord    dS_state +0.00002 dLWR -0.00027 dS_FD -0.00001 | dJ -0.000021 [-0.000101, +0.000068] up 3/8 (val -0.000044 pri +0.000002)
+post lgbbig@0.35 blk    dS_state -0.00001 dLWR -0.00002 dS_FD -0.00000 | dJ -0.000004 [-0.000007, -0.000001] up 2/8 (val -0.000005 pri -0.000003)
+post xgb@0.15    deploy dS_state +0.00041 dLWR +0.00145 dS_FD +0.00002 | dJ +0.000288 [+0.000234, +0.000336] up 8/8 (val +0.000284 pri +0.000293) | vs lgbbig +0.000250 [+0.000177, +0.000320] 8/8
+post xgb@0.15    ord    dS_state +0.00039 dLWR +0.00144 dS_FD +0.00002 | dJ +0.000282 [+0.000229, +0.000330] up 8/8 (val +0.000277 pri +0.000287) | vs lgbbig +0.000243 [+0.000169, +0.000313] 8/8
+post xgb@0.15    blk    dS_state +0.00002 dLWR +0.00000 dS_FD +0.00000 | dJ +0.000006 [+0.000004, +0.000009] up 8/8 (val +0.000007 pri +0.000006) | vs lgbbig +0.000008 [+0.000006, +0.000010] 8/8
+post xgb@0.25    deploy dS_state +0.00058 dLWR +0.00220 dS_FD +0.00002 | dJ +0.000425 [+0.000328, +0.000512] up 8/8 (val +0.000388 pri +0.000462) | vs lgbbig +0.000420 [+0.000313, +0.000539] 8/8  GATE PASS
+post xgb@0.25    ord    dS_state +0.00056 dLWR +0.00220 dS_FD +0.00002 | dJ +0.000416 [+0.000317, +0.000501] up 8/8 (val +0.000378 pri +0.000454) | vs lgbbig +0.000409 [+0.000304, +0.000528] 8/8
+post xgb@0.25    blk    dS_state +0.00003 dLWR +0.00000 dS_FD +0.00000 | dJ +0.000009 [+0.000006, +0.000013] up 8/8 (val +0.000009 pri +0.000009) | vs lgbbig +0.000010 [+0.000007, +0.000014] 8/8
+post xgb@0.35    deploy dS_state +0.00077 dLWR +0.00286 dS_FD +0.00002 | dJ +0.000557 [+0.000428, +0.000669] up 8/8 (val +0.000519 pri +0.000594) | vs lgbbig +0.000581 [+0.000426, +0.000738] 8/8  GATE PASS
+post xgb@0.35    ord    dS_state +0.00073 dLWR +0.00286 dS_FD +0.00002 | dJ +0.000543 [+0.000412, +0.000654] up 8/8 (val +0.000504 pri +0.000582) | vs lgbbig +0.000564 [+0.000411, +0.000717] 8/8
+post xgb@0.35    blk    dS_state +0.00004 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000014 [+0.000010, +0.000018] up 8/8 (val +0.000015 pri +0.000012) | vs lgbbig +0.000017 [+0.000013, +0.000023] 8/8
+raw  lgbbig@0.15 deploy dS_state +0.00008 dLWR -0.00000 dS_FD -0.00000 | dJ +0.000027 [-0.000014, +0.000073] up 5/8 (val +0.000036 pri +0.000018)
+raw  lgbbig@0.15 ord    dS_state +0.00008 dLWR +0.00000 dS_FD -0.00000 | dJ +0.000028 [-0.000013, +0.000075] up 5/8 (val +0.000038 pri +0.000019)
+raw  lgbbig@0.15 blk    dS_state -0.00000 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000001 [-0.000002, -0.000000] up 2/8 (val -0.000002 pri -0.000001)
+raw  lgbbig@0.25 deploy dS_state +0.00009 dLWR -0.00037 dS_FD -0.00001 | dJ -0.000006 [-0.000075, +0.000073] up 4/8 (val +0.000007 pri -0.000018)
+raw  lgbbig@0.25 ord    dS_state +0.00009 dLWR -0.00036 dS_FD -0.00001 | dJ -0.000003 [-0.000073, +0.000077] up 4/8 (val +0.000011 pri -0.000016)
+raw  lgbbig@0.25 blk    dS_state -0.00000 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000003 [-0.000005, -0.000001] up 1/8 (val -0.000004 pri -0.000002)
+raw  lgbbig@0.35 deploy dS_state +0.00007 dLWR -0.00098 dS_FD -0.00002 | dJ -0.000074 [-0.000176, +0.000043] up 2/8 (val -0.000059 pri -0.000089)
+raw  lgbbig@0.35 ord    dS_state +0.00008 dLWR -0.00096 dS_FD -0.00002 | dJ -0.000069 [-0.000170, +0.000046] up 3/8 (val -0.000052 pri -0.000086)
+raw  lgbbig@0.35 blk    dS_state -0.00001 dLWR -0.00003 dS_FD -0.00000 | dJ -0.000005 [-0.000007, -0.000002] up 1/8 (val -0.000007 pri -0.000003)
+raw  xgb@0.15    deploy dS_state +0.00041 dLWR +0.00178 dS_FD +0.00003 | dJ +0.000324 [+0.000254, +0.000384] up 8/8 (val +0.000274 pri +0.000374) | vs lgbbig +0.000297 [+0.000209, +0.000377] 8/8
+raw  xgb@0.15    ord    dS_state +0.00040 dLWR +0.00176 dS_FD +0.00003 | dJ +0.000317 [+0.000247, +0.000377] up 8/8 (val +0.000266 pri +0.000369) | vs lgbbig +0.000289 [+0.000201, +0.000368] 8/8
+raw  xgb@0.15    blk    dS_state +0.00002 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000007 [+0.000005, +0.000008] up 8/8 (val +0.000008 pri +0.000005) | vs lgbbig +0.000008 [+0.000006, +0.000010] 8/8
+raw  xgb@0.25    deploy dS_state +0.00064 dLWR +0.00255 dS_FD +0.00004 | dJ +0.000482 [+0.000361, +0.000573] up 8/8 (val +0.000402 pri +0.000561) | vs lgbbig +0.000487 [+0.000342, +0.000626] 8/8
+raw  xgb@0.25    ord    dS_state +0.00062 dLWR +0.00254 dS_FD +0.00004 | dJ +0.000472 [+0.000352, +0.000563] up 8/8 (val +0.000391 pri +0.000553) | vs lgbbig +0.000474 [+0.000330, +0.000611] 8/8
+raw  xgb@0.25    blk    dS_state +0.00002 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000010 [+0.000008, +0.000012] up 8/8 (val +0.000012 pri +0.000008) | vs lgbbig +0.000013 [+0.000010, +0.000016] 8/8
+raw  xgb@0.35    deploy dS_state +0.00083 dLWR +0.00306 dS_FD +0.00004 | dJ +0.000599 [+0.000419, +0.000728] up 8/8 (val +0.000490 pri +0.000707) | vs lgbbig +0.000673 [+0.000474, +0.000866] 8/8
+raw  xgb@0.35    ord    dS_state +0.00080 dLWR +0.00305 dS_FD +0.00004 | dJ +0.000586 [+0.000408, +0.000717] up 8/8 (val +0.000475 pri +0.000697) | vs lgbbig +0.000655 [+0.000457, +0.000847] 8/8
+raw  xgb@0.35    blk    dS_state +0.00003 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000013 [+0.000010, +0.000016] up 8/8 (val +0.000015 pri +0.000010) | vs lgbbig +0.000018 [+0.000014, +0.000022] 8/8
+
+GATE (post, deploy; stand-in catb, ctrl lgbbig): {'xgb': True}
+[run_heavy] exit 0 after 27s

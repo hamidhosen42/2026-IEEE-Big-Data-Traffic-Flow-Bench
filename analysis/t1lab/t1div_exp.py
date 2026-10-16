@@ -7,7 +7,14 @@ against the saved t1bspec results, then fit
          train_state.py: lr 0.06, l2 10, Bernoulli subsample 0.85; iterations reduced for the lab, see ITER)
   base3  LightGBM, t1lab reduced pF, seed 11 (control: what a third member of the SAME family adds at the same weight)
 and store predictions at the evaluation cells (same order as the t1bspec results).
+Round 2 (10-16, EXP_T1_XGB / EXP_T1_CATBFTA, gate in t1div_lib.py), same rows / cells:
+  xgb      XGBoost hist (max_depth 9, eta 0.06, 1500 rounds, subsample / colsample 0.8, mcw 50, lambda 10), 94 FD columns
+  catbfta  CatBoost as catb on the 74 old-FTA columns (no FD columns), random_seed 20261016
+  lgbfta   LightGBM seed 13 on the 74 old-FTA columns (info: FTA-aware stand-in)
+  lgbbig   POST-HOC info control (added after the round-2 gate result): LightGBM at PRODUCTION capacity (pF of
+           t1_pipeline_v13a.py: 511 leaves, lr 0.04, 1500 trees), seed 12, 94 FD columns -- is xgb's margin diversity or capacity?
 Usage: t1div_exp.py <PANEL[,PANEL]> [folds=0,1] [arms=catb,base3] [it8=1500] [it10=750] [lr=0.12] [rows=all]
+                    [xgb_n=1500] [xgb_eta=0.06] [xgb_depth=9]
 """
 import gc, json, os, sys, time
 import numpy as np
@@ -80,8 +87,17 @@ def build(panel, fold, p=0.35):
     return out
 
 
-def fit_catb(D, it8, it10, lr, seed=20261005):
+def fta_cols(D):
+    """column indices of the old-FTA feature set (= v12 features without profile columns = the 94 minus the 20 FD columns)."""
+    ix = [i for i, c in enumerate(D['cols']) if not str(c).startswith('fd')]
+    assert len(ix) == 74 and len(D['cols']) - len(ix) == 20, len(ix)
+    return np.array(ix)
+
+
+def fit_catb(D, it8, it10, lr, seed=20261005, ix=None):
     from catboost import CatBoostRegressor
+    sub = (lambda A: A) if ix is None else (lambda A: np.ascontiguousarray(A[:, ix]))
+    Xtr = sub(D['X']); Xev = {k: sub(D[f'X|{k}']) for k in ev_keys(D)}
     preds = {}
     for ch, key in (('v', 'yv'), ('q', 'yq')):
         P = []
@@ -90,18 +106,38 @@ def fit_catb(D, it8, it10, lr, seed=20261005):
             m = CatBoostRegressor(iterations=it, depth=depth, learning_rate=lr, l2_leaf_reg=10, loss_function='RMSE',
                                   thread_count=THREADS, random_seed=seed, bootstrap_type='Bernoulli', subsample=0.85,
                                   border_count=64, verbose=0, allow_writing_files=False)
-            m.fit(D['X'], D[key])
-            P.append({k: m.predict(D[f'X|{k}'], thread_count=THREADS) for k in ev_keys(D)})
+            m.fit(Xtr, D[key])
+            P.append({k: m.predict(Xev[k], thread_count=THREADS) for k in ev_keys(D)})
             log(f'  catboost {ch} depth {depth} it {it}: {time.time() - t:.0f}s')
         preds[ch] = {k: 0.5 * (P[0][k] + P[1][k]) for k in P[0]}
     return preds
 
 
-def fit_lgb(D, seed, n_trees=600, lr=0.08):
+def fit_lgb(D, seed, n_trees=600, lr=0.08, ix=None, leaves=255):
     import lightgbm as lgb
-    prm = lgb_params(seed, lr=lr)
-    mv = lgb.train(prm, lgb.Dataset(D['X'], D['yv']), n_trees); mq = lgb.train(prm, lgb.Dataset(D['X'], D['yq']), n_trees)
-    return {'v': {k: mv.predict(D[f'X|{k}']) for k in ev_keys(D)}, 'q': {k: mq.predict(D[f'X|{k}']) for k in ev_keys(D)}}
+    prm = lgb_params(seed, leaves=leaves, lr=lr)
+    sub = (lambda A: A) if ix is None else (lambda A: A[:, ix])
+    Xtr = sub(D['X'])
+    mv = lgb.train(prm, lgb.Dataset(Xtr, D['yv']), n_trees); mq = lgb.train(prm, lgb.Dataset(Xtr, D['yq']), n_trees)
+    return {'v': {k: mv.predict(sub(D[f'X|{k}'])) for k in ev_keys(D)}, 'q': {k: mq.predict(sub(D[f'X|{k}'])) for k in ev_keys(D)}}
+
+
+XGB_PRM = dict(tree_method='hist', max_depth=9, eta=0.06, subsample=0.8, colsample_bytree=0.8, min_child_weight=50,
+               reg_lambda=10.0, max_bin=256, objective='reg:squarederror', seed=20261016)
+
+
+def fit_xgb(D, n_rounds=1500, eta=0.06, depth=9):
+    import xgboost as xgb
+    prm = dict(XGB_PRM, eta=eta, max_depth=depth, nthread=THREADS)
+    preds = {}
+    for ch, key in (('v', 'yv'), ('q', 'yq')):
+        t = time.time()
+        dtr = xgb.QuantileDMatrix(D['X'], D[key], max_bin=prm['max_bin'], nthread=THREADS)
+        m = xgb.train(prm, dtr, n_rounds)
+        del dtr; gc.collect()
+        preds[ch] = {k: m.predict(xgb.DMatrix(D[f'X|{k}'], nthread=THREADS)) for k in ev_keys(D)}
+        log(f'  xgboost {ch} depth {depth} rounds {n_rounds} eta {eta}: {time.time() - t:.0f}s')
+    return preds
 
 
 def ev_keys(D):
@@ -133,8 +169,22 @@ if __name__ == '__main__':
                 if os.path.exists(f_out):
                     log('exists', f_out); continue
                 t = time.time()
-                raw = fit_catb(D, it8, it10, lr) if arm == 'catb' else fit_lgb(D, seed=11)
-                np.savez_compressed(f_out, **to_state(D, raw), info=json.dumps(dict(arm=arm, it8=it8, it10=it10, lr=lr, rows=len(D['yv']))))
+                xkw = dict(n_rounds=int(kw.get('xgb_n', 1500)), eta=float(kw.get('xgb_eta', 0.06)), depth=int(kw.get('xgb_depth', 9)))
+                if arm == 'catb':
+                    raw = fit_catb(D, it8, it10, lr)
+                elif arm == 'catbfta':
+                    raw = fit_catb(D, it8, it10, lr, seed=20261016, ix=fta_cols(D))
+                elif arm == 'xgb':
+                    raw = fit_xgb(D, **xkw)
+                elif arm == 'lgbfta':
+                    raw = fit_lgb(D, seed=13, ix=fta_cols(D))
+                elif arm == 'lgbbig':
+                    raw = fit_lgb(D, seed=12, n_trees=1500, lr=0.04, leaves=511)
+                else:
+                    assert arm == 'base3', arm
+                    raw = fit_lgb(D, seed=11)
+                inf = dict(arm=arm, it8=it8, it10=it10, lr=lr, rows=len(D['yv']), **({'xgb': xkw} if arm == 'xgb' else {}))
+                np.savez_compressed(f_out, **to_state(D, raw), info=json.dumps(inf))
                 log(pn, f'fold {fold}', arm, f'done in {time.time() - t:.0f}s ->', os.path.basename(f_out))
             del D; gc.collect()
     log('done')

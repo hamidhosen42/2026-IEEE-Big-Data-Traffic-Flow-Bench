@@ -37,3 +37,29 @@
 [2026-10-16 09:03:13]     t1catb parts abcd | W_CATB 0.35 | rms catb vs mix: speed 0.555 flow 37.66 | corr speed 0.99941
 [2026-10-16 09:03:13]     t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 4.19 flow 198.84 | regular rows: speed 0.387
 [2026-10-16 09:03:15] pushed tfb-k3 v 1
+[2026-10-16 09:12:49] tfb-k3 complete | files ['submission_FDR.csv', 'submission_FDRTV.csv', 'submission_TV.csv'] | traceback False
+[2026-10-16 09:12:49]     D12_I405_N   validation cells  403699 gate share 0.0179 n_gate   7211 | median -0.0012 IQR [-0.0159, +0.0133]
+[2026-10-16 09:12:49]     D12_I405_N   private    cells  395290 gate share 0.0240 n_gate   9472 | median +0.0019 IQR [-0.0123, +0.0164]
+[2026-10-16 09:12:49]     D12_I405_S   validation cells  206390 gate share 0.0069 n_gate   1428 | median +0.0011 IQR [-0.0205, +0.0223]
+[2026-10-16 09:12:49]     D12_I405_S   private    cells  183011 gate share 0.0216 n_gate   3957 | median +0.0006 IQR [-0.0208, +0.0226]
+[2026-10-16 09:12:49]     D12_I5_N     validation cells 1145958 gate share 0.0224 n_gate  25633 | median +0.0001 IQR [-0.0153, +0.0152]
+[2026-10-16 09:12:49]     D12_I5_N     private    cells 1134209 gate share 0.0317 n_gate  35949 | median +0.0004 IQR [-0.0151, +0.0157]
+[2026-10-16 09:12:49]     D12_I5_S     validation cells  453083 gate share 0.0477 n_gate  21634 | median +0.0005 IQR [-0.0148, +0.0160]
+[2026-10-16 09:12:49]     D12_I5_S     private    cells  444409 gate share 0.0624 n_gate  27740 | median -0.0001 IQR [-0.0153, +0.0154]
+[2026-10-16 09:12:49]     D7_I10_E     validation cells  642189 gate share 0.0289 n_gate  18567 | median +0.0014 IQR [-0.0165, +0.0188]
+[2026-10-16 09:12:49]     D7_I10_E     private    cells  643263 gate share 0.0376 n_gate  24209 | median -0.0003 IQR [-0.0182, +0.0173]
+[2026-10-16 09:12:49]     D7_I10_W     validation cells  486048 gate share 0.0047 n_gate   2289 | median -0.0003 IQR [-0.0160, +0.0158]
+[2026-10-16 09:12:49]     D7_I10_W     private    cells  492059 gate share 0.0038 n_gate   1871 | median +0.0003 IQR [-0.0157, +0.0155]
+[2026-10-16 09:12:49]     D7_I210_E    validation cells 1351539 gate share 0.0088 n_gate  11908 | median -0.0001 IQR [-0.0218, +0.0212]
+[2026-10-16 09:12:49]     D7_I210_E    private    cells 1326428 gate share 0.0098 n_gate  13016 | median -0.0005 IQR [-0.0222, +0.0214]
+[2026-10-16 09:12:49]     D7_I210_W    validation cells  331083 gate share 0.0533 n_gate  17660 | median -0.0005 IQR [-0.0198, +0.0192]
+[2026-10-16 09:12:49]     D7_I210_W    private    cells  358093 gate share 0.0438 n_gate  15683 | median +0.0004 IQR [-0.0195, +0.0195]
+[2026-10-16 09:12:49]     D7_I405_N    validation cells 1693357 gate share 0.0804 n_gate 136113 | median -0.0002 IQR [-0.0223, +0.0220]
+[2026-10-16 09:12:49]     D7_I405_N    private    cells 1549167 gate share 0.0703 n_gate 108936 | median +0.0006 IQR [-0.0215, +0.0225]
+[2026-10-16 09:12:49]     D7_I405_S    validation cells  453142 gate share 0.0882 n_gate  39982 | median -0.0014 IQR [-0.0192, +0.0161]
+[2026-10-16 09:12:49]     D7_I405_S    private    cells  457775 gate share 0.0786 n_gate  35970 | median -0.0002 IQR [-0.0177, +0.0176]
+[2026-10-16 09:12:49]     EXCLUDED panels: []
+[2026-10-16 09:12:49]     R: gate share 0.0398 | median |log r| in gate 0.0044
+[2026-10-16 09:12:49]     FDR: state rows changed 3.9805% (268120) | median |dv| 0.109 km/h | median |dq| 6.67 vph | max |dv| 22.61 | max |dq| 926.8
+[2026-10-16 09:12:49]     DONE | excluded []
+[2026-10-16 09:12:49] READY

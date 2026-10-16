@@ -9,7 +9,10 @@ evaluation view); 'raw' = no post-processing (info). Per-cell S_FD / LWR-proxy e
 post-processing (exact, not the linear approximation of t1bspec_report). J = 0.35 dS_state + 0.10 dLWR + 0.05 dS_FD per
 panel-month (regime means, composite target weights), 95% bootstrap CI (blackout events / ordinary days resampled).
 PRE-REGISTERED GATE: see t1div_lib.py.
-Usage: t1div_report.py [cands=catb,unet,base3] [B=2000] [tag=]
+Round 2 (10-16): stand=catb -> mix = (1 - wstand) mean(base, base2) + wstand catb (production-like stand-in, wstand 0.35);
+stand=fta -> mix = (1 - wstand) (0.5 mean(base, base2) + 0.5 lgbfta) + wstand catb (info); ctrl=base3 adds gate condition
+(iv) dJ(cand@w) - dJ(ctrl@w) >= +0.00015 (paired bootstrap CI of the difference reported).
+Usage: t1div_report.py [cands=catb,unet,base3] [B=2000] [tag=] [stand=lgb2|catb|fta] [wstand=0.35] [ctrl=base3] [out=]
 """
 import json, os, sys
 import numpy as np
@@ -25,6 +28,11 @@ kw = dict(a.split('=') for a in sys.argv[1:] if '=' in a)
 CANDS = kw.get('cands', 'catb,unet,base3').split(',')
 WS = tuple(float(w) for w in kw.get('ws', '0.15,0.25,0.35').split(','))
 B = int(kw.get('B', 2000))
+STAND = kw.get('stand', 'lgb2'); WSTAND = float(kw.get('wstand', 0.35)); CTRL = kw.get('ctrl', '')
+STAND_MEM = {'lgb2': [], 'catb': ['catb'], 'fta': ['catb', 'lgbfta']}[STAND]
+assert not (set(STAND_MEM) & set(CANDS)), 'a stand-in member cannot also be a candidate'
+assert not CTRL or CTRL in CANDS, 'ctrl must be one of cands'
+LOAD = list(CANDS) + STAND_MEM
 REGS = ('R1', 'R2', 'R3')
 sw = t1lab._swap_module()
 GATE, A_, LOGR = sw.GATE, sw.A, sw.LOGR_MAX
@@ -94,10 +102,20 @@ class Runs:
 
 
 # ------------------------------------------------------------------ per-cell statistics of every arm
+def stand_mix(P):
+    """stand-in T1 mix (speed, flow) of the evaluation cells (see STAND)."""
+    m = [0.5 * (P['base'][i] + P['base2'][i]) for i in (0, 1)]
+    if STAND == 'fta':
+        m = [0.5 * m[i] + 0.5 * P['lgbfta'][i] for i in (0, 1)]
+    if STAND in ('catb', 'fta'):
+        m = [(1 - WSTAND) * m[i] + WSTAND * P['catb'][i] for i in (0, 1)]
+    return tuple(m)
+
+
 def arms_of(P):
     """P: raw member predictions {name: (v, q)} on the concatenated evaluation cells; is_blk flags blackout cells."""
     out = {}
-    mix = (0.5 * (P['base'][0] + P['base2'][0]), 0.5 * (P['base'][1] + P['base2'][1]))
+    mix = stand_mix(P)
     bs = P['bs']; blk = P['is_blk']
 
     def dep(m):
@@ -136,17 +154,17 @@ def panel_tables(panel):
             is_blk = np.arange(len(d)) < nb
             P = {a: (np.concatenate([s0[f'{a}|{k}|v'] for k in keys]).astype(float),
                      np.concatenate([s0[f'{a}|{k}|q'] for k in keys]).astype(float)) for a in ('base', 'base2', 'bs')}
-            for c in CANDS:
+            for c in LOAD:
                 f = f'{L.RES}/{panel}_f{fold}_{c}{kw.get("tag", "")}.npz'
                 if os.path.exists(f):
                     zc = np.load(f, allow_pickle=True)
                     P[c] = (np.concatenate([zc[f'{k}|v'] for k in keys]).astype(float), np.concatenate([zc[f'{k}|q'] for k in keys]).astype(float))
             P['is_blk'] = is_blk
             # raw member RMSE + error correlation with the mix (diversity)
-            mixv = 0.5 * (P['base'][0] + P['base2'][0])
+            mixv = stand_mix(P)[0]
             for kind, m in (('blk', is_blk), ('ord', ~is_blk)):
                 r = dict(panel=panel, month=split[:3], fold=fold, kind=kind)
-                for a in ['base', 'base2'] + [c for c in CANDS if c in P]:
+                for a in ['base', 'base2'] + [c for c in LOAD if c in P]:
                     r[f'v_{a}'] = np.sqrt(np.mean((P[a][0][m] - vt[m]) ** 2)); r[f'q_{a}'] = np.sqrt(np.mean(((P[a][1][m] - qt[m]) / ln_s[s[m]]) ** 2))
                     r[f'corr_{a}'] = np.corrcoef(P[a][0][m] - vt[m], mixv[m] - vt[m])[0, 1]
                 r['v_mix'] = np.sqrt(np.mean((mixv[m] - vt[m]) ** 2))
@@ -227,20 +245,20 @@ def comp(X, a_blk, a_ord, wb=None, wo=None):
 def main():
     data, raws = {}, []
     for p in L.PANELS:
-        if not all(os.path.exists(f'{L.RES}/{p}_f{f}_{c}{kw.get("tag", "")}.npz') for f in (0, 1) for c in CANDS):
+        if not all(os.path.exists(f'{L.RES}/{p}_f{f}_{c}{kw.get("tag", "")}.npz') for f in (0, 1) for c in LOAD):
             print('missing candidate files for', p, '- skipped'); continue
         data[p], rr = panel_tables(p); raws += rr
         print('tables', p, flush=True)
     keys = [(p, sp) for p in data for sp in SPLITS]
-    arms = ['A'] + [f'{c}@{w}' for c in CANDS for w in WS]
+    arms = ['A'] + [f'{c}@{w}' for c in sorted(CANDS, key=lambda c: c != CTRL) for w in WS]   # control first (paired diff)
     pd.set_option('display.width', 250); pd.set_option('display.max_columns', 60)
     RW = pd.DataFrame(raws)
     print('\nRAW member RMSE pooled over panel-month-folds (speed km/h | flow per lane) and corr(error, mix error):')
     for kind in ('ord', 'blk'):
         g = RW[RW.kind == kind]
         print(f'  {kind}: ' + ' '.join(f'{a} v{g[f"v_{a}"].mean():.3f}/q{g[f"q_{a}"].mean():.2f}/corr{g[f"corr_{a}"].mean():.3f}'
-                                       for a in ['base', 'base2'] + [c for c in CANDS if f'v_{c}' in g]) + f' | mix v{g.v_mix.mean():.3f}')
-    RW.to_csv(f'{L.RES}/raw_rmse.csv', index=False)
+                                       for a in ['base', 'base2'] + [c for c in LOAD if f'v_{c}' in g]) + f' | stand-in {STAND} mix v{g.v_mix.mean():.3f}')
+    RW.to_csv(f'{L.RES}/raw_rmse{kw.get("out", "")}.csv', index=False)
     rng = np.random.default_rng(0)
     out = []
     W3 = np.array([0.35, 0.10, 0.05])
@@ -257,6 +275,7 @@ def main():
                 row[k] = (wb, cnt[np.searchsorted(uu, ud)])
             BW.append(row)
         A = f'A|{pipe}'
+        JJ = {}
         for a in an[1:]:
             for scope in ('deploy', 'ord', 'blk'):
                 ab, ao = {'deploy': (a, a), 'ord': (A, a), 'blk': (a, A)}[scope]
@@ -268,12 +287,21 @@ def main():
                          dJ_val=J0[[i for i, k in enumerate(keys) if k[1] == 'validation']].mean(),
                          dJ_pri=J0[[i for i, k in enumerate(keys) if k[1] == 'private']].mean(), per=' '.join(f'{v:+.5f}' for v in J0))
                 r['gate'] = bool(scope == 'deploy' and pipe == 'post' and r['dJ'] >= 3e-4 and r['lo'] > 0 and r['up'] >= 7)
+                JJ[(a, scope)] = (J0, bJ)
+                cn, wn = r['arm'].split('@')
+                if CTRL and cn != CTRL and (f'{CTRL}@{wn}|{pipe}', scope) in JJ:
+                    Jc, bJc = JJ[(f'{CTRL}@{wn}|{pipe}', scope)]
+                    r.update(dJ_ctrl=Jc.mean(), dJ_div=J0.mean() - Jc.mean(), div_lo=np.percentile(bJ - bJc, 2.5),
+                             div_hi=np.percentile(bJ - bJc, 97.5), div_up=int((J0 > Jc).sum()))
+                    r['gate'] = bool(r['gate'] and r['dJ_div'] >= 1.5e-4)
                 out.append(r)
                 print(f'{pipe:4s} {r["arm"]:11s} {scope:6s} dS_state {r["dS_state"]:+.5f} dLWR {r["dLWR"]:+.5f} dS_FD {r["dS_FD"]:+.5f} | '
                       f'dJ {r["dJ"]:+.6f} [{r["lo"]:+.6f}, {r["hi"]:+.6f}] up {r["up"]}/{r["n"]} (val {r["dJ_val"]:+.6f} pri {r["dJ_pri"]:+.6f})'
+                      + (f' | vs {CTRL} {r["dJ_div"]:+.6f} [{r["div_lo"]:+.6f}, {r["div_hi"]:+.6f}] {r["div_up"]}/{r["n"]}' if 'dJ_div' in r else '')
                       + ('  GATE PASS' if r['gate'] else ''), flush=True)
     T = pd.DataFrame(out); T.to_csv(f'{L.RES}/jproxy{kw.get("tag", "")}{kw.get("out", "")}.csv', index=False)
-    print('\nGATE (post, deploy):', {c: bool(T[(T.arm.str.startswith(c + '@')) & T.gate].shape[0] > 0) for c in CANDS})
+    print(f'\nGATE (post, deploy; stand-in {STAND}, ctrl {CTRL or "-"}):',
+          {c: bool(T[(T.arm.str.startswith(c + '@')) & T.gate].shape[0] > 0) for c in CANDS if c != CTRL})
 
 
 if __name__ == '__main__':

@@ -1,0 +1,35 @@
+[run_heavy] slot acquired after 0s
+[    89s]   xgboost v depth 9 rounds 1500 eta 0.06: 89s
+[   183s]   xgboost q depth 9 rounds 1500 eta 0.06: 94s
+[   183s] D7_I10_E fold 0 xgb done in 183s -> D7_I10_E_f0_xgb.npz
+[   279s] D7_I10_E fold 0 lgbfta done in 96s -> D7_I10_E_f0_lgbfta.npz
+[   377s]   xgboost v depth 9 rounds 1500 eta 0.06: 98s
+[   462s]   xgboost q depth 9 rounds 1500 eta 0.06: 84s
+[   462s] D7_I10_E fold 1 xgb done in 182s -> D7_I10_E_f1_xgb.npz
+[   557s] D7_I10_E fold 1 lgbfta done in 95s -> D7_I10_E_f1_lgbfta.npz
+[   627s]   xgboost v depth 9 rounds 1500 eta 0.06: 69s
+[   696s]   xgboost q depth 9 rounds 1500 eta 0.06: 70s
+[   696s] D7_I210_W fold 0 xgb done in 139s -> D7_I210_W_f0_xgb.npz
+[   770s] D7_I210_W fold 0 lgbfta done in 74s -> D7_I210_W_f0_lgbfta.npz
+[   835s]   xgboost v depth 9 rounds 1500 eta 0.06: 65s
+[   904s]   xgboost q depth 9 rounds 1500 eta 0.06: 69s
+[   904s] D7_I210_W fold 1 xgb done in 134s -> D7_I210_W_f1_xgb.npz
+[   978s] D7_I210_W fold 1 lgbfta done in 74s -> D7_I210_W_f1_lgbfta.npz
+[  1068s]   xgboost v depth 9 rounds 1500 eta 0.06: 90s
+[  1159s]   xgboost q depth 9 rounds 1500 eta 0.06: 91s
+[  1159s] D7_I405_S fold 0 xgb done in 180s -> D7_I405_S_f0_xgb.npz
+[  1248s] D7_I405_S fold 0 lgbfta done in 89s -> D7_I405_S_f0_lgbfta.npz
+[  1340s]   xgboost v depth 9 rounds 1500 eta 0.06: 92s
+[  1431s]   xgboost q depth 9 rounds 1500 eta 0.06: 90s
+[  1431s] D7_I405_S fold 1 xgb done in 182s -> D7_I405_S_f1_xgb.npz
+[  1521s] D7_I405_S fold 1 lgbfta done in 90s -> D7_I405_S_f1_lgbfta.npz
+[  1591s]   xgboost v depth 9 rounds 1500 eta 0.06: 70s
+[  1672s]   xgboost q depth 9 rounds 1500 eta 0.06: 80s
+[  1672s] D12_I5_S fold 0 xgb done in 151s -> D12_I5_S_f0_xgb.npz
+[  1756s] D12_I5_S fold 0 lgbfta done in 84s -> D12_I5_S_f0_lgbfta.npz
+[  1826s]   xgboost v depth 9 rounds 1500 eta 0.06: 70s
+[  1908s]   xgboost q depth 9 rounds 1500 eta 0.06: 82s
+[  1908s] D12_I5_S fold 1 xgb done in 152s -> D12_I5_S_f1_xgb.npz
+[  1990s] D12_I5_S fold 1 lgbfta done in 82s -> D12_I5_S_f1_lgbfta.npz
+[  1990s] done
+[run_heavy] exit 0 after 1991s
