@@ -1,0 +1,23 @@
+[run_heavy] slot acquired after 0s
+
+===== noramp
+   cmp            set    n   base    new    diff      lo      hi  p_pos panels_pos    d_s1    d_s3    d_s6  d_fn_new  d_fp_old  d_fp_new
+noramp train_official   40 0.8899 0.8852 -0.0046 -0.0147  0.0046  0.171        1/8  0.0001  0.0016  0.0414    0.0037   -0.0007   -0.0012
+noramp  train_offlike 1473 0.8778 0.8726 -0.0053 -0.0074 -0.0032  0.000        1/8 -0.0057 -0.0051  0.0095    0.0020    0.0010    0.0017
+noramp   train_pseudo 1055 0.8513 0.8447 -0.0067 -0.0097 -0.0036  0.000        0/8 -0.0026 -0.0039 -0.0134    0.0009    0.0025    0.0010
+noramp   pm_offlike_m  298 0.8209 0.8150 -0.0059 -0.0113 -0.0004    NaN        3/8     NaN     NaN     NaN       NaN       NaN       NaN
+noramp  pm_runstart_m 1124 0.8738 0.8718 -0.0020 -0.0053  0.0014    NaN        3/8     NaN     NaN     NaN       NaN       NaN       NaN
+
+===== ramprel
+    cmp            set    n   base    new    diff      lo      hi  p_pos panels_pos    d_s1    d_s3    d_s6  d_fn_new  d_fp_old  d_fp_new
+ramprel train_official   40 0.8899 0.8819 -0.0079 -0.0190  0.0018  0.063        2/8 -0.0014  0.0086  0.0308    0.0078   -0.0031   -0.0001
+ramprel  train_offlike 1473 0.8778 0.8717 -0.0061 -0.0090 -0.0037  0.000        1/8 -0.0047 -0.0072  0.0059    0.0022    0.0010    0.0024
+ramprel   train_pseudo 1055 0.8513 0.8444 -0.0070 -0.0118 -0.0020  0.000        3/8 -0.0022 -0.0038 -0.0128    0.0007    0.0032    0.0009
+ramprel   pm_offlike_m  298 0.8209 0.8104 -0.0105 -0.0165 -0.0044    NaN        1/8     NaN     NaN     NaN       NaN       NaN       NaN
+ramprel  pm_runstart_m 1124 0.8738 0.8731 -0.0007 -0.0039  0.0026    NaN        4/8     NaN     NaN     NaN       NaN       NaN       NaN
+
+===== FM-PM (pre-registered gate: validation >= +0.0015 and private >= +0.0005)
+    arm  validation_win  validation_cells  validation_dn  validation_fm_lb  private_win  private_cells  private_dn  private_fm_lb  PASS
+ noramp              28               155              7          -0.00039           31            172          28       -0.00080 False
+ramprel              30               166             18          -0.00039           31            168          28       -0.00079 False
+[run_heavy] exit 0 after 3s

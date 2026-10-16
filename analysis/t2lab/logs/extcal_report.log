@@ -1,0 +1,174 @@
+[run_heavy] slot acquired after 0s
+PRE-REGISTERED DECISION RULE (written 2026-10-16 08:50 +06, before any extcal number was computed; not changed afterwards)
+  Baseline B0 = pvogfv lab analog: veto10(pvo, pvogf), pvo = 0.25 base_np + 0.25 base_id + 0.5 base_full, pvogf = the same on the
+  ogf arm (probabilities averaged over seeds 0 and 1), production decode (expected-IoU top-m over the 6 x L cells of a window).
+  Every candidate changes ONLY the pvogf probabilities / decode and is then passed through the same veto10 against uncalibrated pvo:
+    a1  Platt per (h, panel): logit p' = alpha * logit p + beta, weighted log-loss over the keep-region cells with a visible label;
+        Newton with ridge 1.0 on (alpha - 1, beta); a group with < 200 cells or < 20 positives keeps p.
+    a2  isotonic per (h, panel) (increasing, clipped to [1e-4, 1 - 1e-4]), p' = iso(p) + 1e-6 p (ranking kept); same small-group rule.
+    a3  Platt per (h, panel, cell inside / outside the queue at T (qlast)); same fit and small-group rule.
+    b   size model: LightGBM poisson regression (63 leaves, lr 0.05, 400 trees, min_data 50, seed 0) of the visible true queued count
+        at T+h on window-level features <= T: h, panel id, tod, weekend, c_q3 c_q6 c_q9 c_q12 c_d3 c_d6 c_d12 c_rel6 c_n0 c_new3 c_clr3
+        c_new6 c_clr6 c_first c_peak (window-level ogfeat columns), n keep-region cells, sum over keep cells of prior at T+h and of
+        prior_now (same-scenario blended prior for March / April windows, train prior for train windows).  Rows: F03 lab windows of the
+        train split (lab weights) + March faithful windows (run-starts 1.0 / rest 0.3, x WM 5) of the fitting days.  Decode: per step,
+        the top round(pred_h) cells by the pvogf probability at step h.
+    c1  per-step factor f_h on the decoder's per-step count m_h: m'_h = round(f_h m_h), top m'_h cells by p at step h;
+        f_h in {0.60, 0.62, ..., 1.40} chosen to maximize the aggregate IoU of the fitting windows (coordinate ascent over h from f = 1,
+        2 sweeps), pooled over panels.
+    c2  as c1 but only outside qlast: the decoder's inside-qlast cells are kept; the outside-qlast count m_out,h is scaled by f_h and
+        filled with the top outside-qlast cells by p at step h.
+  Fitting data (many-day lab): pseudo-March windows of March days < 15 = faithful March windows (run-starts + every-3rd rest) U
+  offlike_m(days < 15).  Probabilities are OUT-OF-SAMPLE by a 2-fold day-parity cross-fit inside days < 15 (mode CF15): ogf np / id /
+  full members trained on the F03 rows + the March rows of the other fold's days (x WM 5; full member on the blended-prior rows), lab
+  scale (255 leaves, lr 0.05, min_data 40, 500 trees), seeds 0 and 1 averaged, pvogf = 0.25 np + 0.25 id + 0.5 full.
+  (b) needs no probabilities for fitting (rows = F03 + March faithful windows of days < 15).
+  Evaluation: offlike_m windows of March days >= 15 with the MD probabilities (F03 + March days < 15), candidate vs B0,
+  lab.paired_bootstrap (2000 resamples within panel), panels = sign of the per-panel mean delta.
+  ADOPT a candidate only if BOTH
+    (1) many-day offlike_m delta >= +0.005 IoU, 95 % CI lower bound > 0 and >= 6/8 panels positive;
+    (2) FM-PM private >= +0.0005 (LB-equivalent).  Footprint = candidate vs pvogfv on the lab-emulated April decisions (FULL_s0 = F03 +
+        all 31 March days, results/pvogf/private_decisions_emulated.pkl); the April calibration is re-fitted exactly as above on all
+        31 March days (mode CF31: day-parity cross-fit over all March days, members trained on F03 + the other fold's March days; (b)
+        refitted on F03 + all March faithful windows).  Each changed window is priced by fpmatch_lib.forecast (panel-exact, +-2 h, sign
+        and size of the all-cell dn) over the candidate's seed-average many-day per-window pairs vs B0 (offlike_m + runstart_m, days
+        >= 15); FM-PM = 0.15 x the mean over the 40 private ongoing windows (unchanged windows count 0).  Computed only for candidates
+        that pass (1).
+  If several pass: the higher FM-PM private wins.
+  AMENDMENT (2026-10-16 09:17 +06, after a code smoke run with seed-0 cross-fit only, BEFORE any b2 number was computed; the rule
+  above is unchanged).  The smoke run showed that (b) as written is mis-specified for the lab: about 45 % of the March label cells are
+  hidden (ev False), the size target counts visible cells only, but the decode picks the top cells among ALL cells, so the visible
+  extent is roughly halved (b and the per-step oracle both lose about -0.25..-0.33).  (b) stays in the table as pre-registered (FAIL).
+  Added, under the SAME gates (1) and (2):
+    b2  = b with the target and the decode on the same scored cells: feature n_vis_h (number of scored cells at T+h: eligible cells
+          for train windows, visible label cells for March windows, all links for the April windows), decode = the top round(pred_h)
+          cells by p among the scored cells (the lab's ev mask; in April every link is scored).
+  The per-step oracle is reported the same way (top n_true_h among the scored cells, non-binding).
+  Candidates are now 7 (Bonferroni-style CI 99.3 %; the printed 99.2 % column is kept).
+  Reported, not binding: runstart_m delta, each seed alone, the per-step size oracle, calibration diagnostics (reliability per h,
+  inside / outside qlast), fitted parameters, number of candidates (6: a Bonferroni-style 99.2 % CI is also printed).
+
+
+== 0. RELIABILITY (keep-region cells with a visible label): mean p vs observed rate ==
+-- CF15 out-of-sample fit windows (days < 15): by p bin (inq = inside qlast)
+ inq           bin      n     p   obs
+   0 (-0.001, 0.2] 332516 0.005 0.004
+   0    (0.2, 0.4]   3880 0.289 0.298
+   0    (0.4, 0.6]   2708 0.497 0.532
+   0    (0.6, 0.8]   2377 0.702 0.743
+   0    (0.8, 1.0]   8177 0.947 0.972
+   1 (-0.001, 0.2]  10502 0.039 0.022
+   1    (0.2, 0.4]   2435 0.298 0.209
+   1    (0.4, 0.6]   2812 0.501 0.443
+   1    (0.6, 0.8]   3325 0.712 0.604
+   1    (0.8, 1.0]  97466 0.989 0.985
+-- CF15 out-of-sample fit windows (days < 15): by step
+         p           obs       
+inq      0      1      0      1
+h                              
+1    0.014  0.949  0.015  0.944
+2    0.024  0.917  0.025  0.910
+3    0.033  0.888  0.036  0.874
+4    0.042  0.855  0.045  0.838
+5    0.053  0.819  0.053  0.805
+6    0.063  0.788  0.061  0.777
+-- MD evaluation offlike_m (days >= 15): by p bin (inq = inside qlast)
+ inq           bin     n     p   obs
+   0 (-0.001, 0.2] 30185 0.004 0.005
+   0    (0.2, 0.4]   257 0.291 0.323
+   0    (0.4, 0.6]   178 0.503 0.612
+   0    (0.6, 0.8]   144 0.701 0.750
+   0    (0.8, 1.0]   434 0.939 0.947
+   1 (-0.001, 0.2]  1162 0.043 0.034
+   1    (0.2, 0.4]   227 0.296 0.273
+   1    (0.4, 0.6]   230 0.501 0.574
+   1    (0.6, 0.8]   300 0.709 0.747
+   1    (0.8, 1.0] 10919 0.990 0.991
+-- MD evaluation offlike_m (days >= 15): by step
+         p           obs       
+inq      0      1      0      1
+h                              
+1    0.009  0.959  0.009  0.964
+2    0.016  0.931  0.018  0.937
+3    0.022  0.895  0.024  0.895
+4    0.026  0.865  0.030  0.860
+5    0.034  0.827  0.036  0.832
+6    0.044  0.778  0.048  0.780
+
+== 1. FITS on CF15 (March days < 15, out-of-sample cross-fit, seed avg) ==
+  CF15 c1: f_h = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0] | fit-window aggregate IoU 0.8288 -> 0.8288
+  CF15 c2: f_h = [1.0, 0.92, 0.94, 1.04, 0.94, 0.96] | fit-window aggregate IoU 0.8288 -> 0.8289
+  CF15: cells for a1-a3 466198 (pos 0.244); size-model rows 135258; a1 groups fitted 48/48, a3 82/96
+
+== 2. MANY-DAY pseudo-March (days >= 15; MD probabilities; calibration fitted on CF15) — candidate vs B0 (pvogfv) ==
+avg offlike_m  a1          n= 177 0.8610 vs 0.8620 -0.0010 [-0.0047, +0.0026] (99.2% [-0.0063, +0.0036]) panels +5/-3 windows changed 81 dcells -63
+avg offlike_m  a2          n= 177 0.8619 vs 0.8620 -0.0001 [-0.0052, +0.0049] (99.2% [-0.0073, +0.0068]) panels +3/-5 windows changed 99 dcells -60
+avg offlike_m  a3          n= 177 0.8640 vs 0.8620 +0.0020 [-0.0033, +0.0072] (99.2% [-0.0053, +0.0096]) panels +6/-1 windows changed 108 dcells -92
+avg offlike_m  b           n= 177 0.6101 vs 0.8620 -0.2519 [-0.2788, -0.2253] (99.2% [-0.2860, -0.2151]) panels +0/-8 windows changed 176 dcells -6792
+avg offlike_m  b2          n= 177 0.6964 vs 0.8620 -0.1656 [-0.1870, -0.1432] (99.2% [-0.1938, -0.1355]) panels +0/-8 windows changed 169 dcells -7497
+avg offlike_m  c1          n= 177 0.8620 vs 0.8620 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+avg offlike_m  c2          n= 177 0.8619 vs 0.8620 -0.0000 [-0.0001, +0.0000] (99.2% [-0.0001, +0.0000]) panels +0/-2 windows changed 3 dcells -9
+avg offlike_m  oracle_step n= 177 0.9424 vs 0.8620 +0.0805 [+0.0542, +0.1115] (99.2% [+0.0458, +0.1224]) panels +8/-0 windows changed 177 dcells -10425
+avg offlike_m  pvogf       n= 177 0.8635 vs 0.8620 +0.0015 [-0.0001, +0.0046] (99.2% [-0.0001, +0.0061]) panels +2/-0 windows changed 3 dcells +46
+avg offlike_m  pvo         n= 177 0.8416 vs 0.8620 -0.0204 [-0.0313, -0.0104] (99.2% [-0.0354, -0.0081]) panels +0/-8 windows changed 127 dcells -11
+avg runstart_m a1          n= 617 0.9003 vs 0.9026 -0.0023 [-0.0053, +0.0003] (99.2% [-0.0063, +0.0012]) panels +5/-3 windows changed 275 dcells -135
+avg runstart_m a2          n= 617 0.8996 vs 0.9026 -0.0029 [-0.0081, +0.0009] (99.2% [-0.0102, +0.0022]) panels +3/-5 windows changed 345 dcells -156
+avg runstart_m a3          n= 617 0.9016 vs 0.9026 -0.0010 [-0.0035, +0.0016] (99.2% [-0.0046, +0.0025]) panels +2/-5 windows changed 366 dcells -57
+avg runstart_m b           n= 617 0.6406 vs 0.9026 -0.2620 [-0.2762, -0.2472] (99.2% [-0.2809, -0.2422]) panels +0/-8 windows changed 613 dcells -27296
+avg runstart_m b2          n= 617 0.7537 vs 0.9026 -0.1489 [-0.1614, -0.1371] (99.2% [-0.1654, -0.1331]) panels +0/-8 windows changed 581 dcells -28765
+avg runstart_m c1          n= 617 0.9026 vs 0.9026 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+avg runstart_m c2          n= 617 0.9024 vs 0.9026 -0.0001 [-0.0004, +0.0000] (99.2% [-0.0006, +0.0001]) panels +1/-2 windows changed 26 dcells -49
+avg runstart_m oracle_step n= 617 0.9586 vs 0.9026 +0.0560 [+0.0442, +0.0691] (99.2% [+0.0405, +0.0728]) panels +8/-0 windows changed 617 dcells -39435
+avg runstart_m pvogf       n= 617 0.9026 vs 0.9026 -0.0000 [-0.0003, +0.0003] (99.2% [-0.0004, +0.0005]) panels +2/-1 windows changed 13 dcells +143
+avg runstart_m pvo         n= 617 0.8996 vs 0.9026 -0.0029 [-0.0072, +0.0017] (99.2% [-0.0087, +0.0032]) panels +2/-6 windows changed 449 dcells +251
+s0  offlike_m  a1          n= 177 0.8625 vs 0.8614 +0.0011 [-0.0028, +0.0046] (99.2% [-0.0041, +0.0058]) panels +5/-2 windows changed 84 dcells -87
+s0  offlike_m  a2          n= 177 0.8616 vs 0.8614 +0.0002 [-0.0048, +0.0053] (99.2% [-0.0069, +0.0069]) panels +4/-4 windows changed 100 dcells -57
+s0  offlike_m  a3          n= 177 0.8638 vs 0.8614 +0.0024 [-0.0036, +0.0083] (99.2% [-0.0060, +0.0106]) panels +5/-2 windows changed 111 dcells -121
+s0  offlike_m  b           n= 177 0.6092 vs 0.8614 -0.2522 [-0.2805, -0.2252] (99.2% [-0.2860, -0.2138]) panels +0/-8 windows changed 177 dcells -6816
+s0  offlike_m  b2          n= 177 0.6969 vs 0.8614 -0.1645 [-0.1857, -0.1423] (99.2% [-0.1933, -0.1352]) panels +0/-8 windows changed 170 dcells -7529
+s0  offlike_m  c1          n= 177 0.8614 vs 0.8614 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+s0  offlike_m  c2          n= 177 0.8614 vs 0.8614 -0.0000 [-0.0001, +0.0000] (99.2% [-0.0001, +0.0000]) panels +0/-2 windows changed 3 dcells -9
+s0  runstart_m a1          n= 617 0.8991 vs 0.9014 -0.0023 [-0.0055, +0.0004] (99.2% [-0.0069, +0.0012]) panels +5/-3 windows changed 292 dcells -172
+s0  runstart_m a2          n= 617 0.8978 vs 0.9014 -0.0036 [-0.0104, +0.0012] (99.2% [-0.0128, +0.0025]) panels +3/-5 windows changed 350 dcells -147
+s0  runstart_m a3          n= 617 0.9001 vs 0.9014 -0.0013 [-0.0039, +0.0011] (99.2% [-0.0047, +0.0019]) panels +2/-5 windows changed 368 dcells -18
+s0  runstart_m b           n= 617 0.6393 vs 0.9014 -0.2622 [-0.2762, -0.2476] (99.2% [-0.2804, -0.2422]) panels +0/-8 windows changed 616 dcells -27315
+s0  runstart_m b2          n= 617 0.7546 vs 0.9014 -0.1468 [-0.1594, -0.1352] (99.2% [-0.1635, -0.1309]) panels +0/-8 windows changed 585 dcells -28688
+s0  runstart_m c1          n= 617 0.9014 vs 0.9014 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+s0  runstart_m c2          n= 617 0.9014 vs 0.9014 -0.0000 [-0.0001, +0.0001] (99.2% [-0.0002, +0.0001]) panels +0/-3 windows changed 25 dcells -43
+s1  offlike_m  a1          n= 177 0.8587 vs 0.8612 -0.0025 [-0.0077, +0.0022] (99.2% [-0.0102, +0.0039]) panels +4/-4 windows changed 75 dcells -49
+s1  offlike_m  a2          n= 177 0.8625 vs 0.8612 +0.0013 [-0.0047, +0.0067] (99.2% [-0.0065, +0.0081]) panels +4/-4 windows changed 108 dcells -64
+s1  offlike_m  a3          n= 177 0.8643 vs 0.8612 +0.0031 [-0.0028, +0.0089] (99.2% [-0.0049, +0.0111]) panels +4/-3 windows changed 116 dcells -79
+s1  offlike_m  b           n= 177 0.6085 vs 0.8612 -0.2528 [-0.2801, -0.2256] (99.2% [-0.2896, -0.2149]) panels +0/-8 windows changed 176 dcells -6780
+s1  offlike_m  b2          n= 177 0.6943 vs 0.8612 -0.1669 [-0.1887, -0.1444] (99.2% [-0.1946, -0.1376]) panels +0/-8 windows changed 172 dcells -7489
+s1  offlike_m  c1          n= 177 0.8612 vs 0.8612 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+s1  offlike_m  c2          n= 177 0.8612 vs 0.8612 -0.0000 [-0.0001, +0.0000] (99.2% [-0.0001, +0.0000]) panels +0/-2 windows changed 3 dcells -9
+s1  runstart_m a1          n= 617 0.8995 vs 0.9027 -0.0032 [-0.0062, -0.0005] (99.2% [-0.0074, +0.0003]) panels +4/-4 windows changed 278 dcells -140
+s1  runstart_m a2          n= 617 0.8998 vs 0.9027 -0.0029 [-0.0079, +0.0008] (99.2% [-0.0090, +0.0022]) panels +4/-4 windows changed 361 dcells -176
+s1  runstart_m a3          n= 617 0.9023 vs 0.9027 -0.0004 [-0.0030, +0.0022] (99.2% [-0.0039, +0.0032]) panels +4/-3 windows changed 372 dcells -40
+s1  runstart_m b           n= 617 0.6399 vs 0.9027 -0.2629 [-0.2774, -0.2479] (99.2% [-0.2830, -0.2426]) panels +0/-8 windows changed 614 dcells -27287
+s1  runstart_m b2          n= 617 0.7536 vs 0.9027 -0.1492 [-0.1619, -0.1376] (99.2% [-0.1660, -0.1335]) panels +0/-8 windows changed 588 dcells -28779
+s1  runstart_m c1          n= 617 0.9027 vs 0.9027 +0.0000 [+0.0000, +0.0000] (99.2% [+0.0000, +0.0000]) panels +0/-0 windows changed 0 dcells +0
+s1  runstart_m c2          n= 617 0.9026 vs 0.9027 -0.0002 [-0.0004, +0.0000] (99.2% [-0.0006, +0.0001]) panels +0/-3 windows changed 27 dcells -61
+
+per-panel deltas (avg, offlike_m):
+  a1  {'D12_I5_N': 0.0084, 'D12_I5_S': 0.005, 'D7_I10_E': 0.0012, 'D7_I10_W': -0.0071, 'D7_I210_E': -0.02, 'D7_I210_W': 0.0087, 'D7_I405_N': -0.0044, 'D7_I405_S': 0.0003}
+  a2  {'D12_I5_N': 0.0049, 'D12_I5_S': 0.0022, 'D7_I10_E': -0.0008, 'D7_I10_W': 0.0088, 'D7_I210_E': -0.0096, 'D7_I210_W': -0.0022, 'D7_I405_N': -0.0034, 'D7_I405_S': -0.0009}
+  a3  {'D12_I5_N': 0.0019, 'D12_I5_S': -0.0111, 'D7_I10_E': 0.0086, 'D7_I10_W': 0.0025, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0072, 'D7_I405_N': 0.0027, 'D7_I405_S': 0.0044}
+  b   {'D12_I5_N': -0.1782, 'D12_I5_S': -0.163, 'D7_I10_E': -0.2606, 'D7_I10_W': -0.2492, 'D7_I210_E': -0.3977, 'D7_I210_W': -0.2462, 'D7_I405_N': -0.2484, 'D7_I405_S': -0.2717}
+  b2  {'D12_I5_N': -0.1379, 'D12_I5_S': -0.1046, 'D7_I10_E': -0.1452, 'D7_I10_W': -0.267, 'D7_I210_E': -0.2754, 'D7_I210_W': -0.1781, 'D7_I405_N': -0.1345, 'D7_I405_S': -0.082}
+  c1  {'D12_I5_N': 0.0, 'D12_I5_S': 0.0, 'D7_I10_E': 0.0, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': 0.0, 'D7_I405_S': 0.0}
+  c2  {'D12_I5_N': -0.0002, 'D12_I5_S': 0.0, 'D7_I10_E': 0.0, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': -0.0, 'D7_I405_S': 0.0}
+
+per-step IoU profile is not separable; positives (all-cell) per arm on offlike_m avg: {'B0': 22672, 'a1': 22609, 'a2': 22612, 'a3': 22580, 'b': 15880, 'b2': 15175, 'c1': 22672, 'c2': 22663, 'oracle_step': 12247} | true 12247
+
+candidates passing gate (1): none
+
+== 4. VERDICT (pre-registered rule) ==
+a1 : (1) offlike_m -0.0010 [-0.0047, +0.0026] panels +5/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+a2 : (1) offlike_m -0.0001 [-0.0052, +0.0049] panels +3/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+a3 : (1) offlike_m +0.0020 [-0.0033, +0.0072] panels +6/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+b  : (1) offlike_m -0.2519 [-0.2788, -0.2253] panels +0/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+b2 : (1) offlike_m -0.1656 [-0.1870, -0.1432] panels +0/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+c1 : (1) offlike_m +0.0000 [+0.0000, +0.0000] panels +0/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+c2 : (1) offlike_m -0.0000 [-0.0001, +0.0000] panels +0/8 -> FAIL | (2) FM-PM private n/a -> n/a | => DO NOT ADOPT
+[run_heavy] exit 0 after 17s

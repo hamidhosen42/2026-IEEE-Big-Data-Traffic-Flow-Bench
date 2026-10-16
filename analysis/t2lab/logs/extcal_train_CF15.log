@@ -1,0 +1,28 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE CF15 seeds [0, 1] members ['ogf_np', 'ogf_id', 'ogf_full'] threads 8
+[     0s] seed 0 ogf_np fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[   245s] seed 0 ogf_np fold 0: trained 241s, predicted 4s
+[   245s] seed 0 ogf_np fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[   481s] seed 0 ogf_np fold 1: trained 233s, predicted 3s
+[   481s] seed 0 ogf_id fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[   714s] seed 0 ogf_id fold 0: trained 228s, predicted 4s
+[   714s] seed 0 ogf_id fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[   961s] seed 0 ogf_id fold 1: trained 243s, predicted 4s
+[   961s] seed 0 ogf_full fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[  1296s] seed 0 ogf_full fold 0: trained 330s, predicted 5s
+[  1296s] seed 0 ogf_full fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[  1549s] seed 0 ogf_full fold 1: trained 250s, predicted 4s
+[  1549s] seed 1 ogf_np fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[  1791s] seed 1 ogf_np fold 0: trained 237s, predicted 4s
+[  1791s] seed 1 ogf_np fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[  1991s] seed 1 ogf_np fold 1: trained 197s, predicted 3s
+[  1991s] seed 1 ogf_id fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[  2192s] seed 1 ogf_id fold 0: trained 197s, predicted 4s
+[  2192s] seed 1 ogf_id fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[  2403s] seed 1 ogf_id fold 1: trained 208s, predicted 3s
+[  2403s] seed 1 ogf_full fold 0: rows 8211230 (March 202402, days 1..13, n days 7)
+[  2607s] seed 1 ogf_full fold 0: trained 200s, predicted 4s
+[  2607s] seed 1 ogf_full fold 1: rows 8264564 (March 255736, days 0..14, n days 8)
+[  2832s] seed 1 ogf_full fold 1: trained 221s, predicted 3s
+[  2832s] EXTCAL CROSS-FIT DONE CF15 2832s
+[run_heavy] exit 0 after 2832s

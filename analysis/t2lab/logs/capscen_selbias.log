@@ -1,0 +1,23 @@
+(1) best-of-N, E[max] iid: {10: 1.54, 48: 2.23, 70: 2.38, 100: 2.51}
+   sigma 0.004 rho 0.0: selection bias N=48 0.0089  N=100 0.0100
+   sigma 0.004 rho 0.5: selection bias N=48 0.0063  N=100 0.0071
+   sigma 0.004 rho 0.8: selection bias N=48 0.0040  N=100 0.0045
+   sigma 0.004 rho 0.9: selection bias N=48 0.0028  N=100 0.0032
+   sigma 0.006 rho 0.0: selection bias N=48 0.0134  N=100 0.0151
+   sigma 0.006 rho 0.5: selection bias N=48 0.0095  N=100 0.0106
+   sigma 0.006 rho 0.8: selection bias N=48 0.0060  N=100 0.0067
+   sigma 0.006 rho 0.9: selection bias N=48 0.0042  N=100 0.0048
+(2) greedy hill-climb (keep if public delta > 0.0001)
+   true effects ~N(0.0, 0.0005) N=48: public gain +0.0536, true gain +0.0021, bias +0.0515 (q10-q90 +0.0356..+0.0682), kept 23
+   true effects ~N(0.0, 0.0005) N=70: public gain +0.0782, true gain +0.0030, bias +0.0751 (q10-q90 +0.0560..+0.0952), kept 34
+   true effects ~N(0.0, 0.0005) N=100: public gain +0.1118, true gain +0.0044, bias +0.1074 (q10-q90 +0.0842..+0.1316), kept 48
+   true effects ~N(0.0003, 0.001) N=48: public gain +0.0645, true gain +0.0152, bias +0.0492 (q10-q90 +0.0330..+0.0665), kept 26
+   true effects ~N(0.0003, 0.001) N=70: public gain +0.0937, true gain +0.0222, bias +0.0714 (q10-q90 +0.0516..+0.0922), kept 37
+   true effects ~N(0.0003, 0.001) N=100: public gain +0.1340, true gain +0.0318, bias +0.1022 (q10-q90 +0.0783..+0.1266), kept 53
+   true effects ~N(-0.0003, 0.001) N=48: public gain +0.0499, true gain +0.0012, bias +0.0486 (q10-q90 +0.0324..+0.0659), kept 21
+   true effects ~N(-0.0003, 0.001) N=70: public gain +0.0728, true gain +0.0018, bias +0.0710 (q10-q90 +0.0515..+0.0917), kept 31
+   true effects ~N(-0.0003, 0.001) N=100: public gain +0.1037, true gain +0.0025, bias +0.1011 (q10-q90 +0.0779..+0.1255), kept 44
+(3) window-level hill-climb, zero true effect (bias = public gain)
+   N=48: public-only gain mean +0.0253 (q10-q90 +0.0149..+0.0361)
+   N=70: public-only gain mean +0.0306 (q10-q90 +0.0198..+0.0420)
+   N=100: public-only gain mean +0.0352 (q10-q90 +0.0233..+0.0472)

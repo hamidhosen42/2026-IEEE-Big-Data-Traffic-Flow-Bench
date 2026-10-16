@@ -6,26 +6,28 @@ import numpy as np, pandas as pd
 import lab, ogfeat_lib as og, exp_firstcross_lib as fc
 sys.path.insert(0, f'{lab.ROOT}/analysis/t2lab/results/xfer/scripts')
 import fpmatch_lib as fpa
+import os
 ARMS = sys.argv[1:]; A = f'{og.ODIR}/arms'; F = lab.F
+FOLDS = tuple(int(c) for c in os.environ.get('FOLDS', '01'))
 pd.set_option('display.width', 250); pd.set_option('display.max_columns', 40)
 
 
 def pm_mean(name):
-    z = [pd.read_pickle(f'{A}/{name}/pm_f{k}.pkl') for k in (0, 1)]
-    return {key: (z[0][key].astype(np.float32) + z[1][key].astype(np.float32)) / 2 for key in z[0]}
+    z = [pd.read_pickle(f'{A}/{name}/pm_f{k}.pkl') for k in FOLDS]
+    return {key: sum(zz[key].astype(np.float32) for zz in z) / len(z) for key in z[0]}
 
 
 def dec(p6):
     L = p6.shape[-1]; return lab.decode(p6.ravel()).reshape(F, L)
 
 
-base_oof = pd.concat([pd.read_pickle(f'{A}/og_np_base/fold{k}.pkl')['df'] for k in (0, 1)], ignore_index=True)
+base_oof = pd.concat([pd.read_pickle(f'{A}/og_np_base/fold{k}.pkl')['df'] for k in FOLDS], ignore_index=True)
 PB = pm_mean('og_np_base')
 PMZ = {panel: og.build_pm(panel) for panel in lab.PANELS}
 out = []
 for arm in ARMS:
     name = f'og_np_{arm}'
-    oof = pd.concat([pd.read_pickle(f'{A}/{name}/fold{k}.pkl')['df'] for k in (0, 1)], ignore_index=True)
+    oof = pd.concat([pd.read_pickle(f'{A}/{name}/fold{k}.pkl')['df'] for k in FOLDS], ignore_index=True)
     rows = [og.delta_row(base_oof[base_oof.set == s], oof[oof.set == s], arm, 'train_' + s) for s in ('official', 'offlike', 'pseudo')]
     PN = pm_mean(name); lab_rows = []; sc = {}
     for panel in lab.PANELS:
@@ -50,12 +52,12 @@ for arm in ARMS:
     offr = []
     for split in ('validation', 'private'):
         o = []
-        for k in (0, 1):
+        for k in FOLDS:
             Z = pd.read_pickle(f'{A}/{name}/off_f{k}.pkl'); o.append(Z)
         for panel in lab.PANELS:
-            d0, d1 = o[0][(panel, split)], o[1][(panel, split)]
-            assert (d0['window_id'] == d1['window_id']).all()
-            pn = (d0['P_new'] + d1['P_new']) / 2; pbb = (d0['P_base'] + d1['P_base']) / 2
+            dd = [oo[(panel, split)] for oo in o]; d0 = dd[0]
+            assert all((x['window_id'] == d0['window_id']).all() for x in dd)
+            pn = sum(x['P_new'] for x in dd) / len(dd); pbb = sum(x['P_base'] for x in dd) / len(dd)
             for j, w in enumerate(d0['window_id']):
                 Da, Db = dec(pbb[j]), dec(pn[j])
                 offr.append(dict(split=split, window_id=w, panel=panel, tod=d0['tod'][j], nA=int(Da.sum()), nB=int(Db.sum()), changed=int((Da ^ Db).sum())))

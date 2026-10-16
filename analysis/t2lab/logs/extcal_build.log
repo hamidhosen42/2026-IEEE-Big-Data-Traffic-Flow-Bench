@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     2s] {"panel": "D7_I10_E", "fit_windows": 487, "faithful": 482, "offlike_all": 41, "off_only": 5, "rows": 159894, "lt15": 207, "f03_windows": 3000, "secs": 2.2}
+[     2s] D7_I10_W cached, skipped
+[     4s] {"panel": "D7_I210_E", "fit_windows": 134, "faithful": 133, "offlike_all": 27, "off_only": 1, "rows": 25248, "lt15": 45, "f03_windows": 1106, "secs": 2.1}
+[     6s] {"panel": "D7_I210_W", "fit_windows": 595, "faithful": 587, "offlike_all": 46, "off_only": 8, "rows": 193386, "lt15": 277, "f03_windows": 3554, "secs": 1.6}
+[    16s] {"panel": "D7_I405_N", "fit_windows": 894, "faithful": 885, "offlike_all": 51, "off_only": 9, "rows": 925314, "lt15": 394, "f03_windows": 3410, "secs": 10.1}
+[    18s] {"panel": "D7_I405_S", "fit_windows": 604, "faithful": 598, "offlike_all": 42, "off_only": 6, "rows": 235080, "lt15": 292, "f03_windows": 3072, "secs": 2.0}
+[    22s] {"panel": "D12_I5_N", "fit_windows": 394, "faithful": 383, "offlike_all": 34, "off_only": 11, "rows": 287358, "lt15": 102, "f03_windows": 2618, "secs": 3.5}
+[    24s] {"panel": "D12_I5_S", "fit_windows": 544, "faithful": 532, "offlike_all": 41, "off_only": 12, "rows": 230496, "lt15": 267, "f03_windows": 3394, "secs": 1.8}
+[    24s] EXTCAL BUILD DONE 24s
+[run_heavy] exit 0 after 24s

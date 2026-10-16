@@ -1,0 +1,3 @@
+arm,validation_win,validation_cells,validation_dn,validation_fm_lb,private_win,private_cells,private_dn,private_fm_lb,PASS
+noramp,28,155,7,-0.00038516837857877854,31,172,28,-0.0008034058652187395,False
+ramprel,30,166,18,-0.00039313297063217953,31,168,28,-0.0007917941940415659,False
