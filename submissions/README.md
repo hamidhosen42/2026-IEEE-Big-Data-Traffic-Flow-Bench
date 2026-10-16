@@ -2,6 +2,8 @@
 
 | Output file | Submission ref | Public LB | Description |
 |---|---|---:|---|
+| submission_K2.csv | 57049844 | 0.88198 | K2: FINAL CANDIDATE B (hedge) on tfb-k1 (CatBoost T1): April onset = production CatBoost with the train prior; April ongoing = veto10 (ogfeat bag with growth veto); March rows unchanged |
+| submission_FDRTV.csv | 57049756 | 0.88198 | K1: T1 mix + CatBoost FD member (depth 8+10, W 0.35; lab J +0.00071 8/8) on tfb-j4 (A2); blackout specialist, recon + TV unchanged |
 | submission_J4.csv | 57004474 | 0.88176 | Q4: FINAL CANDIDATE A2 (same-scenario bet) on tfb-i4: April ongoing = March-augmented F03 np/id/full bag + scenario prior + 103 ogfeat columns (pvogfv; many-day pseudo-March +0.020 IoU 8/8, FM-PM private +0.0015); March rows unchanged |
 | submission_J3.csv | 56989460 | 0.88176 | Q3: FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a growth veto (veto10: window keeps fs4occ if ogfeat adds >10 cells outside the queue at T; FM-PM private +0.0036 vs fs4occ); March rows unchanged |
 | submission_FDRTV.csv | 56981375 | 0.88179 | Q1: T1 FD bag on ALL rows + the blackout specialist (7 FD members: v13, s10, s11, t1dark, t1ramp, t1ramp2, t1bspec; W_FD 0.5); blackout rows 0.25 mix + 0.75 specialist; recon + TV |
@@ -50,5 +52,3 @@
 | submission_COMBO4.csv | 56692820 | 0.86184 | EXP_COMBO_6: COMBO3 + T1 v7 E (bigger T1 model, val-month holdout 0.9374) |
 | submission_COMBO2.csv | 56692819 | 0.85796 | EXP_COMBO_2: v9 (0.85639) + CatBoost onset (v9 feats) + T1 low-rank |
 | submission_COMBO3.csv | 56692012 | 0.85969 | EXP_COMBO_5: v9 + CatBoost onset + big ongoing LGB (127 leaves) + T1 v6 D |
-| submission_T1B_T2cat.csv | 56658171 | 0.85513 | EXP_COMBO_1: 0.85309 + T1 low-rank + T2 onset CatBoost |
-| submission_og_pers30.csv | 56658135 | 0.85126 | EXP_T2_n: og_noprior + 30% last-valid persistence on ongoing |

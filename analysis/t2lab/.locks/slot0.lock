@@ -1,1 +1,0 @@
-30365 .venv/bin/python analysis/t1lab/t1div_report.py cands=catb,base3 ws=0.35,0.5,0.65 out=_explore B=1000

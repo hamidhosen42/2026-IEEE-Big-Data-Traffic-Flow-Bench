@@ -1,6 +1,6 @@
 # All submitted notebooks
 
-One notebook per Kaggle submission, in submission order (65 submissions; best public LB #63, 0.88179).
+One notebook per Kaggle submission, in submission order (67 submissions; best public LB #67, 0.88198).
 Each file is the exact source of the kernel whose output was submitted. Swap kernels read upstream kernel outputs; their upstream sources are in `submissions/<folder>/upstream__*`. #1, #3 and #5 were submitted straight from Kaggle notebooks (current version).
 Rebuild: `.venv/bin/python kaggle_jobs/build_all_notebooks.py`.
 
@@ -71,3 +71,5 @@ Rebuild: `.venv/bin/python kaggle_jobs/build_all_notebooks.py`.
 | 63 | 2026-10-09 | 63_J1__LB0.88179.ipynb | `tfb-j1` | 0.88179 | Q1: T1 FD bag on ALL rows + the blackout specialist (7 FD members: v13, s10, s11, t1dark, t1ramp, t1ramp2, t1bspec; W_FD 0.5); blackout rows |
 | 64 | 2026-10-09 | 64_J3__LB0.88176.ipynb | `tfb-j3` | 0.88176 | Q3: FINAL CANDIDATE B2 (hedge) on tfb-i4: April onset = production CatBoost with the train prior; April ongoing = ogfeat F03 bag with a grow |
 | 65 | 2026-10-09 | 65_J4__LB0.88176.ipynb | `tfb-j4` | 0.88176 | Q4: FINAL CANDIDATE A2 (same-scenario bet) on tfb-i4: April ongoing = March-augmented F03 np/id/full bag + scenario prior + 103 ogfeat colum |
+| 66 | 2026-10-10 | 66_K1__LB0.88198.ipynb | `tfb-k1` | 0.88198 | K1: T1 mix + CatBoost FD member (depth 8+10, W 0.35; lab J +0.00071 8/8) on tfb-j4 (A2); blackout specialist, recon + TV unchanged |
+| 67 | 2026-10-10 | 67_K2__LB0.88198.ipynb | `tfb-k2` | 0.88198 | K2: FINAL CANDIDATE B (hedge) on tfb-k1 (CatBoost T1): April onset = production CatBoost with the train prior; April ongoing = veto10 (ogfea |

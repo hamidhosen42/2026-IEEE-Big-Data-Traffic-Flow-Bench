@@ -1,0 +1,4 @@
+[run_heavy] slot acquired after 0s
+[   357s] og_np_ramprel fold 0: 6077021 rows x 54 cols trained in 357s
+[   380s] og_np_ramprel fold 0: official 0.8819 (n=40), offlike 0.8717 (n=726), pseudo 0.8735 (n=525)
+[   411s] og_np_ramprel fold 0 done in 411s

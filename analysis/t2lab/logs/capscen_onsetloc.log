@@ -1,0 +1,37 @@
+[run_heavy] slot acquired after 0s
+D7_I10_E
+D7_I10_W
+D7_I210_E
+D7_I210_W
+D7_I405_N
+D7_I405_S
+D12_I5_N
+D12_I5_S
+              rec  sameday  prevdays
+split                               
+private     0.902    0.201  0.535211
+train       0.971    0.178  0.874064
+validation  0.907    0.176   0.00463
+              rec                   ...  prevdays                     
+split     private train validation  ...   private     train validation
+panel                               ...                               
+D12_I5_N     0.96  0.97       1.00  ...  0.041667  0.791822   0.043478
+D12_I5_S     0.96  0.95       0.96  ...  0.035714  0.836364   0.037037
+D7_I10_E     0.94  0.97       0.96  ...  0.032258  0.864111   0.035714
+D7_I10_W     0.73  0.89       0.50  ...  0.066667  0.641221     0.0625
+D7_I210_E    1.00  0.99       1.00  ...  0.038462  0.981884   0.034483
+D7_I210_W    0.93  0.98       1.00  ...  0.851852  0.921162       0.04
+D7_I405_N    1.00  0.99       1.00  ...  0.026316  0.922667   0.025641
+D7_I405_S    0.54  0.98       0.66  ...  0.041667  0.833333   0.034483
+
+[8 rows x 9 columns]
+new scenario, onset NOT train-recurrent: share 0.095 | of those: same-day earlier queue 0.146 | prev<=4 days 0.024 | early-month (days 0-4) same-day 0.5
+train, not recurrent share 0.029 | same-day 0.0 | recurrent same-day 0.183
+[run_heavy] exit 0 after 11s
+              rec  sameday     pv
+split                            
+private     0.902    0.201  0.836
+train       0.971    0.178  0.874
+validation  0.907    0.176  0.894
+new non-recurrent: n 41 sameday 0.146 prev4 0.659
+new early (days0-4): n 20 rec 0.9 sameday 0.5 prev 0.632

@@ -1,0 +1,4 @@
+[run_heavy] slot acquired after 0s
+[   353s] og_np_noramp fold 0: 6077021 rows x 53 cols trained in 353s
+[   381s] og_np_noramp fold 0: official 0.8852 (n=40), offlike 0.8718 (n=726), pseudo 0.8704 (n=525)
+[   412s] og_np_noramp fold 0 done in 412s

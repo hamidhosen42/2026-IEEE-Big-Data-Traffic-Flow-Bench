@@ -1,0 +1,30 @@
+[run_heavy] slot acquired after 0s
+ON  am feb/train  n= 236  ratio q05 0.945 q25 0.957 med 0.985 q75 1.013 q95 1.024  |dev|>15%: 0.000
+ON  am mar/train  n= 236  ratio q05 0.216 q25 0.500 med 0.791 q75 1.232 q95 2.260  |dev|>15%: 0.860
+ON  am apr/train  n= 236  ratio q05 0.123 q25 0.443 med 0.636 q75 1.194 q95 2.218  |dev|>15%: 0.898
+ON  pm feb/train  n= 297  ratio q05 0.951 q25 0.968 med 1.001 q75 1.018 q95 1.184  |dev|>15%: 0.061
+ON  pm mar/train  n= 297  ratio q05 0.167 q25 0.475 med 0.818 q75 1.390 q95 2.748  |dev|>15%: 0.879
+ON  pm apr/train  n= 297  ratio q05 0.143 q25 0.457 med 0.767 q75 1.429 q95 2.386  |dev|>15%: 0.899
+OFF am feb/train  n= 248  ratio q05 0.946 q25 0.961 med 0.986 q75 1.006 q95 1.021  |dev|>15%: 0.000
+OFF am mar/train  n= 248  ratio q05 0.156 q25 0.455 med 0.792 q75 1.323 q95 2.310  |dev|>15%: 0.871
+OFF am apr/train  n= 248  ratio q05 0.156 q25 0.471 med 0.907 q75 1.322 q95 2.308  |dev|>15%: 0.835
+OFF pm feb/train  n= 235  ratio q05 0.950 q25 0.966 med 0.986 q75 1.006 q95 1.018  |dev|>15%: 0.000
+OFF pm mar/train  n= 235  ratio q05 0.156 q25 0.433 med 0.781 q75 1.256 q95 2.296  |dev|>15%: 0.868
+OFF pm apr/train  n= 235  ratio q05 0.152 q25 0.457 med 0.868 q75 1.238 q95 2.175  |dev|>15%: 0.817
+F   am feb/train  n=1450  ratio q05 0.953 q25 0.974 med 0.996 q75 1.006 q95 1.015  |dev|>15%: 0.000
+F   am mar/train  n=1450  ratio q05 0.928 q25 0.955 med 0.976 q75 0.995 q95 1.025  |dev|>15%: 0.000
+F   am apr/train  n=1450  ratio q05 0.948 q25 0.970 med 0.987 q75 1.009 q95 1.040  |dev|>15%: 0.000
+F   pm feb/train  n=1450  ratio q05 0.975 q25 0.991 med 0.996 q75 1.000 q95 1.003  |dev|>15%: 0.000
+F   pm mar/train  n=1450  ratio q05 0.957 q25 0.975 med 0.997 q75 1.014 q95 1.031  |dev|>15%: 0.003
+F   pm apr/train  n=1450  ratio q05 0.948 q25 0.970 med 0.985 q75 1.001 q95 1.029  |dev|>15%: 0.003
+
+per panel PM on-ramp total ratio (sum over links): feb / mar / apr vs train
+D12_I5_N 1.019 1.168 0.931 | OFF 0.976 0.961 1.031 | mainline F 0.99 0.967 0.987
+D12_I5_S 1.007 0.808 0.776 | OFF 0.953 0.94 1.044 | mainline F 0.983 0.996 1.007
+D7_I10_E 1.038 0.804 0.949 | OFF 0.97 1.005 1.086 | mainline F 0.979 0.978 0.999
+D7_I10_W 1.004 0.979 1.059 | OFF 1.008 0.954 0.991 | mainline F 0.996 0.989 0.996
+D7_I210_E 1.019 0.884 1.002 | OFF 1.017 0.916 0.907 | mainline F 1.001 0.993 0.969
+D7_I210_W 0.973 1.114 0.97 | OFF 0.959 1.065 0.931 | mainline F 0.999 0.983 0.969
+D7_I405_N 1.018 0.968 0.939 | OFF 0.992 0.972 0.958 | mainline F 0.995 1.016 0.977
+D7_I405_S 0.989 1.026 1.072 | OFF 1.005 1.044 0.984 | mainline F 0.998 1.022 1.009
+[run_heavy] exit 0 after 8s
