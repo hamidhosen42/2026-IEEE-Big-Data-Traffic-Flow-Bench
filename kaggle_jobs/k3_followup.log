@@ -1,1 +1,39 @@
 [2026-10-16 03:59:58] start
+[2026-10-16 07:25:05] tfb-t1catb2a complete | state rows/NaN ('1855989', '0') | peak 26.13 | ok True
+[2026-10-16 07:25:05]     [  6350s] D7_I405_N panel time 6342s peak RSS 26.13 GB
+[2026-10-16 07:25:05]     [ 12226s] D7_I10_W panel time 5876s peak RSS 26.13 GB
+[2026-10-16 07:25:05]     val_FTA         0.9397
+[2026-10-16 07:25:05]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-16 07:25:05]     panel  val_temporal  val_base  val_FTA
+[2026-10-16 07:25:05]     mean val_FTA 0.9397
+[2026-10-16 08:13:22] tfb-t1catb2b complete | state rows/NaN ('1772218', '0') | peak 22.15 | ok True
+[2026-10-16 08:13:22]     [  6678s] D7_I210_E panel time 6669s peak RSS 22.15 GB
+[2026-10-16 08:13:22]     [ 11811s] D7_I210_W panel time 5133s peak RSS 22.15 GB
+[2026-10-16 08:13:22]     [ 15019s] D12_I405_S panel time 3208s peak RSS 22.15 GB
+[2026-10-16 08:13:22]     val_FTA         0.9409
+[2026-10-16 08:13:22]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-16 08:13:22]     panel  val_temporal  val_base  val_FTA
+[2026-10-16 08:13:22]     mean val_FTA 0.93997
+[2026-10-16 08:13:23] tfb-t1catb2c complete | state rows/NaN ('1555739', '0') | peak 19.23 | ok True
+[2026-10-16 08:13:23]     [  6442s] D12_I5_N panel time 6433s peak RSS 19.23 GB
+[2026-10-16 08:13:23]     [ 12549s] D12_I5_S panel time 6107s peak RSS 19.23 GB
+[2026-10-16 08:13:23]     val_FTA         0.9441
+[2026-10-16 08:13:23]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-16 08:13:23]     panel  val_temporal  val_base  val_FTA
+[2026-10-16 08:13:23]     mean val_FTA 0.9441
+[2026-10-16 08:47:35] tfb-t1catb2d complete | state rows/NaN ('1551849', '0') | peak 10.92 | ok True
+[2026-10-16 08:47:35]     [  5835s] D7_I10_E panel time 5826s peak RSS 10.92 GB
+[2026-10-16 08:47:35]     [ 11674s] D7_I405_S panel time 5839s peak RSS 10.92 GB
+[2026-10-16 08:47:35]     [ 17180s] D12_I405_N panel time 5506s peak RSS 10.92 GB
+[2026-10-16 08:47:35]     val_FTA         0.9453
+[2026-10-16 08:47:35]     ===== per-panel val-month holdout S_state (gate: compare val_FTA with s4/s5 of the same half) =====
+[2026-10-16 08:47:35]     panel  val_temporal  val_base  val_FTA
+[2026-10-16 08:47:35]     mean val_FTA 0.94527
+[2026-10-16 08:47:37] pushed tfb-k3d v 1
+[2026-10-16 09:03:13] tfb-k3d complete | OK marker True | traceback False
+[2026-10-16 09:03:13]     rms speed old-bag vs FD-bag 0.478 | flow 27.15
+[2026-10-16 09:03:13]     info: base (post FDR/TV) vs old bag rms speed 0.589
+[2026-10-16 09:03:13]     catb members ['tfb-t1catb', 'tfb-t1catb2'] | rms between seeds: speed 0.452 flow 25.97
+[2026-10-16 09:03:13]     t1catb parts abcd | W_CATB 0.35 | rms catb vs mix: speed 0.555 flow 37.66 | corr speed 0.99941
+[2026-10-16 09:03:13]     t1dark blackout rows 128465 share of state rows 0.0191 | W_DARK 0.75 | rms dark vs mix on blackout rows: speed 4.19 flow 198.84 | regular rows: speed 0.387
+[2026-10-16 09:03:15] pushed tfb-k3 v 1
