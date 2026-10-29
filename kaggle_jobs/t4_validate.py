@@ -6,7 +6,7 @@ ignored unknown path_ids and crashed on duplicates).  For every submission file 
   - per panel / split: path count, departure times, total flow, share of zero flows.
 Prints 'T4 VALIDATION PASSED' or the list of failures."""
 import glob, numpy as np, pandas as pd
-FILES = [('tfb-k3', 'submission_FDRTV.csv'), ('tfb-k4', 'submission_K4.csv')]
+FILES = [('tfb-k5', 'submission_FDRTV.csv'), ('tfb-k6', 'submission_K6.csv')]
 REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]
 key = pd.read_csv(f'{REL}/submission_key.csv', dtype=str)
 print('key columns', list(key.columns), '| tasks', key.task.value_counts().to_dict())

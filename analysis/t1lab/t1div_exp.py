@@ -13,6 +13,11 @@ Round 2 (10-16, EXP_T1_XGB / EXP_T1_CATBFTA, gate in t1div_lib.py), same rows / 
   lgbfta   LightGBM seed 13 on the 74 old-FTA columns (info: FTA-aware stand-in)
   lgbbig   POST-HOC info control (added after the round-2 gate result): LightGBM at PRODUCTION capacity (pF of
            t1_pipeline_v13a.py: 511 leaves, lr 0.04, 1500 trees), seed 12, 94 FD columns -- is xgb's margin diversity or capacity?
+Round 3 (10-17, EXP_T1_DIV3, gate in t1div_lib.py ROUND 3), same rows / cells:
+  xgb2     XGBoost as xgb with seed 20261017 (used as mean(xgb, xgb2) in the report)
+  et       sklearn ExtraTrees per target, NaN -> -999, 200 trees, max_features 0.5, min_samples_leaf 20, 400k-row subsample
+  lgblk    LightGBM (seed 14) on log-speed / log-density residual targets (flow = density x speed)
+  ridge    Ridge(alpha 10) on standardised FD columns (median impute + missing indicators), 600k-row subsample
 Usage: t1div_exp.py <PANEL[,PANEL]> [folds=0,1] [arms=catb,base3] [it8=1500] [it10=750] [lr=0.12] [rows=all]
                     [xgb_n=1500] [xgb_eta=0.06] [xgb_depth=9]
 """
@@ -140,6 +145,68 @@ def fit_xgb(D, n_rounds=1500, eta=0.06, depth=9):
     return preds
 
 
+def fit_et(D, n_trees=200, n_rows=400_000, mf=0.5, leaf=20):
+    from sklearn.ensemble import ExtraTreesRegressor
+    n = len(D['yv'])
+    ix = np.sort(np.random.default_rng(31).choice(n, n_rows, replace=False)) if n > n_rows else np.arange(n)
+    Xtr = np.nan_to_num(D['X'][ix], nan=-999.0)
+    preds = {}
+    for ch, key in (('v', 'yv'), ('q', 'yq')):
+        t = time.time()
+        m = ExtraTreesRegressor(n_estimators=n_trees, max_features=mf, min_samples_leaf=leaf, n_jobs=THREADS,
+                                random_state=20261017)
+        m.fit(Xtr, D[key][ix])
+        preds[ch] = {k: m.predict(np.nan_to_num(D[f'X|{k}'], nan=-999.0)) for k in ev_keys(D)}
+        log(f'  extratrees {ch} trees {n_trees} rows {len(ix)}: {time.time() - t:.0f}s')
+        del m; gc.collect()
+    return preds
+
+
+def lk_targets(X, yv, yq, cols):
+    """log-speed / log-density residual targets from the residual targets (yv = v/vf - tv, yq = q/ln - tq)."""
+    c = list(cols); tv, tq, vf = X[:, c.index('tv')].astype(np.float64), X[:, c.index('tq')].astype(np.float64), X[:, c.index('vf')].astype(np.float64)
+    tvc = np.maximum(tv, 0.03); vr = np.maximum(yv + tv, 0.03)
+    ktpl = np.maximum(tq, 1.0) / (tvc * vf)
+    k = np.maximum(yq + tq, 1.0) / (vr * vf)
+    return np.log(vr) - np.log(tvc), np.log(np.maximum(k, 1e-3)) - np.log(np.maximum(ktpl, 1e-3))
+
+
+def fit_lgblk(D, seed=14, n_trees=600, lr=0.08):
+    """returns raw residuals in the usual (yv, yq) units so that to_state applies unchanged."""
+    import lightgbm as lgb
+    prm = lgb_params(seed, lr=lr)
+    zv, zk = lk_targets(D['X'], D['yv'], D['yq'], D['cols'])
+    mv = lgb.train(prm, lgb.Dataset(D['X'], zv), n_trees); mk = lgb.train(prm, lgb.Dataset(D['X'], zk), n_trees)
+    c = list(D['cols']); out = {'v': {}, 'q': {}}
+    for k in ev_keys(D):
+        X = D[f'X|{k}']; tv, tq, vf = D[f'tv|{k}'], D[f'tq|{k}'], X[:, c.index('vf')].astype(np.float64)
+        tvc = np.maximum(tv, 0.03); ktpl = np.maximum(np.maximum(tq, 1.0) / (tvc * vf), 1e-3)
+        vr = tvc * np.exp(mv.predict(X)); kl = ktpl * np.exp(mk.predict(X))
+        out['v'][k] = vr - tv; out['q'][k] = kl * vr * vf - tq
+    return out
+
+
+def fit_ridge(D, alpha=10.0, n_rows=600_000):
+    from sklearn.linear_model import Ridge
+    n = len(D['yv'])
+    ix = np.sort(np.random.default_rng(32).choice(n, n_rows, replace=False)) if n > n_rows else np.arange(n)
+    X = D['X'][ix].astype(np.float64)
+    med = np.nanmedian(X, 0); med = np.where(np.isfinite(med), med, 0.0)
+    nanc = np.flatnonzero(np.isnan(X).any(0))
+
+    def prep(A):
+        A = A.astype(np.float64); M = np.isnan(A[:, nanc]).astype(np.float64)
+        A = np.where(np.isnan(A), med, A)
+        return np.column_stack([A, M])
+    Z = prep(X); mu, sd = Z.mean(0), Z.std(0); sd = np.where(sd > 0, sd, 1.0)
+    Z = (Z - mu) / sd
+    preds = {}
+    for ch, key in (('v', 'yv'), ('q', 'yq')):
+        m = Ridge(alpha=alpha).fit(Z, D[key][ix])
+        preds[ch] = {k: m.predict((prep(D[f'X|{k}']) - mu) / sd) for k in ev_keys(D)}
+    return preds
+
+
 def ev_keys(D):
     return [k[2:] for k in D if k.startswith('X|')]
 
@@ -176,6 +243,16 @@ if __name__ == '__main__':
                     raw = fit_catb(D, it8, it10, lr, seed=20261016, ix=fta_cols(D))
                 elif arm == 'xgb':
                     raw = fit_xgb(D, **xkw)
+                elif arm == 'xgb2':
+                    XGB_PRM['seed'] = 20261017
+                    raw = fit_xgb(D, **xkw)
+                    XGB_PRM['seed'] = 20261016
+                elif arm == 'et':
+                    raw = fit_et(D, n_trees=int(kw.get('et_n', 200)), n_rows=int(kw.get('et_rows', 400000)))
+                elif arm == 'lgblk':
+                    raw = fit_lgblk(D)
+                elif arm == 'ridge':
+                    raw = fit_ridge(D)
                 elif arm == 'lgbfta':
                     raw = fit_lgb(D, seed=13, ix=fta_cols(D))
                 elif arm == 'lgbbig':
@@ -183,7 +260,7 @@ if __name__ == '__main__':
                 else:
                     assert arm == 'base3', arm
                     raw = fit_lgb(D, seed=11)
-                inf = dict(arm=arm, it8=it8, it10=it10, lr=lr, rows=len(D['yv']), **({'xgb': xkw} if arm == 'xgb' else {}))
+                inf = dict(arm=arm, it8=it8, it10=it10, lr=lr, rows=len(D['yv']), **({'xgb': xkw} if arm in ('xgb', 'xgb2') else {}))
                 np.savez_compressed(f_out, **to_state(D, raw), info=json.dumps(inf))
                 log(pn, f'fold {fold}', arm, f'done in {time.time() - t:.0f}s ->', os.path.basename(f_out))
             del D; gc.collect()

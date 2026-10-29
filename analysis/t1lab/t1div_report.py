@@ -12,6 +12,10 @@ PRE-REGISTERED GATE: see t1div_lib.py.
 Round 2 (10-16): stand=catb -> mix = (1 - wstand) mean(base, base2) + wstand catb (production-like stand-in, wstand 0.35);
 stand=fta -> mix = (1 - wstand) (0.5 mean(base, base2) + 0.5 lgbfta) + wstand catb (info); ctrl=base3 adds gate condition
 (iv) dJ(cand@w) - dJ(ctrl@w) >= +0.00015 (paired bootstrap CI of the difference reported).
+Round 3 (10-17, EXP_T1_DIV3): stand=xgb -> m1 = (1 - wstand) mean(base, base2) + wstand catb; mix = 0.65 m1 + 0.35 xgb
+(= production steps 1-3). Extra arms with stand=xgb: xgb2m@0.175 (xgb -> mean(xgb, xgb2), needs cand xgb2; control
+base3@0.175 added automatically when ctrl=base3), weight arms wx@v (XGBoost weight -> v, v in WX) and wc@v (CatBoost weight
+-> v, v in WC); POST-HOC info arms wx2@v (mean(xgb, xgb2) at XGBoost weight v) and wx@v beyond the pre-registered grid; weight arms use the weight gate (dJ >= +0.0002, CI lo > 0, >= 7/8, no control); member arms the member gate.
 Usage: t1div_report.py [cands=catb,unet,base3] [B=2000] [tag=] [stand=lgb2|catb|fta] [wstand=0.35] [ctrl=base3] [out=]
 """
 import json, os, sys
@@ -29,7 +33,11 @@ CANDS = kw.get('cands', 'catb,unet,base3').split(',')
 WS = tuple(float(w) for w in kw.get('ws', '0.15,0.25,0.35').split(','))
 B = int(kw.get('B', 2000))
 STAND = kw.get('stand', 'lgb2'); WSTAND = float(kw.get('wstand', 0.35)); CTRL = kw.get('ctrl', '')
-STAND_MEM = {'lgb2': [], 'catb': ['catb'], 'fta': ['catb', 'lgbfta']}[STAND]
+STAND_MEM = {'lgb2': [], 'catb': ['catb'], 'fta': ['catb', 'lgbfta'], 'xgb': ['catb', 'xgb']}[STAND]
+WX = tuple(float(v) for v in kw.get('wx', '0.45,0.5,0.6').split(',') if v) if STAND == 'xgb' else ()
+WC = tuple(float(v) for v in kw.get('wc', '0.45,0.5').split(',') if v) if STAND == 'xgb' else ()
+WX2 = tuple(float(v) for v in kw.get('wx2', '').split(',') if v) if STAND == 'xgb' else ()   # POST-HOC info (10-17)
+WXC = tuple(tuple(float(u) for u in v.split(':')) for v in kw.get('wxc', '').split(',') if v) if STAND == 'xgb' else ()
 assert not (set(STAND_MEM) & set(CANDS)), 'a stand-in member cannot also be a candidate'
 assert not CTRL or CTRL in CANDS, 'ctrl must be one of cands'
 LOAD = list(CANDS) + STAND_MEM
@@ -102,14 +110,36 @@ class Runs:
 
 
 # ------------------------------------------------------------------ per-cell statistics of every arm
-def stand_mix(P):
-    """stand-in T1 mix (speed, flow) of the evaluation cells (see STAND)."""
+def stand_mix(P, wc=None, wx=0.35, xg2=False):
+    """stand-in T1 mix (speed, flow) of the evaluation cells (see STAND). stand=xgb: wc = CatBoost weight (default
+    wstand), wx = XGBoost weight, xg2 = XGBoost member is mean(xgb, xgb2)."""
+    wc = WSTAND if wc is None else wc
     m = [0.5 * (P['base'][i] + P['base2'][i]) for i in (0, 1)]
     if STAND == 'fta':
         m = [0.5 * m[i] + 0.5 * P['lgbfta'][i] for i in (0, 1)]
-    if STAND in ('catb', 'fta'):
-        m = [(1 - WSTAND) * m[i] + WSTAND * P['catb'][i] for i in (0, 1)]
+    if STAND in ('catb', 'fta', 'xgb'):
+        m = [(1 - wc) * m[i] + wc * P['catb'][i] for i in (0, 1)]
+    if STAND == 'xgb':
+        xm = [0.5 * (P['xgb'][i] + P['xgb2'][i]) for i in (0, 1)] if xg2 else [P['xgb'][i] for i in (0, 1)]
+        m = [(1 - wx) * m[i] + wx * xm[i] for i in (0, 1)]
     return tuple(m)
+
+
+def arm_names():
+    """ordered arm names (control first: the paired control difference needs it computed before the candidates)."""
+    names = []
+    for c in sorted(CANDS, key=lambda c: c != CTRL):
+        names += [f'{c}@{w}' for w in WS]
+        if c == CTRL and STAND == 'xgb' and 'xgb2' in CANDS:
+            names.append(f'{c}@0.175')
+    if STAND == 'xgb' and 'xgb2' in CANDS:
+        names.append('xgb2m@0.175')
+    names += [f'wx@{v}' for v in WX] + [f'wx2@{v}' for v in WX2] + [f'wc@{v}' for v in WC] + [f'wxc@{a}:{b}' for a, b in WXC]
+    return names
+
+
+def is_weight_arm(name):
+    return name.split('@')[0] in ('wx', 'wx2', 'wc', 'wxc')
 
 
 def arms_of(P):
@@ -121,10 +151,22 @@ def arms_of(P):
     def dep(m):
         return (np.where(blk, 0.25 * m[0] + 0.75 * bs[0], m[0]), np.where(blk, 0.25 * m[1] + 0.75 * bs[1], m[1]))
     out['A'] = dep(mix)
-    for c in CANDS:
-        if c in P:
-            for w in WS:
-                out[f'{c}@{w}'] = dep(((1 - w) * mix[0] + w * P[c][0], (1 - w) * mix[1] + w * P[c][1]))
+    for nm in arm_names():
+        c, v = nm.split('@')
+        if c == 'xgb2m':
+            out[nm] = dep(stand_mix(P, xg2=True))
+        elif c == 'wx':
+            out[nm] = dep(stand_mix(P, wx=float(v)))
+        elif c == 'wx2':                                     # post-hoc info: mean(xgb, xgb2) at XGBoost weight v
+            out[nm] = dep(stand_mix(P, wx=float(v), xg2=True))
+        elif c == 'wc':
+            out[nm] = dep(stand_mix(P, wc=float(v)))
+        elif c == 'wxc':
+            a, b = (float(u) for u in v.split(':'))
+            out[nm] = dep(stand_mix(P, wx=a, wc=b))
+        elif c in P:
+            w = float(v)
+            out[nm] = dep(((1 - w) * mix[0] + w * P[c][0], (1 - w) * mix[1] + w * P[c][1]))
     return out
 
 
@@ -250,7 +292,7 @@ def main():
         data[p], rr = panel_tables(p); raws += rr
         print('tables', p, flush=True)
     keys = [(p, sp) for p in data for sp in SPLITS]
-    arms = ['A'] + [f'{c}@{w}' for c in sorted(CANDS, key=lambda c: c != CTRL) for w in WS]   # control first (paired diff)
+    arms = ['A'] + arm_names()   # control first (paired diff)
     pd.set_option('display.width', 250); pd.set_option('display.max_columns', 60)
     RW = pd.DataFrame(raws)
     print('\nRAW member RMSE pooled over panel-month-folds (speed km/h | flow per lane) and corr(error, mix error):')
@@ -286,10 +328,11 @@ def main():
                          dJ=J0.mean(), lo=np.percentile(bJ, 2.5), hi=np.percentile(bJ, 97.5), up=int((J0 > 0).sum()), n=len(J0),
                          dJ_val=J0[[i for i, k in enumerate(keys) if k[1] == 'validation']].mean(),
                          dJ_pri=J0[[i for i, k in enumerate(keys) if k[1] == 'private']].mean(), per=' '.join(f'{v:+.5f}' for v in J0))
-                r['gate'] = bool(scope == 'deploy' and pipe == 'post' and r['dJ'] >= 3e-4 and r['lo'] > 0 and r['up'] >= 7)
+                thr = 2e-4 if is_weight_arm(r['arm']) else 3e-4
+                r['gate'] = bool(scope == 'deploy' and pipe == 'post' and r['dJ'] >= thr and r['lo'] > 0 and r['up'] >= 7)
                 JJ[(a, scope)] = (J0, bJ)
                 cn, wn = r['arm'].split('@')
-                if CTRL and cn != CTRL and (f'{CTRL}@{wn}|{pipe}', scope) in JJ:
+                if CTRL and cn != CTRL and not is_weight_arm(r['arm']) and (f'{CTRL}@{wn}|{pipe}', scope) in JJ:
                     Jc, bJc = JJ[(f'{CTRL}@{wn}|{pipe}', scope)]
                     r.update(dJ_ctrl=Jc.mean(), dJ_div=J0.mean() - Jc.mean(), div_lo=np.percentile(bJ - bJc, 2.5),
                              div_hi=np.percentile(bJ - bJc, 97.5), div_up=int((J0 > Jc).sum()))
@@ -301,7 +344,7 @@ def main():
                       + ('  GATE PASS' if r['gate'] else ''), flush=True)
     T = pd.DataFrame(out); T.to_csv(f'{L.RES}/jproxy{kw.get("tag", "")}{kw.get("out", "")}.csv', index=False)
     print(f'\nGATE (post, deploy; stand-in {STAND}, ctrl {CTRL or "-"}):',
-          {c: bool(T[(T.arm.str.startswith(c + '@')) & T.gate].shape[0] > 0) for c in CANDS if c != CTRL})
+          {c: bool(T[(T.arm.str.startswith(c + '@')) & T.gate].shape[0] > 0) for c in sorted({a.split('@')[0] for a in arms[1:]}) if c != CTRL})
 
 
 if __name__ == '__main__':

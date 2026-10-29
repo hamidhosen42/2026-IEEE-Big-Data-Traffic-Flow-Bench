@@ -32,6 +32,40 @@ ROUND 2 (EXP_T1_XGB / EXP_T1_CATBFTA) -- PRE-REGISTERED 2026-10-16 15:50 +06, wr
   RESULT (16:50 +06, experiments/TRACKER.md): xgb PASS at 0.25 / 0.35 (0.35: dJ +0.00056 [+0.00044, +0.00066] 8/8, minus control
     +0.00061); catbfta FAIL. Post-hoc info (not part of the gate): xgb minus a production-capacity LightGBM control (lgbbig)
     = +0.00058 at 0.35, 8/8.
+
+ROUND 3 (EXP_T1_DIV3) -- PRE-REGISTERED 2026-10-17 03:00 +06, written before any round-3 member was fitted:
+  stand-in S3 (mirrors production steps 1-3 of tfb-k5): m0 = mean(base, base2); m1 = 0.65 m0 + 0.35 catb;
+    mixX = 0.65 m1 + 0.35 xgb (catb / xgb = the round-1 / round-2 lab members, one seed each); ordinary cells mixX,
+    blackout cells 0.25 mixX + 0.75 bs; then recon + TV (report: stand=xgb).
+  MEMBER candidates (same rows / cells as catb / xgb; deploy scope, post recon + TV, mean of 8 panel-months):
+    xgb2m    (a) second XGBoost seed: xgb params of round 2 with seed 20261017; arm = S3 with xgb -> mean(xgb, xgb2)
+             (weights unchanged). Its control = base3 blended at w = 0.175 into mixX (0.175 = xgb2's effective weight).
+             info: xgb2 blended on top at w (not gate; ~ an xgb up-weight).
+    et       (b) sklearn ExtraTreesRegressor per target (yv, yq), 94 FD columns with NaN -> -999, 200 trees,
+             max_features 0.5, min_samples_leaf 20, fitted on a 400k-row random subsample (rng 31; all rows if fewer),
+             random_state 20261017 (fallback decided on TIMING / RAM only, before any evaluation: 120 trees / 250k rows
+             if > 15 min per panel-fold or > 8 GB)
+    lgblk    (c) different-target LightGBM (lab params, seed 14, 600 trees, lr 0.08, 255 leaves): targets
+             zv = log(v/vf) - log(tv) and zk = log(k) - log(k_tpl) with k = (q/ln)/v, k_tpl = tq/(tv vf) (ratios
+             clipped at 0.03 / 1e-3 before the logs); prediction v = vf tv exp(zv), q = ln k_tpl exp(zk) v
+    ridge    (d) Ridge(alpha 10) on the 94 FD columns: NaN -> train median + missing indicator per column with NaN,
+             standardised, 600k-row subsample (rng 32); targets yv, yq
+    each blended at w in {0.15, 0.25, 0.35}: mixX -> (1 - w) mixX + w cand (blackout override, recon + TV).
+    control base3@w (3rd LightGBM seed, existing file).
+  MEMBER PASS iff for some w: (i) dJ(cand - S3) >= +0.0003, (ii) 95% bootstrap CI lo > 0, (iii) >= 7/8 panel-months > 0,
+    (iv) dJ(cand) - dJ(control) >= +0.00015 (control: base3@w; for xgb2m base3@0.175). Deployment w = the passing w with
+    the largest dJ.
+  WEIGHT candidates (no new member): wx@v = S3 with the step-3 XGBoost weight 0.35 -> v, v in {0.45, 0.5, 0.6};
+    wc@v = S3 with the step-2 CatBoost weight 0.35 -> v, v in {0.45, 0.5}.
+  WEIGHT PASS iff dJ(arm - S3) >= +0.0002, 95% CI lo > 0, >= 7/8 panel-months. Deployment = the passing v with the
+    largest dJ per family; if both families pass, the joint arm (both weights) is reported as info and deployed only if it
+    passes the weight gate itself and beats each single family. Combinations member + weight = info only.
+  Transfer caveat (pre-stated): the lab mix has 2 LightGBM + 1 CatBoost + 1 XGBoost seed, production 14 LightGBM + 2
+    CatBoost seeds + 1 XGBoost, so lab dJ overstates LB gains (round 1-2 transferred at ~0.3-0.45x).
+  RESULT (03:35 +06, experiments/TRACKER.md EXP_T1_DIV3): all FAIL. Members @best w: xgb2m +0.000017 (4/8), et -0.00018,
+    lgblk -0.00008, ridge -0.00029 (control base3 negative at every w). Weights: wx@0.6 +0.00017 (7/8, below +0.0002),
+    wc@0.45/0.5 +0.00006. POST-HOC info only (not gate-eligible): mean(xgb, xgb2) at XGBoost weight 0.6 / 0.7 / 0.8
+    +0.00028 / +0.00033 / +0.00034 (8/8, 7/8, 7/8). No kernels written.
 """
 import os, sys
 import numpy as np

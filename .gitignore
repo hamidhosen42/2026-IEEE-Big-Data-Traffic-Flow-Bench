@@ -4,6 +4,8 @@ kaggle_jobs/out/
 *.zip.part
 # secrets
 token.txt
+kaggle.json
+access_token
 .env
 # environments / external clones / OS files
 .venv/

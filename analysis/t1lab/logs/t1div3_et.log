@@ -1,0 +1,27 @@
+[run_heavy] slot acquired after 0s
+[   133s]   extratrees v trees 200 rows 400000: 132s
+[   258s]   extratrees q trees 200 rows 400000: 125s
+[   258s] D7_I10_E fold 0 et done in 257s -> D7_I10_E_f0_et.npz
+[   395s]   extratrees v trees 200 rows 400000: 137s
+[   518s]   extratrees q trees 200 rows 400000: 124s
+[   518s] D7_I10_E fold 1 et done in 260s -> D7_I10_E_f1_et.npz
+[   651s]   extratrees v trees 200 rows 400000: 132s
+[   770s]   extratrees q trees 200 rows 400000: 120s
+[   770s] D7_I210_W fold 0 et done in 252s -> D7_I210_W_f0_et.npz
+[   903s]   extratrees v trees 200 rows 400000: 132s
+[  1018s]   extratrees q trees 200 rows 400000: 115s
+[  1018s] D7_I210_W fold 1 et done in 247s -> D7_I210_W_f1_et.npz
+[  1145s]   extratrees v trees 200 rows 400000: 127s
+[  1266s]   extratrees q trees 200 rows 400000: 121s
+[  1266s] D7_I405_S fold 0 et done in 248s -> D7_I405_S_f0_et.npz
+[  1391s]   extratrees v trees 200 rows 400000: 126s
+[  1512s]   extratrees q trees 200 rows 400000: 120s
+[  1512s] D7_I405_S fold 1 et done in 246s -> D7_I405_S_f1_et.npz
+[  1641s]   extratrees v trees 200 rows 400000: 129s
+[  1771s]   extratrees q trees 200 rows 400000: 130s
+[  1771s] D12_I5_S fold 0 et done in 259s -> D12_I5_S_f0_et.npz
+[  1900s]   extratrees v trees 200 rows 400000: 129s
+[  2032s]   extratrees q trees 200 rows 400000: 131s
+[  2032s] D12_I5_S fold 1 et done in 261s -> D12_I5_S_f1_et.npz
+[  2032s] done
+[run_heavy] exit 0 after 2033s

@@ -1,0 +1,84 @@
+[run_heavy] slot acquired after 0s
+tables D12_I5_S
+tables D7_I10_E
+tables D7_I210_W
+tables D7_I405_S
+
+RAW member RMSE pooled over panel-month-folds (speed km/h | flow per lane) and corr(error, mix error):
+  ord: base v1.727/q29.69/corr0.974 base2 v1.731/q29.69/corr0.973 base3 v1.727/q29.70/corr0.964 xgb2 v1.655/q28.52/corr0.974 catb v1.693/q29.53/corr0.971 xgb v1.653/q28.50/corr0.982 | stand-in xgb mix v1.654
+  blk: base v9.501/q78.61/corr0.980 base2 v9.519/q78.59/corr0.979 base3 v9.526/q78.69/corr0.973 xgb2 v9.268/q77.40/corr0.978 catb v9.341/q78.33/corr0.973 xgb v9.258/q77.46/corr0.983 | stand-in xgb mix v9.195
+post base3@0.35  deploy dS_state -0.00030 dLWR -0.00148 dS_FD -0.00002 | dJ -0.000255 [-0.000340, -0.000176] up 0/8 (val -0.000244 pri -0.000266)
+post base3@0.35  ord    dS_state -0.00029 dLWR -0.00146 dS_FD -0.00002 | dJ -0.000247 [-0.000330, -0.000168] up 0/8 (val -0.000239 pri -0.000256)
+post base3@0.35  blk    dS_state -0.00002 dLWR -0.00002 dS_FD -0.00000 | dJ -0.000008 [-0.000012, -0.000005] up 0/8 (val -0.000005 pri -0.000011)
+post base3@0.175 deploy dS_state -0.00011 dLWR -0.00052 dS_FD -0.00000 | dJ -0.000092 [-0.000133, -0.000053] up 0/8 (val -0.000096 pri -0.000088)
+post base3@0.175 ord    dS_state -0.00011 dLWR -0.00051 dS_FD -0.00000 | dJ -0.000088 [-0.000128, -0.000049] up 0/8 (val -0.000092 pri -0.000084)
+post base3@0.175 blk    dS_state -0.00001 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000004 [-0.000006, -0.000002] up 0/8 (val -0.000004 pri -0.000004)
+post xgb2@0.35   deploy dS_state +0.00036 dLWR +0.00114 dS_FD +0.00001 | dJ +0.000240 [+0.000120, +0.000348] up 8/8 (val +0.000319 pri +0.000161) | vs base3 +0.000495 [+0.000307, +0.000643] 8/8
+post xgb2@0.35   ord    dS_state +0.00034 dLWR +0.00114 dS_FD +0.00001 | dJ +0.000233 [+0.000113, +0.000340] up 8/8 (val +0.000310 pri +0.000155) | vs base3 +0.000480 [+0.000292, +0.000627] 8/8
+post xgb2@0.35   blk    dS_state +0.00002 dLWR -0.00000 dS_FD +0.00000 | dJ +0.000007 [+0.000004, +0.000011] up 8/8 (val +0.000008 pri +0.000006) | vs base3 +0.000015 [+0.000011, +0.000021] 8/8
+post xgb2m@0.175 deploy dS_state +0.00005 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000017 [-0.000025, +0.000076] up 4/8 (val +0.000045 pri -0.000010) | vs base3 +0.000110 [+0.000040, +0.000173] 8/8
+post xgb2m@0.175 ord    dS_state +0.00005 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000018 [-0.000024, +0.000075] up 4/8 (val +0.000048 pri -0.000012) | vs base3 +0.000106 [+0.000038, +0.000171] 8/8
+post xgb2m@0.175 blk    dS_state -0.00000 dLWR -0.00001 dS_FD +0.00000 | dJ -0.000001 [-0.000003, +0.000001] up 3/8 (val -0.000003 pri +0.000002) | vs base3 +0.000003 [+0.000000, +0.000006] 7/8
+post wx@0.7      deploy dS_state +0.00029 dLWR +0.00113 dS_FD -0.00001 | dJ +0.000213 [+0.000088, +0.000354] up 6/8 (val +0.000222 pri +0.000204)
+post wx@0.7      ord    dS_state +0.00026 dLWR +0.00114 dS_FD -0.00001 | dJ +0.000204 [+0.000079, +0.000343] up 6/8 (val +0.000213 pri +0.000196)
+post wx@0.7      blk    dS_state +0.00003 dLWR -0.00001 dS_FD +0.00000 | dJ +0.000009 [+0.000005, +0.000012] up 8/8 (val +0.000010 pri +0.000008)
+post wx@0.8      deploy dS_state +0.00027 dLWR +0.00098 dS_FD -0.00002 | dJ +0.000190 [+0.000031, +0.000373] up 6/8 (val +0.000186 pri +0.000194)
+post wx@0.8      ord    dS_state +0.00023 dLWR +0.00099 dS_FD -0.00002 | dJ +0.000180 [+0.000019, +0.000358] up 6/8 (val +0.000174 pri +0.000186)
+post wx@0.8      blk    dS_state +0.00003 dLWR -0.00001 dS_FD +0.00000 | dJ +0.000010 [+0.000006, +0.000015] up 8/8 (val +0.000012 pri +0.000009)
+post wx@1.0      deploy dS_state +0.00021 dLWR +0.00014 dS_FD -0.00004 | dJ +0.000084 [-0.000167, +0.000334] up 5/8 (val +0.000073 pri +0.000096)
+post wx@1.0      ord    dS_state +0.00017 dLWR +0.00017 dS_FD -0.00004 | dJ +0.000074 [-0.000179, +0.000318] up 5/8 (val +0.000059 pri +0.000089)
+post wx@1.0      blk    dS_state +0.00004 dLWR -0.00003 dS_FD +0.00000 | dJ +0.000010 [+0.000004, +0.000017] up 7/8 (val +0.000014 pri +0.000007)
+post wx2@0.35    deploy dS_state +0.00005 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000017 [-0.000025, +0.000076] up 4/8 (val +0.000045 pri -0.000010)
+post wx2@0.35    ord    dS_state +0.00005 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000018 [-0.000024, +0.000075] up 4/8 (val +0.000048 pri -0.000012)
+post wx2@0.35    blk    dS_state -0.00000 dLWR -0.00001 dS_FD +0.00000 | dJ -0.000001 [-0.000003, +0.000001] up 3/8 (val -0.000003 pri +0.000002)
+post wx2@0.5     deploy dS_state +0.00024 dLWR +0.00078 dS_FD +0.00000 | dJ +0.000161 [+0.000086, +0.000224] up 7/8 (val +0.000204 pri +0.000118)
+post wx2@0.5     ord    dS_state +0.00022 dLWR +0.00078 dS_FD +0.00000 | dJ +0.000156 [+0.000081, +0.000216] up 7/8 (val +0.000199 pri +0.000113)
+post wx2@0.5     blk    dS_state +0.00001 dLWR +0.00000 dS_FD +0.00000 | dJ +0.000005 [+0.000003, +0.000007] up 8/8 (val +0.000005 pri +0.000005)
+post wx2@0.6     deploy dS_state +0.00042 dLWR +0.00128 dS_FD +0.00001 | dJ +0.000275 [+0.000147, +0.000381] up 8/8 (val +0.000355 pri +0.000195)  GATE PASS
+post wx2@0.6     ord    dS_state +0.00040 dLWR +0.00128 dS_FD +0.00001 | dJ +0.000267 [+0.000140, +0.000373] up 8/8 (val +0.000346 pri +0.000188)
+post wx2@0.6     blk    dS_state +0.00002 dLWR -0.00000 dS_FD +0.00000 | dJ +0.000008 [+0.000004, +0.000011] up 8/8 (val +0.000009 pri +0.000006)
+post wx2@0.7     deploy dS_state +0.00050 dLWR +0.00151 dS_FD +0.00000 | dJ +0.000325 [+0.000166, +0.000461] up 7/8 (val +0.000409 pri +0.000240)  GATE PASS
+post wx2@0.7     ord    dS_state +0.00047 dLWR +0.00151 dS_FD +0.00000 | dJ +0.000315 [+0.000156, +0.000448] up 7/8 (val +0.000399 pri +0.000231)
+post wx2@0.7     blk    dS_state +0.00003 dLWR -0.00000 dS_FD +0.00000 | dJ +0.000010 [+0.000006, +0.000014] up 8/8 (val +0.000010 pri +0.000009)
+post wx2@0.8     deploy dS_state +0.00052 dLWR +0.00153 dS_FD -0.00000 | dJ +0.000336 [+0.000152, +0.000506] up 7/8 (val +0.000411 pri +0.000260)  GATE PASS
+post wx2@0.8     ord    dS_state +0.00049 dLWR +0.00154 dS_FD -0.00000 | dJ +0.000325 [+0.000142, +0.000492] up 6/8 (val +0.000399 pri +0.000250)
+post wx2@0.8     blk    dS_state +0.00003 dLWR -0.00001 dS_FD +0.00000 | dJ +0.000011 [+0.000006, +0.000016] up 8/8 (val +0.000011 pri +0.000010)
+raw  base3@0.35  deploy dS_state -0.00033 dLWR -0.00195 dS_FD -0.00003 | dJ -0.000314 [-0.000430, -0.000183] up 0/8 (val -0.000288 pri -0.000339)
+raw  base3@0.35  ord    dS_state -0.00032 dLWR -0.00192 dS_FD -0.00003 | dJ -0.000305 [-0.000421, -0.000173] up 0/8 (val -0.000279 pri -0.000330)
+raw  base3@0.35  blk    dS_state -0.00001 dLWR -0.00004 dS_FD -0.00000 | dJ -0.000009 [-0.000012, -0.000007] up 1/8 (val -0.000009 pri -0.000009)
+raw  base3@0.175 deploy dS_state -0.00011 dLWR -0.00058 dS_FD -0.00001 | dJ -0.000097 [-0.000158, -0.000023] up 0/8 (val -0.000078 pri -0.000116)
+raw  base3@0.175 ord    dS_state -0.00011 dLWR -0.00056 dS_FD -0.00001 | dJ -0.000094 [-0.000154, -0.000018] up 0/8 (val -0.000075 pri -0.000113)
+raw  base3@0.175 blk    dS_state -0.00001 dLWR -0.00001 dS_FD -0.00000 | dJ -0.000004 [-0.000005, -0.000003] up 1/8 (val -0.000004 pri -0.000004)
+raw  xgb2@0.35   deploy dS_state +0.00031 dLWR +0.00029 dS_FD +0.00000 | dJ +0.000139 [-0.000016, +0.000244] up 7/8 (val +0.000133 pri +0.000146) | vs base3 +0.000453 [+0.000207, +0.000636] 8/8
+raw  xgb2@0.35   ord    dS_state +0.00030 dLWR +0.00030 dS_FD +0.00000 | dJ +0.000135 [-0.000022, +0.000239] up 7/8 (val +0.000129 pri +0.000141) | vs base3 +0.000440 [+0.000193, +0.000624] 7/8
+raw  xgb2@0.35   blk    dS_state +0.00001 dLWR -0.00001 dS_FD +0.00000 | dJ +0.000004 [+0.000002, +0.000007] up 8/8 (val +0.000004 pri +0.000004) | vs base3 +0.000013 [+0.000010, +0.000017] 8/8
+raw  xgb2m@0.175 deploy dS_state +0.00001 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000004 [-0.000041, +0.000047] up 4/8 (val +0.000047 pri -0.000038) | vs base3 +0.000101 [+0.000008, +0.000172] 8/8
+raw  xgb2m@0.175 ord    dS_state +0.00001 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000004 [-0.000042, +0.000046] up 4/8 (val +0.000047 pri -0.000039) | vs base3 +0.000098 [+0.000003, +0.000168] 8/8
+raw  xgb2m@0.175 blk    dS_state +0.00000 dLWR +0.00000 dS_FD +0.00000 | dJ +0.000000 [-0.000001, +0.000001] up 5/8 (val -0.000001 pri +0.000001) | vs base3 +0.000004 [+0.000003, +0.000005] 7/8
+raw  wx@0.7      deploy dS_state +0.00034 dLWR -0.00063 dS_FD -0.00002 | dJ +0.000054 [-0.000184, +0.000211] up 6/8 (val -0.000067 pri +0.000175)
+raw  wx@0.7      ord    dS_state +0.00032 dLWR -0.00061 dS_FD -0.00002 | dJ +0.000050 [-0.000189, +0.000210] up 6/8 (val -0.000073 pri +0.000173)
+raw  wx@0.7      blk    dS_state +0.00002 dLWR -0.00002 dS_FD +0.00000 | dJ +0.000004 [+0.000001, +0.000008] up 5/8 (val +0.000006 pri +0.000003)
+raw  wx@0.8      deploy dS_state +0.00034 dLWR -0.00159 dS_FD -0.00004 | dJ -0.000040 [-0.000379, +0.000169] up 5/8 (val -0.000201 pri +0.000121)
+raw  wx@0.8      ord    dS_state +0.00032 dLWR -0.00155 dS_FD -0.00004 | dJ -0.000045 [-0.000384, +0.000164] up 5/8 (val -0.000208 pri +0.000119)
+raw  wx@0.8      blk    dS_state +0.00002 dLWR -0.00004 dS_FD +0.00000 | dJ +0.000004 [+0.000000, +0.000008] up 5/8 (val +0.000007 pri +0.000002)
+raw  wx@1.0      deploy dS_state +0.00023 dLWR -0.00443 dS_FD -0.00008 | dJ -0.000366 [-0.000960, -0.000031] up 3/8 (val -0.000623 pri -0.000110)
+raw  wx@1.0      ord    dS_state +0.00020 dLWR -0.00435 dS_FD -0.00008 | dJ -0.000368 [-0.000963, -0.000033] up 3/8 (val -0.000628 pri -0.000107)
+raw  wx@1.0      blk    dS_state +0.00003 dLWR -0.00008 dS_FD -0.00000 | dJ +0.000001 [-0.000005, +0.000007] up 4/8 (val +0.000005 pri -0.000003)
+raw  wx2@0.35    deploy dS_state +0.00001 dLWR +0.00002 dS_FD +0.00000 | dJ +0.000004 [-0.000041, +0.000047] up 4/8 (val +0.000047 pri -0.000038)
+raw  wx2@0.35    ord    dS_state +0.00001 dLWR +0.00001 dS_FD +0.00000 | dJ +0.000004 [-0.000042, +0.000046] up 4/8 (val +0.000047 pri -0.000039)
+raw  wx2@0.35    blk    dS_state +0.00000 dLWR +0.00000 dS_FD +0.00000 | dJ +0.000000 [-0.000001, +0.000001] up 5/8 (val -0.000001 pri +0.000001)
+raw  wx2@0.5     deploy dS_state +0.00024 dLWR +0.00041 dS_FD +0.00001 | dJ +0.000124 [+0.000023, +0.000196] up 7/8 (val +0.000126 pri +0.000122)
+raw  wx2@0.5     ord    dS_state +0.00023 dLWR +0.00041 dS_FD +0.00001 | dJ +0.000121 [+0.000018, +0.000193] up 7/8 (val +0.000123 pri +0.000119)
+raw  wx2@0.5     blk    dS_state +0.00001 dLWR -0.00000 dS_FD +0.00000 | dJ +0.000003 [+0.000002, +0.000005] up 8/8 (val +0.000003 pri +0.000003)
+raw  wx2@0.6     deploy dS_state +0.00035 dLWR +0.00039 dS_FD +0.00001 | dJ +0.000162 [+0.000006, +0.000265] up 7/8 (val +0.000134 pri +0.000189)
+raw  wx2@0.6     ord    dS_state +0.00033 dLWR +0.00040 dS_FD +0.00001 | dJ +0.000157 [+0.000001, +0.000261] up 7/8 (val +0.000129 pri +0.000185)
+raw  wx2@0.6     blk    dS_state +0.00002 dLWR -0.00001 dS_FD +0.00000 | dJ +0.000005 [+0.000003, +0.000007] up 7/8 (val +0.000005 pri +0.000005)
+raw  wx2@0.7     deploy dS_state +0.00042 dLWR +0.00012 dS_FD -0.00000 | dJ +0.000161 [-0.000062, +0.000304] up 7/8 (val +0.000100 pri +0.000221)
+raw  wx2@0.7     ord    dS_state +0.00040 dLWR +0.00014 dS_FD -0.00000 | dJ +0.000155 [-0.000068, +0.000299] up 7/8 (val +0.000094 pri +0.000216)
+raw  wx2@0.7     blk    dS_state +0.00002 dLWR -0.00002 dS_FD +0.00000 | dJ +0.000006 [+0.000002, +0.000009] up 6/8 (val +0.000006 pri +0.000005)
+raw  wx2@0.8     deploy dS_state +0.00046 dLWR -0.00040 dS_FD -0.00001 | dJ +0.000122 [-0.000181, +0.000306] up 6/8 (val +0.000031 pri +0.000213)
+raw  wx2@0.8     ord    dS_state +0.00044 dLWR -0.00037 dS_FD -0.00001 | dJ +0.000116 [-0.000184, +0.000299] up 6/8 (val +0.000024 pri +0.000209)
+raw  wx2@0.8     blk    dS_state +0.00003 dLWR -0.00003 dS_FD +0.00000 | dJ +0.000006 [+0.000002, +0.000010] up 6/8 (val +0.000007 pri +0.000005)
+
+GATE (post, deploy; stand-in xgb, ctrl base3): {'wx': False, 'wx2': True, 'xgb2': False, 'xgb2m': False}
+[run_heavy] exit 0 after 49s

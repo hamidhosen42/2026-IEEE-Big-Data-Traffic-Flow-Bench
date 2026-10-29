@@ -1,0 +1,27 @@
+[run_heavy] slot acquired after 0s
+[    74s]   xgboost v depth 9 rounds 1500 eta 0.06: 74s
+[   147s]   xgboost q depth 9 rounds 1500 eta 0.06: 73s
+[   147s] D7_I10_E fold 0 xgb2 done in 147s -> D7_I10_E_f0_xgb2.npz
+[   219s]   xgboost v depth 9 rounds 1500 eta 0.06: 72s
+[   291s]   xgboost q depth 9 rounds 1500 eta 0.06: 72s
+[   291s] D7_I10_E fold 1 xgb2 done in 143s -> D7_I10_E_f1_xgb2.npz
+[   341s]   xgboost v depth 9 rounds 1500 eta 0.06: 50s
+[   389s]   xgboost q depth 9 rounds 1500 eta 0.06: 49s
+[   389s] D7_I210_W fold 0 xgb2 done in 99s -> D7_I210_W_f0_xgb2.npz
+[   437s]   xgboost v depth 9 rounds 1500 eta 0.06: 48s
+[   486s]   xgboost q depth 9 rounds 1500 eta 0.06: 49s
+[   486s] D7_I210_W fold 1 xgb2 done in 97s -> D7_I210_W_f1_xgb2.npz
+[   550s]   xgboost v depth 9 rounds 1500 eta 0.06: 63s
+[   616s]   xgboost q depth 9 rounds 1500 eta 0.06: 66s
+[   616s] D7_I405_S fold 0 xgb2 done in 130s -> D7_I405_S_f0_xgb2.npz
+[   680s]   xgboost v depth 9 rounds 1500 eta 0.06: 64s
+[   747s]   xgboost q depth 9 rounds 1500 eta 0.06: 66s
+[   747s] D7_I405_S fold 1 xgb2 done in 130s -> D7_I405_S_f1_xgb2.npz
+[   797s]   xgboost v depth 9 rounds 1500 eta 0.06: 50s
+[   854s]   xgboost q depth 9 rounds 1500 eta 0.06: 57s
+[   854s] D12_I5_S fold 0 xgb2 done in 107s -> D12_I5_S_f0_xgb2.npz
+[   907s]   xgboost v depth 9 rounds 1500 eta 0.06: 53s
+[   965s]   xgboost q depth 9 rounds 1500 eta 0.06: 58s
+[   965s] D12_I5_S fold 1 xgb2 done in 111s -> D12_I5_S_f1_xgb2.npz
+[   965s] done
+[run_heavy] exit 0 after 966s
