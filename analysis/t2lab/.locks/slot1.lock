@@ -1,1 +1,1 @@
-71978 .venv/bin/python analysis/t1lab/t1div5_report.py posthoc=1 out=_r5posthoc
+51848 ../../.venv/bin/python pvocc_train.py OOF seeds=0 members=ogfO_np,ogfO_id,ogfO_full,baseO_np,baseO_id,baseO_full

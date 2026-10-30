@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[    26s] matrix + Dataset 6073676 x 260 built in 26s (lock released)
+[   502s] occP21_np255 fold 0: 6073676 rows x 260 cols, pos 0.269, built + trained in 502s
+[   519s] occP21_np255 fold 0: official 0.8899 (n=40), offlike 0.8792 (n=726), pseudo 0.8850 (n=525)
+[   547s] matrix + Dataset 6073676 x 266 built in 27s (lock released)
+[  1008s] occP21_id255 fold 0: 6073676 rows x 266 cols, pos 0.269, built + trained in 489s
+[  1024s] occP21_id255 fold 0: official 0.8929 (n=40), offlike 0.8837 (n=726), pseudo 0.8834 (n=525)
+[  1024s] DONE ['train', 'occP21', '0'] 1024s
+[run_heavy] exit 0 after 1025s

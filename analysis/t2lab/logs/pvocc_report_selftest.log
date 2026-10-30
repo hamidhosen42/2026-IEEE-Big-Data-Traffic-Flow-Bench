@@ -1,0 +1,164 @@
+PRE-REGISTERED DECISION RULE (written 2026-10-30 14:37 +06 by the machine clock, before any pvocc side-car, model or number was computed;
+the text from 'PRE-REGISTERED' to 'END OF PRE-REGISTRATION' is frozen: results/pvocc/PREREG.txt holds a copy and its sha1, and
+pvocc_report.py asserts that this text is unchanged)
+  Arms.  Lab scale as EXP_T2_PVOGF: LightGBM 255 leaves, lr 0.05, min_data_in_leaf 40, 500 trees, lab.lgb_params(seed s) (bagging_seed
+  10 + s, feature_fraction_seed 20 + s, deterministic), threads as the cached pvogf runs (MD 6, FULL 4, OOF 4); every arm's decision =
+  production decode of 0.25 np + 0.25 id + 0.5 full; the full member is trained on and predicts with the blended same-scenario prior
+  matrix (Xb), exactly as pvogf.  Members: np = columns minus PRIOR_COLS, id = columns minus ID_DROP, full = all columns.
+    pvogf   B0 = the BASELINE: the cached pvogf lab arm 'ogf' (172 columns; results/pvogf/probs MD_s0, MD_s1, FULL_s0) = pick A's recipe.
+            The shipped variant pvogfv = veto(pvo, pvogf) is identical to pvogf on the 40 official April windows (kernel tfb-t2ogpvogf
+            vetoed 0/40, lab emulation 0/40); it is reported, not the baseline.
+    pvoO    = pvo (cached arm 'base', 69 columns) + the 13 occupancy columns (82); used only as the veto reference of vO.
+    (O)  pvogfO  = pvogf + the 13 occupancy columns appended after the 172 columns in np / id / full (185); rows, labels, weights, WM 5,
+                   CUT 15, seeds, parameters and the prior blend unchanged.
+    (vO) pvogfvO = per window the pvogfO decision unless it adds > 10 cells outside the queue at T (qlast, all 6 steps) vs pvoO, else the
+                   pvoO decision (= the pvogfv rule with both arms occupancy-on).
+  Occupancy columns = fs4occ (tfb-t2occ, kaggle_jobs/t2_occ_v26.py; the kernel functions occ_calib / occ_features are used verbatim,
+  identical source in t2_ogfeat_v27a.py): o_last, or_last, or_T, or_mean3, or_slope, or_max12, or_n-3..or_n+3, dens_dev (or = o / ocrit).
+    calibration ocrit / occ_c: occ_calib on ALL 273 train days (all-finite speed / flow, occupancy masked to the all-finite speed), as the
+      fs4occ kernel; never March / April.  (Train OOF only: train days outside fold 0.)
+    train F03 rows: Oh = O[d, T-12..T-1], OT = O[d, T] where the simulated slot-T speed is visible (kernel make_rows: rng(len(wins)) 62 %
+      draw on eligible cells, ineligible-valued cells always visible);
+    March masked-month rows (training rows and the pseudo-March evaluation windows): O = occupancy of every masked-month cell that carries
+      a speed value (eligible visible + ineligible-valued; export validation_Om, co-located with the all-finite masked speed Vf: 0
+      mismatches on all 8 panels, checked), Oh = O[d, T-12..T-1], OT = O[d, T] where Vf[d, T] is finite (the make_rows convention applied
+      to pvogf's march_rows inputs);
+    official April windows: Oh = window_history occupancy of the cells with a speed value, OT = masked layer at T where the slot-T speed
+      is visible (kernel load_split with OCC; exports private_Oh / private_OT).
+    Lab inputs are the float16 exports data/t2local/occ/t2occ_<P>.npz (the kernel reads float32 from parquet).
+  Evaluation.
+    (1) MANY-DAY pseudo-March (binding): offlike_m windows of March days >= 15; members trained on the F03 rows + the March faithful rows
+        of days < 15 (x WM 5; full member prior blended over the March days < d); probabilities of every member averaged over seeds 0
+        and 1 (the same seeds in every arm); dIoU = lab.aggregate(cand) - lab.aggregate(pvogf) (window -> panel -> family -> mean);
+        CI = lab.paired_bootstrap (n 2000, seed 0, resampled within panel); panels = panels whose mean per-window dIoU is > 0.
+    (2) FM-PM PRIVATE (binding): footprint = lab-emulated April decisions (FULL_s0 = F03 + all 31 March days x WM 5, full member fed the
+        March + April days < d prior) of the candidate vs pvogf on the 40 official private ongoing windows; every changed window is
+        priced by results/xfer/scripts/fpmatch_lib.forecast with its defaults (panel-exact, origin +-2 h, same sign of dn, |dn - dn_w| <=
+        max(3, 0.5 |dn_w|), pooled fallback if n < 5; all-cell counts) on the SEED-0 many-day lab pairs (offlike_m + runstart_m, days >=
+        15; dI = IoU(cand) - IoU(pvogf), dn = n_all(cand) - n_all(pvogf)); FM-PM = 0.15 x the mean over the 40 windows (unchanged = 0).
+  DECISION (binding): ADOPT candidate c in {O, vO} iff
+        (1) dIoU(offlike_m, 2-seed average) >= +0.003 AND bootstrap CI lo > 0 AND >= 6 of 8 panels positive, AND
+        (2) FM-PM private >= +0.0005 (LB-equivalent).
+    If both pass: the one with the higher FM-PM private; |difference| < 1e-6 counts as a tie and goes to O (no extra members in the
+    kernel).  If neither passes: DO NOT ADOPT, pick A keeps pvogfv.
+  SECONDARY, March-only verdict (pre-registered here, reported next to the binding one, not binding): ADOPT iff (1); if both pass, the
+    higher (1) delta.  Reason: the organizer (thread 749601 (i)) also counts traffic data stamped after T that enters "indirectly through
+    fitting, selection or values written into the method"; gate (2) reads the label-free lab decisions of all 40 April windows, so for
+    the earlier April windows it uses April traffic data stamped after their T in the selection (fitting and the kernel use only data
+    <= T).  If the two verdicts differ the report says so and the user decides.
+  Reported, NOT binding: runstart_m many-day delta; each seed alone; per-panel deltas; O and vO vs pvogfv; FM-PM with seed-1 / seed-avg /
+    pooled lab pairs; veto counts (pseudo-March, April); the dn-bin split of the change; LightGBM gain share of the occupancy columns;
+    train OOF fold 0 (pvo recipe of pvogf_oof.py: F03 folds != 0 + all March days x 5, fold-0 prior, fold-0-free calibration;
+    official-40 / offlike / runstart).
+  Integrity (asserted before a candidate number is read):
+    (i)   the report reproduces the cached pvogf lab numbers from the cached probabilities exactly (results/pvogf/pm_table.csv: pvogf - pvo
+          seed-avg offlike_m +0.0219; fm_private.csv: pvogf s0 +0.00134);
+    (ii)  row parity: the occupancy side-cars are built by re-running the kernel row builders with occupancy on; in every block the 172
+          non-occupancy columns must equal the cached pvogf rows bit-for-bit (F03; March X and Xb; pseudo-March X and Xb; private X and
+          Xb; OOF fold 0), with the same rows / meta;
+    (iii) the kernel occ_calib / occ_features equal the lab occ_lib calibrate (k = 4) / raw_occ + occ_feats on train rows (bit-identical);
+    (iv)  training path: the new trainer with zero occupancy columns retrains MD_s0 ogf_np and must reproduce the cached model's trees.
+          If it does not, the reason is reported and the pvogf baseline members are refitted with the new path (same seeds / threads)
+          and used as B0 (cached numbers reported next to them).
+  Kernel rule (only on ADOPT): generator analysis/t2lab/pvogfo_make_kernel.py -> kaggle_jobs/t2_ongoing_pvogfo.py (+ _smoke), slug
+    tfb-t2ogpvogfo = t2_ongoing_pvogf.py + the fs4occ occupancy blocks (verbatim) + a masked-month occupancy path for the March rows
+    (+ the 3 pvoO members if vO is chosen); occupancy columns appended after the 172 (= the lab column order); LightGBM
+    deterministic=True, force_row_wise=True (repeatable rerun, award review); smoke test on a fake release; parity (feature block
+    verbatim, kernel rows on the fake release bit-identical to the lab side-car rows); swap kernel = base tfb-k9 submission_FDRTV.csv
+    (one-line switch to tfb-k7) with only the April ongoing queue rows replaced, asserting 0 validation rows changed.  Nothing is pushed,
+    run on Kaggle or submitted from here.
+  Rules (organizer 745700 / 748789 / 749601): Task 2 uses data stamped <= T only (an April window: train + all of March + the April
+    history <= T and the slot-T row, the April days < d in the fullB prior); never April data after T, ramp values inside the horizon or
+    hidden labels; the leakdiag_* scripts are never imported.
+END OF PRE-REGISTRATION
+(pre-registered text sha1 4537d39eec84f68d2c19afd87734e2a081eb87f8: unchanged)
+
+MD_s0: members ['baseO_full', 'baseO_id', 'baseO_np', 'base_full', 'base_id', 'base_np', 'ogfO_full', 'ogfO_id', 'ogfO_np', 'ogf_full', 'ogf_id', 'ogf_np'] | complete True
+MD_s1: members ['baseO_full', 'baseO_id', 'baseO_np', 'base_full', 'base_id', 'base_np', 'ogfO_full', 'ogfO_id', 'ogfO_np', 'ogf_full', 'ogf_id', 'ogf_np'] | complete True
+FULL_s0: members ['baseO_full', 'baseO_id', 'baseO_np', 'base_full', 'base_id', 'base_np', 'ogfO_full', 'ogfO_id', 'ogfO_np', 'ogf_full', 'ogf_id', 'ogf_np'] | complete True
+== 0. INTEGRITY ==
+(i) avg offlike_m  pvogf    - pvo     n= 177 0.8635 vs 0.8416 +0.0219 [+0.0117, +0.0330] p_pos 1.000 panels +8/-0 | windows changed -1 dcells +57 | cached pm_table +0.0219 [+0.0117, +0.0330] -> IDENTICAL
+(i) avg offlike_m  pvogfv   - pvo     n= 177 0.8620 vs 0.8416 +0.0204 [+0.0104, +0.0313] p_pos 1.000 panels +8/-0 | windows changed -1 dcells +11 | cached pm_table +0.0204 [+0.0104, +0.0313] -> IDENTICAL
+(i) all 12 cached pseudo-March comparisons reproduced exactly: True
+(iv) {'mode': 'MD', 'seed': 0, 'member': 'ogf_np', 'threads': 6, 'trees_identical': True, 'probs_max_abs_diff': 0.0}
+
+== 1. MANY-DAY pseudo-March (March days >= 15; training March rows days < 15; lab 255 leaves / 500 trees; members seed-averaged in avg) ==
+avg offlike_m  pvogfO   - pvogf   n= 177 0.8635 vs 0.8635 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+avg offlike_m  pvogfvO  - pvogf   n= 177 0.8620 vs 0.8635 -0.0015 [-0.0046, +0.0001] p_pos 0.123 panels +0/-2 | windows changed 3 dcells -46
+avg offlike_m  pvogfO   - pvogfv  n= 177 0.8635 vs 0.8620 +0.0015 [-0.0001, +0.0046] p_pos 0.825 panels +2/-0 | windows changed -1 dcells +46
+avg offlike_m  pvogfvO  - pvogfv  n= 177 0.8620 vs 0.8620 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+avg offlike_m  pvoO     - pvo     n= 177 0.8416 vs 0.8416 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+avg offlike_m  pvogf    - pvo     n= 177 0.8635 vs 0.8416 +0.0219 [+0.0117, +0.0330] p_pos 1.000 panels +8/-0 | windows changed -1 dcells +57
+avg offlike_m  pvogfv   - pvogf   n= 177 0.8620 vs 0.8635 -0.0015 [-0.0046, +0.0001] p_pos 0.123 panels +0/-2 | windows changed 3 dcells -46
+avg runstart_m pvogfO   - pvogf   n= 617 0.9026 vs 0.9026 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+avg runstart_m pvogfvO  - pvogf   n= 617 0.9026 vs 0.9026 +0.0000 [-0.0003, +0.0003] p_pos 0.476 panels +1/-2 | windows changed 13 dcells -143
+avg runstart_m pvogfO   - pvogfv  n= 617 0.9026 vs 0.9026 -0.0000 [-0.0003, +0.0003] p_pos 0.523 panels +2/-1 | windows changed -1 dcells +143
+avg runstart_m pvogfvO  - pvogfv  n= 617 0.9026 vs 0.9026 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+avg runstart_m pvoO     - pvo     n= 617 0.8996 vs 0.8996 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+avg runstart_m pvogf    - pvo     n= 617 0.9026 vs 0.8996 +0.0029 [-0.0017, +0.0072] p_pos 0.913 panels +6/-2 | windows changed -1 dcells -108
+avg runstart_m pvogfv   - pvogf   n= 617 0.9026 vs 0.9026 +0.0000 [-0.0003, +0.0003] p_pos 0.476 panels +1/-2 | windows changed 13 dcells -143
+s0  offlike_m  pvogfO   - pvogf   n= 177 0.8615 vs 0.8615 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+s0  offlike_m  pvogfvO  - pvogf   n= 177 0.8614 vs 0.8615 -0.0000 [-0.0002, +0.0000] p_pos 0.232 panels +1/-1 | windows changed 2 dcells -22
+s0  offlike_m  pvogfO   - pvogfv  n= 177 0.8615 vs 0.8614 +0.0000 [-0.0000, +0.0002] p_pos 0.630 panels +1/-1 | windows changed -1 dcells +22
+s0  offlike_m  pvogfvO  - pvogfv  n= 177 0.8614 vs 0.8614 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s0  offlike_m  pvoO     - pvo     n= 177 0.8435 vs 0.8435 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s0  offlike_m  pvogf    - pvo     n= 177 0.8615 vs 0.8435 +0.0179 [+0.0083, +0.0287] p_pos 1.000 panels +8/-0 | windows changed -1 dcells +81
+s0  offlike_m  pvogfv   - pvogf   n= 177 0.8614 vs 0.8615 -0.0000 [-0.0002, +0.0000] p_pos 0.232 panels +1/-1 | windows changed 2 dcells -22
+s0  runstart_m pvogfO   - pvogf   n= 617 0.9014 vs 0.9014 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+s0  runstart_m pvogfvO  - pvogf   n= 617 0.9014 vs 0.9014 -0.0000 [-0.0004, +0.0002] p_pos 0.416 panels +2/-1 | windows changed 12 dcells -130
+s0  runstart_m pvogfO   - pvogfv  n= 617 0.9014 vs 0.9014 +0.0000 [-0.0002, +0.0004] p_pos 0.584 panels +1/-2 | windows changed -1 dcells +130
+s0  runstart_m pvogfvO  - pvogfv  n= 617 0.9014 vs 0.9014 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s0  runstart_m pvoO     - pvo     n= 617 0.9001 vs 0.9001 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s0  runstart_m pvogf    - pvo     n= 617 0.9014 vs 0.9001 +0.0013 [-0.0030, +0.0055] p_pos 0.748 panels +5/-3 | windows changed -1 dcells -81
+s0  runstart_m pvogfv   - pvogf   n= 617 0.9014 vs 0.9014 -0.0000 [-0.0004, +0.0002] p_pos 0.416 panels +2/-1 | windows changed 12 dcells -130
+s1  offlike_m  pvogfO   - pvogf   n= 177 0.8638 vs 0.8638 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+s1  offlike_m  pvogfvO  - pvogf   n= 177 0.8612 vs 0.8638 -0.0026 [-0.0068, +0.0000] p_pos 0.045 panels +0/-2 | windows changed 4 dcells -62
+s1  offlike_m  pvogfO   - pvogfv  n= 177 0.8638 vs 0.8612 +0.0026 [-0.0000, +0.0068] p_pos 0.936 panels +2/-0 | windows changed -1 dcells +62
+s1  offlike_m  pvogfvO  - pvogfv  n= 177 0.8612 vs 0.8612 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s1  offlike_m  pvoO     - pvo     n= 177 0.8417 vs 0.8417 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s1  offlike_m  pvogf    - pvo     n= 177 0.8638 vs 0.8417 +0.0221 [+0.0122, +0.0330] p_pos 1.000 panels +8/-0 | windows changed -1 dcells +58
+s1  offlike_m  pvogfv   - pvogf   n= 177 0.8612 vs 0.8638 -0.0026 [-0.0068, +0.0000] p_pos 0.045 panels +0/-2 | windows changed 4 dcells -62
+s1  runstart_m pvogfO   - pvogf   n= 617 0.9025 vs 0.9025 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed 0 dcells +0
+s1  runstart_m pvogfvO  - pvogf   n= 617 0.9027 vs 0.9025 +0.0003 [-0.0006, +0.0012] p_pos 0.709 panels +2/-2 | windows changed 14 dcells -160
+s1  runstart_m pvogfO   - pvogfv  n= 617 0.9025 vs 0.9027 -0.0003 [-0.0012, +0.0006] p_pos 0.291 panels +2/-2 | windows changed -1 dcells +160
+s1  runstart_m pvogfvO  - pvogfv  n= 617 0.9027 vs 0.9027 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s1  runstart_m pvoO     - pvo     n= 617 0.8993 vs 0.8993 +0.0000 [+0.0000, +0.0000] p_pos 0.000 panels +0/-0 | windows changed -1 dcells +0
+s1  runstart_m pvogf    - pvo     n= 617 0.9025 vs 0.8993 +0.0032 [-0.0013, +0.0076] p_pos 0.919 panels +6/-2 | windows changed -1 dcells -122
+s1  runstart_m pvogfv   - pvogf   n= 617 0.9027 vs 0.9025 +0.0003 [-0.0006, +0.0012] p_pos 0.709 panels +2/-2 | windows changed 14 dcells -160
+
+per-panel deltas vs pvogf (seed average):
+  offlike_m  pvogfO   {'D12_I5_N': 0.0, 'D12_I5_S': 0.0, 'D7_I10_E': 0.0, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': 0.0, 'D7_I405_S': 0.0}
+  offlike_m  pvogfvO  {'D12_I5_N': 0.0, 'D12_I5_S': 0.0, 'D7_I10_E': -0.0116, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': -0.0004, 'D7_I405_S': 0.0}
+  runstart_m pvogfO   {'D12_I5_N': 0.0, 'D12_I5_S': 0.0, 'D7_I10_E': 0.0, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': 0.0, 'D7_I405_S': 0.0}
+  runstart_m pvogfvO  {'D12_I5_N': -0.0001, 'D12_I5_S': 0.0, 'D7_I10_E': 0.0001, 'D7_I10_W': 0.0, 'D7_I210_E': 0.0, 'D7_I210_W': 0.0, 'D7_I405_N': -0.0, 'D7_I405_S': 0.0}
+
+pvogfO vs pvogf by size change (all-cell dn), seed average, both sets:
+  dn <= -10  windows    0 mean dIoU +nan
+  -9..-1     windows    0 mean dIoU +nan
+  0          windows  794 mean dIoU +0.0000
+  1..9       windows    0 mean dIoU +nan
+  dn >= 10   windows    0 mean dIoU +nan
+  offlike_m: windows where pvogfO adds > 10 cells outside qlast vs pvoO (vetoed in vO): 3 of 177 | pvogfv veto fired 3
+  runstart_m: windows where pvogfO adds > 10 cells outside qlast vs pvoO (vetoed in vO): 13 of 617 | pvogfv veto fired 13
+
+== 2. FM-PM PRIVATE (lab-emulated April decisions: FULL_s0 = F03 + all 31 March days; 40 official private ongoing windows) ==
+veto fired on April: pvogfv (pvogf vs pvo) 0/40 | pvogfvO (pvogfO vs pvoO) 0/40
+pvogfO       lab pairs s0         | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfO       lab pairs s1         | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfO       lab pairs avg        | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfO       lab pairs s0 pooled  | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfvO      lab pairs s0         | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfvO      lab pairs s1         | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfvO      lab pairs avg        | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogfvO      lab pairs s0 pooled  | windows changed  0/40 cells    0 | positives pvogf 4807 -> 4807 (added outside qlast 0) | FM-PM dIoU +0.0000 -> LB-equiv +0.00000
+pvogf_vs_pvo lab pairs s0         | windows changed 33/40 cells  221 | positives pvo 4858 -> 4807 (added outside qlast 33) | FM-PM dIoU +0.0089 -> LB-equiv +0.00134
+pvogf_vs_pvo lab pairs s1         | windows changed 33/40 cells  221 | positives pvo 4858 -> 4807 (added outside qlast 33) | FM-PM dIoU +0.0130 -> LB-equiv +0.00196
+pvogf_vs_pvo lab pairs avg        | windows changed 33/40 cells  221 | positives pvo 4858 -> 4807 (added outside qlast 33) | FM-PM dIoU +0.0118 -> LB-equiv +0.00177
+pvogf_vs_pvo lab pairs s0 pooled  | windows changed 33/40 cells  221 | positives pvo 4858 -> 4807 (added outside qlast 33) | FM-PM dIoU +0.0082 -> LB-equiv +0.00122
+(i) FM-PM private pvogf vs pvo (s0) recomputed +0.00134 vs cached +0.00134 -> IDENTICAL
+
+== 4. VERDICT (pre-registered rule; integrity (i) PASSED) ==
+pvogfO  : (1) offlike_m many-day avg +0.0000 [+0.0000, +0.0000] panels +0/8 -> FAIL | (2) FM-PM private +0.00000 -> FAIL | => NOT ADOPTED
+pvogfvO : (1) offlike_m many-day avg -0.0015 [-0.0046, +0.0001] panels +0/8 -> FAIL | (2) FM-PM private +0.00000 -> FAIL | => NOT ADOPTED
+BINDING VERDICT: DO NOT ADOPT (pick A keeps pvogfv)
+SECONDARY March-only verdict (not binding): DO NOT ADOPT

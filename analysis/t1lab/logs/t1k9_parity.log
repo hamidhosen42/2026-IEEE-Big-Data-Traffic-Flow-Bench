@@ -1,0 +1,232 @@
+[run_heavy] slot acquired after 0s
+[     0s] kernel kaggle_jobs/swap_lrtc_k9.py | ranks M (24, 40, 10) B v (8, 20, 20) q (8, 40, 10) | W 0.35 0.15
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[     5s] 1 D12_I5_S f0 validation cube (31, 288, 100) kernel 3 LRTC 2.7s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 22120 v 6.93e-06 q 4.88e-04 q2 4.81e-04 | ord n 11627 v 6.71e-06 q 4.68e-04 q2 4.72e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[     9s] 1 D12_I5_S f0 private    cube (30, 288, 100) kernel 3 LRTC 2.1s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 21720 v 7.63e-06 q 4.88e-04 q2 4.86e-04 | ord n 11165 v 3.81e-06 q 4.88e-04 q2 4.83e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    14s] 1 D12_I5_S f1 validation cube (31, 288, 100) kernel 3 LRTC 2.3s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 22012 v 4.27e-06 q 4.88e-04 q2 4.82e-04 | ord n 11627 v 3.81e-06 q 4.73e-04 q2 4.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    18s] 1 D12_I5_S f1 private    cube (30, 288, 100) kernel 3 LRTC 2.1s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 22162 v 6.84e-06 q 4.87e-04 q2 4.82e-04 | ord n 11165 v 3.81e-06 q 4.71e-04 q2 4.88e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    24s] 1 D7_I10_E f0 validation cube (31, 288, 146) kernel 3 LRTC 3.1s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 32390 v 3.81e-06 q 4.54e-04 q2 2.44e-04 | ord n 16900 v 7.01e-06 q 3.62e-04 q2 2.53e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    31s] 1 D7_I10_E f0 private    cube (30, 288, 146) kernel 3 LRTC 3.2s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 33546 v 6.29e-06 q 2.44e-04 q2 2.44e-04 | ord n 16454 v 3.81e-06 q 2.53e-04 q2 4.03e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    38s] 1 D7_I10_E f1 validation cube (31, 288, 146) kernel 3 LRTC 3.2s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 31694 v 7.08e-06 q 4.80e-04 q2 2.44e-04 | ord n 16900 v 4.56e-06 q 3.73e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    44s] 1 D7_I10_E f1 private    cube (30, 288, 146) kernel 3 LRTC 2.9s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 34514 v 6.48e-06 q 2.44e-04 q2 2.44e-04 | ord n 16454 v 3.81e-06 q 3.48e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    48s] 1 D7_I210_W f0 validation cube (31, 288, 81) kernel 3 LRTC 2.0s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 16283 v 5.82e-06 q 2.44e-04 q2 2.44e-04 | ord n 8551 v 3.81e-06 q 2.44e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    52s] 1 D7_I210_W f0 private    cube (30, 288, 81) kernel 3 LRTC 1.8s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 18579 v 5.82e-06 q 3.98e-04 q2 2.44e-04 | ord n 8908 v 3.81e-06 q 2.44e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    55s] 1 D7_I210_W f1 validation cube (31, 288, 81) kernel 3 LRTC 2.0s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 16919 v 4.94e-06 q 2.44e-04 q2 2.44e-04 | ord n 8551 v 3.81e-06 q 2.44e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    59s] 1 D7_I210_W f1 private    cube (30, 288, 81) kernel 3 LRTC 1.9s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 18427 v 7.24e-06 q 2.44e-04 q2 2.44e-04 | ord n 8908 v 3.81e-06 q 2.44e-04 q2 2.44e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    64s] 1 D7_I405_S f0 validation cube (31, 288, 109) kernel 3 LRTC 2.5s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 22411 v 6.71e-06 q 4.79e-04 q2 4.69e-04 | ord n 11846 v 6.71e-06 q 4.51e-04 q2 4.63e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    69s] 1 D7_I405_S f0 private    cube (30, 288, 109) kernel 3 LRTC 2.4s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 24130 v 6.71e-06 q 4.87e-04 q2 4.14e-04 | ord n 11732 v 3.81e-06 q 4.04e-04 q2 3.98e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    74s] 1 D7_I405_S f1 validation cube (31, 288, 109) kernel 3 LRTC 2.4s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 22793 v 6.71e-06 q 4.87e-04 q2 4.88e-04 | ord n 11846 v 6.71e-06 q 4.54e-04 q2 3.72e-04 | float32 mismatches 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[    79s] 1 D7_I405_S f1 private    cube (30, 288, 109) kernel 3 LRTC 2.4s | max |kernel - lab fn| cube v 0.0e+00 q 0.0e+00 q2 0.0e+00 | vs saved lab files (float32): blk n 23267 v 6.71e-06 q 4.81e-04 q2 4.70e-04 | ord n 11732 v 6.71e-06 q 3.09e-04 q2 3.42e-04 | float32 mismatches 0
+[    79s] 2 D12_I5_S   f0 validation cells blk 22120 ord 11627 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11627 ord v 0 blk v 22120 blk q 22120 | (b) kernel members: blk |dv| 1.04e-06 |dq| 7.31e-05, ord |dv| 0.0e+00 |dq| 1.65e-04
+[    79s] 2 D12_I5_S   f0 private    cells blk 21720 ord 11165 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11165 ord v 0 blk v 21720 blk q 21720 | (b) kernel members: blk |dv| 1.14e-06 |dq| 7.32e-05, ord |dv| 0.0e+00 |dq| 1.69e-04
+[    79s] 2 D12_I5_S   f1 validation cells blk 22012 ord 11627 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11627 ord v 0 blk v 22012 blk q 22012 | (b) kernel members: blk |dv| 6.41e-07 |dq| 7.32e-05, ord |dv| 0.0e+00 |dq| 1.55e-04
+[    79s] 2 D12_I5_S   f1 private    cells blk 22162 ord 11165 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11165 ord v 0 blk v 22162 blk q 22162 | (b) kernel members: blk |dv| 1.03e-06 |dq| 7.30e-05, ord |dv| 0.0e+00 |dq| 1.71e-04
+[    79s] 2 D7_I10_E   f0 validation cells blk 32390 ord 16900 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 16900 ord v 0 blk v 32390 blk q 32390 | (b) kernel members: blk |dv| 5.72e-07 |dq| 6.81e-05, ord |dv| 0.0e+00 |dq| 8.86e-05
+[    79s] 2 D7_I10_E   f0 private    cells blk 33546 ord 16454 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 16454 ord v 0 blk v 33546 blk q 33546 | (b) kernel members: blk |dv| 9.44e-07 |dq| 3.66e-05, ord |dv| 0.0e+00 |dq| 1.41e-04
+[    79s] 2 D7_I10_E   f1 validation cells blk 31694 ord 16900 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 16900 ord v 0 blk v 31694 blk q 31694 | (b) kernel members: blk |dv| 1.06e-06 |dq| 7.20e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I10_E   f1 private    cells blk 34514 ord 16454 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 16454 ord v 0 blk v 34514 blk q 34514 | (b) kernel members: blk |dv| 9.72e-07 |dq| 3.66e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I210_W  f0 validation cells blk 16283 ord 8551 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 8551 ord v 0 blk v 16283 blk q 16283 | (b) kernel members: blk |dv| 8.73e-07 |dq| 3.66e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I210_W  f0 private    cells blk 18579 ord 8908 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 8908 ord v 0 blk v 18579 blk q 18579 | (b) kernel members: blk |dv| 8.73e-07 |dq| 5.97e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I210_W  f1 validation cells blk 16919 ord 8551 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 8551 ord v 0 blk v 16919 blk q 16919 | (b) kernel members: blk |dv| 7.41e-07 |dq| 3.66e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I210_W  f1 private    cells blk 18427 ord 8908 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 8908 ord v 0 blk v 18427 blk q 18427 | (b) kernel members: blk |dv| 1.09e-06 |dq| 3.66e-05, ord |dv| 0.0e+00 |dq| 8.54e-05
+[    79s] 2 D7_I405_S  f0 validation cells blk 22411 ord 11846 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11846 ord v 0 blk v 22411 blk q 22411 | (b) kernel members: blk |dv| 1.01e-06 |dq| 7.19e-05, ord |dv| 0.0e+00 |dq| 1.62e-04
+[    79s] 2 D7_I405_S  f0 private    cells blk 24130 ord 11732 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11732 ord v 0 blk v 24130 blk q 24130 | (b) kernel members: blk |dv| 1.01e-06 |dq| 7.31e-05, ord |dv| 0.0e+00 |dq| 1.39e-04
+[    79s] 2 D7_I405_S  f1 validation cells blk 22793 ord 11846 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11846 ord v 0 blk v 22792 blk q 22793 | (b) kernel members: blk |dv| 1.01e-06 |dq| 7.30e-05, ord |dv| 0.0e+00 |dq| 1.30e-04
+[    80s] 2 D7_I405_S  f1 private    cells blk 23267 ord 11732 | (a) kernel blend on lab members vs lab arm: max |dv| 0.0e+00 |dq| 0.0e+00 | changed vs k5d stand-in: ord q 11732 ord v 0 blk v 23267 blk q 23267 | (b) kernel members: blk |dv| 1.01e-06 |dq| 7.21e-05, ord |dv| 0.0e+00 |dq| 1.20e-04
+[    80s] SUMMARY 1 (members; kernel functions vs lab functions on identical inputs = whole cubes): max |dv| 0.0 | max |dq| (8,40,10) 0.0 | max |dq| (24,40,10) 0.0
+[    80s] SUMMARY 1 (members vs saved lab files, float32 storage): max |dv| 7.63e-06 | max |dq| (8,40,10) 4.88e-04 | max |dq| (24,40,10) 4.88e-04 | float32 mismatches 0
+[    80s] SUMMARY 2a (kernel blend on lab members vs lab arm, 16 panel-fold-months): max |dv| 0.0 | max |dq| 0.0 | cells 577333
+[    80s] SUMMARY 2b (kernel members + kernel blend vs lab arm): blackout max |dv| 1.14e-06 km/h |dq| 7.32e-05 vph | ordinary max |dv| 0.0e+00 |dq| 1.71e-04 vph (8.50e-05 per lane)
+[    80s] K9 PARITY PASSED
+[run_heavy] exit 0 after 81s

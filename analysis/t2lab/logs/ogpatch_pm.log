@@ -1,0 +1,15 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[     0s] pm models [('base', 'id', 0), ('base', 'id', 1), ('base', 'np', 0), ('base', 'np', 1), ('occP21', 'id', 0), ('occP21', 'id', 1), ('occP21', 'np', 0), ('occP21', 'np', 1), ('occP9', 'id', 0), ('occP9', 'id', 1), ('occP9', 'np', 0), ('occP9', 'np', 1), ('occP9q', 'id', 0), ('occP9q', 'id', 1), ('occP9q', 'np', 0), ('occP9q', 'np', 1)]
+[    26s] D7_I10_E pm done 26s {"panel": "D7_I10_E", "set": "runstart_m", "n": 188, "rows": 62334, "T_vis": 0.5827747012532789, "hist_vis": 0.5754016686097347}
+[    30s] D7_I10_W pm done 4s {"panel": "D7_I10_W", "set": "runstart_m", "n": 44, "rows": 8070, "T_vis": 0.6344519966015293, "hist_vis": 0.6356202209005948}
+[    33s] D7_I210_E pm done 3s {"panel": "D7_I210_E", "set": "runstart_m", "n": 36, "rows": 4566, "T_vis": 0.5935278713056491, "hist_vis": 0.5937383090160868}
+[    59s] D7_I210_W pm done 25s {"panel": "D7_I210_W", "set": "runstart_m", "n": 197, "rows": 62820, "T_vis": 0.5465313028764806, "hist_vis": 0.5454032712915962}
+[   143s] D7_I405_N pm done 84s {"panel": "D7_I405_N", "set": "runstart_m", "n": 201, "rows": 215340, "T_vis": 0.6235442107643601, "hist_vis": 0.6197121636137495}
+[   176s] D7_I405_S pm done 33s {"panel": "D7_I405_S", "set": "runstart_m", "n": 201, "rows": 75006, "T_vis": 0.5500479255100643, "hist_vis": 0.5473264411885527}
+[   206s] D12_I5_N pm done 31s {"panel": "D12_I5_N", "set": "runstart_m", "n": 96, "rows": 68538, "T_vis": 0.5952438630490956, "hist_vis": 0.5954659237726099}
+[   234s] D12_I5_S pm done 28s {"panel": "D12_I5_S", "set": "runstart_m", "n": 161, "rows": 66348, "T_vis": 0.6022360248447205, "hist_vis": 0.5979813664596273}
+[   234s] INTEGRITY (iii) pm base probabilities == ogphys cache: 64/64
+[   234s] pm saved
+[   234s] DONE ['pm'] 234s
+[run_heavy] exit 0 after 235s

@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[    14s] INTEGRITY (iii) off base probabilities == ogphys cache: 64/64
+[    14s] off saved {'n_og': {'private': 5.0, 'validation': 5.0}, 'T_vis': {'private': 0.597, 'validation': 0.577}, 'hist_vis': {'private': 0.834, 'validation': 0.834}}
+[    14s] DONE ['off'] 14s
+[run_heavy] exit 0 after 15s

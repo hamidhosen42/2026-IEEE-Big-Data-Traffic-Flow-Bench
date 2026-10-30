@@ -1,9 +1,8 @@
-"""Dump the competition discussion forum (all topics + all comments) to discussions/*.md via Kaggle's web API."""
+"""Dump the competition discussion forum (all topics + all comments) to discussions/*.md via Kaggle's web API (anonymous: the forum is public, and the old Bearer token returns 401 since 2026-10-29)."""
 import json, os, re, time, html, urllib.request
-T = open(os.path.expanduser('~/.kaggle/access_token')).read().strip().splitlines()[0].strip()
 def call(svc, body):
     req = urllib.request.Request(f'https://www.kaggle.com/api/i/{svc}', data=json.dumps(body).encode(),
-                                 headers={'Authorization': 'Bearer ' + T, 'Content-Type': 'application/json'}, method='POST')
+                                 headers={'Content-Type': 'application/json'}, method='POST')
     return json.load(urllib.request.urlopen(req, timeout=60))
 FORUM = 11991069
 topics, seen, page = [], set(), 1

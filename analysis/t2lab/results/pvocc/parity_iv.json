@@ -1,0 +1,10 @@
+[
+ {
+  "mode": "MD",
+  "seed": 0,
+  "member": "ogf_np",
+  "threads": 6,
+  "trees_identical": true,
+  "probs_max_abs_diff": 0.0
+ }
+]

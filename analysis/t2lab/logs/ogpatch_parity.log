@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[    10s] matrix + Dataset 6073676 x 71 built in 10s (lock released)
+[   158s] INTEGRITY (ii) ogpatch path vs stored occ_np255 fold 0: {"n": 6073676, "pos": 0.26855483651161194, "secs": 158, "trees_identical": true, "full_identical": true, "header_identical": true}
+[   158s] DONE ['parity'] 158s
+[run_heavy] exit 0 after 159s

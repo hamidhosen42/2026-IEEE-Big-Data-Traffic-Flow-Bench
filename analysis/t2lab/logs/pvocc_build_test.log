@@ -1,0 +1,4 @@
+[run_heavy] slot acquired after 0s
+[     2s] {"panel": "D7_I10_W", "mode": "md", "n_est": 79, "ocrit_q50": 0.3638916015625, "par_f03": true, "f03_rows": 125159, "par_march": true, "march_rows": 12485, "par_ev_offlike_m": true, "offlike_m_n": 12, "par_ev_runstart_m": true, "runstart_m_n": 31, "calib_ocrit_equal": true, "calib_c_equal": true, "calib_ocrit_maxdiff": 0.0, "calib_c_maxdiff": 0.0, "features_equal": true, "par_priv": true, "priv_rows": 798, "priv_occ_finite_or_last": 1.0, "par_ok": true, "occ_finite_f03_or_last": 0.9994407114150801, "secs": 1.9}
+[     2s] PVOCC BUILD DONE md 2s
+[run_heavy] exit 0 after 2s

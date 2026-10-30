@@ -1,0 +1,3 @@
+[     1s] A static OK | occ_calib / occ_features verbatim v26 | load_panel == v27a | make_rows / load_split == v27a up to the occupancy position | og_* block == pvogf | changed vs pvogf: ['load_panel', 'load_split', 'main', 'make_rows', 'march_rows', 'masked_month', 'pvo_rows', 'scenario'] | new: ['occ_calib', 'occ_features', 'veto_arrays']
+[     1s] A constants: VETO_O True | P_PV {'num_leaves': 511, 'learning_rate': 0.05, 'min_data_in_leaf': 40, 'num_threads': 4, 'deterministic': True, 'force_row_wise': True}
+[     1s] PVOGFO KERNEL TEST DONE ['A']

@@ -1,0 +1,20 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE MD seeds [0] members ['ogf_np', 'ogfO_np', 'ogfO_id', 'ogfO_full', 'baseO_np', 'baseO_id', 'baseO_full'] trees 500 leaves 255 threads 6
+[     0s] rows: F03 8008828 | March 458138 (weight 1140096)
+[    20s]   matrix + Dataset 8466966 x 161 in 19s (lock released)
+[   429s] seed 0 ogf_np: 161 cols, trained 422s, predicted 6s | gain share of occupancy cols 0.000 | top5 ['k2_z', 'vr_last', 'q_last', 'k2_dvm5_3', 'h']
+[   429s] INTEGRITY (iv) {"mode": "MD", "seed": 0, "member": "ogf_np", "threads": 6, "trees_identical": true, "probs_max_abs_diff": 0.0}
+[   458s]   matrix + Dataset 8466966 x 174 in 29s (lock released)
+[   901s] seed 0 ogfO_np: 174 cols, trained 466s, predicted 6s | gain share of occupancy cols 0.457 | top5 ['o_last', 'k2_z', 'or_last', 'vr_last', 'k2_dvm5_3'] | occ top ['o_last', 'or_last', 'or_n-2']
+[   930s]   matrix + Dataset 8466966 x 180 in 29s (lock released)
+[  1361s] seed 0 ogfO_id: 180 cols, trained 454s, predicted 6s | gain share of occupancy cols 0.492 | top5 ['o_last', 'k2_z', 'or_last', 'vr_last', 'k2_dvm5_3'] | occ top ['o_last', 'or_last', 'or_n+3']
+[  1390s]   matrix + Dataset 8466966 x 185 in 29s (lock released)
+[  1819s] seed 0 ogfO_full: 185 cols, trained 452s, predicted 5s | gain share of occupancy cols 0.492 | top5 ['o_last', 'k2_z', 'or_last', 'prior', 'vr_last'] | occ top ['o_last', 'or_last', 'or_T']
+[  1835s]   matrix + Dataset 8466966 x 71 in 15s (lock released)
+[  2042s] seed 0 baseO_np: 71 cols, trained 218s, predicted 5s | gain share of occupancy cols 0.699 | top5 ['o_last', 'vr_last', 'or_last', 'h', 'n_q_hist_win'] | occ top ['o_last', 'or_last', 'or_max12']
+[  2058s]   matrix + Dataset 8466966 x 77 in 16s (lock released)
+[  2270s] seed 0 baseO_id: 77 cols, trained 223s, predicted 5s | gain share of occupancy cols 0.685 | top5 ['o_last', 'vr_last', 'or_last', 'pos', 'h'] | occ top ['o_last', 'or_last', 'or_slope']
+[  2287s]   matrix + Dataset 8466966 x 82 in 15s (lock released)
+[  2525s] seed 0 baseO_full: 82 cols, trained 249s, predicted 6s | gain share of occupancy cols 0.477 | top5 ['o_last', 'vr_last', 'q_last', 'or_last', 'prior'] | occ top ['o_last', 'or_last', 'or_slope']
+[  2525s] PVOCC TRAIN DONE MD 2525s
+[run_heavy] exit 0 after 2526s

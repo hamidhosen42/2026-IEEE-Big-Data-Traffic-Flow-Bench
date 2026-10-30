@@ -1,0 +1,17 @@
+[run_heavy] slot acquired after 0s
+[     0s] MODE OOF seeds [0] members ['ogfO_np', 'ogfO_id', 'ogfO_full', 'baseO_np', 'baseO_id', 'baseO_full'] trees 500 leaves 255 threads 4
+[     0s] rows: F03 6074119 | March 1073361 (weight 2645961)
+[    26s]   matrix + Dataset 7147480 x 174 in 24s (lock released)
+[   403s] seed 0 ogfO_np: 174 cols, trained 374s, predicted 27s | gain share of occupancy cols 0.531 | top5 ['o_last', 'k2_z', 'or_last', 'k2_dvm5_3', 'h'] | occ top ['o_last', 'or_last', 'or_n-1']
+[   423s]   matrix + Dataset 7147480 x 180 in 20s (lock released)
+[   731s] seed 0 ogfO_id: 180 cols, trained 303s, predicted 26s | gain share of occupancy cols 0.538 | top5 ['o_last', 'k2_z', 'or_last', 'k2_dvm5_3', 'kx_hi6'] | occ top ['o_last', 'or_last', 'or_n-1']
+[   750s]   matrix + Dataset 7147480 x 185 in 19s (lock released)
+[  1051s] seed 0 ogfO_full: 185 cols, trained 297s, predicted 24s | gain share of occupancy cols 0.524 | top5 ['o_last', 'k2_z', 'or_last', 'k2_dvm5_3', 'prior'] | occ top ['o_last', 'or_last', 'or_T']
+[  1061s]   matrix + Dataset 7147480 x 71 in 10s (lock released)
+[  1219s] seed 0 baseO_np: 71 cols, trained 143s, predicted 24s | gain share of occupancy cols 0.752 | top5 ['o_last', 'or_last', 'vr_last', 'h', 'n_q_hist_win'] | occ top ['o_last', 'or_last', 'or_max12']
+[  1227s]   matrix + Dataset 7147480 x 77 in 9s (lock released)
+[  1395s] seed 0 baseO_id: 77 cols, trained 151s, predicted 25s | gain share of occupancy cols 0.769 | top5 ['o_last', 'or_last', 'pos', 'h', 'n_q_hist_win'] | occ top ['o_last', 'or_last', 'or_slope']
+[  1405s]   matrix + Dataset 7147480 x 82 in 10s (lock released)
+[  1576s] seed 0 baseO_full: 82 cols, trained 158s, predicted 23s | gain share of occupancy cols 0.653 | top5 ['o_last', 'or_last', 'q_last', 'vr_last', 'tod'] | occ top ['o_last', 'or_last', 'or_slope']
+[  1576s] PVOCC TRAIN DONE OOF 1576s
+[run_heavy] exit 0 after 1577s

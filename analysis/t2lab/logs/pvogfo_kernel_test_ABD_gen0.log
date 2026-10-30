@@ -1,0 +1,12 @@
+[     1s] A static OK | occ_calib / occ_features verbatim v26 | load_panel == v27a | make_rows / load_split == v27a up to the occupancy position | og_* block == pvogf | changed vs pvogf: ['load_panel', 'load_split', 'main', 'make_rows', 'march_rows', 'masked_month', 'pvo_rows', 'scenario'] | new: ['occ_calib', 'occ_features', 'veto_arrays']
+[     2s] A constants: VETO_O False | P_PV {'num_leaves': 511, 'learning_rate': 0.05, 'min_data_in_leaf': 40, 'num_threads': 4, 'deterministic': True, 'force_row_wise': True}
+[    14s] B0 D7_I10_E kernel load_panel (fake release, 90 days): O, Vf, Ff, ocrit, occ_c identical to the lab True
+[    23s] B1 D7_I10_E make_rows: kernel (761642, 185) == pvogf cache + side-car True
+[    29s] B2 D7_I10_E scenario + masked_month(occ) + march_rows (fake release): rows 81005 | March O cube == export True | X, Xb == cache + side-car True
+[    31s] B3 D7_I10_E load_split (fake release, private): rows 1488 | X, Xb, meta, qlast == cache + side-car True
+[    42s] B0 D12_I5_S kernel load_panel (fake release, 90 days): O, Vf, Ff, ocrit, occ_c identical to the lab True
+[    59s] B1 D12_I5_S make_rows: kernel (1137111, 185) == pvogf cache + side-car True
+[    64s] B2 D12_I5_S scenario + masked_month(occ) + march_rows (fake release): rows 116162 | March O cube == export True | X, Xb == cache + side-car True
+[    66s] B3 D12_I5_S load_split (fake release, private): rows 2208 | X, Xb, meta, qlast == cache + side-car True
+[    71s] D LightGBM: plain lgb.train vs construct-then-free path (P_PV with deterministic / force_row_wise, 30 trees, 60k rows): model strings identical True
+[    71s] PVOGFO KERNEL TEST DONE ['A', 'B', 'D']

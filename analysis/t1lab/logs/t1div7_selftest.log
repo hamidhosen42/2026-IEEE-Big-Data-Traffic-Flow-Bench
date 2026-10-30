@@ -1,0 +1,2 @@
+SELFTEST PASSED: vectorised knn_member == naive per-cell loop on 648 cells x 108 configs (max rel diff 1.3e-14); pilot path (kmax 20) == member path bit-identical
+[     2s] done

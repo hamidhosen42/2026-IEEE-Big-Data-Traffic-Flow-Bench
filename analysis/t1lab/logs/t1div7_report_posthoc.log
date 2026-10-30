@@ -1,0 +1,15 @@
+[note] POST-HOC (written after the round-7 gate result; not gate-eligible); run outside run_heavy (all 3 slots held by the T2 pvocc_train jobs), nice 10, 1 thread
+POST-HOC S4                deploy dS_state -0.00076 dLWR -0.00106 dS_FD -0.00000 | dJ -0.000374 [-0.000448, -0.000304] up 0/8 (val -0.000312 pri -0.000436)
+POST-HOC base3Q@0.05       deploy dS_state -0.00001 dLWR -0.00022 dS_FD +0.00000 | dJ -0.000026 [-0.000033, -0.000021] up 0/8 (val -0.000026 pri -0.000026)
+POST-HOC base3Q@0.1        deploy dS_state -0.00003 dLWR -0.00048 dS_FD +0.00001 | dJ -0.000058 [-0.000070, -0.000047] up 0/8 (val -0.000058 pri -0.000057)
+POST-HOC base3Q@0.15       deploy dS_state -0.00005 dLWR -0.00077 dS_FD +0.00001 | dJ -0.000095 [-0.000114, -0.000079] up 0/8 (val -0.000095 pri -0.000094)
+POST-HOC base3Q@0.25       deploy dS_state -0.00011 dLWR -0.00148 dS_FD +0.00001 | dJ -0.000187 [-0.000216, -0.000162] up 0/8 (val -0.000184 pri -0.000189)
+POST-HOC knnQ@0.05         deploy dS_state +0.00002 dLWR +0.00041 dS_FD -0.00000 | dJ +0.000049 [+0.000033, +0.000065] up 8/8 (val +0.000059 pri +0.000040) | vs base3Q@0.05 +0.000076 [lo +0.000058] 8/8
+POST-HOC knnQ@0.1          deploy dS_state +0.00001 dLWR +0.00061 dS_FD -0.00001 | dJ +0.000065 [+0.000034, +0.000097] up 7/8 (val +0.000085 pri +0.000045) | vs base3Q@0.1 +0.000123 [lo +0.000088] 8/8
+POST-HOC knnPQ@0.05        deploy dS_state +0.00005 dLWR +0.00052 dS_FD -0.00000 | dJ +0.000068 [+0.000058, +0.000081] up 8/8 (val +0.000069 pri +0.000066) | vs base3Q@0.05 +0.000094 [lo +0.000082] 8/8
+POST-HOC knnPQ@0.1         deploy dS_state +0.00006 dLWR +0.00091 dS_FD -0.00000 | dJ +0.000113 [+0.000093, +0.000140] up 8/8 (val +0.000117 pri +0.000110) | vs base3Q@0.1 +0.000171 [lo +0.000146] 8/8
+POST-HOC knnPQ@0.15        deploy dS_state +0.00006 dLWR +0.00115 dS_FD -0.00001 | dJ +0.000135 [+0.000104, +0.000177] up 8/8 (val +0.000141 pri +0.000130) | vs base3Q@0.15 +0.000230 [lo +0.000192] 8/8
+POST-HOC knnPQ@0.25        deploy dS_state -0.00003 dLWR +0.00124 dS_FD -0.00002 | dJ +0.000111 [+0.000059, +0.000181] up 7/8 (val +0.000122 pri +0.000100) | vs base3Q@0.25 +0.000298 [lo +0.000238] 8/8
+POST-HOC lrtc3m+knnQ@0.15  deploy dS_state -0.00005 dLWR +0.00061 dS_FD -0.00001 | dJ +0.000044 [-0.000019, +0.000109] up 6/8 (val +0.000094 pri -0.000005)
+parity: dJ(S4 - S5) -0.0003738 (= -round-5 post-hoc); POST-HOC numbers only, no gate
+[    59s] done

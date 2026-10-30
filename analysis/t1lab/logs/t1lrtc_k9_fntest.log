@@ -1,0 +1,92 @@
+[run_heavy] slot acquired after 0s
+released month D12_I405_S private | days 29 stations 44 | released share flow 0.547 speed 0.547 | synthetic state rows 166313
+
+=== swap_lrtc_k9.py ===
+SMOKE False | DO_RECON True | DO_TV True | base /private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/input/tfb-k5d/submission_K5D.csv
+split from timestamp month (no split column in submission_key)
+mask_regime from key: {'R3': 89960, 'R2': 60307, 'R1': 16046}
+state rows per split: {'private': 166313}
+D12_I405_S   FD links used  44/ 44 (multi-station links 0) | per lane: cap [1454,2678] kc [12.3,23.9] kj [100.0,100.0] | w [16.6,35.2] km/h | vf [112.0,121.3]
+links excluded for implausible FD parameters: 0 | per panel share: {}
+FD unit checks passed after link-wise exclusion: w in (8.0, 40.0) km/h, kj/lane in (60.0, 200.0) veh/km
+state rows without FD parameters (left untouched): 0
+step B speed clip: state rows without a free speed (no upper clip) 0
+diagnostic on released eligible congested cells (v < 0.6 vf): rel = (k_obs - kFD(v_obs)) / kFD(v_obs)
+  D12_I405_S   validation no released cells
+  D12_I405_S   private    cells  175182 gate share 0.0203 n_gate   3561 | median +0.0005 IQR [-0.0207, +0.0224]
+  D12_I405_S   -> kept (pooled n 3561 median +0.0005 IQR [-0.0207, +0.0224])
+EXCLUDED panels: []
+state rows eligible for R/T: 166313 / 166313
+M D12_I405_S   private    days 29 stations 44 released flow share 0.547 | rows 166313 mapped 1.0000 ordinary used 164284 | rms (q_lrtc - q)/lane 56.12
+B D12_I405_S   private    released speed share 0.547 | blackout rows 2029 used 2029 | rms (v_lrtc - v) 15.43 km/h | rms (q_lrtc - q)/lane 60.43
+M: W_LRTC 0.35 ranks (24, 40, 10) | ordinary rows blended 164284 share 1.0000 | blackout rows untouched by M 2029 | rms (q_lrtc - q)/lane 56.12 corr 0.99441
+B: W_BLK 0.15 ranks v (8, 20, 20) q (8, 40, 10) | blackout rows blended 2029 share 1.0000 | rms (v_lrtc - v) 15.43 km/h corr 0.6377 | rms (q_lrtc - q)/lane 60.43 corr 0.9487
+M OK | rows changed 164284 | speed unchanged (step M touches flow only)
+B OK | rows changed: speed 2029 flow 2029 | ordinary rows unchanged (step B touches blackout rows only)
+LRTC: state rows changed 0.0000% (0) | median |dv| 0.000 km/h | median |dq| 0.00 vph | max |dv| 0.00 | max |dq| 0.0
+   D12_I405_S   changed 0.0000%
+/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/working/submission_LRTC.csv OK 166321
+R: gate share 0.0195 | median |log r| in gate 0.0194
+T[FDRTV] D12_I405_S   private    rows  166313 runs  84118 (max len 25) | anchors L 0.866 R 0.866 | rows changed 124270 | rms dq 31.377
+FDRTV: state rows changed 75.1601% (125001) | median |dv| 0.000 km/h | median |dq| 18.73 vph | max |dv| 21.30 | max |dq| 1059.0
+   D12_I405_S   changed 75.1601%
+/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/working/submission_FDRTV.csv OK 166321
+DONE | excluded []
+kernel wall time 5.2s
+
+check 1: blackout rows 2029 (blended 2029, speed at the 1.05 vf clip 650) | ordinary rows blended 164284 | max rel |kernel - lab rebuild|: q 6.19e-16 v 3.84e-16 | max abs: ordinary q 3.64e-12 vph, blackout q 1.82e-12 vph v 4.26e-14 km/h | ordinary speed max |dv| vs base 1.42e-14
+check 1 OK (steps M + B == lab lrtc on independently pivoted cubes; ordinary speed unchanged)
+
+=== swap_fdrecon_k5.py on submission_LRTC.csv ===
+SMOKE False | DO_RECON True | DO_TV True | base /private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/input2/tfb-k5d/submission_K5D.csv
+split from timestamp month (no split column in submission_key)
+mask_regime from key: {'R3': 89960, 'R2': 60307, 'R1': 16046}
+state rows per split: {'private': 166313}
+D12_I405_S   FD links used  44/ 44 (multi-station links 0) | per lane: cap [1454,2678] kc [12.3,23.9] kj [100.0,100.0] | w [16.6,35.2] km/h | vf [112.0,121.3]
+links excluded for implausible FD parameters: 0 | per panel share: {}
+FD unit checks passed after link-wise exclusion: w in (8.0, 40.0) km/h, kj/lane in (60.0, 200.0) veh/km
+state rows without FD parameters (left untouched): 0
+diagnostic on released eligible congested cells (v < 0.6 vf): rel = (k_obs - kFD(v_obs)) / kFD(v_obs)
+  D12_I405_S   validation no released cells
+  D12_I405_S   private    cells  175182 gate share 0.0203 n_gate   3561 | median +0.0005 IQR [-0.0207, +0.0224]
+  D12_I405_S   -> kept (pooled n 3561 median +0.0005 IQR [-0.0207, +0.0224])
+EXCLUDED panels: []
+state rows eligible for R/T: 166313 / 166313
+R: gate share 0.0195 | median |log r| in gate 0.0194
+FDR: state rows changed 1.9547% (3251) | median |dv| 0.507 km/h | median |dq| 36.90 vph | max |dv| 21.30 | max |dq| 1059.0
+   D12_I405_S   changed 1.9547%
+/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/working2/submission_FDR.csv OK 166321
+T[FDRTV] D12_I405_S   private    rows  166313 runs  84118 (max len 25) | anchors L 0.866 R 0.866 | rows changed 124271 | rms dq 31.377
+FDRTV: state rows changed 75.1607% (125002) | median |dv| 0.000 km/h | median |dq| 18.73 vph | max |dv| 21.30 | max |dq| 1059.0
+   D12_I405_S   changed 75.1607%
+/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/working2/submission_FDRTV.csv OK 166321
+T[TV] D12_I405_S   private    rows  166313 runs  84118 (max len 25) | anchors L 0.866 R 0.866 | rows changed 124276 | rms dq 31.397
+TV: state rows changed 74.7236% (124275) | median |dv| 0.000 km/h | median |dq| 18.24 vph | max |dv| 2.07 | max |dq| 350.3
+   D12_I405_S   changed 74.7236%
+/private/tmp/claude-501/-Users-md-hamidhosen-Documents-Kaggle-2026-IEEE-Big-Data-Traffic-Flow-Bench/b036a5d8-355a-4104-b35c-e5f21802f7bf/scratchpad/k9test/working2/submission_TV.csv OK 166321
+DONE | excluded []
+
+check 2: max |dv| 2.84e-14 max |dq| 5.46e-12 | rows changed by R+T vs LRTC: 124998
+check 2 OK (R + T identical to swap_fdrecon_k5.py up to CSV round-off)
+check 3 OK (queue / path rows and id order unchanged)
+
+K9 FUNCTION TEST PASSED
+       12.12 real        12.20 user         0.52 sys
+           930693120  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              120133  page reclaims
+                 135  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1153  voluntary context switches
+                8348  involuntary context switches
+        187175549259  instructions retired
+         43851029449  cycles elapsed
+           873121376  peak memory footprint
+[run_heavy] exit 0 after 12s

@@ -1,0 +1,35 @@
+[note] run outside run_heavy (all 3 slots held by the T2 pvocc_train jobs), nice 10, 1 thread
+[     1s] knnP flow config (POST-HOC) (2, 4, 5, 'inv', 'ratio')
+[     2s]   D12_I5_S f0 validation_blk   knnP q/lane rmse 140.65
+[     2s]   D12_I5_S f0 validation_ord   knnP q/lane rmse 30.03
+[     3s]   D12_I5_S f0 private_blk      knnP q/lane rmse 139.19
+[     4s]   D12_I5_S f0 private_ord      knnP q/lane rmse 36.87
+[     4s]   D12_I5_S f1 validation_blk   knnP q/lane rmse 131.55
+[     5s]   D12_I5_S f1 validation_ord   knnP q/lane rmse 30.22
+[     6s]   D12_I5_S f1 private_blk      knnP q/lane rmse 120.84
+[     7s]   D12_I5_S f1 private_ord      knnP q/lane rmse 36.48
+[     7s]   D7_I10_E f0 validation_blk   knnP q/lane rmse 175.78
+[     9s]   D7_I10_E f0 validation_ord   knnP q/lane rmse 34.12
+[    10s]   D7_I10_E f0 private_blk      knnP q/lane rmse 134.21
+[    11s]   D7_I10_E f0 private_ord      knnP q/lane rmse 32.34
+[    12s]   D7_I10_E f1 validation_blk   knnP q/lane rmse 151.16
+[    13s]   D7_I10_E f1 validation_ord   knnP q/lane rmse 33.86
+[    14s]   D7_I10_E f1 private_blk      knnP q/lane rmse 186.36
+[    15s]   D7_I10_E f1 private_ord      knnP q/lane rmse 32.20
+[    16s]   D7_I210_W f0 validation_blk   knnP q/lane rmse 168.00
+[    16s]   D7_I210_W f0 validation_ord   knnP q/lane rmse 32.80
+[    17s]   D7_I210_W f0 private_blk      knnP q/lane rmse 132.14
+[    17s]   D7_I210_W f0 private_ord      knnP q/lane rmse 33.20
+[    18s]   D7_I210_W f1 validation_blk   knnP q/lane rmse 154.70
+[    18s]   D7_I210_W f1 validation_ord   knnP q/lane rmse 32.60
+[    19s]   D7_I210_W f1 private_blk      knnP q/lane rmse 129.62
+[    20s]   D7_I210_W f1 private_ord      knnP q/lane rmse 33.35
+[    20s]   D7_I405_S f0 validation_blk   knnP q/lane rmse 173.53
+[    21s]   D7_I405_S f0 validation_ord   knnP q/lane rmse 35.27
+[    22s]   D7_I405_S f0 private_blk      knnP q/lane rmse 148.76
+[    23s]   D7_I405_S f0 private_ord      knnP q/lane rmse 36.51
+[    23s]   D7_I405_S f1 validation_blk   knnP q/lane rmse 145.82
+[    24s]   D7_I405_S f1 validation_ord   knnP q/lane rmse 35.71
+[    25s]   D7_I405_S f1 private_blk      knnP q/lane rmse 177.19
+[    26s]   D7_I405_S f1 private_ord      knnP q/lane rmse 36.40
+[    26s] done

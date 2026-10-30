@@ -1,0 +1,64 @@
+[run_heavy] slot acquired after 0s
+
+========== occP9
+gain share of the 81 patch columns (np, fold 0): total 0.0258 | top 10: {'pv40_n-4': 0.0014, 'pv40_n-3': 0.0013, 'pv30_n-3': 0.0008, 'pv35_n-3': 0.0008, 'pv00_n-4': 0.0007, 'pv05_n+4': 0.0007, 'pv35_n-4': 0.0007, 'pv05_n-4': 0.0006, 'pv30_n-2': 0.0005, 'pv30_n-4': 0.0005}
+  top production / occupancy columns in the same model: {'o_last': 0.6085, 'or_last': 0.1268, 'vr_last': 0.03, 'h': 0.0174, 'dq_hi': 0.014, 'n_q_hist_win': 0.0139, 'share_q': 0.0117, 'vr_min_up9_16': 0.0094}
+
+========== occP21
+gain share of the 189 patch columns (np, fold 0): total 0.0485 | top 10: {'pv40_n-3': 0.0016, 'pv40_n-10': 0.0016, 'pv40_n-9': 0.0009, 'pv05_n-9': 0.0008, 'pv05_n-10': 0.0008, 'pv00_n-10': 0.0007, 'pv35_n-3': 0.0007, 'pv30_n-3': 0.0006, 'pv40_n-5': 0.0006, 'pv35_n-10': 0.0006}
+  top production / occupancy columns in the same model: {'o_last': 0.4758, 'or_last': 0.1493, 'dq_lo': 0.0695, 'vr_last': 0.0407, 'q_last': 0.0279, 'dq_hi': 0.0185, 'h': 0.0174, 'n_q_hist_win': 0.0127}
+
+========== occP9q
+gain share of the 162 patch columns (np, fold 0): total 0.0395 | top 10: {'pv40_n-3': 0.0013, 'pv40_n-4': 0.0013, 'pv30_n-3': 0.001, 'pv35_n-3': 0.0008, 'pq30_n+0': 0.0007, 'pv00_n-4': 0.0007, 'pv05_n+4': 0.0006, 'pq40_n+0': 0.0006, 'pq35_n+0': 0.0006, 'pv35_n-4': 0.0005}
+  top production / occupancy columns in the same model: {'o_last': 0.603, 'or_last': 0.1127, 'vr_last': 0.0267, 'q_last': 0.0239, 'h': 0.0173, 'n_q_hist_win': 0.0139, 'dq_hi': 0.0128, 'share_q': 0.0114}
+                      cmp        set    n   base    new    diff      lo      hi panels_pos    d_h6  d_fn_new  d_fp_old
+      occP9[np] train OOF   official   40 0.8921 0.8959  0.0038 -0.0008  0.0084        2/8  0.0016   -0.0054    0.0015
+      occP9[np] train OOF    offlike 1473 0.8821 0.8817 -0.0004 -0.0025  0.0018        2/8 -0.0010    0.0006   -0.0019
+      occP9[np] train OOF     pseudo 1055 0.8503 0.8592  0.0088  0.0054  0.0122        5/8  0.0214    0.0003   -0.0048
+   occP9[np] pseudo-March  offlike_m  298 0.8262 0.8296  0.0034 -0.0014  0.0087        5/8  0.0188    0.0010    0.0036
+   occP9[np] pseudo-March runstart_m 1124 0.8757 0.8787  0.0029 -0.0001  0.0063        4/8  0.0139    0.0005    0.0015
+    occP9[npid] train OOF   official   40 0.8958 0.8945 -0.0013 -0.0062  0.0037        2/8 -0.0063   -0.0032    0.0019
+    occP9[npid] train OOF    offlike 1473 0.8862 0.8842 -0.0019 -0.0036 -0.0003        1/8 -0.0023    0.0010   -0.0007
+    occP9[npid] train OOF     pseudo 1055 0.8598 0.8619  0.0021  0.0000  0.0041        6/8  0.0033    0.0002   -0.0023
+ occP9[npid] pseudo-March  offlike_m  298 0.8273 0.8315  0.0042 -0.0005  0.0100        6/8  0.0142   -0.0004    0.0046
+ occP9[npid] pseudo-March runstart_m 1124 0.8779 0.8811  0.0032  0.0007  0.0061        5/8  0.0079    0.0001    0.0018
+     occP21[np] train OOF   official   40 0.8921 0.8899 -0.0022 -0.0091  0.0040        4/8 -0.0034    0.0002   -0.0001
+     occP21[np] train OOF    offlike 1473 0.8821 0.8809 -0.0012 -0.0034  0.0011        3/8  0.0011    0.0022   -0.0018
+     occP21[np] train OOF     pseudo 1055 0.8503 0.8647  0.0143  0.0030  0.0258        6/8  0.0862    0.0008   -0.0150
+  occP21[np] pseudo-March  offlike_m  298 0.8262 0.8277  0.0015 -0.0051  0.0088        4/8  0.0230    0.0017    0.0061
+  occP21[np] pseudo-March runstart_m 1124 0.8757 0.8796  0.0039  0.0008  0.0073        6/8  0.0181    0.0005    0.0026
+   occP21[npid] train OOF   official   40 0.8958 0.8942 -0.0016 -0.0077  0.0037        2/8 -0.0081    0.0015   -0.0007
+   occP21[npid] train OOF    offlike 1473 0.8862 0.8845 -0.0017 -0.0040  0.0005        2/8 -0.0018    0.0023   -0.0009
+   occP21[npid] train OOF     pseudo 1055 0.8598 0.8713  0.0115  0.0009  0.0221        6/8  0.0629    0.0004   -0.0119
+occP21[npid] pseudo-March  offlike_m  298 0.8273 0.8317  0.0045 -0.0013  0.0114        6/8  0.0257    0.0008    0.0055
+occP21[npid] pseudo-March runstart_m 1124 0.8779 0.8823  0.0044  0.0014  0.0079        8/8  0.0170    0.0008    0.0024
+     occP9q[np] train OOF   official   40 0.8921 0.8862 -0.0059 -0.0139  0.0011        2/8 -0.0322    0.0017    0.0031
+     occP9q[np] train OOF    offlike 1473 0.8821 0.8819 -0.0002 -0.0024  0.0019        5/8  0.0054    0.0011   -0.0018
+     occP9q[np] train OOF     pseudo 1055 0.8503 0.8580  0.0076  0.0042  0.0110        5/8  0.0164    0.0003   -0.0046
+  occP9q[np] pseudo-March  offlike_m  298 0.8262 0.8318  0.0056  0.0004  0.0114        6/8  0.0186    0.0001    0.0037
+  occP9q[np] pseudo-March runstart_m 1124 0.8757 0.8787  0.0030 -0.0002  0.0061        8/8  0.0141    0.0005    0.0014
+   occP9q[npid] train OOF   official   40 0.8958 0.8906 -0.0051 -0.0143  0.0029        3/8 -0.0081    0.0012    0.0012
+   occP9q[npid] train OOF    offlike 1473 0.8862 0.8857 -0.0005 -0.0026  0.0015        3/8  0.0013    0.0010   -0.0013
+   occP9q[npid] train OOF     pseudo 1055 0.8598 0.8614  0.0016 -0.0009  0.0044        4/8 -0.0039   -0.0001   -0.0026
+occP9q[npid] pseudo-March  offlike_m  298 0.8273 0.8332  0.0059  0.0002  0.0129        6/8  0.0259    0.0006    0.0035
+occP9q[npid] pseudo-March runstart_m 1124 0.8779 0.8825  0.0045  0.0012  0.0082        8/8  0.0150    0.0001    0.0013
+
+===== FM-PM (PRE-REGISTERED gate on the np + id rows: validation >= +0.0015 AND private >= +0.0005)
+   arm decisions  binding  validation_win  validation_cells  validation_dn  validation_addout  validation_fm_lb  private_win  private_cells  private_dn  private_addout  private_fm_lb  PASS
+ occP9        np    False              24                88             -4                 18           0.00010           25             99         -21               9       -0.00029 False
+ occP9      npid     True              22                69            -11                  8           0.00057           21             86         -10               8        0.00008 False
+occP21        np    False              26               123             -9                 28           0.00112           27            129         -27               9       -0.00020 False
+occP21      npid     True              23               111            -11                 25           0.00048           28            138         -10              16       -0.00024 False
+occP9q        np    False              29               100            -10                 23           0.00079           28            113         -17              16        0.00007 False
+occP9q      npid     True              24                93            -15                 16           0.00093           22             93         -15              10       -0.00006 False
+
+gain share of the patch columns (np models, fold 0 / 1): {'occP9 f0': 0.0258, 'occP9 f1': 0.0266, 'occP21 f0': 0.0485, 'occP21 f1': 0.0497, 'occP9q f0': 0.0395, 'occP9q f1': 0.0406}
+
+===== SUMMARY (np + id decisions)
+   arm  fm_val   fm_pri  PASS  val_win  pri_win  val_cells  pri_cells  val_dn  pri_dn  offlike_m  offlike_m_lo  offlike_m_hi offlike_m_pp  runstart_m  runstart_m_lo  runstart_m_hi runstart_m_pp  oof_official  oof_official_lo  oof_official_hi oof_official_pp  oof_offlike  oof_offlike_lo  oof_offlike_hi oof_offlike_pp  oof_pseudo  oof_pseudo_lo  oof_pseudo_hi oof_pseudo_pp
+ occP9 0.00057  0.00008 False       22       21         69         86     -11     -10    0.00423      -0.00054       0.01001          6/8     0.00316        0.00070        0.00612           5/8      -0.00131         -0.00619          0.00367             2/8     -0.00194        -0.00359        -0.00030            1/8     0.00210        0.00002        0.00413           6/8
+occP21 0.00048 -0.00024 False       23       28        111        138     -11     -10    0.00446      -0.00134       0.01144          6/8     0.00436        0.00136        0.00785           8/8      -0.00162         -0.00773          0.00371             2/8     -0.00168        -0.00396         0.00052            2/8     0.01149        0.00094        0.02214           6/8
+occP9q 0.00093 -0.00006 False       24       22         93         93     -15     -15    0.00588       0.00020       0.01290          6/8     0.00454        0.00123        0.00817           8/8      -0.00514         -0.01429          0.00293             3/8     -0.00051        -0.00258         0.00155            3/8     0.00164       -0.00086        0.00439           4/8
+
+GATE: {'occP9': False, 'occP21': False, 'occP9q': False}
+[run_heavy] exit 0 after 15s

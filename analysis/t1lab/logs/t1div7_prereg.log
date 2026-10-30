@@ -1,0 +1,22 @@
+prereg check 2026-10-30 14:35:56 +0600
+2026-10-30 14:35:49 analysis/t1lab/t1div_lib.py
+2026-10-30 14:34:48 analysis/t1lab/t1div7_knn.py
+ed950a69c081ae33bb4191737e83ed260f259672  analysis/t1lab/t1div_lib.py
+626561cda3ec8523069b2a16e3395ab2f52d828a  analysis/t1lab/t1div7_knn.py
+0
+prereg final 2026-10-30 14:36:03 +0600
+2026-10-30 14:36:02 analysis/t1lab/t1div_lib.py
+59e8219d7d4c9b08b6b6f845b6b1c352c1eb7fb5  analysis/t1lab/t1div_lib.py
+gate result recorded 2026-10-30 14:44:21 +0600
+59e8219d7d4c9b08b6b6f845b6b1c352c1eb7fb5  analysis/t1lab/t1div_lib.py
+626561cda3ec8523069b2a16e3395ab2f52d828a  analysis/t1lab/t1div7_knn.py
+bf9f478525e974d88c130e09f123436e5dec41f0  analysis/t1lab/t1div7_report.py
+910c9af8d22c3309f550e28535df3303d2bb617e  analysis/t2lab/results/t1div/knn7_pilot.json
+9ed1a273b072d1a33b90d1e80cc954e887d06dde  analysis/t2lab/results/t1div/jproxy_r7.csv
+42278b00684093096a5ffe45ad1336b4caef706a  analysis/t2lab/results/t1div/raw_rmse_r7.csv
+14:38:46 analysis/t2lab/results/t1div/knn7_pilot.json
+14:40:06 analysis/t2lab/results/t1div/D7_I405_S_f1_knn.npz
+14:43:16 analysis/t2lab/results/t1div/jproxy_r7.csv
+1582af5eac31615ea163e5a68ad36507e8f4390e  analysis/t1lab/t1div7_posthoc.py
+937c8bfcbd4eee3578f8a29956713d55423f33b8  analysis/t2lab/results/t1div/jproxy_r7posthoc.csv
+d9f958219c1abefc92e0327d62432d5ce6fe062c  analysis/t2lab/results/t1div/knn7_pilot_posthoc.json

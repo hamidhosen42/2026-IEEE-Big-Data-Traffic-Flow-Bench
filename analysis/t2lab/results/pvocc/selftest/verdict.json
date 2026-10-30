@@ -1,0 +1,28 @@
+{
+ "integrity_i": true,
+ "cands": {
+  "pvogfO": {
+   "d1": 0.0,
+   "lo1": 0.0,
+   "hi1": 0.0,
+   "panels": 0,
+   "ok1": false,
+   "fm": 0.0,
+   "ok2": false,
+   "adopt": false
+  },
+  "pvogfvO": {
+   "d1": -0.0015038416023928157,
+   "lo1": -0.0045666401208854035,
+   "hi1": 7.086167800453515e-05,
+   "panels": 0,
+   "ok1": false,
+   "fm": 0.0,
+   "ok2": false,
+   "adopt": false
+  }
+ },
+ "binding": null,
+ "secondary": null,
+ "b0": "cached"
+}

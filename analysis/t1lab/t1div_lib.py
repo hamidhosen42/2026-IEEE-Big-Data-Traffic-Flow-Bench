@@ -180,6 +180,70 @@ round-5 member, pilot or arm was computed:
     ~0.6-0.85 on lrtc2r); wq@0.5 -0.00013; blkQ +0.000004 / -0.00006; blkVQ@0.15 +0.000185 [+0.000132, +0.000235] 7/8 (val +0.00017,
     pri +0.00020; just under +0.0002), blkVQ@0.35 +0.00006. Raw ordinary flow RMSE per lane: S4 28.3, lrtc 32.5, lrtc2r 30.2, stkQ 29.9.
     No kernel (pre-registered rule).
+  (Round 6 = EXP_T1_K9_PREP: kernel prep of the round-5 post-hoc lead r2only + blkVQ@0.15 = tfb-k9, no lab gate.)
+
+ROUND 7 (EXP_T1_R7: kNN-day analog member + LRTC rank ensemble on the k9 stand-in) -- PRE-REGISTERED 2026-10-30 14:35 +06 (machine
+clock), written before the self-validation pilot and before any round-7 member value or J number on an evaluation cell existed (only
+the synthetic correctness test 'selftest' and a runtime check 'timing' of analysis/t1lab/t1div7_knn.py ran before; neither computes an
+error on any lab cell):
+  stand-in S5 (mirrors tfb-k9 = production steps 1-5 + M + B = t1div5_report.arms_of posthoc 'r2only+blkVQ@0.15', verified by
+    t1k9_parity.py): mixX as rounds 3-5; ORDINARY cells v = mixX_v, q = max(0.65 mixX_q + 0.35 lrtc2r_q, 20) (flow LRTC (24, 40, 10));
+    BLACKOUT cells b = 0.25 mixX + 0.75 bs, v = clip(0.85 b_v + 0.15 lrtc_v, 3, 1.05 vf), q = max(0.85 b_q + 0.15 lrtc_q, 20) (round-4
+    members speed (8, 20, 20), flow (8, 40, 10)); then recon + TV. Same cells, units, J, bootstrap (B 2000 -> 500 shared resamples,
+    rng 0) as rounds 3-5 (functions of t1div_report.py / t1div5_report.py). Parity: S5 rebuilt explicitly == arms_of 'r2only+blkVQ@0.15'
+    (max abs diff 0, asserted); info arm S4 (= tfb-k7 stand-in) must give dJ(S4 - S5) = -0.000374 (round-5 post-hoc number).
+  Members per (panel, month, fold) on the evaluation view (released cells minus HO | EB, ineligible-valued cells kept; evaluation cells
+    asserted absent from the view), stored with clips v in [3, 1.05 vf], q >= 20 (members analysis/t1lab/t1div7_knn.py, report
+    t1div7_report.py, results analysis/t2lab/results/t1div/*_knn.npz, *_knn0.npz, *_lrtc3.npz, knn7_pilot.json, jproxy_r7.csv).
+  (a) knn = kNN-DAY ANALOG, per channel: y = value / link mean over the view (links in corridor order = order_index); for a target cell
+      (d, t, l) and every OTHER day d' of the month, distance = mean over the cells released on BOTH days inside the box t +- HT slots x
+      l +- HL links (clipped at the day / corridor edges) of min(|y_d - y_d'|, 0.5) (robust: capped L1), valid only with >= 5 co-released
+      cells; candidate days must have a released value at (t, l); prediction = weighted mean of the K nearest candidates' values at
+      (t, l) (weights uniform or 1 / (dist + 0.01); ties by day index); level option 'ratio' (EXTENSION of the requested spec, decided
+      by the pilot like K and the box): each analog value x (sum y_d / sum y_d' over the co-released box cells), clipped to [0.5, 2];
+      fallback when no candidate day exists: per-(tod, link) mean over the view days, then the link mean. Vectorised with 2-D integral
+      images per target day (selftest: == a naive per-cell loop, max rel diff 1e-14).
+      GRID per channel: HT {6, 12, 24, 48} x HL {0, 1, 2, 4} x K {3, 5, 10, 20} x weights {uni, inv} x level {none (= the requested
+      spec), ratio}. PILOT (fixed ONCE, before any evaluation-cell value): fold-0 views of all 4 panels x 2 months; SV cells = 2 % of the
+      released eligible NON-evaluation cells (rng 41 + 100 panel_index + 10 split_index; on D12_I5_S validation = the round-4 pilot cells),
+      hidden from the view (never evaluation cells, asserted); per channel the config with the lowest mean SV RMSE over the 8 views
+      (speed km/h, flow vph/lane; after the storage clips) -> knn; the best config with level 'none' -> knn0 (info) -> knn7_pilot.json.
+      Arms (ORDINARY cells only, on top of S5; blackout cells = S5), w in {0.15, 0.25, 0.35}:
+        knnQ@w   q <- max((1 - w) q_S5 + w q_knn, 20), v = v_S5 (flow only: member speed := stand-in speed, as lrtcQ)
+        knnVQ@w  the same q and v <- clip((1 - w) v_S5 + w v_knn, 3, 1.05 vf) (both channels)
+        controls base3Q@w (base3 flow on top of S5, same w) for knnQ, base3VQ@w (base3 both channels, same w) for knnVQ.
+  (b) lrtc3m = LRTC RANK ENSEMBLE for step M: S5 with the step-M member lrtc2r_q -> mean(lrtc_q (8, 40, 10), lrtc2r_q (24, 40, 10),
+      lrtc3_q (16, 40, 20)) at the same W 0.35 (ordinary cells; ranks as requested, no selection; lrtc3 = t1div_lrtc.lrtc, 60 iterations,
+      on the same view). Control ctl3m = the two NEW slots filled with base3: mean(lrtc2r_q, base3_q, base3_q) (the round-5 ctl2m logic).
+  MEMBER PASS (the ROUND 4 member gate) iff for some w (lrtc3m: its single arm): (i) dJ(arm - S5) >= +0.0003 (deploy scope, post recon +
+    TV, mean of the 8 panel-months), (ii) 95 % bootstrap CI lo > 0, (iii) dJ > 0 in >= 7/8 panel-months, AND (iv) dJ(arm) - dJ(control)
+    >= +0.00015 (same w). Deployment = the passing (variant, w) with the largest dJ. If both (a) and (b) pass, their combination is info
+    and is deployed only if it passes the member gate vs S5 itself (control: that of its kNN part) and beats each single arm.
+  INFO (pre-registered, never gate-eligible): knn0Q@w / knn0VQ@w (plain spec at its own best pilot config; identical to knn when the
+    pilot picks level 'none'); knnQ_blk@0.15 / knnVQ_blk@0.15 (the knn member on BLACKOUT cells after step B, ordinary cells = S5);
+    raw RMSE and error correlation with S5 at ordinary / blackout cells; scopes ord / blk; dJ_val / dJ_pri. Any other number is
+    POST-HOC and reported separately with that label.
+  Kernel only if a member passes: kaggle_jobs/swap_k11.py (base tfb-k5d: the k9 steps M + B, then the passing member, then recon + TV),
+    parity (kernel functions via ast == lab functions, bit-identical) + function test, hedge B swap_k12.py, t4_validate_k11.py; nothing
+    is pushed by the agent.
+  Transfer caveats (pre-stated): members transferred at ~0.6x (lrtcQ lab +0.00054 -> LB +0.00034); lab ordinary evaluation cells are
+    isolated 3 % holdouts while real targets sit in masked runs (median 1, p90 4 slots; ~20 % of the masked cells in runs >= 12), so a
+    neighbourhood-similarity member sees a slightly richer neighbourhood in the lab than at the real targets.
+  PILOT (14:38 +06, knn7_pilot.json, logs/t1div7_pilot.log): speed (HT 6, HL 2, K 3, inv, ratio) SV RMSE 3.74 km/h, flow (6, 2, 10, inv,
+    ratio) 40.2 vph/lane (plain level 'none': speed (6, 2, 3, inv) 5.44, flow (6, 4, 3, inv) 58.5 = knn0); HT 6 = the grid EDGE for both
+    channels. (Reference on the round-4 pilot cells: LRTC flow 33.0 (8, 40, 10) / 29.2 (24, 40, 10), speed 3.06; knn there 40.7 / 3.63.)
+  RESULT (14:43 +06, logs/t1div7_report.log, jproxy_r7.csv, raw_rmse_r7.csv; parity: S5 rebuild == arms_of exactly, dJ(S4 - S5) =
+    -0.0003738 = minus the round-5 post-hoc number to 2e-17): ALL FAIL, no kernel (pre-registered rule).
+    knnQ@0.15 +0.000048 [+0.000001, +0.000099] 6/8 (minus base3Q +0.00014), @0.25 -0.00008, @0.35 -0.00032; knnVQ -0.0007 / -0.0020 /
+    -0.0036; lrtc3m +0.000039 [+0.000007, +0.000072] 6/8 (minus ctl3m +0.00051; ctl3m itself -0.00047). Controls base3Q@w -0.00010 /
+    -0.00019 / -0.00030, base3VQ@w -0.00012 / -0.00024 / -0.00040 (all 0/8). Info: knn0 (plain spec) Q -0.0005 .. -0.0028, VQ -0.0022 ..
+    -0.0090; kNN on blackout cells Q -0.00002, VQ -0.00008. Raw ordinary flow RMSE / lane (corr of errors with S5): S5 27.9, knn 36.6
+    (0.74), knn0 55.1 (0.48), lrtc3 30.5 (0.87), ens3 29.6 (0.92); speed S5 1.65, knn 3.33 (0.47).
+  POST-HOC (written after the result: t1div7_posthoc.py, knn7_pilot_posthoc.json, jproxy_r7posthoc.csv, logs/t1div7_*posthoc*.log; NOT
+    gate-eligible; run outside run_heavy at nice 10 / 1 thread because the 3 slots were held by T2 jobs): smaller box HT {2, 3, 4} x
+    HL {1, 2, 4} -> flow (2, 4, 5, inv, ratio) SV 36.9 (edge again); knnPQ@0.05 / 0.1 / 0.15 / 0.25 +0.00007 / +0.00011 / +0.00014
+    [+0.00010, +0.00018] 8/8 / +0.00011; knnQ@0.05 / 0.1 +0.00005 / +0.00007; lrtc3m + knnQ@0.15 +0.00004. Even the post-hoc best is
+    under half the member gate (x ~0.6 -> ~ +0.00008 LB, below the noise floor): kNN-day analog and LRTC rank ensemble dropped.
 """
 import os, sys
 import numpy as np

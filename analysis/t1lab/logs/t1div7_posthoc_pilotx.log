@@ -1,0 +1,21 @@
+[note] run outside run_heavy (all 3 slots held by the T2 pvocc_train jobs since 14:44), nice 10, 1 thread
+[    10s] D12_I5_S validation SV cells 8366
+[    18s] D12_I5_S private SV cells 8365
+[    31s] D7_I10_E validation SV cells 12006
+[    44s] D7_I10_E private SV cells 12102
+[    51s] D7_I210_W validation SV cells 6144
+[    57s] D7_I210_W private SV cells 6827
+[    65s] D7_I405_S validation SV cells 8516
+[    73s] D7_I405_S private SV cells 8598
+[    73s] POST-HOC best flow config over the union of grids [2, 4, 5, 'inv', 'ratio'] mean SV rmse 36.8806 (pre-registered choice [6, 2, 10, 'inv', 'ratio'] 40.2378)
+[    73s]   best per (ht, hl), level ratio:
+hl       0       1       2       4
+ht                                
+2      NaN  61.740  38.491  36.881
+3      NaN  43.830  37.657  37.933
+4      NaN  40.085  38.357  38.824
+6   76.584  40.658  40.238  40.560
+12  50.436  45.097  44.717  44.821
+24  52.714  50.575  50.247  50.303
+48  59.658  58.349  58.036  58.043
+[    73s] done
