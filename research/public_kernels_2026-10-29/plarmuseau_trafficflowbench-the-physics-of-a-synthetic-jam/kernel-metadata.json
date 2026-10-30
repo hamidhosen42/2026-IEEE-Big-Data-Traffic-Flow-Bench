@@ -1,0 +1,21 @@
+{
+  "id": "plarmuseau/trafficflowbench-the-physics-of-a-synthetic-jam",
+  "id_no": 139993881,
+  "title": "TrafficFlowBench: the physics of a synthetic jam",
+  "code_file": "trafficflowbench-the-physics-of-a-synthetic-jam.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "plarmuseau/trafficflowbench-jam-physics-figs"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

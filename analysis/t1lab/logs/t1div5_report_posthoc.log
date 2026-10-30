@@ -1,0 +1,37 @@
+[run_heavy] slot acquired after 0s
+tables D12_I5_S
+tables D7_I10_E
+tables D7_I210_W
+tables D7_I405_S
+RAW flow-per-lane RMSE / corr(err, S4 err) [ord]: S4 28.26/1.000 mixX 28.65/0.966 lrtc 32.49/0.907 base3 29.70/0.936 lrtc2r 30.21/0.885 lrtc2i 32.45/0.899 lrtcL 32.46/0.874 stkQ 29.89/0.910 lrtcK_xv 93.72/0.298 | speed RMSE lrtc 3.028 S4 1.654
+RAW flow-per-lane RMSE / corr(err, S4 err) [blk]: S4 71.36/1.000 mixX 77.10/0.915 lrtc 117.45/0.529 base3 78.69/0.898 lrtc2r 147.12/0.464 lrtc2i 97.61/0.594 lrtcL 120.03/0.544 stkQ 133.90/0.508 lrtcK_xv 295.42/0.144 | speed RMSE lrtc 11.103 S4 7.809
+r2only      deploy dS_state +0.00025 dLWR +0.00101 dS_FD +0.00002 | dJ +0.000189 [+0.000135, +0.000247] up 8/8 (val +0.000138 pri +0.000240)
+r2only      ord    dS_state +0.00025 dLWR +0.00101 dS_FD +0.00002 | dJ +0.000189 [+0.000135, +0.000247] up 8/8 (val +0.000138 pri +0.000240)
+r2only      blk    dS_state +0.00000 dLWR -0.00000 dS_FD +0.00000 | dJ -0.000000 [-0.000000, +0.000000] up 4/8 (val -0.000000 pri +0.000000)
+stkonly     deploy dS_state +0.00027 dLWR +0.00132 dS_FD +0.00002 | dJ +0.000228 [+0.000180, +0.000274] up 8/8 (val +0.000188 pri +0.000269)
+stkonly     ord    dS_state +0.00027 dLWR +0.00132 dS_FD +0.00002 | dJ +0.000228 [+0.000180, +0.000274] up 8/8 (val +0.000188 pri +0.000269)
+stkonly     blk    dS_state +0.00000 dLWR -0.00000 dS_FD +0.00000 | dJ -0.000000 [-0.000000, +0.000000] up 5/8 (val -0.000000 pri +0.000000)
+r2only+blkVQ@0.15 deploy dS_state +0.00076 dLWR +0.00106 dS_FD +0.00000 | dJ +0.000374 [+0.000304, +0.000448] up 8/8 (val +0.000312 pri +0.000436)
+r2only+blkVQ@0.15 ord    dS_state +0.00025 dLWR +0.00092 dS_FD +0.00002 | dJ +0.000179 [+0.000122, +0.000236] up 8/8 (val +0.000121 pri +0.000238)
+r2only+blkVQ@0.15 blk    dS_state +0.00052 dLWR +0.00015 dS_FD -0.00001 | dJ +0.000194 [+0.000149, +0.000245] up 7/8 (val +0.000191 pri +0.000197)
+lrtc2m_r+blkVQ@0.15 deploy dS_state +0.00073 dLWR +0.00108 dS_FD +0.00000 | dJ +0.000363 [+0.000306, +0.000425] up 8/8 (val +0.000326 pri +0.000401)
+lrtc2m_r+blkVQ@0.15 ord    dS_state +0.00021 dLWR +0.00093 dS_FD +0.00002 | dJ +0.000169 [+0.000134, +0.000205] up 8/8 (val +0.000134 pri +0.000203)
+lrtc2m_r+blkVQ@0.15 blk    dS_state +0.00052 dLWR +0.00015 dS_FD -0.00001 | dJ +0.000194 [+0.000149, +0.000245] up 7/8 (val +0.000191 pri +0.000197)
+stkQ@0.35+blkVQ@0.15 deploy dS_state +0.00059 dLWR +0.00191 dS_FD -0.00005 | dJ +0.000396 [+0.000323, +0.000485] up 8/8 (val +0.000366 pri +0.000425)
+stkQ@0.35+blkVQ@0.15 ord    dS_state +0.00008 dLWR +0.00176 dS_FD -0.00003 | dJ +0.000201 [+0.000137, +0.000274] up 8/8 (val +0.000175 pri +0.000227)
+stkQ@0.35+blkVQ@0.15 blk    dS_state +0.00052 dLWR +0.00015 dS_FD -0.00001 | dJ +0.000194 [+0.000149, +0.000245] up 7/8 (val +0.000191 pri +0.000197)
+
+GATE (pre-registered ROUND 5, post recon + TV, deploy scope vs S4): {}
+Traceback (most recent call last):
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_report.py", line 220, in <module>
+    if __name__ == '__main__':
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_report.py", line 216, in main
+    print('parity: dJ(S3 - S4) should be -(round-4 lrtcQ@0.35 ord scope +0.000537):',
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/indexing.py", line 1192, in __getitem__
+    return self._getitem_axis(maybe_callable, axis=axis)
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/indexing.py", line 1753, in _getitem_axis
+    self._validate_integer(key, axis)
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/pandas/core/indexing.py", line 1686, in _validate_integer
+    raise IndexError("single positional indexer is out-of-bounds")
+IndexError: single positional indexer is out-of-bounds
+[run_heavy] exit 1 after 22s

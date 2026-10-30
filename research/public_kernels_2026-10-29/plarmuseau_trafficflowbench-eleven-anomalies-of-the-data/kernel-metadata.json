@@ -1,0 +1,19 @@
+{
+  "id": "plarmuseau/trafficflowbench-eleven-anomalies-of-the-data",
+  "id_no": 141227245,
+  "title": "TrafficFlowBench: eleven anomalies of the data",
+  "code_file": "trafficflowbench-eleven-anomalies-of-the-data.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

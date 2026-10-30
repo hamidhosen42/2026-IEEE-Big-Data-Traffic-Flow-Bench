@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[   199s] occF_np255 fold 0: 6073676 rows x 79 cols, pos 0.269, trained in 199s
+[   212s] occF_np255 fold 0: official 0.8880 (n=40), offlike 0.8818 (n=726), pseudo 0.8791 (n=525)
+[   413s] occF_id255 fold 0: 6073676 rows x 85 cols, pos 0.269, trained in 202s
+[   425s] occF_id255 fold 0: official 0.9007 (n=40), offlike 0.8876 (n=726), pseudo 0.8828 (n=525)
+[   426s] DONE ['train', 'occF', '0'] 425s
+[run_heavy] exit 0 after 427s

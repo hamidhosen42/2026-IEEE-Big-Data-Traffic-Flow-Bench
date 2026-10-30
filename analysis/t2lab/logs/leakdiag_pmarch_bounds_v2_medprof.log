@@ -1,0 +1,23 @@
+[run_heavy] slot acquired after 0s
+[     2s] {'panel': 'D7_I10_E', 'onset_windows': 25, 'ongoing_windows': 41, 'march_ramp_links': 47, 'share_with_train_table': 0.77, 'sec': 1}
+[     2s] {'panel': 'D7_I10_W', 'onset_windows': 21, 'ongoing_windows': 16, 'march_ramp_links': 49, 'share_with_train_table': 0.9, 'sec': 1}
+[     3s] {'panel': 'D7_I210_E', 'onset_windows': 27, 'ongoing_windows': 27, 'march_ramp_links': 19, 'share_with_train_table': 0.53, 'sec': 1}
+[     4s] {'panel': 'D7_I210_W', 'onset_windows': 32, 'ongoing_windows': 46, 'march_ramp_links': 42, 'share_with_train_table': 0.88, 'sec': 0}
+[     5s] {'panel': 'D7_I405_N', 'onset_windows': 35, 'ongoing_windows': 51, 'march_ramp_links': 35, 'share_with_train_table': 0.74, 'sec': 1}
+[     6s] {'panel': 'D7_I405_S', 'onset_windows': 27, 'ongoing_windows': 42, 'march_ramp_links': 52, 'share_with_train_table': 0.88, 'sec': 1}
+[     7s] {'panel': 'D12_I5_N', 'onset_windows': 21, 'ongoing_windows': 34, 'march_ramp_links': 26, 'share_with_train_table': 0.58, 'sec': 1}
+[     7s] {'panel': 'D12_I5_S', 'onset_windows': 26, 'ongoing_windows': 41, 'march_ramp_links': 36, 'share_with_train_table': 0.89, 'sec': 0}
+== pseudo-March oracle ceilings ==
+         cond        arm    iou  d_base
+  queue_onset       base 0.7875  0.0000
+  queue_onset     O_ramp 0.8247  0.0372
+  queue_onset O_ramp_pm2 0.8700  0.0825
+  queue_onset      O_all 1.0000  0.2125
+queue_ongoing       base 0.8178  0.0000
+queue_ongoing     O_ramp 0.8382  0.0204
+queue_ongoing O_ramp_pm2 0.8743  0.0566
+queue_ongoing      O_all 1.0000  0.1822
+O_ramp: S_total ceiling = 0.0086
+O_ramp_pm2: S_total ceiling = 0.0209
+O_all: S_total ceiling = 0.0592
+[run_heavy] exit 0 after 8s

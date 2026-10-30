@@ -1,0 +1,148 @@
+[run_heavy] slot acquired after 0s
+[     8s] queue_onset S_ctrl: 7s
+[    16s] queue_onset S_ramp: 8s
+[    25s] queue_onset S_pb: 9s
+[    34s] queue_onset S_both: 9s
+
+== queue_onset: IoU (window -> panel -> family -> mean), delta vs base with paired-bootstrap 95% CI ==
+       cond      set      arm    n    iou  d_base    s1   s2     s3     s4     s5     s6      lo      hi
+queue_onset  offlike     base 2105 0.8944  0.0000 0.993 0.99 0.9885 0.9869 0.9834 0.9063     NaN     NaN
+queue_onset  offlike   R_self 2105 0.8640 -0.0303 0.993 0.99 0.9885 0.9869 0.9834 0.8752 -0.0346 -0.0263
+queue_onset  offlike R_spread 2105 0.8262 -0.0681 0.993 0.99 0.9885 0.9869 0.9834 0.8372 -0.0751 -0.0612
+queue_onset  offlike    R_map 2105 0.7913 -0.1031 0.993 0.99 0.9885 0.9869 0.9834 0.8020 -0.1134 -0.0933
+queue_onset  offlike   S_ctrl 2105 0.8821 -0.0123 0.993 0.99 0.9885 0.9869 0.9834 0.8938 -0.0181 -0.0069
+queue_onset  offlike   S_ramp 2105 0.8737 -0.0206 0.993 0.99 0.9885 0.9869 0.9834 0.8857 -0.0263 -0.0143
+queue_onset  offlike     S_pb 2105 0.8682 -0.0262 0.993 0.99 0.9885 0.9869 0.9834 0.8802 -0.0318 -0.0198
+queue_onset  offlike   S_both 2105 0.8751 -0.0192 0.993 0.99 0.9885 0.9869 0.9834 0.8871 -0.0256 -0.0119
+queue_onset official     base   40 0.9455  0.0000 1.000 1.00 1.0000 1.0000 1.0000 0.9455     NaN     NaN
+queue_onset official   R_self   40 0.9260 -0.0196 1.000 1.00 1.0000 1.0000 1.0000 0.9260 -0.0404  0.0000
+queue_onset official R_spread   40 0.8743 -0.0713 1.000 1.00 1.0000 1.0000 1.0000 0.8743 -0.1173 -0.0208
+queue_onset official    R_map   40 0.8445 -0.1010 1.000 1.00 1.0000 1.0000 1.0000 0.8445 -0.1787 -0.0236
+queue_onset official   S_ctrl   40 0.8799 -0.0656 1.000 1.00 1.0000 1.0000 1.0000 0.8799 -0.1240 -0.0167
+queue_onset official   S_ramp   40 0.8885 -0.0570 1.000 1.00 1.0000 1.0000 1.0000 0.8885 -0.0968 -0.0230
+queue_onset official     S_pb   40 0.9375 -0.0080 1.000 1.00 1.0000 1.0000 1.0000 0.9375 -0.0481  0.0298
+queue_onset official   S_both   40 0.9012 -0.0443 1.000 1.00 1.0000 1.0000 1.0000 0.9012 -0.0896  0.0024
+
+-- queue_onset: stacker gain importance (fold-0 model) --
+              S_ctrl    S_ramp      S_pb    S_both
+h                0.0       0.0       0.0       0.0
+lk_mneg          NaN    7944.0       NaN    6166.0
+lk_neg           NaN   10201.0       NaN    9337.0
+lk_pos           NaN    2634.0       NaN    2327.0
+lk_pos3          NaN    6898.0       NaN    5486.0
+nb1              NaN      71.0       NaN      82.0
+nb2              NaN     202.0       NaN     170.0
+nb3              NaN     768.0       NaN     675.0
+p           356689.0  352481.0  343694.0  343819.0
+pb_any           NaN       NaN     292.0     120.0
+pb_nb2           NaN       NaN   17201.0   11477.0
+pb_q             NaN       NaN    1041.0     585.0
+pb_vis           NaN       NaN      45.0      44.0
+pb_vrmin         NaN       NaN    9633.0    6877.0
+qlast            0.0       0.0       0.0       0.0
+self_flag        NaN       4.0       NaN      22.0
+self_flag3       NaN     401.0       NaN     431.0
+self_has         NaN     347.0       NaN     352.0
+self_ok          NaN      43.0       NaN      29.0
+self_ratio       NaN    1593.0       NaN    1058.0
+
+-- onset location reveal [offlike] (2102 windows with a visible T+30 queue) --
+share of windows: {'on_ramp_link': 0.3, 'ramp_usable': 0.224, 'self_flag': 0.019, 'flag_within2': 0.037, 'map_reveal': 0.12, 'pb_reveal': 0.825}
+mean share of true T+30 cells: own ramp switched off 0.007 | switched-off ramp within +-2 0.021 | post-buffer queued 0.72
+precision of own-ramp flags at T+30 in onset windows: 0.129 (51 / 395); mean true cells per window 3.13
+by panel:
+           on_ramp_link  ramp_usable  self_flag  flag_within2  map_reveal  pb_reveal
+panel                                                                               
+D12_I5_N           0.03         0.02       0.00          0.00        0.04       0.92
+D12_I5_S           0.31         0.25       0.02          0.11        0.16       0.82
+D7_I10_E           0.02         0.00       0.00          0.01        0.01       0.86
+D7_I10_W           0.96         0.73       0.04          0.07        0.08       0.77
+D7_I210_E          0.00         0.00       0.00          0.00        0.00       1.00
+D7_I210_W          0.49         0.48       0.07          0.08        0.15       0.71
+D7_I405_N          0.00         0.00       0.00          0.00        0.37       0.66
+D7_I405_S          0.98         0.59       0.02          0.03        0.03       0.90
+
+-- onset location reveal [official] (39 windows with a visible T+30 queue) --
+share of windows: {'on_ramp_link': 0.359, 'ramp_usable': 0.282, 'self_flag': 0.051, 'flag_within2': 0.051, 'map_reveal': 0.077, 'pb_reveal': 0.846}
+mean share of true T+30 cells: own ramp switched off 0.013 | switched-off ramp within +-2 0.032 | post-buffer queued 0.775
+precision of own-ramp flags at T+30 in onset windows: 0.4 (2 / 5); mean true cells per window 3.18
+by panel:
+           on_ramp_link  ramp_usable  self_flag  flag_within2  map_reveal  pb_reveal
+panel                                                                               
+D12_I5_N            0.0         0.00       0.00          0.00        0.00       1.00
+D12_I5_S            0.5         0.25       0.25          0.25        0.25       0.75
+D7_I10_E            0.0         0.00       0.00          0.00        0.00       0.80
+D7_I10_W            1.0         1.00       0.00          0.00        0.00       1.00
+D7_I210_E           0.0         0.00       0.00          0.00        0.00       1.00
+D7_I210_W           0.4         0.40       0.20          0.20        0.20       0.60
+D7_I405_N           0.0         0.00       0.00          0.00        0.20       0.60
+D7_I405_S           1.0         0.60       0.00          0.00        0.00       1.00
+[    67s] queue_ongoing S_ctrl: 31s
+[   101s] queue_ongoing S_ramp: 34s
+[   139s] queue_ongoing S_pb: 38s
+[   175s] queue_ongoing S_both: 36s
+
+== queue_ongoing: IoU (window -> panel -> family -> mean), delta vs base with paired-bootstrap 95% CI ==
+         cond      set      arm    n    iou  d_base     s1     s2     s3     s4     s5     s6      lo      hi
+queue_ongoing  offlike     base 2992 0.8751  0.0000 0.9442 0.9212 0.8940 0.8809 0.8610 0.8034     NaN     NaN
+queue_ongoing  offlike   R_self 2992 0.8551 -0.0200 0.9192 0.8989 0.8745 0.8606 0.8432 0.7892 -0.0224 -0.0178
+queue_ongoing  offlike R_spread 2992 0.8334 -0.0417 0.8982 0.8792 0.8555 0.8429 0.8269 0.7752 -0.0453 -0.0385
+queue_ongoing  offlike    R_map 2992 0.7808 -0.0943 0.8647 0.8464 0.8227 0.8092 0.7948 0.7472 -0.1011 -0.0881
+queue_ongoing  offlike   S_ctrl 2992 0.8753  0.0003 0.9419 0.9207 0.8926 0.8800 0.8598 0.8159 -0.0011  0.0014
+queue_ongoing  offlike   S_ramp 2992 0.8839  0.0088 0.9460 0.9233 0.8981 0.8881 0.8716 0.8250  0.0067  0.0110
+queue_ongoing  offlike     S_pb 2992 0.8797  0.0046 0.9420 0.9198 0.8931 0.8806 0.8642 0.8288  0.0029  0.0064
+queue_ongoing  offlike   S_both 2992 0.8880  0.0130 0.9414 0.9236 0.8980 0.8927 0.8784 0.8365  0.0106  0.0155
+queue_ongoing official     base   40 0.8899  0.0000 0.9358 0.9154 0.9210 0.9260 0.8597 0.7750     NaN     NaN
+queue_ongoing official   R_self   40 0.8778 -0.0121 0.9164 0.9063 0.9062 0.9107 0.8471 0.7702 -0.0263  0.0003
+queue_ongoing official R_spread   40 0.8739 -0.0159 0.9116 0.9072 0.9085 0.9037 0.8466 0.7659 -0.0387  0.0079
+queue_ongoing official    R_map   40 0.8368 -0.0531 0.8808 0.8808 0.8875 0.8612 0.8139 0.7441 -0.0858 -0.0236
+queue_ongoing official   S_ctrl   40 0.8899  0.0000 0.9324 0.9195 0.9189 0.9131 0.8566 0.8284 -0.0090  0.0084
+queue_ongoing official   S_ramp   40 0.9026  0.0128 0.9351 0.9242 0.9251 0.9303 0.8710 0.8084 -0.0028  0.0300
+queue_ongoing official     S_pb   40 0.8948  0.0049 0.9342 0.9175 0.9165 0.9088 0.8578 0.8518 -0.0079  0.0164
+queue_ongoing official   S_both   40 0.9100  0.0202 0.9462 0.9313 0.9322 0.9406 0.8703 0.8529  0.0024  0.0401
+
+-- queue_ongoing: stacker gain importance (fold-0 model) --
+                S_ctrl     S_ramp        S_pb      S_both
+h              13189.0    32364.0     19174.0     25476.0
+lk_mneg            NaN    49329.0         NaN     36837.0
+lk_neg             NaN   158292.0         NaN    105420.0
+lk_pos             NaN    24253.0         NaN     26389.0
+lk_pos3            NaN   161002.0         NaN     94229.0
+nb1                NaN      132.0         NaN       113.0
+nb2                NaN      917.0         NaN      1431.0
+nb3                NaN     8579.0         NaN      9716.0
+p           11484668.0  9056901.0  11353265.0  10358554.0
+pb_any             NaN        NaN      2504.0      2340.0
+pb_nb2             NaN        NaN     77780.0     65677.0
+pb_q               NaN        NaN      3335.0       806.0
+pb_vis             NaN        NaN       449.0       148.0
+pb_vrmin           NaN        NaN     72880.0     80429.0
+qlast          10958.0  2296312.0    119375.0   1042419.0
+self_flag          NaN      338.0         NaN       326.0
+self_flag3         NaN     2770.0         NaN      2862.0
+self_has           NaN     3784.0         NaN      2271.0
+self_ok            NaN      671.0         NaN       206.0
+self_ratio         NaN     8017.0         NaN      4142.0
+
+-- ongoing [offlike]: share of true queued cells whose own on-ramp is switched off, by step --
+    true  true_flag   new  new_flag  flag_ev  flag_true  share_true_flagged  share_new_flagged  flag_precision
+h                                                                                                             
+1  59174       1325  1706        43     2304       1325               0.022              0.025           0.575
+2  58807       1323  2829        79     2319       1323               0.022              0.028           0.571
+3  57765       1351  3936       140     2311       1351               0.023              0.036           0.585
+4  56837       1369  4952       189     2383       1369               0.024              0.038           0.574
+5  55980       1470  6338       306     2493       1470               0.026              0.048           0.590
+6  54363       1451  8086       362     2441       1451               0.027              0.045           0.594
+
+== implied S_total gain = 0.15 x dIoU_onset + 0.15 x dIoU_ongoing (offlike, train in-scenario) ==
+     arm  d_onset  d_ongoing  S_total_gain  S_total_gain_vs_ctrl
+    base   0.0000     0.0000        0.0000                0.0018
+  R_self  -0.0303    -0.0200       -0.0075               -0.0057
+R_spread  -0.0681    -0.0417       -0.0165               -0.0147
+   R_map  -0.1031    -0.0943       -0.0296               -0.0278
+  S_ctrl  -0.0123     0.0003       -0.0018                0.0000
+  S_ramp  -0.0206     0.0088       -0.0018                0.0000
+    S_pb  -0.0262     0.0046       -0.0032               -0.0014
+  S_both  -0.0192     0.0130       -0.0009                0.0009
+[   175s] eval done in 175s
+[run_heavy] exit 0 after 176s

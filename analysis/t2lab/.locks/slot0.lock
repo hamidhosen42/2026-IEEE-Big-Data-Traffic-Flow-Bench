@@ -1,1 +1,1 @@
-80336 .venv/bin/python -u analysis/t1lab/t1div_report.py stand=xgb cands=base3,xgb2 ctrl=base3 ws=0.35 wx=0.7,0.8,1.0 wx2=0.35,0.5,0.6,0.7,0.8 wc= B=1000 out=_r3posthoc
+73140 ../../.venv/bin/python ogphys_report.py

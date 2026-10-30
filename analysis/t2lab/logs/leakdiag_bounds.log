@@ -1,0 +1,39 @@
+[run_heavy] slot acquired after 0s
+== oracle bounds (truth substituted on the cells a leak could see; production decode) ==
+         cond      set        arm    iou  d_base
+  queue_onset  offlike       base 0.8944  0.0000
+  queue_onset  offlike     O_ramp 0.9229  0.0285
+  queue_onset  offlike O_ramp_pm2 0.9670  0.0727
+  queue_onset  offlike       O_pb 0.9722  0.0778
+  queue_onset  offlike      O_all 1.0000  0.1056
+  queue_onset official       base 0.9455  0.0000
+  queue_onset official     O_ramp 0.9818  0.0363
+  queue_onset official O_ramp_pm2 0.9969  0.0513
+  queue_onset official       O_pb 0.9669  0.0213
+  queue_onset official      O_all 1.0000  0.0545
+queue_ongoing  offlike       base 0.8751  0.0000
+queue_ongoing  offlike     O_ramp 0.9034  0.0283
+queue_ongoing  offlike O_ramp_pm2 0.9612  0.0861
+queue_ongoing  offlike       O_pb 0.9780  0.1029
+queue_ongoing  offlike      O_all 1.0000  0.1249
+queue_ongoing official       base 0.8899  0.0000
+queue_ongoing official     O_ramp 0.9177  0.0278
+queue_ongoing official O_ramp_pm2 0.9641  0.0742
+queue_ongoing official       O_pb 0.9905  0.1006
+queue_ongoing official      O_all 1.0000  0.1101
+
+== share of the base model error cells (missed + false, scored cells) at cells a leak could see ==
+                        n_err  err_ramp  err_pm2  err_pb  err_ramp_share  err_pm2_share  err_pb_share
+cond          set                                                                                    
+queue_ongoing official    393        74      224     363           0.188          0.570         0.924
+              offlike   24521      5829    16116   21379           0.238          0.657         0.872
+queue_onset   official     15        10       14      13           0.667          0.933         0.867
+              offlike    1296       505     1088    1129           0.390          0.840         0.871
+
+== implied S_total ceilings (train offlike) ==
+       arm  d_onset  d_ongoing  S_total_gain
+    O_ramp   0.0285     0.0283        0.0085
+O_ramp_pm2   0.0727     0.0861        0.0238
+      O_pb   0.0778     0.1029        0.0271
+     O_all   0.1056     0.1249        0.0346
+[run_heavy] exit 0 after 4s

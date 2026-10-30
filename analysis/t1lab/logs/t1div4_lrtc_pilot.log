@@ -1,0 +1,106 @@
+[run_heavy] slot acquired after 0s
+[     1s] v (2, 5, 5) rmse 6.2991 (normalised it30 0.05734 it60 0.05728) 0.6s
+[     1s] v (2, 5, 10) rmse 5.8853 (normalised it30 0.05353 it60 0.05353) 0.7s
+[     2s] v (2, 5, 20) rmse 6.0596 (normalised it30 0.05544 it60 0.05545) 0.6s
+[     3s] v (2, 5, 40) rmse 6.6975 (normalised it30 0.06132 it60 0.06132) 0.6s
+[     3s] v (2, 10, 5) rmse 5.7342 (normalised it30 0.05216 it60 0.05207) 0.6s
+[     4s] v (2, 10, 10) rmse 5.2496 (normalised it30 0.04766 it60 0.04766) 0.6s
+[     4s] v (2, 10, 20) rmse 5.3597 (normalised it30 0.04896 it60 0.04896) 0.6s
+[     5s] v (2, 10, 40) rmse 5.9801 (normalised it30 0.05471 it60 0.05469) 0.6s
+[     6s] v (2, 20, 5) rmse 5.6964 (normalised it30 0.05180 it60 0.05163) 0.6s
+[     6s] v (2, 20, 10) rmse 5.1816 (normalised it30 0.04714 it60 0.04695) 0.6s
+[     7s] v (2, 20, 20) rmse 5.2551 (normalised it30 0.04818 it60 0.04786) 0.6s
+[     7s] v (2, 20, 40) rmse 6.0135 (normalised it30 0.05497 it60 0.05485) 0.6s
+[     8s] v (2, 40, 5) rmse 6.2072 (normalised it30 0.05657 it60 0.05608) 0.6s
+[     9s] v (2, 40, 10) rmse 5.7499 (normalised it30 0.05195 it60 0.05196) 0.6s
+[     9s] v (2, 40, 20) rmse 6.0382 (normalised it30 0.05472 it60 0.05501) 0.6s
+[    10s] v (2, 40, 40) rmse 6.9830 (normalised it30 0.06380 it60 0.06363) 0.6s
+[    10s] v (4, 5, 5) rmse 5.5269 (normalised it30 0.05030 it60 0.05026) 0.6s
+[    11s] v (4, 5, 10) rmse 4.9339 (normalised it30 0.04484 it60 0.04487) 0.6s
+[    12s] v (4, 5, 20) rmse 4.9887 (normalised it30 0.04546 it60 0.04568) 0.6s
+[    12s] v (4, 5, 40) rmse 5.5762 (normalised it30 0.05100 it60 0.05112) 0.6s
+[    13s] v (4, 10, 5) rmse 4.8801 (normalised it30 0.04440 it60 0.04429) 0.6s
+[    13s] v (4, 10, 10) rmse 4.1592 (normalised it30 0.03777 it60 0.03775) 0.6s
+[    14s] v (4, 10, 20) rmse 4.0333 (normalised it30 0.03686 it60 0.03683) 0.6s
+[    14s] v (4, 10, 40) rmse 4.5945 (normalised it30 0.04213 it60 0.04206) 0.6s
+[    15s] v (4, 20, 5) rmse 4.7710 (normalised it30 0.04344 it60 0.04314) 0.6s
+[    16s] v (4, 20, 10) rmse 3.9677 (normalised it30 0.03590 it60 0.03587) 0.6s
+[    16s] v (4, 20, 20) rmse 3.8204 (normalised it30 0.03463 it60 0.03476) 0.6s
+[    17s] v (4, 20, 40) rmse 4.4836 (normalised it30 0.04055 it60 0.04089) 0.6s
+[    17s] v (4, 40, 5) rmse 5.1694 (normalised it30 0.04689 it60 0.04656) 0.6s
+[    18s] v (4, 40, 10) rmse 4.2580 (normalised it30 0.03838 it60 0.03834) 0.6s
+[    19s] v (4, 40, 20) rmse 4.1793 (normalised it30 0.03791 it60 0.03798) 0.6s
+[    19s] v (4, 40, 40) rmse 5.6627 (normalised it30 0.04912 it60 0.05172) 0.6s
+[    20s] v (8, 5, 5) rmse 5.2193 (normalised it30 0.04752 it60 0.04744) 0.6s
+[    20s] v (8, 5, 10) rmse 4.5125 (normalised it30 0.04099 it60 0.04105) 0.6s
+[    21s] v (8, 5, 20) rmse 4.5364 (normalised it30 0.04141 it60 0.04171) 0.6s
+[    22s] v (8, 5, 40) rmse 5.1659 (normalised it30 0.04714 it60 0.04743) 0.6s
+[    22s] v (8, 10, 5) rmse 4.5239 (normalised it30 0.04123 it60 0.04104) 0.6s
+[    23s] v (8, 10, 10) rmse 3.6761 (normalised it30 0.03341 it60 0.03338) 0.6s
+[    23s] v (8, 10, 20) rmse 3.4385 (normalised it30 0.03163 it60 0.03155) 0.6s
+[    24s] v (8, 10, 40) rmse 3.9245 (normalised it30 0.03628 it60 0.03608) 0.6s
+[    25s] v (8, 20, 5) rmse 4.3390 (normalised it30 0.03950 it60 0.03920) 0.6s
+[    25s] v (8, 20, 10) rmse 3.3779 (normalised it30 0.03063 it60 0.03053) 0.6s
+[    26s] v (8, 20, 20) rmse 3.0578 (normalised it30 0.02779 it60 0.02795) 0.6s
+[    26s] v (8, 20, 40) rmse 3.6070 (normalised it30 0.03334 it60 0.03292) 0.6s
+[    27s] v (8, 40, 5) rmse 4.7174 (normalised it30 0.04281 it60 0.04239) 0.6s
+[    28s] v (8, 40, 10) rmse 3.6218 (normalised it30 0.03291 it60 0.03253) 0.6s
+[    28s] v (8, 40, 20) rmse 3.1214 (normalised it30 0.02965 it60 0.02854) 0.6s
+[    29s] v (8, 40, 40) rmse 4.7435 (normalised it30 0.04376 it60 0.04303) 0.6s
+[    29s] q (2, 5, 5) rmse 56.9565 (normalised it30 0.06347 it60 0.06347) 0.6s
+[    30s] q (2, 5, 10) rmse 55.5040 (normalised it30 0.06214 it60 0.06214) 0.6s
+[    31s] q (2, 5, 20) rmse 57.7035 (normalised it30 0.06499 it60 0.06497) 0.6s
+[    31s] q (2, 5, 40) rmse 61.9102 (normalised it30 0.06933 it60 0.06933) 0.6s
+[    32s] q (2, 10, 5) rmse 52.0913 (normalised it30 0.05780 it60 0.05779) 0.6s
+[    32s] q (2, 10, 10) rmse 50.2252 (normalised it30 0.05580 it60 0.05568) 0.6s
+[    33s] q (2, 10, 20) rmse 52.2420 (normalised it30 0.05856 it60 0.05851) 0.6s
+[    34s] q (2, 10, 40) rmse 56.2177 (normalised it30 0.06266 it60 0.06259) 0.6s
+[    34s] q (2, 20, 5) rmse 49.8639 (normalised it30 0.05513 it60 0.05513) 0.6s
+[    35s] q (2, 20, 10) rmse 47.8319 (normalised it30 0.05284 it60 0.05283) 0.6s
+[    35s] q (2, 20, 20) rmse 49.8708 (normalised it30 0.05555 it60 0.05557) 0.6s
+[    36s] q (2, 20, 40) rmse 54.0491 (normalised it30 0.05984 it60 0.05983) 0.6s
+[    37s] q (2, 40, 5) rmse 50.7080 (normalised it30 0.05632 it60 0.05629) 0.6s
+[    37s] q (2, 40, 10) rmse 48.3635 (normalised it30 0.05373 it60 0.05369) 0.6s
+[    38s] q (2, 40, 20) rmse 51.2125 (normalised it30 0.05729 it60 0.05739) 0.6s
+[    38s] q (2, 40, 40) rmse 56.7856 (normalised it30 0.06324 it60 0.06318) 0.6s
+[    39s] q (4, 5, 5) rmse 49.7340 (normalised it30 0.05534 it60 0.05535) 0.6s
+[    40s] q (4, 5, 10) rmse 47.8131 (normalised it30 0.05352 it60 0.05353) 0.6s
+[    40s] q (4, 5, 20) rmse 49.6836 (normalised it30 0.05610 it60 0.05606) 0.6s
+[    41s] q (4, 5, 40) rmse 52.9580 (normalised it30 0.05940 it60 0.05938) 0.6s
+[    41s] q (4, 10, 5) rmse 44.6426 (normalised it30 0.04932 it60 0.04928) 0.6s
+[    42s] q (4, 10, 10) rmse 41.9230 (normalised it30 0.04636 it60 0.04627) 0.6s
+[    43s] q (4, 10, 20) rmse 43.6492 (normalised it30 0.04884 it60 0.04874) 0.6s
+[    43s] q (4, 10, 40) rmse 46.6944 (normalised it30 0.05192 it60 0.05184) 0.6s
+[    44s] q (4, 20, 5) rmse 41.4875 (normalised it30 0.04562 it60 0.04547) 0.6s
+[    44s] q (4, 20, 10) rmse 38.7043 (normalised it30 0.04254 it60 0.04244) 0.6s
+[    45s] q (4, 20, 20) rmse 39.8951 (normalised it30 0.04436 it60 0.04425) 0.6s
+[    46s] q (4, 20, 40) rmse 42.9422 (normalised it30 0.04758 it60 0.04735) 0.6s
+[    46s] q (4, 40, 5) rmse 41.1569 (normalised it30 0.04531 it60 0.04509) 0.6s
+[    47s] q (4, 40, 10) rmse 37.8777 (normalised it30 0.04184 it60 0.04156) 0.6s
+[    47s] q (4, 40, 20) rmse 39.7779 (normalised it30 0.04452 it60 0.04421) 0.6s
+[    48s] q (4, 40, 40) rmse 45.8929 (normalised it30 0.04980 it60 0.05051) 0.6s
+[    49s] q (8, 5, 5) rmse 46.1638 (normalised it30 0.05137 it60 0.05141) 0.6s
+[    49s] q (8, 5, 10) rmse 43.5593 (normalised it30 0.04906 it60 0.04870) 0.7s
+[    50s] q (8, 5, 20) rmse 45.4624 (normalised it30 0.05139 it60 0.05144) 0.6s
+[    50s] q (8, 5, 40) rmse 48.7005 (normalised it30 0.05475 it60 0.05474) 0.6s
+[    51s] q (8, 10, 5) rmse 41.3509 (normalised it30 0.04544 it60 0.04548) 0.6s
+[    52s] q (8, 10, 10) rmse 37.9948 (normalised it30 0.04180 it60 0.04179) 0.6s
+[    52s] q (8, 10, 20) rmse 39.1677 (normalised it30 0.04373 it60 0.04355) 0.6s
+[    53s] q (8, 10, 40) rmse 41.9507 (normalised it30 0.04652 it60 0.04636) 0.6s
+[    53s] q (8, 20, 5) rmse 37.7795 (normalised it30 0.04141 it60 0.04131) 0.6s
+[    54s] q (8, 20, 10) rmse 34.3805 (normalised it30 0.03768 it60 0.03753) 0.6s
+[    55s] q (8, 20, 20) rmse 35.2895 (normalised it30 0.03914 it60 0.03890) 0.6s
+[    55s] q (8, 20, 40) rmse 37.8207 (normalised it30 0.04162 it60 0.04145) 0.6s
+[    56s] q (8, 40, 5) rmse 36.8765 (normalised it30 0.04035 it60 0.04026) 0.6s
+[    56s] q (8, 40, 10) rmse 33.0244 (normalised it30 0.03619 it60 0.03602) 0.6s
+[    57s] q (8, 40, 20) rmse 34.8730 (normalised it30 0.03822 it60 0.03842) 0.6s
+[    58s] q (8, 40, 40) rmse 38.0303 (normalised it30 0.04137 it60 0.04164) 0.6s
+[    58s] reference v pw41 rmse 14.4177
+[    58s] reference v init rmse 12.3445
+[    58s] reference q pw41 rmse 115.3423
+[    58s] reference q init rmse 157.8504
+[    58s] CHOSEN v [8, 20, 20] rmse 3.0578
+[    58s] CHOSEN q [8, 40, 10] rmse 33.0244
+[    58s] pilot -> /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/t1div/lrtc_pilot.json
+[    58s] done
+[run_heavy] exit 0 after 59s

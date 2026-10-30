@@ -1,0 +1,58 @@
+[run_heavy] slot acquired after 0s
+[     1s] {'panel': 'D7_I10_E', 'onset_windows': 25, 'ongoing_windows': 41, 'march_ramp_links': 47, 'share_with_train_table': 0.77, 'sec': 1}
+[     1s] {'panel': 'D7_I10_W', 'onset_windows': 21, 'ongoing_windows': 16, 'march_ramp_links': 49, 'share_with_train_table': 0.9, 'sec': 0}
+[     2s] {'panel': 'D7_I210_E', 'onset_windows': 27, 'ongoing_windows': 27, 'march_ramp_links': 19, 'share_with_train_table': 0.53, 'sec': 1}
+[     3s] {'panel': 'D7_I210_W', 'onset_windows': 32, 'ongoing_windows': 46, 'march_ramp_links': 42, 'share_with_train_table': 0.88, 'sec': 0}
+[     4s] {'panel': 'D7_I405_N', 'onset_windows': 35, 'ongoing_windows': 51, 'march_ramp_links': 35, 'share_with_train_table': 0.74, 'sec': 1}
+[     5s] {'panel': 'D7_I405_S', 'onset_windows': 27, 'ongoing_windows': 42, 'march_ramp_links': 52, 'share_with_train_table': 0.88, 'sec': 1}
+[     6s] {'panel': 'D12_I5_N', 'onset_windows': 21, 'ongoing_windows': 34, 'march_ramp_links': 26, 'share_with_train_table': 0.58, 'sec': 1}
+[     6s] {'panel': 'D12_I5_S', 'onset_windows': 26, 'ongoing_windows': 41, 'march_ramp_links': 36, 'share_with_train_table': 0.89, 'sec': 0}
+    panel  onset_windows  ongoing_windows  march_ramp_links  share_with_train_table  sec
+ D7_I10_E             25               41                47                    0.77    1
+ D7_I10_W             21               16                49                    0.90    0
+D7_I210_E             27               27                19                    0.53    1
+D7_I210_W             32               46                42                    0.88    0
+D7_I405_N             35               51                35                    0.74    1
+D7_I405_S             27               42                52                    0.88    1
+ D12_I5_N             21               34                26                    0.58    1
+ D12_I5_S             26               41                36                    0.89    0
+
+== pseudo-March queue_onset: IoU and delta vs base (production-like) ==
+       cond    set             arm   n    iou  d_base     s1     s2     s3     s4     s5     s6      lo      hi
+queue_onset pmarch            base 214 0.7875  0.0000 0.9922 0.9922 0.9837 0.9797 0.9801 0.7967     NaN     NaN
+queue_onset pmarch          R_self 214 0.7783 -0.0093 0.9922 0.9922 0.9837 0.9797 0.9801 0.7874 -0.0165 -0.0030
+queue_onset pmarch        R_spread 214 0.7646 -0.0229 0.9922 0.9922 0.9837 0.9797 0.9801 0.7738 -0.0402 -0.0075
+queue_onset pmarch           R_map 214 0.7436 -0.0439 0.9922 0.9922 0.9837 0.9797 0.9801 0.7528 -0.0700 -0.0191
+queue_onset pmarch          S_ctrl 214 0.7879  0.0004 0.9922 0.9922 0.9837 0.9797 0.9801 0.7978 -0.0171  0.0203
+queue_onset pmarch          S_ramp 214 0.7738 -0.0137 0.9922 0.9922 0.9837 0.9797 0.9801 0.7837 -0.0348  0.0059
+queue_onset pmarch            S_pb 214 0.7761 -0.0114 0.9922 0.9922 0.9837 0.9797 0.9801 0.7866 -0.0336  0.0092
+queue_onset pmarch          S_both 214 0.7869 -0.0006 0.9922 0.9922 0.9837 0.9797 0.9801 0.7955 -0.0267  0.0224
+queue_onset pmarch base_trainprior 214 0.7140 -0.0735 0.9922 0.9922 0.9837 0.9797 0.9801 0.7200 -0.1133 -0.0357
+
+-- pseudo-March onset location reveal (214 windows) --
+share of windows: {'on_ramp_link': 0.35, 'ramp_usable': 0.154, 'self_flag': 0.005, 'flag_within2': 0.028, 'map_reveal': 0.047, 'pb_reveal': 0.696}
+mean share of true T+30 cells: own ramp switched off 0.002 | within +-2 0.018 | post-buffer queued 0.631 | flag precision 0.05
+
+== pseudo-March queue_ongoing: IoU and delta vs base (production-like) ==
+         cond    set      arm   n    iou  d_base     s1     s2     s3     s4     s5     s6      lo      hi
+queue_ongoing pmarch     base 298 0.8178  0.0000 0.9265 0.8846 0.8535 0.8146 0.7832 0.7294     NaN     NaN
+queue_ongoing pmarch   R_self 298 0.7995 -0.0183 0.8971 0.8642 0.8304 0.7989 0.7723 0.7187 -0.0236 -0.0129
+queue_ongoing pmarch R_spread 298 0.7812 -0.0366 0.8688 0.8453 0.8158 0.7859 0.7622 0.7022 -0.0457 -0.0289
+queue_ongoing pmarch    R_map 298 0.7454 -0.0724 0.8430 0.8209 0.8005 0.7676 0.7498 0.7025 -0.0898 -0.0558
+queue_ongoing pmarch   S_ctrl 298 0.8129 -0.0048 0.9256 0.8905 0.8598 0.8163 0.7703 0.7235 -0.0091 -0.0010
+queue_ongoing pmarch   S_ramp 298 0.8153 -0.0025 0.9279 0.8893 0.8514 0.8217 0.7846 0.7229 -0.0096  0.0053
+queue_ongoing pmarch     S_pb 298 0.8262  0.0084 0.9291 0.8957 0.8637 0.8247 0.7898 0.7505  0.0031  0.0138
+queue_ongoing pmarch   S_both 298 0.8295  0.0118 0.9315 0.8986 0.8670 0.8372 0.8056 0.7468  0.0043  0.0201
+
+== pseudo-March: implied S_total gain = 0.15 x dIoU_onset + 0.15 x dIoU_ongoing ==
+     arm  iou_onset  iou_ongoing  d_onset  d_ongoing  S_total_gain
+    base     0.7875       0.8178   0.0000     0.0000        0.0000
+  R_self     0.7783       0.7995  -0.0093    -0.0183       -0.0041
+R_spread     0.7646       0.7812  -0.0229    -0.0366       -0.0089
+   R_map     0.7436       0.7454  -0.0439    -0.0724       -0.0174
+  S_ctrl     0.7879       0.8129   0.0004    -0.0048       -0.0007
+  S_ramp     0.7738       0.8153  -0.0137    -0.0025       -0.0024
+    S_pb     0.7761       0.8262  -0.0114     0.0084       -0.0005
+  S_both     0.7869       0.8295  -0.0006     0.0118        0.0017
+[    57s] pmarch done in 57s
+[run_heavy] exit 0 after 58s

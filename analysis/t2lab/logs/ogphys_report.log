@@ -1,0 +1,53 @@
+[run_heavy] slot acquired after 0s
+
+========== occF
+gain share of the new columns (np, fold 0): {'vT_fill': 0.3415, 'qT_fill': 0.0666, 'dvT_nb': 0.0144, 'fr_T': 0.0004, 'dfr_T': 0.0013, 'share_qTf': 0.0086, 'dqf_hi': 0.0916, 'dqf_lo': 0.0016} | total 0.5261
+
+========== occG
+gain share of the new columns (np, fold 0): {'c_N': 0.0076, 'c_dN15': 0.0064, 'c_dN30': 0.0123, 'c_jl_now': 0.0037, 'c_jl_star': 0.0031, 'c_jl_gap': 0.0032, 'g_cum_km': 0.0057, 'g_jl_now': 0.0081, 'g_jl_star': 0.006, 'g_margin': 0.0092, 'g_dN15': 0.0111, 'g_dN30': 0.0071} | total 0.0835
+
+========== occGd
+gain share of the new columns (np, fold 0): {'c_N': 0.0074, 'c_dN15': 0.0051, 'c_dN30': 0.009, 'c_jl_now': 0.0035, 'c_jl_star': 0.0037, 'c_jl_gap': 0.0035, 'g_cum_km': 0.005, 'g_jl_now': 0.0091, 'g_jl_star': 0.0058, 'g_margin': 0.0107, 'g_dN15': 0.0201, 'g_dN30': 0.0159} | total 0.099
+                     cmp        set    n   base    new    diff      lo     hi panels_pos    d_h6  d_fn_new  d_fp_old
+      occF[np] train OOF   official   40 0.8921 0.8880 -0.0041 -0.0110 0.0021        2/8 -0.0260   -0.0006    0.0032
+      occF[np] train OOF    offlike 1473 0.8821 0.8823  0.0002 -0.0017 0.0020        5/8 -0.0007   -0.0001   -0.0014
+      occF[np] train OOF     pseudo 1055 0.8503 0.8559  0.0056  0.0017 0.0095        5/8  0.0180   -0.0001   -0.0022
+   occF[np] pseudo-March  offlike_m  298 0.8262 0.8281  0.0020 -0.0052 0.0098        6/8  0.0176    0.0014    0.0008
+   occF[np] pseudo-March runstart_m 1124 0.8757 0.8768  0.0010 -0.0019 0.0044        6/8  0.0074   -0.0001   -0.0003
+    occF[npid] train OOF   official   40 0.8958 0.8932 -0.0026 -0.0084 0.0023        2/8 -0.0300   -0.0001    0.0010
+    occF[npid] train OOF    offlike 1473 0.8862 0.8862  0.0001 -0.0018 0.0018        5/8  0.0015   -0.0003   -0.0009
+    occF[npid] train OOF     pseudo 1055 0.8598 0.8601  0.0003 -0.0020 0.0025        4/8 -0.0035   -0.0004   -0.0006
+ occF[npid] pseudo-March  offlike_m  298 0.8273 0.8306  0.0033 -0.0030 0.0107        6/8  0.0116    0.0013   -0.0002
+ occF[npid] pseudo-March runstart_m 1124 0.8779 0.8795  0.0015 -0.0013 0.0048        5/8  0.0007   -0.0003   -0.0008
+      occG[np] train OOF   official   40 0.8921 0.9031  0.0111  0.0023 0.0208        7/8  0.0367    0.0009   -0.0081
+      occG[np] train OOF    offlike 1473 0.8821 0.8937  0.0116  0.0084 0.0149        8/8  0.0363   -0.0008   -0.0092
+      occG[np] train OOF     pseudo 1055 0.8503 0.8751  0.0248  0.0183 0.0311        8/8  0.1252   -0.0011   -0.0168
+   occG[np] pseudo-March  offlike_m  298 0.8262 0.8362  0.0100  0.0032 0.0172        5/8  0.0404   -0.0019   -0.0070
+   occG[np] pseudo-March runstart_m 1124 0.8757 0.8824  0.0067  0.0026 0.0110        5/8  0.0316   -0.0024   -0.0032
+    occG[npid] train OOF   official   40 0.8958 0.9022  0.0064 -0.0021 0.0160        5/8  0.0277    0.0018   -0.0088
+    occG[npid] train OOF    offlike 1473 0.8862 0.8950  0.0088  0.0054 0.0120        7/8  0.0310   -0.0000   -0.0074
+    occG[npid] train OOF     pseudo 1055 0.8598 0.8783  0.0186  0.0094 0.0277        8/8  0.1067   -0.0011   -0.0140
+ occG[npid] pseudo-March  offlike_m  298 0.8273 0.8367  0.0094  0.0017 0.0174        5/8  0.0418   -0.0018   -0.0073
+ occG[npid] pseudo-March runstart_m 1124 0.8779 0.8831  0.0052  0.0008 0.0097        4/8  0.0276   -0.0024   -0.0034
+     occGd[np] train OOF   official   40 0.8921 0.9043  0.0123  0.0039 0.0218        7/8  0.0348   -0.0012   -0.0074
+     occGd[np] train OOF    offlike 1473 0.8821 0.8922  0.0102  0.0064 0.0138        8/8  0.0350   -0.0002   -0.0085
+     occGd[np] train OOF     pseudo 1055 0.8503 0.8822  0.0319  0.0186 0.0452        8/8  0.1290   -0.0012   -0.0241
+  occGd[np] pseudo-March  offlike_m  298 0.8262 0.8341  0.0079  0.0006 0.0152        5/8  0.0358   -0.0019   -0.0053
+  occGd[np] pseudo-March runstart_m 1124 0.8757 0.8833  0.0075  0.0034 0.0119        6/8  0.0277   -0.0027   -0.0035
+   occGd[npid] train OOF   official   40 0.8958 0.9010  0.0052 -0.0065 0.0178        6/8  0.0216    0.0017   -0.0060
+   occGd[npid] train OOF    offlike 1473 0.8862 0.8938  0.0076  0.0039 0.0113        7/8  0.0288    0.0006   -0.0071
+   occGd[npid] train OOF     pseudo 1055 0.8598 0.8874  0.0277  0.0097 0.0457        8/8  0.1088   -0.0015   -0.0231
+occGd[npid] pseudo-March  offlike_m  298 0.8273 0.8374  0.0102  0.0029 0.0179        6/8  0.0426   -0.0019   -0.0046
+occGd[npid] pseudo-March runstart_m 1124 0.8779 0.8859  0.0079  0.0036 0.0125        7/8  0.0250   -0.0030   -0.0029
+
+===== FM-PM (PRE-REGISTERED gate on the np + id rows: validation >= +0.0015 AND private >= +0.0005)
+  arm decisions  binding  validation_win  validation_cells  validation_dn  validation_addout  validation_fm_lb  private_win  private_cells  private_dn  private_addout  private_fm_lb  PASS
+ occF        np    False              25                91              5                 21           0.00024           25             82         -16              11       -0.00034 False
+ occF      npid     True              26                84             -6                 19           0.00059           23             85          -9              11        0.00015 False
+ occG        np    False              26               180            -72                 40          -0.00035           30            193         -41              21        0.00071 False
+ occG      npid     True              28               150            -70                 30          -0.00043           31            192         -36              23        0.00094 False
+occGd        np    False              29               188            -80                 41           0.00101           30            214         -66              21        0.00037 False
+occGd      npid     True              27               159            -89                 25           0.00151           30            205         -39              26       -0.00002 False
+
+GATE: {'occF': False, 'occG': False, 'occGd': False}
+[run_heavy] exit 0 after 15s

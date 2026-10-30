@@ -77,3 +77,5 @@ Rebuild: `.venv/bin/python kaggle_jobs/build_all_notebooks.py`.
 | 69 | 2026-10-16 | 69_K4__LB0.88201.ipynb | `tfb-k4` | 0.88201 | K4: FINAL CANDIDATE B (hedge) on tfb-k3 (2 CatBoost seeds): April onset = production CatBoost with the train prior; April ongoing = veto10;  |
 | 70 | 2026-10-16 | 70_K5__LB0.88225.ipynb | `tfb-k5` | 0.88225 | K5: tfb-k3 + T1 XGBoost FD member (W 0.35; lab J +0.00056 8/8, control-adjusted +0.00061); blackout specialist, recon + TV unchanged |
 | 71 | 2026-10-16 | 71_K6__LB0.88225.ipynb | `tfb-k6` | 0.88225 | K6: FINAL CANDIDATE B (hedge) on tfb-k5 (XGBoost T1): April onset = production CatBoost with the train prior; April ongoing = veto10; March  |
+| 72 | 2026-10-29 | 72_K7__LB0.88259.ipynb | `tfb-k7` | 0.88259 | K7: tfb-k5 + flow-only low-rank tensor completion member (W 0.35, ordinary rows); recon + TV |
+| 73 | 2026-10-29 | 73_K8__LB0.88259.ipynb | `tfb-k8` | 0.88259 | K8: FINAL CANDIDATE B (hedge) on tfb-k7: April onset = train-prior CatBoost; April ongoing = veto10; March rows unchanged |

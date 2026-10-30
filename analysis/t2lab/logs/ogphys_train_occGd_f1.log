@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 5s
+[     0s] DONE ['none']
+[   190s] occGd_np255 fold 1: 5840595 rows x 83 cols, pos 0.270, trained in 190s
+[   201s] occGd_np255 fold 1: official nan (n=0), offlike 0.8922 (n=747), pseudo 0.8836 (n=530)
+[   383s] occGd_id255 fold 1: 5840595 rows x 89 cols, pos 0.270, trained in 182s
+[   394s] occGd_id255 fold 1: official nan (n=0), offlike 0.8952 (n=747), pseudo 0.8924 (n=530)
+[   394s] DONE ['train', 'occGd', '1'] 394s
+[run_heavy] exit 0 after 400s

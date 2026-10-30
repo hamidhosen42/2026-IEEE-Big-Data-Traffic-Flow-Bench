@@ -1,0 +1,8 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[   208s] occG_np255 fold 0: 6073676 rows x 83 cols, pos 0.269, trained in 208s
+[   220s] occG_np255 fold 0: official 0.9031 (n=40), offlike 0.8945 (n=726), pseudo 0.8905 (n=525)
+[   431s] occG_id255 fold 0: 6073676 rows x 89 cols, pos 0.269, trained in 211s
+[   443s] occG_id255 fold 0: official 0.9043 (n=40), offlike 0.8954 (n=726), pseudo 0.8944 (n=525)
+[   443s] DONE ['train', 'occG', '0'] 443s
+[run_heavy] exit 0 after 445s

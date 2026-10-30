@@ -1,0 +1,60 @@
+[run_heavy] slot acquired after 0s
+[     0s] ranks {'v': (8, 20, 20), 'q': (8, 20, 10)} iters 60
+[     1s]   D12_I5_S f0 validation_blk   lrtc  rmse v 12.349 q/lane 90.59
+[     1s]   D12_I5_S f0 validation_ord   lrtc  rmse v 2.539 q/lane 30.32
+[     1s] D12_I5_S fold 0 validation 1s
+[     2s]   D12_I5_S f0 private_blk      lrtc  rmse v 12.168 q/lane 89.43
+[     2s]   D12_I5_S f0 private_ord      lrtc  rmse v 3.209 q/lane 34.49
+[     2s] D12_I5_S fold 0 private 1s
+[     2s] saved D12_I5_S_f0_lrtc_t20.npz
+[     4s]   D12_I5_S f1 validation_blk   lrtc  rmse v 9.778 q/lane 69.21
+[     4s]   D12_I5_S f1 validation_ord   lrtc  rmse v 2.563 q/lane 30.45
+[     4s] D12_I5_S fold 1 validation 1s
+[     5s]   D12_I5_S f1 private_blk      lrtc  rmse v 10.480 q/lane 80.18
+[     5s]   D12_I5_S f1 private_ord      lrtc  rmse v 3.139 q/lane 34.70
+[     5s] D12_I5_S fold 1 private 1s
+[     5s] saved D12_I5_S_f1_lrtc_t20.npz
+[     6s]   D7_I10_E f0 validation_blk   lrtc  rmse v 9.443 q/lane 126.92
+[     6s]   D7_I10_E f0 validation_ord   lrtc  rmse v 2.613 q/lane 34.82
+[     6s] D7_I10_E fold 0 validation 2s
+[     8s]   D7_I10_E f0 private_blk      lrtc  rmse v 11.699 q/lane 106.86
+[     8s]   D7_I10_E f0 private_ord      lrtc  rmse v 2.558 q/lane 29.89
+[     8s] D7_I10_E fold 0 private 2s
+[     8s] saved D7_I10_E_f0_lrtc_t20.npz
+[    10s]   D7_I10_E f1 validation_blk   lrtc  rmse v 10.291 q/lane 119.27
+[    10s]   D7_I10_E f1 validation_ord   lrtc  rmse v 2.461 q/lane 33.43
+[    10s] D7_I10_E fold 1 validation 2s
+[    11s]   D7_I10_E f1 private_blk      lrtc  rmse v 11.658 q/lane 144.88
+[    11s]   D7_I10_E f1 private_ord      lrtc  rmse v 2.432 q/lane 30.04
+[    11s] D7_I10_E fold 1 private 2s
+[    11s] saved D7_I10_E_f1_lrtc_t20.npz
+[    12s]   D7_I210_W f0 validation_blk   lrtc  rmse v 8.748 q/lane 110.87
+[    12s]   D7_I210_W f0 validation_ord   lrtc  rmse v 3.448 q/lane 31.44
+[    12s] D7_I210_W fold 0 validation 1s
+[    13s]   D7_I210_W f0 private_blk      lrtc  rmse v 13.556 q/lane 146.92
+[    13s]   D7_I210_W f0 private_ord      lrtc  rmse v 2.932 q/lane 32.45
+[    13s] D7_I210_W fold 0 private 1s
+[    13s] saved D7_I210_W_f0_lrtc_t20.npz
+[    14s]   D7_I210_W f1 validation_blk   lrtc  rmse v 8.223 q/lane 137.42
+[    14s]   D7_I210_W f1 validation_ord   lrtc  rmse v 3.547 q/lane 31.94
+[    14s] D7_I210_W fold 1 validation 1s
+[    15s]   D7_I210_W f1 private_blk      lrtc  rmse v 6.473 q/lane 121.66
+[    15s]   D7_I210_W f1 private_ord      lrtc  rmse v 3.013 q/lane 32.47
+[    15s] D7_I210_W fold 1 private 1s
+[    15s] saved D7_I210_W_f1_lrtc_t20.npz
+[    17s]   D7_I405_S f0 validation_blk   lrtc  rmse v 11.893 q/lane 135.39
+[    17s]   D7_I405_S f0 validation_ord   lrtc  rmse v 3.359 q/lane 35.57
+[    17s] D7_I405_S fold 0 validation 1s
+[    18s]   D7_I405_S f0 private_blk      lrtc  rmse v 13.195 q/lane 86.28
+[    18s]   D7_I405_S f0 private_ord      lrtc  rmse v 3.575 q/lane 35.96
+[    18s] D7_I405_S fold 0 private 1s
+[    18s] saved D7_I405_S_f0_lrtc_t20.npz
+[    19s]   D7_I405_S f1 validation_blk   lrtc  rmse v 13.514 q/lane 114.91
+[    19s]   D7_I405_S f1 validation_ord   lrtc  rmse v 3.442 q/lane 35.12
+[    19s] D7_I405_S fold 1 validation 1s
+[    21s]   D7_I405_S f1 private_blk      lrtc  rmse v 14.185 q/lane 145.72
+[    21s]   D7_I405_S f1 private_ord      lrtc  rmse v 3.620 q/lane 35.71
+[    21s] D7_I405_S fold 1 private 1s
+[    21s] saved D7_I405_S_f1_lrtc_t20.npz
+[    21s] done
+[run_heavy] exit 0 after 22s

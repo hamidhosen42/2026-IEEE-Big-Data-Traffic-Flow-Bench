@@ -1,0 +1,5 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[    13s] off saved {'n_og': {'private': 5.0, 'validation': 5.0}, 'FT_vis': {'private': 0.599, 'validation': 0.57}, 'VT_vis': {'private': 0.599, 'validation': 0.57}}
+[    13s] DONE ['off'] 13s
+[run_heavy] exit 0 after 13s

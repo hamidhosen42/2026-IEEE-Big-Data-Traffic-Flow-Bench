@@ -1,0 +1,10 @@
+g72 windows per split and condition: {('private', 'queue_ongoing'): 0, ('private', 'queue_onset'): 0, ('validation', 'queue_ongoing'): 0, ('validation', 'queue_onset'): 0}
+PART tfb-t2osp/queue_submission_base.csv cond=queue_onset split=private windows=any: rows 12 | changed 12 share 1.00000 | positives 0 -> 12
+  validation: changed rows 0
+  private: changed rows 12
+PART tfb-t2ogveto/queue_submission_veto10.csv cond=queue_ongoing split=private windows=any: rows 12 | changed 12 share 1.00000 | positives 0 -> 12
+  validation: changed rows 0
+  private: changed rows 12
+TOTAL changed rows: validation 0 | private 24
+K8 OK 53
+K8 SWAP FUNCTION TEST PASSED (private onset + ongoing rows swapped, validation / state / path rows unchanged)

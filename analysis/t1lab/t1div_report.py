@@ -16,6 +16,8 @@ Round 3 (10-17, EXP_T1_DIV3): stand=xgb -> m1 = (1 - wstand) mean(base, base2) +
 (= production steps 1-3). Extra arms with stand=xgb: xgb2m@0.175 (xgb -> mean(xgb, xgb2), needs cand xgb2; control
 base3@0.175 added automatically when ctrl=base3), weight arms wx@v (XGBoost weight -> v, v in WX) and wc@v (CatBoost weight
 -> v, v in WC); POST-HOC info arms wx2@v (mean(xgb, xgb2) at XGBoost weight v) and wx@v beyond the pre-registered grid; weight arms use the weight gate (dJ >= +0.0002, CI lo > 0, >= 7/8, no control); member arms the member gate.
+Round 4 (10-30, EXP_T1_DIV4): candidate names ending in 'Q' (lrtcQ, pw41Q) load the member file without the 'Q' and replace
+the member's speed by the stand-in mix speed (flow-only blend); all other candidates are unchanged.
 Usage: t1div_report.py [cands=catb,unet,base3] [B=2000] [tag=] [stand=lgb2|catb|fta] [wstand=0.35] [ctrl=base3] [out=]
 """
 import json, os, sys
@@ -47,6 +49,11 @@ GATE, A_, LOGR = sw.GATE, sw.A, sw.LOGR_MAX
 
 
 # ------------------------------------------------------------------ recon + TV on evaluation cells (swap_fdrecon formulas)
+def fname(c):
+    """member file name of candidate c (round 4: a trailing 'Q' = flow-only variant of the same member file)."""
+    return c[:-1] if c.endswith('Q') else c
+
+
 def fd_station(st):
     ln = np.clip(st.lanes.to_numpy(float), 1.0, None); vf = st.vf.to_numpy(float); cap = st.cap.to_numpy(float)
     kc = cap / np.clip(vf, 1, None); kj = st.k_jam.to_numpy(float); kj = np.where(np.isfinite(kj), kj, 100.0 * ln)
@@ -197,11 +204,14 @@ def panel_tables(panel):
             P = {a: (np.concatenate([s0[f'{a}|{k}|v'] for k in keys]).astype(float),
                      np.concatenate([s0[f'{a}|{k}|q'] for k in keys]).astype(float)) for a in ('base', 'base2', 'bs')}
             for c in LOAD:
-                f = f'{L.RES}/{panel}_f{fold}_{c}{kw.get("tag", "")}.npz'
+                f = f'{L.RES}/{panel}_f{fold}_{fname(c)}{kw.get("tag", "")}.npz'
                 if os.path.exists(f):
                     zc = np.load(f, allow_pickle=True)
                     P[c] = (np.concatenate([zc[f'{k}|v'] for k in keys]).astype(float), np.concatenate([zc[f'{k}|q'] for k in keys]).astype(float))
             P['is_blk'] = is_blk
+            for c in LOAD:                                   # round 4: flow-only variants take the stand-in mix speed
+                if c.endswith('Q') and c in P:
+                    P[c] = (stand_mix(P)[0], P[c][1])
             # raw member RMSE + error correlation with the mix (diversity)
             mixv = stand_mix(P)[0]
             for kind, m in (('blk', is_blk), ('ord', ~is_blk)):
@@ -287,7 +297,7 @@ def comp(X, a_blk, a_ord, wb=None, wo=None):
 def main():
     data, raws = {}, []
     for p in L.PANELS:
-        if not all(os.path.exists(f'{L.RES}/{p}_f{f}_{c}{kw.get("tag", "")}.npz') for f in (0, 1) for c in LOAD):
+        if not all(os.path.exists(f'{L.RES}/{p}_f{f}_{fname(c)}{kw.get("tag", "")}.npz') for f in (0, 1) for c in LOAD):
             print('missing candidate files for', p, '- skipped'); continue
         data[p], rr = panel_tables(p); raws += rr
         print('tables', p, flush=True)

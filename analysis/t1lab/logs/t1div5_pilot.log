@@ -1,0 +1,143 @@
+[run_heavy] slot acquired after 0s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+[     1s] lrtc2r (12, 20, 5) q/lane rmse 36.937 0.6s
+[     1s] lrtc2r (12, 20, 10) q/lane rmse 32.902 0.6s
+[     2s] lrtc2r (12, 20, 20) q/lane rmse 33.577 0.6s
+[     2s] lrtc2r (12, 40, 5) q/lane rmse 35.994 0.6s
+[     3s] lrtc2r (12, 40, 10) q/lane rmse 31.509 0.6s
+[     3s] lrtc2r (12, 40, 20) q/lane rmse 32.539 0.6s
+[     4s] lrtc2r (12, 60, 5) q/lane rmse 37.187 0.6s
+[     5s] lrtc2r (12, 60, 10) q/lane rmse 31.981 0.6s
+[     5s] lrtc2r (12, 60, 20) q/lane rmse 35.525 0.6s
+[     6s] lrtc2r (16, 20, 5) q/lane rmse 36.447 0.6s
+[     6s] lrtc2r (16, 20, 10) q/lane rmse 32.114 0.6s
+[     7s] lrtc2r (16, 20, 20) q/lane rmse 32.599 0.6s
+[     7s] lrtc2r (16, 40, 5) q/lane rmse 35.293 0.6s
+[     8s] lrtc2r (16, 40, 10) q/lane rmse 30.001 0.6s
+[     9s] lrtc2r (16, 40, 20) q/lane rmse 31.458 0.6s
+[     9s] lrtc2r (16, 60, 5) q/lane rmse 36.256 0.6s
+[    10s] lrtc2r (16, 60, 10) q/lane rmse 30.186 0.6s
+[    10s] lrtc2r (16, 60, 20) q/lane rmse 32.773 0.6s
+[    11s] lrtc2r (24, 20, 5) q/lane rmse 36.742 0.6s
+[    11s] lrtc2r (24, 20, 10) q/lane rmse 31.952 0.6s
+[    12s] lrtc2r (24, 20, 20) q/lane rmse 32.603 0.6s
+[    13s] lrtc2r (24, 40, 5) q/lane rmse 35.385 0.6s
+[    13s] lrtc2r (24, 40, 10) q/lane rmse 29.221 0.6s
+[    14s] lrtc2r (24, 40, 20) q/lane rmse 29.888 0.6s
+[    14s] lrtc2r (24, 60, 5) q/lane rmse 36.625 0.6s
+[    15s] lrtc2r (24, 60, 10) q/lane rmse 29.246 0.6s
+[    16s] lrtc2r (24, 60, 20) q/lane rmse 30.745 0.6s
+[    16s] lrtcK (2, 5, 5) k/lane rmse 2.6217
+[    17s] lrtcK (2, 5, 10) k/lane rmse 2.4289
+[    17s] lrtcK (2, 5, 20) k/lane rmse 2.4841
+[    18s] lrtcK (2, 5, 40) k/lane rmse 2.7577
+[    18s] lrtcK (2, 10, 5) k/lane rmse 2.3596
+[    19s] lrtcK (2, 10, 10) k/lane rmse 2.1520
+[    19s] lrtcK (2, 10, 20) k/lane rmse 2.1826
+[    20s] lrtcK (2, 10, 40) k/lane rmse 2.4383
+[    20s] lrtcK (2, 20, 5) k/lane rmse 2.4005
+[    21s] lrtcK (2, 20, 10) k/lane rmse 2.1566
+[    21s] lrtcK (2, 20, 20) k/lane rmse 2.1944
+[    22s] lrtcK (2, 20, 40) k/lane rmse 2.5456
+[    23s] lrtcK (2, 40, 5) k/lane rmse 2.6286
+[    23s] lrtcK (2, 40, 10) k/lane rmse 2.3941
+[    24s] lrtcK (2, 40, 20) k/lane rmse 2.5819
+[    24s] lrtcK (2, 40, 40) k/lane rmse 3.1817
+[    25s] lrtcK (4, 5, 5) k/lane rmse 2.3215
+[    25s] lrtcK (4, 5, 10) k/lane rmse 2.0489
+[    26s] lrtcK (4, 5, 20) k/lane rmse 2.0806
+[    26s] lrtcK (4, 5, 40) k/lane rmse 2.3052
+[    27s] lrtcK (4, 10, 5) k/lane rmse 2.0399
+[    27s] lrtcK (4, 10, 10) k/lane rmse 1.7168
+[    28s] lrtcK (4, 10, 20) k/lane rmse 1.7126
+[    29s] lrtcK (4, 10, 40) k/lane rmse 1.9586
+[    29s] lrtcK (4, 20, 5) k/lane rmse 2.0694
+[    30s] lrtcK (4, 20, 10) k/lane rmse 1.6526
+[    30s] lrtcK (4, 20, 20) k/lane rmse 1.6772
+[    31s] lrtcK (4, 20, 40) k/lane rmse 2.0355
+[    31s] lrtcK (4, 40, 5) k/lane rmse 2.2175
+[    32s] lrtcK (4, 40, 10) k/lane rmse 1.7863
+[    33s] lrtcK (4, 40, 20) k/lane rmse 1.9443
+[    33s] lrtcK (4, 40, 40) k/lane rmse 2.5569
+[    34s] lrtcK (8, 5, 5) k/lane rmse 2.1839
+[    34s] lrtcK (8, 5, 10) k/lane rmse 1.8327
+[    35s] lrtcK (8, 5, 20) k/lane rmse 1.8600
+[    35s] lrtcK (8, 5, 40) k/lane rmse 2.0920
+[    36s] lrtcK (8, 10, 5) k/lane rmse 1.8321
+[    36s] lrtcK (8, 10, 10) k/lane rmse 1.4642
+[    37s] lrtcK (8, 10, 20) k/lane rmse 1.3593
+[    38s] lrtcK (8, 10, 40) k/lane rmse 1.5448
+[    38s] lrtcK (8, 20, 5) k/lane rmse 1.8137
+[    39s] lrtcK (8, 20, 10) k/lane rmse 1.3162
+[    39s] lrtcK (8, 20, 20) k/lane rmse 1.2691
+[    40s] lrtcK (8, 20, 40) k/lane rmse 1.4571
+[    41s] lrtcK (8, 40, 5) k/lane rmse 1.9729
+[    41s] lrtcK (8, 40, 10) k/lane rmse 1.3425
+[    42s] lrtcK (8, 40, 20) k/lane rmse 1.5494
+[    42s] lrtcK (8, 40, 40) k/lane rmse 1.9143
+[    43s] lrtcL (2, 5, 5) q/lane rmse 73.736
+[    43s] lrtcL (2, 5, 10) q/lane rmse 72.934
+[    44s] lrtcL (2, 5, 20) q/lane rmse 76.052
+[    44s] lrtcL (2, 5, 40) q/lane rmse 81.134
+[    45s] lrtcL (2, 10, 5) q/lane rmse 70.146
+[    46s] lrtcL (2, 10, 10) q/lane rmse 69.110
+[    46s] lrtcL (2, 10, 20) q/lane rmse 71.751
+[    47s] lrtcL (2, 10, 40) q/lane rmse 76.763
+[    47s] lrtcL (2, 20, 5) q/lane rmse 67.936
+[    48s] lrtcL (2, 20, 10) q/lane rmse 66.670
+[    49s] lrtcL (2, 20, 20) q/lane rmse 69.388
+[    49s] lrtcL (2, 20, 40) q/lane rmse 74.489
+[    50s] lrtcL (2, 40, 5) q/lane rmse 68.894
+[    50s] lrtcL (2, 40, 10) q/lane rmse 67.743
+[    51s] lrtcL (2, 40, 20) q/lane rmse 70.763
+[    51s] lrtcL (2, 40, 40) q/lane rmse 77.261
+[    52s] lrtcL (4, 5, 5) q/lane rmse 54.099
+[    53s] lrtcL (4, 5, 10) q/lane rmse 51.998
+[    53s] lrtcL (4, 5, 20) q/lane rmse 54.170
+[    54s] lrtcL (4, 5, 40) q/lane rmse 57.447
+[    54s] lrtcL (4, 10, 5) q/lane rmse 48.602
+[    55s] lrtcL (4, 10, 10) q/lane rmse 45.860
+[    55s] lrtcL (4, 10, 20) q/lane rmse 47.372
+[    56s] lrtcL (4, 10, 40) q/lane rmse 50.370
+[    57s] lrtcL (4, 20, 5) q/lane rmse 45.095
+[    57s] lrtcL (4, 20, 10) q/lane rmse 42.071
+[    58s] lrtcL (4, 20, 20) q/lane rmse 43.359
+[    58s] lrtcL (4, 20, 40) q/lane rmse 46.196
+[    59s] lrtcL (4, 40, 5) q/lane rmse 44.187
+[    59s] lrtcL (4, 40, 10) q/lane rmse 41.120
+[    60s] lrtcL (4, 40, 20) q/lane rmse 42.490
+[    61s] lrtcL (4, 40, 40) q/lane rmse 47.088
+[    61s] lrtcL (8, 5, 5) q/lane rmse 49.708
+[    62s] lrtcL (8, 5, 10) q/lane rmse 47.178
+[    62s] lrtcL (8, 5, 20) q/lane rmse 49.728
+[    63s] lrtcL (8, 5, 40) q/lane rmse 54.483
+[    63s] lrtcL (8, 10, 5) q/lane rmse 44.864
+[    64s] lrtcL (8, 10, 10) q/lane rmse 41.597
+[    65s] lrtcL (8, 10, 20) q/lane rmse 43.012
+[    65s] lrtcL (8, 10, 40) q/lane rmse 45.696
+[    66s] lrtcL (8, 20, 5) q/lane rmse 40.561
+[    66s] lrtcL (8, 20, 10) q/lane rmse 36.499
+[    67s] lrtcL (8, 20, 20) q/lane rmse 37.139
+[    67s] lrtcL (8, 20, 40) q/lane rmse 39.225
+[    68s] lrtcL (8, 40, 5) q/lane rmse 38.829
+[    69s] lrtcL (8, 40, 10) q/lane rmse 34.385
+[    69s] lrtcL (8, 40, 20) q/lane rmse 34.557
+[    70s] lrtcL (8, 40, 40) q/lane rmse 40.673
+[    71s] CHOSEN lrtc2r [24, 40, 10] rmse 29.2214
+[    71s] CHOSEN lrtcK [8, 20, 20] rmse 1.2691
+[    71s] CHOSEN lrtcL [8, 40, 10] rmse 34.3845
+[    72s] info {"lrtc_844010": 33.024, "lrtc2i_844010": 32.954, "lrtcK_flow_true_speed": 96.464}
+[    72s] pilot -> /Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/results/t1div/lrtc5_pilot.json
+[    72s] done
+[run_heavy] exit 0 after 73s

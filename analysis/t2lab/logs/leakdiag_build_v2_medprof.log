@@ -1,0 +1,51 @@
+[run_heavy] slot acquired after 0s
+[    15s] onset CatBoost fold 0: 234140 rows, pos 0.0214, 15s
+[    29s] onset CatBoost fold 1: 231765 rows, pos 0.0213, 14s
+[    43s] onset CatBoost fold 2: 234615 rows, pos 0.0216, 14s
+[    56s] onset CatBoost fold 3: 231826 rows, pos 0.0214, 13s
+[    58s] D7_I10_E L 146, ramp links 38, 2s {'panel': 'D7_I10_E', 'L': 146, 'ramp_links': 38, 'ramp_link_share': 0.26, 'ramp_cell_usable': 0.26, 'prec_self': 0.022, 'prec_pm1': 0.094, 'rec_self': 0.182, 'rec_deep': 0.41, 'rec_shallow': 0.096, 'false_flag_rate': 0.043, 'queued_share_deep': 0.219}
+[    60s] D7_I10_W L 107, ramp links 44, 1s {'panel': 'D7_I10_W', 'L': 107, 'ramp_links': 44, 'ramp_link_share': 0.411, 'ramp_cell_usable': 0.403, 'prec_self': 0.634, 'prec_pm1': 0.709, 'rec_self': 0.258, 'rec_deep': 0.961, 'rec_shallow': 0.108, 'false_flag_rate': 0.001, 'queued_share_deep': 0.271}
+[    63s] D7_I210_E L 297, ramp links 27, 3s {'panel': 'D7_I210_E', 'L': 297, 'ramp_links': 27, 'ramp_link_share': 0.091, 'ramp_cell_usable': 0.197, 'prec_self': 0.342, 'prec_pm1': 0.347, 'rec_self': 0.645, 'rec_deep': 0.75, 'rec_shallow': 0.529, 'false_flag_rate': 0.0, 'queued_share_deep': 0.591}
+[    64s] D7_I210_W L 81, ramp links 45, 1s {'panel': 'D7_I210_W', 'L': 81, 'ramp_links': 45, 'ramp_link_share': 0.556, 'ramp_cell_usable': 0.311, 'prec_self': 0.526, 'prec_pm1': 0.546, 'rec_self': 0.108, 'rec_deep': 0.111, 'rec_shallow': 0.1, 'false_flag_rate': 0.007, 'queued_share_deep': 0.407}
+[    68s] D7_I405_N L 352, ramp links 31, 4s {'panel': 'D7_I405_N', 'L': 352, 'ramp_links': 31, 'ramp_link_share': 0.088, 'ramp_cell_usable': 0.25, 'prec_self': 0.601, 'prec_pm1': 0.614, 'rec_self': 0.866, 'rec_deep': 0.944, 'rec_shallow': 0.816, 'false_flag_rate': 0.047, 'queued_share_deep': 0.545}
+[    70s] D7_I405_S L 109, ramp links 52, 2s {'panel': 'D7_I405_S', 'L': 109, 'ramp_links': 52, 'ramp_link_share': 0.477, 'ramp_cell_usable': 0.3, 'prec_self': 0.854, 'prec_pm1': 0.867, 'rec_self': 0.6, 'rec_deep': 0.75, 'rec_shallow': 0.51, 'false_flag_rate': 0.011, 'queued_share_deep': 0.42}
+[    73s] D12_I5_N L 258, ramp links 30, 3s {'panel': 'D12_I5_N', 'L': 258, 'ramp_links': 30, 'ramp_link_share': 0.116, 'ramp_cell_usable': 0.286, 'prec_self': 0.686, 'prec_pm1': 0.693, 'rec_self': 0.396, 'rec_deep': 0.234, 'rec_shallow': 0.464, 'false_flag_rate': 0.013, 'queued_share_deep': 0.544}
+[    74s] D12_I5_S L 100, ramp links 38, 1s {'panel': 'D12_I5_S', 'L': 100, 'ramp_links': 38, 'ramp_link_share': 0.38, 'ramp_cell_usable': 0.311, 'prec_self': 0.583, 'prec_pm1': 0.933, 'rec_self': 0.349, 'rec_deep': 0.421, 'rec_shallow': 0.322, 'false_flag_rate': 0.013, 'queued_share_deep': 0.471}
+
+== switch-off statistics, daytime train cells (prec = P(link queued | ramp switched off); rec = P(switched off | link queued)) ==
+    panel   L  ramp_links  ramp_link_share  ramp_cell_usable  prec_self  prec_pm1  rec_self  rec_deep  rec_shallow  false_flag_rate  queued_share_deep
+ D7_I10_E 146          38            0.260             0.260      0.022     0.094     0.182     0.410        0.096            0.043              0.219
+ D7_I10_W 107          44            0.411             0.403      0.634     0.709     0.258     0.961        0.108            0.001              0.271
+D7_I210_E 297          27            0.091             0.197      0.342     0.347     0.645     0.750        0.529            0.000              0.591
+D7_I210_W  81          45            0.556             0.311      0.526     0.546     0.108     0.111        0.100            0.007              0.407
+D7_I405_N 352          31            0.088             0.250      0.601     0.614     0.866     0.944        0.816            0.047              0.545
+D7_I405_S 109          52            0.477             0.300      0.854     0.867     0.600     0.750        0.510            0.011              0.420
+ D12_I5_N 258          30            0.116             0.286      0.686     0.693     0.396     0.234        0.464            0.013              0.544
+ D12_I5_S 100          38            0.380             0.311      0.583     0.933     0.349     0.421        0.322            0.013              0.471
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/leakdiag_build.py:132: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  pooled = T.groupby('speed_bin', observed=False).apply(lambda g: pd.Series(dict(ratio_mean=np.average(g.ratio_mean.fillna(0), weights=g.n),
+
+== pooled over panels: ramp flow / same-slot profile by mainline speed ratio of the attached link ==
+            ratio_mean  switched_off          n
+speed_bin                                      
+(0.0, 0.2]       0.133         0.860    13485.0
+(0.2, 0.3]       0.640         0.394    99404.0
+(0.3, 0.4]       0.539         0.476    72090.0
+(0.4, 0.5]       0.492         0.531    54759.0
+(0.5, 0.6]       0.860         0.180    20963.0
+(0.6, 0.7]       0.782         0.274    19826.0
+(0.7, 0.8]       0.999         0.060     9006.0
+(0.8, 9.0]       0.999         0.014  5160351.0
+
+== learned ramp -> link tables (all train days): best-matching link of each ramp link ==
+    panel  ramp_links  best_is_self  best_within1  best_within3  med_abs_offset
+ D7_I10_E          38         0.026         0.053         0.263             7.5
+ D7_I10_W          44         0.023         0.068         0.250             5.0
+D7_I210_E          27         0.000         0.037         0.037           117.0
+D7_I210_W          45         0.022         0.089         0.356             4.0
+D7_I405_N          31         0.097         0.129         0.355             7.0
+D7_I405_S          52         0.038         0.077         0.385             4.0
+ D12_I5_N          30         0.067         0.133         0.300             5.0
+ D12_I5_S          38         0.132         0.237         0.421             4.0
+[    74s] build done in 74s
+[run_heavy] exit 0 after 75s

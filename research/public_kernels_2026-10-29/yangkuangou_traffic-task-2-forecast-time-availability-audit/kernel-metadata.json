@@ -1,0 +1,23 @@
+{
+  "id": "yangkuangou/traffic-task-2-forecast-time-availability-audit",
+  "id_no": 138861568,
+  "title": "Traffic Task 2 | Forecast-Time Availability Audit",
+  "code_file": "traffic-task-2-forecast-time-availability-audit.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "python",
+    "time series analysis",
+    "data visualization"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

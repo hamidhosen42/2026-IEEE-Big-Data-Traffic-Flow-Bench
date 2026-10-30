@@ -1,0 +1,14 @@
+[run_heavy] slot acquired after 0s
+[     0s] DONE ['none']
+[     0s] pm models [('base', 'id', 0), ('base', 'id', 1), ('base', 'np', 0), ('base', 'np', 1), ('occF', 'id', 0), ('occF', 'id', 1), ('occF', 'np', 0), ('occF', 'np', 1), ('occG', 'id', 0), ('occG', 'id', 1), ('occG', 'np', 0), ('occG', 'np', 1), ('occGd', 'id', 0), ('occGd', 'id', 1), ('occGd', 'np', 0), ('occGd', 'np', 1)]
+[    21s] D7_I10_E pm done 21s {"panel": "D7_I10_E", "set": "runstart_m", "n": 188, "fill_nb_share": 0.8119352958321189, "g_ref_share": 0.19134363159428738}
+[    25s] D7_I10_W pm done 3s {"panel": "D7_I10_W", "set": "runstart_m", "n": 44, "fill_nb_share": 0.8593882752761257, "g_ref_share": 0.155267629566695}
+[    28s] D7_I210_E pm done 3s {"panel": "D7_I210_E", "set": "runstart_m", "n": 36, "fill_nb_share": 0.8257575757575758, "g_ref_share": 0.02319491208380097}
+[    48s] D7_I210_W pm done 21s {"panel": "D7_I210_W", "set": "runstart_m", "n": 197, "fill_nb_share": 0.7754590461866265, "g_ref_share": 0.3919283073259385}
+[   109s] D7_I405_N pm done 60s {"panel": "D7_I405_N", "set": "runstart_m", "n": 201, "fill_nb_share": 0.8489936680235187, "g_ref_share": 0.17797376752600633}
+[   136s] D7_I405_S pm done 27s {"panel": "D7_I405_S", "set": "runstart_m", "n": 201, "fill_nb_share": 0.7833766945091059, "g_ref_share": 0.39933360719339084}
+[   159s] D12_I5_N pm done 23s {"panel": "D12_I5_N", "set": "runstart_m", "n": 96, "fill_nb_share": 0.8246931524547804, "g_ref_share": 0.17857719638242894}
+[   183s] D12_I5_S pm done 23s {"panel": "D12_I5_S", "set": "runstart_m", "n": 161, "fill_nb_share": 0.8239130434782609, "g_ref_share": 0.3871428571428571}
+[   183s] pm saved
+[   183s] DONE ['pm'] 183s
+[run_heavy] exit 0 after 184s

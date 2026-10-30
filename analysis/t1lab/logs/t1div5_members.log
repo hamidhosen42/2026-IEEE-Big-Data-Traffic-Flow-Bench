@@ -1,0 +1,460 @@
+[run_heavy] slot acquired after 0s
+[     0s] ranks lrtc2r (24, 40, 10) lrtcK (8, 20, 20) lrtcL (8, 40, 10) | flow (8, 40, 10)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[     4s]   D12_I5_S f0 validation stack beta {'lrtc': 0.1179, 'lrtc2r': 0.8071, 'lrtcL': 0.0744, 'pw41': 0.0, 'tlmean': 0.0008} | SV q/lane rmse lrtc 30.95 lrtc2r 28.02 lrtcL 31.78 pw41 111.60 tlmean 154.20 stack 27.77
+[     4s]   D12_I5_S f0 validation_blk   q/lane rmse lrtc2r 137.16 lrtc2i 120.65 lrtcL 89.06 stkQ 120.65 | lrtcK(true v, info) 306.34
+[     4s]   D12_I5_S f0 validation_ord   q/lane rmse lrtc2r 27.02 lrtc2i 29.85 lrtcL 29.78 stkQ 26.71 | lrtcK(true v, info) 85.96
+[     4s] D12_I5_S fold 0 validation 4s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[     8s]   D12_I5_S f0 private stack beta {'lrtc': 0.0, 'lrtc2r': 0.8422, 'lrtcL': 0.1587, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 35.40 lrtc2r 30.81 lrtcL 36.41 pw41 120.81 tlmean 157.91 stack 30.53
+[     8s]   D12_I5_S f0 private_blk      q/lane rmse lrtc2r 118.29 lrtc2i 92.04 lrtcL 101.13 stkQ 108.69 | lrtcK(true v, info) 396.75
+[     8s]   D12_I5_S f0 private_ord      q/lane rmse lrtc2r 29.84 lrtc2i 34.15 lrtcL 33.90 stkQ 29.84 | lrtcK(true v, info) 102.51
+[     8s] D12_I5_S fold 0 private 4s
+[     8s] saved D12_I5_S 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    12s]   D12_I5_S f1 validation stack beta {'lrtc': 0.0903, 'lrtc2r': 0.7032, 'lrtcL': 0.2072, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 33.08 lrtc2r 30.23 lrtcL 33.69 pw41 113.37 tlmean 153.37 stack 29.33
+[    12s]   D12_I5_S f1 validation_blk   q/lane rmse lrtc2r 123.24 lrtc2i 69.86 lrtcL 72.17 stkQ 98.23 | lrtcK(true v, info) 325.69
+[    12s]   D12_I5_S f1 validation_ord   q/lane rmse lrtc2r 26.96 lrtc2i 29.71 lrtcL 29.79 stkQ 26.65 | lrtcK(true v, info) 89.77
+[    12s] D12_I5_S fold 1 validation 4s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    16s]   D12_I5_S f1 private stack beta {'lrtc': 0.0206, 'lrtc2r': 0.8305, 'lrtcL': 0.1468, 'pw41': 0.0016, 'tlmean': 0.0002} | SV q/lane rmse lrtc 36.17 lrtc2r 32.69 lrtcL 36.64 pw41 118.11 tlmean 155.62 stack 32.45
+[    16s]   D12_I5_S f1 private_blk      q/lane rmse lrtc2r 111.51 lrtc2i 81.21 lrtcL 80.22 stkQ 98.15 | lrtcK(true v, info) 325.35
+[    16s]   D12_I5_S f1 private_ord      q/lane rmse lrtc2r 30.09 lrtc2i 33.90 lrtcL 34.12 stkQ 29.79 | lrtcK(true v, info) 104.19
+[    16s] D12_I5_S fold 1 private 4s
+[    17s] saved D12_I5_S 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    23s]   D7_I10_E f0 validation stack beta {'lrtc': 0.1014, 'lrtc2r': 0.789, 'lrtcL': 0.11, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 33.04 lrtc2r 31.00 lrtcL 34.73 pw41 121.57 tlmean 160.65 stack 30.84
+[    23s]   D7_I10_E f0 validation_blk   q/lane rmse lrtc2r 179.95 lrtc2i 158.84 lrtcL 111.72 stkQ 160.79 | lrtcK(true v, info) 240.34
+[    23s]   D7_I10_E f0 validation_ord   q/lane rmse lrtc2r 32.57 lrtc2i 34.41 lrtcL 32.97 stkQ 32.10 | lrtcK(true v, info) 77.68
+[    23s] D7_I10_E fold 0 validation 6s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    29s]   D7_I10_E f0 private stack beta {'lrtc': 0.1145, 'lrtc2r': 0.6017, 'lrtcL': 0.282, 'pw41': 0.0, 'tlmean': 0.0015} | SV q/lane rmse lrtc 31.30 lrtc2r 30.47 lrtcL 31.49 pw41 116.50 tlmean 153.85 stack 30.05
+[    29s]   D7_I10_E f0 private_blk      q/lane rmse lrtc2r 131.53 lrtc2i 101.96 lrtcL 102.24 stkQ 108.07 | lrtcK(true v, info) 316.04
+[    29s]   D7_I10_E f0 private_ord      q/lane rmse lrtc2r 28.80 lrtc2i 29.55 lrtcL 29.48 stkQ 28.36 | lrtcK(true v, info) 79.00
+[    29s] D7_I10_E fold 0 private 6s
+[    29s] saved D7_I10_E 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    35s]   D7_I10_E f1 validation stack beta {'lrtc': 0.27, 'lrtc2r': 0.6991, 'lrtcL': 0.0313, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 31.60 lrtc2r 30.58 lrtcL 33.53 pw41 125.22 tlmean 162.89 stack 30.19
+[    35s]   D7_I10_E f1 validation_blk   q/lane rmse lrtc2r 156.86 lrtc2i 105.16 lrtcL 104.36 stkQ 133.39 | lrtcK(true v, info) 311.94
+[    35s]   D7_I10_E f1 validation_ord   q/lane rmse lrtc2r 32.29 lrtc2i 33.74 lrtcL 32.84 stkQ 31.42 | lrtcK(true v, info) 78.50
+[    35s] D7_I10_E fold 1 validation 6s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    41s]   D7_I10_E f1 private stack beta {'lrtc': 0.1473, 'lrtc2r': 0.7732, 'lrtcL': 0.08, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 32.12 lrtc2r 30.88 lrtcL 33.42 pw41 116.18 tlmean 150.62 stack 30.68
+[    41s]   D7_I10_E f1 private_blk      q/lane rmse lrtc2r 186.28 lrtc2i 124.71 lrtcL 150.54 stkQ 172.09 | lrtcK(true v, info) 319.72
+[    41s]   D7_I10_E f1 private_ord      q/lane rmse lrtc2r 28.83 lrtc2i 29.79 lrtcL 29.94 stkQ 28.61 | lrtcK(true v, info) 77.09
+[    41s] D7_I10_E fold 1 private 6s
+[    41s] saved D7_I10_E 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    45s]   D7_I210_W f0 validation stack beta {'lrtc': 0.1378, 'lrtc2r': 0.7079, 'lrtcL': 0.154, 'pw41': 0.0, 'tlmean': 0.0004} | SV q/lane rmse lrtc 31.82 lrtc2r 30.44 lrtcL 32.46 pw41 87.49 tlmean 146.05 stack 29.93
+[    45s]   D7_I210_W f0 validation_blk   q/lane rmse lrtc2r 158.26 lrtc2i 88.36 lrtcL 156.32 stkQ 145.27 | lrtcK(true v, info) 209.02
+[    45s]   D7_I210_W f0 validation_ord   q/lane rmse lrtc2r 29.27 lrtc2i 31.18 lrtcL 31.45 stkQ 28.91 | lrtcK(true v, info) 107.89
+[    45s] D7_I210_W fold 0 validation 4s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    49s]   D7_I210_W f0 private stack beta {'lrtc': 0.1251, 'lrtc2r': 0.7052, 'lrtcL': 0.1685, 'pw41': 0.0, 'tlmean': 0.0018} | SV q/lane rmse lrtc 31.49 lrtc2r 29.53 lrtcL 31.58 pw41 79.18 tlmean 138.81 stack 29.17
+[    49s]   D7_I210_W f0 private_blk      q/lane rmse lrtc2r 132.20 lrtc2i 122.13 lrtcL 157.50 stkQ 128.03 | lrtcK(true v, info) 361.49
+[    49s]   D7_I210_W f0 private_ord      q/lane rmse lrtc2r 30.24 lrtc2i 31.77 lrtcL 32.49 stkQ 29.93 | lrtcK(true v, info) 92.64
+[    49s] D7_I210_W fold 0 private 4s
+[    49s] saved D7_I210_W 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    53s]   D7_I210_W f1 validation stack beta {'lrtc': 0.0411, 'lrtc2r': 0.7327, 'lrtcL': 0.2269, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 32.56 lrtc2r 30.49 lrtcL 32.91 pw41 88.36 tlmean 146.56 stack 30.12
+[    53s]   D7_I210_W f1 validation_blk   q/lane rmse lrtc2r 150.55 lrtc2i 61.22 lrtcL 163.03 stkQ 147.55 | lrtcK(true v, info) 236.16
+[    53s]   D7_I210_W f1 validation_ord   q/lane rmse lrtc2r 29.66 lrtc2i 31.70 lrtcL 31.76 stkQ 29.38 | lrtcK(true v, info) 101.30
+[    53s] D7_I210_W fold 1 validation 4s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    57s]   D7_I210_W f1 private stack beta {'lrtc': 0.0, 'lrtc2r': 0.7658, 'lrtcL': 0.223, 'pw41': 0.0102, 'tlmean': 0.0006} | SV q/lane rmse lrtc 35.03 lrtc2r 33.54 lrtcL 33.95 pw41 82.11 tlmean 139.96 stack 32.42
+[    57s]   D7_I210_W f1 private_blk      q/lane rmse lrtc2r 133.08 lrtc2i 71.52 lrtcL 156.20 stkQ 130.95 | lrtcK(true v, info) 227.95
+[    57s]   D7_I210_W f1 private_ord      q/lane rmse lrtc2r 30.60 lrtc2i 32.32 lrtcL 31.96 stkQ 29.98 | lrtcK(true v, info) 92.40
+[    57s] D7_I210_W fold 1 private 4s
+[    57s] saved D7_I210_W 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    61s]   D7_I405_S f0 validation stack beta {'lrtc': 0.1115, 'lrtc2r': 0.8127, 'lrtcL': 0.0709, 'pw41': 0.0036, 'tlmean': 0.0019} | SV q/lane rmse lrtc 37.75 lrtc2r 34.26 lrtcL 38.94 pw41 103.96 tlmean 140.54 stack 34.09
+[    61s]   D7_I405_S f0 validation_blk   q/lane rmse lrtc2r 170.53 lrtc2i 74.85 lrtcL 114.16 stkQ 157.88 | lrtcK(true v, info) 328.51
+[    61s]   D7_I405_S f0 validation_ord   q/lane rmse lrtc2r 31.61 lrtc2i 34.32 lrtcL 34.77 stkQ 31.46 | lrtcK(true v, info) 110.77
+[    61s] D7_I405_S fold 0 validation 5s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    66s]   D7_I405_S f0 private stack beta {'lrtc': 0.0508, 'lrtc2r': 0.8298, 'lrtcL': 0.1192, 'pw41': 0.0, 'tlmean': 0.0} | SV q/lane rmse lrtc 39.25 lrtc2r 36.32 lrtcL 40.23 pw41 116.61 tlmean 153.21 stack 36.14
+[    66s]   D7_I405_S f0 private_blk      q/lane rmse lrtc2r 143.05 lrtc2i 82.48 lrtcL 88.99 stkQ 127.47 | lrtcK(true v, info) 359.41
+[    66s]   D7_I405_S f0 private_ord      q/lane rmse lrtc2r 32.06 lrtc2i 34.25 lrtcL 34.79 stkQ 31.84 | lrtcK(true v, info) 114.36
+[    66s] D7_I405_S fold 0 private 4s
+[    66s] saved D7_I405_S 0
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    71s]   D7_I405_S f1 validation stack beta {'lrtc': 0.1801, 'lrtc2r': 0.812, 'lrtcL': 0.0056, 'pw41': 0.0023, 'tlmean': 0.0} | SV q/lane rmse lrtc 37.30 lrtc2r 34.55 lrtcL 38.42 pw41 102.37 tlmean 142.51 stack 34.33
+[    71s]   D7_I405_S f1 validation_blk   q/lane rmse lrtc2r 142.40 lrtc2i 98.70 lrtcL 117.66 stkQ 134.58 | lrtcK(true v, info) 397.71
+[    71s]   D7_I405_S f1 validation_ord   q/lane rmse lrtc2r 31.62 lrtc2i 34.31 lrtcL 34.29 stkQ 31.60 | lrtcK(true v, info) 113.49
+[    71s] D7_I405_S fold 1 validation 5s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: divide by zero encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: overflow encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:49: RuntimeWarning: invalid value encountered in matmul
+  return U @ (U.T @ M)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: divide by zero encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: overflow encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div_lrtc.py:48: RuntimeWarning: invalid value encountered in matmul
+  _, U = np.linalg.eigh(M @ M.T); U = U[:, -r:]
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: divide by zero encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: overflow encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/.venv/lib/python3.9/site-packages/scipy/optimize/_nnls.py:164: RuntimeWarning: invalid value encountered in matmul
+  return x, np.linalg.norm(A@x - b), 1
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: divide by zero encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: overflow encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t1lab/t1div5_lrtc.py:168: RuntimeWarning: invalid value encountered in matmul
+  rm_sv['stack'] = float(np.sqrt(np.mean(((A @ beta - b) * mus[np.nonzero(sv)[2]] / ln[np.nonzero(sv)[2]]) ** 2)))
+[    75s]   D7_I405_S f1 private stack beta {'lrtc': 0.0898, 'lrtc2r': 0.775, 'lrtcL': 0.1344, 'pw41': 0.0, 'tlmean': 0.0005} | SV q/lane rmse lrtc 36.64 lrtc2r 34.12 lrtcL 37.91 pw41 111.59 tlmean 147.34 stack 33.80
+[    75s]   D7_I405_S f1 private_blk      q/lane rmse lrtc2r 179.09 lrtc2i 108.09 lrtcL 155.22 stkQ 170.67 | lrtcK(true v, info) 313.13
+[    75s]   D7_I405_S f1 private_ord      q/lane rmse lrtc2r 31.93 lrtc2i 34.25 lrtcL 35.00 stkQ 31.66 | lrtcK(true v, info) 119.34
+[    75s] D7_I405_S fold 1 private 5s
+[    75s] saved D7_I405_S 1
+[    75s] done
+[run_heavy] exit 0 after 76s
