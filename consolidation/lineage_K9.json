@@ -1,0 +1,474 @@
+{
+ "generated": "2026-11-03",
+ "method": "kaggle kernels pull -m (metadata kernel_sources + source) for every kernel between tfb-i4 / tfb-j4 and the picks; sources byte-identical to submissions/ and kaggle_jobs/ (cmp); runtimes / peak RSS from the push logs kaggle_jobs/k1_followup.log, k3_followup.log, k5_followup.log",
+ "roots": [
+  "tfb-k9",
+  "tfb-k10"
+ ],
+ "picks": {
+  "A3 (tfb-k9, public 0.88281)": {
+   "base_chain": [
+    "tfb-j4",
+    "tfb-k3d",
+    "tfb-k3",
+    "tfb-k5d",
+    "tfb-k9"
+   ],
+   "state": "tfb-k9 steps M, B, R, T on tfb-k5d",
+   "queue": "tfb-j4 (= A2 queue rows)",
+   "path_flow": "tfb-final via tfb-j4"
+  },
+  "B3 (tfb-k10, public 0.88281)": {
+   "base": "tfb-k9",
+   "private_parts": [
+    [
+     "tfb-t2osp",
+     "queue_submission_base.csv",
+     "queue_onset",
+     "private"
+    ],
+    [
+     "tfb-t2ogveto",
+     "queue_submission_veto10.csv",
+     "queue_ongoing",
+     "private"
+    ]
+   ],
+   "queue": "= B2 queue rows"
+  }
+ },
+ "joins_A2_lineage": [
+  "tfb-i4",
+  "tfb-t2ogpvogf",
+  "tfb-t2osp",
+  "tfb-t2ogveto",
+  "tfb-t2lab-full",
+  "the 31 Task 1 member parts of lineage_A2.json"
+ ],
+ "images": "not traced for the k generation (Kaggle default image at push time, 2026-10-10 .. 11-03); lineage_A2.json images A / B apply to the A2 kernels only",
+ "kernels": {
+  "tfb-k10": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2osp",
+    "tfb-t2ogveto",
+    "tfb-k9"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_K10.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k10.py",
+   "source_sha1": "b2263389ef624128ec906cb914103de6c265d0a0",
+   "desc": "FINAL PICK B3 (public 0.88281): multi-part queue swap (= tfb-j3 swap_queue2 code + 4 hard gates) on tfb-k9/submission_FDRTV.csv: private onset <- tfb-t2osp queue_submission_base.csv, private ongoing <- tfb-t2ogveto queue_submission_veto10.csv; asserts that no March queue row changed.",
+   "runtime_note": "not traced (light swap; tfb-j3 took 97 s)",
+   "local_copy": "kaggle_jobs/swap_k10.py = submissions/77_K10/tfb-k10.py",
+   "pushed": "2026-11-03"
+  },
+  "tfb-k9": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-k5d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_LRTC.csv",
+    "submission_FDRTV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k9.py",
+   "source_sha1": "00dd49cbcfadc496cb4958b6101f081bca5371af",
+   "desc": "FINAL PICK A3 (public 0.88281): on tfb-k5d/submission_K5D.csv: step M = flow LRTC ranks (24, 40, 10), 60 EM iterations, per (panel, split) released cube, q <- max(0.65 q + 0.35 max(q_lrtc, 20), 20) on ordinary state rows; step B = blackout rows v <- clip(0.85 v + 0.15 v_lrtc(8, 20, 20), 3, 1.05 vf), q <- max(0.85 q + 0.15 q_lrtc(8, 40, 10), 20); steps R (FD-gated recon) and T (1-D TV) verbatim from tfb-i4 / tfb-k5. Output submission_FDRTV.csv = the pick (queue / path_flow rows = the base = tfb-j4).",
+   "runtime_note": "not traced; expected 16-20 min (tfb-k7 = 1 LRTC per panel-month took 771 s; k9 runs 3)",
+   "local_copy": "kaggle_jobs/swap_lrtc_k9.py = submissions/76_K9/tfb-k9.py",
+   "pushed": "2026-11-03"
+  },
+  "tfb-k5d": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-t1darka",
+    "tfb-t1darkb",
+    "tfb-t1rampa",
+    "tfb-t1rampb",
+    "tfb-t1ramp2a",
+    "tfb-t1ramp2b",
+    "tfb-t1bspecb",
+    "tfb-t1bspeca",
+    "tfb-t1bspecc",
+    "tfb-t1catba",
+    "tfb-t1catbb",
+    "tfb-t1catbc",
+    "tfb-t1catbd",
+    "tfb-t1catb2a",
+    "tfb-t1catb2b",
+    "tfb-t1catb2c",
+    "tfb-t1catb2d",
+    "tfb-k3",
+    "tfb-t1xgba",
+    "tfb-t1xgbb",
+    "tfb-t1xgbc",
+    "tfb-t1xgbd"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_K5D.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k5d.py",
+   "source_sha1": "ff5c3c872f8b136b5b914b5feeadd9963bdfcc2d",
+   "desc": "T1 mix K5D (EXP_T1_XGB): the tfb-i4d mix (0.5 FD bag + 0.5 old FTA bag), then 0.65 mix + 0.35 mean(t1catb, t1catb2), then 0.65 mix + 0.35 t1xgb, then blackout rows 0.25 mix + 0.75 t1bspec. Every state row recomputed; queue / path_flow rows copied from the base tfb-k3/submission_FDRTV.csv.",
+   "runtime_note": "<= 935 s push-to-complete (2026-10-16 12:28:17 -> 12:43:52, k5_followup.log)",
+   "local_copy": "kaggle_jobs/t1_div2_swap.py = submissions/72_K5/upstream__tfb-k5d.py"
+  },
+  "tfb-k3": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-k3d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_FDR.csv",
+    "submission_FDRTV.csv",
+    "submission_TV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k3.py",
+   "source_sha1": "8133d376b9d21142d632715494f9cdd015738982",
+   "desc": "recon + TV (= tfb-i4 code, kaggle_jobs/swap_fdrecon_k3.py) on tfb-k3d. Only its queue / path_flow rows reach the picks (as the base of tfb-k5d).",
+   "runtime_note": "<= 574 s push-to-complete (k3_followup.log)",
+   "local_copy": "submissions/70_K3/tfb-k3.py"
+  },
+  "tfb-k3d": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-t1darka",
+    "tfb-t1darkb",
+    "tfb-t1rampa",
+    "tfb-t1rampb",
+    "tfb-t1ramp2a",
+    "tfb-t1ramp2b",
+    "tfb-t1bspecb",
+    "tfb-t1bspeca",
+    "tfb-t1bspecc",
+    "tfb-j4",
+    "tfb-t1catba",
+    "tfb-t1catbb",
+    "tfb-t1catbc",
+    "tfb-t1catbd",
+    "tfb-t1catb2a",
+    "tfb-t1catb2b",
+    "tfb-t1catb2c",
+    "tfb-t1catb2d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_K3D.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k3d.py",
+   "source_sha1": "ac4b88426258ed14d68df78b81d2724f604a3e89",
+   "desc": "T1 mix K3D = tfb-i4d mix + 0.35 mean(t1catb, t1catb2), blackout override; base tfb-j4/submission_J4.csv (queue / path_flow rows). Only its queue / path_flow rows reach the picks.",
+   "runtime_note": "<= 936 s push-to-complete (k3_followup.log)",
+   "local_copy": "kaggle_jobs/t1_catb2_swap.py = submissions/70_K3/upstream__tfb-k3d.py"
+  },
+  "tfb-j4": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-i4",
+    "tfb-t2ogpvogf"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_J4.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-j4.py",
+   "source_sha1": "fc16977ac662f390e784b0983ca8435d03579c91",
+   "desc": "previous pick A2 (0.88176): queue swap on tfb-i4 (private ongoing <- tfb-t2ogpvogf pvogfv). Its queue / path_flow rows are the A3 queue / path_flow rows.",
+   "local_copy": "kaggle_jobs/swap_tfb-j4.py = submissions/66_J4/tfb-j4.py"
+  },
+  "tfb-t1catba": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12692,
+   "peak_rss_gb": 26.12,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catba.py",
+   "source_sha1": "b0f1ea7f7962b6030519ef03f534bda735136b33",
+   "desc": "Task 1 member part a (CatBoost residual member (depth 8 x 2000 + depth 10 x 1000 it averaged, lr 0.12, l2 10, Bernoulli 0.85, border 64, random_seed 20261005, thread_count 4) on the 94 v13 FD columns; v13 rows (row rng 9, transductive rng 10000+), <= 2.4 M train + transductive rows (subsample rng 21))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catbb": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 14811,
+   "peak_rss_gb": 21.97,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catbb.py",
+   "source_sha1": "cad1b31b4faf9a03aa8937426f8a2c6207e7f645",
+   "desc": "Task 1 member part b (CatBoost residual member (depth 8 x 2000 + depth 10 x 1000 it averaged, lr 0.12, l2 10, Bernoulli 0.85, border 64, random_seed 20261005, thread_count 4) on the 94 v13 FD columns; v13 rows (row rng 9, transductive rng 10000+), <= 2.4 M train + transductive rows (subsample rng 21))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catbc": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11556,
+   "peak_rss_gb": 19.27,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catbc.py",
+   "source_sha1": "de910fdfa84d1fbb8faf8ca4c058ba070b143408",
+   "desc": "Task 1 member part c (CatBoost residual member (depth 8 x 2000 + depth 10 x 1000 it averaged, lr 0.12, l2 10, Bernoulli 0.85, border 64, random_seed 20261005, thread_count 4) on the 94 v13 FD columns; v13 rows (row rng 9, transductive rng 10000+), <= 2.4 M train + transductive rows (subsample rng 21))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catbd": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 17471,
+   "peak_rss_gb": 10.91,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catbd.py",
+   "source_sha1": "42661fc7a02bb657fc14b15d08f86e2f0c5cae40",
+   "desc": "Task 1 member part d (CatBoost residual member (depth 8 x 2000 + depth 10 x 1000 it averaged, lr 0.12, l2 10, Bernoulli 0.85, border 64, random_seed 20261005, thread_count 4) on the 94 v13 FD columns; v13 rows (row rng 9, transductive rng 10000+), <= 2.4 M train + transductive rows (subsample rng 21))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catb2a": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12226,
+   "peak_rss_gb": 26.13,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catb2a.py",
+   "source_sha1": "c183c1f97b283ffef17426636422fabd4c6919f5",
+   "desc": "Task 1 member part a (second CatBoost seed set: CB_SEED 31, random_seed 20261016, row rng 19, transductive rng 12000+ (otherwise = tfb-t1catb))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catb2b": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 15019,
+   "peak_rss_gb": 22.15,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catb2b.py",
+   "source_sha1": "1af7edab9703a04d5ff538cc4d680321b1ace703",
+   "desc": "Task 1 member part b (second CatBoost seed set: CB_SEED 31, random_seed 20261016, row rng 19, transductive rng 12000+ (otherwise = tfb-t1catb))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catb2c": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12549,
+   "peak_rss_gb": 19.23,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catb2c.py",
+   "source_sha1": "eb2fedc4810c77d4ce6a79474ada078bb67d608c",
+   "desc": "Task 1 member part c (second CatBoost seed set: CB_SEED 31, random_seed 20261016, row rng 19, transductive rng 12000+ (otherwise = tfb-t1catb))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1catb2d": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 17180,
+   "peak_rss_gb": 10.92,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1catb2d.py",
+   "source_sha1": "166a0dfc432b42470140d4d686b60a03ed694935",
+   "desc": "Task 1 member part d (second CatBoost seed set: CB_SEED 31, random_seed 20261016, row rng 19, transductive rng 12000+ (otherwise = tfb-t1catb))",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1xgba": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 3502,
+   "peak_rss_gb": 26.04,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1xgba.py",
+   "source_sha1": "3715f61d2c81444d96de0314ed4d53af26ed8e83",
+   "desc": "Task 1 member part a (XGBoost hist residual member (max_depth 9, eta 0.06, 1500 rounds, subsample / colsample 0.8, min_child_weight 50, lambda 10, max_bin 256, seed 20261016, nthread 4); rows as tfb-t1catb)",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1xgbb": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 4317,
+   "peak_rss_gb": 22.16,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1xgbb.py",
+   "source_sha1": "2c5926ade4bb1b362cae88d1ecfbc70e24d343e3",
+   "desc": "Task 1 member part b (XGBoost hist residual member (max_depth 9, eta 0.06, 1500 rounds, subsample / colsample 0.8, min_child_weight 50, lambda 10, max_bin 256, seed 20261016, nthread 4); rows as tfb-t1catb)",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1xgbc": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 2953,
+   "peak_rss_gb": 19.15,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1xgbc.py",
+   "source_sha1": "f65316068daf2aad1add360c3b6d0d2f1088a8b6",
+   "desc": "Task 1 member part c (XGBoost hist residual member (max_depth 9, eta 0.06, 1500 rounds, subsample / colsample 0.8, min_child_weight 50, lambda 10, max_bin 256, seed 20261016, nthread 4); rows as tfb-t1catb)",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-t1xgbd": {
+   "upstream_of_picks": true,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 4459,
+   "peak_rss_gb": 10.84,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1xgbd.py",
+   "source_sha1": "e160fa0b109e24ea943ef990411fe23acd1f8288",
+   "desc": "Task 1 member part d (XGBoost hist residual member (max_depth 9, eta 0.06, 1500 rounds, subsample / colsample 0.8, min_child_weight 50, lambda 10, max_bin 256, seed 20261016, nthread 4); rows as tfb-t1catb)",
+   "runtime_note": "last log timestamp (k1/k3/k5_followup.log)"
+  },
+  "tfb-k5": {
+   "upstream_of_picks": false,
+   "kernel_sources": [
+    "tfb-k5d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_FDR.csv",
+    "submission_FDRTV.csv",
+    "submission_TV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k5.py",
+   "source_sha1": "d27249034348e50a00d39d6fe37bb134ede9ff6d",
+   "desc": "reference only (not upstream): recon + TV on tfb-k5d (public 0.88225) = tfb-k9 without steps M and B.",
+   "runtime_note": "<= 453 s push-to-complete (k5_followup.log)",
+   "local_copy": "kaggle_jobs/swap_fdrecon_k5.py = submissions/72_K5/tfb-k5.py"
+  },
+  "tfb-k7": {
+   "upstream_of_picks": false,
+   "kernel_sources": [
+    "tfb-k5d"
+   ],
+   "runtime_s": 771,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_LRTC.csv",
+    "submission_FDRTV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-k7.py",
+   "source_sha1": "e5e2f21c332a25c17610f2690f5ea59a76d9f7ca",
+   "desc": "reference only (not upstream): tfb-k5d + step M with flow LRTC ranks (8, 40, 10) + R + T (public 0.88259); tfb-k9 = tfb-k7 with M ranks (24, 40, 10) and the new step B.",
+   "local_copy": "kaggle_jobs/swap_lrtc_k7.py = submissions/74_K7/tfb-k7.py"
+  }
+ }
+}

@@ -32,7 +32,7 @@ for f in glob.glob(f'{REL}/task2/*/*/window_index.csv'):
     gs = ((org - pd.Timestamp('2030-01-01', tz='UTC')).dt.total_seconds() // 300).astype(np.int64).to_numpy()
     o = np.argsort(gs, kind='stable'); gap = np.full(len(gs), 10 ** 9, np.int64); gap[o[1:]] = np.diff(gs[o])
     wins.append(w[['window_id', 'condition']].assign(split=sp, g72=(gap == 72)))
-wins = pd.concat(wins).drop_duplicates('window_id')
+wins = pd.concat(wins).drop_duplicates(); assert wins.window_id.is_unique, 'window_id with conflicting condition/split'
 print('g72 windows per split and condition:', wins.groupby(['split', 'condition']).g72.sum().to_dict())
 kq = kq.merge(wins, on='window_id', how='left', validate='many_to_one'); assert kq.condition.notna().all() and kq.split.notna().all()
 isq = (base.task == 'queue').to_numpy(); sid = base.loc[isq, 'submission_id'].to_numpy()
@@ -43,6 +43,7 @@ for part in PARTS:
     q = pd.read_csv(glob.glob(f'/kaggle/input/**/{src_kernel}/**/{src_file}', recursive=True)[0], dtype={'window_id': str, 'link_id': str})
     q['timestamp'] = pd.to_datetime(q.timestamp, utc=True)
     m = kq.merge(q, on=['window_id', 'timestamp', 'link_id'], how='left', validate='one_to_one'); assert m.queue_pred.notna().all()
+    assert set(m.submission_id.astype('int64')) == set(sid) and m.submission_id.is_unique, 'queue ids of key and base differ'
     src = pd.Series(m.queue_pred.astype(int).to_numpy(), index=m.submission_id.astype('int64').to_numpy()).reindex(sid).to_numpy()
     sel = np.ones(len(m), bool)
     if cond != 'any':
@@ -52,6 +53,7 @@ for part in PARTS:
     if gsel != 'any':
         sel &= (m.g72 if gsel == 'g72' else ~m.g72).to_numpy()
     mask = pd.Series(sel, index=m.submission_id.astype('int64').to_numpy()).reindex(sid).to_numpy()
+    assert not pd.isna(src).any() and not pd.isna(mask).any(), 'unmapped queue rows after reindex'
     before = new.copy(); new = np.where(mask, src, new)
     print(f'PART {src_kernel}/{src_file} cond={cond} split={split} windows={gsel}: rows {int(mask.sum())} | changed {int((new != before).sum())} '
           f'share {float((new[mask] != before[mask]).mean()):.5f} | positives {int(before[mask].sum())} -> {int(new[mask].sum())}')
@@ -60,6 +62,7 @@ for part in PARTS:
         print(f'  {sp}: changed rows {int(((new != before) & ms).sum())}')
 val = pd.Series((kq.split == 'validation').to_numpy(), index=kq.submission_id.astype('int64').to_numpy()).reindex(sid).to_numpy()
 print('TOTAL changed rows: validation', int(((new != cur) & val).sum()), '| private', int(((new != cur) & ~val).sum()))
+assert not ((new != cur) & val).any(), 'K10 changed March validation queue rows'
 out = base.copy(); out.loc[isq, 'queue_pred'] = new
 sample = pd.read_csv(f'{REL}/sample_submission.csv', usecols=['submission_id']).submission_id.to_numpy()
 assert len(out) == len(sample) and (out.submission_id.to_numpy() == sample).all()

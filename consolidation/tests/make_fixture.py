@@ -14,7 +14,7 @@ OUT/kaggle_public   - D7_I10_E, D12_I5_S: real-shaped Task 2 inputs (train / val
                       state rows (masked cells + cells inside the 90-min post-window gaps, about 2 % of the state rows),
                       every queue template row and every odme path
 OUT/kernels         - stand-in outputs of the milestone-2 stages: state_submission_FTA.csv for every Task 1 member part of
-                      the full recipe (shared synthetic truth + member noise) and random 0/1 queue files for tfb-t2occ
+                      the full recipe of A3 / B3 (= A2 / B2 parts + t1catb / t1catb2 / t1xgb a-d; shared synthetic truth + member noise) and random 0/1 queue files for tfb-t2occ
                       (fs4occ), tfb-t2ogpvogf (pvogfv), tfb-t2ogveto (veto10)
 Nothing here is a competition answer; the fixture only tests code paths, I/O and gates.
 """
@@ -318,13 +318,9 @@ def main():
     cong = rng.random(len(s)) < 0.15
     v0 = np.where(cong, vf * rng.uniform(0.2, 0.55, len(s)), vf * rng.uniform(0.85, 1.0, len(s)))
     q0 = np.where(cong, ln * v0 * rng.uniform(25, 45, len(s)), ln * rng.uniform(300, 1600, len(s)))
-    half_a, half_b = set(C.PANELS_ALL[:5]), set(C.PANELS_ALL[5:])
-    for i, k in enumerate(C.t1_member_kernels('full')):
+    for i, k in enumerate(C.t1_member_kernels('full', 'A3')):      # A2 / B2 parts first (same seeds as before), then catb / catb2 / xgb a-d
         member, part = k[:-1], k[-1]
-        if member == 'tfb-t1bspec':
-            panels = {'a': set(C.PANELS_ALL[:4]), 'b': set(C.PANELS_ALL[5:]), 'c': {'D7_I405_N'}}[part]
-        else:
-            panels = half_a if part == 'a' else half_b
+        panels = set(C.t1_part_panels(member, part))
         r = np.random.default_rng(100 + i // 2 + (0 if member != 'tfb-t1bspec' else 50))
         sp = np.clip(v0 + r.normal(0, 2.0, len(s)), 3, None); fl = np.clip(q0 + r.normal(0, 40.0, len(s)), 20, None)
         m = s.panel.isin(panels).to_numpy()

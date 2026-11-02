@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Single entry point: rebuild a final-pick submission of team hosen42 (2026 IEEE Big Data Cup - TrafficFlowBench).
 
-  python run_all.py --data-root /data/kaggle_public --work-dir ./work --pick A2 --recipe lean1
+  python run_all.py --data-root /data/kaggle_public --work-dir ./work --pick A3 --recipe full
 
 --data-root   the competition's kaggle_public folder (holds submission_key.csv, sample_submission.csv, corridors/, task1/2/4/)
 --work-dir    cache of every stage (<work>/kernels/<kernel>/...); a rerun skips finished stages
---pick        A2 = tfb-j4 (candidate A) | B2 = tfb-j3 (hedge B)
---recipe      full = all 15 Task 1 members | lean1 = 9 members (DESIGN.md 3.3; expected private delta -0.0002..-0.0003)
---stages      all (default) | light (t4, onset_sp, onset_pv, t1_mix, t1_recon, assemble) | comma list of stage names
+--pick        A3 = tfb-k9 (final candidate A, 2026-11-03) | B3 = tfb-k10 (final hedge B)
+              A2 = tfb-j4 | B2 = tfb-j3 (the previous picks, public 0.88176; kept for reference)
+--recipe      full = all Task 1 members (A2/B2: 15, A3/B3: 18) | lean1 = 9 LightGBM members (+ the 3 CatBoost / XGBoost
+              members for A3/B3; DESIGN.md 3.3; expected private delta -0.0002..-0.0003, A3/B3 not measured)
+--stages      all (default) | light (t4, onset_sp, onset_pv, t1_mix / t1_recon or t1_mix_k5d / t1_lrtc, assemble) | comma list
 --threads     LightGBM threads of the Task 1 members (Kaggle: 4); every Task 2 / Task 4 stage keeps the Kaggle value (4)
 Result: <work>/submission_<pick>_<recipe>.csv (+ .sha256), manifest.json, and per stage .done.json (runtime, peak RSS).
 
@@ -45,7 +47,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--data-root', required=True)
     ap.add_argument('--work-dir', required=True)
-    ap.add_argument('--pick', choices=C.PICKS, default='A2')
+    ap.add_argument('--pick', choices=C.PICKS, default='A3')
     ap.add_argument('--recipe', choices=C.RECIPES, default='lean1')
     ap.add_argument('--stages', default='all')
     ap.add_argument('--threads', type=int, default=4, help='Task 1 member LightGBM threads (Kaggle: 4)')
@@ -66,7 +68,7 @@ def main(argv=None):
         roots.append(dict(root=os.path.abspath(root), mode=mode or 'flat'))
     if a.list:
         for s in stages:
-            print(f'{s:20s} module {str(C.stage_module(s)):12s} kernel {C.stage_kernel(s, a.pick):16s} outputs {C.stage_outputs(s, a.pick)}')
+            print(f'{s:20s} module {str(C.stage_module(s, a.pick)):12s} kernel {C.stage_kernel(s, a.pick):16s} outputs {C.stage_outputs(s, a.pick)}')
         return 0
     r = Runner(a.data_root, a.work_dir, a.pick, a.recipe, threads=a.threads, env_threads=a.env_threads, smoke=a.smoke,
                input_roots=roots, overrides=parse_set(a.set), force=a.force)

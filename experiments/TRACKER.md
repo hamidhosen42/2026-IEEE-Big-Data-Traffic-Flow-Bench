@@ -193,6 +193,7 @@ Numbers are the agents' own honest tallies. See the final report for the synthes
 | ON30 | OG_NOPRIOR + onset 30/70 | 0.84917 |
 | T2 CatBoost onset (v10) | 0.85309 + onset CatBoost | 0.85366 |
 | **V9 weekday prior** | 0.85309 recipe on v9 models (weekday/weekend priors + broad ongoing keep) | **0.85639** (best) |
+| **K9 / K10** | tfb-k9 = k7 + LRTC ranks (24,40,10) + blkVQ@0.15 (EXP_T1_K9_PREP); tfb-k10 = hedge B on k9 (April onset train-prior CatBoost, ongoing veto10). Chain 11-03 with hard asserts + tfb-t4val + tfb-guard (k10-k9 = k8-k7, 200 April queue rows, March unchanged): ALL PASSED | **0.88281 / 0.88281** (best; +0.00022 vs k7/k8) |
 | OG_PERS30 | + 30% persistence on ongoing | 0.85126 (reject) |
 | T1B | 0.85309 + Task 1 low-rank features | 0.85455 |
 | T1B + T2cat | both | 0.85513 (= sum of single-factor gains: effects are additive) |

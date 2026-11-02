@@ -4,7 +4,7 @@ ignored unknown path_ids and crashed on duplicates).  For every submission file 
   - no duplicate (panel, departure_time, path_id); every path_set path present for every (panel, split, departure_time);
   - the file has exactly the sample_submission ids in order; path_flow finite and >= 0 on odme rows, NaN-free;
   - per panel / split: path count, departure times, total flow, share of zero flows.
-Prints 'T4 VALIDATION PASSED' or the list of failures."""
+Prints 'T4 VALIDATION PASSED' only on success; fails the kernel on any validation error."""
 import glob, numpy as np, pandas as pd
 FILES = [('tfb-k9', 'submission_FDRTV.csv'), ('tfb-k10', 'submission_K10.csv')]   # EXP_T1_K9_PREP candidates (was tfb-k7 / tfb-k8)
 REL = glob.glob('/kaggle/input/**/kaggle_public', recursive=True)[0]
@@ -13,6 +13,18 @@ print('key columns', list(key.columns), '| tasks', key.task.value_counts().to_di
 ko = key[key.task == 'odme'].copy()
 print('odme key rows', len(ko), '| columns with values', [c for c in ko.columns if ko[c].notna().any()])
 fails = []
+
+
+def abort_on_failures():
+    if fails:
+        print(f'T4 VALIDATION FAILED: {len(fails)} issue(s)', flush=True)
+        for issue in fails:
+            print('FAIL:', issue, flush=True)
+        raise AssertionError(f'T4 VALIDATION FAILED: {len(fails)} issue(s); see FAIL lines above')
+
+
+if ko.empty:
+    fails.append('submission_key: no odme rows found')
 dup = ko.duplicated(['panel', 'departure_time', 'path_id']).sum()
 if dup:
     fails.append(f'key: {dup} duplicate (panel, departure_time, path_id)')
@@ -36,6 +48,8 @@ for panel, g in ko.groupby('panel'):
             fails.append(f'{panel} {dep}: {len(miss)} path_set paths missing from the key')
             break
     print(f'{panel}: key rows {len(g)} | departure times {g.departure_time.nunique()} | paths {g.path_id.nunique()} of path_set {len(ps)}')
+# Stop before a duplicate/invalid ODME key can trigger a less informative merge exception.
+abort_on_failures()
 sample = pd.read_csv(f'{REL}/sample_submission.csv', usecols=['submission_id']).submission_id.to_numpy()
 for kern, fname in FILES:
     f = glob.glob(f'/kaggle/input/**/{kern}/**/{fname}', recursive=True)
@@ -59,4 +73,5 @@ for kern, fname in FILES:
     grp = [splitcol, 'panel'] if splitcol else ['panel']
     print(f'== {kern}/{fname}: odme rows {len(m)}')
     print(m.groupby(grp).path_flow.agg(rows='size', total='sum', zero_share=lambda x: float((x == 0).mean())).round(3).to_string())
-print('FAILURES:' if fails else 'T4 VALIDATION PASSED', *fails, sep='\n  ')
+abort_on_failures()
+print('T4 VALIDATION PASSED', flush=True)

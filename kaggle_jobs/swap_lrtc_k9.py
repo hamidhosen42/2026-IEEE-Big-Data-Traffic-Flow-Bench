@@ -94,6 +94,7 @@ SPLIT_MAP = {'validation': 'validation', 'val': 'validation', 'public': 'validat
 if 'split' in ks.columns:
     sp = ks.split.astype(str).str.strip().str.lower().map(SPLIT_MAP)
     print('split from key column | unmapped', int(sp.isna().sum()), '| agreement with timestamp month', round(float((sp.fillna('?').to_numpy() == month_split).mean()), 5))
+    assert sp.notna().all() and (sp.to_numpy() == month_split).all(), 'state split column disagrees with timestamp month'  # hard gate (k7 log: 1.0)
     ks['split'] = sp.fillna(pd.Series(month_split, index=ks.index)).to_numpy()
 else:
     print('split from timestamp month (no split column in submission_key)')
@@ -220,6 +221,7 @@ for panel in PANELS:
             EXCLUDED.append(panel)
     print(f'  {panel:12s} -> {"EXCLUDED" if panel in EXCLUDED else "kept"} ({why})', flush=True)
 print('EXCLUDED panels:', EXCLUDED)
+assert not EXCLUDED, f'FD panel(s) excluded from R/T: {EXCLUDED}'  # hard gate (k7 log: [])
 APPLY = hasfd & ~ks.panel.isin(EXCLUDED).to_numpy()
 print('state rows eligible for R/T:', int(APPLY.sum()), '/', len(APPLY))
 if not APPLY.any():

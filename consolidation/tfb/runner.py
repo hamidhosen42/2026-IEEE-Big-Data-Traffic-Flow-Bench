@@ -104,7 +104,7 @@ class Runner:
 
     # ------------------------------------------------------------------ one stage
     def run_stage(self, stage):
-        module = C.stage_module(stage)
+        module = C.stage_module(stage, self.pick)
         kernel = C.stage_kernel(stage, self.pick)
         outs = C.stage_outputs(stage, self.pick, smoke=self.smoke)
         if module is None:                                           # not ported (optional stage): accept provided outputs only
@@ -198,10 +198,10 @@ class Runner:
 
 def parse_stages(arg, pick, recipe):
     if arg in (None, '', 'all'):
-        return C.expand(C.plan(pick, recipe), recipe)
+        return C.expand(C.plan(pick, recipe), recipe, pick)
     if arg == 'light':
         return [s for s in C.LIGHT_STAGES if s in C.plan(pick, recipe)]
-    out = C.expand([s.strip() for s in arg.split(',') if s.strip()], recipe)
+    out = C.expand([s.strip() for s in arg.split(",") if s.strip()], recipe, pick)
     bad = [s for s in out if s not in C.STAGES and not (C.is_member_stage(s) and s[4:-1] in C.T1_MEMBERS)]
     if bad:
         raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)} and t1m:<member part kernel>')

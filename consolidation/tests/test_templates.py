@@ -8,7 +8,8 @@ Rendering (template side): `CFG['k']` / `CFG['k'][i]` / `TFB.cfg['k']` become th
 Normalisation (original side): only the declared I/O substitutions of the vendoring - REL / OUT / SMOKE, the
 pseudo-window glob, the part's panel selection (after checking that the original expression selects exactly the
 configured panels).
-Covers the 31 Task 1 member parts (6 templates) and tfb-t2ogfa / tfb-t2ogfb (t2_ogfeat).
+Covers the 43 Task 1 member parts (8 templates: 31 parts of A2 / B2 + the 12 CatBoost / XGBoost parts of A3 / B3) and
+tfb-t2ogfa / tfb-t2ogfb (t2_ogfeat).
 Run: python tests/test_templates.py   (exit code 1 on failure; also collectable by pytest)
 """
 import ast
@@ -92,6 +93,10 @@ def normalise_original(src, cfg):
         sel = eval(expr, {'PANELS': list(C.PANELS_ALL)})
         assert sel == cfg['panels'], f'panel selection {expr} = {sel} != configured {cfg["panels"]}'
         src = src[:m[0].start()] + "PANELS = list(CFG['panels'])" + src[m[0].end():]
+    elif cfg.get('family') in ('catb', 'xgb'):                                       # k generation: a literal list per part
+        m2 = list(re.finditer(r"^PANELS = (\[[^\]]*\])\s+# t1 ?(?:catb|xgb) part [abcd]$", src, flags=re.M))
+        assert len(m2) == 1 and eval(m2[0].group(1)) == cfg['panels'], f'panel line of the part != configured {cfg["panels"]}'
+        src = src[:m2[0].start()] + "PANELS = list(CFG['panels'])" + src[m2[0].end():]
     elif cfg.get('panels') == ['D7_I405_N']:                                         # part c: PANELS = ['D7_I405_N']
         src = re.sub(r"^PANELS = \['D7_I405_N'\](.*)$", "PANELS = list(CFG['panels'])", src, count=1, flags=re.M)
     return strip(ast.parse(src))
@@ -112,7 +117,7 @@ def check(cond, msg, fails):
 
 def test_t1_templates():
     fails = []
-    for kernel in C.t1_member_kernels('full'):
+    for kernel in C.t1_member_kernels('full', 'A3'):          # A3 / B3 bags = the A2 / B2 bags + catb, catb2, xgb
         cfg = C.t1_part_cfg(kernel)
         tpl = f'{CONS}/tfb/stages/t1_{cfg["family"]}.py'
         a = ast.dump(render_template(tpl, cfg))
