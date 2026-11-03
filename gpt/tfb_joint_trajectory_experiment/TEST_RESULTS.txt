@@ -1,0 +1,19 @@
+2026-11-03 local audit
+======================
+Sources reviewed: tfb_gpt_pack.zip PLAN.md, analysis/t2lab/lab.py,
+consolidation/tfb/stages/t2_occ.py, organizer_scoring/task2 and
+user-provided 2026-11-03 discussion review, GitHub README via web.
+
+Actual Kaggle training dataset and cached OOF P6: NOT PRESENT.
+Actual leaderboard submissions made: ZERO.
+Actual measured score improvement: NONE / UNVERIFIED.
+
+$ python test_joint_decoder.py
+6 synthetic/unit tests PASS (not competition performance)
+
+$ python smoke_integration.py
+Integration PASS: 64 purely synthetic windows; correct cache parsing, OOF scoring, daily bootstrap, JSON.
+Gate blocked deployment for incomplete two-panel synthetic fixture: FAIL
+
+Note: Existing lab OOF model training might not be chronological relative to
+OOF windows: no deployment score is certified by the diagnostic tests.

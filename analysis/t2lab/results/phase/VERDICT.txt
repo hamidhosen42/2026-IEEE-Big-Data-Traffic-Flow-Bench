@@ -1,0 +1,15 @@
+EXP_T2_PHASE verdict (2026-11-03, rule results/phase/PREREG.txt sha1 0640cceb, saved 23:01:03 +06 before any result; asserted by every script)
+ONGOING og_np_phase vs og_np_base (F03, np 58 + 4 phase cols, 255 leaves, folds 0+1; base reproduced exactly from cached fold pickles)
+  G1 train OOF offlike -0.0046 [-0.0080,-0.0012] 2/8; runstart +0.0036 [+0.0015,+0.0057] 7/8           -> FAIL (need both >= +0.005)
+  G2 pseudo-March offlike_m -0.0067 [-0.0135,-0.0002] 2/8 (runstart_m +0.0009, 5/8)                  -> FAIL
+  G3 FM-PM validation -0.00010 (24 win / 85 cells changed); private -0.00080 (info)                   -> FAIL
+  info: official-40 -0.0026, pseudo -0.0167 0/8; gain share of the 4 phase columns 0.6 %.
+  Likely mechanism: F03 trains on faith3 (t % 3 == 0 -> ph6 in {0, 3} only) + runstart (all phases, different weight),
+  so the phase identifies the row source rather than a traffic effect: it helps runstart, hurts offlike / pseudo.
+  -> NO-GO.
+ONSET CatBoost step-6 base vs phase (69 vs 73 cols, seeds 0..4, seed-avg IoU, 214 pseudo-March windows; seed-0 base = 0.6646 as EXP_T2_OSP)
+  +0.0177 [+0.0059, +0.0315], panels 5/8 positive (3 exact ties at 0: D7_I10_E, D7_I210_E 1.000, D7_I405_N; 0 negative)
+  per seed +0.0085 / +0.0458 / +0.0010 / +0.0211 / +0.0119; :05/:35 origins (n 68) +0.033, others (n 146) +0.009
+  info: train OOF offlike onset (folds 0+1, seed 0) +0.0001 [-0.005, +0.005] 4/8
+  -> FAIL by the pre-registered panel count (5/8 < 6/8) -> NO-GO (near miss; a re-test needs a NEW pre-registration).
+Runtime: ongoing 271 s + 105 s (fold 0, fold 1), report ~1 min; onset 384 s.  No April data, no LB, no production edits.

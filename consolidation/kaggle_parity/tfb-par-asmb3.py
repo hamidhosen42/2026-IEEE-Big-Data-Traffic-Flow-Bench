@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 f139673c3969c7a23c7a6a83b0f6e2406466eb30 | generated 2026-11-03 02:09
+#   tfb 0.1.0-m1 | modules tree sha1 f139673c3969c7a23c7a6a83b0f6e2406466eb30 | generated 2026-11-03 23:33
 # Parity kernel tfb-par-asmb3 (B3 required, ~8 min on Kaggle CPU): queue assembly B3 (4 condition x split parts on the original tfb-k9 file) vs tfb-k10 submission_K10.csv
 # Stages ['assemble'] | pick B3 | recipe full | overrides {}
 # Kernel sources to attach (5, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-asmb3", "priority": "B3 required", "minutes": 8, "stages": ["assemble"], "pick": "B3", "recipe": "full", "overrides": {}, "desc": "queue assembly B3 (4 condition x split parts on the original tfb-k9 file) vs tfb-k10 submission_K10.csv", "sources": ["tfb-k9", "tfb-t2osp", "tfb-t2occ", "tfb-t2ogveto", "tfb-k10"], "checks": [{"type": "submission", "ours": ["tfb-k10", "submission_K10.csv"], "orig": ["tfb-k10", "submission_K10.csv"], "tasks": ["state", "queue", "odme"], "label": "asm_B3_vs_tfb-k10"}], "tfb_version": "0.1.0-m1", "tree_sha1": "f139673c3969c7a23c7a6a83b0f6e2406466eb30", "generated": "2026-11-03 02:09"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-asmb3", "priority": "B3 required", "minutes": 8, "stages": ["assemble"], "pick": "B3", "recipe": "full", "overrides": {}, "desc": "queue assembly B3 (4 condition x split parts on the original tfb-k9 file) vs tfb-k10 submission_K10.csv", "sources": ["tfb-k9", "tfb-t2osp", "tfb-t2occ", "tfb-t2ogveto", "tfb-k10"], "checks": [{"type": "submission", "ours": ["tfb-k10", "submission_K10.csv"], "orig": ["tfb-k10", "submission_K10.csv"], "tasks": ["state", "queue", "odme"], "label": "asm_B3_vs_tfb-k10"}], "tfb_version": "0.1.0-m1", "tree_sha1": "f139673c3969c7a23c7a6a83b0f6e2406466eb30", "generated": "2026-11-03 23:33"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).

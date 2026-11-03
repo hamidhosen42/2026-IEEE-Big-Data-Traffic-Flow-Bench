@@ -1,11 +1,13 @@
-# Submission 56643037 — Public LB 0.85309 (current best)
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-This submission was built from three Kaggle notebooks, run in this order:
-1. `upstream__tfb-final.ipynb` (kernel hosen42/tfb-final, version 2). Produces the full base `submission.csv`:
-   - Task 1: LightGBM, profile-free, gap-aware, with occupancy features.
-   - Task 2: LightGBM blend70.
-   - Task 4: NNLS on each split's own counts.
-2. `upstream__tfb-t2v5.ipynb` (kernel hosen42/tfb-t2v5). Retrains the Task 2 models and writes `queue_submission_og_noprior.csv`.
-   On ongoing windows it uses the prior-free model only. On onset windows it keeps the 70/30 blend.
-3. `tfb-swap-v5.ipynb` (kernel hosen42/tfb-swap-v5). Takes (1), replaces only the Task 2 rows with (2), and writes `submission_og_noprior.csv`.
-   That file was submitted.
+# উপস্থাপনা 56643037 —  পাবলিক LB  0.85309 (বর্তমান সেরা)
+
+এই জমা দেওয়া তিনটি ক্যাগল নোটবুক থেকে তৈরি করা হয়েছে, যা এই ক্রমে চালানো হয়েছেঃ
+1. `upstream__tfb-final.ipynb` (kernel hosen42/tfb-final , সংস্করণ 2 ). সম্পূর্ণ বেস `submission.csv` উৎপন্ন করেঃ
+   - টাস্ক 1 : লাইটজিবিএম, প্রোফাইল মুক্ত, ফাঁক সচেতন, নিখোঁজ বৈশিষ্ট্য সহ।
+   - টাস্ক 2 : LightGBM মিশ্রণ 70 .
+   -4 : NNLS প্রতিটি বিভাগের নিজস্ব গণনা।
+2. `upstream__tfb-t2v5.ipynb` (kernel hosen42/tfb-t2v5 ). টাস্ক 2 মডেল পুনরায় প্রশিক্ষণ দেয় এবং `queue_submission_og_noprior.csv` লিখে।
+   চলমান windowতে এটি কেবল পূর্বের মুক্ত মডেল ব্যবহার করে। শুরু windowতে এটি 70/30 মিশ্রণ রাখে।
+3. `tfb-swap-v5.ipynb` (kernel hosen42/tfb-swap-v5 ). ( 1 ), শুধুমাত্র টাস্ক 2 সারিগুলিকে ( 2 ) দিয়ে প্রতিস্থাপন করে এবং `submission_og_noprior.csv` লিখে।
+   সেই ফাইল জমা দেওয়া হয়েছে।

@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 0s
+[    74s] fold 1 base reproduced on official/offlike/pseudo; official base nan new nan, offlike base 0.8767 new 0.8691, pseudo base 0.8526 new 0.8364, runstart base 0.9023 new 0.9051
+[   101s] fold 1 phase gain share ph6 0.0022, ph_on 0.0002, ph_next 0.0016, ph_x 0.0019
+[   105s] og_np_phase fold 1 done in 105s
+[   105s] DONE
+[run_heavy] exit 0 after 107s

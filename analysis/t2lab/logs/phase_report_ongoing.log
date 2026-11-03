@@ -1,0 +1,25 @@
+
+pseudo-March per-window dI by origin phase (info):
+         mean                count           
+set offlike_m runstart_m offlike_m runstart_m
+ph6                                          
+0     -0.0014    -0.0102        47        166
+1     -0.0106     0.0057        59        189
+2     -0.0030     0.0002        49        170
+3     -0.0173    -0.0078        47        212
+4     -0.0136     0.0056        58        211
+5      0.0007     0.0017        38        176
+
+===== ongoing og_np_phase vs og_np_base
+  cmp            set    n   base    new    diff      lo      hi  p_pos panels_pos    d_s1    d_s3    d_s6  d_fn_new  d_fp_old  d_fp_new
+phase train_official   40 0.8899 0.8873 -0.0026 -0.0114  0.0060 0.2995        4/8  0.0007 -0.0118  0.0482    0.0033    0.0018    0.0016
+phase  train_offlike 1473 0.8778 0.8733 -0.0046 -0.0080 -0.0012 0.0035        2/8 -0.0045 -0.0114  0.0181    0.0017    0.0074   -0.0014
+phase   train_pseudo 1055 0.8513 0.8347 -0.0167 -0.0239 -0.0096 0.0000        0/8 -0.0046 -0.0146  0.0033    0.0031    0.0160   -0.0004
+phase train_runstart 5469 0.9019 0.9056  0.0036  0.0015  0.0057 1.0000        7/8  0.0015  0.0049  0.0131    0.0012    0.0015   -0.0042
+phase   pm_offlike_m  298 0.8209 0.8142 -0.0067 -0.0135 -0.0002    NaN        2/8  0.0018 -0.0169 -0.0034       NaN       NaN       NaN
+phase  pm_runstart_m 1124 0.8738 0.8747  0.0009 -0.0029  0.0049    NaN        5/8 -0.0001 -0.0003  0.0167       NaN       NaN       NaN
+FM-PM: {"validation": {"win": 24, "cells": 85, "dn": -1, "fm_lb": -9.884657669668542e-05, "origin_ph1": 11}, "private": {"win": 30, "cells": 127, "dn": 13, "fm_lb": -0.0007967534458352433, "origin_ph1": 8}}
+gain share fold 0: {'ph6': 0.0022, 'ph_on': 0.0002, 'ph_next': 0.0016, 'ph_x': 0.0021} total 0.0061
+gain share fold 1: {'ph6': 0.0022, 'ph_on': 0.0002, 'ph_next': 0.0016, 'ph_x': 0.0019} total 0.0059
+
+VERDICT {"ongoing": {"G1": false, "G2": false, "G3": false, "GO": false, "fm": {"validation": {"win": 24, "cells": 85, "dn": -1, "fm_lb": -9.884657669668542e-05, "origin_ph1": 11}, "private": {"win": 30, "cells": 127, "dn": 13, "fm_lb": -0.0007967534458352433, "origin_ph1": 8}}}}

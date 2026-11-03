@@ -1,10 +1,12 @@
-# Submission 56645587 — Public LB 0.84917
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-Same pipeline as 05_OG_NOPRIOR (0.85309); only the onset windows differ.
-1. `upstream__tfb-final.ipynb` (hosen42/tfb-final v2). Produces the base submission for Tasks 1, 2 and 4.
-2. `upstream__tfb-t2v7.ipynb` (hosen42/tfb-t2v7). Retrains Task 2 and writes variants. The submitted variant `on30` uses:
-   - ongoing windows: the prior-free model;
-   - onset windows: a 30/70 main/prior-free blend.
-3. `tfb-swap-v7.ipynb` (hosen42/tfb-swap-v7). Swaps the Task 2 rows into (1) and writes `submission_on30.csv`, which was submitted.
+# উপস্থাপনা 56645587 —  পাবলিক LB  0.84917
 
-Lesson: onset needs the location/time priors (this variant lost 0.0039 against 0.85309).
+05_OG_NOPRIOR ( 0.85309 ) এর সাথে একই পাইপলাইন; শুধুমাত্র শুরু windowগুলো আলাদা।
+1. `upstream__tfb-final.ipynb` ( hosen42/tfb-final v2 ). 1 , 2 এবং 4 টাস্কের জন্য বেস জমা দেয় ।
+2. `upstream__tfb-t2v7.ipynb` ( hosen42/tfb-t2v7 ). 2 টাস্ককে পুনরায় প্রশিক্ষণ দেয় এবং ভেরিয়েন্ট লিখতে পারে। জমা দেওয়া ভেরিয়েন্ট `on30` ব্যবহার করেঃ
+   - চলমান windowঃ পূর্বের মডেল মুক্ত;
+   - সূচনা windowঃ 30/70  main/prior-free মিশ্রণ।
+3. `tfb-swap-v7.ipynb` ( hosen42/tfb-swap-v7 ). 2 টাস্কটি ( 1 ) রূপে স্যুইচ করে এবং `submission_on30.csv` লিখে, যা জমা দেওয়া হয়েছিল।
+
+পাঠঃ শুরুতে location/time প্রিওর প্রয়োজন (এই ভেরিয়েন্ট 0.0039 এর বিরুদ্ধে 0.85309 হারায়) ।

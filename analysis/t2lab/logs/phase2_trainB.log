@@ -1,0 +1,18 @@
+[run_heavy] slot acquired after 0s
+[     0s] onset train rows 310782 sub 310782
+[    32s] base s13 trained 32s
+[    65s] phase s13 trained 33s
+[    97s] base s14 trained 32s
+[   129s] phase s14 trained 32s
+[   160s] base s15 trained 32s
+[   192s] phase s15 trained 31s
+[   224s] base s16 trained 32s
+[   257s] phase s16 trained 32s
+[   290s] base s17 trained 33s
+[   325s] phase s17 trained 35s
+[   360s] base s18 trained 35s
+[   394s] phase s18 trained 35s
+[   430s] base s19 trained 36s
+[   469s] phase s19 trained 39s
+[   469s] DONE
+[run_heavy] exit 0 after 469s

@@ -5,3 +5,9 @@
 [   267s] fold 0 phase gain share ph6 0.0022, ph_on 0.0002, ph_next 0.0016, ph_x 0.0021
 [   271s] og_np_phase fold 0 done in 271s
 [   285s] fold 1: phase share ph6==1 0.089, ph_on 0.167
+[   469s] og_np_phase fold 1: 5844108 rows x 62 cols trained in 198s
+Traceback (most recent call last):
+  File "/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/phase_ongoing.py", line 92, in <module>
+    assert abs(a - b) < 1e-9, (s, a, b)
+AssertionError: ('official', nan, nan)
+[run_heavy] exit 1 after 536s

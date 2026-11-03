@@ -89,7 +89,7 @@ for k in folds:
     cb = pd.read_pickle(f'{BDIR}/fold{k}.pkl')['df']
     for s in ('official', 'offlike', 'pseudo'):
         a = lab.aggregate(cb[cb.set == s]); b = lab.aggregate(df[(df.set == s) & (df.arm == 'og_np_base')])
-        assert abs(a - b) < 1e-9, (s, a, b)
+        assert (np.isnan(a) and np.isnan(b)) or abs(a - b) < 1e-9, (s, a, b)
     lab.log(f'fold {k} base reproduced on official/offlike/pseudo; ' + ', '.join(
         f'{s} base {lab.aggregate(df[(df.set == s) & (df.arm == "og_np_base")]):.4f} new {lab.aggregate(df[(df.set == s) & (df.arm == "og_np_phase")]):.4f}'
         for s in EVALS))

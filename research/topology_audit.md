@@ -1,15 +1,17 @@
-# Topology audit (EXP_021 prerequisite)
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-- **Run:** 2026-10-01, Kaggle kernel `hosen42/tfb-topo-audit`, script `kaggle_jobs/topology_audit.py`.
-- **Data:** per-link rows in [`topology_audit_links.csv`](topology_audit_links.csv) (link, sensored upstream 1–3, sensored downstream 1–3, ramps, milepost rank, spacing, lanes). Per-panel summary in [`topology_audit_summary.csv`](topology_audit_summary.csv).
-- **Contract** (organizer, discussion 743819): order = milepost, then link_id; conservation connectivity = incoming/outgoing_link_ids; ramps = ramp_attachment_map.
-- Up/downstream neighbours were found by walking incoming/outgoing through latent (sensor-less) mainline links. Connectors are treated as boundaries.
+# টপোলজি অডিট ( EXP_021 পূর্বশর্ত)
 
-## Per-panel summary
+- **চালানঃ**  2026-10-01 , কেগল kernel `hosen42/tfb-topo-audit` , স্ক্রিপ্ট `kaggle_jobs/topology_audit.py` .
+- **ডেটাঃ** প্রতি লিঙ্ক সারি [  `topology_audit_links.csv`  ](topology_audit_links.csv) (লিঙ্ক, সেন্সর আপস্ট্রিম 1–3 , সেন্সর ডাউনস্ট্রিম 1–3 , র্যাম্প, মাইলপোস্ট র্যাঙ্ক, দূরত্ব, ল্যান) । প্রতি প্যানেল সংক্ষিপ্তসার [  `topology_audit_summary.csv`  ](topology_audit_summary.csv) .
+- **চুক্তি** (সংগঠক, আলোচনা 743819 ): অর্ডার = মাইলপস্ট, তারপর link_id ; সংরক্ষণ সংযোগ = incoming/outgoing_link_ids ; র্যাম্পস = ramp_attachment_map.
+- Up/downstream প্রতিবেশীরা incoming/outgoing দ্বারা লুকানো (সেন্সরহীন) মূল লাইন সংযোগগুলি দিয়ে হাঁটতে পাওয়া যায়। সংযোগকারীগুলি সীমানা হিসাবে বিবেচিত হয়।
 
-| Panel | T2 | Dir | Sensored links | Spearman(order_index, milepost) | Upstream has **higher** milepost | Milepost neighbours adjacent in topology | Lane drops / adds | Median / max spacing (km) |
+## প্রতি প্যানেলের সারসংক্ষেপ
+
+| প্যানেল | T2 | ডির | সেন্সর লিঙ্ক | স্পিকারম্যানorder_index(মাইলপস্ট) | উপরের দিকে, উচ্চতর **মাইলপস্ট আছে** | মাইলপস্ট প্রতিবেশীরা টপোলজিতে সংলগ্ন | লাইন ড্রপ / যোগ | মধ্যম / সর্বোচ্চ দূরত্ব (কিলোমিটার) |
 |---|---|---|---:|---:|---:|---|---|---|
-| D7_I10_E | ✓ | E | 146 | 1.000 | 0.000 (85 checks) | 83/145 | 19 / 19 | 0.26 / 3.08 |
+| D7_I10_E | ✓ | E | 146 | 1.000 | 0.000 ( 85 চেক) | 83/145 | 19 / 19 | 0.26 / 3.08 |
 | D7_I10_W | ✓ | W | 107 | 1.000 | **1.000** (28) | 28/106 | 14 / 17 | 0.34 / 2.49 |
 | D7_I210_E | ✓ | E | 297 | 1.000 | 0.000 (290) | 288/296 | 9 / 7 | 0.17 / 3.89 |
 | D7_I210_W | ✓ | W | 81 | 1.000 | **1.000** (15) | 15/80 | 11 / 9 | 0.40 / 4.33 |
@@ -20,37 +22,37 @@
 | D12_I405_N | – | N | 89 | 1.000 | 0.014 (69) | 68/88 | 14 / 16 | 0.33 / 7.77 |
 | D12_I405_S | – | S | 44 | 1.000 | **1.000** (10) | 10/43 | 14 / 11 | 0.31 / 7.59 |
 
-Every panel also has:
-- 1 station per link;
-- no milepost ties;
-- links.csv v_f equal to fd_parameters v_f.
+প্রতিটি প্যানেলেরও রয়েছেঃ
+-1 স্টেশন প্রতি লিঙ্ক;
+- কোন মাইলস্টপ সংযোগ নেই;
+- links.csv  v_f সমান fd_parameters  v_f.
 
-## Findings
+## ফলাফল
 
-1. **Order.** `order_index` equals milepost rank in every panel, and our Task 1 milepost sort equals the scorer's order. There are no wrong link orders, reversed segments or station/link mismatches. **Task 1 and Task 3 ordering are correct.**
-2. **Direction (NEW, matters for Task 2).**
-   - In E/N panels, traffic flows toward **increasing** milepost / order_index.
-   - In W/S panels it flows toward **decreasing** order_index.
-   - Task 2 pools all 8 panels in one model and names its features by array direction:
+1. **অর্ডার।**  `order_index` প্রতিটি প্যানেলের মাইলপোস্ট র্যাঙ্ক সমান, এবং আমাদের টাস্ক 1 মাইলপোস্ট সোর্ট স্কোরারের অর্ডার সমান। কোনও ভুল লিঙ্ক অর্ডার, বিপরীত সেগমেন্ট বা station/link অসঙ্গতি নেই। **টাস্ক 1 এবং টাস্ক 3 অর্ডার সঠিক।**
+2. **নির্দেশনা ( NEW , টাস্কের বিষয় 2 ).**
+   - E/N প্যানেলে, ট্রাফিকের প্রবাহ **দিকে বাড়ছে** মাইলপস্ট / order_index.
+   - মধ্যে W/S প্যানেল এটা প্রবাহিত **হ্রাস** order_index.
+   -2 টাস্ক 8 প্যানেলগুলিকে এক মডেলের মধ্যে সংযুক্ত করে এবং এর বৈশিষ্ট্যগুলি অ্যারের দিকনির্দেশের দ্বারা নামকরণ করেঃ
      - `vr_min_dn*` / `vr_min_up*`;
      - `vr_n±k`, `q_n±k`, `fr_n±k`;
      - `dq_hi*` / `dq_lo*`;
      - `cap_ratio_hi/lo`.
-   - So "downstream" means physically downstream in 4 panels and **upstream** in the other 4.
-   - The prior-free ongoing model has no `pos`, lanes or capacity features that could let it tell the two cases apart.
-   - Queues spill back upstream, so these are exactly the features ongoing relies on.
-   - **Fix:** reverse the link order for W/S panels, so index + 1 is always downstream.
-   - **Test:** `tfb-oofF` (same windows, folds and seeds as oofX; P255 ongoing plus CatBoost onset) against the oofX controls.
-   - Task 1 is not affected: each panel has its own model, so the direction is fixed within a model.
-3. **Connectivity.**
-   - In W/S panels only 10–30% of milepost-adjacent sensored links are connected through the released topology; in E/N panels it is 57–99%.
-   - This matches the organizer's note that the topology is fragmented by connector links and latent mainline links. It does not affect our milepost-based features.
-   - For LWR the scorer uses organizer-held flux, not our topology.
-4. **Physical distance.**
-   - Station spacing varies from 0.1 to 7.8 km.
-   - Task 1 and Task 2 neighbour features ignore distance: `pos` is a linspace, and ±k is an index offset.
-   - Candidate feature: the km gap to each neighbour (EXP_032).
-5. **Ramps and lane drops.**
-   - Each panel has 47–116 ramps and 9–22 lane drops, none of which our features use.
-   - Ramp flows are released. For Task 2, ramp values up to and including T are allowed. For Task 1, all ramp values are allowed.
-   - Candidate features: EXP_032 and EXP_033.
+   - সুতরাং "ডাউনস্ট্রিম" মানে 4 প্যানেলগুলিতে শারীরিকভাবে ডাউনস্ট্রিম এবং **আপস্ট্রিম** অন্য 4 প্যানেলগুলিতে।
+   - পূর্ববর্তী বিনামূল্যে চলমান মডেলটিতে `pos` , ল্যান বা ক্ষমতা বৈশিষ্ট্য নেই যা এটিকে দুটি ক্ষেত্রে আলাদা করতে দেয়।
+   - লাইনগুলো প্রবাহিত হয়ে উঠেছে, তাই এইগুলোই হচ্ছে বর্তমানের বৈশিষ্ট্য।
+   - **ফিক্সঃ**  W/S প্যানেলগুলির জন্য লিঙ্ক অর্ডারটি বিপরীত করে, তাই সূচক +1 সর্বদা নীচে প্রবাহিত হয়।
+   - **পরীক্ষাঃ**  `tfb-oofF` (ওওফএক্সের মতো একই window, fold এবং বীজ; P255 চলমান প্লাস ক্যাটবুস্ট শুরু) ওওফএক্স নিয়ন্ত্রণের বিরুদ্ধে।
+   -1 টাস্কটি প্রভাবিত হয় নাঃ প্রতিটি প্যানেলের নিজস্ব মডেল রয়েছে, তাই একটি মডেলের মধ্যে দিকনির্দেশ স্থির করা হয়।
+3. **সংযোগ।**
+   - W/S প্যানেলে শুধুমাত্র 10–30 % মাইলপোস্ট-পরিসন্ন সেন্সরযুক্ত লিঙ্কগুলি মুক্তিপ্রাপ্ত টপোলজির মাধ্যমে সংযুক্ত করা হয়; E/N প্যানেলে এটি 57–99 %।
+   - এটি সংগঠকের নোটের সাথে মিলিত যে টপোলজিটি সংযোগকারী লিঙ্ক এবং ল্যাটেন্ট মূল লাইন লিঙ্ক দ্বারা বিচ্ছিন্ন। এটি আমাদের মাইলপস্ট ভিত্তিক বৈশিষ্ট্যগুলিকে প্রভাবিত করে না।
+   - LWR এর জন্য স্কোরার আমাদের টপোলজি নয়, সংগঠক-হোল্ড ফ্লক্স ব্যবহার করে।
+4. **শারীরিক দূরত্ব।**
+   - স্টেশন দূরত্ব 0.1 থেকে 7.8 কিমি পর্যন্ত পরিবর্তিত হয়।
+   - টাস্ক 1 এবং টাস্ক 2 প্রতিবেশী বৈশিষ্ট্য দূরত্বকে উপেক্ষা করেঃ `pos` একটি লেন্স স্পেস এবং ±k একটি সূচক অফসেট।
+   - প্রার্থী বৈশিষ্ট্যঃ প্রতি প্রতিবেশী ( EXP_032 ) এর কিলোমিটার ফাঁক।
+5. **র্যাম্পস এবং ল্যান ড্রপস.**
+   - প্রতিটি প্যানেলের 47–116 র্যাম্প এবং 9–22 ল্যান ড্রপ রয়েছে, যার মধ্যে আমাদের বৈশিষ্ট্যগুলির কোনওটিই ব্যবহার করে না।
+   - র্যাম্প প্রবাহগুলি মুক্তি পায়। টাস্ক 2 এর জন্য, T পর্যন্ত এবং সহ র্যাম্প মানগুলি অনুমোদিত। টাস্ক 1 এর জন্য, সমস্ত র্যাম্প মানগুলি অনুমোদিত।
+   - প্রার্থী বৈশিষ্ট্যঃ EXP_032 এবং EXP_033.

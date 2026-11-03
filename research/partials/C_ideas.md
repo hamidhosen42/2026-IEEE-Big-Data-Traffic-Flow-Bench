@@ -1,320 +1,322 @@
-# C — Traffic state reconstruction / imputation / physics: experiment ideas for our pipeline
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-Scope: Task 1 (masked speed and per-lane flow), and Task 3 through the density q/v at masked cells.
-Evidence ids point to `C_resources.csv`. Each idea is labelled against `EXISTING_MAP.md` (2026-09-30).
+# C  —  ট্রাফিক স্টেট রিকনস্ট্রাকশন / ইনপুটেশন / ফিজিক্সঃ আমাদের পাইপলাইন জন্য পরীক্ষার ধারণা
 
-Baseline to beat: T1 LightGBM residual-to-interpolation, F model (511 leaves), val-month holdout **0.9386**.
-It is the E model (0.9374) plus bigger capacity.
+পরিসীমাঃ টাস্ক 1 (মাস্কযুক্ত গতি এবং প্রতি-লেন প্রবাহ) এবং টাস্ক 3 মাস্কযুক্ত cellগুলিতে ঘনত্ব q/v মাধ্যমে।
+প্রমাণ আইডি `C_resources.csv` এর দিকে নির্দেশ করে। প্রতিটি ধারণা `EXISTING_MAP.md` ( 2026-09-30 ) এর বিরুদ্ধে লেবেলযুক্ত।
 
-## Validation protocol (applies to every idea)
+বেসলাইন বিটঃ T1 LightGBM অবশিষ্ট-to-interpolation, F মডেল ( 511 leaves), val-মাস holdout **0.9386** .
+এটি E মডেল ( 0.9374 ) প্লাস বৃহত্তর ক্ষমতা।
 
-1. **Val-month internal holdout.** Hide 15% of released eligible cells.
-   - Report per panel, per mask regime (20/30/50%), and separately for cells inside the 90-min post-origin blackouts.
-   - Compute every new feature **after** the holdout cells are hidden.
-2. **Train CV.** Use the 3 contiguous day-block folds on the official train templates, with the same aggregation as the competition.
-3. **LWR proxy.** Compute `1 − Σ|ΔN_pred − ΔN_obs| / Σ|ΔN_obs|` on target cells, and report T1+T3 jointly.
-   - Physics is about 0.67 on LB, so a density gain is worth more than a speed-RMSE gain of the same size.
-4. **Generic reject rule.** Reject if any of these holds:
-   - mean holdout Δ < +0.0010;
-   - the change is worse on ≥ 3 of 8 panels;
-   - the LWR proxy drops by more than 0.002.
-   - Individual ideas below tighten this where noted.
-5. **Leakage rule.** A feature may only use cells that are *visible in that row's view*.
-   - Training rows: official train mask + simulated blackout.
-   - Holdout rows: test mask + the extra 15%.
-   - Never use the target cell itself.
+## বৈধতা প্রোটোকল (প্রত্যেক আইডিয়াতে প্রযোজ্য)
+
+1. **Val-month internal holddown.** Hide 15 % of eligible cells released.
+   - প্রতি প্যানেল, মাস্কের প্রতি রিপোর্ট ( 20/30/50 %), এবং 90 -min এর পর থেকে ব্ল্যাকআউটগুলির ভিতরের cellগুলির জন্য পৃথকভাবে।
+   - **এর পরে প্রতিটি নতুন বৈশিষ্ট্য গণনা করুন** হোলডআউট সেল লুকিয়ে আছে।
+2. **train CV** অফিসিয়াল train টেমপ্লেটগুলিতে 3 ধারাবাহিক দিনের ব্লক foldগুলি ব্যবহার করুন, প্রতিযোগিতার মতো একই সমষ্টি।
+3. **LWR প্রক্সি**  `1 − Σ|ΔN_pred − ΔN_obs| / Σ|ΔN_obs|` লক্ষ্য cellগুলিতে গণনা করুন এবং T1 + T3 যৌথভাবে রিপোর্ট করুন।
+   - পদার্থবিজ্ঞান প্রায় 0.67 উপর LB, তাই ঘনত্বের বৃদ্ধি গতির চেয়ে বেশি মূল্যবান-RMSE একই আকারের লাভ।
+4. **সাধারণ প্রত্যাখ্যান নিয়ম।** যদি এর মধ্যে কোনটি সত্য হয় তবে প্রত্যাখ্যান করুনঃ
+   - গড় ধাক্কা Δ < +0.0010 ;
+   -8 প্যানেলের ≥3 ক্ষেত্রে পরিবর্তনটি আরও খারাপ হয়;
+   - LWR প্রক্সি 0.002 এর চেয়ে বেশি কমে যায়।
+   - নীচের কিছু ধারণাগুলি এটিকে আরও কঠোর করে তোলে।
+5. **লিক নিয়ম.** একটি বৈশিষ্ট্য শুধুমাত্র সেল ব্যবহার করতে পারে যা * সেই সারিটির ভিউতে দৃশ্যমান* ।
+   - প্রশিক্ষণ লাইনঃ অফিসিয়াল train মাস্ক + সিমুলেটেড ব্ল্যাকআউট।
+   - ধারাবাহিকতাঃ পরীক্ষার মাস্ক + অতিরিক্ত 15 %।
+   - কখনোই টার্গেট সেল ব্যবহার করবেন না।
 
 ---
 
-## A. Cheap gains (≤ 1 day of work each, CPU cost ≤ 30 min per full run)
+## A. সস্তা উপার্জন (প্রতিটি কর্মদিবসের জন্য ≤1 , প্রতি পূর্ণ কর্মদিবসের জন্য ≤ CPU খরচ ≤30 মিনিট)
 
-### A1. ASM/GASM characteristic-kernel features — **NEW, HIGH-VALUE** (priority 1)
+### A1 . ASM/GASM বৈশিষ্ট্য-kernel বৈশিষ্ট্য  — **NEW , HIGH - VALUE** (প্রাথমিকতা 1 )
 
-**Basis.**
-- C0013: Treiber–Helbing ASM, robust when up to 65% of detectors are dropped.
-- C0002 / C0001: calibrated ASM with FFT code, CODE_INSPECTED. Calibrated values were c_cong ≈ −20 km/h, c_free ≈ 80–97 km/h, τ ≈ 8–12 s, δ ≈ 0.14 km at 30 s / 0.48 km resolution.
-- C0014: GASM, which uses multiple wave speeds with weights from matrix completion.
-- C0024: ASNN, which learns the ASM parameters.
-- C0006: KW-CNN (DEEP_READ). Anisotropic kernels bounded by the free-flow speed (downstream) and the backward wave speed (upstream) reduce overfitting.
-- C0697: fast ASM implementations.
-- C0020, C0027: phase-based and oblique-grid smoothing variants.
+**বেস.**
+- C0013 : Treiber – Helping ASM , যখন 65 % পর্যন্ত ডিটেক্টর পড়ে যায় তখন শক্তিশালী।
+- C0002 / C0001 : ASM কে FFT কোড দিয়ে ক্যালিব্রেট করা হয়েছে, CODE_INSPECTED. ক্যালিব্রেট করা মানগুলি ছিল c_cong ≈ −20  km/h , c_free ≈80–97  km/h , τ ≈8–12 s, δ ≈0.14 km এর 30 s / 0.48 km এর রেজোলিউশনে।
+- C0014 : GASM , যা ম্যাট্রিক্সের সমাপ্তির ওজন সহ একাধিক তরঙ্গ গতি ব্যবহার করে।
+- C0024 : ASNN , যা ASM পরামিতি শিখতে পারে।
+- C0006 : KW - CNN ( DEEP_READ ). ফ্রি ফ্লো স্পিড (ডাউনস্ট্রিম) এবং রিটার্ন ওয়েভ স্পিড (উপরে) দ্বারা সীমাবদ্ধ অ্যানিসোট্রপিক kernelগুলি ওভারফাইটিংকে হ্রাস করে।
+- C0697 : দ্রুত ASM বাস্তবায়ন।
+- C0020 , C0027 : ফাজা ভিত্তিক এবং আস্তিক-গ্রিড মসৃণতা বৈকল্পিক।
 
-**Weakness addressed.** Our neighbour features are isotropic and short-range: ±1..2 stations at t−1..t+1.
-- In congestion, information travels upstream at about 15–25 km/h, which is about 1.3–2 km per 5-min slot.
-- The informative cells for a masked congested cell therefore lie on a diagonal spanning several links and slots.
-- At 50% masking, and inside the 90-min blackouts, the ±1 neighbours are often missing. Temporal interpolation then carries pre-blackout values into a queue that has moved.
+**দুর্বলতা সমাধান করা হয়েছে।** আমাদের প্রতিবেশী বৈশিষ্ট্যগুলি আইসোট্রপিক এবং স্বল্প দূরত্বেরঃ ±1  2 স্টেশনগুলি t−1 ..t+1 .
+- ঘন ঘন ঘন ঘন ঘন ঘন ঘন ঘন ঘন তথ্য প্রবাহিত হয় 15–25 km/h, যা প্রায় 1.3–2 প্রতি কিলোমিটার 5- আমার স্লট।
+- সুতরাং, একটি মুখোশযুক্ত congested সেলের তথ্য cell একটি ডায়াগোনাল উপর অবস্থিত বিভিন্ন লিঙ্ক এবং স্লট জুড়ে।
+-50 % মাস্কিং এবং 90 -min blackouts এর মধ্যে, ±1 প্রতিবেশী প্রায়ই অনুপস্থিত থাকে।
 
-**Code change (feature stage, `t1_features`).** Work per panel-day on the (slot × link) grid, using milepost x.
-1. Build a mask M: 1 where the cell is visible in the row's view. Build the values V: speed, total flow, and occupancy.
-2. For each target (i, t), sum over links j with |j−i| ≤ 6 and slots s with |s−t| ≤ 6. Let Δx = x_j − x_i in km and Δt = 5(s − t) in minutes.
+** কোড পরিবর্তন (ফ্যাক্টর স্টেজ, `t1_features` ). ** মাইলপস্ট এক্স ব্যবহার করে (স্লট × লিঙ্ক) গ্রিডের প্যানেল-দিনের জন্য কাজ করুন।
+1. একটি মাস্ক তৈরি করুন M: 1 যেখানে সেলটি সারিটির দৃশ্যমান। V: গতি, মোট প্রবাহ এবং আবাসন মানগুলি তৈরি করুন।
+2. প্রতিটি লক্ষ্য (i, t) এর জন্য, যোগ করুন লিঙ্ক j |j−i| ≤6 এবং সঙ্গে স্লট s |s−t| ≤6 . Δx = x_j − x_i কেমিতে এবং Δt = 5 (s − t) মিনিটগুলিতে দিন।
    - `φ_c = exp(−|Δt − Δx/c_cong|/τ − |Δx|/δ)`
    - `φ_f = exp(−|Δt − Δx/c_free|/τ − |Δx|/δ)`
-   - `Z_c = Σφ_c·M·V / Σφ_c·M` and `Z_f = Σφ_f·M·V / Σφ_f·M`
-   - Also keep the support masses `S_c = Σφ_c·M` and `S_f = Σφ_f·M`.
-3. Blend: `W = ½(1 + tanh((V_thr − min(Z_c^speed, Z_f^speed))/ΔV))` and `ASM = W·Z_c + (1−W)·Z_f`.
-4. Features per variable (speed, flow, occupancy): Z_c, Z_f, W, ASM, S_c, S_f, and ASM − interp.
-   - Add ASM density `ASM_flow / ASM_speed` for Task 3.
-5. GASM variant: add Z at c ∈ {−25, −18, −12, +60, +90, +120} km/h as separate columns and let LightGBM do the weighting (C0014's idea).
-   - Implement with 169 array shifts using the real per-pair Δx (links are non-uniform), in vectorised numpy.
+   - `Z_c = Σφ_c·M·V / Σφ_c·M` এবং `Z_f = Σφ_f·M·V / Σφ_f·M`
+   - এছাড়াও `S_c = Σφ_c·M` এবং `S_f = Σφ_f·M` সমর্থন ভর রাখা .
+3. মিশ্রণঃ `W = ½(1 + tanh((V_thr − min(Z_c^speed, Z_f^speed))/ΔV))` এবং `ASM = W·Z_c + (1−W)·Z_f` ।
+4. পরিবর্তনশীল প্রতি বৈশিষ্ট্য (গতির, প্রবাহ, কর্মক্ষমতা): Z_c , Z_f , W, ASM , S_c , S_f , এবং ASM − interp.
+   - ASM ঘনত্ব `ASM_flow / ASM_speed` যোগ করুন Task 3 এর জন্য ।
+5. GASM ভেরিয়েন্টঃ c ∈ {−25 , −18 , −12 , +60 , +90 , +120 } km/h এ Z যোগ করুন পৃথক কলাম হিসাবে এবং LightGBM এর ওজন করা যাক ( C0014 এর ধারণা) ।
+   -169 অ্যারে শিফটগুলি ব্যবহার করে বাস্তবায়ন করুন প্রতি জোড়া Δx (লিঙ্কগুলি একক নয়), ভেক্টরাইজড নম্পিতে।
 
-**Calibration.** For each corridor, grid-search on two train weeks per panel, scoring RMSE of ASM alone on hidden released cells:
+**ক্যালিব্রেশন.** প্রতিটি করিডোরের জন্য, প্যানেল প্রতি দুই সপ্তাহের train-এর উপর গ্রিড-সার্চ, RMSE এর ASM শুধুমাত্র লুকানো মুক্তি cellগুলিতে স্কোর করেঃ
 - c_cong ∈ {−12, −16, −20, −25};
 - c_free ∈ {60, 80, 100};
-- τ ∈ {2.5, 5, 10} min;
-- δ ∈ {0.3, 0.6, 1.2} km.
+- τ ∈ { 2.5 , 5 , 10 } min;
+- δ ∈ { 0.3 , 0.6 , 1.2 } কিলোমিটার।
 
-Because τ and δ must match 5-min / link resolution, **do not copy the 30-s values from C0002**. Use calibrated values per corridor, or pooled values.
+কারণ τ এবং δ 5 -min / লিঙ্ক রেজোলিউশন সাথে মিলতে হবে, **30 এর মানগুলি C0002** থেকে অনুলিপি করবেন না। প্রতিটি করিডোরের জন্য ক্যালিব্রেটেড মান বা সমন্বিত মান ব্যবহার করুন।
 
-**Compute.** A 169-shift sum on a 288 × 350 grid × 3 variables × 3–9 kernels takes about 1–3 s per panel-day, so a few minutes per full run on 4 cores. Calibration is under 10 min.
+**গণনা করুন।** একটি 169 - একটি 288 × 350 গ্রিডের উপর শিফট যোগফল × 3 পরিবর্তনশীল × 3–9 কোরগুলি প্রতি প্যানেল-দিনের জন্য প্রায় 1–3 সেকেন্ড নেয়, তাই 4 কোরগুলিতে পূর্ণ চালনার প্রতি কয়েক মিনিট। ক্যালিব্রেশন 10 মিনিটের নিচে।
 
-**Expected gain.** +0.002 to +0.006 on the holdout, concentrated in the 50% regime, the blackout cells, and congested cells. There should be a visible LWR-proxy gain because congested speeds drive q/v errors. This is our estimate, not a literature number: no paper reports ASM on top of a GBDT.
+**প্রত্যাশিত লাভ।** +0.002 থেকে +0.006 পর্যন্ত, 50 % রেজিমে, ব্ল্যাকআউট সেল এবং congested সেলগুলিতে কেন্দ্রীভূত। একটি দৃশ্যমান LWR -প্রক্সি লাভ হওয়া উচিত কারণ congested গতি q/v ত্রুটি চালায়। এটি আমাদের অনুমান, একটি সাহিত্য সংখ্যা নয়ঃ কোন কাগজ রিপোর্ট ASM একটি GBDT এর উপরে।
 
-**Validation.** Use the protocol above plus a per-regime and per-blackout breakdown. Extra check: feature importance must not be concentrated in S_c/S_f alone, which would mean the model is learning mask density rather than the state.
+**বৈধতা.** উপরের প্রোটোকল ব্যবহার করুন প্লাস প্রতি-নিয়ন্ত্রণ এবং প্রতি-ব্ল্যাকআউট বিভাজন। অতিরিক্ত পরীক্ষাঃ বৈশিষ্ট্য গুরুত্ব শুধুমাত্র S_c/S_f মধ্যে কেন্দ্রীভূত করা উচিত নয়, যার অর্থ মডেল মাস্ক ঘনত্ব শেখার পরিবর্তে রাষ্ট্র।
 
-**Reject.** Holdout Δ < +0.0015, or no gain on the 50%-regime subset.
+**প্রত্যাখ্যান.** ধারণক্ষমতা Δ < +0.0015 , অথবা 50 %-সিস্টেমের উপসেটটিতে কোনও লাভ নেই।
 
-### A2. Mask-support and mask-rate matching of training views — **RELATED** (regime rate and gap distances exist)
+### A2 . প্রশিক্ষণের দৃশ্যের মাস্ক-সমর্থন এবং মাস্ক-রেট সমন্বয়  — **RELATED** (নিয়ম হার এবং ফাঁক দূরত্ব বিদ্যমান)
 
-**Basis.**
-- C0008, ImputeFormer Table 7 (DEEP_READ): models do best when the training mask rate is close to the test missing rate. Mixed-rate masking is best when rates are unknown or blocky.
-- C0007: the survey found that models fail at high missing rates unless missingness is indicated explicitly.
+**বেস.**
+- C0008 , ImputeFormer Table 7 ( DEEP_READ ): প্রশিক্ষণ মাস্কের হার পরীক্ষায় অনুপস্থিত হারের কাছাকাছি থাকলে মডেলগুলি সবচেয়ে ভাল কাজ করে।
+- C0007 : সমীক্ষায় দেখা গেছে যে মডেলগুলি উচ্চ হারের অনুপস্থিতিতে ব্যর্থ হয় যদি না অনুপস্থিতি স্পষ্টভাবে নির্দেশিত হয়।
 
-**Code change.**
-1. Add the local observed fraction in windows 3×3, 5×5 and 7×7 (links × slots).
-2. Add the number of visible cells on each characteristic cone. This comes for free from A1's S_c/S_f.
-3. Check that the neighbour-availability distribution of training rows matches the test regimes.
-   - In training, the official template is the only mask; in the holdout, test mask + 15% also applies.
-   - If they differ, add extra random hiding to training views at the regime-specific rate, so the holdout and the test are not systematically sparser than training.
+**কোড পরিবর্তন।**
+1. window 3 × 3 , 5 × 5 এবং 7 × 7 (লিঙ্ক × স্লট) এ স্থানীয়ভাবে পর্যবেক্ষণ করা ভগ্নাংশ যোগ করুন।
+2. প্রতিটি বৈশিষ্ট্যযুক্ত শৃঙ্খলার দৃশ্যমান cellের সংখ্যা যোগ করুন। এটি A1 এর S_c/S_f. থেকে বিনামূল্যে আসে।
+3. প্রশিক্ষণ লাইনগুলির প্রতিবেশী-উপলব্ধতার বিতরণ পরীক্ষার পদ্ধতির সাথে সামঞ্জস্যপূর্ণ কিনা তা পরীক্ষা করুন।
+   - প্রশিক্ষণের ক্ষেত্রে, অফিসিয়াল টেমপ্লেটটি একমাত্র মাস্ক; হোলডাউটে, পরীক্ষার মাস্ক +15 %ও প্রযোজ্য।
+   - যদি তারা ভিন্ন হয়, তাহলে নিয়মে নির্দিষ্ট রেট অনুযায়ী প্রশিক্ষণের দিকে অতিরিক্ত র্যান্ডম লুকানো যোগ করুন, যাতে ধারণ এবং পরীক্ষা প্রশিক্ষণের চেয়ে সিস্টেমগতভাবে কম হয় না।
 
-**Compute.** Negligible.
+**গণনা.** অবহেলিত.
 
-**Expected gain.** +0.000 to +0.0015.
+**প্রত্যাশিত লাভ।** +0.000 থেকে +0.0015 পর্যন্ত।
 
-**Reject.** Δ < +0.0005.
+**প্রত্যাখ্যান।** Δ < +0.0005 .
 
-### A3. Masked low-rank completion (SoftImpute / LATC / LCR) instead of SVD of the interpolated field — **RELATED / HIGH-VALUE RETEST**
+### A3 . আন্তঃনিয়ন্ত্রিত ক্ষেত্রের SVD এর পরিবর্তে মাস্কযুক্ত নিম্ন-পরিমানের সমাপ্তি (SoftImpute / LATC / LCR )  — **RELATED / HIGH - VALUE  RETEST**
 
-**Basis.**
-- C0004: fancyimpute SoftImpute (CODE_INSPECTED).
-- C0003 / C0005: transdim LATC (CODE_INSPECTED). Seattle speed at 30% random missing gave RMSE 3.16 vs 3.72 for BTMF.
-- C0262 / C0261: LCR, an FFT solution in log-linear time.
-- C0007: the benchmark found that low-rank or global priors are among the strongest, and LATC is the cheapest in time and memory.
+**বেস.**
+- C0004 : ফ্যানসিআইম্পুট সফটইম্পুট ( CODE_INSPECTED ).
+- C0003 / C0005 : transdim LATC ( CODE_INSPECTED ). 30 এ সিটল গতি % random missing gave RMSE  3.16 vs 3.72 for BTMF .
+- C0262 / C0261 : LCR , একটি FFT সমাধান লগ-লাইন সময়।
+- C0007 : এই ব্যানচার্চটি দেখায় যে নিম্ন-পরিসীম বা বিশ্বব্যাপী পূর্ববর্তীগুলি সবচেয়ে শক্তিশালী এবং LATC সময় এবং স্মৃতিতে সবচেয়ে সস্তা।
 - C0195: RPCA. C0205: TRMF.
 
-**Weakness addressed.** Our rank-3/5 SVD features factorise the *interpolated* field. Inside gaps and blackouts they reproduce the interpolation bias. A proper masked completion fits only visible entries.
+**দুর্বলতা সমাধান করা হয়েছে।** আমাদের rank-3/5  SVD বৈশিষ্ট্যগুলি * ইন্টারপোলেটেড * ক্ষেত্রকে ফ্যাক্টরাইজ করে। ফাঁক এবং ব্ল্যাকআউটগুলির ভিতরে তারা ইন্টারপোলেশন বিভাজনকে পুনরুদ্ধার করে। একটি সঠিক মাস্কযুক্ত সমাপ্তি কেবলমাত্র দৃশ্যমান এন্ট্রিগুলিতে ফিট করে।
 
-**Code change.**
-1. Per panel-month and variable, build the matrix (days·288) × links, or the tensor links × 288 × days, from visible cells only.
-2. Run SoftImpute with max_rank ∈ {5, 10}, shrinkage chosen on hidden released cells, 50–100 iterations, using randomized SVD.
-3. Optional: LATC with time_lags {1, 2, 288} and θ ∈ {5, 10}.
-4. Features: the completed value, completed − interp, and the completed density.
-5. Keep the existing SVD features (the tree picks).
+**কোড পরিবর্তন।**
+1. প্যানেল-মাস এবং পরিবর্তনশীল প্রতি, শুধুমাত্র দৃশ্যমান cell থেকে ম্যাট্রিক্স (দিন· 288 ) × লিঙ্ক, বা টেনসর লিঙ্কগুলি × 288 × দিনগুলি তৈরি করুন।
+2. max_rank ∈ { 5 , 10 } দিয়ে SoftImpute চালান, লুকানো মুক্তি cellগুলিতে নির্বাচিত সংকোচন, 50–100 পুনরাবৃত্তি, র্যান্ডমাইজড SVD ব্যবহার করে।
+3. ঐচ্ছিকঃ LATC with time_lags { 1 , 2 , 288 } এবং θ ∈ { 5 , 10 } ।
+4. বৈশিষ্ট্যঃ সম্পন্ন মান, সম্পন্ন − interp, এবং সম্পন্ন ঘনত্ব।
+5. বিদ্যমান SVD বৈশিষ্ট্যগুলি (ছাগলটি নির্বাচন করে) রাখুন।
 
-**Compute.** SoftImpute on an 8640 × 350 matrix takes seconds per iteration, so a few minutes per panel.
-- LATC's per-sensor sparse solves take roughly 10–40 min per large panel (our estimate, not measured). Try SoftImpute first.
+**গণনা করো।** SoftImpute একটি 8640 × 350 ম্যাট্রিক্স প্রতি পুনরাবৃত্তি প্রতি সেকেন্ড লাগে, তাই প্যানেল প্রতি কয়েক মিনিট.
+- LATC এর সেন্সর প্রতি বিরল সমাধানগুলি বড় প্যানেল প্রতি প্রায় 10–40 মিনিট সময় নেয় (আমাদের অনুমান, পরিমাপ করা হয়নি) । প্রথমে SoftImpute চেষ্টা করুন।
 
-**Expected gain.** +0.0005 to +0.002.
-- The previous low-rank steps gave +0.0036 (LB +0.0015) and then +0.0007.
-- Limiting evidence: C0501 found completion adds little when local data are rich. C0008's Table 2 has LRTC-AR (LATC) failing in block missing (MAE 4.05 vs 0.94 for point missing).
-- So use completions **as features only**, never as replacements.
+**প্রত্যাশিত লাভ।** +0.0005 থেকে +0.002 পর্যন্ত।
+- পূর্ববর্তী নিম্ন-পরিসীম পদক্ষেপগুলি +0.0036 ( LB +0.0015 ) এবং তারপরে +0.0007 প্রদান করে।
+- সীমিত প্রমাণঃ C0501 পাওয়া সম্পূর্ণতা স্থানীয় তথ্য সমৃদ্ধ হলে সামান্য যোগ করে। C0008 এর টেবিল 2  LRTC - AR ( LATC ) ব্লক অনুপস্থিত (পয়েন্ট অনুপস্থিতের জন্য MAE  4.05 বনাম 0.94 ) ।
+- সুতরাং **সমাপ্তিগুলিকে কেবল** বৈশিষ্ট্য হিসাবে ব্যবহার করুন, কখনই প্রতিস্থাপন হিসাবে নয়।
 
-**Reject.** Δ < +0.0007, which is the size of the last low-rank step.
+**প্রত্যাখ্যান.** Δ < +0.0007 , যা শেষ নিম্ন-পরিসীম পদক্ষেপের আকার।
 
-### A4. Conservation / CTM one-step features — **NEW as features** (post-processing reconciliations failed, features were never tried)
+### A4 . সংরক্ষণ / CTM এক-পদক্ষেপ বৈশিষ্ট্য  — **NEW বৈশিষ্ট্য হিসাবে** (প্রক্রিয়াকরণের পরে পুনর্মিলন ব্যর্থ, বৈশিষ্ট্যগুলি কখনই চেষ্টা করা হয়নি)
 
-**Basis.**
-- C0015: Daganzo CTM.
-- C0062 / C0063: Newell's simplified kinematic-wave theory (N-curves).
-- C0071 / C0072: variational formulation.
-- C0275: CTM density estimation, about 13% error.
-- Map: "conservation (= spatial flow smoothing) is the only base-recipe step that helps".
+**বেস.**
+- C0015 : Daganzo CTM .
+- C0062 / C0063 : নিউেলের সরলীকৃত গতিশীল তরঙ্গ তত্ত্ব (এন-কর্ভ) ।
+- C0071 / C0072 : বৈচিত্র্যমূলক সূত্রকরণ।
+- C0275 : CTM ঘনত্ব অনুমান, প্রায় 13 % ত্রুটি।
+- মানচিত্রঃ "সংরক্ষণ (= স্থানিক প্রবাহ মসৃণীকরণ) একমাত্র বেস-রেসিপি পদক্ষেপ যা সাহায্য করে।
 
-**Weakness addressed.** Flow at masked cells, and the q/v density that Task 3 scores, are only implicitly tied to the neighbours' flows.
+**দুর্বলতা সমাধান করা হয়েছে।** মাস্কযুক্ত cellগুলিতে প্রবাহ এবং q/v ঘনত্ব যা টাস্ক 3 স্কোর করে, কেবল প্রতিবেশী প্রবাহের সাথে অস্পষ্টভাবে সম্পর্কিত।
 
-**Code change.** Build these features from the visible field, or from the A1 ASM-filled field when a neighbour is missing:
-1. Upstream balance: `q_i(t) ≈ q_{i−1}(t) − L_i·(k_i(t+1) − k_i(t))/Δt`.
-2. Downstream balance: `q_i(t) ≈ q_{i+1}(t) + L_{i+1}·(k_{i+1}(t+1) − k_{i+1}(t))/Δt`, with k = q/max(v, 1).
-3. Godunov/CTM one-step forecast of k_i(t) from t−1, and a backward analogue from t+1. These need a per-link triangular FD (from A5): demand/supply `min(v_f·k, q_c)` and `min(q_c, w·(k_j − k))`. Report the implied speed `q/k`.
-4. Newell N-curve feature: cumulative count shifted along the free characteristic (from upstream) and the congested characteristic (from downstream). Take the minimum, per Newell.
+**কোড পরিবর্তন.** দৃশ্যমান ক্ষেত্র থেকে বা যখন প্রতিবেশী অনুপস্থিত থাকে তখন A1  ASM - ভরা ক্ষেত্র থেকে এই বৈশিষ্ট্যগুলি তৈরি করুনঃ
+1. আপস্ট্রিম ব্যালেন্সঃ `q_i(t) ≈ q_{i−1}(t) − L_i·(k_i(t+1) − k_i(t))/Δt` .
+2. নিম্ন প্রবাহ ভারসাম্যঃ `q_i(t) ≈ q_{i+1}(t) + L_{i+1}·(k_{i+1}(t+1) − k_{i+1}(t))/Δt` , k = q/max (v, 1 ) ।
+3. Godunov/CTM t−1 থেকে k_i (t) এর এক ধাপের পূর্বাভাস এবং t+1 থেকে একটি পশ্চাদপসরণ এনালগ । এইগুলির জন্য প্রতি লিঙ্ক ত্রিভুজ FD ( A5 থেকে) প্রয়োজনঃ demand/supply  `min(v_f·k, q_c)` এবং `min(q_c, w·(k_j − k))` । বোঝানো গতি `q/k` রিপোর্ট করুন ।
+4. নিউল এন-কর্ভ বৈশিষ্ট্যঃ সংমিশ্রিত গণনা মুক্ত বৈশিষ্ট্য (উপরে প্রবাহ থেকে) এবং congested বৈশিষ্ট্য (নীচে প্রবাহ থেকে) জুড়ে স্থানান্তরিত। ন্যূনতম নিন, প্রতি নিউল।
 
-**Compute.** Seconds.
+**গণনা.** সেকেন্ড.
 
-**Expected gain.** +0.001 to +0.003 on flow and LWR. Risk: differencing amplifies noise; the tree can ignore it.
+**প্রত্যাশিত লাভ।** +0.001 থেকে +0.003 প্রবাহ এবং LWR । ঝুঁকিঃ পার্থক্য শব্দকে প্রসারিত করে; গাছ এটি উপেক্ষা করতে পারে।
 
-**Reject.** Δ(T1+T3 proxy) ≤ 0.
+**প্রত্যাখ্যান.** Δ( T1 + T3 প্রক্সি) ≤0 .
 
-### A5. Per-link FD calibration and FD-implied features, plus the occupancy→speed identity — **NEW (features)**; start with a diagnostic
+### A5 . প্রতি লিঙ্ক FD ক্যালিব্রেশন এবং FD -অন্তর্নিহিত বৈশিষ্ট্য, প্লাস আবাসন→গতির পরিচয়  — **NEW (গুণ)** ; একটি ডায়াগনস্টিক দিয়ে শুরু করুন
 
-**Basis.**
-- C0122: automatic FD calibration on PeMS.
-- C0109: g-factor single-loop speed estimation, 23% RMSE reduction.
-- C0640, C0099: g-factor and length-based speed estimation from single loops, including the PeMS g-factor algorithm.
-- C0103 / C0119 / C0114: capacity drop of about 6%, increasing with density.
+**বেস.**
+- C0122 : PeMS- এ স্বয়ংক্রিয় FD ক্যালিব্রেশন।
+- C0109 : জি- ফ্যাক্টর একক লুপ গতির অনুমান, 23 % RMSE হ্রাস।
+- C0640 , C0099 : পেইমস জি-ফ্যাক্টর অ্যালগরিদম সহ একক লুপ থেকে জি-ফ্যাক্টর এবং দৈর্ঘ্যের ভিত্তিক গতির অনুমান।
+- C0103 / C0119 / C0114 : ক্ষমতা কমেছে প্রায় 6 %, ঘনত্বের সাথে সাথে বৃদ্ধি পাচ্ছে।
 
-**Step 0, diagnostic (30 min).** Measure the co-masking rate of speed vs occupancy vs flow at Task 1 target cells.
-- If occupancy or flow is released where speed is masked, the g-factor identity `v ≈ q·g/occ` is a very strong feature. Fit g per link and time-of-day on train.
-- If they are co-masked, which is likely given the hash mask, go to step 1.
+**ধাপ 0 , ডায়াগনস্টিক ( 30 মিনিট)** টাস্ক 1 টার্গেট সেলগুলিতে গতি বনাম কর্মক্ষমতা বনাম প্রবাহের কো-মাস্কিং হার পরিমাপ করুন।
+- যদি গতির মাস্কযুক্ত জায়গায় কর্মসংস্থান বা প্রবাহ প্রকাশ করা হয়, তবে জি-ফ্যাক্টর পরিচয় `v ≈ q·g/occ` একটি খুব শক্তিশালী বৈশিষ্ট্য।
+- যদি তারা সহ-মাস্ক করা হয়, যা সম্ভবত হ্যাশ মাস্ক দেওয়া হয়, 1 ধাপে যান।
 
-**Step 1.** Fit a triangular FD per link on train months:
-- v_f from the p85 of free-flow speed;
-- q_c from the p98 of 5-min flow;
-- w and k_j by fitting the congested branch to (k, q) points with v < 0.6·v_f.
+**ধাপ 1** train-এর মাসগুলিতে প্রতিটি লিঙ্কটিতে একটি ত্রিভুজীয় FD ফিট করুনঃ
+- v_f থেকে মুক্ত প্রবাহের গতির p85 ;
+- q_c থেকে p98 of 5 -min flow;
+- w এবং k_j , congested শাখা (k, q) পয়েন্ট v < 0.6 · v_f. সঙ্গে fitting দ্বারা
 
-Features:
-- q/q_c and k/k_c from the interpolated or ASM values;
-- the FD-implied speed on each branch given the interpolated flow;
-- queue-discharge flow `(1 − 0.06)·q_c` of the nearest downstream active bottleneck, from the capacity-drop evidence;
-- distance to that bottleneck head.
+বৈশিষ্ট্যঃ
+- q/q_c এবং k/k_c থেকে ইন্টারপোলেড বা ASM মান;
+- প্রতিটি শাখায় FD -অন্তর্নিহিত গতি, ইন্টারপোলাড প্রবাহের কারণে;
+- ক্যো-ডিসচার্জ ফ্লো `(1 − 0.06)·q_c` এর নিকটতম ডাউনস্ট্রিম সক্রিয় bottleneck, ক্ষমতা ড্রপ প্রমাণ থেকে;
+- ওই বোতলঘূড়া মাথা থেকে দূরত্ব।
 
-The calibrated w also provides c_cong for A1: w = q_c / (k_j − k_c).
+ক্যালিব্রেটেড w এছাড়াও c_cong প্রদান করে A1 এর জন্যঃ w = q_c / ( k_j − k_c ).
 
-**Compute.** Minutes.
+**গণনা.** মিনিট.
 
-**Expected gain.** +0.0005 to +0.002. Step 0 could be much larger if not co-masked.
+**প্রত্যাশিত লাভ।** +0.0005 থেকে +0.002 । 0 ধাপটি যদি সহ-মাস্ক না করা হয় তবে অনেক বড় হতে পারে।
 
-**Reject.** Δ < +0.0005.
+**প্রত্যাখ্যান।** Δ < +0.0005 .
 
-### A6. Denoised neighbour inputs — **NEW but low value**
+### A6 . প্রতিবেশী ইনপুট প্রত্যাখ্যান করা হয়েছে  — **NEW কিন্তু কম মানের**
 
-**Basis.** C0007 (priors help); signal-processing rows (family `signal_processing`).
+**বেস.**  C0007 (পূর্ববর্তী সাহায্য); সিগন্যাল প্রসেসিং লাইন (পরিবার `signal_processing` ).
 
-**Code change.** Savitzky–Golay or median filters over visible cells only, for the self station and the ±1 stations. Mostly subsumed by A1's kernel averaging, so only add it if A1 is rejected.
+**কোড পরিবর্তন।** Savitzky – Golay বা শুধুমাত্র দৃশ্যমান cellের উপর মিডিয়ান ফিল্টার, স্ব-স্টেশন এবং ±1 স্টেশন জন্য। বেশিরভাগ A1 এর kernel গড় দ্বারা উপসংহারিত, তাই শুধুমাত্র যদি A1 প্রত্যাখ্যান করা হয় তবে এটি যোগ করুন।
 
-**Expected gain.** ≤ +0.0005.
+**প্রত্যাশিত লাভ।** ≤ +0.0005 .
 
 ---
 
-## B. High-upside structural ideas (1–4 days each; run after A1–A4)
+## B. উচ্চতর স্তরের কাঠামোগত ধারণা (প্রতিটি 1–4 দিন; A1 – A4 এর পরে চালান)
 
-### B1. Cross-fitted two-stage ("tree message passing") imputation — **NEW**
+### B1 . ক্রস-ফাইট দুই-পদক্ষেপ ("tree message passing") ইমপুটেশন  — **NEW**
 
-**Precondition.** Confirm what "Stacked HGB" in EXP_T1_e meant. If it already fed stage-1 predictions of neighbouring masked cells into a second model, this idea is a DUPLICATE.
+**পূর্বশর্ত।**  EXP_T1_e এর মধ্যে "স্ট্যাকড HGB " কি বোঝায় তা নিশ্চিত করুন। যদি এটি ইতিমধ্যে পার্শ্ববর্তী মুখোশযুক্ত cellগুলির স্টেজ 1 ভবিষ্যদ্বাণীকে দ্বিতীয় মডেলে সরবরাহ করে, তবে এই ধারণাটি DUPLICATE ।
 
-**Basis.**
-- C0031: MICE chained equations. C0033: missForest. C0028: HyperImpute, iterative column-wise imputation.
-- C0735: dual-stage error-corrected boosting for traffic imputation.
-- C0260 / C0339: two-stage GBDT for Traffic4cast.
-- C0180: stacked generalisation. C0185: cross-fitting (DML).
-- C0009 / C0010: GRIN and SPIN get their gains from iterated spatio-temporal message passing.
+**বেস.**
+- C0031 : MICE চেইনড সমীকরণ. C0033 : missForest. C0028 : HyperImpute, iterative column-wise imputation.
+- C0735 : ট্রাফিকের জন্য দ্বি-স্তরের ত্রুটি সংশোধিত বর্ধন।
+- C0260 / C0339 : ট্রাফিক 4 কাস্টের জন্য দুই ধাপের GBDT ।
+- C0180 : স্ট্যাকড জেনেরালাইজেশন. C0185 : ক্রস-ফাইটিং ( DML ).
+- C0009 / C0010 : GRIN এবং SPIN পুনরাবৃত্ত স্পেস-টাইম বার্তা পাস থেকে তাদের উপার্জন পেতে।
 
-**Weakness addressed.** At 20–50% i.i.d. masking, 20–50% of each target's neighbour inputs are interpolations rather than values. Stage-1 predictions at those neighbours are much better than interpolation (0.94 vs 0.91 state score).
+**দুর্বলতা সমাধান করা হয়েছে।**  20–50 % i.i.d. মাস্কিংয়ে, 20–50 % প্রতিটি লক্ষ্যের প্রতিবেশী ইনপুটগুলি মানের পরিবর্তে ইন্টারপোলেশন। এই প্রতিবেশীদের স্টেজ- 1 ভবিষ্যদ্বাণীগুলি ইন্টারপোলেশনের চেয়ে অনেক ভাল ( 0.94 বনাম 0.91 রাষ্ট্র স্কোর) ।
 
-**Code change.**
-1. Stage 1 = the current model (or E-size, to save time). Produce **OOF** predictions for every target cell on train, using the 3 contiguous day-block folds. On val/test, use the full-fit stage-1 model.
-2. Build a "filled" field: visible cells keep their observed values; masked cells get their stage-1 prediction.
-3. Stage 2 = the same feature code run on the filled field: neighbours, spatial and temporal interpolation, and the A1 ASM on the filled field. Add the target's own stage-1 OOF prediction and its fold-disagreement.
-4. Train a 255-leaf, 900-tree model. Optionally run a third round.
+**কোড পরিবর্তন।**
+1. 1 পর্যায় = বর্তমান মডেল (বা ই-আকার, সময় সাশ্রয় করার জন্য) । **OOF** পূর্বাভাস তৈরি করুন 3 ধারাবাহিক দিনের ব্লক fold ব্যবহার করে train-এর প্রতিটি লক্ষ্য cellের জন্য। val/test উপর, পূর্ণ ফিট পর্যায়-1 মডেল ব্যবহার করুন।
+2. একটি "পুনর্ন" ক্ষেত্র তৈরি করুনঃ দৃশ্যমান cellগুলি তাদের পর্যবেক্ষণকৃত মানগুলি বজায় রাখে; মুখোশযুক্ত cellগুলি তাদের স্টেজ 1 ভবিষ্যদ্বাণী পায়।
+3. স্টেজ 2 = একই বৈশিষ্ট্য কোড পূরণ করা ক্ষেত্রের উপর চালানোঃ প্রতিবেশী, স্থানিক এবং সময়কালীন ইন্টারপোলেশন, এবং A1  ASM পূরণ করা ক্ষেত্রের উপর। লক্ষ্য নিজস্ব স্টেজ- 1  OOF ভবিষ্যদ্বাণী এবং তার fold-বিরোধী যোগ করুন।
+4. একটি 255 -leaf, 900 -tree মডেল প্রশিক্ষণ. ঐচ্ছিকভাবে একটি তৃতীয় রাউন্ড চালান.
 
-**Leakage.** Stage-1 values that feed any training row must come from a model that did not see that row's day-block. Val/test are clean by construction.
-- Check: the stage-2 gain on train CV must be similar to the gain on the val holdout. A much larger CV gain means leakage.
+**ফুটো.** স্টেজ- 1 মান যে কোন প্রশিক্ষণ রোল ফিড করতে হবে যে একটি মডেল থেকে আসা উচিত যে রোলের দিন ব্লক দেখা যায়নি. Val/test নির্মাণ দ্বারা পরিষ্কার।
+- পরীক্ষাঃ trainে CV স্টেজ- 2 উপার্জন ভ্যাল হোল্ডআউটের উপার্জনের অনুরূপ হতে হবে। অনেক বড় CV উপার্জন মানে ফাঁস।
 
-**Compute.** Stage-1 OOF costs about 3× a small model; stage 2 costs about 1× F. That is roughly 2–4 h extra on 4 cores. It fits in 12 h if stage 1 uses E-size.
+**গণনা।** স্টেজ- 1  OOF  3 × একটি ছোট মডেলের জন্য খরচ হয়; 2 স্টেজ 1 × F খরচ হয়। এটি 4 কোরগুলিতে অতিরিক্ত 2  4 h এর মতো। এটি 12 h এর মধ্যে ফিট করে যদি 1 স্টেজটি ই-স্কেস ব্যবহার করে।
 
-**Expected gain.** +0.002 to +0.008, largest in the 50% regime. Density errors should shrink where neighbours were interpolated through congestion.
+**প্রত্যাশিত লাভ।** +0.002 থেকে +0.008 , 50 % রেজিমে সবচেয়ে বড়। ঘনত্ব ত্রুটিগুলি হ্রাস করা উচিত যেখানে প্রতিবেশীরা ঘনত্বের মাধ্যমে ইন্টারপোলা করা হয়েছিল।
 
-**Reject.** Holdout Δ < +0.0015, or a train-CV gain more than 2× the holdout gain (leakage signal).
+**প্রত্যাখ্যান.** Holdout Δ < +0.0015 , অথবা একটি train- CV  2 × হোল্ডআউট লাভের চেয়ে বেশি লাভ (লিক সিগন্যাল) ।
 
-### B2. Small CPU space-time inpainting network as a stacked feature — **NEW**
+### B2 . ছোট CPU স্পেস-টাইম ইনপেইন্টিং নেটওয়ার্ক একটি স্ট্যাকড বৈশিষ্ট্য হিসাবে  — **NEW**
 
-**Basis.**
-- C0098: deep CNN imputation on time–space diagrams, beating ASM.
-- C0006: anisotropic kinematic-wave kernels.
-- C0049: partial convolutions for irregular holes. C0570: masked autoencoders.
-- C0007: priors plus mask indication.
-- C0008: mixed-rate masking during training.
+**বেস.**
+- C0098 : গভীর CNN সময়  – স্পেস ডায়াগ্রামের উপর ইমপুটেশন, ASM বীট।
+- C0006 : অ্যানিস্ট্রপিক কিনেমিকাল-ওয়েভের kernel।
+- C0049 : অনিয়মিত গর্তের জন্য আংশিক ঘূর্ণি। C0570 : মাস্কযুক্ত অটো-কোডার।
+- C0007 : পূর্বের লক্ষণ এবং মাস্কের নির্দেশনা।
+- C0008 : প্রশিক্ষণের সময় মিশ্র হার মাস্কিং।
 
-**Code change.**
-- Input: 5-channel patches of 32 links × 48 slots — speed/v_f, flow/q_c, occupancy, visibility mask, Δx. The model is a U-Net of 3 levels with about 0.2–0.5M parameters, using partial convolutions or mask-concatenation.
-- Train on the 9 train months with random i.i.d. masks at 20/30/50% plus random 90-min blocks. Mix the rates (C0008). Loss: MSE on hidden cells, plus an L1 on q/v for the Task 3 term.
-- Output: the predicted field used as an LGBM feature, with OOF predictions by day-block for the train rows, as in B1.
+**কোড পরিবর্তন।**
+- ইনপুটঃ 5  32 লিঙ্কগুলির চ্যানেল প্যাচ × 48 স্লট  — speed/v_f , flow/q_c , আবাস, দৃশ্যমানতা মাস্ক, Δx। মডেলটি 3 স্তরের একটি ইউ-নেট যা প্রায় 0.2–0.5 M পরামিতি সহ আংশিক ঘূর্ণি বা মাস্ক-সংক্রান্ত ব্যবহার করে।
+- train 9 রানডম আই.আই.ডি. মাস্ক সঙ্গে train মাস 20/30/50% + র্যান্ডম 90-মিঃ ব্লক।C0008) ক্ষতিঃ MSE লুকানো cellে, প্লাস একটি L1 উপর q/v এই কাজের জন্য 3 শব্দটি।
+- আউটপুটঃ একটি হিসাবে ব্যবহৃত পূর্বাভাস ক্ষেত্র LGBM বৈশিষ্ট্য, সঙ্গে OOF train-এর লাইনগুলির জন্য দিনের বেলা পূর্বাভাস, যেমন B1.
 
-**Compute.** CPU torch with 4 threads, deterministic seeds. Roughly 1–3 ms per patch step, so about 1–2 h for around 1M patch steps. Inference takes minutes. This is our estimate; benchmark first on one panel.
+**গণনা করুন।**  CPU ফর্সা 4 থ্রেড সহ, নির্ধারিত বীজ। প্রতি প্যাচ ধাপে প্রায় 1–3 ms, তাই প্রায় 1–2 h প্রায় 1 M প্যাচ ধাপের জন্য। ইনফারেন্স মিনিট লাগে। এটি আমাদের অনুমান; একটি প্যানেলের উপর প্রথম বেঞ্চমার্ক।
 
-**Expected gain.** Uncertain: +0 to +0.005. It helps only if the CNN captures wave patterns beyond A1 + B1.
+**প্রত্যাশিত লাভ।** অনিশ্চিতঃ +0 থেকে +0.005 পর্যন্ত। এটি কেবলমাত্র সাহায্য করে যদি CNN  A1 + B1 এর বাইরে তরঙ্গের নিদর্শনগুলি ক্যাপচার করে।
 
-**Reject.** Run it only after A1 and B1. Reject if Δ < +0.0015 on top of them, or if reproducibility across two runs differs by more than 0.0003.
+**প্রত্যাখ্যান করুন।** এটি কেবল A1 এবং B1 এর পরে চালান। যদি তাদের উপরে Δ < +0.0015 থাকে বা দুটি রান জুড়ে পুনরায় প্রজননযোগ্যতা 0.0003 এর চেয়ে বেশি আলাদা হয় তবে প্রত্যাখ্যান করুন।
 
-### B3. Calibrated CTM data assimilation ("hard physics") as a feature — **NEW, risky**
+### B3 . ক্যালিব্রেটেড CTM ডেটা সমন্বয় ("হার্ড ফিজিক্স") একটি বৈশিষ্ট্য হিসাবে  — **NEW , ঝুঁকিপূর্ণ**
 
-**Basis.**
-- C0015: CTM. C0071: variational kinematic waves. C0275: CTM density estimation (SMM).
-- C0076: stochastic CTM.
-- C0534: an FNO trained on LWR simulations.
-- Map fact: the data come from a calibrated CTM/LWR-like generator with measurement noise and incidents.
+**বেস.**
+- C0015 : CTM . C0071 : বৈচিত্র্যময় গতিশীল তরঙ্গ। C0275 : CTM ঘনত্বের অনুমান ( SMM ).
+- C0076 : স্টোকাস্টিক CTM .
+- C0534একটিঃ FNO প্রশিক্ষণ LWR সিমুলেশন।
+- মানচিত্র তথ্যঃ পরিমাপ শব্দ এবং ঘটনা সঙ্গে একটি ক্যালিব্রেটেড CTM/LWR-like জেনারেটর থেকে তথ্য আসে.
 
-**Idea.** Using the per-link FD from A5, run a Godunov CTM forward over each day.
-- Boundary inflow comes from the most upstream observed flow; the downstream boundary supply comes from the most downstream observed state.
-- At every slot, nudge cells where observations are visible (Newtonian relaxation, weight tuned on hidden released cells).
-- Also run a backward pass, and use the average.
-- Output the CTM density, speed and flow as features. This differs from the dropped Kalman/RTS experiment, which ran on *profile deviations* without a flow model.
+**ধারণা.**  A5 থেকে প্রতি লিঙ্ক FD ব্যবহার করে, প্রতিদিন একটি Godunov CTM এগিয়ে চালান।
+- সীমান্ত প্রবাহ সর্বাধিক উপstream পর্যবেক্ষণ প্রবাহ থেকে আসে; নিম্নstream সীমান্ত সরবরাহ সর্বাধিক downstream পর্যবেক্ষণ রাষ্ট্র থেকে আসে।
+- প্রতিটি স্লটে, যেখানে পর্যবেক্ষণ দৃশ্যমান সেলগুলিকে ধাক্কা দিন (নিউটনীয় শিথিলতা, লুকানো মুক্তিকৃত সেলগুলিতে ওজন সুরক্ষিত) ।
+- আর পেছনে একটা পাস চালিয়ে যাও, আর গড় ব্যবহার করো।
+- CTM ঘনত্ব, গতি এবং প্রবাহকে বৈশিষ্ট্য হিসাবে আউটপুট করুন। এটি Kalman/RTS পরীক্ষার থেকে পৃথক, যা প্রবাহ মডেল ছাড়াই * প্রোফাইল বিচ্যুতি * চালায়।
 
-**Compute.** A CTM over 350 cells × 288 slots × 30 days is milliseconds per day.
-- Needs a sub-step if L/v_f < 5 min; the CFL condition likely requires dt ≤ L_min/v_f, meaning sub-steps of about 20–30 s.
-- Still only seconds per panel.
+**গণনা করো।** A CTM শেষ 350 cell × 288 স্লট × 30 দিনগুলো প্রতি দিন মিলিসেকেন্ড।
+- L/v_f < 5 min যদি একটি উপ-পদক্ষেপ প্রয়োজন; CFL অবস্থা সম্ভবত dt ≤ L_min/v_f প্রয়োজন , যার অর্থ প্রায় 20–30 s এর উপ-পদক্ষেপ।
+- এখনো প্যানেল প্রতি সেকেন্ড।
 
-**Expected gain.** Unknown. It could be large on congested and blackout cells if the generator is close to a triangular-FD CTM. It could be about 0 if incidents and capacity drops dominate.
+**প্রত্যাশিত লাভ.** অজানা. এটি congested এবং blackout cell উপর বড় হতে পারে যদি জেনারেটর একটি ত্রিভুজ কাছাকাছি হয়- FD  CTM . এটা সম্পর্কে হতে পারে 0 যদি ঘটনা এবং ক্ষমতা হ্রাস আধিপত্য।
 
-**Reject.** Δ < +0.001, or the LWR proxy is not improved.
+**প্রত্যাখ্যান.** Δ < +0.001 , অথবা LWR প্রক্সি উন্নত হয় না.
 
-### B4. Characteristic-sheared or Hankel low-rank completion — **NEW, speculative**
+### B4 . চরিত্রগতভাবে কাটা বা হ্যানকেল নিম্ন-পরিসীম সমাপ্তি  — **NEW , অনুমানমূলক**
 
-**Basis.**
-- C0220: low-rank Hankel tensor completion for travelling waves.
+**বেস.**
+- C0220 : যাত্রা তরঙ্গের জন্য নিম্ন- র্যাঙ্ক হ্যানকেল টেনসর সমাপ্তি।
 - C0005: LATC.
-- A1 gives the wave speeds.
+- A1 তরঙ্গ গতি দেয়।
 
-**Idea.** Plain low-rank structure blurs moving jam fronts. Shift each link's series by its cumulative congested-wave travel time from a reference link, which makes jams roughly "vertical". Then run SoftImpute on the sheared matrix and un-shear. Alternatively, use a Hankel (delay-embedded) matrix per corridor.
+**ধারণা.** সাধারণ নিম্ন-পরিমানের কাঠামো চলমান জ্যাম ফ্রন্টগুলিকে ম্লান করে। প্রতিটি লিঙ্কের সিরিজকে তার সংমিশ্রিত congested-wave travel time দ্বারা একটি রেফারেন্স লিঙ্ক থেকে স্থানান্তর করুন, যা জ্যামগুলিকে প্রায় "ভার্টিকাল" করে তোলে। তারপরে শিয়ারড ম্যাট্রিক্সে সফটইম্পুট চালান এবং un-shear করুন। বিকল্পভাবে, প্রতিটি করিডোরের জন্য একটি হ্যানকেল (ডেলে-ইম্বেড) ম্যাট্রিক্স ব্যবহার করুন।
 
-**Compute.** Minutes.
+**গণনা.** মিনিট.
 
-**Expected gain.** +0 to +0.002.
+**প্রত্যাশিত লাভ।** +0 থেকে +0.002 পর্যন্ত।
 
-**Reject.** Run only if A3 passes. Reject if Δ over A3 < +0.0007.
+**প্রত্যাখ্যান করুন।** শুধুমাত্র যদি A3 পাস হয় চালান। যদি Δ over A3 < +0.0007 প্রত্যাখ্যান করুন।
 
-### B5. Deep spatio-temporal imputers (SAITS/BRITS via PyPOTS, SPIN, ImputeFormer, PriSTI/CSDI) — **NEW, not recommended**
+### B5 . গভীর স্প্যাটিও-টাইমোরাল ইমপুটর ( SAITS/BRITS via PyPOTS, SPIN , ImputeFormer, PriSTI/CSDI )  — **NEW , সুপারিশ করা হয় না**
 
-**Basis.**
-- C0009, C0010, C0008 (all DEEP_READ): gains are reported against MICE/MF/BRITS, never against temporal interpolation or GBDT.
-- SPIN only matches GRIN on point missing (0.70 vs 0.67 MAE) and needs 4–26 GPU-hours.
-- C0007: diffusion inference is very slow.
-- C0264: PyPOTS gives one-line SAITS/BRITS if someone wants a sanity check.
+**বেস.**
+- C0009 , C0010 , C0008 (সবাই DEEP_READ ): MICE/MF/BRITS এর বিরুদ্ধে লাভের খবর দেওয়া হয় , কখনো টাইমাল ইন্টারপোলেশন বা GBDT এর বিরুদ্ধে নয় ।
+- SPIN শুধুমাত্র GRIN এর সাথে মিলে যায় যখন missing point ( 0.70 vs 0.67  MAE ) এবং 4  26  GPU - ঘন্টা প্রয়োজন।
+- C0007 : ডিফুশন ইনফারেন্স খুব ধীর।
+- C0264 : পাইপটস এক লাইন SAITS/BRITS দেয় যদি কেউ মানসিক স্বাস্থ্য পরীক্ষা চায়।
 
-**If tried at all.** Use one small panel, SAITS with d_model 64 on CPU, output used as a stacked feature.
+**যদি চেষ্টা করা হয়।** একটি ছোট প্যানেল ব্যবহার করুন, SAITS সঙ্গে d_model 64 উপর CPU, আউটপুট স্ট্যাকড বৈশিষ্ট্য হিসেবে ব্যবহৃত হয়।
 
-**Reject.** Reject by default unless it beats B2 on that panel.
+**প্রত্যাখ্যান.** ডিফল্টরূপে প্রত্যাখ্যান করুন যদি না এটি সেই প্যানেলের B2 কে পরাজিত করে।
 
 ---
 
-## C. Negative evidence (do not re-propose)
+## C. নেতিবাচক প্রমাণ (পুনর্নির্দেশনা না)
 
-1. **PINN / PIDL / physics-loss training.**
-   - C0011 (DEEP_READ): PIDL helps in *very sparse* sensing, where relative errors are 20–40%. EKF RE_ρ was 39.5%, NN 42.8%, PIDL 31.5%, PIDL+FD-learner 21.2%. Our fields are 50–80% observed.
-   - C0012 (DEEP_READ): PIDL cannot place or size LWR shocks, and a diffusion term does not fix this.
-   - C0549: low-resolution loop data make physics and data gradients misaligned. The paper is **withdrawn**, so treat it as weak evidence.
-   - C0557: gains depend on sensing density.
-   - C0376: an LWR prior is better only with dense observation.
-   - Our own density reconciliations (EXP_T1_f/g/m) gave no gain. CONTRADICTED.
-2. **Kalman / EKF / particle filters.**
-   - Our Kalman/RTS was −0.019. C0275 CTM-SMM reports about 13% error, and the EKF in the C0011 table is the worst estimator. CONTRADICTED.
-   - B3 differs because it uses the CTM as a feature, not a filter on profiles.
-3. **Regime MoE / gating.**
-   - Our per-regime models were −0.002 on every panel. C0505 and C0311 are forecasting- and GPU-oriented MoEs. CONTRADICTED.
-   - Soft regime information should enter as *features* (A1's W, A5's k/k_c), not as separate experts.
-4. **Forecasting STGNN architectures and frameworks.**
-   - The survey (C0007) shows forecasting models degrade with missing rate unless masks are modelled.
-   - Our graph is a 1-D chain, so graph learning adds nothing over neighbour indices.
-   - LibCity, BasicTS (C0265), PyG-Temporal and UCTB are forecasting-oriented and GPU-bound.
-   - STID-style identity embeddings (C0624) conflict with our profile-free result.
-5. **Low-rank as a replacement.**
-   - LATC fails on block missing (C0008 Table 2: 4.05 vs 0.94 MAE).
-   - Tensor completion did not improve downstream prediction when local data were rich (C0501).
-   - Keep low-rank as features only (A3).
-6. **Diffusion / GAN imputers.** PriSTI and CSDI (C0324, C0320) have very slow inference and need GPUs; there is no CPU path at our cell counts.
-7. **Literature baselines are weak for our setting.** GRIN, SPIN and ImputeFormer tables contain no linear-interpolation or GBDT baseline. Reported 20%+ gains over MICE/MF say nothing about gains over our LightGBM residual model.
+1. **PINN / PIDL / পদার্থবিজ্ঞান-ক্ষতি প্রশিক্ষণ।**
+   - C0011 ( DEEP_READ ): PIDL * খুব বিরল * সেন্সরিংয়ে সহায়তা করে, যেখানে আপেক্ষিক ত্রুটিগুলি 20–40 %। EKF RE_ρ ছিল 39.5 %, NN  42.8 %, PIDL  31.5 %, PIDL + FD -লার্নার 21.2 %। আমাদের ক্ষেত্রগুলি 50–80 % observed।
+   - C0012 ( DEEP_READ ): PIDL  LWR শক স্থাপন বা আকার করতে পারে না, এবং একটি ছড়িয়ে শব্দ এটি ঠিক করে না।
+   - C0549 : নিম্ন রেজোলিউশন লুপ ডেটা পদার্থবিদ্যা এবং ডেটা গ্র্যাডিয়েন্টগুলিকে ভুলভাবে সারিবদ্ধ করে তোলে। কাগজটি **প্রত্যাহার করা হয়েছে** , তাই এটিকে দুর্বল প্রমাণ হিসাবে বিবেচনা করুন।
+   - C0557 : লাভের নির্ভরতা সেন্সরিং ঘনত্বের উপর।
+   - C0376 : একটি LWR পূর্ববর্তী শুধুমাত্র ঘন পর্যবেক্ষণের মাধ্যমে ভাল।
+   - আমাদের নিজস্ব ঘনত্বের সমন্বয় (EXP_T1_f/g/m) কোন লাভ হয়নি। CONTRADICTED.
+2. **Kalman / EKF / কণা ফিল্টার.**
+   - আমাদের Kalman/RTS ছিল −0.019. C0275 CTM-SMM প্রতিবেদন 13% ত্রুটি এবং EKF এ C0011 টেবিল সবচেয়ে খারাপ অনুমান। CONTRADICTED.
+   - B3 এর পার্থক্য হল যে এটি CTM কে বৈশিষ্ট্য হিসেবে ব্যবহার করে, প্রোফাইলের ফিল্টার হিসেবে নয়।
+3. **মোই / গেটিং র্যাজিনাম**
+   - আমাদের প্রতি-অধিপত্যের মডেলগুলি ছিল−0.002 প্রতিটি প্যানেলের উপর। C0505 এবং C0311 পূর্বাভাস এবং GPU-ভিত্তিক এমই। CONTRADICTED.
+   - সফট রেজিম তথ্যকে *ফ্যাক্টর* ( A1 এর W, A5 এর k/k_c ) হিসেবে প্রবেশ করা উচিত, পৃথক বিশেষজ্ঞ হিসেবে নয়।
+4. **পূর্বাভাস STGNN স্থাপত্য ও কাঠামো**
+   - সমীক্ষা ( C0007 ) দেখায় যে মাস্কের মডেলিং না হলে ভবিষ্যদ্বাণীমূলক মডেলগুলি হ্রাস পায়।
+   - আমাদের গ্রাফ হল 1 -D চেইন, তাই গ্রাফ শেখার প্রতিবেশী সূচকগুলির উপর কিছুই যোগ করে না।
+   - LibCity, BasicTS ( C0265 ), PyG-Temporal এবং UCTB পূর্বাভাস-ভিত্তিক এবং GPU -ভিত্তিক।
+   - STID -style পরিচয় এম্বেডিং ( C0624 ) আমাদের প্রোফাইল মুক্ত ফলাফলের সাথে দ্বন্দ্ব।
+5. **প্রতিস্থাপক হিসেবে নিম্ন-পরিসীম।**
+   - LATC ব্লক মিস করার ক্ষেত্রে ব্যর্থতা (C0008 টেবিল 2: 4.05 বনাম 0.94 MAE).
+   - স্থানীয় তথ্য সমৃদ্ধ ছিল যখন টেনসর সমাপ্তি ডাউনস্ট্রিম ভবিষ্যদ্বাণী উন্নত হয়নি (C0501).
+   - শুধুমাত্র বৈশিষ্ট্য হিসেবে নিম্নমানের র্যাঙ্ক রাখুন ( A3 ).
+6. **Diffusion / GAN imputers.** PriSTI এবং CSDI ( C0324 , C0320 ) খুব ধীর গতিতে অনুমান করে এবং GPU এর প্রয়োজন হয়; আমাদের cell গণনাতে CPU পথ নেই।
+7. **সাহিত্য ভিত্তি লাইন আমাদের সেটিং জন্য দুর্বল।**  GRIN , SPIN এবং ImputeFormer টেবিল কোন লিনিয়ার-অন্তঃপ্রতিষ্ঠান বা GBDT ভিত্তি লাইন নেই। 20 %+ লাভের প্রতিবেদন MICE/MF আমাদের LightGBM অবশিষ্ট মডেলের উপর লাভের বিষয়ে কিছুই বলে না।
 
-## Suggested order
+## প্রস্তাবিত আদেশ
 
-1. A5 step 0 (diagnostic)
+1. A5 ধাপ 0 (নিরীক্ষা)
 2. A1
 3. A2
 4. A4
@@ -324,4 +326,4 @@ The calibrated w also provides c_cong for A1: w = q_c / (k_j − k_c).
 8. B2
 9. B4
 
-Combine the survivors, then submit one LB probe per accepted block. Earlier probes showed that effects are additive.
+জীবিতদের একত্রিত করে, তারপর প্রতি ব্লক প্রতি এক LB সন্ড জমা দিন। পূর্ববর্তী সন্ডে দেখানো হয়েছে যে প্রভাবগুলি সংযোজনীয়।

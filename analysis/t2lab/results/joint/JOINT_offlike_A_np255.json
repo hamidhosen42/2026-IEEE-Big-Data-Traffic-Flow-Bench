@@ -1,0 +1,46 @@
+{
+  "arm": "A_np255",
+  "bank_set": "faith3",
+  "base_iou": 0.8387263833414887,
+  "changed_windows": 1437,
+  "condition": "queue_ongoing",
+  "config": {
+    "anchors": 3,
+    "bank_limit": 128,
+    "margin": 0.005,
+    "posterior_limit": 64,
+    "temperature": 0.02
+  },
+  "day_block_bootstrap": {
+    "hi": -0.15614388329930298,
+    "lo": -0.17204225053602226,
+    "p_positive": 0.0
+  },
+  "delta_composite_if_other_tasks_unchanged": -0.024652385809809645,
+  "delta_condition_iou": -0.1643492387320643,
+  "deployment_gate": "UNVERIFIED: requires chronological model-training audit, March transfer, and post-T rerun parity",
+  "diagnostic_gate": "FAIL",
+  "experiment": "train_OOF_joint_trajectory",
+  "new_iou": 0.6743771446094244,
+  "panel_deltas": {
+    "D12_I5_N": -0.3074292454017371,
+    "D12_I5_S": -0.25913212228305,
+    "D7_I10_E": -0.12166535124264256,
+    "D7_I10_W": -0.048036917873047175,
+    "D7_I210_E": -0.13621835195657644,
+    "D7_I210_W": -0.09601532544913158,
+    "D7_I405_N": -0.19763376162135066,
+    "D7_I405_S": -0.14866283402897804
+  },
+  "panels": 8,
+  "restrictions": [
+    "TRAIN-only template bank from days strictly before eval origin and excluding its fold",
+    "Existing lab OOF P6 may be trained using future train folds: decoder-only offline diagnostic, not end-to-end causal proof",
+    "Official leaderboard cannot be predicted from proxy OOF",
+    "No March/April model or threshold selection",
+    "No data after evaluated origin T enters its features (existing P6 only)"
+  ],
+  "set": "offlike",
+  "train_only": true,
+  "windows": 2992
+}

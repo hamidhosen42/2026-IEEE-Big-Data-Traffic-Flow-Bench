@@ -1,0 +1,36 @@
+PRE-REGISTERED DECISION RULE -- EXP_T2_PHASE2 (second, stricter test of the onset half-hour phase columns).
+Written after EXP_T2_PHASE (results/phase/VERDICT.txt: onset +0.0177 [+0.0059, +0.0315], 5/8 panels, 3 ties; seeds 0..4 seen)
+and BEFORE any new model of this test is trained or scored.  Phase columns, rows, recipe identical to EXP_T2_PHASE
+(phase_lib.phase_cols: ph6, ph_on, ph_next, ph_x from the clock slot t of T and step h; clock time of T only).
+
+ARMS  onset base (the 69 production columns) vs onset + 4 phase columns (73), production-like CatBoost onset exactly as
+  phase_onset.py (dense1500 onset rows of the 8 panels, eligible cells, subsample rng(0) min(n, 1.2 M), 600 iterations, depth 8,
+  lr 0.08, 4 threads), random_seed 0..19 (20 seeds) for BOTH arms, paired by seed.  The seed 0..4 models cached by EXP_T2_PHASE
+  (cache/phase/onset/cat_{base,phase}_s{0..4}.cbm) are reused; seeds 5..19 are new.  Seeds 5..19 = the FRESH REPLICATION
+  (reported separately; seeds 0..4 were already seen).
+
+EVALUATION SETS
+  E1  the same 214 pseudo-March onset windows (phase_onset.py: masked March month, production onset rule, official-like greedy
+      restarted at every day, all-train prior), step-6 prediction only, production decode.  Per-window IoU averaged over the
+      seeds of the group per arm; delta = lab.aggregate(phase) - lab.aggregate(base); CI = lab.paired_bootstrap (window bootstrap
+      within panels, 2000 draws, seed 0).
+  E2  train OOF offlike onset windows: for held-out fold k, both arms trained on the dense1500 onset rows outside fold k with the
+      fold-k prior (subsample rng(0) min(n, 1.2 M)), scored at step 6 on the fold-k offlike onset windows; seeds 0, 1, 2 per fold
+      (per-window IoU averaged over the 3 seeds).  All 4 folds (0..3) are run; the BINDING E2 number is the 4-fold pooled delta
+      (lab.aggregate over all held-out windows).  Folds 0+1 pooled is also reported.  If folds 2/3 cannot finish, folds 0+1
+      becomes the binding E2 number (stated in the verdict).
+
+PASS iff ALL of:
+  (a) E1 mean delta over seeds 5..19 >= +0.008 with window-bootstrap 95% CI lower bound > 0;
+  (b) among panels whose seed-mean delta (seeds 5..19; panel mean of the seed-averaged window IoU, phase - base) is not an exact
+      tie (|delta| > 1e-9), >= 80% positive and none below -0.01;
+  (c) E2 delta >= -0.002 (no train-scenario harm);
+  (d) the share of seeds 5..19 with E1 delta > 0 (per seed: lab.aggregate(phase_s) - lab.aggregate(base_s)) is >= 70%.
+Otherwise FAIL.
+
+ALSO REPORTED (not binding): pooled seeds 0..19 on E1 (delta, CI, panels); E1 delta by origin phase (:05/:35 origin = t mod 6 == 1
+  vs other), seeds 5..19; the same-scenario prior variant sp4 (prior columns blended as exp_onset_splitprior.py s4: smoothed +-2
+  slots, a = n/(n+4), March days < d) for both arms, seeds 5..19, on E1; per-fold E2 deltas.
+
+Never used: April data, April labels, the public LB.  No production code is edited; a PASS only yields a written change spec.
+END OF PRE-REGISTRATION

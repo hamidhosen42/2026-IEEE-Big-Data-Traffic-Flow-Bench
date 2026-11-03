@@ -1,178 +1,180 @@
-# Public kernels review, 2026-10-10
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-Review only. Nothing was pushed or submitted.
+# পাবলিক kernel রিভিউ, 2026-10-10
 
-**Sources.** Every kernel was pulled with `kjob.call('GET', '/kernels/pull?...')` and its run log with `/kernels/output`. Everything is saved under
+শুধু পর্যালোচনা, কিছুই জমা দেওয়া হয়নি।
+
+**সূত্র।** প্রতিটি kernel টানা হয়েছিল `kjob.call('GET', '/kernels/pull?...')` এবং তার রান log সঙ্গে `/kernels/output`সবকিছুই লুকিয়ে আছে
 `research/public_kernels_2026-10-10/`:
 
-| File | Contents |
+| ফাইল | বিষয়বস্তু |
 |---|---|
-| `<user>__<slug>.ipynb` | exact source |
-| `<user>__<slug>.txt` | the source flattened to text, with `# ===== CELL n` markers. The line numbers below refer to this file |
-| `<user>__<slug>.log.txt` | the run log |
-| `<user>__<slug>.meta.json` | the kernel metadata |
-| `anubisyy_output/tfb_source/*.py`, `yeashusemwal_output/tfb/src/**.py` | the real model code. These two notebooks mostly load modules, and the code lives in their output files |
-| `public_leaderboard_2026-10-10T05-54.csv` | full public LB, 387 teams, from `/competitions/.../leaderboard/download` |
+| `<user>__<slug>.ipynb` | সঠিক উৎস |
+| `<user>__<slug>.txt` | `# ===== CELL n` চিহ্নিতকরণ সহ সূত্রটি পাঠ্য হিসাবে সমতল করা হয়েছে। মূল কথা নম্বরগুলি এই ফাইলটির উল্লেখ করে |
+| `<user>__<slug>.log.txt` | রান লগ |
+| `<user>__<slug>.meta.json` | kernel মেটাডেটা |
+| `anubisyy_output/tfb_source/*.py`, `yeashusemwal_output/tfb/src/**.py` | এই দুটি নোটবুক বেশিরভাগই মডিউল লোড করে, এবং কোড তাদের আউটপুট ফাইলগুলিতে বাস করে |
+| `public_leaderboard_2026-10-10T05-54.csv` | LB , 387 দল, `/competitions/.../leaderboard/download` থেকে |
 
-**How the real scores were found.** The kernel metadata has no score field. The real public score comes from the team's row in the LB CSV, cross-checked against
-the date of the kernel's run log. For anubisyy, the run log also records `recorded_solution_score` together with an asset sha256 check.
+**কিভাবে আসল স্কোর পাওয়া যায়।** kernelের মেটাডেটাতে কোন স্কোর ক্ষেত্র নেই। আসল পাবলিক স্কোরটি দলের সারিতে থেকে আসে LB  CSV , ক্রস-চেক করা হয়েছে
+kernelের রান লগের তারিখ। Anubisyy এর জন্য, রান লগ `recorded_solution_score` এর সাথে একটি সম্পদ sha256 চেকও রেকর্ড করে।
 
-## 1. Real scores
+## 1- আসল স্কোর
 
-| Notebook | Title claim | Real evidence | Verdict |
+| নোটবুক | শিরোনাম দাবি | বাস্তব প্রমাণ | রায় |
 |---|---|---|---|
-| sujanmajhisuzan/…top-rank-pipeline-0-90-target | "0.90+ Target" | Team ItsmeSujan: **0.85460**, 1 submission (2026-10-08 12:08; the kernel ran at 11:54) | The 0.90 is only a goal. The notebook is anubisyy's checkpoints plus a few tweaks, and it scores **−0.011** below anubisyy's 0.86517 |
-| yanamiiannaa/…directional-features-safe-profiles | none | It writes no submission. Team Yanamii's best is 0.83779 | A 2-panel Task 1 pilot (Feb S_state 0.9300 → 0.9367) |
-| anubisyy/…catboost-lgbm-nnls…-0-86517 | 0.86517 | The log has `recorded_solution_score 0.86517`, and every asset checksum passes. Team Anubisyy's best today is **0.87667** (rank 44) | The claim is genuine. The team's later 0.87667 code is not public |
-| yeashusemwal/…trees-u-net-cnn-lb-0-85 | LB 0.85 | Team Yeashu Semwal: **0.85556** (rank 118, 2026-10-03) | Consistent with the claim |
-| sachith7/…when-does-temporal-repair-fail | none | No submission; not on the LB | A Task 1 interpolation diagnostic on train dates |
-| shuangranse/…06970-solution-writeup | 0.6970 (0.7269 hybrid) | Team sunshibo1101 (shuangranse + sunshibo1101): 0.82592 (rank 193) | The write-up itself is about the 0.7269 pipeline |
+| সুজানমাঝিসুজান/...উচ্চ পর্বের পাইপলাইন- 0-90 - লক্ষ্য | " 0.90 + লক্ষ্য" | টিম ItsmeSujan: **0.85460** , 1 জমা ( 2026-10-08  12:08 ; কোর 11:54 ) | 0.90 শুধুমাত্র একটি লক্ষ্য। নোটবুকটি anubisyy এর চেকপয়েন্ট প্লাস কয়েক tweaks, এবং এটি **−0.011** নিচে anubisyy এর 0.86517 |
+| yanamiiannaa/...নির্দেশক বৈশিষ্ট্য-নিরাপদ প্রোফাইল | কোন | এটা কোন জমা নেই। Yanamii টিমের সেরা 0.83779 | একটি 2 -প্যানেল টাস্ক 1 পাইলট (ফেব্রুয়ারি S_state  0.9300 → 0.9367 ) |
+| ...বিড়াল-লগবিম-নলস... -0-86517 | 0.86517 | এই লোগে `recorded_solution_score 0.86517` আছে, এবং প্রতিটি সম্পদ চেকসুম পাস। টিম অ্যানুবিসির সেরা আজ **0.87667** (র্যাঙ্ক 44 ) | এই দাবি সত্য, দলটি পরে 0.87667 কোডটি পাবলিক নয় |
+| -হুমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমমম0-85 | LB 0.85 | টিম ইয়েশু সেমওয়াল: **0.85556** (রেঙ্ক 118 , 2026-10-03 ) | দাবিটির সাথে সামঞ্জস্যপূর্ণ |
+| সাচিথ 7 /...when-does-temporary-repair-fail | কোন | কোন উপস্থাপনা নেই, LB | train-এর তারিখের উপর একটি টাস্ক 1 ইন্টারপোলেশন ডায়াগনস্টিক |
+| সুয়াংরেস/... 06970 - সমাধান-লেখা | 0.6970 ( 0.7269 হাইব্রিড) | টিম সানশিবো 1101 (shuangranse + sunshibo1101 ): 0.82592 (রেঙ্ক 193 ) | লেখাটি নিজেই 0.7269 পাইপলাইন সম্পর্কে |
 
-**Context from the same LB snapshot:**
-- Our team Hack2Publish is at **0.88179**, rank 33. The submission is dated 2026-10-09 09:48. Note that this is 0.88179, not the 0.88176 in memory.
-- The 0.89–0.903 group are KTK 0.90303, Lukas 0.90066, gichang and Gangmyung Doo 0.89859, Amin Mohamed 0.89667 and takaito 0.89664. All of them have 48–100 submissions.
-- New since the 10-02 audit: **Musa Peker 0.92226** (94 submissions, last submission 10-05).
-- **No author of these six notebooks scores above us.**
+**একই LB স্ন্যাপশট থেকে প্রসঙ্গঃ**
+- আমাদের টিম হ্যাক 2 প্রকাশ **0.88179** , র্যাঙ্ক 33 . জমা দেওয়া তারিখ 2026-10-09  09:48 . লক্ষ্য করুন যে এটি 0.88179 , মেমরিতে 0.88176 নয়।
+-0.89–0.903 গ্রুপ হল KTK  0.90303 , লুকাস 0.90066 , গিচাং এবং গ্যাংমিউং ডু 0.89859 , আমিন মোহাম্মদ 0.89667 এবং takaito 0.89664 । তাদের সকলের 48–100 জমা হয়েছে ।
+-10-02 অডিট করার পর নতুনঃ **Musa Peker 0.92226** ( 94 জমা, শেষ জমা 10-05 ).
+- **এই ছয়টি নোটবুকের কোন লেখক আমাদের চেয়ে বেশি স্কোর করেন না।**
 
-## 2. Techniques per notebook
+## 2নোটবুক প্রতি কৌশল
 
-The tasks are T1 state, T2 queue (onset / ongoing), T3 physics and T4 ODME.
+এই কাজগুলো হল T1 অবস্থা, T2 ক্যু (প্রারম্ভ / চলমান), T3 পদার্থবিদ্যা এবং T4  ODME ।
 
-**Rule compliance.** The rule is that a T2 forecast with origin T may only use data timestamped ≤ T. Every notebook passes:
-- anubisyy and sujan use `window_history` only, which is < T (the assertion is at anubisyy txt l.1213).
-- yeashusemwal uses `window_history` plus the masked mainline at slot T (`task2_v10.py` l.54). Its v15 adds 3 h of masked mainline from T−180 to T (`task2_v15.py` l.92: `mg["v"][:, lo:t0+1]`). Both are ≤ T.
-- T1 and T4 are offline everywhere.
+**নিয়ম মেনে চলুন।** নিয়ম হল যে T উত্সের সাথে T2 পূর্বাভাস শুধুমাত্র ≤ T টাইমস্ট্যাম্পযুক্ত ডেটা ব্যবহার করতে পারে। প্রতিটি নোটবুক পাস করেঃ
+- অ্যানুবিসিয় এবং সুজান শুধুমাত্র `window_history` ব্যবহার করে, যা < T (আবদ্যাটি অ্যানুবিসিয় txt l. 1213 ) ।
+- yeashusemwal `window_history` প্লাস T ( `task2_v10.py` l. 54 ) স্লট এ মাস্কযুক্ত মূল লাইন ব্যবহার করে। এর v15 T- 180 থেকে T ( `task2_v15.py` l. 92 : `mg["v"][:, lo:t0+1]` ) এ মাস্কযুক্ত মূল লাইন 3 h যোগ করে। উভয়ই ≤ T।
+- T1 এবং T4 সব জায়গায় অফলাইনে আছে।
 
-**No violation found.**
+**কোন লঙ্ঘন পাওয়া যায়নি.**
 
-### anubisyy (0.86517; team now 0.87667)
+### অ্যানুবিশিয় (0.86517; এখন দল 0.87667)
 
 **T1:**
-- Residual to temporal interpolation, with flow averaged 50/50 with the mean flow of adjacent links (`state_model.py` l.112–186).
-- 54 base features plus 40 lag/lead features at ±5/10/15/30/60 min. Each lag carries v, q/lane, q/v and an "eligible and finite" flag (`prepare_state.py` l.12–16).
-- Training masks are simulated i.i.d. at 20/30/50 %, with 2 mask seeds per day.
-- **CatBoost RMSE regressors at depth 8 (9000 iterations) and depth 10 (4500 iterations), averaged 50/50** (`train_state.py` l.9; txt l.90–117).
-- Feb proxy 0.9349 → 0.9418, and **LB +0.0042** for "quality-aware features + CatBoost" on top of their own LightGBM Task 1.
+- অবশিষ্ট থেকে সময়কালীন অন্তর্ভুক্তি, প্রবাহের গড় 50/50 এবং পার্শ্ববর্তী লিঙ্কগুলির গড় প্রবাহ ( `state_model.py` l. 112–186 ).
+-54 বেস বৈশিষ্ট্য প্লাস 40  lag/lead বৈশিষ্ট্য ±5/10/15/30/60 মিনিট প্রতিটি লেগ v, q/lane , q/v এবং একটি "যোগ্য এবং পরিমিত" পতাকা বহন করে ( `prepare_state.py` l. 12–16 ).
+- প্রশিক্ষণ মাস্কগুলি 20/30/50 % এ প্রতি দিন 2 মাস্কের বীজ দিয়ে সিমুলেট করা হয়।
+- **CatBoost RMSE গভীরতা 8 ( 9000 পুনরাবৃত্তি) এবং গভীরতা 10 ( 4500 পুনরাবৃত্তি), গড় 50/50** ( `train_state.py` l. 9 ; txt l. 90–117 ).
+- Feb proxy 0.9349 → 0.9418 , এবং **LB +0.0042** তাদের নিজস্ব LightGBM টাস্ক 1 এর উপরে "মানের সচেতন বৈশিষ্ট্য + CatBoost" এর জন্য।
 
-**T2 onset:**
-- 0.5 LightGBM (83 features, 1900 trees) + 0.5 CatBoost (depth 7). The CatBoost training histories get **5 % random cell dropout as augmentation**, with labels unchanged (`train_onset_catboost.py` l.18–22).
-- T+30 only, fixed threshold 0.55, and a top-1 fallback.
-- Training uses the first origin of each feasible run.
-- The isolated LB gain was +0.0007, which is inside the onset-probe noise.
+**T2 শুরুঃ**
+-0.5 LightGBM ( 83 বৈশিষ্ট্য, 1900 গাছ) +0.5 CatBoost (গভীরতা 7 ). CatBoost প্রশিক্ষণ ইতিহাস **5 % এলোমেলো সেল ড্রপআপ প্রসারিত হিসাবে** , লেবেল অপরিবর্তিত ( `train_onset_catboost.py` l. 18–22 ).
+- T+30 শুধুমাত্র নির্দিষ্ট সীমা 0.55, এবং একটি শীর্ষ-1 ব্যাক-অফ।
+- প্রশিক্ষণের জন্য প্রতিটি সম্ভাব্য রানের প্রথম উৎপত্তি ব্যবহার করা হয়।
+- LB এর বিচ্ছিন্ন লাভ ছিল +0.0007 , যা শুরু-সোন্ডের মধ্যে রয়েছে।
 
-**T2 ongoing:**
-- One LightGBM model, 36 features, 700 trees.
-- Window weight 1000 / eligible cells (`queue_ongoing.py` l.210).
-- Fixed threshold 0.40.
+**T2 চলমানঃ**
+- এক লাইটজিবিএম মডেল, 36 বৈশিষ্ট্য, 700 গাছ।
+- window ওজন 1000 / যোগ্য cell ( `queue_ongoing.py` l. 210 ).
+- স্থির সীমা 0.40 ।
 
-**T3:** clipping only.
+**T3 :** শুধুমাত্র ক্লিপিং।
 
 **T4:**
-- The same objective as ours, min ½‖Af−c‖² + λ/2‖f−b‖² with λ 0.05.
-- Solved by L-BFGS-B from a 600-iteration warm start, tightened to maxiter 8000 and ftol 1e-14. This alone gave **0.84833 → 0.86025 (+0.012)** (txt l.1285, l.1337).
+- আমাদের মতোই objective: min ½‖Af−c‖² + λ/2‖f−b‖², যেখানে λ 0.05।
+- সমাধান হয়েছে L-BFGS-বি থেকে একটি 600- উত্তাপ শুরু, maxiter পর্যন্ত টানুন 8000 এবং ftol 1e-14এটা একাই আমাকে সাহায্য করেছে **0.84833 → 0.86025 (+0.012)** (টক্সট l.1285, l.1337).
 
-### sujanmajhisuzan (0.85460)
+### সুজনমাহিসুজান ( 0.85460 )
 
-This is anubisyy's public assets and modules, with these changes:
-- T1: clip v ∈ [5, 135].
-- T2 onset: threshold 0.52 and a top-2 fallback.
-- T2 ongoing: threshold 0.40 plus **1-D morphological closing**, which fills a single-link gap between two predicted links (txt l.102–117, 157–161).
-- T4: unchanged.
+এই পরিবর্তনগুলি সঙ্গে anubisyy এর পাবলিক সম্পদ এবং মডিউলঃ
+- T1 : clip v ∈ [5 , 135] .
+- T2 শুরুঃ প্রান্তিক 0.52 এবং একটি শীর্ষ-2 ব্যাক-অফ।
+- T2 চলমানঃ threshold 0.40 plus **1 -D morphological closing** , যা দুটি পূর্বাভাসিত লিঙ্কগুলির মধ্যে একক লিঙ্ক ফাঁক পূরণ করে (txt l. 102–117 , 157–161 ).
+- T4 : অপরিবর্তিত।
 
-It scores **0.0106 below** anubisyy's 0.86517. This independently confirms our EXP_T2_D result (morphology −0.010 to −0.015).
+এটি **0.0106** anubisyy এর 0.86517 এর নীচে স্কোর করে। এটি স্বাধীনভাবে আমাদের EXP_T2_D ফলাফল (মর্ফোলজি −0.010 থেকে −0.015 ) নিশ্চিত করে।
 
-### yeashusemwal (0.85556)
+### ইয়েশুসুমাল ( 0.85556 )
 
 **T1:**
-- 3 LightGBM models with leave-one-day-out weekday × slot profiles.
-- Blended **0.70 / 0.30 with a 2-seed day-grid U-Net**, which works on links × 288 slots with 13 input channels.
-- The U-Net is trained with fresh masks every epoch plus simulated 90-min gaps.
-- The U-Net loss is metric-shaped, **plus a per-lane density term weighted 0.05**: `dk = (qp/vp − qt/vt)/lanes` (`task1_unet2.py` l.1–6, l.110–115; blend at txt l.49 and l.126–135).
-- Held-out S_state: LightGBM 0.9377, U-Net 0.9312, blend 0.9397.
-- LB: +0.0010 at a 30 % U-Net share, and −0.0012 at 50 %.
+-3 লাইটজিবিএম মডেলগুলিকে এক দিনের ছুটি দিয়ে কর্মদিবসের সময় × স্লট প্রোফাইল।
+- **0.70 / 0.30 এর সাথে 2 -সাইজ ডে-গ্রিড ইউ-নেট** মিশ্রিত করা হয়েছে, যা 13 ইনপুট চ্যানেলগুলির সাথে লিঙ্ক × 288 স্লটগুলিতে কাজ করে।
+- ইউ-নেট প্রতি যুগে নতুন মাস্ক দিয়ে প্রশিক্ষিত হয় এবং সিমুলেটেড 90 -min ফাঁক দিয়ে।
+- ইউ-নেট ক্ষতি মেট্রিক আকারে, **প্লাস প্রতি-লেন ঘনত্ব শব্দ ওজন 0.05** : `dk = (qp/vp − qt/vt)/lanes` ( `task1_unet2.py` l. 1–6 , l. 110–115 ; txt l. 49 এবং l. 126–135 ) ।
+- সংরক্ষিত S_state: LightGBM 0.9377 , U-Net 0.9312 , মিশ্রণ 0.9397 .
+- LB : +0.0010  30 % ইউ-নেট শেয়ারে এবং −0.0012  50 % এ।
 
-**T2 onset:**
-- An average of 3 dilated residual Conv1d CNNs run along the corridor. The input is history T−60..T, LOO profile slices and static link features. Predicts T+30 only, with threshold 0.5 and a top-2 fallback (`t2_cnn_infer.py` l.17–28; `task2_nn.py` l.1–5).
-- LB +0.0019 vs trees.
-- An unused v18 variant up-weights "non-recurrent" onset events ×3 (`task2_v18.py` l.2–4, l.102).
+**T2 শুরুঃ**
+- গড় 3 বিচ্ছিন্ন অবশিষ্ট Conv1d সিএনএনগুলি করিডোরের ধারে চলে। ইনপুটটি ইতিহাস T−60..T, LOO প্রোফাইল স্লিপ এবং স্ট্যাটিক লিঙ্ক বৈশিষ্ট্য. ভবিষ্যদ্বাণী T +30 শুধুমাত্র, প্রান্তিক 0.5 এবং একটি শীর্ষ-2 পতিত (`t2_cnn_infer.py` l.17–28; `task2_nn.py` l.1–5).
+- LB +0.0019 বনাম গাছ।
+- একটি অপ্রয়োজনীয় v18 ভেরিয়েন্ট ওজনের উপরে "অপুনরাবৃত্তি" শুরু ঘটনা × 3 ( `task2_v18.py` l. 2–4 , l. 102 ).
 
-**T2 ongoing:**
-- 7 LightGBM members:
-  - v11–14: LOO profiles;
-  - v15/16: 3 h of same-day context, queue age, queue-front speed and ramps, worth +0.0004;
-  - v20: windows the selector could have picked, worth +0.0003, credited to our hosen42 t2v2 observation.
-- Training uses **random history blanking of 15 % of links** (v18; `task2_v18.py` l.1–2, l.18–24).
-- Fixed threshold 0.40.
-- A CNN for ongoing cost −0.0049 LB.
+**T2 চলমানঃ**
+-7 লাইটজিবিএম সদস্যঃ
+  - v11–14 : LOO প্রোফাইল;
+  - v15/16: 3 h একই দিনের প্রেক্ষাপটে, ক্যু বয়স, ক্যু-ফ্রন্ট স্পিড এবং র্যাম্প, মান +0.0004 ;
+  - v20 : window নির্বাচনকারী বেছে নিতে পারত, মূল্য +0.0003 , আমাদের হোসেন 42 t 2 v 2 পর্যবেক্ষণের জন্য ক্রেডিট করা হয়েছে।
+- প্রশিক্ষণের জন্য **র্যান্ডম হিস্টরির 15 % লিঙ্ক** (v18 ; `task2_v18.py` l. 1–2 , l. 18–24 ) ব্যবহার করা হয়।
+- স্থির সীমা 0.40 ।
+- চলমান খরচ জন্য একটি CNN  −0.0049  LB ।
 
-**T4:** NNLS on the split's own counts and prior, λ 0.05, the same as ours. Its log is "S_link 1.0000".
+**T4 :**  NNLS বিভাজনের নিজস্ব গণনা এবং পূর্ববর্তী, λ 0.05 , আমাদের মতোই। এর লগটি " S_link  1.0000 " ।
 
-### yanamiiannaa (no LB)
+### yanamiiannaa (না LB )
 
-- T1 only, 2 panels. A small tree model on 27 features: before / after / upstream / downstream nearest visible observations within 5 hops, and whole-day-excluded profiles.
-- Blended 70/30 with an archived temporal CNN.
-- Feb macro S_state 0.9300 → 0.9367. Our members are about 0.942 on the val-month holdout, a different holdout.
+- T1 শুধুমাত্র, 2 প্যানেল। 27 উপর একটি ছোট গাছের মডেল বৈশিষ্ট্যঃ আগে / পরে / আপস্ট্রিম / ডাউনস্ট্রিম 5 হোপের মধ্যে নিকটতম দৃশ্যমান পর্যবেক্ষণ এবং পুরো দিন বাদ দেওয়া প্রোফাইল।
+- সংরক্ষিত temporal CNN সঙ্গে 70/30 মিশ্রিত।
+- ফেব্রুয়ারি ম্যাক্রো S_state 0.9300 → 0.9367আমাদের সদস্যরা প্রায় 0.942 ভ্যাল-মাস হোল্ডআউটের সময়, অন্য রকম হোল্ডআউটের সময়।
 
-### sachith7 (no LB)
+### সাচিথ 7 (না LB )
 
-- A T1 diagnostic on train dates.
-- Temporal interpolation beats spatial interpolation and the 7/28-day profile on 5 corridors. A temporal-then-spatial fallback for long gaps (≥ 7 slots) does not help.
-- **Day-edge cells** (no same-day observation on one side) are the weak spot.
+- train-এর তারিখের উপর একটি T1 নির্ণয়।
+- সময়কালীন অন্তর্ভুক্তি স্থানিক অন্তর্ভুক্তি এবং 7/28- দিনের প্রোফাইল 5 দীর্ঘ ফাঁক (≥) এর জন্য একটি সময়-পরে-স্থলীয় পতন 7 (স্লটস) সাহায্য করে না।
+- **ডে-এজ সেল** (একদিকে একই দিনের পর্যবেক্ষণ নেই) দুর্বল স্থান।
 
-### shuangranse (writes 0.7269; team now 0.82592)
+### shuangranse (লিখায় 0.7269 ; দল এখন 0.82592 )
 
-- **T1:** weekday profile + Kalman/RTS on deviations. This is our EXP_T1_c (−0.019).
+- **T1 :** সপ্তাহের প্রোফাইল + Kalman/RTS বিঘ্নের উপর। এটি আমাদের EXP_T1_c (−0.019 ).
 - **T2:**
-  - Onset uses the top-3 recurrent-bottleneck links at T+30, gated by flow/capacity.
-  - Ongoing is persistence + LightGBM.
-  - Non-sensored links between two queued sensored links are filled (txt l.129–130, l.182).
-- **T3:** soft-FD / conservation post-processing, dropped.
-- **T4:** NNLS on the split's own counts, which matches `public_reference` to 1e-8.
+  - অনসেট উপরের...3 T+ এ পুনরাবৃত্তিমূলক bottleneckের লিঙ্ক30, দ্বারা গেট flow/capacity.
+  - চলমান হচ্ছে ধৈর্য + লাইটজিবিএম।
+  - দুটি ক্রমযুক্ত সেন্সরযুক্ত লিঙ্কগুলির মধ্যে নন-সেন্সরযুক্ত লিঙ্কগুলি পূরণ করা হয় (txt l. 129–130 , l. 182 ).
+- **T3 :** নরম- FD / সংরক্ষণের পরে প্রক্রিয়াকরণ, ড্রপ।
+- **T4 :**  NNLS ভাগের নিজস্ব গণনাতে, যা `public_reference` থেকে 1e-8 এর সাথে মিলিত হয়।
 
-## 3. What is new relative to TRACKER, ranked
+## 3 . TRACKER এর তুলনায় নতুন কি, র্যাঙ্কড
 
-**Already covered or rejected by us. Do not redo:**
-- LOO / day-excluded profiles: T1 is profile-free, ongoing is prior-free, onset LODO gave LB −0.005.
-- Equal window weights: EXP_T2_l.
-- Thresholds, morphology and gap fill: EXP_T2_D.
-- 3 h same-day context: EXP_T2_e and OGCLOCK (new-scenario gain ≈ 0).
-- Selector-faithful ongoing windows: F03, already in production at LB +0.0047.
+**আমরা ইতিমধ্যে covered অথবা প্রত্যাখ্যান.**
+- LOO / দিন-বিচ্ছিন্ন প্রোফাইলঃ T1 প্রোফাইল-মুক্ত, চলমান-মুক্ত, শুরু LODO  LB −0.005
+- windowর সমান ওজনঃ EXP_T2_l.
+- তীর, রূপকরণ এবং ফাঁক পূরণঃ EXP_T2_D.
+-3 h একই দিনের প্রেক্ষাপটঃ EXP_T2_e এবং OGCLOCK (নতুন দৃশ্যের উপার্জন ≈0 ).
+- নির্বাচক-নিষ্ঠার চলমান windowঃ F03 , ইতিমধ্যে LB +0.0047 এ production করা হচ্ছে ।
 - Kalman/RTS: EXP_T1_c.
-- Persistence blend: EXP_T2_n.
-- CNN for ongoing: their own LB −0.005.
-- **ODME solver tightening.** Our T4 is `scipy.optimize.nnls` on [A; √λ·I] (`consolidation/kaggle_parity/tfb-par-t4.py` l.1080–1081). That is an exact active-set solution of the same strictly convex objective. anubisyy's +0.012 only recovers what their under-converged L-BFGS lost, so it is worth **0** to us.
+- স্থিরতা মিশ্রণঃ EXP_T2_n.
+- CNN চলমান জন্যঃ তাদের নিজস্ব LB −0.005 .
+- **ODME সমাধানকারী tightening.** আমাদের T4  `scipy.optimize.nnls`  [A; √λ·I] ( `consolidation/kaggle_parity/tfb-par-t4.py` l. 1080–1081 ) । এটি একই কঠোরভাবে ধারাবাহিক লক্ষ্যের একটি সঠিক সক্রিয় সেট সমাধান। anubisyy এর +0.012 শুধুমাত্র তাদের কম ধারাবাহিক L- BFGS হারিয়ে যা পুনরুদ্ধার করে, তাই এটি আমাদের জন্য **0** মূল্যবান।
 
-**Never tested by us:**
+**আমাদের দ্বারা পরীক্ষা করা হয়নিঃ**
 
-| # | Technique | Where | Our nearest test | Estimated public Δ for us | Cost | Rule |
+| # | প্রযুক্তি | কোথায় | আমাদের নিকটতম পরীক্ষা | আমাদের জন্য অনুমানিত পাবলিক Δ | খরচ | নিয়ম |
 |---:|---|---|---|---|---|---|
-| 1 | **T1 day-grid U-Net with a density-consistency loss, as a low-weight blend member (≈ 0.15–0.3) before recon + TV** | yeashusemwal `task1_unet2.py` l.1–6, 110–115; blend txt l.126–135 | Proposed as EXP_NEW_015 (`research/research_to_experiments.md` l.177), never run. All 16 T1 members are LightGBM | Their result: +0.0020 holdout, +0.0010 LB on a weaker LightGBM. Our bag is stronger and the U-Net is ≈ 0.01 S_state weaker than our members. Expected **+0.0001 to +0.0005** | GPU training per panel (≈ 1–2 h), cheap inference; check on the val-month holdout first | ✓ offline |
-| 2 | **T1 CatBoost residual member, depth 8 + depth 10, on our FD feature set** (model-family diversity) | anubisyy `train_state.py` l.9; txt l.90–117 | None. CatBoost was tried only for T2 (B4: correlation 0.997 on ongoing) | Their own +0.0042 LB is on a much weaker T1. For a 17th member of a different family, expected **+0.0001 to +0.0003** | GPU CatBoost on about 2.4 M rows × 98 columns ≈ 1–2 h per half | ✓ offline |
-| 3 | **T1 long lag/lead self context: ±3/±6/±12 slots (15/30/60 min) of v, q/lane, q/v plus an eligibility flag** | anubisyy `prepare_state.py` l.12–16 | We have self ±1/±2 slots, ASM ±5 slots × ±5 stations, interpolation and gap distances | **+0 to +0.0002** (mostly redundant with interpolation + ASM) | One lab run on the val-month holdout; 10 extra columns | ✓ offline |
-| 4 | T2 training augmentation: random link-history blanking of 15 % (yeashusemwal) or cell dropout of 5 % (anubisyy) | `task2_v18.py` l.18–24; `train_onset_catboost.py` l.18–22 | The masking-adaptation control (EXP_PV_VALIDITY) is related but is not augmentation | Ongoing **≈ 0 to +0.0005**, and it cannot be verified on 40 public windows. Onset: do not probe (8 onset failures; probe SD 0.003–0.005) | Retrain the F03 bag (≈ 5 h) | ✓ |
-| 5 | Onset Conv1d corridor CNN (seed bag of 3) | `t2_cnn_infer.py` l.17–28; `task2_nn.py` | Listed as "CNN onset, no evidence" in `analysis/LEVERS_2026-10-07.md` l.110 | Their +0.0019 is inside the onset-probe noise. **Not recommended** (onset LB record 1 in 8) | GPU, 3 seeds | ✓ |
-| 6 | T1 interpolation across midnight for day-edge targets (only inspired by sachith7's day-edge finding; they do not implement it) | sachith7 txt "Gap length and day-edge cells" | Our `interp_axis(c.mv, 1)` works within each day (`kaggle_jobs/t1_pipeline_v13a.py` l.218) | **< +0.0001** (night traffic is free-flow and edge cells are few) | Tiny | ✓ offline |
+| 1 | **T1 দিন-গ্রিড ইউ-নেট ঘনত্ব-সংহততা হ্রাস সঙ্গে, কম ওজন মিশ্রণ সদস্য হিসাবে (≈0.15–0.3 ) recon + TV** আগে | yeashusemwal `task1_unet2.py` l. 1–6 , 110–115 ; মিশ্রণ txt l. 126–135 | EXP_NEW_015 ( `research/research_to_experiments.md` l. 177 ) হিসাবে প্রস্তাবিত, কখনই চালানো হয় না। সমস্ত 16  T1 সদস্যরা লাইটজিবিএম | তাদের ফলাফলঃ +0.0020 ধারণ, +0.0010  LB একটি দুর্বল LightGBM উপর। আমাদের ব্যাগ শক্তিশালী এবং U-Net ≈0.01  S_state আমাদের সদস্যদের চেয়ে দুর্বল। প্রত্যাশিত **+0.0001 থেকে +0.0005** | GPU প্রশিক্ষণ প্রতি প্যানেল (≈1–2 h), সস্তা সিদ্ধান্ত; প্রথমে ভ্যাল-মাস অবকাশ পরীক্ষা করুন | ✓ অফলাইনে |
+| 2 | **T1 CatBoost অবশিষ্ট সদস্য, গভীরতা 8 + গভীরতা 10 , আমাদের FD বৈশিষ্ট্য সেট** (মডেল-পরিবার বৈচিত্র্য) | অ্যানুবিসিয় `train_state.py` l. 9 ; txt l. 90–117 | কোন. CatBoost শুধুমাত্র T2 জন্য পরীক্ষা করা হয়েছিল ( B4 : চলমান উপর সম্পর্ক 0.997 ) | তাদের নিজস্ব +0.0042  LB অনেকটা দুর্বল T1 . একটি ভিন্ন পরিবারের 17 th সদস্যের জন্য, প্রত্যাশিত **+0.0001 থেকে +0.0003** | GPU CatBoost on about 2.4 M rows × 98 columns ≈1–2 h per half | ✓ অফলাইনে |
+| 3 | **T1 দীর্ঘ lag/lead স্ব-সংবাদঃ ±3 /±6 /±12 slots ( 15/30/60 min) of v, q/lane , q/v plus an eligibility flag** | অ্যানুবিসিয়া `prepare_state.py` l. 12–16 | আমাদের স্বয়ং ±1 /±2 স্লট, ASM ±5 স্লট × ±5 স্টেশন, ইন্টারপোলেশন এবং ফাঁক দূরত্ব রয়েছে | **+0 থেকে +0.0002** (বেশিরভাগই ইন্টারপোলেশন + ASM এর সাথে অতিরিক্ত) | ভ্যাল-মাস হোল্ডআউটের জন্য এক ল্যাব রান; 10 অতিরিক্ত কলাম | ✓ অফলাইনে |
+| 4 | T2 প্রশিক্ষণ বৃদ্ধিঃ 15 % (ইয়েশুসেমওয়াল) বা 5 % (অনুবিসি) এর র্যান্ডম লিঙ্ক-ইতিহাসের বিল্ডিং | `task2_v18.py` l.18–24; `train_onset_catboost.py` l.18–22 | মাস্কিং-অ্যাডাপ্টেশন কন্ট্রোল ( EXP_PV_VALIDITY ) সম্পর্কিত কিন্তু বৃদ্ধি নয় | চলমান **≈0 to +0.0005** , এবং এটি 40 পাবলিক windowতে যাচাই করা যায় না। শুরুঃ সন্ডা করবেন না ( 8 শুরু ব্যর্থতা; সন্ডা SD  0.003–0.005 ) | F03 ব্যাগটি পুনরায় প্রশিক্ষিত করুন (≈5 h) | ✓ |
+| 5 | Onset Conv1d corridor CNN (পোষা ব্যাগ 3 ) | `t2_cnn_infer.py` l.17–28; `task2_nn.py` | CNN শুরু, কোন প্রমাণ নেই `analysis/LEVERS_2026-10-07.md` l. 110 | তাদের +0.0019 শুরু-সোন্ড শব্দ ভিতরে। **প্রস্তাবিত নয়** (প্রারম্ভ LB রেকর্ড 1 মধ্যে 8 ) | GPU , 3 বীজ | ✓ |
+| 6 | T1 মধ্যরাত জুড়ে দিনের প্রান্তের লক্ষ্যগুলির জন্য ইন্টারপোলেশন (শুধুমাত্র sachith7 এর দিনের প্রান্তের ফলাফল থেকে অনুপ্রাণিত; তারা এটি বাস্তবায়ন করে না) | sachith7 txt "গ্যাপ দৈর্ঘ্য এবং দিনের প্রান্তের cell" | আমাদের `interp_axis(c.mv, 1)` কাজ করে প্রতিদিন ( `kaggle_jobs/t1_pipeline_v13a.py` l. 218 ) | **< +0.0001** (রাতের ট্রাফিক মুক্ত প্রবাহ এবং প্রান্ত cellগুলি অল্প) | ছোট্ট | ✓ অফলাইনে |
 
-**Combined.** The realistic total of items 1–3 is about **+0.0003 to +0.001** public. All of it is in Task 1, so it transfers to private 1:1.
+**সংযুক্ত।**  1–3 আইটেমগুলির বাস্তবসম্মত সংখ্যা **+0.0003 থেকে +0.001** পাবলিক পর্যন্ত। এটি সমস্ত টাস্ক 1 এ রয়েছে, তাই এটি ব্যক্তিগত 1 এ স্থানান্তরিত হয়ঃ 1 ।
 
-## 4. Verdict
+## 4- রায়।
 
-**No public notebook explains how the 0.89–0.90 teams outscore us.**
+**কোন পাবলিক নোটবুক ব্যাখ্যা করে না কিভাবে 0.89–0.90 দল আমাদের ছাড়িয়ে যায়।**
 
-- Every one of the six authors is below us on the same LB. The strongest, Anubisyy, is at 0.87667 against our 0.88179.
-- Their public code is weaker than ours on T2:
-  - fixed thresholds instead of expected-IoU decoding;
-  - a single ongoing model;
-  - no selector-faithful windows, except yeashusemwal's v20 at 20 % weight;
-  - no same-scenario prior.
-- On T4 they match ours. On T1 they are at best comparable.
+- ছয়জন লেখক আমাদের থেকে নিচে একই LB । সবচেয়ে শক্তিশালী, Anubisyy, আমাদের 0.87667 বিরুদ্ধে 0.88179 হয়।
+- তাদের পাবলিক কোড আমাদের চেয়ে কম দুর্বল T2 :
+  - প্রত্যাশিত-ইউ ডিকোডিংয়ের পরিবর্তে স্থির সীমা;
+  - একটি একক চলমান মডেল;
+  - যিশুসেম্বলের v20 ছাড়া কোন নির্বাচনকারী-নিষ্ঠ window নেই, যা 20 % ওজন;
+  - একই সিনারি আগে ছিল না।
+- T4 এ তারা আমাদের সাথে মিলিত হয়। T1 এ তারা সর্বোত্তম তুলনাযোগ্য।
 
-**Where the gap must be.** The gap is 0.019 to KTK and 0.017 to the 0.898 group. Our own decomposition (`analysis/TRANSFER_ANALYSIS_2026-10-08.md` §3) puts the recoverable loss almost entirely in Task 2:
-- onset location, ≈ 0.02 LB;
-- ongoing per-step extent, ≈ 0.009 LB.
+**যেখানে ফাঁক থাকা উচিত।** ফাঁকটি 0.019 থেকে KTK এবং 0.017 থেকে 0.898 গ্রুপের মধ্যে। আমাদের নিজস্ব বিভাজন ( `analysis/TRANSFER_ANALYSIS_2026-10-08.md` § 3 ) প্রায় সম্পূর্ণরূপে পুনরুদ্ধারযোগ্য ক্ষতিকে 2 টাস্কের মধ্যে রাখেঃ
+- শুরু হওয়ার স্থান, ≈0.02  LB ;
+- ধাপে ধাপে চলমান প্রস্থ, ≈0.009  LB .
 
-Nothing in these notebooks addresses either one:
-- yeashusemwal names onset localisation as "the main open problem".
-- The only T2 ideas here are augmentations and a CNN onset, both small or noise-level.
+এই নোটবুকগুলোতে কোন কিছুই কোন একের ঠিকানা দেয় নাঃ
+- ইয়েশহুসেমওয়াল "প্রধান খোলা সমস্যা" হিসেবে শুরু হওয়া স্থানীয়করণকে উল্লেখ করেছে।
+- এখানে শুধুমাত্র T2 ধারণা হল বৃদ্ধি এবং CNN শুরু, উভয় ছোট বা শব্দ স্তর।
 
-**What would move us.** The only items worth time are T1 diversity members (U-Net with a density loss, then CatBoost). They are cheap to check on our val-month holdout, rule-safe, and transfer 1:1 to private. Even so they are worth about 0.001, roughly 5 % of the gap.
+**আমাদের কি প্রেরণা দেবে।** একমাত্র আইটেম যা সময়ের মূল্যবান তা হল T1 বৈচিত্র্য সদস্য (U-Net এর ঘনত্ব হ্রাস, তারপর CatBoost) । তারা আমাদের ভ্যাল-মাস হোল্ডআউট, নিয়ম-নিরাপদ চেক করতে সস্তা এবং 1:1 ব্যক্তিগত স্থানান্তর করতে পারে। তবুও তারা প্রায় 0.001 এর মূল্যবান, প্রায় 5 % ফাঁক।

@@ -20,3 +20,6 @@
 [   273s] D12_I5_N pm onset windows 21 ph6==1 share 0.048
 [   274s] D12_I5_S pm onset windows 26 ph6==1 share 0.346
 [   327s] onset OOF fold 0 done
+[   383s] onset OOF fold 1 done
+[   383s] DONE
+[run_heavy] exit 0 after 384s

@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 88acf00415f936ee7c7eb8fa0f99ca16f0861601 | generated 2026-11-03 02:09
+#   tfb 0.1.0-m1 | modules tree sha1 88acf00415f936ee7c7eb8fa0f99ca16f0861601 | generated 2026-11-03 23:33
 # Parity kernel tfb-par-chaint1 (re-push (fix), ~45 min on Kaggle CPU): production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow EXACT vs tfb-j4
 # Stages ['t4', 't1_mix', 't1_recon'] | pick A2 | recipe full | overrides {}
 # Kernel sources to attach (32, plus the competition data):
@@ -16,7 +16,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-chaint1", "priority": "re-push (fix)", "minutes": 45, "stages": ["t4", "t1_mix", "t1_recon"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow EXACT vs tfb-j4", "sources": ["tfb-t1v11a", "tfb-t1v11b", "tfb-t1v12a", "tfb-t1v12b", "tfb-t1v12s2a", "tfb-t1v12s2b", "tfb-t1v12s3a", "tfb-t1v12s3b", "tfb-t1v12s4a", "tfb-t1v12s4b", "tfb-t1v12s5a", "tfb-t1v12s5b", "tfb-t1v12s6a", "tfb-t1v12s6b", "tfb-t1v12s7a", "tfb-t1v12s7b", "tfb-t1v13a", "tfb-t1v13b", "tfb-t1v13s10a", "tfb-t1v13s10b", "tfb-t1v13s11a", "tfb-t1v13s11b", "tfb-t1darka", "tfb-t1darkb", "tfb-t1rampa", "tfb-t1rampb", "tfb-t1ramp2a", "tfb-t1ramp2b", "tfb-t1bspeca", "tfb-t1bspecb", "tfb-t1bspecc", "tfb-j4"], "checks": [{"type": "submission", "ours": ["tfb-i4", "submission_FDRTV.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["state", "odme"], "label": "chaint1_vs_tfb-j4"}], "tfb_version": "0.1.0-m1", "tree_sha1": "88acf00415f936ee7c7eb8fa0f99ca16f0861601", "generated": "2026-11-03 02:09"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-chaint1", "priority": "re-push (fix)", "minutes": 45, "stages": ["t4", "t1_mix", "t1_recon"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "production wiring of the Task 1 / Task 4 rows: t4 skeleton -> t1_mix -> t1_recon; state + path_flow EXACT vs tfb-j4", "sources": ["tfb-t1v11a", "tfb-t1v11b", "tfb-t1v12a", "tfb-t1v12b", "tfb-t1v12s2a", "tfb-t1v12s2b", "tfb-t1v12s3a", "tfb-t1v12s3b", "tfb-t1v12s4a", "tfb-t1v12s4b", "tfb-t1v12s5a", "tfb-t1v12s5b", "tfb-t1v12s6a", "tfb-t1v12s6b", "tfb-t1v12s7a", "tfb-t1v12s7b", "tfb-t1v13a", "tfb-t1v13b", "tfb-t1v13s10a", "tfb-t1v13s10b", "tfb-t1v13s11a", "tfb-t1v13s11b", "tfb-t1darka", "tfb-t1darkb", "tfb-t1rampa", "tfb-t1rampb", "tfb-t1ramp2a", "tfb-t1ramp2b", "tfb-t1bspeca", "tfb-t1bspecb", "tfb-t1bspecc", "tfb-j4"], "checks": [{"type": "submission", "ours": ["tfb-i4", "submission_FDRTV.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["state", "odme"], "label": "chaint1_vs_tfb-j4"}], "tfb_version": "0.1.0-m1", "tree_sha1": "88acf00415f936ee7c7eb8fa0f99ca16f0861601", "generated": "2026-11-03 23:33"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).

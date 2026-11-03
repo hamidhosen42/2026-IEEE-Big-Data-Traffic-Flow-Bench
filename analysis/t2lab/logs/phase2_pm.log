@@ -1,0 +1,11 @@
+[run_heavy] slot acquired after 0s
+[     1s] D7_I10_E pm onset windows 25
+[     2s] D7_I10_W pm onset windows 21
+[     3s] D7_I210_E pm onset windows 27
+[     4s] D7_I210_W pm onset windows 32
+[     6s] D7_I405_N pm onset windows 35
+[     7s] D7_I405_S pm onset windows 27
+[     8s] D12_I5_N pm onset windows 21
+[     9s] D12_I5_S pm onset windows 26
+[     9s] DONE
+[run_heavy] exit 0 after 9s

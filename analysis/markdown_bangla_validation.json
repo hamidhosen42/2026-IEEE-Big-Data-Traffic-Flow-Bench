@@ -1,0 +1,480 @@
+[
+  {
+    "file": "consolidation/LINEAGE_K9.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2089,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "consolidation/DESIGN.md",
+    "manual_review": false,
+    "issues": [
+      "translation-pending"
+    ],
+    "bengali_characters": 0,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 4110,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "consolidation/ENVIRONMENT.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2726,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "consolidation/LINEAGE_G4.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1728,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "consolidation/README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 8277,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "baseline_EXP000_0.85309/HOW_IT_WORKS.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 453,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/EXP_021_040_roadmap.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 5641,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/EXISTING_MAP.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 4811,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/organizer_verified_facts.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 3784,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/research_to_experiments.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 14209,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/86217_vs_85860_diff.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1216,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/PUBLIC_KERNELS_REVIEW_2026-10-10.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 6965,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/SCORE_GAP_ANALYSIS.md",
+    "manual_review": true,
+    "issues": [],
+    "bengali_characters": 2138,
+    "extra_numbers": {},
+    "missing_numbers": {
+      "0.90": 1,
+      "2": 1,
+      "0": 1
+    }
+  },
+  {
+    "file": "research/PLAN_2026-10-03.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 12571,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/partials/A_ideas.md",
+    "manual_review": false,
+    "issues": [
+      "numbers"
+    ],
+    "bengali_characters": 17950,
+    "extra_numbers": {
+      "7": 1
+    },
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/partials/C_ideas.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 12593,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/partials/B_ideas.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 11298,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/partials/D_ideas.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 14949,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/BASE_86217.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2701,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/FINAL_RESEARCH_REPORT.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 10370,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "research/topology_audit.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2160,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "experiments/TRACKER.md",
+    "manual_review": false,
+    "issues": [
+      "translation-pending"
+    ],
+    "bengali_characters": 0,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/LEVERS_2026-10-07.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 7000,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "submissions/05_OG_NOPRIOR/HOW_IT_WORKS.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 453,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/LEAK_DIAG_2026-10-29.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 7777,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "all_submitted_notebooks/README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 3682,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "consolidation/kaggle_parity/SOURCES.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 5092,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/CAPACITY_SCENARIO_2026-10-11.md",
+    "manual_review": true,
+    "issues": [],
+    "bengali_characters": 3883,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/TRANSFER_ANALYSIS_2026-10-08.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 13792,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/DISCUSSION_REVIEW_2026-11-03.md",
+    "manual_review": true,
+    "issues": [],
+    "bengali_characters": 7139,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/749480.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1017,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/748789.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1471,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742350.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1328,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/749278.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1781,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/749601.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2498,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/741898.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1254,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/740844.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 4119,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742910.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 923,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742068.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1571,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1216,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742980.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2543,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742761.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 456,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/742328.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2055,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/743819.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 6199,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/740522.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2131,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/743549.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 442,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/740536.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2218,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/748784.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2127,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/745700.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 1306,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "discussions/744187.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 2878,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "submissions/README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 3489,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "submissions/06_ON30/HOW_IT_WORKS.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 364,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/t2lab/README.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 6182,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "kaggle_jobs/PUSH_FOR_TEAM_k1.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 644,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/t2lab/results/firstcross/ref/hb_TASK2_ANALYSIS.md",
+    "manual_review": false,
+    "issues": [
+      "translation-pending"
+    ],
+    "bengali_characters": 0,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/t2lab/results/firstcross/ref/hb_EXPERIMENTS.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 16928,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "analysis/t2lab/results/research/IDEAS.md",
+    "manual_review": false,
+    "issues": [],
+    "bengali_characters": 11675,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  }
+]

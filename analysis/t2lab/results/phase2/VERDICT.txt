@@ -1,0 +1,19 @@
+EXP_T2_PHASE2 verdict (2026-11-03; rule results/phase2/PREREG.txt saved 23:16:43 +06, sha1 0ff2a435 of rule.txt, before any new model;
+asserted by phase2_onset.py / phase2_report.py).  Onset CatBoost base (69) vs + 4 phase cols, recipe = EXP_T2_PHASE, seeds 0..19.
+Checks: seed-0 base E1 0.6646 (= EXP_T2_PHASE / EXP_T2_OSP); sp4 seed-0 base 0.7543 (= EXP_T2_OSP s4); seeds 0..4 reproduce +0.0177 exactly.
+
+BINDING (fresh seeds 5..19, E1 = 214 pseudo-March onset windows, seed-avg IoU)
+  (a) diff +0.0030 [-0.0080, +0.0142]  (need >= +0.008 and lo > 0)                                   -> FAIL
+  (b) non-tie panels 3/5 positive (60 %), min -0.0257 (D7_I10_W), D7_I210_W -0.0118 (need >= 80 %, none < -0.01) -> FAIL
+      panels: I5_N +0.011, I5_S +0.040, I405_S +0.010, I10_W -0.026, I210_W -0.012; ties I10_E, I210_E, I405_N
+  (c) E2 train OOF offlike onset, 4 folds pooled (2105 windows, seeds 0..2): +0.0031 [+0.0007, +0.0056] 7/8   -> PASS
+      per fold +0.0016 / +0.0072 / -0.0019 / +0.0054; folds 0+1 +0.0044 [+0.0011, +0.0077] 6/8
+  (d) seeds with E1 diff > 0: 10/15 = 67 % (need >= 70 %); per seed -0.006..+0.024, three seeds -0.019..-0.035 -> FAIL
+  -> FAIL (3 of 4 conditions fail) -> NO-GO.  The first test's +0.0177 was a favourable 5-seed draw (seed sd ~0.018 on 214 windows).
+
+INFO (not binding)
+  pooled seeds 0..19: +0.0066 [-0.0038, +0.0180], 3/5 non-tie panels, 15/20 seeds > 0
+  by origin phase (seeds 5..19): :05/:35 origins (n 68) +0.019, other (n 146) -0.005  (the effect, if any, is confined to :05/:35 origins)
+  sp4 prior variant (seeds 5..19): base 0.7632 -> 0.7668, +0.0036 [-0.0085, +0.0154], 5/8 panels, 9/15 seeds > 0, min panel -0.036 (I405_S)
+Runtime: training 30 new models in 2 parallel chains (4 threads each) 469 s / 544 s; E2 4 folds x 3 seeds x 2 arms 148..169 s per fold
+(2 chains); E1 scoring 9 s; report ~1 min.  Wall ~15 min (23:17:43 -> 23:32).  No April data, no LB, no production edits, no push.

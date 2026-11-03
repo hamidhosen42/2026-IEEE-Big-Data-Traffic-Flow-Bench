@@ -1,96 +1,98 @@
-# Organizer-verified facts
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-I read every thread in full, not just the titles. The dump was refreshed on 2026-09-30 at 18:48 UTC and is stored in `discussions/*.md`.
+# সংগঠক যাচাই করেছেন
 
-**Tags:**
-- **[ORG]** — ORGANIZER CONFIRMED: an organizer post or reply, or the organizer's public scorer code.
+আমি পুরো থ্রেড পড়েছি, শুধু শিরোনাম নয়। ডাম্পটি 2026-09-30 এ আপডেট করা হয়েছিল 18:48  UTC এ এবং এটি `discussions/*.md` এ সংরক্ষণ করা হয়েছে।
+
+**ট্যাগঃ**
+- **[ORG]** — ORGANIZER  CONFIRMED : সংগঠকের পোস্ট বা উত্তর, অথবা সংগঠকের পাবলিক স্কোর কোড।
 - **[PART]** — PARTICIPANT CLAIM.
-- **[OURS]** — OUR OBSERVATION: measured by us.
+- **[OURS]** — OUR  OBSERVATION : আমাদের দ্বারা পরিমাপ করা হয়েছে।
 - **[INF]** — INFERENCE.
 
-## Task 2 rules (online task)
+## টাস্ক 2 নিয়ম (অনলাইন টাস্ক)
 
-1. **[ORG] 742068 (09-19).** A forecast with origin T may use released data timestamped **≤ T** and nothing after it, in any file. This explicitly allows:
-   - earlier times on day D;
-   - **earlier days of the same split**;
-   - the full training split;
-   - `mainline_states_masked` and `ramp_states`.
+1. **[ORG]  742068 ( 09-19 ).** একটি পূর্বাভাস T উত্স সঙ্গে প্রকাশিত তথ্য টাইমস্ট্যাম্প **≤ T** এবং তার পরে কিছুই ব্যবহার করতে পারেন, কোন ফাইল. এই স্পষ্টভাবে অনুমতি দেয়ঃ
+   - D-দিনের আগের সময়;
+   - **একই বিভক্তের আগের দিন** ;
+   - সম্পূর্ণ প্রশিক্ষণ বিভক্ত;
+   - `mainline_states_masked` এবং `ramp_states` ।
 
-   The following are out of scope:
-   - ramp values inside the horizon;
-   - mainline observations after the buffer.
-2. **[ORG] 742068.** Task 1 is offline. Any released observation in the split may be used, at any time, including after the target cell. This makes our transductive Task 1 (EXP_NEW_001) explicitly legal.
-3. **[ORG] 742910 (09-28).** The timestamp rule applies to the released files. Public external data is allowed under the Rules' External data section and must be disclosed in the finals. Any resource meant to identify hidden answers is prohibited.
-4. **[ORG] 742350 (09-21).** In all 120 `queue_onset` windows, across all three splits, the queue appears **only at T+30**, and T+5..T+25 are empty. This comes from the selector keeping the earliest origin whose horizon contains a queue. Conditioning on the `condition` column is within the rules. `queue_ongoing` windows are not affected.
-   - Quote: "What Task 2 still asks, and what will separate the leaderboard, is **which links queue**."
-5. **[PART] 742328.** On the train onset windows, a model trained only on T+30 scored IoU 0.93, against 0.57 for a model spread over all steps. The windows are small, with a median of 3 queued cells.
-   - **[OURS]** agrees: our CV onset IoU is ≈ 0.89, against an LB onset of 0.743 (probe on 09-28).
-6. **[ORG] 742761 (09-28).** The organizer does not publish achievable targets.
-   - "A perfect forecast scores 1.0."
-   - "The labels are computed from the **underlying state** rather than from the noisy observations, so the labels themselves carry no noise floor."
-7. **[PART] 742761.** "Onset windows cap out near 0.7" using only data ≤ T. The organizer neither confirmed nor refuted this.
-   - **[OURS]:** our LB onset IoU is 0.743 (measured by probe), above that claimed cap.
-8. **[ORG] 740536 / 740522.** The Task 2 horizon cells, and later a path through `window_history.parquet`, were readable in earlier releases. Both were closed, and then the val/private months were **rebuilt from new seeds** (740844).
-   - **[PART] 740522:** at the time, the best genuine forecaster was about 0.5 S_queue, and "the recent jump of the top of the leaderboard" happened then.
+   নিম্নলিখিত বিষয়গুলি প্রযোজ্য নয়ঃ
+   - horizonের ভিতরে র্যাম্প মান;
+   - বাফারের পরে মূল পর্যবেক্ষণ।
+2. **[ORG]  742068** টাস্ক 1 অফলাইনে রয়েছে। বিভক্তিকর যে কোনও প্রকাশিত পর্যবেক্ষণ যে কোনও সময় ব্যবহার করা যেতে পারে, লক্ষ্য cellের পরেও। এটি আমাদের ট্রান্সডাক্টিভ টাস্ক 1 ( EXP_NEW_001 ) স্পষ্টভাবে বৈধ করে তোলে।
+3. **[ORG]  742910 ( 09-28 ).** প্রকাশিত ফাইলগুলিতে টাইমস্ট্যাম্পের নিয়ম প্রযোজ্য। নিয়মের বাহ্যিক ডেটা বিভাগে পাবলিক বহিরাগত ডেটা অনুমোদিত এবং ফাইনালগুলিতে প্রকাশ করা উচিত। লুকানো উত্তরগুলি সনাক্ত করার জন্য যে কোনও সংস্থান নিষিদ্ধ।
+4. **[ORG] 742350 (09-21).** মোট 120 `queue_onset` window, তিনটি বিভক্ত জুড়ে, সারির প্রদর্শিত **শুধুমাত্র T+30**, এবং টি+5..T+25 এই নির্বাচনকারী থেকে আসে যার প্রথম উৎপত্তি যার horizon একটি ক্যারেজ রয়েছে। `condition` কলামটি নিয়মের মধ্যে রয়েছে। `queue_ongoing` window ক্ষতিগ্রস্ত নয়।
+   - Quote: "Task 2 কি এখনও জিজ্ঞাসা করে, এবং যা লিডারবোর্ড পৃথক করবে, তা হল **যা** ক্যু লিঙ্ক করে। "
+5. **[PART]  742328** trainে শুরু হওয়া windowতে, কেবলমাত্র টি +30 এর উপর প্রশিক্ষিত একটি মডেল সমস্ত ধাপে ছড়িয়ে থাকা একটি মডেলের জন্য 0.57 এর বিরুদ্ধে IoU 0.93 স্কোর করেছিল। windowগুলি ছোট, যার মাঝারিটি 3 ক্যো cell।
+   - **[OURS]** সম্মতঃ আমাদের CV শুরু IoU হয় ≈0.89 , একটি LB শুরু 0.743 (সোন্ডে 09-28 ).
+6. **[ORG]  742761 ( 09-28 ).** সংগঠক অর্জনযোগ্য লক্ষ্যগুলি প্রকাশ করেন না।
+   - "একটি নিখুঁত পূর্বাভাস 1.0 স্কোর করে। "
+   - "লিবেলগুলি নয়েজমুক্ত পর্যবেক্ষণের পরিবর্তে **এর অন্তর্নিহিত অবস্থা** থেকে গণনা করা হয়, তাই লেবেলগুলি নিজেই নয়েজমুক্ত মেঝে বহন করে না। "
+7. **[PART]  742761** "অনস্টল window ক্যাপ আউট 0.7 কাছাকাছি " শুধুমাত্র তথ্য ≤ T ব্যবহার করে। সংগঠক এই বিষয়টি নিশ্চিত বা অস্বীকার করেননি।
+   - **[OURS] :** আমাদের LB সূচনা IoU 0.743 (সোন্ড দ্বারা পরিমাপ), দাবি করা ক্যাপের উপরে।
+8. **[ORG]  740536 / 740522**  2 হরিজোন cellগুলির টাস্ক, এবং পরে `window_history.parquet` এর মধ্য দিয়ে একটি পথ, পূর্ববর্তী রিলিজে পাঠযোগ্য ছিল। উভয়ই বন্ধ ছিল, এবং তারপরে val/private মাসগুলি **নতুন বীজ** ( 740844 ) থেকে পুনর্নির্মাণ করা হয়েছিল।
+   - **[PART]  740522 :** সেই সময়ে, সেরা সত্যিকারের পূর্বাভাস ছিল 0.5  S_queue , এবং "শেষত শীর্ষস্থানীয় তালিকার শীর্ষস্থানে লাফিয়ে যাওয়া" তখন ঘটেছিল।
 
-## Rebuild and leaderboard
+## পুনর্নির্মাণ এবং লিডারবোর্ড
 
 9. **[ORG] 740844 (09-11).**
-   - Validation and private were regenerated from new seeds; **train is identical cell for cell**.
-   - Scores from before 09-11 refer to values that no longer exist, and only post-rebuild submissions count for awards.
-   - The Task 4 prior bug was fixed, so Task 4 scores read higher.
-   - An empty submission now scores 0.
+   - বৈধকরণ এবং ব্যক্তিগত নতুন বীজ থেকে পুনর্নবীকরণ করা হয়; **trainটি** সেলগুলির জন্য একই সেল।
+   -09-11 এর আগে থেকে স্কোরগুলি এমন মানগুলিকে বোঝায় যা আর বিদ্যমান নয় এবং পুরষ্কারের জন্য কেবল পুনর্নির্মাণের পরে জমা দেওয়া বিষয়গুলি গণনা করা হয়।
+   - টাস্ক 4 এর আগের বাগটি ঠিক করা হয়েছে, তাই টাস্ক 4 স্কোর উচ্চতর।
+   - একটি ফাঁকা জমা এখন 0 স্কোর।
 10. **[ORG] 744187 (09-28).**
-    - The organizer is asking Kaggle to remove pre-rebuild scores; the leaderboard rules are unchanged.
-    - **[PART] 740844 (Musa Peker, 09-13):** "most of the top entries have not been resubmitted since the rebuild".
-    - **[INF]:** the 0.91–0.92 entries are probably pre-rebuild or leak-era scores. The credible post-rebuild frontier is about 0.90: KTK 0.90187, gichang 0.89702.
+    - সংগঠক ক্যাগলকে পূর্বনির্মাণ স্কোর সরিয়ে ফেলতে বলছে; লিডারবোর্ডের নিয়মগুলো অপরিবর্তিত।
+    - **[PART]  740844 (মুসা পেকার, 09-13 ):** "অনেকগুলো শীর্ষস্থানীয় নিবন্ধ পুনর্নির্মাণের পর থেকে পুনরায় জমা দেওয়া হয়নি।
+    - **[INF] :**  0.91–0.92 এন্ট্রিগুলি সম্ভবত প্রাক-নির্মাণ বা ফুটো যুগের স্কোর। পুনর্নির্মাণের পরে বিশ্বাসযোগ্য সীমানা প্রায় 0.90 : KTK  0.90187 , gichang 0.89702 ।
 
-## Awards (744187)
+## পুরস্কার ( 744187 )
 
-11. **[ORG]** Key dates and requirements:
-    - Registration by e-mail by **Oct 25, 23:59 AoE**, with team name, members' usernames, full names, affiliations and e-mails, and a primary contact.
-    - Final Kaggle submission deadline: Nov 6.
-    - Code and PDF report by **Nov 10**. The code must be a single entry script with a README and environment details.
-    - Organizers rerun the code, and it must reproduce the selected submission **within 1% of its private score**.
-    - Award score = 85% private LB + 15% report. The K–12 award is for K–12 students only.
+11. **[ORG]** মূল তারিখ এবং প্রয়োজনীয়তাঃ
+    - **Oct 25 , 23:59 AoE** , দলের নাম, সদস্যদের ব্যবহারকারীর নাম, পূর্ণ নাম, অনুমোদন এবং ইমেল এবং একটি প্রাথমিক যোগাযোগের সাথে ইমেলের মাধ্যমে নিবন্ধন।
+    - শেষ ক্যাগল জমা দেওয়ার সময়সীমাঃ নভেম্বর 6 .
+    - **Nov 10** দ্বারা কোড এবং PDF রিপোর্ট। কোডটি README এবং পরিবেশের বিবরণ সহ একটি একক এন্ট্রি স্ক্রিপ্ট হতে হবে।
+    - সংগঠকরা কোডটি পুনরায় চালায় এবং এটি তার ব্যক্তিগত স্কোর **এর 1 % এর মধ্যে নির্বাচিত জমা** পুনরায় প্রতিলিপি করতে হবে।
+    - পুরস্কার স্কোর = 85 % ব্যক্তিগত LB +15 % রিপোর্ট। K–12 পুরস্কার শুধুমাত্র K–12 শিক্ষার্থীদের জন্য।
 
-## Topology (743819)
+## টপোলজি ( 743819 )
 
-12. **[ORG] 743819 (09-28).** The benchmark **never uses from_node / to_node**. Instead:
-    - longitudinal order = **milepost** (the Task 3 scorer sorts by milepost, then link_id);
-    - connectivity for conservation = **incoming_link_ids / outgoing_link_ids**, restricted to the links present;
-    - ramps = **ramp_attachment_map.csv**.
+12. **[ORG]  743819 ( 09-28 ).** রেফারেন্স **কখনোই from_node / to_node** ব্যবহার করে না। পরিবর্তেঃ
+    - দৈর্ঘ্য অর্ডার = **মাইলপোস্ট** (টাস্ক 3 স্কোরার মাইলপোস্ট অনুসারে শ্রেণিবদ্ধ হয়, তারপরে link_id );
+    - সংরক্ষণের জন্য সংযোগ = **incoming_link_ids / outgoing_link_ids** , কেবলমাত্র বিদ্যমান সংযোগগুলি সীমাবদ্ধ;
+    - র্যাম্পস = **ramp_attachment_map.csv** .
 
-    Multiple components are expected. They come from connector (CONN-) links and from mainline links without detectors.
-13. **[OURS] Topology audit, all 10 panels (`research/topology_audit.md`):**
-    - `order_index` equals milepost rank exactly (Spearman 1.000) in every panel;
-    - there is 1 station per link and no milepost ties;
-    - links.csv v_f equals fd_parameters v_f.
-    - **The travel direction differs by panel:**
-      - in E/N panels the upstream neighbour has the *lower* milepost;
-      - in W/S panels it has the *higher* one.
+    একাধিক উপাদান প্রত্যাশিত। তারা সংযোগকারী ( CONN -) লিঙ্ক থেকে এবং ডিটেক্টর ছাড়া মূল লাইন লিঙ্ক থেকে আসে।
+13. **  [OURS] টপোলজি অডিট, সমস্ত 10 প্যানেল ( `research/topology_audit.md` ): **
+    - `order_index` প্রতিটি প্যানেলের মাইলপস্ট র্যাঙ্ক (Spearman 1.000 ) এর সমান;
+    - প্রতি লিঙ্ক প্রতি 1 স্টেশন এবং কোন মাইলস্টপ লিঙ্ক নেই;
+    - links.csv  v_f = fd_parameters  v_f.
+    - **যাত্রার দিক প্যানেল দ্বারা ভিন্নঃ**
+      - E/N প্যানেলে উপরের দিকে প্রতিবেশীটি *নিম্নতম* মাইলপস্ট আছে;
+      - W/S প্যানেলগুলিতে এটির *উচ্চ* একটি রয়েছে।
 
-## Task 3 scorer (public code `repo/src/task3/score_task3.py`)
+## টাস্ক 3 স্কোরার (সরকারী কোড `repo/src/task3/score_task3.py` )
 
-14. **[ORG code]** How S_LWR is computed:
-    - It is **temporal per link**: dN = N(t+1) − N(t), where N = (q/max(v,1))·L on the reconstructed field (targets = our Task 1 values, the rest = released truth).
-    - rhs = dt·(inflow + on_ramp − outflow − off_ramp), using the **organizer-held boundary flux projected onto the released observations**.
-    - E = Σ|dN − rhs| / Σ|rhs|, and S_LWR = 1 − min(1, E).
-    - In mode A, transitions count only where the attached ramp cells are valid.
-15. **[ORG code]** S_FD is 1 − Σ|q − q_FD(k)| / Σ|q| per lane, using fd_parameters for all links. Its floor rule sets S_FD to 0 if more than 20% of submitted flows are below 50 vph.
-16. **[ORG code comment]** "the conservation signal is 0.75% of the accumulated total … a topology-derived flux misses the simulated one by about 0.22%".
-    - **[OURS]** local sensitivity measurements, D12_I405_S train, 60 days:
+14. **[ORG কোড]** কিভাবে S_LWR গণনা করা হয়ঃ
+    - এটি **প্রতি লিঙ্ক** : dN = N(t+1 ) − N(t), যেখানে N = ( q/max (v, 1 )) ·L পুনর্নির্মাণ ক্ষেত্রের উপর (টার্গেট = আমাদের টাস্ক 1 মান, বাকি = প্রকাশিত সত্য) ।
+    - rhs = dt·(inflow + on_ramp − outflow − off_ramp ), **সংগঠক দ্বারা পরিচালিত সীমানা প্রবাহ ব্যবহার করে প্রকাশিত পর্যবেক্ষণ** উপর প্রজেক্ট করা হয়।
+    - E = Σ|dN − rhs| / Σ|রাইফেল|, এবং S_LWR = 1 − min( 1 , E) ।
+    - A মোডে, কেবলমাত্র যখন সংযুক্ত র্যাম্প সেলগুলি বৈধ হয় তখনই ট্রানজিশন গণনা করা হয়।
+15. **[ORG কোড]**  S_FD  1 − Σ|q − q_FD(k)| / Σ|q| প্রতিটি ল্যানের জন্য fd_parameters ব্যবহার করে সমস্ত লিঙ্ক। এর মেঝে নিয়ম S_FD থেকে 0 পর্যন্ত সেট করে যদি জমা দেওয়া প্রবাহের 20 % এর বেশি 50 vph এর নিচে থাকে।
+16. **[ORG কোড মন্তব্য]** "সংরক্ষণ সংকেত হল 0.75 % সমষ্টিগত মোট ... একটি উপশৃঙ্খলার দ্বারা উদ্ভূত প্রবাহ সিমুলেটেড এক প্রায় 0.22 % দ্বারা মিস করে। "
+    - **[OURS]** স্থানীয় সংবেদনশীলতা পরিমাপ, D12_I405_S train, 60 দিনঃ
 
-      | Prediction at target cells | S_LWR proxy |
+      | লক্ষ্য cellগুলিতে ভবিষ্যদ্বাণী | S_LWR প্রক্সি |
       |---|---:|
-      | Temporal interpolation | 0.52 |
-      | Truth + 1 km/h speed noise | ≈ 0.89 |
-      | Truth + 1% flow noise | ≈ 0.89 |
-      | 3-point smoothed truth (strong oracle, includes the cell's own value) | **0.65** |
+      | সময়কালীন অন্তঃপ্রকাশ | 0.52 |
+      | সত্য +1  km/h গতির শব্দ | ≈0.89 |
+      | সত্য +1 % প্রবাহের শব্দ | ≈0.89 |
+      | 3 -পয়েন্ট মসৃণ সত্য (প্রবল ওরাকল, cellের নিজস্ব মান অন্তর্ভুক্ত) | **0.65** |
 
-    - Truth S_FD = 0.991.
+    - সত্য S_FD = 0.991 .
 
-## Task 4
+## কাজ 4
 
-17. **[ORG code]** `repo/src/task4/build_task4_odme_artifacts.py` is NNLS on [A; √0.05·I] with the split's own prior, which is exactly our method.
-    - **[PART] Hisernberg's docs (A0060):** the truth is consistent with a ridge fit to the prior, and S_ODME is about 0.994 for everyone who uses it.
+17. **[ORG কোড]**  `repo/src/task4/build_task4_odme_artifacts.py`  NNLS on [A; √ 0.05 ·I] with the split's own prior, which is exactly our method.
+    - **[PART] Hisernberg এর ডক ( A0060 ):** সত্যটি পূর্ববর্তীটির সাথে সামঞ্জস্যপূর্ণ একটি স্রোত, এবং S_ODME এটি ব্যবহারকারী প্রত্যেকের জন্য 0.994 সম্পর্কে।

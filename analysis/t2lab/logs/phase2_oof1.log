@@ -1,0 +1,10 @@
+[run_heavy] slot acquired after 0s
+[     0s] fold 1: train rows 231765
+[    31s] fold 1 base s0 31s
+[    62s] fold 1 phase s0 31s
+[    88s] fold 1 base s1 26s
+[   114s] fold 1 phase s1 26s
+[   141s] fold 1 base s2 26s
+[   168s] fold 1 phase s2 28s
+[   168s] DONE
+[run_heavy] exit 0 after 169s

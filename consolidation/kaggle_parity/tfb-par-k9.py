@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 bc4f71adb066257233284d27c3860cae49486674 | generated 2026-11-03 02:09
+#   tfb 0.1.0-m1 | modules tree sha1 bc4f71adb066257233284d27c3860cae49486674 | generated 2026-11-03 23:33
 # Parity kernel tfb-par-k9 (A3 / B3 required, ~30 min on Kaggle CPU): steps M (flow LRTC 24/40/10) + B (blkVQ@0.15) + R + T (tfb-k9) on the original tfb-k5d file; LRTC / FDRTV vs tfb-k9
 # Stages ['t1_lrtc'] | pick A3 | recipe full | overrides {}
 # Kernel sources to attach (2, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-k9", "priority": "A3 / B3 required", "minutes": 30, "stages": ["t1_lrtc"], "pick": "A3", "recipe": "full", "overrides": {}, "desc": "steps M (flow LRTC 24/40/10) + B (blkVQ@0.15) + R + T (tfb-k9) on the original tfb-k5d file; LRTC / FDRTV vs tfb-k9", "sources": ["tfb-k5d", "tfb-k9"], "checks": [{"type": "submission", "ours": ["tfb-k9", "submission_FDRTV.csv"], "orig": ["tfb-k9", "submission_FDRTV.csv"], "tasks": ["state", "queue", "odme"], "label": "k9_FDRTV"}, {"type": "submission", "ours": ["tfb-k9", "submission_LRTC.csv"], "orig": ["tfb-k9", "submission_LRTC.csv"], "tasks": ["state", "queue", "odme"], "label": "k9_LRTC"}], "tfb_version": "0.1.0-m1", "tree_sha1": "bc4f71adb066257233284d27c3860cae49486674", "generated": "2026-11-03 02:09"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-k9", "priority": "A3 / B3 required", "minutes": 30, "stages": ["t1_lrtc"], "pick": "A3", "recipe": "full", "overrides": {}, "desc": "steps M (flow LRTC 24/40/10) + B (blkVQ@0.15) + R + T (tfb-k9) on the original tfb-k5d file; LRTC / FDRTV vs tfb-k9", "sources": ["tfb-k5d", "tfb-k9"], "checks": [{"type": "submission", "ours": ["tfb-k9", "submission_FDRTV.csv"], "orig": ["tfb-k9", "submission_FDRTV.csv"], "tasks": ["state", "queue", "odme"], "label": "k9_FDRTV"}, {"type": "submission", "ours": ["tfb-k9", "submission_LRTC.csv"], "orig": ["tfb-k9", "submission_LRTC.csv"], "tasks": ["state", "queue", "odme"], "label": "k9_LRTC"}], "tfb_version": "0.1.0-m1", "tree_sha1": "bc4f71adb066257233284d27c3860cae49486674", "generated": "2026-11-03 23:33"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).

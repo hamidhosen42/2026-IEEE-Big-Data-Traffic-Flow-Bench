@@ -1,0 +1,31 @@
+{
+ "onset": {
+  "diff": 0.017663323045267493,
+  "lo": 0.005878742849228963,
+  "hi": 0.0314539905824628,
+  "panels": "5/8",
+  "GO": false
+ },
+ "ongoing": {
+  "G1": false,
+  "G2": false,
+  "G3": false,
+  "GO": false,
+  "fm": {
+   "validation": {
+    "win": 24,
+    "cells": 85,
+    "dn": -1,
+    "fm_lb": -9.884657669668542e-05,
+    "origin_ph1": 11
+   },
+   "private": {
+    "win": 30,
+    "cells": 127,
+    "dn": 13,
+    "fm_lb": -0.0007967534458352433,
+    "origin_ph1": 8
+   }
+  }
+ }
+}

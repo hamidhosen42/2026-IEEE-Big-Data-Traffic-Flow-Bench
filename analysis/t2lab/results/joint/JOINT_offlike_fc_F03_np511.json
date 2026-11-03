@@ -1,0 +1,46 @@
+{
+  "arm": "fc_F03_np511",
+  "bank_set": "faith3",
+  "base_iou": 0.8854919352023884,
+  "changed_windows": 0,
+  "condition": "queue_ongoing",
+  "config": {
+    "anchors": 3,
+    "bank_limit": 128,
+    "margin": 0.005,
+    "posterior_limit": 64,
+    "temperature": 0.02
+  },
+  "day_block_bootstrap": {
+    "hi": 0.0,
+    "lo": 0.0,
+    "p_positive": 0.0
+  },
+  "delta_composite_if_other_tasks_unchanged": 0.0,
+  "delta_condition_iou": 0.0,
+  "deployment_gate": "UNVERIFIED: requires chronological model-training audit, March transfer, and post-T rerun parity",
+  "diagnostic_gate": "FAIL",
+  "experiment": "train_OOF_joint_trajectory",
+  "new_iou": 0.8854919352023884,
+  "panel_deltas": {
+    "D12_I5_N": 0.0,
+    "D12_I5_S": 0.0,
+    "D7_I10_E": 0.0,
+    "D7_I10_W": 0.0,
+    "D7_I210_E": 0.0,
+    "D7_I210_W": 0.0,
+    "D7_I405_N": 0.0,
+    "D7_I405_S": 0.0
+  },
+  "panels": 8,
+  "restrictions": [
+    "TRAIN-only template bank from days strictly before eval origin and excluding its fold",
+    "Existing lab OOF P6 may be trained using future train folds: decoder-only offline diagnostic, not end-to-end causal proof",
+    "Official leaderboard cannot be predicted from proxy OOF",
+    "No March/April model or threshold selection",
+    "No data after evaluated origin T enters its features (existing P6 only)"
+  ],
+  "set": "offlike",
+  "train_only": true,
+  "windows": 726
+}

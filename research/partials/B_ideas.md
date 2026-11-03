@@ -1,258 +1,260 @@
-# Source family B: experiment ideas for Task 2 (queue forecast)
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-Scope covered: breakdown and onset, stochastic capacity, bottlenecks, precursors, queue propagation, survival and hazard models, change-points and regimes, expected-IoU decoding, calibration, imbalance, PU learning and label noise, shift and domain adaptation, and validation design.
+# উৎস পরিবার বিঃ টাস্ক 2 এর জন্য পরীক্ষার ধারণা (উইংয়ের পূর্বাভাস)
 
-- Resource ids (Bxxxx) refer to `research/partials/B_resources.csv`.
-- Labels are relative to `research/EXISTING_MAP.md`: NEW / RELATED / DUPLICATE / CONTRADICTED / HIGH-VALUE RETEST.
+কভার করা ক্ষেত্রঃ বিভাজন ও শুরু, স্টোকাস্টিক ক্ষমতা, bottleneck, প্রাক-প্রাকদাতা, ক্যু প্রপ্লায়েশন, বেঁচে থাকার এবং ঝুঁকি মডেল, পরিবর্তন পয়েন্ট এবং পদ্ধতি, প্রত্যাশিত-ইউউ ডিকোডিং, ক্যালিব্রেশন, ভারসাম্যহীনতা, PU শেখার এবং লেবেল শব্দ, শিফট এবং ডোমেন অভিযোজন এবং বৈধকরণ নকশা।
 
-## 0. Evidence I measured on the local OOF cache
+- রিসোর্স আইডি (Bxxxx) `research/partials/B_resources.csv` এর সাথে সম্পর্কিত।
+- লেবেলগুলি `research/EXISTING_MAP.md` এর তুলনামূলকঃ NEW / RELATED / DUPLICATE / CONTRADICTED / HIGH - VALUE  RETEST ।
 
-These are scratch runs only. They are not in `TRACKER.md`.
+## 0স্থানীয়দের উপর আমি যে প্রমাণ পরিমাপ করেছি OOF ক্যাশে
 
-**Setup.**
-- Cache: `kaggle_jobs/out/t2oof`, 4,269 windows, the same folds as EXP_T2_q.
-- Recipe: onset = CatBoost `Pc`, ongoing = prior-free LightGBM `Pn`, with the current ratio decoder `decode()`.
-- Aggregation is the competition one. Pseudo scores use 4 day-block folds; official scores use 40 + 40 windows.
+এগুলো শুধু স্ক্র্যাচ রান, এটা `TRACKER.md` নয়।
 
-| Variant (post-hoc, no retraining) | pseudo total | pseudo onset | pseudo ongoing | official total | official onset | official ongoing |
+**সেটআপ।**
+- ক্যাশেঃ `kaggle_jobs/out/t2oof` , 4,269 window, EXP_T2_q. এর মতোই fold
+- রেসিপিঃ শুরু = CatBoost `Pc` , চলমান = পূর্ববর্তী বিনামূল্যে LightGBM `Pn` , বর্তমান অনুপাত ডিকোডার `decode()` সঙ্গে .
+- সমষ্টি হল প্রতিযোগিতার এক। ছদ্ম স্কোরগুলি 4 দিনের ব্লক fold ব্যবহার করে; সরকারী স্কোরগুলি 40 +40 window ব্যবহার করে।
+
+| ভ্যারিয়েন্ট (পস্ট হোক, কোন পুনরায় প্রশিক্ষণ নেই) | প্লেইড মোট | ছদ্মবেশী শুরু | অস্থায়ী | সরকারি মোট | অফিসিয়াল শুরু | সরকারি চলমান |
 |---|---:|---:|---:|---:|---:|---:|
-| Baseline: ratio decoder E[I]/E[U] (current) | 0.8770 | 0.8930 | 0.9082 | 0.8876 | 0.9393 | 0.8359 |
-| Exact Poisson-binomial expected-IoU decoder (RankIoU, independence) | 0.8769 | 0.8918 | **0.9088** (+ in 4/4 folds) | 0.8798 | 0.9237 | 0.8359 |
-| Onset component-mixture Monte Carlo decoder (activation = max p, thr 0.02) | **0.8780** | **0.8945** (fold Δ +.0001/.0000/+.0053/+.0010) | 0.9082 | 0.8876 | 0.9393 | 0.8359 |
-| Onset temperature T=1.5 | 0.8765 | 0.8931 | – | 0.8876 | 0.9394 | – |
-| Onset temperature T=2 / T=3 | 0.8677 / 0.7062 | 0.8776 / **0.5298** | – | 0.8741 / 0.6889 | 0.9123 / 0.5419 | – |
-| Onset logit bias ±1 | 0.8738 / 0.8722 | 0.8863 / 0.8856 | – | 0.8808 / 0.8860 | – | – |
-| Tail truncation (p < ε → 0), ε = 0.005…0.1 | 0.8770–0.8772 | ±0.0003 | +0.0000…+0.0007 | 0.8876–0.8877 | = | = |
+| সূত্রঃ অনুপাত ডিকোডার E [I] /E [U] (বর্তমান) | 0.8770 | 0.8930 | 0.9082 | 0.8876 | 0.9393 | 0.8359 |
+| সঠিক পোয়িশন-বিনোমিয়াল প্রত্যাশিত-ইউ ডিসকোডার (রেঙ্কইউ, স্বাধীনতা) | 0.8769 | 0.8918 | **0.9088** (+4/4 foldগুলিতে) | 0.8798 | 0.9237 | 0.8359 |
+| অ্যান্ট্রিমেট উপাদান-মিশ্রণ মন্টে কার্লো ডিকোডার (অ্যাক্টিভেশন = সর্বোচ্চ p, thr 0.02 ) | **0.8780** | **0.8945** (গুণ Δ +. 0001 /. 0000 /+. 0053 /+. 0010 ) | 0.9082 | 0.8876 | 0.9393 | 0.8359 |
+| শুরু তাপমাত্রা T= 1.5 | 0.8765 | 0.8931 | – | 0.8876 | 0.9394 | – |
+| শুরু তাপমাত্রা T= 2 / T= 3 | 0.8677 / 0.7062 | 0.8776 / **0.5298** | – | 0.8741 / 0.6889 | 0.9123 / 0.5419 | – |
+| শুরু লগিট বিজয় ±1 | 0.8738 / 0.8722 | 0.8863 / 0.8856 | – | 0.8808 / 0.8860 | – | – |
+| লেজ ট্রঙ্কেশন (p < ε → 0 ), ε = 0.005 ... 0.1 | 0.8770–0.8772 | ±0.0003 | +0.0000…+0.0007 | 0.8876–0.8877 | = | = |
 
-**Other facts from the same cache.**
-- **Calibration.** In-distribution calibration is already good.
-  - Ongoing reliability is almost on the diagonal.
-  - Onset is slightly under-confident in the middle (mean p 0.24 → 0.33 true, 0.65 → 0.73).
-  - Onset Σp per window is 3.04 against 3.57 true cells. The decoder picks 3.12 cells.
-- **Onset confidence is bimodal.**
-  - 91% of pseudo onset windows have max p > 0.9, and their IoU is 0.937.
-  - The 3% of windows with max p < 0.5 have IoU 0.10.
-  - All 39/40 official onset windows have max p > 0.9.
-- **Weekends are easier, not harder.**
-  - Onset IoU: weekend 0.926 vs weekday 0.881 (pseudo); 0.969 vs 0.920 (official).
-  - Ongoing IoU: 0.910 vs 0.908 (pseudo); 0.898 vs 0.802 (official).
-  - The validation month has more weekend windows, so on its own that should raise its LB. The weekend share therefore does not explain the CV→LB gap.
-  - It follows that re-weighting CV toward weekends would widen the gap, not predict it.
-- **Conditioning on "the truth is non-empty" does not change the decision.**
-  - Every onset window contains a queue by construction.
-  - Under independence, E[IoU | Y≠∅] = E[IoU]/P(Y≠∅) for any non-empty prediction. The factor is constant in the prediction, so the arg-max is unchanged.
-  - Renormalising p by 1−Π(1−p) is therefore pointless for decoding.
-- **Code check.** The `rankseg` RMA IoU rule, `cumsum_p / (Σp − cumsum_p + τ)`, is our `decode()` line for line (B0007). Our decoder is the published RankSEG-RMA / EIoEU approximation (B0005, B0037).
+**একই ক্যাশে থেকে অন্যান্য তথ্য।**
+- **ক্যালিব্রেশন.** বিতরণ ক্যালিব্রেশন ইতিমধ্যে ভাল।
+  - বর্তমান নির্ভরযোগ্যতা প্রায় ডায়াগোনাল।
+  - শুরুটা মাঝখানে কিছুটা আত্মবিশ্বাসী নয় (প্রায় p 0.24 → 0.33 সত্য, 0.65 → 0.73 ).
+  - প্রতি windowতে শুরু Σp 3.04 এর বিরুদ্ধে 3.57 সত্য cell। ডিকোডার 3.12 cellগুলি নির্বাচন করে।
+- **আত্মবিশ্বাসের শুরুতে দ্বি-মোডাল হয়।**
+  -91 % প্লেইড-অনস্টার্ট windowতে সর্বোচ্চ p > 0.9 থাকে , এবং তাদের IoU 0.937 হয় ।
+  - দ্য 3সর্বাধিক p < সহ % window 0.5 আছে 0.10.
+  - সমস্ত 39/40 অফিসিয়াল স্টার্ট windowতে সর্বোচ্চ p > 0.9 থাকে।
+- **সপ্তাহান্তে সহজ, কঠিন নয়।**
+  - শুরু IoU: সপ্তাহান্তে 0.926 বনাম সপ্তাহের দিন 0.881 (পসডো); 0.969 বনাম 0.920 (অফিসিয়াল) ।
+  - চলমান আইওইউঃ 0.910 বনাম 0.908 (পসই); 0.898 বনাম 0.802 (সরকারি) ।
+  - বৈধকরণ মাসের সপ্তাহান্তে আরও বেশি window রয়েছে, তাই এটি নিজেরাই LB বৃদ্ধি করা উচিত। তাই সপ্তাহান্তে ভাগ CV → LB ফাঁক ব্যাখ্যা করে না।
+  - এর ফলে সপ্তাহান্তে CV পুনরায় ওজন করা ব্যবধানকে বাড়িয়ে তুলবে, ভবিষ্যদ্বাণী করবে না।
+- **"সত্য শূন্য নয়" শর্তাবলী সিদ্ধান্ত পরিবর্তন করে না।**
+  - প্রতিটি windowতে একটি ক্রম রয়েছে।
+  - স্বাধীনতার অধীনে, E [IoU | Y≠∅] = E[IoU]/P(Y≠∅), যেকোনো non-empty prediction-এর জন্য। Prediction বদলালেও factor স্থির থাকে, তাই arg-max অপরিবর্তিত।
+  - তাই 1 −Π( 1 −p) দ্বারা p পুনরায় স্বাভাবিক করা বিমোচনের জন্য অর্থহীন।
+- **কোড চেক করুন।**  `rankseg`  RMA IoU নিয়ম, `cumsum_p / (Σp − cumsum_p + τ)` , আমাদের `decode()` লাইন লাইন ( B0007 ) । আমাদের ডিকোডার প্রকাশিত RankSEG- RMA / EIoEU অনুমান ( B0005 , B0037 ) ।
 
 ---
 
-## CHEAP GAINS (no retraining; post-hoc on the cached OOF probabilities)
+## CHEAP  GAINS (কোনও পুনরায় প্রশিক্ষণ নেই; ক্যাশে থাকা OOF সম্ভাবনাগুলি পোস্ট-হোক)
 
-### C1. Onset: dependence-aware (component-mixture) expected-IoU decoding — NEW
-- **Basis:**
-  - B0037 (Ahmed et al.: EIoEU over mixtures centred on candidate solutions beats both plain EIoEU and exact EIoU).
-  - B0033 and B0297 (Waegeman et al. / GFM: marginal decoding is inconsistent when labels are dependent).
+### C1 . শুরুঃ নির্ভরতা সচেতন (কোমপন্ট-মিশ্রা) প্রত্যাশিত-IoU ডিকোডিং  — NEW
+- **বেসঃ**
+  - B0037 (Ahmed et al.: candidate solutions-এ কেন্দ্রিক মিশ্রণের চেয়ে EIoEU plain EIoEU এবং exact EIoU উভয়ই ছাড়িয়ে যায়) ।
+  - B0033 এবং B0297 (Waegeman et al. / GFM : লেবেল নির্ভর হলে মার্জিনাল ডিকোডিং অসঙ্গতিপূর্ণ) ।
   - B0310, B0005.
-- **Weakness addressed.**
-  - The current decoder assumes independent cells.
-  - In reality one recurrent bottleneck activates as a contiguous block at T+30, so the cells are strongly positively dependent.
-  - Onset windows are tiny (median 3 cells, B0003), which is where the E[I]/E[U] approximation error is O(1/n) (B0005).
-- **Exact change.**
-  - At h = T+30, form components: runs of adjacent links with p ≥ 0.02.
-  - Give each component an activation a_c = max p and cell probabilities q_i = p_i / a_c.
-  - Draw 400 Monte Carlo joint samples. Drop empty samples, since onset truth is never empty.
-  - Choose τ for the top-τ-by-p set by maximising the mean sampled IoU.
-  - Ongoing windows keep the current decoder.
-  - Next variant: replace a_c with a learned window-level activation probability (see R3).
-- **Availability ≤ T:** yes. It is a pure function of this window's probabilities.
-- **Leakage:** none.
-- **Compute:** about 12 s for all 4,269 windows. Use a fixed RNG seed so results are reproducible.
-- **Measured:** onset +0.0015 pseudo (≥0 in 4/4 folds); official unchanged. LB-equivalent is only about +0.0002.
-- **Validation:** nested-fold choice of the threshold (0.02 / 0.05) and the activation rule. Report per-fold Δ.
-- **Reject rule:**
-  - Mean pseudo onset Δ < +0.002 with the learned activation, **or** any fold < −0.002, **or** official onset < baseline.
-  - Otherwise bundle it into the next submission. Do not spend a probe on it alone.
+- **দুর্বলতা সমাধান করা হয়েছে।**
+  - বর্তমান ডিকোডার স্বাধীন cell গ্রহণ করে।
+  - আসলে একটি পুনরাবৃত্তিমূলক bottleneck T+ এ একটি ধারাবাহিক ব্লক হিসাবে সক্রিয় হয়30, তাই cellগুলো শক্তিশালীভাবে ইতিবাচকভাবে নির্ভরশীল।
+  - শুরু windowগুলো ক্ষুদ্র (মধ্যস্থ 3 cell, B0003 ), যেখানে E [I] /E [U] অনুমান ত্রুটি O( 1 /n) ( B0005 ).
+- **সঠিক পরিবর্তন.**
+  - h = T+30 এ , গঠন উপাদানঃ p ≥0.02 সহ পার্শ্ববর্তী লিঙ্কগুলির রান ।
+  - প্রতিটি উপাদানকে একটি অ্যাক্টিভেশন দিন a_c = সর্বোচ্চ p এবং সেল সম্ভাব্যতা q_i = p_i / a_c.
+  - আঁকা 400 মন্টে কার্লো যৌথ নমুনা, খালি নমুনা ফেলে দাও, কারণ সত্য কখনোই খালি থাকে না।
+  - নমুনা নেওয়া গড় আইওইউ সর্বাধিক করে বেছে নিন।
+  - চলমান windowগুলো বর্তমান ডিকোডার রাখে।
+  - পরবর্তী রূপান্তরঃ a_c এর পরিবর্তে window-লেভেল অ্যাক্টিভেশন সম্ভাবনার সাথে প্রতিস্থাপন করুন (দেখুন R3 ).
+- **উপলব্ধতা ≤ T:** হ্যাঁ. এটি এই windowর সম্ভাবনার একটি বিশুদ্ধ ফাংশন।
+- **ফুটোঃ** - না, না, না।
+- **গণনাঃ** সম্পর্কে 12 সবার জন্য 4,269 window. একটি স্থায়ী ব্যবহার করুন RNG বীজ যাতে ফলাফল পুনরায় প্রজননযোগ্য হয়।
+- **পরিমাপ করা হয়েছেঃ** শুরু +0.0015 ছদ্মবেশী (≥0  4/4 fold); আনুষ্ঠানিকভাবে অপরিবর্তিত। LB - সমতুল্য মাত্র প্রায় +0.0002 ।
+- **বৈধতাঃ** প্রান্তিকের বেছে নেয়া পর্ব ( 0.02 / 0.05 ) এবং সক্রিয়করণের নিয়ম। প্রতি পর্ব Δ প্রতিবেদন করুন।
+- **প্রত্যাখ্যান নিয়মঃ**
+  - গড় ছদ্মবেশী শুরু Δ < +0.002 শিখেছে সক্রিয়করণ, **বা** কোন fold < −0.002 , **বা** অফিসিয়াল শুরু < বেসলাইন।
+  - অন্যথায় পরবর্তী উপস্থাপনে এটিকে সংযুক্ত করুন।
 
-### C2. Ongoing: exact Poisson-binomial expected-IoU decoder (RankIoU) — NEW, tiny
-- **Basis:** B0006, B0007, B0035, B0034, B0317.
-- **Exact change.** For ongoing windows only, replace the ratio with the exact value.
-  - Formula: E[IoU](τ) = (Σ_{top τ} p) · ∫₀¹ x^{τ−1} Π_{j∉top τ}(1−p_j+p_j x) dx.
-  - Evaluate it with 160-node Gauss–Legendre quadrature, which is exact under independence.
-  - **Do not cap τ.** A cap of 400 silently broke large queues in my first run.
-- **Measured:**
-  - Ongoing: +0.0006 pseudo (4/4 folds), official ±0. LB-equivalent is about +0.0001.
-  - Onset: −0.001 pseudo and −0.016 official, so keep the ratio decoder for onset.
-- **Leakage / compute:** none; about 20 s.
-- **Reject rule:** ship only bundled, and only if a re-run on the v9/255-leaf OOF (`oofX`/`oofY`) still shows ≥ 0 in 4/4 folds.
+### C2 . চলমানঃ সঠিক পোয়িশন-বাইনোমিয়াল প্রত্যাশিত-IoU ডিকোডার (RankIoU)  — NEW , ক্ষুদ্র
+- **বেসঃ**  B0006 , B0007 , B0035 , B0034 , B0317 ।
+- **সঠিক পরিবর্তন.** শুধুমাত্র চলমান windowের জন্য, অনুপাতটি সঠিক মান দিয়ে প্রতিস্থাপন করুন।
+  - সূত্র: E[IoU](τ) = (Σ_{top τ} p) · ∫₀¹ x^{τ−1} Π_{j∉top τ}(1−p_j+p_j x) dx.
+  - এটিকে 160 -node Gauss – Legendre quadrature দিয়ে মূল্যায়ন করুন, যা স্বাধীনতার অধীনে সঠিক।
+  - **ক্যাপটি ট না করা।** একটি টুপি 400 আমার প্রথম দৌড়ের সময় আমি নিঃশব্দভাবে বড় বড় লাইন ভেঙে ফেললাম।
+- **পরিমাপ করাঃ**
+  - চলমানঃ +0.0006 ( 4/4 fold), অফিসিয়াল ±0 . LB - সমতুল্য প্রায় +0.0001 .
+  - শুরুঃ −0.001 ছদ্মবেশী এবং −0.016 অফিসিয়াল, তাই শুরু করার জন্য অনুপাত ডিকোডার রাখুন।
+- **ফুটো / গণনাঃ** কোনটিই নেই; প্রায় 20 s.
+- **প্রত্যাখ্যান নিয়মঃ** জাহাজ শুধুমাত্র বান্ডিল, এবং শুধুমাত্র যদি v9/255-leaf  OOF ( `oofX` / `oofY` ) পুনরায় চালানো হয় তবে 4/4 foldগুলিতে এখনও ≥0 দেখায়।
 
-### C3. Shift diagnostic on val/private windows using our own predictions — NEW, HIGH-VALUE for decisions, not for score
-- **Basis:**
-  - B0026 (Ben-David: shift is measurable from unlabeled inputs).
-  - B0017 (Ovadia: calibration degrades under shift).
-  - B0043 (BBSE uses predictions on the target domain), B0023.
-- **Question.** Is the LB onset gap (0.743 vs CV 0.89) a *mixture* shift?
-  - In CV, IoU is 0.937 when max p > 0.9 and 0.10 when max p < 0.5.
-  - So if the validation month simply contains more "no-confident-candidate" windows (non-recurrent or incident onsets), the gap is largely irreducible from data ≤ T. Effort should then move to ongoing.
-- **Exact change (analysis only).**
-  - For the 40 validation + 40 private onset windows (and the ongoing ones), histogram max p, Σp, the number of components, and the tail mass Σ_{p<0.05} p. Use the submitted models.
-  - Predicted LB onset IoU = Σ_bins share_val(bin) × IoU_CV(bin), with bins from the table in §0.
-  - Compare this with the measured 0.743.
-- **Leakage:**
-  - The diagnostic reads validation *inputs* (≤ T per window) and our outputs only.
-  - Its result must NOT be turned into per-window rules fitted on validation data. It only steers where effort goes.
-- **Compute:** minutes.
-- **Decision rule.**
-  - If the mixture-predicted onset IoU is within ±0.03 of 0.743: stop onset modelling work and spend the probes on ongoing.
-  - If it predicts ≫ 0.743: the model is confidently wrong on the validation month (concept shift). Prioritise R1 and V1.
+### C3 . val/private windowগুলোতে আমাদের নিজস্ব ভবিষ্যদ্বাণী ব্যবহার করে  — NEW , HIGH - VALUE পরিবর্তন ডায়াগনস্টিক সিদ্ধান্তের জন্য, স্কোরের জন্য নয়
+- **বেসঃ**
+  - B0026 (বেন-ডেভিডঃ পরিবর্তনটি লেবেলযুক্ত ইনপুট থেকে পরিমাপ করা যায়) ।
+  - B0017 (ওভ্যাডিয়াঃ পাল্টা সময় ক্যালিব্রেশন হ্রাস পায়) ।
+  - B0043 ( BBSE লক্ষ্য ডোমেইন উপর ভবিষ্যদ্বাণী ব্যবহার করে), B0023 .
+- **প্রশ্ন.**  LB শুরু ফাঁক ( 0.743 বনাম CV  0.89 ) একটি * মিশ্রণ * পরিবর্তন?
+  - CV -এ, IoU হল 0.937 যখন max p > 0.9 এবং 0.10 যখন max p < 0.5 হয়।
+  - সুতরাং যদি বৈধকরণ মাসটি কেবলমাত্র "অনিশ্চিত প্রার্থী" windowগুলো (অপুনরাবৃত্তি বা ঘটনাক্রমে শুরু হওয়া) ধারণ করে তবে ব্যবধানটি মূলত ≤ T এর ডেটা থেকে অপ্রতিরোধ্য।
+- **সঠিক পরিবর্তন (শুধুমাত্র বিশ্লেষণ) ।**
+  -40 বৈধতা +40 প্রাইভেট স্টার্ট window (এবং চলমান windowগুলো) এর জন্য, হিস্টোগ্রাম সর্বোচ্চ p, Σp, উপাদানগুলির সংখ্যা এবং কড়া ভর Σ_{p< 0.05 } p। জমা দেওয়া মডেলগুলি ব্যবহার করুন।
+  - LB প্রাক্কলিত সূচনা IoU = Σ_bins share_val (bin) × IoU_CV (bin), টেবিল থেকে টুকরা সঙ্গে § 0 .
+  - এটিকে পরিমাপ করা 0.743 এর সাথে তুলনা করুন।
+- **ফুটোঃ**
+  - ডায়াগনস্টিক শুধুমাত্র বৈধতা * ইনপুট* (প্রতি windowতে ≤ T) এবং আমাদের আউটপুটগুলি পড়ে।
+  - এর ফলাফল NOT প্রতি window নিয়মে রূপান্তরিত করা উচিত যা বৈধকরণ ডেটাতে সংযুক্ত। এটি কেবল প্রচেষ্টা কোথায় যায় তা নির্দেশ করে।
+- **গণনাঃ** মিনিট।
+- **সিদ্ধান্তের নিয়ম।**
+  - যদি মিশ্রণ দ্বারা পূর্বাভাসিত শুরু IoU ±0.03 এর মধ্যে হয় 0.743 : শুরু মডেলিং কাজ বন্ধ করুন এবং চলমান জোনদের ব্যয় করুন।
+  - যদি এটি ≫ 0.743 এর পূর্বাভাস দেয়ঃ মডেলটি নিশ্চিতভাবে বৈধকরণ মাসে ভুল (কনসেপ্ট শিফট) । R1 এবং V1 কে অগ্রাধিকার দিন।
 
-### C4. Tail-mass safeguard — NEW, robustness only
-- **Basis:** B0005 (the decision depends on the full Σp), plus my temperature run.
-  - The ratio decoder is hypersensitive to a few thousand near-zero cells.
-  - At onset T=3, IoU collapses from 0.893 to 0.530.
-- **Change:** set p < 0.02 to 0 before decoding.
-- **Measured:** CV-neutral (±0.0002).
-- **When to use:** apply only if C3 shows inflated tail mass on validation windows compared with train OOF. It then protects against a covariate-shift-inflated background.
-- **Reject rule:** do not submit without a C3 signal. It cannot be validated locally.
+### C4 . কড়া-মাস সুরক্ষা  — NEW , কেবল দৃঢ়তা
+- **বেসঃ**  B0005 (নির্ণয় পূর্ণ Σp উপর নির্ভর করে), প্লাস আমার তাপমাত্রা চলমান.
+  - রেসিও ডিকোডার কয়েক হাজার শূন্যের কাছাকাছি cellের প্রতি অতি সংবেদনশীল।
+  - শুরুতে T= 3 , IoU 0.893 থেকে 0.530 পর্যন্ত collapses .
+- **পরিবর্তনঃ** প < 0.02 সেট করে 0 এর মধ্যে ডিকোড করার আগে।
+- **পরিমাপঃ**  CV - নিরপেক্ষ (±0.0002 ).
+- **ব্যবহারের সময়ঃ** শুধুমাত্র যদি C3 train-এর সাথে তুলনা করে বৈধতা windowতে প্রবল কড়া ভর দেখায় OOF । এটি তারপরে কোভারেট-শিফ্ট-প্রবল পটভূমি থেকে রক্ষা করে।
+- **প্রত্যাখ্যান নিয়মঃ**  C3 সংকেত ছাড়া জমা দিতে হবে না। এটি স্থানীয়ভাবে বৈধ করা যাবে না।
 
 ---
 
-## Ideas that need retraining
+## নতুন প্রশিক্ষণের প্রয়োজন
 
-### R1. Denoised / soft training labels to match the noise-free truth — NEW (HIGH-VALUE)
-- **Basis:**
-  - B0004: organizer says labels come from the underlying state, with no noise floor.
-  - B0041 (Natarajan: class-conditional noise), B0042 (confident learning).
-  - Frenay & Kaban survey; soft-label papers in the `label_noise` family.
-- **Weakness addressed.**
-  - Training labels are `observed speed ≤ 0.6·v_free` on *noisy* observations.
-  - Near the threshold and at queue edges this creates flicker. The model learns to reproduce noise that the LB truth does not contain.
-  - The CV→LB ratio is method-agnostic: 0.82 for persistence, 0.84 for our model. That fits a truth-definition mismatch better than a model-specific shift.
-  - It also fits the weekend finding in §0: weekends are easier, yet the LB is lower.
-- **Exact change.** Pick one of three variants:
-  - (a) Build labels from a 3-step centred median of the speed (t−5, t, t+5) before thresholding. This is allowed because labels on train months may use their own future.
-  - (b) Soft labels q = Φ((cut − v_obs)/σ), with σ estimated from lag-1 speed differences in free flow. Train LightGBM `xentropy` on q; CatBoost onset uses `CrossEntropy` with probabilistic targets.
-  - (c) Confident-learning style: drop or flip isolated single-cell queue labels whose OOF p < 0.1.
-  - Features stay unchanged. Windows and folds stay unchanged.
-- **Leakage:** none. Label construction uses train-month data only; features stay ≤ T.
-- **Compute:** one full T2 retrain on Kaggle (about the same as v12).
-- **Expected gain:** uncertain, +0.000…+0.005 LB. It could lift ongoing, which has the largest absolute gap (0.78 vs 0.92).
-- **Validation.**
-  - Score CV against both the noisy proxy and the median-3 proxy (V1). A drop on the noisy proxy alone is expected and does not mean the change failed.
-  - A single LB probe decides.
-- **Pre-check (cheap):** the share of train queue cells that are isolated in both space and time, and the estimated σ. If isolated cells are under 1%, skip R1.
-- **Reject rule:** LB Δ < +0.001 (5 subs/day allows it), **or** onset/ongoing CV on the median-3 proxy drops by more than 0.003.
+### R1. নয়েজমুক্ত সত্যের সাথে মেলে এমন প্রশিক্ষণের লেবেল / নরম লেবেল  —  NEW (HIGH-VALUE)
+- **বেসঃ**
+  - B0004 : সংগঠক বলেছেন যে লেবেলগুলি মূল অবস্থা থেকে আসে, কোন গোলমাল মেঝে নেই।
+  - B0041 (নটারাজানঃ ক্লাস-অবশ্যকীয় শব্দ), B0042 (নির্ভরশীল শেখার) ।
+  - ফ্রেনি ও কাবান জরিপ; `label_noise` পরিবারে নরম লেবেল পেপার।
+- **দুর্বলতা সমাধান করা হয়েছে।**
+  - প্রশিক্ষণের লেবেলগুলি * শব্দপূর্ণ * পর্যবেক্ষণগুলিতে `observed speed ≤ 0.6·v_free` ।
+  - প্রান্তের কাছে এবং ক্যোয়ের প্রান্তে এটি ফ্লিকার তৈরি করে। মডেলটি এমন শব্দগুলি পুনরায় তৈরি করতে শিখছে যা LB সত্যে নেই।
+  - CV → LB অনুপাত পদ্ধতিগতঃ 0.82 ধৈর্যের জন্য, 0.84 আমাদের মডেলের জন্য। এটি মডেল-নির্দিষ্ট পরিবর্তনের চেয়ে সত্য-সংজ্ঞা অসঙ্গতিতে আরও ভালভাবে ফিট করে।
+  - এটি § 0 এর সপ্তাহান্তে পাওয়া তথ্যের সাথেও মিলিতঃ সপ্তাহান্তে সহজ, তবে LB কম।
+- **সঠিক পরিবর্তন.** তিনটি ভেরিয়েন্টের মধ্যে একটি নির্বাচন করুনঃ
+  - (ক) তৃণমূলের আগে গতির একটি 3 -step-centered median (t−5 , t, t+5 ) থেকে লেবেল তৈরি করা। এটি অনুমোদিত কারণ train-এর মাসগুলিতে লেবেলগুলি তাদের নিজস্ব ভবিষ্যত ব্যবহার করতে পারে।
+  - (b) নরম লেবেল q = Φ((কাট − v_obs)/σ), যার মধ্যে σ-এর অনুমান হয়েছে1 ফ্রি ফ্লোতে গতির পার্থক্য। `xentropy` q; CatBoost শুরু ব্যবহার `CrossEntropy` সম্ভাব্য লক্ষ্যমাত্রা নিয়ে।
+  - (গ) আত্মবিশ্বাসী শেখার শৈলীঃ একক cellের ক্যু লেবেলগুলি ফেলে দিন বা পাল্টা করুন যার OOF p < 0.1 .
+  - বৈশিষ্ট্যগুলো অপরিবর্তিত থাকবে। window ও foldগুলো অপরিবর্তিত থাকবে।
+- **ফুটোঃ** কোনটিই নেই। লেবেল নির্মাণে শুধুমাত্র train-এর মাসের তথ্য ব্যবহার করা হয়; বৈশিষ্ট্য ≤ T থাকে।
+- **গণনাঃ** একটি পূর্ণ T2 পুনরায় প্রশিক্ষণ কেগল (প্রায় v12 এর সমান) ।
+- **প্রত্যাশিত লাভঃ** অনিশ্চিত, +0.000 ...+0.005  LB . এটি চলমানকে উত্তোলন করতে পারে, যার মধ্যে সর্বাধিক নিখুঁত ফাঁক রয়েছে ( 0.78 বনাম 0.92 ).
+- **বৈধতা।**
+  - স্কোর CV উভয় শব্দ প্রক্সি এবং মধ্যম-3 প্রক্সি (V1) শুধুমাত্র গোলমাল প্রক্সিতে একটি পতন আশা করা হয় এবং এর অর্থ এই নয় যে পরিবর্তন ব্যর্থ হয়েছে।
+  - একটি একক LB সন্ড সিদ্ধান্ত নেয়।
+- **প্রাক-চেক (সস্তা):** train-এর ক্যো cellগুলির অংশ যা স্থান এবং সময় উভয় ক্ষেত্রেই বিচ্ছিন্ন এবং অনুমান করা σ। যদি বিচ্ছিন্ন cellগুলি 1 % এর নিচে থাকে তবে R1 এ skip করুন।
+- **প্রত্যাখ্যান নিয়মঃ**  LB Δ < +0.001 ( 5  subs/day এটি অনুমোদন দেয়), **বা**  onset/ongoing  CV মধ্যস্থতাকারী 3 প্রক্সি 0.003 এর চেয়ে বেশি ড্রপ করে।
 
-### R2. Breakdown-probability (stochastic-capacity) features for onset — RELATED (likely small)
-- **Basis:**
-  - B0009, B0010: Brilon/Geistefeldt censored product-limit estimate, where capacity follows a Weibull distribution.
-  - B0107, B0106: Elefteriadou; Persaud et al.
-  - B0112, B0104 (Markov-chain breakdown), B0425.
-- **Weakness addressed.** Onset = breakdown at a recurrent bottleneck. The current features give flow/capacity, but not a per-link empirical breakdown curve.
-- **Exact change.**
-  - Per link, from the 9 train months, fit a censored capacity distribution F_link(q):
-    - an event = the 5-min flow just before speed first drops below v_cut;
-    - censored = non-breakdown flows.
-  - New features: F_link(q_T), F_link(max q over [T−15, T)), and 1 − Π over the next-upstream links.
-  - Add these to CatBoost onset only.
-- **Caveat.** The generator is CTM/LWR-like. If link capacity is deterministic in the simulator, breakdown is a demand-exceeds-capacity event and F_link collapses to a step. That is already represented by `cap_ratio` and demand features, and the "upstream demand" features in EXP_T2_H were noise.
-- **Leakage:** fit per training fold only (fold-safe, like the priors).
-- **Compute:** low.
-- **Reject rule:** onset pseudo Δ < +0.003 mean or < 3/4 folds positive (the EXP_T2_H standard).
+### R2 . ভঙ্গের সম্ভাবনা (স্টোকাস্টিক ক্ষমতা) এর বৈশিষ্ট্যগুলি শুরু করার জন্য  — RELATED (সম্ভবত ছোট)
+- **বেসঃ**
+  - B0009 , B0010 : Brilon/Geistefeldt সেন্সরকৃত পণ্য সীমা অনুমান, যেখানে ক্ষমতা একটি Weibull বিতরণ অনুসরণ করে।
+  - B0107 , B0106 : Elefteriadou; Persaud et al.
+  - B0112 , B0104 (মার্কোভ চেইন বিভাজন), B0425 .
+- **দুর্বলতা সমাধান করা হয়েছে.** শুরু = পুনরাবৃত্তিমূলক bottleneck এ বিভাজন। বর্তমান বৈশিষ্ট্যগুলি flow/capacity দেয় , তবে প্রতি লিঙ্ক একটি পরীক্ষামূলক বিভাজন কার্ভ নয়।
+- **সঠিক পরিবর্তন.**
+  -9 train-এর মাস থেকে প্রতি লিঙ্কেই একটি সেন্সরিত ক্ষমতা বিতরণ F_link (q) ফিট করুনঃ
+    - একটি ঘটনা = 5 -min প্রবাহ গতি প্রথম v_cut এর নীচে নেমে যাওয়ার ঠিক আগে;
+    - সেন্সর = নন-বিকল্পিত প্রবাহ।
+  - নতুন বৈশিষ্ট্যঃ F_link ( q_T ), F_link (max q over [ T−15 , T) এবং 1 − Π পরবর্তী আপস্ট্রিম লিঙ্কগুলিতে।
+  - কেবল CatBoost শুরুতে এগুলি যোগ করুন।
+- **Caveat.** জেনারেটরটি CTM/LWR-like. যদি সিমুলেটরে লিঙ্ক ক্যাপাসিটি নির্ধারণযোগ্য হয়, তবে বিভাজন একটি চাহিদা-অধিক-ক্যাপাসিটি ইভেন্ট এবং F_link একটি ধাপে ধসে পড়ে। এটি ইতিমধ্যে `cap_ratio` এবং চাহিদা বৈশিষ্ট্য দ্বারা প্রতিনিধিত্ব করা হয়, এবং EXP_T2_H এর "উপরে প্রবাহ চাহিদা" বৈশিষ্ট্যগুলি শব্দ ছিল।
+- **ফুটোঃ** শুধুমাত্র প্রশিক্ষণ ফোল্ডের জন্য উপযুক্ত (পোল্ড-সুরক্ষিত, প্রিওরগুলির মতো) ।
+- **গণনাঃ** কম।
+- **প্রত্যাখ্যান নিয়মঃ** শুরু Pseudo Δ < +0.003 গড় বা < 3/4 পজিটিভ fold ( EXP_T2_H মান).
 
-### R3. Window-level activation / volume model to feed C1 — NEW
-- **Basis:**
-  - B0033 (GFM needs the joint count distribution: P(y=0) and the size structure).
-  - B0006 (volume τ is the second half of the Bayes rule).
+### R3 . window স্তরের অ্যাক্টিভেশন / ভলিউম মডেল ফিড করার জন্য C1 — NEW
+- **বেসঃ**
+  - B0033 ( GFM এর জন্য যৌথ গণনা বিতরণ প্রয়োজনঃ P(y= 0 ) এবং আকারের কাঠামো) ।
+  - B0006 (ভলিউম τ হল বেজ নিয়মের দ্বিতীয় অর্ধেক) ।
   - B0037.
-- **Exact change.**
-  - For each pseudo onset window, enumerate candidate components (C1).
-  - Train a small classifier P(component contains a T+30 queue cell) on component-level features: max p, Σp, component length, queue prior at the component, weekday class, recency of the last activation the same day.
-  - A second, optional head: P(|Y| = k), k = 1..8.
-  - Plug both into C1's Monte Carlo decoder instead of max p.
-- **Leakage:** ≤ T features; nested folds for the component model.
-- **Compute:** low (thousands of rows).
-- **Expected gain:** +0.002–0.006 onset CV (speculative), roughly +0.0003–0.001 LB.
-- **Reject rule:** onset pseudo Δ < +0.003 or official onset down.
+- **সঠিক পরিবর্তন.**
+  - প্রতিটি ছদ্মবেশী সূচনা windowর জন্য, প্রার্থী উপাদানগুলি ( C1 ) তালিকাভুক্ত করুন।
+  - একটি ছোট শ্রেণীবিভাজন P (কোমপন্টটিতে একটি T+30 ক্রম সেল রয়েছে) উপাদান স্তরের বৈশিষ্ট্যগুলিতেঃ সর্বোচ্চ p, Σp, উপাদান দৈর্ঘ্য, উপাদানটিতে ক্রমের আগে, সপ্তাহের দিন ক্লাস, একই দিনে শেষ সক্রিয়করণের সাম্প্রতিকতা।
+  - দ্বিতীয়, ঐচ্ছিক মাথাঃ পি|Y| = k), k = 1..8.
+  - Max p এর পরিবর্তে উভয়কে C1 এর Monte Carlo decoder এ সংযুক্ত করুন .
+- **ফুটোঃ** ≤ টি বৈশিষ্ট্য; উপাদান মডেলের জন্য ঘাঁটি fold।
+- **গণনাঃ** কম (হাজার হাজার সারি) ।
+- **প্রত্যাশিত লাভঃ** +0.002–0.006 শুরু CV (নিবিড়), প্রায় +0.0003–0.001  LB .
+- **প্রত্যাখ্যান নিয়মঃ** শুরু Pseudo Δ < +0.003 অথবা অফিসিয়াল শুরু নিচে।
 
-### R4. Causal (≤ T) prior-shift correction — NEW but low / risky
-- **Basis:** B0044 (Saerens EM), B0045 (BCTS+EM), B0043.
-- **Change.**
-  - Per panel, keep a running estimate of the queue-cell prevalence using only released data with timestamp ≤ T of the current window. That means earlier windows the same day or month, and history observations only.
-  - Adjust logits by log(π_new/π_train).
-- **Leakage: HIGH for the transductive version.** Pooling all validation windows uses data after T for earlier windows, which the Task 2 rule forbids (discussion 742068). Only the causal version is allowed.
-- **Why low:** a logit bias of ±1 already costs −0.007 onset in CV, and there is no trustworthy prevalence signal ≤ T.
-- **Reject rule:** skip unless C3 shows a large prevalence shift in history-visible quantities.
+### R4 . কারণ (≤ T) পরিবর্তন আগে সংশোধন  — NEW কিন্তু কম / ঝুঁকিপূর্ণ
+- **বেসঃ**  B0044 (সায়রেনস EM ), B0045 ( BCTS + EM ), B0043 ।
+- **পরিবর্তন।**
+  - প্রতিটি প্যানেলের জন্য, কেবলমাত্র বর্তমান windowর ≤ T টাইমস্ট্যাম্প সহ প্রকাশিত ডেটা ব্যবহার করে ক্যু-সেলের প্রাচুর্যের একটি চলমান অনুমান রাখুন। এর অর্থ একই দিন বা মাসের আগের window এবং শুধুমাত্র ইতিহাস পর্যবেক্ষণ।
+  - লগ ((π_new/π_train) দ্বারা লগিংগুলি সামঞ্জস্য করুন।
+- **লিকঃ HIGH ট্রান্সডাক্টিভ সংস্করণের জন্য।** সমস্ত বৈধতা window একত্রিত করার জন্য পূর্ববর্তী windowগুলোর জন্য T এর পরে ডেটা ব্যবহার করা হয়, যা টাস্ক 2 নিয়ম নিষিদ্ধ করে (বিতর্কের 742068 ). কেবলমাত্র কারণমূলক সংস্করণ অনুমোদিত।
+- **কেন কমঃ** এর একটি লজিট বিভাজন যা ±1 এর মধ্যে ইতিমধ্যে খরচ হয় −0.007  CV এর শুরু হয় এবং এর মধ্যে কোন নির্ভরযোগ্য প্রভালান্স সিগন্যাল ≤ T নেই।
+- **প্রত্যাখ্যান নিয়মঃ** না হলে skip C3 ইতিহাসের দৃশ্যমান পরিমাণে প্রচলন পরিবর্তনের একটি বড় চিত্র দেখায়।
 
-### R5. Change-point / BOCPD / CUSUM history features — DUPLICATE-ish (low)
-- **Basis:** B0019, B0202, B0213.
-- **Status:** RELATED to EXP_T2_H, where speed deltas, std, and acceleration were noise.
-- Only retry as a single feature, "run length since the last speed regime change at the link and its downstream neighbour", if R1 changes the label regime. Otherwise skip.
-
----
-
-## Validation-design ideas
-
-### V1. LB-faithful local truth — NEW (HIGH-VALUE for decision quality)
-- **Basis:** B0049 (Roberts: evaluation must mirror the target structure), B0050 (Wild-Time), B0048, B0004.
-- **Weakness addressed.**
-  - Local IoU uses noisy observed speed on sensored, eligible cells.
-  - The LB uses the noise-free state on **every link**.
-  - The ratio of about 0.82–0.84 for both persistence and our model indicates that the metric definition, not only the month, differs.
-- **Exact change.**
-  - Build a second local truth on train windows from a denoised state: centred median of 3 in time, plus a spatial 3-link median. Score it on all links, with unsensored or ineligible cells filled from the Task 1 v4 interpolation.
-  - Re-score persistence, the base heuristic, the v2 model, and the current recipe.
-  - Check whether this reproduces LB ratios: persistence 0.2518 LB vs local, and our 0.745 LB S_queue.
-  - If it does, use it as the primary Task 2 CV metric. The existing LB probe history gives about 8 LB-validated deltas to rank-check against.
-- **Leakage:** none (train months only).
-- **Compute:** low.
-- **Reject rule:** if its rank agreement with the known LB deltas (og prior-free +, onset 30/70 −, weekday priors +, persistence blend −, CatBoost onset +) is not better than the current proxy, drop it.
-
-### V2. Shift-weighted CV (IWCV) — CONTRADICTED for the weekend factor
-- **Basis:** B0021, B0020.
-- Weekend windows are *easier* locally (§0). Weighting toward the validation weekend share raises CV and moves it away from the LB.
-- Only re-open this with a non-recurrent / incident weight, and only if C3 or V1 identifies a measurable window type.
-- EXP_T2_l already showed that a local non-recurrent subset does not reproduce the LB.
+### R5 . পরিবর্তন পয়েন্ট / BOCPD / CUSUM ইতিহাস বৈশিষ্ট্য  — DUPLICATE -ish (low)
+- **বেসঃ**  B0019 , B0202 , B0213 ।
+- **অবস্থাঃ**  RELATED থেকে EXP_T2_H , যেখানে গতি ডেল্টা, std এবং ত্বরণ শব্দ ছিল।
+- শুধুমাত্র একক বৈশিষ্ট্য হিসাবে পুনরায় চেষ্টা করুন, "লিঙ্ক এবং তার নীচের প্রবাহী প্রতিবেশীতে শেষ গতির রেজিম পরিবর্তন হওয়ার পর থেকে চালান দৈর্ঘ্য", যদি R1 লেবেল রেজিম পরিবর্তন করে। অন্যথায় skip করুন।
 
 ---
 
-## NEGATIVE evidence (what not to do, with sources)
+## বৈধতা নকশা ধারণা
 
-**From my measurements on the OOF cache:**
+### V1 . LB - বিশ্বস্ত স্থানীয় সত্য  — NEW (পরামর্শের গুণমানের জন্য HIGH - VALUE )
+- **বেসঃ**  B0049 (রবার্টসঃ মূল্যায়ন লক্ষ্যবস্তু কাঠামো প্রতিফলিত করতে হবে), B0050 (বন্য সময়), B0048 , B0004 .
+- **দুর্বলতা সমাধান করা হয়েছে।**
+  - স্থানীয় আইওইউ সেন্সরকৃত, যোগ্য cellগুলিতে শব্দযুক্ত পর্যবেক্ষণ গতি ব্যবহার করে।
+  - LB প্রতিটি লিঙ্ক **** এ নয়েজমুক্ত অবস্থা ব্যবহার করে।
+  - ধারাবাহিকতা এবং আমাদের মডেল উভয়ের জন্য 0.82–0.84 এর অনুপাতটি নির্দেশ করে যে মেট্রিক সংজ্ঞা, শুধুমাত্র মাস নয়, ভিন্ন।
+- **সঠিক পরিবর্তন.**
+  - একটি ডেনোসড অবস্থায় থেকে train-এর windowগুলোতে একটি দ্বিতীয় স্থানীয় সত্য তৈরি করুনঃ সময়ের মধ্যে 3 এর কেন্দ্রীয় মধ্যম, প্লাস একটি স্থানিক 3 -লিঙ্ক মধ্যম। এটি সমস্ত লিঙ্কগুলিতে স্কোর করুন, অসেন্সরযুক্ত বা অযোগ্য cellগুলি টাস্ক 1 v4 ইন্টারপোলেশন থেকে পূরণ করা হয়েছে।
+  - পুনরায় স্থিরতা, বেস হ্যুরিস্টিক, v2 মডেল এবং বর্তমান রেসিপি স্কোর করুন।
+  - এটি LB অনুপাতগুলি পুনরুদ্ধার করে কিনা তা পরীক্ষা করুনঃ স্থিরতা 0.2518  LB বনাম স্থানীয়, এবং আমাদের 0.745  LB  S_queue.
+  - যদি এটি হয়, তাহলে এটিকে প্রাথমিক টাস্ক 2  CV মেট্রিক হিসাবে ব্যবহার করুন। বিদ্যমান LB জরিপ ইতিহাসের মধ্যে র্যাঙ্ক-চেক করার জন্য 8  LB - বৈধ ডেলটা সম্পর্কে উল্লেখ করা হয়েছে।
+- **ফুটোঃ** কোনটিই নেই (শুধুমাত্র train-এর মাস) ।
+- **গণনাঃ** কম।
+- **প্রত্যাখ্যান নিয়মঃ** যদি তার র্যাঙ্ক চুক্তি পরিচিত LB ডেল্টাসের সাথে (og প্রিরি-ফ্রি +, শুরু 30/70 −, সপ্তাহের আগে +, ধৈর্য মিশ্রণ −, CatBoost শুরু +) বর্তমান প্রক্সির চেয়ে ভাল না হয়, তাহলে এটি ফেলে দিন।
 
-1. **Post-hoc calibration / temperature on onset.**
-   - T = 2 → −0.015 and T = 3 → −0.36 onset IoU; logit bias ±1 → −0.007.
-   - The expected-IoU decoder is hypersensitive to background mass.
-   - Isotonic/Platt/beta (B0011–B0013) cannot help much because in-distribution reliability is already good.
-   - Under shift, CV-fitted calibration does not transfer (B0017, B0016).
-   - **CONTRADICTED** as a cheap gain.
-2. **Exact independent-cell decoding for onset.** −0.001 pseudo and −0.016 official. The independence assumption is worse than the ratio approximation on tiny dependent onset blobs (B0033 explains why).
-3. **Renormalising onset probabilities by P(≥1 queued cell).** It has no effect on the Bayes decision (derivation in §0).
+### সপ্তাহান্তে ফ্যাক্টর জন্য  — V2 . শিফট-ওয়েটেড CV ( IWCV )  — CONTRADICTED
+- **বেসঃ**  B0021 , B0020 ।
+- সপ্তাহান্তে window স্থানীয়ভাবে * সহজতর * হয় (§ 0 ). বৈধতা সপ্তাহান্তে শেয়ারের দিকে ওজন CV বৃদ্ধি করে এবং LB থেকে দূরে সরিয়ে দেয়।
+- শুধুমাত্র একটি নন-রিকুরন্ট / ইনসিড্যান্ট ওজন দিয়ে এটি পুনরায় খুলুন এবং শুধুমাত্র যদি C3 বা V1 একটি পরিমাপযোগ্য window টাইপ সনাক্ত করে।
+- EXP_T2_l ইতিমধ্যেই দেখিয়ে দিয়েছে যে স্থানীয় অ-প্রতিলিপি উপসংকলন LB পুনরায় তৈরি করে না।
 
-**From the literature and the competition forum:**
+---
 
-4. **Gating onset on "quiet history".** The public 0.809 notebook reported that speed-based onset suppression collapsed onset IoU from 0.74 to 0.17 (B0001). Breakdown is stochastic at a given flow (B0107, B0106, B0009): the history can look identical on breakdown and non-breakdown days.
-5. **Fixed thresholds or threshold tuning.**
-   - They are provably not IoU-consistent (B0006, Remark 2; B0036).
-   - This matches EXP_T2_D.
-   - Structured/SSVM-style loss minimisation is inconsistent, whereas the plug-in approach is consistent (B0030). A training-time Lovász or soft-Jaccard loss (B0040, B0329) is therefore low value for our per-cell GBDT plus decoder.
-6. **Class rebalancing / SMOTE / focal loss.**
-   - Balancing does not help strong GBDTs (B0029).
-   - Focal and cross-entropy are not IoU-calibrated (B0006).
-   - Focal distorts probabilities (B0027), which our decoder depends on.
-7. **Importance weighting / domain adaptation.**
-   - The effect of importance weights vanishes for high-capacity models (B0022).
-   - Domain generalisation and domain adaptation rarely beat tuned ERM (B0024, B0025, B0050).
-   - Invariant representations can hurt when label marginals differ (B0254).
-   - This is consistent with EXP_T2_l (window weights ≈ 0).
-8. **Hazard / survival reformulation of onset timing** (B0046). It is **CONTRADICTED**: the selector fixes the first appearance at T+30 (B0002, B0003). A hazard model trained on all origins would also lose the "a queue appears somewhere at T+30" conditioning that the replicated selector provides.
-9. **Transductive label-shift or covariate-shift correction on the validation month** (B0044, B0045, B0016). It pools inputs after T, which the Task 2 rule forbids (discussion 742068).
-10. **Weekend-driven CV re-weighting.** Weekends are easier locally, so this is the wrong direction (§0).
-11. **Adaptive smoothing (ASM) of history fields** (B0001). It blurred bottleneck transitions in Task 1. Avoid it for Task 2 history features too.
+## NEGATIVE প্রমাণ (কি না করা, উৎস সহ)
 
-## Priority order (my recommendation)
-1. C3 (diagnostic, minutes).
-2. V1 (LB-faithful truth, low cost).
-3. R1 (denoised labels; decide with a single LB probe).
-4. C1 + R3 (onset dependence-aware decoding).
-5. C2, bundled.
-6. Everything else is low value or rejected.
+**আমার পরিমাপ থেকে OOF cache:**
+
+1. **পোস্ট-হোক ক্যালিব্রেশন / শুরুতে তাপমাত্রা।**
+   - T = 2 → −0.015 এবং T = 3 → −0.36 শুরু IoU; logit bias ±1 → −0.007 .
+   - প্রত্যাশিত-ইউ ডিসকর্ডারটি ব্যাকগ্রাউন্ড ভরকে অতি সংবেদনশীল।
+   - Isotonic/Platt/beta ( B0011 – B0013 ) খুব বেশি সাহায্য করতে পারে না কারণ বিতরণে নির্ভরযোগ্যতা ইতিমধ্যে ভাল।
+   - শিফট সময় CV - ফিট করা ক্যালিব্রেশন স্থানান্তরিত হয় না ( B0017 , B0016 ).
+   - **CONTRADICTED** একটি সস্তা লাভ হিসাবে।
+2. **শুরু করার জন্য সঠিক স্বাধীন cell ডিকোডিং।** −0.001 প্লেইড এবং −0.016 স্বাধীনতার অনুমানটি ক্ষুদ্র নির্ভরশীল সূত্রপাতের ব্লেডগুলির অনুপাত অনুমানের চেয়ে খারাপ (B0033 কেন তা ব্যাখ্যা করে।
+3. **P(≥1 ক্রমিক cell দ্বারা শুরু হওয়ার সম্ভাবনা পুনর্নর্মালীকরণ।** এটি বেস সিদ্ধান্তের উপর কোন প্রভাব ফেলে না (সেক্স 0 থেকে উদ্ভূত) ।
+
+**সাহিত্য ও প্রতিযোগিতার ফোরাম থেকে:**
+
+4. **"শান্ত ইতিহাস" এ গেটিং শুরু।** পাবলিক 0.809 নোটবুক রিপোর্ট করেছে যে গতি ভিত্তিক শুরু suppression 0.74 থেকে 0.17 ( B0001 ) পর্যন্ত ধসে পড়েছে। একটি নির্দিষ্ট প্রবাহের সাথে বিভাজন stochastic ( B0107 , B0106 , B0009 ) । বিভাজন এবং বিভাজনহীন দিনগুলিতে ইতিহাস একই রকম দেখতে পারে।
+5. **স্থির সীমা বা সীমা সুরক্ষা।**
+   - তারা প্রমাণিতভাবে ইউআই-সংগত নয় (B0006, মন্তব্য 2; B0036).
+   - এটা ঠিক আছে EXP_T2_D.
+   - Structured/SSVM-style ক্ষতির হ্রাস কমিয়ে আনা অসম্পূর্ণ, যখন প্লাগ-ইন পদ্ধতিটি সামঞ্জস্যপূর্ণ ( B0030 ) । প্রশিক্ষণের সময় একটি লভ্যাজ বা নরম-জ্যাকার্ড ক্ষতি ( B0040 , B0329 ) আমাদের প্রতি সেল GBDT প্লাস ডিকোডার জন্য কম মান।
+6. **ক্লাস রি- ব্যালেন্সিং / SMOTE / ফোকাল হ্রাস।**
+   - ভারসাম্য বজায় রাখা শক্তিশালী GBDTs ( B0029 ) এর জন্য সহায়ক নয়।
+   - ফোকাল এবং ক্রস-ইন্ট্রোপি IoU- ক্যালিব্রেট করা হয় না ( B0006 ).
+   - ফোকাল সম্ভাবনার বিকৃতি ( B0027 ), যা আমাদের ডিকোডার নির্ভর করে।
+7. **গুরুত্বের ওজন / ডোমেইন অভিযোজন।**
+   - উচ্চ ক্ষমতা সম্পন্ন মডেলগুলির জন্য গুরুত্বের ওজনগুলির প্রভাব অদৃশ্য হয়ে যায় ( B0022 ).
+   - ডোমেইন সাধারণীকরণ এবং ডোমেইন অভিযোজন খুব কমই ERM ( B0024 , B0025 , B0050 ) এ সুরক্ষিত হয়।
+   - লেবেল মার্জিনালগুলি ভিন্ন হলে পরিবর্তনশীল উপস্থাপনাগুলি ক্ষতিকর হতে পারে ( B0254 ).
+   - এটি EXP_T2_l এর সাথে সামঞ্জস্যপূর্ণ (জোলা ওজন ≈0 ) ।
+8. **বিপদ / বেঁচে থাকার পুনর্নির্মাণ** ( B0046 ) । এটি **CONTRADICTED** : নির্বাচকটি প্রথম প্রদর্শনের T+30 ( B0002 , B0003 ) এ স্থির করে। সমস্ত উত্সের উপর প্রশিক্ষিত একটি বিপদ মডেলটি "একটি ক্যু T+30 এ কোথাও উপস্থিত হয় " শর্তটিও হারাবে যা পুনরায় নির্বাচিত নির্বাচক সরবরাহ করে।
+9. **বৈধতা মাসের উপর ট্রান্সডাক্টিভ লেবেল-শিফ্ট বা কোভারিয়েট-শিফ্ট সংশোধন** ( B0044 , B0045 , B0016 ). এটি T এর পরে ইনপুটগুলিকে একত্রিত করে, যা টাস্ক 2 নিয়ম নিষিদ্ধ করে (বিতর্কের 742068 ).
+10. **সপ্তাহান্তে চালিত CV পুনরায় ওজন।** সপ্তাহান্তে স্থানীয়ভাবে সহজ, তাই এটি ভুল দিক (§ 0 ).
+11. **অভিযোজিত মসৃণতা (ASM) ইতিহাসের ক্ষেত্রসমূহ** (B0001) টাস্কের bottleneck পরিবর্তনগুলিকে ধাঁধায় ফেলেছে। 1- টাস্কের জন্য এড়িয়ে চলুন 2 ইতিহাসের বৈশিষ্ট্যও আছে।
+
+## অগ্রাধিকার অর্ডার (আমার সুপারিশ)
+1. C3 (নির্ণয়, মিনিট)
+2. V1 ( LB -নিষ্ঠ সত্য, কম খরচ) ।
+3. R1 (বিজ্ঞপ্তিযুক্ত লেবেল; একক LB জোন্ড দিয়ে সিদ্ধান্ত নিন) ।
+4. C1 + R3 (নির্ধারিত নির্ভরতা সচেতন ডিকোডিং) ।
+5. C2 , বান্ডিল.
+6. অন্য সব কিছুই মূল্যহীন বা প্রত্যাখ্যান করা হয়।

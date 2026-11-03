@@ -1,43 +1,45 @@
-# Push steps: T1 CatBoost member (EXP_T1_CATB)
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-These steps add a CatBoost member to the Task 1 mix.
-- Lab result: +0.00071 J at weight 0.35, better in 8 of 8 panel-months.
-- Expected public LB gain: +0.0003 to +0.0005.
+# ধাপ ধাপঃ T1 CatBoost সদস্য ( EXP_T1_CATB )
 
-## Before you start
+এই পদক্ষেপগুলি Task 1 মিশ্রণে একটি CatBoost সদস্য যোগ করে।
+- পরীক্ষাগার ফলাফলঃ +0.00071 J 0.35 ওজন, 8 এর মধ্যে ভাল 8 প্যানেল-মাস।
+- জনসাধারণের প্রত্যাশিত LB লাভঃ +0.0003 থেকে +0.0005 পর্যন্ত ।
 
-- Push from the **hosen42** account, using the token in `~/.kaggle/access_token`. Every source kernel is a private hosen42 kernel.
-- Run all commands from `kaggle_jobs/`.
+## শুরু করার আগে
 
-## Step 1: four member kernels
+- **hosen42** অ্যাকাউন্ট থেকে `~/.kaggle/access_token` এর টোকেন ব্যবহার করে ধাক্কা। প্রতিটি উত্স kernel একটি ব্যক্তিগত hosen42 kernel।
+- `kaggle_jobs/` থেকে সব কমান্ড চালান।
 
-The four kernels run in parallel. Each takes about 3–5 h.
+## ধাপ 1 : চারটি সদস্যের kernel
+
+চারটি kernel সমান্তরালভাবে চলবে। প্রতিটি kernel প্রায় 3–5 ঘন্টা সময় নেয়।
 
 ```
 python -c "import kjob; [print(p, kjob.push(f'tfb-t1catb{p}', f't1_catb_member_{p}.py', kernel_sources=['hosen42/tfb-t2lab-full'])) for p in 'abcd']"
 ```
 
-When they finish, check each kernel's log:
-- there is no Traceback;
-- the `state rows ... NaN 0` line is present;
-- peak RSS is below 30 GB.
+যখন তারা শেষ হয়, প্রতিটি kernelের লগ চেক করুনঃ
+- কোন ট্র্যাকব্যাক নেই;
+- `state rows ... NaN 0` লাইন উপস্থিত থাকে;
+- পিক RSS  30  GB এর নিচে।
 
-## Step 2: swap kernel tfb-k1d
+## ধাপ 2 : swap kernel tfb-k1d
 
-Start this only after all four kernels from step 1 are complete. It adds CatBoost to the T1 mix of tfb-j4 at weight 0.35.
+1 ধাপ থেকে চারটি kernel সম্পূর্ণ হওয়ার পরে এটি শুরু করুন। এটি T1 মিশ্রণে tfb-j4 এর ওজন 0.35 এর সাথে CatBoost যোগ করে।
 
 ```
 python -c "import kjob; O=['tfb-t1v11','tfb-t1v12']+[f'tfb-t1v12s{i}' for i in range(2,8)]; F=['tfb-t1v13','tfb-t1v13s10','tfb-t1v13s11','tfb-t1dark','tfb-t1ramp','tfb-t1ramp2']; S=['tfb-j4']+[k+p for k in O+F for p in 'ab']+['tfb-t1bspeca','tfb-t1bspecb','tfb-t1bspecc']+[f'tfb-t1catb{p}' for p in 'abcd']; print(kjob.push('tfb-k1d','t1_catb_swap.py',kernel_sources=['hosen42/'+s for s in S]))"
 ```
 
-## Step 3: recon + TV kernel tfb-k1
+## ধাপ 3 : recon + TV kernel tfb-k1
 
 ```
 python -c "import kjob; print(kjob.push('tfb-k1','swap_fdrecon_k1.py',kernel_sources=['hosen42/tfb-k1d']))"
 ```
 
-## Step 4: submit
+## ধাপ 4 : জমা দিন
 
-Submit the `submission_FDRTV.csv` output of tfb-k1.
-- If it beats 0.88176 (tfb-j4's public score), it is the new final pick A.
-- Also build a hedge B on it: April queue rows from tfb-t2osp `queue_submission_base.csv` (onset) and tfb-t2ogveto `queue_submission_veto10.csv` (ongoing), the same as tfb-j3.
+tfb-k1 এর `submission_FDRTV.csv` আউটপুট জমা দিন।
+- যদি এটি 0.88176 (tfb-j4 এর পাবলিক স্কোর) কে পরাজিত করে, তাহলে এটি নতুন চূড়ান্ত পিক এ।
+- এছাড়াও এটিতে একটি হেজ বি তৈরি করুনঃ এপ্রিলের ক্যু লাইনগুলি tfb-t2osp `queue_submission_base.csv` (আগমন) এবং tfb-t2ogveto `queue_submission_veto10.csv` (আগন্ত), tfb-j3 এর সাথে একই।

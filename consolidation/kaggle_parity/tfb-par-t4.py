@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 48c66e780727fb8e81d692f5d0d592257b2a8952 | generated 2026-11-03 02:09
+#   tfb 0.1.0-m1 | modules tree sha1 48c66e780727fb8e81d692f5d0d592257b2a8952 | generated 2026-11-03 23:33
 # Parity kernel tfb-par-t4 (re-push (fix), ~20 min on Kaggle CPU): Task 4 NNLS (tfb-final cell 7) -> skeleton at the CSV fixed point of path_flow: EXACT vs tfb-j4 / tfb-j3 required (vs tfb-final NUMERIC expected: ~390 values the 26-cycle chain moved by an ulp)
 # Stages ['t4'] | pick A2 | recipe full | overrides {}
 # Kernel sources to attach (3, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-t4", "priority": "re-push (fix)", "minutes": 20, "stages": ["t4"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "Task 4 NNLS (tfb-final cell 7) -> skeleton at the CSV fixed point of path_flow: EXACT vs tfb-j4 / tfb-j3 required (vs tfb-final NUMERIC expected: ~390 values the 26-cycle chain moved by an ulp)", "sources": ["tfb-final", "tfb-j4", "tfb-j3"], "checks": [{"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-final", "submission.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-final"}, {"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-j4"}, {"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-j3", "submission_J3.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-j3"}], "tfb_version": "0.1.0-m1", "tree_sha1": "48c66e780727fb8e81d692f5d0d592257b2a8952", "generated": "2026-11-03 02:09"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-t4", "priority": "re-push (fix)", "minutes": 20, "stages": ["t4"], "pick": "A2", "recipe": "full", "overrides": {}, "desc": "Task 4 NNLS (tfb-final cell 7) -> skeleton at the CSV fixed point of path_flow: EXACT vs tfb-j4 / tfb-j3 required (vs tfb-final NUMERIC expected: ~390 values the 26-cycle chain moved by an ulp)", "sources": ["tfb-final", "tfb-j4", "tfb-j3"], "checks": [{"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-final", "submission.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-final"}, {"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-j4", "submission_J4.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-j4"}, {"type": "submission", "ours": ["tfb-final", "submission.csv"], "orig": ["tfb-j3", "submission_J3.csv"], "tasks": ["odme"], "label": "t4_vs_tfb-j3"}], "tfb_version": "0.1.0-m1", "tree_sha1": "48c66e780727fb8e81d692f5d0d592257b2a8952", "generated": "2026-11-03 23:33"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).
