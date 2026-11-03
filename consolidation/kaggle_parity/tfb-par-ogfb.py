@@ -1,6 +1,6 @@
 # ======================================================================================================================
 # GENERATED FILE - DO NOT EDIT. Built by consolidation/bundle.py from the tfb package
-#   tfb 0.1.0-m1 | modules tree sha1 ab91b0a8252fe73dd82392b4f4e4cbbbcd6b2b34 | generated 2026-10-10 11:39
+#   tfb 0.1.0-m1 | modules tree sha1 63ec6165a326830c06ab0ab68d759b8064852012 | generated 2026-11-03 02:09
 # Parity kernel tfb-par-ogfb (B2, ~397 min on Kaggle CPU): ogfeat seed-1 pair (tfb-t2ogfb, template t2_ogfeat part b): fs2ogf1 exactly + probabilities
 # Stages ['ogfeat_b'] | pick B2 | recipe full | overrides {}
 # Kernel sources to attach (1, plus the competition data):
@@ -10,7 +10,7 @@
 # ======================================================================================================================
 import glob, json, os, sys, tempfile, time
 
-SPEC = json.loads(r'''{"slug": "tfb-par-ogfb", "priority": "B2", "minutes": 397, "stages": ["ogfeat_b"], "pick": "B2", "recipe": "full", "overrides": {}, "desc": "ogfeat seed-1 pair (tfb-t2ogfb, template t2_ogfeat part b): fs2ogf1 exactly + probabilities", "sources": ["tfb-t2ogfb"], "checks": [{"type": "queue", "ours": ["tfb-t2ogfb", "queue_submission_fs2ogf1.csv"], "orig": ["tfb-t2ogfb", "queue_submission_fs2ogf1.csv"], "label": "ogfb_queue_submission_fs2ogf1"}, {"type": "npz", "ours": ["tfb-t2ogfb", "t2v27b_probs.npz"], "orig": ["tfb-t2ogfb", "t2v27b_probs.npz"], "label": "ogfb_t2v27b_probs"}], "tfb_version": "0.1.0-m1", "tree_sha1": "ab91b0a8252fe73dd82392b4f4e4cbbbcd6b2b34", "generated": "2026-10-10 11:39"}''')
+SPEC = json.loads(r'''{"slug": "tfb-par-ogfb", "priority": "B2", "minutes": 397, "stages": ["ogfeat_b"], "pick": "B2", "recipe": "full", "overrides": {}, "desc": "ogfeat seed-1 pair (tfb-t2ogfb, template t2_ogfeat part b): fs2ogf1 exactly + probabilities", "sources": ["tfb-t2ogfb"], "checks": [{"type": "queue", "ours": ["tfb-t2ogfb", "queue_submission_fs2ogf1.csv"], "orig": ["tfb-t2ogfb", "queue_submission_fs2ogf1.csv"], "label": "ogfb_queue_submission_fs2ogf1"}, {"type": "npz", "ours": ["tfb-t2ogfb", "t2v27b_probs.npz"], "orig": ["tfb-t2ogfb", "t2v27b_probs.npz"], "label": "ogfb_t2v27b_probs"}], "tfb_version": "0.1.0-m1", "tree_sha1": "63ec6165a326830c06ab0ab68d759b8064852012", "generated": "2026-11-03 02:09"}''')
 
 MODULES = {}
 MODULES['tfb/__init__.py'] = '''"""TrafficFlowBench final-pick reproduction package (2026 IEEE Big Data Cup, team hosen42).
@@ -29,17 +29,25 @@ Every value is copied from the kernel that produced the selected submission (sou
 states in kaggle_jobs/auto_chain_oct8b_state.json / auto_chain_oct9_state.json, plan in consolidation/DESIGN.md).
 tests/test_static.py checks them against the ast of the original kernels; do not edit a value without re-running it.
 
-Picks
-  A2 = tfb-j4 (selected candidate A): tfb-i4 + April ongoing rows of tfb-t2ogpvogf (pvogfv).
-  B2 = tfb-j3 (hedge B): tfb-i4 + April onset rows of tfb-t2osp (base) + April ongoing rows of tfb-t2ogveto (veto10).
-Both share every state, validation-queue and odme row.
+Picks (final selection 2026-11-03: A3 / B3; A2 / B2 = the previous picks, kept working)
+  A3 = tfb-k9 (selected candidate A, public 0.88281): tfb-k5d (T1 mix + 2 CatBoost seeds + XGBoost member + blackout override)
+       -> steps M (flow LRTC (24, 40, 10), W 0.35, ordinary rows), B (blkVQ@0.15, blackout rows), R (FD recon), T (1-D TV);
+       queue rows = those of tfb-j4 (= A2's, carried through tfb-k3d -> tfb-k3 -> tfb-k5d -> tfb-k9).
+  B3 = tfb-k10 (hedge B, public 0.88281): tfb-k9 + April onset rows of tfb-t2osp (base) + April ongoing rows of tfb-t2ogveto (veto10).
+  A2 = tfb-j4 (previous candidate A, 0.88176): tfb-i4 + April ongoing rows of tfb-t2ogpvogf (pvogfv).
+  B2 = tfb-j3 (previous hedge B, 0.88176): tfb-i4 + April onset rows of tfb-t2osp (base) + April ongoing rows of tfb-t2ogveto (veto10).
+A3 / B3 share every state, validation-queue and odme row (as A2 / B2 do). Queue rows: A3 == A2, B3 == B2 (every block).
+Lineage of the new picks: consolidation/LINEAGE_K9.md, lineage_K9.json.
 """
 
 PANELS_ALL = ['D7_I10_E', 'D7_I10_W', 'D7_I210_E', 'D7_I210_W', 'D7_I405_N', 'D7_I405_S',
               'D12_I5_N', 'D12_I5_S', 'D12_I405_N', 'D12_I405_S']
 PANELS_T2 = PANELS_ALL[:8]                       # D12_I405_N/S have no Task 2 windows
 
-PICKS = ('A2', 'B2')
+PICKS = ('A3', 'B3', 'A2', 'B2')
+# generation of the Task 1 chain: 'j' = tfb-i4d -> tfb-i4 (A2 / B2), 'k' = tfb-k5d -> tfb-k9 (A3 / B3)
+PICK_GEN = {'A2': 'j', 'B2': 'j', 'A3': 'k', 'B3': 'k'}
+A_PICKS = ('A2', 'A3')                           # picks whose April queue rows are the same-scenario bet (opv pv + pvogfv)
 RECIPES = ('full', 'lean1')
 
 # ------------------------------------------------------------------ Task 1 member bags (tfb-i4d constants; DESIGN 1.2, 3.3)
@@ -55,15 +63,33 @@ T1_BAGS = {
 }
 
 
+# k generation (A3 / B3; tfb-k5d constants): two CatBoost seeds (mean) and one XGBoost member, each in 4 panel parts a-d.
+# Every recipe keeps all three (they are the k-generation change; lean1 only thins the LightGBM bags as for A2 / B2).
+K_EXTRA = dict(catb_member='tfb-t1catb+tfb-t1catb2', catb_parts='abcd', w_catb=0.35,
+               cand_member='tfb-t1xgb', cand_parts='abcd', w_cand=0.35)
+QUAD_PANELS = {'a': ['D7_I405_N', 'D7_I10_W'], 'b': ['D7_I210_E', 'D7_I210_W', 'D12_I405_S'],   # parts of t1catb / t1catb2 / t1xgb
+               'c': ['D12_I5_N', 'D12_I5_S'], 'd': ['D7_I10_E', 'D7_I405_S', 'D12_I405_N']}
+
+
 def member_parts(member):
-    """kernel parts that hold one member's state_submission_FTA.csv (halves for memory; bspec has a third part)."""
+    """kernel parts that hold one member's state_submission_FTA.csv (halves for memory; bspec has a third part; the
+    CatBoost / XGBoost members of the k generation have four)."""
+    if member in ('tfb-t1catb', 'tfb-t1catb2', 'tfb-t1xgb'):
+        return tuple(f'{member}{p}' for p in 'abcd')
     return (f'{member}a', f'{member}b', f'{member}c') if member == 'tfb-t1bspec' else (f'{member}a', f'{member}b')
 
 
-def t1_member_kernels(recipe):
+def k_members():
+    return tuple(K_EXTRA['catb_member'].split('+')) + tuple(K_EXTRA['cand_member'].split('+'))
+
+
+def t1_member_kernels(recipe, pick='A2'):
     bag = T1_BAGS[recipe]
     out = []
-    for m in bag['old_fta'] + bag['fd'] + tuple(bag['dark'].split('+')):
+    ms = bag['old_fta'] + bag['fd'] + tuple(bag['dark'].split('+'))
+    if PICK_GEN[pick] == 'k':
+        ms += k_members()
+    for m in ms:
         out.extend(member_parts(m))
     return list(dict.fromkeys(out))
 
@@ -78,6 +104,11 @@ T1_MIX = dict(
     base=('tfb-final', 'submission.csv'),
 )
 
+# T1 mix of the k generation (stage t1_mix_k5d = tfb-k5d, kaggle_jobs/t1_div2_swap.py): the tfb-i4d mix, then
+# mix <- 0.65 mix + 0.35 mean(t1catb, t1catb2), then mix <- 0.65 mix + 0.35 t1xgb, then the blackout override (W_DARK 0.75).
+# Base: tfb-k5d read tfb-k3/submission_FDRTV.csv (queue / path_flow rows only; every state row is recomputed) -> T4 skeleton.
+T1_MIX_K5D = dict(T1_MIX, out_name='K5D', **K_EXTRA)
+
 # FD-gated reconciliation + 1-D TV (stage t1_recon = tfb-i4, swap_fdrecon.py; chain state "recon")
 RECON_TV = dict(
     do_recon=True, do_tv=True,
@@ -87,6 +118,15 @@ RECON_TV = dict(
     w_range=(8.0, 40.0), kjl_range=(60.0, 200.0),
     excl_med=0.02, excl_iqr=0.05, excl_min_n=200,
     base=('tfb-i4d', 'submission_T1DARK.csv'),
+)
+
+# steps M + B + R + T of tfb-k9 (stage t1_lrtc = kaggle_jobs/swap_lrtc_k9.py); R and T use the RECON_TV constants (verbatim
+# copies of the tfb-i4 / tfb-k5 code). Writes submission_LRTC.csv (M + B) and submission_FDRTV.csv (the candidate).
+LRTC_K9 = dict(
+    w_lrtc=0.35, lrtc_ranks=(24, 40, 10), lrtc_iters=60,   # step M: flow LRTC on ordinary state rows, q <- max(0.65 q + 0.35 q_lrtc, 20)
+    w_blk=0.15, blk_v_ranks=(8, 20, 20), blk_q_ranks=(8, 40, 10),   # step B: blackout rows, both channels
+    lrtc_min_obs=200,
+    base=('tfb-k5d', 'submission_K5D.csv'),
 )
 
 # ------------------------------------------------------------------ Task 2 onset (stages onset_sp = tfb-t2osp, onset_pv = tfb-t2opv)
@@ -140,8 +180,22 @@ QUEUE_PARTS_ORIGINAL = {
     'B2': [('tfb-t2osp', 'queue_submission_base.csv', 'queue_onset', 'private'),
            ('tfb-t2ogveto', 'queue_submission_veto10.csv', 'queue_ongoing', 'private')],
 }
-PICK_KERNEL = {'A2': ('tfb-j4', 'J4'), 'B2': ('tfb-j3', 'J3')}
+# A3 / B3: the queue rows of tfb-k9 are tfb-j4's (bases j4 -> k3d -> k3 -> k5d -> k9; no kernel of that chain touched a
+# queue row), and tfb-k10 = tfb-k9 + the private parts of tfb-j3 / tfb-k8. So every block equals A2 / B2.
+QUEUE_PARTS['A3'] = list(QUEUE_PARTS['A2'])
+QUEUE_PARTS['B3'] = list(QUEUE_PARTS['B2'])
+QUEUE_PARTS_ORIGINAL['A3'] = []                  # tfb-k9 has no assembly step (queue rows inherited from tfb-j4)
+QUEUE_PARTS_ORIGINAL['B3'] = list(QUEUE_PARTS_ORIGINAL['B2'])   # = tfb-k10 PARTS
+# tfb-k9's own submission_FDRTV.csv is the A3 file; its assembly is a stage of the entry script only, so it writes into a
+# virtual kernel folder 'tfb-k9-asm' (parity reference: tfb-k9/submission_FDRTV.csv).
+PICK_KERNEL = {'A2': ('tfb-j4', 'J4'), 'B2': ('tfb-j3', 'J3'), 'A3': ('tfb-k9-asm', 'K9'), 'B3': ('tfb-k10', 'K10')}
+PICK_REFERENCE = {'A2': ('tfb-j4', 'submission_J4.csv'), 'B2': ('tfb-j3', 'submission_J3.csv'),
+                  'A3': ('tfb-k9', 'submission_FDRTV.csv'), 'B3': ('tfb-k10', 'submission_K10.csv')}
 ASSEMBLE = dict(base=('tfb-i4', 'submission_FDRTV.csv'), require_full_cover=True)
+ASSEMBLE_BASE = {'A2': ('tfb-i4', 'submission_FDRTV.csv'), 'B2': ('tfb-i4', 'submission_FDRTV.csv'),
+                 'A3': ('tfb-k9', 'submission_FDRTV.csv'), 'B3': ('tfb-k9', 'submission_FDRTV.csv')}
+# A2 / B2 use the tfb-j3 code (stage module assemble), A3 / B3 the tfb-k10 code (assemble_k10 = the same swap plus 4 gates)
+ASSEMBLE_MODULE = {'A2': 'assemble', 'B2': 'assemble', 'A3': 'assemble_k10', 'B3': 'assemble_k10'}
 
 # ------------------------------------------------------------------ Task 1 members (DESIGN 1.3)
 # Common LightGBM: 511 leaves, min_data 100, lr 0.04, 1500 trees, max_bin 63, ff 0.8, bf 0.8, num_threads 4, MAX_ROWS 600k.
@@ -164,6 +218,14 @@ T1_MEMBERS = {
     'tfb-t1ramp2':  dict(family='ramp',  row_rng=17, rounds=3, rng_base=18000, tx_cap=6, holdout=0.15,  lgb_seeds=(17, 27, 37), image='B', dark_seed=1700),
     'tfb-t1bspec':  dict(family='bspec', row_rng=13, rounds=3, rng_base=14000, tx_cap=6, holdout=0.15,  lgb_seeds=(13, 23, 33), image='B', dark_seed=1300,
                          panel_overrides={'D7_I405_N': dict(max_rows=420_000, train_day_mod5_keep=(0, 1, 3))}),
+    # k generation (A3 / B3): v13 rows (row rng / transductive rng / holdout), model swapped; 4 parts (QUAD_PANELS).
+    # CatBoost thread_count 4 / XGBoost nthread 4 stay literal in the templates (--threads does not apply; no LightGBM is trained:
+    # the pF line is dead code kept from tfb-t1v13a). image: not traced (Kaggle default image of 2026-10-10 / 10-16).
+    'tfb-t1catb':   dict(family='catb',  row_rng=9,  rounds=3, rng_base=10000, tx_cap=6, holdout=0.15,  lgb_seeds=(9, 19, 29),  image=None,
+                         cb_seed=21, cb_random_seed=20261005),
+    'tfb-t1catb2':  dict(family='catb',  row_rng=19, rounds=3, rng_base=12000, tx_cap=6, holdout=0.15,  lgb_seeds=(19, 39, 49), image=None,
+                         cb_seed=31, cb_random_seed=20261016),
+    'tfb-t1xgb':    dict(family='xgb',   row_rng=9,  rounds=3, rng_base=10000, tx_cap=6, holdout=0.15,  lgb_seeds=(9, 19, 29),  image=None),
 }
 DARK_N = 48
 # Kaggle runtime (s) and peak RSS (GB) of every original part (lineage_A2.json), for scheduling the parity kernels
@@ -174,10 +236,17 @@ T1_PART_RUNTIME_S = {
     'tfb-t1v13s10a': 14041, 'tfb-t1v13s10b': 7293, 'tfb-t1v13s11a': 15267, 'tfb-t1v13s11b': 7690, 'tfb-t1darka': 15334, 'tfb-t1darkb': 11850,
     'tfb-t1rampa': 16717, 'tfb-t1rampb': 12194, 'tfb-t1ramp2a': 16249, 'tfb-t1ramp2b': 11655, 'tfb-t1bspeca': 14035, 'tfb-t1bspecb': 13266,
     'tfb-t1bspecc': 4541,
+    # k generation (last log timestamp of each part, kaggle_jobs/k1_followup.log, k3_followup.log, k5_followup.log); peak RSS
+    # catb / catb2 / xgb parts a 26.1 / b 22.2 / c 19.3 / d 10.9 GB
+    'tfb-t1catba': 12692, 'tfb-t1catbb': 14811, 'tfb-t1catbc': 11556, 'tfb-t1catbd': 17471,
+    'tfb-t1catb2a': 12226, 'tfb-t1catb2b': 15019, 'tfb-t1catb2c': 12549, 'tfb-t1catb2d': 17180,
+    'tfb-t1xgba': 3502, 'tfb-t1xgbb': 4317, 'tfb-t1xgbc': 2953, 'tfb-t1xgbd': 4459,
 }
 
 
 def t1_part_panels(member, part):
+    if T1_MEMBERS[member]['family'] in ('catb', 'xgb'):
+        return list(QUAD_PANELS[part])
     if T1_MEMBERS[member]['family'] == 'bspec':
         return {'a': PANELS_ALL[:4], 'b': PANELS_ALL[5:], 'c': ['D7_I405_N']}[part]
     return {'a': PANELS_ALL[:5], 'b': PANELS_ALL[5:]}[part]
@@ -194,7 +263,8 @@ def t1_part_cfg(kernel, threads=4):
     return dict(member=member, part=part, family=m['family'], panels=list(panels), rounds=m['rounds'], row_rng=m['row_rng'],
                 rng_base=m['rng_base'], tx_cap=m['tx_cap'], holdout=m['holdout'], lgb_seeds=m['lgb_seeds'],
                 dark_n=DARK_N, dark_seed=m.get('dark_seed'), max_rows=ov.get('max_rows', 600_000),
-                train_day_mod5_keep=ov.get('train_day_mod5_keep'), threads=int(threads))
+                train_day_mod5_keep=ov.get('train_day_mod5_keep'), threads=int(threads),
+                **{k: m[k] for k in ('cb_seed', 'cb_random_seed') if k in m})
 
 
 PSEUDO_EXPECTED = {   # tfb-t2lab-full outputs: (windows, onset, ongoing, sha1(json([[d, t, cond], ...]))) - counts = lineage_A2.json
@@ -219,7 +289,9 @@ STAGES = {
                                                                          'queue_submission_pv.csv', 'queue_submission_pvb.csv'], m=1),
     't1_mix':      dict(module='t1_mix',    kernel='tfb-i4d',   outputs=['submission_T1DARK.csv'], m=1),
     't1_recon':    dict(module='t1_recon',  kernel='tfb-i4',    outputs=['submission_FDR.csv', 'submission_FDRTV.csv', 'submission_TV.csv'], m=1),
-    'assemble':    dict(module='assemble',  kernel=None,        outputs=None, m=1),          # kernel / output from PICK_KERNEL
+    't1_mix_k5d':  dict(module='t1_mix_k5d', kernel='tfb-k5d', outputs=['submission_K5D.csv'], m=1),                    # A3 / B3
+    't1_lrtc':     dict(module='t1_lrtc',   kernel='tfb-k9',    outputs=['submission_LRTC.csv', 'submission_FDRTV.csv'], m=1),  # A3 / B3
+    'assemble':    dict(module='assemble',  kernel=None,        outputs=None, m=1),          # kernel / output from PICK_KERNEL, module ASSEMBLE_MODULE
     # ---- milestone 2
     'pseudo':        dict(module='pseudo', kernel='tfb-t2lab-full', outputs=[f'pseudo_{p}.npz' for p in PANELS_T2], m=2),
     't1_members':    dict(module=None, kernel=None, outputs=None, m=2),          # expands to one 't1m:<part kernel>' stage per part
@@ -238,26 +310,29 @@ T1_PART_OUTPUTS = ['state_submission_FTA.csv', 'state_submission.csv', 't1_valho
 #   entry script points it at fs4occ). The pvo veto reference is optional (need_pvo False): without it no pvogfv is written
 #   and assemble uses pvogf (identical private rows: 0/40 windows were vetoed).
 ONGOING_REFS = dict(ref_v22=('tfb-t2occ', 'queue_submission_fs4occ.csv'))
-LIGHT_STAGES = ['t4', 'onset_sp', 'onset_pv', 't1_mix', 't1_recon', 'assemble']
+LIGHT_STAGES = ['t4', 'onset_sp', 'onset_pv', 't1_mix', 't1_recon', 't1_mix_k5d', 't1_lrtc', 'assemble']
 
 
 def plan(pick, recipe):
     """stage order of a full run (milestone 2 stages included). t4 precedes t1_mix: it writes the base skeleton."""
-    t2 = ['onset_sp'] + (['onset_pv'] if pick == 'A2' else []) + ['ongoing_val']
-    if pick == 'A2':
+    t2 = ['onset_sp'] + (['onset_pv'] if pick in A_PICKS else []) + ['ongoing_val']
+    if pick in A_PICKS:
         t2 += (['ongoing_pvaf'] if ONGOING['need_pvo'] else []) + ['ongoing_pvogf']
     else:
         t2 += ['ogfeat_a', 'ogfeat_b', 'ogfeat_comb', 'ogveto']
-    return ['pseudo', 't1_members', 't4'] + t2 + ['t1_mix', 't1_recon', 'assemble']   # 't1_members' -> expand()
+    t1 = ['t1_mix', 't1_recon'] if PICK_GEN[pick] == 'j' else ['t1_mix_k5d', 't1_lrtc']
+    return ['pseudo', 't1_members', 't4'] + t2 + t1 + ['assemble']   # 't1_members' -> expand()
 
 
 def is_member_stage(stage):
     return stage.startswith('t1m:')
 
 
-def stage_module(stage):
+def stage_module(stage, pick='A2'):
     if is_member_stage(stage):
         return 't1_' + T1_MEMBERS[stage[4:-1]]['family']
+    if stage == 'assemble':
+        return ASSEMBLE_MODULE[pick]
     return STAGES[stage]['module']
 
 
@@ -270,9 +345,17 @@ def stage_cfg(stage, pick, recipe, threads=4):
         return dict(T1_MIX, members=list(bag['old_fta']), fd_members=list(bag['fd']), dark_member=bag['dark'], recipe=recipe)
     if stage == 't1_recon':
         return dict(RECON_TV)
+    if stage == 't1_mix_k5d':
+        bag = T1_BAGS[recipe]
+        return dict(T1_MIX_K5D, members=list(bag['old_fta']), fd_members=list(bag['fd']), dark_member=bag['dark'], recipe=recipe)
+    if stage == 't1_lrtc':
+        return dict(RECON_TV, **LRTC_K9)                # base = LRTC_K9['base'] (tfb-k5d)
     if stage == 'assemble':
         kern, name = PICK_KERNEL[pick]
-        return dict(ASSEMBLE, parts=[list(p) for p in QUEUE_PARTS[pick]], out_name=name, pick=pick)
+        cfg = dict(ASSEMBLE, base=ASSEMBLE_BASE[pick], parts=[list(p) for p in QUEUE_PARTS[pick]], out_name=name, pick=pick)
+        if ASSEMBLE_MODULE[pick] == 'assemble_k10':
+            cfg['march_from_parts'] = True          # the base has no March queue rows (T4 skeleton); validation parts fill them
+        return cfg
     if stage == 't4':
         return dict(T4)
     if stage in ('onset_sp', 'onset_pv'):
@@ -323,7 +406,17 @@ def stage_inputs(stage, pick, recipe, cfg=None, smoke=False):
         for m in cfg['dark_member'].split('+'):
             ins += [(k, 'state_submission_FTA.csv') for k in member_parts(m)[:2]]   # part c is optional (as in the kernel)
         return ins
-    if stage == 't1_recon':
+    if stage == 't1_mix_k5d':
+        ins = [tuple(cfg['base'])]
+        for m in cfg['members'] + cfg['fd_members']:
+            ins += [(k, 'state_submission_FTA.csv') for k in member_parts(m)[:2]]
+        for key_m, key_p in (('catb_member', 'catb_parts'), ('cand_member', 'cand_parts')):
+            for m in cfg[key_m].split('+'):
+                ins += [(f'{m}{p}', 'state_submission_FTA.csv') for p in cfg[key_p]]
+        for m in cfg['dark_member'].split('+'):
+            ins += [(k, 'state_submission_FTA.csv') for k in member_parts(m)[:2]]
+        return ins
+    if stage in ('t1_recon', 't1_lrtc'):
         return [tuple(cfg['base'])]
     if stage == 'assemble':
         return [tuple(cfg['base'])] + [(p[0], p[1]) for p in cfg['parts']]
@@ -337,11 +430,11 @@ def stage_inputs(stage, pick, recipe, cfg=None, smoke=False):
     return []
 
 
-def expand(stages, recipe):
-    """replace 't1_members' by the member-part stages of the recipe."""
+def expand(stages, recipe, pick='A2'):
+    """replace 't1_members' by the member-part stages of the recipe (and pick generation)."""
     out = []
     for st in stages:
-        out += [f't1m:{k}' for k in t1_member_kernels(recipe)] if st == 't1_members' else [st]
+        out += [f't1m:{k}' for k in t1_member_kernels(recipe, pick)] if st == 't1_members' else [st]
     return out
 '''
 MODULES['tfb/runtime.py'] = '''"""Path layer shared by every stage: competition data root, the stage's output folder and "kernel output X" lookup.
@@ -524,7 +617,7 @@ class Runner:
 
     # ------------------------------------------------------------------ one stage
     def run_stage(self, stage):
-        module = C.stage_module(stage)
+        module = C.stage_module(stage, self.pick)
         kernel = C.stage_kernel(stage, self.pick)
         outs = C.stage_outputs(stage, self.pick, smoke=self.smoke)
         if module is None:                                           # not ported (optional stage): accept provided outputs only
@@ -618,10 +711,10 @@ class Runner:
 
 def parse_stages(arg, pick, recipe):
     if arg in (None, '', 'all'):
-        return C.expand(C.plan(pick, recipe), recipe)
+        return C.expand(C.plan(pick, recipe), recipe, pick)
     if arg == 'light':
         return [s for s in C.LIGHT_STAGES if s in C.plan(pick, recipe)]
-    out = C.expand([s.strip() for s in arg.split(',') if s.strip()], recipe)
+    out = C.expand([s.strip() for s in arg.split(",") if s.strip()], recipe, pick)
     bad = [s for s in out if s not in C.STAGES and not (C.is_member_stage(s) and s[4:-1] in C.T1_MEMBERS)]
     if bad:
         raise SystemExit(f'unknown stage(s) {bad}; known: {list(C.STAGES)} and t1m:<member part kernel>')

@@ -41,6 +41,7 @@ stage byte for byte: t1mix, t1recon, asma2/b and chaint2a2/b gave identical file
 | scipy | 1.16.3 | TBD | `t4` (`scipy.optimize.nnls`; EXACT vs tfb-final, which ran in image A) |
 | lightgbm | 4.6.0 | TBD | Task 1 members, Task 2 ongoing |
 | catboost | 1.2.10 | TBD | `onset_sp`, `onset_pv` (EXACT) |
+| xgboost | not imported by the parity runs of 10-09 | – | `t1_xgb` (A3 / B3 member `tfb-t1xgb`; local 2.1.4). The k-generation kernels (catb / xgb / k5d / k9 / k10) ran on Kaggle's default image of 2026-10-10 … 11-03, not image B: pin from the `ENV` lines of `tfb-par-catb*` / `tfb-par-xgb*` |
 | pyarrow | 23.0.1 | TBD | parquet reads |
 | scikit-learn | 1.6.1 | TBD | not imported by any stage |
 

@@ -88,6 +88,33 @@ Each kernel is a single file. Attach the competition data and the kernel sources
 | `tfb-par-ramp2a` | full only | 282 | t1m:tfb-t1ramp2a (A2, full) | Task 1 member part tfb-t1ramp2a (template t1_ramp, original image B, 4.5 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1ramp2a |
 | `tfb-par-ramp2b` | full only | 206 | t1m:tfb-t1ramp2b (A2, full) | Task 1 member part tfb-t1ramp2b (template t1_ramp, original image B, 3.2 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1ramp2b |
 
+## Final picks A3 / B3 (tfb-k9 / tfb-k10) - light stages (5 kernels, 2.1 Kaggle-hours)
+
+| Kernel | Priority | ~min | Stages (pick, recipe) | What it checks | Kernel sources |
+|---|---|---:|---|---|---|
+| `tfb-par-k5d` | A3 / B3 required | 20 | t1_mix_k5d (A3, full) | T1 mix K5D (tfb-k5d: i4d mix + 0.35 mean(catb, catb2) + 0.35 xgb + blackout override) from the 43 original member outputs; every row vs tfb-k5d | 44: tfb-k5d + 43 Task 1 member parts of the full recipe (a/b, bspec a/b/c; see the push command) |
+| `tfb-par-k9` | A3 / B3 required | 30 | t1_lrtc (A3, full) | steps M (flow LRTC 24/40/10) + B (blkVQ@0.15) + R + T (tfb-k9) on the original tfb-k5d file; LRTC / FDRTV vs tfb-k9 | 2: tfb-k5d, tfb-k9 |
+| `tfb-par-asma3` | A3 required | 8 | assemble (A3, full) | queue assembly A3 (4 condition x split parts = the tfb-j4 rows, on the original tfb-k9 file) vs tfb-k9 submission_FDRTV.csv | 5: tfb-k9, tfb-t2osp, tfb-t2occ, tfb-t2opv, tfb-t2ogpvogf |
+| `tfb-par-asmb3` | B3 required | 8 | assemble (B3, full) | queue assembly B3 (4 condition x split parts on the original tfb-k9 file) vs tfb-k10 submission_K10.csv | 5: tfb-k9, tfb-t2osp, tfb-t2occ, tfb-t2ogveto, tfb-k10 |
+| `tfb-par-chaint1k` | A3 / B3 integration | 60 | t4, t1_mix_k5d, t1_lrtc (A3, full) | production wiring of the A3 / B3 Task 1 / Task 4 rows: t4 skeleton -> t1_mix_k5d -> t1_lrtc; state + path_flow vs tfb-k9 | 44: tfb-k9 + 43 Task 1 member parts of the full recipe (a/b, bspec a/b/c; see the push command) |
+
+## Final picks A3 / B3 - the 12 CatBoost / XGBoost member parts (12 kernels, 38.1 Kaggle-hours)
+
+| Kernel | Priority | ~min | Stages (pick, recipe) | What it checks | Kernel sources |
+|---|---|---:|---|---|---|
+| `tfb-par-catba` | A3 / B3 (lean1 + full) | 223 | t1m:tfb-t1catba (A3, full) | Task 1 member part tfb-t1catba (template t1_catb, original image not traced, 3.5 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catba |
+| `tfb-par-catbb` | A3 / B3 (lean1 + full) | 258 | t1m:tfb-t1catbb (A3, full) | Task 1 member part tfb-t1catbb (template t1_catb, original image not traced, 4.1 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catbb |
+| `tfb-par-catbc` | A3 / B3 (lean1 + full) | 204 | t1m:tfb-t1catbc (A3, full) | Task 1 member part tfb-t1catbc (template t1_catb, original image not traced, 3.2 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catbc |
+| `tfb-par-catbd` | A3 / B3 (lean1 + full) | 303 | t1m:tfb-t1catbd (A3, full) | Task 1 member part tfb-t1catbd (template t1_catb, original image not traced, 4.9 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catbd |
+| `tfb-par-catb2a` | A3 / B3 (lean1 + full) | 215 | t1m:tfb-t1catb2a (A3, full) | Task 1 member part tfb-t1catb2a (template t1_catb, original image not traced, 3.4 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catb2a |
+| `tfb-par-catb2b` | A3 / B3 (lean1 + full) | 262 | t1m:tfb-t1catb2b (A3, full) | Task 1 member part tfb-t1catb2b (template t1_catb, original image not traced, 4.2 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catb2b |
+| `tfb-par-catb2c` | A3 / B3 (lean1 + full) | 221 | t1m:tfb-t1catb2c (A3, full) | Task 1 member part tfb-t1catb2c (template t1_catb, original image not traced, 3.5 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catb2c |
+| `tfb-par-catb2d` | A3 / B3 (lean1 + full) | 298 | t1m:tfb-t1catb2d (A3, full) | Task 1 member part tfb-t1catb2d (template t1_catb, original image not traced, 4.8 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1catb2d |
+| `tfb-par-xgba` | A3 / B3 (lean1 + full) | 70 | t1m:tfb-t1xgba (A3, full) | Task 1 member part tfb-t1xgba (template t1_xgb, original image not traced, 1.0 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1xgba |
+| `tfb-par-xgbb` | A3 / B3 (lean1 + full) | 83 | t1m:tfb-t1xgbb (A3, full) | Task 1 member part tfb-t1xgbb (template t1_xgb, original image not traced, 1.2 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1xgbb |
+| `tfb-par-xgbc` | A3 / B3 (lean1 + full) | 61 | t1m:tfb-t1xgbc (A3, full) | Task 1 member part tfb-t1xgbc (template t1_xgb, original image not traced, 0.8 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1xgbc |
+| `tfb-par-xgbd` | A3 / B3 (lean1 + full) | 86 | t1m:tfb-t1xgbd (A3, full) | Task 1 member part tfb-t1xgbd (template t1_xgb, original image not traced, 1.2 h on Kaggle): state_submission_FTA.csv vs the original part | 2: tfb-t2lab-full, tfb-t1xgbd |
+
 
 ## Push commands
 
@@ -143,4 +170,21 @@ python kaggle_jobs/kjob.py push tfb-par-ramp2b consolidation/kaggle_parity/tfb-p
 python kaggle_jobs/kjob.py push tfb-par-bspeca consolidation/kaggle_parity/tfb-par-bspeca.py hosen42/tfb-t2lab-full hosen42/tfb-t1bspeca
 python kaggle_jobs/kjob.py push tfb-par-bspecb consolidation/kaggle_parity/tfb-par-bspecb.py hosen42/tfb-t2lab-full hosen42/tfb-t1bspecb
 python kaggle_jobs/kjob.py push tfb-par-bspecc consolidation/kaggle_parity/tfb-par-bspecc.py hosen42/tfb-t2lab-full hosen42/tfb-t1bspecc
+python kaggle_jobs/kjob.py push tfb-par-k5d consolidation/kaggle_parity/tfb-par-k5d.py hosen42/tfb-t1v11a hosen42/tfb-t1v11b hosen42/tfb-t1v12a hosen42/tfb-t1v12b hosen42/tfb-t1v12s2a hosen42/tfb-t1v12s2b hosen42/tfb-t1v12s3a hosen42/tfb-t1v12s3b hosen42/tfb-t1v12s4a hosen42/tfb-t1v12s4b hosen42/tfb-t1v12s5a hosen42/tfb-t1v12s5b hosen42/tfb-t1v12s6a hosen42/tfb-t1v12s6b hosen42/tfb-t1v12s7a hosen42/tfb-t1v12s7b hosen42/tfb-t1v13a hosen42/tfb-t1v13b hosen42/tfb-t1v13s10a hosen42/tfb-t1v13s10b hosen42/tfb-t1v13s11a hosen42/tfb-t1v13s11b hosen42/tfb-t1darka hosen42/tfb-t1darkb hosen42/tfb-t1rampa hosen42/tfb-t1rampb hosen42/tfb-t1ramp2a hosen42/tfb-t1ramp2b hosen42/tfb-t1bspeca hosen42/tfb-t1bspecb hosen42/tfb-t1bspecc hosen42/tfb-t1catba hosen42/tfb-t1catbb hosen42/tfb-t1catbc hosen42/tfb-t1catbd hosen42/tfb-t1catb2a hosen42/tfb-t1catb2b hosen42/tfb-t1catb2c hosen42/tfb-t1catb2d hosen42/tfb-t1xgba hosen42/tfb-t1xgbb hosen42/tfb-t1xgbc hosen42/tfb-t1xgbd hosen42/tfb-k5d
+python kaggle_jobs/kjob.py push tfb-par-k9 consolidation/kaggle_parity/tfb-par-k9.py hosen42/tfb-k5d hosen42/tfb-k9
+python kaggle_jobs/kjob.py push tfb-par-asma3 consolidation/kaggle_parity/tfb-par-asma3.py hosen42/tfb-k9 hosen42/tfb-t2osp hosen42/tfb-t2occ hosen42/tfb-t2opv hosen42/tfb-t2ogpvogf
+python kaggle_jobs/kjob.py push tfb-par-asmb3 consolidation/kaggle_parity/tfb-par-asmb3.py hosen42/tfb-k9 hosen42/tfb-t2osp hosen42/tfb-t2occ hosen42/tfb-t2ogveto hosen42/tfb-k10
+python kaggle_jobs/kjob.py push tfb-par-chaint1k consolidation/kaggle_parity/tfb-par-chaint1k.py hosen42/tfb-t1v11a hosen42/tfb-t1v11b hosen42/tfb-t1v12a hosen42/tfb-t1v12b hosen42/tfb-t1v12s2a hosen42/tfb-t1v12s2b hosen42/tfb-t1v12s3a hosen42/tfb-t1v12s3b hosen42/tfb-t1v12s4a hosen42/tfb-t1v12s4b hosen42/tfb-t1v12s5a hosen42/tfb-t1v12s5b hosen42/tfb-t1v12s6a hosen42/tfb-t1v12s6b hosen42/tfb-t1v12s7a hosen42/tfb-t1v12s7b hosen42/tfb-t1v13a hosen42/tfb-t1v13b hosen42/tfb-t1v13s10a hosen42/tfb-t1v13s10b hosen42/tfb-t1v13s11a hosen42/tfb-t1v13s11b hosen42/tfb-t1darka hosen42/tfb-t1darkb hosen42/tfb-t1rampa hosen42/tfb-t1rampb hosen42/tfb-t1ramp2a hosen42/tfb-t1ramp2b hosen42/tfb-t1bspeca hosen42/tfb-t1bspecb hosen42/tfb-t1bspecc hosen42/tfb-t1catba hosen42/tfb-t1catbb hosen42/tfb-t1catbc hosen42/tfb-t1catbd hosen42/tfb-t1catb2a hosen42/tfb-t1catb2b hosen42/tfb-t1catb2c hosen42/tfb-t1catb2d hosen42/tfb-t1xgba hosen42/tfb-t1xgbb hosen42/tfb-t1xgbc hosen42/tfb-t1xgbd hosen42/tfb-k9
+python kaggle_jobs/kjob.py push tfb-par-catba consolidation/kaggle_parity/tfb-par-catba.py hosen42/tfb-t2lab-full hosen42/tfb-t1catba
+python kaggle_jobs/kjob.py push tfb-par-catbb consolidation/kaggle_parity/tfb-par-catbb.py hosen42/tfb-t2lab-full hosen42/tfb-t1catbb
+python kaggle_jobs/kjob.py push tfb-par-catbc consolidation/kaggle_parity/tfb-par-catbc.py hosen42/tfb-t2lab-full hosen42/tfb-t1catbc
+python kaggle_jobs/kjob.py push tfb-par-catbd consolidation/kaggle_parity/tfb-par-catbd.py hosen42/tfb-t2lab-full hosen42/tfb-t1catbd
+python kaggle_jobs/kjob.py push tfb-par-catb2a consolidation/kaggle_parity/tfb-par-catb2a.py hosen42/tfb-t2lab-full hosen42/tfb-t1catb2a
+python kaggle_jobs/kjob.py push tfb-par-catb2b consolidation/kaggle_parity/tfb-par-catb2b.py hosen42/tfb-t2lab-full hosen42/tfb-t1catb2b
+python kaggle_jobs/kjob.py push tfb-par-catb2c consolidation/kaggle_parity/tfb-par-catb2c.py hosen42/tfb-t2lab-full hosen42/tfb-t1catb2c
+python kaggle_jobs/kjob.py push tfb-par-catb2d consolidation/kaggle_parity/tfb-par-catb2d.py hosen42/tfb-t2lab-full hosen42/tfb-t1catb2d
+python kaggle_jobs/kjob.py push tfb-par-xgba consolidation/kaggle_parity/tfb-par-xgba.py hosen42/tfb-t2lab-full hosen42/tfb-t1xgba
+python kaggle_jobs/kjob.py push tfb-par-xgbb consolidation/kaggle_parity/tfb-par-xgbb.py hosen42/tfb-t2lab-full hosen42/tfb-t1xgbb
+python kaggle_jobs/kjob.py push tfb-par-xgbc consolidation/kaggle_parity/tfb-par-xgbc.py hosen42/tfb-t2lab-full hosen42/tfb-t1xgbc
+python kaggle_jobs/kjob.py push tfb-par-xgbd consolidation/kaggle_parity/tfb-par-xgbd.py hosen42/tfb-t2lab-full hosen42/tfb-t1xgbd
 ```

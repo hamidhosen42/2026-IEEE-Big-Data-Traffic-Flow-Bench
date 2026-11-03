@@ -1,0 +1,13 @@
+panel,change,offline_metric,offline_gain,lb_delta,source
+T1,blackout ramp member (W 0.75),lab J (4 panels x 2 months),0.00069,0.00037,TRACKER EXP_T1_RAMP; LB tfb-h1 0.88129 vs tfb-g4 0.88092
+T1,blackout specialist,lab J blackout-only,0.00044,0.00020,TRACKER EXP_T1_BSPEC; LB tfb-i4 0.88176 vs 0.88156
+T1,CatBoost member (W 0.35),lab J,0.00071,0.00022,TRACKER EXP_T1_CATB; LB tfb-k1 0.88198 vs tfb-j4 0.88176
+T1,XGBoost member (W 0.35),lab J,0.00056,0.00024,TRACKER EXP_T1_XGB; LB tfb-k5 0.88225 vs tfb-k3 0.88201
+T1,flow LRTC member (W 0.35),lab J,0.00054,0.00034,TRACKER EXP_T1_DIV4; LB tfb-k7 0.88259 vs tfb-k5 0.88225
+T1,LRTC ranks (24 40 10) + blackout LRTC,lab J (post-hoc),0.00037,0.00022,TRACKER EXP_T1_K9_PREP / EXP_T1_R5; LB tfb-k9 0.88281 vs tfb-k7 0.88259
+T1,simulated-blackout member,lab J (verifier),0.00060,0.00029,TRACKER EXP_T1_DARK; LB tfb-g1 0.87990 vs tfb-e5 0.87961
+T2,F03 selection-faithful ongoing,FM-PM validation footprint,0.0043,0.0047,TRACKER EXP_T2_XFER
+T2,all-finite ongoing inputs,FM-PM validation footprint,0.0008,0.0009,TRACKER EXP_T2_XFER
+T2,occupancy features,FM-PM validation footprint,0.0011,0.0001,TRACKER EXP_T2_XFER
+T2,g72 regime switch,FM-PM validation footprint,0.0004,-0.0002,TRACKER EXP_T2_XFER
+T2,ogfeat 103 features,FM-PM validation footprint,-0.00045,-0.0012,TRACKER EXP_T2_XFER (FM-PM range -0.0002..-0.0007; midpoint)

@@ -541,16 +541,16 @@ def load_split(P, panel, split):
             x = m[m.timestamp == r.forecast_origin]
             x = x[x.link_id.isin(P['li'])]
             xs = x.groupby('link_id').speed_kmh.mean()
-            VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy()] = xs.to_numpy()
+            VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy().astype(np.int64)] = xs.to_numpy()  # [TFB] [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
             if OCC:
                 xo = x[x.occupancy.notna()].groupby('link_id').occupancy.mean()
-                OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy()] = xo.to_numpy()
+                OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy().astype(np.int64)] = xo.to_numpy()  # [TFB] [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
     log(panel, split, 'slot-T visible share', round(float(np.isfinite(VT).mean()), 3),
         'history filled share', round(float(np.isfinite(Vh).mean()), 3))
     Fe, qlast = window_features(P, Vh, Fh, tod, dow, P['prior_all'], VT)
     wdays = sorted(wi.date.unique())
     ONs, OFFs = ramp_cube(panel, split, P['li'], wdays)
-    add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy(), tod, P['cap'])
+    add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])  # [TFB] [POSTT-R6] split without windows (was IndexError)
     log(panel, split, 'ramp on3 finite share', round(float(np.isfinite(Fe['ramp_on3']).mean()), 3))
     occ = None
     if OCC:

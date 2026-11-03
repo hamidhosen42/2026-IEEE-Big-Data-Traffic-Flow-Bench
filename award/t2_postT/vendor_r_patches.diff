@@ -1,0 +1,70 @@
+diff -r ../../../vendor/tfb/stages/onset_pv.py ./onset_pv.py
+412a413
+> if not Xm: Xm, ym = [np.zeros((0, _Xo_keep.shape[1]), np.float32)], [np.zeros(0, int)]  # [POSTT-R2] no March onset window before the cut (was ValueError)
+453c454
+<                 VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+---
+>                 VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+463c464
+<         jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+---
+>         jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)
+479c480
+<                                     for i in range(W)])
+---
+>                                     for i in range(W)] or [np.zeros((F, L), bool)])[:W]  # [POSTT-R5] split without windows -> empty stack (was ValueError)
+diff -r ../../../vendor/tfb/stages/onset_sp.py ./onset_sp.py
+378c378
+<                 VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+---
+>                 VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+388c388
+<         jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+---
+>         jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)
+408c408
+<                                     for i in range(W)])
+---
+>                                     for i in range(W)] or [np.zeros((F, L), bool)])[:W]  # [POSTT-R5] split without windows -> empty stack (was ValueError)
+diff -r ../../../vendor/tfb/stages/t2_occ.py ./t2_occ.py
+546c546
+<             VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy()] = xs.to_numpy()
+---
+>             VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy().astype(np.int64)] = xs.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+549c549
+<                 OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy()] = xo.to_numpy()
+---
+>                 OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy().astype(np.int64)] = xo.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+555c555
+<     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy(), tod, P['cap'])
+---
+>     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])  # [POSTT-R6] split without windows (was IndexError)
+diff -r ../../../vendor/tfb/stages/t2_ogfeat.py ./t2_ogfeat.py
+745c745
+<             VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy()] = xs.to_numpy()
+---
+>             VT[wpos[r.window_id], xs.index.map(P['li']).to_numpy().astype(np.int64)] = xs.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+748c748
+<                 OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy()] = xo.to_numpy()
+---
+>                 OT[wpos[r.window_id], xo.index.map(P['li']).to_numpy().astype(np.int64)] = xo.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+754c754
+<     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy(), tod, P['cap'])
+---
+>     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])  # [POSTT-R6] split without windows (was IndexError)
+diff -r ../../../vendor/tfb/stages/t2_pvogf.py ./t2_pvogf.py
+672c672
+<             VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+---
+>             VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
+678c678
+<     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy(), tod, P['cap'])
+---
+>     add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])  # [POSTT-R6] split without windows (was IndexError)
+968a969,970
+>     if not MR:  # [POSTT-R2] no March faithful window before the cut (was ValueError)
+>         MR = [dict(X=np.zeros((0, len(cols)), np.float32), Xb=np.zeros((0, len(cols)), np.float32), y=np.zeros(0, bool), w=np.zeros(0, np.float32))]  # [POSTT-R2]
+1004c1006
+<                 jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+---
+>                 jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)

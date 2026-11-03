@@ -1,3 +1,0 @@
-id,title,author,source,date,role,key_claim,reliability,practical_implication,url
-D001,Competition Rules / September 11 data rebuild,Organizer,Official competition rules,2026-09-11 related notice,ORGANIZER,Task-2 leakage forced full data rebuild; old scores not comparable,High,Redownload data; invalidate pre-rebuild caches,https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/rules
-D002,Deleted Topic,Traffice_Flow_Bench_Organizer,Kaggle discussion,Indexed ~2026-09,ORGANIZER,Topic deleted; no recoverable claim from indexed page,Low,Do not infer content,https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/740562

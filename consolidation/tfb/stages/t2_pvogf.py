@@ -667,13 +667,13 @@ def load_split(P, panel, split):
         for r in grp.itertuples():
             x = m[m.timestamp == r.forecast_origin]
             x = x[x.link_id.isin(P['li'])].groupby('link_id').speed_kmh.mean()
-            VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+            VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [TFB] [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
     log(panel, split, 'slot-T visible share', round(float(np.isfinite(VT).mean()), 3),
         'history filled share', round(float(np.isfinite(Vh).mean()), 3))
     Fe, qlast = window_features(P, Vh, Fh, tod, dow, P['prior_all'], VT)
     wdays = sorted(wi.date.unique())
     ONs, OFFs = ramp_cube(panel, split, P['li'], wdays)
-    add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy(), tod, P['cap'])
+    add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])  # [TFB] [POSTT-R6] split without windows (was IndexError)
     log(panel, split, 'ramp on3 finite share', round(float(np.isfinite(Fe['ramp_on3']).mean()), 3))
     OGX = og_extra(P, Vh, Fh, VT, Fe); OGX.update(og_extra2(P, Vh, Fh, VT, Fe))          # pvogf: ogfeat columns
     Fe.update({k: OGX[k] for k in OG_STATIC})
@@ -964,6 +964,8 @@ def main():
         del R, X, Xb, M; gc.collect()
     cat_ = lambda L_, k: np.concatenate([x[k] for x in L_])
     Xe, ye, we = cat_(EX, 'X'), cat_(EX, 'y').astype(np.float32), cat_(EX, 'w'); del EX
+    if not MR:  # [TFB] [POSTT-R2] no March faithful window before the cut (was ValueError)
+        MR = [dict(X=np.zeros((0, len(cols)), np.float32), Xb=np.zeros((0, len(cols)), np.float32), y=np.zeros(0, bool), w=np.zeros(0, np.float32))]  # [TFB] [POSTT-R2]
     Xm, Xmb, ym, wm = cat_(MR, 'X'), cat_(MR, 'Xb'), cat_(MR, 'y').astype(np.float32), cat_(MR, 'w'); del MR
     gc.collect()
     cols_np = [x for x in cols if x not in PRIOR_COLS]; ix_np = [cols.index(x) for x in cols_np]
@@ -999,7 +1001,7 @@ def main():
             preds = {n: np.zeros((W, F, L), bool) for n in ('pvogf', 'pvogf_npid')}
             if split == 'private':
                 X, _, _, meta, _ = to_matrix(R, ONGOING, cols, ongoing_keep(R))
-                jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+                jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [TFB] [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)
                 Xb, a0 = blend_prior_og(X, meta, P, jd, (dow >= 5).astype(int), tod, cQ, cE, cols)
                 pn = models['npB'].predict(X[:, ix_np]); pi = models['idB'].predict(X[:, ix_id]); pf = models['fullB'].predict(Xb)
                 for nm_, p_ in (('npB', pn), ('idB', pi), ('fullB', pf)):                      # pvogf: member probabilities

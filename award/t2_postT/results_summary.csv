@@ -1,0 +1,75 @@
+family,kernel,file,used_for,cases,modes,tight_windows,tight_cells,le_cells,changed,missing,failed_cases,verdict
+F8,tfb-t2opv,queue_submission_base.csv,,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2opv,queue_submission_pv.csv,A April onset,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2opv,queue_submission_pvb.csv,,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2opv,queue_submission_sp4.csv,,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2osp,queue_submission_base.csv,B April onset,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2osp,queue_submission_sp2.csv,,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2osp,queue_submission_sp4.csv,A+B March onset,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+F8,tfb-t2osp,queue_submission_sp8.csv,,26,delete/keep/meta,30,33894,2196324,0,0,0,PASS
+S2,tfb-t2occ,queue_submission_fs2occ.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2occ,queue_submission_fs4occ.csv,A+B March ongoing (+ input of veto10),51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2occ,queue_submission_fs_np.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2occ,t2v26occ_probs.npz,qlast for veto10,51,delete/keep/meta,120,120,2335,0,0,0,PASS
+S2,tfb-t2ogfa,queue_submission_fs2ogf.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogfa,queue_submission_fs_npogf.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogfa,t2v27a_probs.npz,input of fs4ogf -> veto10,51,delete/keep/meta,72,72,1401,0,0,0,PASS
+S2,tfb-t2ogfb,queue_submission_fs2ogf1.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogfb,t2v27b_probs.npz,input of fs4ogf -> veto10,51,delete/keep/meta,72,72,1401,0,0,0,PASS
+S2,tfb-t2ogfc,queue_submission_fs4ogf.csv,input of veto10,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogpvogf,queue_submission_pvogf.csv,A April ongoing,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogpvogf,queue_submission_pvogf_npid.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2ogpvogf,t2pvogf_probs.npz,A April ongoing (probabilities),51,delete/keep/meta,48,48,436,0,0,0,PASS
+S2,tfb-t2ogveto,queue_submission_veto10.csv,B April ongoing,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2opv,queue_submission_base.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2opv,queue_submission_pv.csv,A April onset,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2opv,queue_submission_pvb.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2opv,queue_submission_sp4.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2osp,queue_submission_base.csv,B April onset,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2osp,queue_submission_sp2.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2osp,queue_submission_sp4.csv,A+B March onset,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2,tfb-t2osp,queue_submission_sp8.csv,,51,delete/keep/meta,52,37824,752448,0,0,0,PASS
+S2_unpatched,tfb-t2occ,queue_submission_fs2occ.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2occ,queue_submission_fs4occ.csv,A+B March ongoing (+ input of veto10),5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2occ,queue_submission_fs_np.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2occ,t2v26occ_probs.npz,qlast for veto10,5,delete/keep/meta,15,15,410,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfa,queue_submission_fs2ogf.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfa,queue_submission_fs_npogf.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfa,t2v27a_probs.npz,input of fs4ogf -> veto10,5,delete/keep/meta,9,9,246,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfb,queue_submission_fs2ogf1.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfb,t2v27b_probs.npz,input of fs4ogf -> veto10,5,delete/keep/meta,9,9,246,0,0,10,FAIL
+S2_unpatched,tfb-t2ogfc,queue_submission_fs4ogf.csv,input of veto10,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogpvogf,queue_submission_pvogf.csv,A April ongoing,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogpvogf,queue_submission_pvogf_npid.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2ogpvogf,t2pvogf_probs.npz,A April ongoing (probabilities),5,delete/keep/meta,12,12,128,0,0,10,FAIL
+S2_unpatched,tfb-t2ogveto,queue_submission_veto10.csv,B April ongoing,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2opv,queue_submission_base.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2opv,queue_submission_pv.csv,A April onset,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2opv,queue_submission_pvb.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2opv,queue_submission_sp4.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2osp,queue_submission_base.csv,B April onset,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2osp,queue_submission_sp2.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2osp,queue_submission_sp4.csv,A+B March onset,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S2_unpatched,tfb-t2osp,queue_submission_sp8.csv,,5,delete/keep/meta,5,3828,125184,0,0,10,FAIL
+S8,tfb-t2occ,queue_submission_fs2occ.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2occ,queue_submission_fs4occ.csv,A+B March ongoing (+ input of veto10),12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2occ,queue_submission_fs_np.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2occ,t2v26occ_probs.npz,qlast for veto10,12,keep,30,30,2270,0,0,0,PASS
+S8,tfb-t2ogfa,queue_submission_fs2ogf.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogfa,queue_submission_fs_npogf.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogfa,t2v27a_probs.npz,input of fs4ogf -> veto10,12,keep,18,18,1362,0,0,0,PASS
+S8,tfb-t2ogfb,queue_submission_fs2ogf1.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogfb,t2v27b_probs.npz,input of fs4ogf -> veto10,12,keep,18,18,1362,0,0,0,PASS
+S8,tfb-t2ogfc,queue_submission_fs4ogf.csv,input of veto10,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogpvogf,queue_submission_pvogf.csv,A April ongoing,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogpvogf,queue_submission_pvogf_npid.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2ogpvogf,t2pvogf_probs.npz,A April ongoing (probabilities),12,keep,16,16,424,0,0,0,PASS
+S8,tfb-t2ogveto,queue_submission_veto10.csv,B April ongoing,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2opv,queue_submission_base.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2opv,queue_submission_pv.csv,A April onset,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2opv,queue_submission_pvb.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2opv,queue_submission_sp4.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2osp,queue_submission_base.csv,B April onset,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2osp,queue_submission_sp2.csv,,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2osp,queue_submission_sp4.csv,A+B March onset,12,keep,15,14004,1070532,0,0,0,PASS
+S8,tfb-t2osp,queue_submission_sp8.csv,,12,keep,15,14004,1070532,0,0,0,PASS

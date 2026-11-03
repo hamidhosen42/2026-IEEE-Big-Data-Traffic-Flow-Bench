@@ -81,6 +81,11 @@ IO = [  # (regex on the original source, replacement) = the declared I/O substit
     (r"^    fs = glob\.glob\(f'/kaggle/input/\*\*/pseudo_\{panel\}\.npz', recursive=True\)$", "    fs = TFB.kglob('tfb-t2lab-full', f'pseudo_{panel}.npz')"),
     (r"^    ref = sorted\(glob\.glob\('/kaggle/input/\*\*/tfb-t2occ/\*\*/queue_submission_fs4occ\.csv', recursive=True\)\)$",
      "    ref = TFB.kglob('tfb-t2occ', 'queue_submission_fs4occ.csv')"),
+    # award/t2_postT empty-input guards (R1 / R6): int64 index casts, no-op on the full data (outputs byte-identical)
+    (r"^(            VT\[wpos\[r\.window_id\], xs\.index\.map\(P\['li'\]\)\.to_numpy\(\))\]", r"\1.astype(np.int64)]"),
+    (r"^(                OT\[wpos\[r\.window_id\], xo\.index\.map\(P\['li'\]\)\.to_numpy\(\))\]", r"\1.astype(np.int64)]"),
+    (r"^    add_ramp\(Fe, ONs, OFFs, wi\.date\.map\(\{dd: i for i, dd in enumerate\(wdays\)\}\)\.to_numpy\(\), tod, P\['cap'\]\)$",
+     "    add_ramp(Fe, ONs, OFFs, wi.date.map({dd: i for i, dd in enumerate(wdays)}).to_numpy().astype(np.int64), tod.astype(np.int64), P['cap'])"),
 ]
 
 

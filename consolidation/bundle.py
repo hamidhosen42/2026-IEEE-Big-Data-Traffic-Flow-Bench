@@ -59,6 +59,8 @@ def same(kernel, files, label_prefix, kind=queue):
 ALL = ('state', 'queue', 'odme')
 MEMBERS_FULL = C.t1_member_kernels('full')
 MEMBERS_LEAN1 = C.t1_member_kernels('lean1')
+MEMBERS_K = [k for k in C.t1_member_kernels('full', 'A3') if k not in MEMBERS_FULL]      # t1catb / t1catb2 / t1xgb a-d (A3 / B3)
+MEMBERS_FULL_K = C.t1_member_kernels('full', 'A3')
 ONSET_SP = ['base', 'sp2', 'sp4', 'sp8']
 ONSET_PV = ['base', 'sp4', 'pv', 'pvb']
 
@@ -122,9 +124,10 @@ def member_spec(part):
     short = part[len('tfb-t1'):]
     rt = C.T1_PART_RUNTIME_S[part]
     fam = C.T1_MEMBERS[part[:-1]]['family']
-    return dict(slug=f'tfb-par-{short}', priority='lean1 + full' if part in MEMBERS_LEAN1 else 'full only', minutes=int(rt / 60) + 12,
-                stages=[f't1m:{part}'], pick='A2', recipe='full', overrides={},
-                desc=f'Task 1 member part {part} (template t1_{fam}, original image {C.T1_MEMBERS[part[:-1]]["image"]}, {rt / 3600:.1f} h on Kaggle): '
+    prio = 'A3 / B3 (lean1 + full)' if part in MEMBERS_K else ('lean1 + full' if part in MEMBERS_LEAN1 else 'full only')
+    return dict(slug=f'tfb-par-{short}', priority=prio, minutes=int(rt / 60) + 12,
+                stages=[f't1m:{part}'], pick='A3' if part in MEMBERS_K else 'A2', recipe='full', overrides={},
+                desc=f'Task 1 member part {part} (template t1_{fam}, original image {C.T1_MEMBERS[part[:-1]]["image"] or "not traced"}, {rt / 3600:.1f} h on Kaggle): '
                      f'state_submission_FTA.csv vs the original part',
                 sources=['tfb-t2lab-full', part],
                 checks=[state((part, 'state_submission_FTA.csv'), (part, 'state_submission_FTA.csv'), f'{short}_FTA')])
@@ -175,13 +178,38 @@ SPECS_M2 = [
          checks=[queue(('tfb-t2occ', 'queue_submission_fs4occ.csv'), ('tfb-par-occ', 'queue_submission_fs4occ.csv'), 'rep_fs4occ'),
                  npz(('tfb-t2occ', 't2v26occ_probs.npz'), ('tfb-par-occ', 't2v26occ_probs.npz'), 'rep_probs')]),
 ] + [member_spec(p) for p in C.t1_member_kernels('full')]
-SPECS = SPECS + SPECS_M2
+
+# ------------------------------------------------------------------ final picks A3 = tfb-k9 / B3 = tfb-k10 (light stages + 12 new member parts)
+SPECS_K9 = [
+    dict(slug='tfb-par-k5d', priority='A3 / B3 required', minutes=20, stages=['t1_mix_k5d'], pick='A3', recipe='full',
+         overrides={'t1_mix_k5d': {'base': ['orig:tfb-k5d', 'submission_K5D.csv']}},
+         desc='T1 mix K5D (tfb-k5d: i4d mix + 0.35 mean(catb, catb2) + 0.35 xgb + blackout override) from the 43 original member outputs; every row vs tfb-k5d',
+         sources=MEMBERS_FULL_K + ['tfb-k5d'],
+         checks=[sub(('tfb-k5d', 'submission_K5D.csv'), ('tfb-k5d', 'submission_K5D.csv'), ALL, 'k5d_vs_tfb-k5d')]),
+    dict(slug='tfb-par-k9', priority='A3 / B3 required', minutes=30, stages=['t1_lrtc'], pick='A3', recipe='full', overrides={},
+         desc='steps M (flow LRTC 24/40/10) + B (blkVQ@0.15) + R + T (tfb-k9) on the original tfb-k5d file; LRTC / FDRTV vs tfb-k9',
+         sources=['tfb-k5d', 'tfb-k9'],
+         checks=[sub(('tfb-k9', f'submission_{v}.csv'), ('tfb-k9', f'submission_{v}.csv'), ALL, f'k9_{v}') for v in ('FDRTV', 'LRTC')]),
+    dict(slug='tfb-par-asma3', priority='A3 required', minutes=8, stages=['assemble'], pick='A3', recipe='full', overrides={},
+         desc='queue assembly A3 (4 condition x split parts = the tfb-j4 rows, on the original tfb-k9 file) vs tfb-k9 submission_FDRTV.csv',
+         sources=['tfb-k9', 'tfb-t2osp', 'tfb-t2occ', 'tfb-t2opv', 'tfb-t2ogpvogf'],
+         checks=[sub(('tfb-k9-asm', 'submission_K9.csv'), ('tfb-k9', 'submission_FDRTV.csv'), ALL, 'asm_A3_vs_tfb-k9')]),
+    dict(slug='tfb-par-asmb3', priority='B3 required', minutes=8, stages=['assemble'], pick='B3', recipe='full', overrides={},
+         desc='queue assembly B3 (4 condition x split parts on the original tfb-k9 file) vs tfb-k10 submission_K10.csv',
+         sources=['tfb-k9', 'tfb-t2osp', 'tfb-t2occ', 'tfb-t2ogveto', 'tfb-k10'],
+         checks=[sub(('tfb-k10', 'submission_K10.csv'), ('tfb-k10', 'submission_K10.csv'), ALL, 'asm_B3_vs_tfb-k10')]),
+    dict(slug='tfb-par-chaint1k', priority='A3 / B3 integration', minutes=60, stages=['t4', 't1_mix_k5d', 't1_lrtc'], pick='A3', recipe='full', overrides={},
+         desc='production wiring of the A3 / B3 Task 1 / Task 4 rows: t4 skeleton -> t1_mix_k5d -> t1_lrtc; state + path_flow vs tfb-k9',
+         sources=MEMBERS_FULL_K + ['tfb-k9'],
+         checks=[sub(('tfb-k9', 'submission_FDRTV.csv'), ('tfb-k9', 'submission_FDRTV.csv'), ['state', 'odme'], 'chaint1k_vs_tfb-k9')]),
+] + [member_spec(p) for p in MEMBERS_K]
+SPECS = SPECS + SPECS_M2 + SPECS_K9
 
 
 def modules_for(spec):
     mods = list(CORE)
     for st in spec['stages']:
-        m = C.stage_module(st)
+        m = C.stage_module(st, spec['pick'])
         if m:
             mods.append(f'tfb/stages/{m}.py')
     return list(dict.fromkeys(mods))
@@ -324,7 +352,9 @@ def main():
                   ('Milestone 1 - optional / done', lambda x: x['slug'] in ('tfb-par-lean1',)),
                   ('Milestone 2 - pseudo windows and Task 2 ongoing', lambda x: x['slug'] in M2_T2),
                   ('Milestone 2 - Task 1 member parts of the lean-1 recipe (also in full)', lambda x: x['priority'] == 'lean1 + full' and x['slug'] not in M2_T2),
-                  ('Milestone 2 - Task 1 member parts of the full recipe only', lambda x: x['priority'] == 'full only')]
+                  ('Milestone 2 - Task 1 member parts of the full recipe only', lambda x: x['priority'] == 'full only'),
+                  ('Final picks A3 / B3 (tfb-k9 / tfb-k10) - light stages', lambda x: x['priority'].startswith(('A3', 'B3')) and not x['slug'].startswith('tfb-par-catb') and not x['slug'].startswith('tfb-par-xgb')),
+                  ('Final picks A3 / B3 - the 12 CatBoost / XGBoost member parts', lambda x: x['slug'].startswith(('tfb-par-catb', 'tfb-par-xgb')))]
         for title, sel in groups:
             g = [x for x in done if sel(x)]
             if not g:

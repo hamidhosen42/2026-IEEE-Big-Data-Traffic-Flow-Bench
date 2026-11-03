@@ -1,8 +1,0 @@
-Fable বন্ধ। Model এখন Opus 5.5, আর Fable বা অন্য কোনো AI agent আর চলছে না।
-
-Workflow: শেষ হয়ে গেছে। শেষ ২টা agent (firstcross-এর চূড়ান্ত অংশ আর recon) session limit-এ থেমে গেছে। আপনি না বললে আর কোনো workflow বা agent চালাব না।
-এখন যা চলছে: শুধু সাধারণ Python script, এদের কোনো AI model লাগে না।
-Submission chain: 00:02 UTC-তে শুরু হয়েছে। S1-এর (Task 1 FD mix) kernel এখন Kaggle-এ চলছে।
-v21: smoke pass করেছে (৬টা file-ই তৈরি হয়েছে)। Full run Kaggle-এ push হয়েছে, আনুমানিক ৬ ঘণ্টা লাগবে।
-v21 শেষ হলে: একটা script control check করবে। Check ঠিক থাকলে F03 ongoing file chain-এর S3 slot-এ দিয়ে দেবে।
-Firstcross-এর প্রাথমিক ফল (+0.036 ongoing IoU) চূড়ান্ত যাচাই হয়নি। তাই v21-এর LB score-ই বলবে এটা সত্যিই কাজ করে কিনা। Score এলে জানাব।

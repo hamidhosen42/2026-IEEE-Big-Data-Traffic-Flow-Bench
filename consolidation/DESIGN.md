@@ -4,6 +4,11 @@ Goal: one entry script (plus README and environment) that the organizers can rer
 submission within 1 % of its private score (about 0.0088). Code and PDF report are due Nov 10
 (`research/organizer_verified_facts.md` item 11).
 
+> **Update 2026-11-03: the final picks are now A3 = `tfb-k9` and B3 = `tfb-k10` (both public 0.88281).** They differ from
+> A2 / B2 only in the Task 1 state rows (3 more members + LRTC steps M / B); every queue and odme row is the same. See **§8**
+> for the delta to this design (stages, runtime, RAM, determinism, open items) and `LINEAGE_K9.md` for the lineage.
+> §0–§7 below describe A2 / B2 and stay valid for everything A3 / B3 share with them.
+
 Target recipe: **A2 = tfb-j4**, i.e. tfb-i4 with the April ongoing rows of tfb-t2ogpvogf. Optional recipe:
 **B = tfb-j3**, the hedge. Internal target: stay within about **0.002** of the selected file, so that hardware
 nondeterminism still has room inside the 1 %.
@@ -544,3 +549,73 @@ The original path was never logged, so **no setting can reproduce the original f
 - **RAM.** 32 GB is the minimum (T1 member peak 28.0 GB); 48–64 GB is comfortable. bspec part c must keep its reduced settings.
 - **Which pick is selected** is known only on Nov 7, so A2 and B must both pass levels 1–3 before then. B adds the ogfeat bag (11.5 Kaggle-h).
 - **Data access.** Local data is incomplete (186 MB of the 12.4 GB release; per-file downloads hit HTTP 429). Use Kaggle-hosted parity, plus one bulk download or a cloud VM for the off-Kaggle run.
+
+---
+
+## 8. Final picks A3 = tfb-k9 / B3 = tfb-k10 (update 2026-11-03)
+
+### 8.1 What changed against A2 / B2
+
+| Block | A2 / B2 | A3 / B3 |
+|---|---|---|
+| Task 1 members | 15 LightGBM (8 old FTA, 6 FD, t1bspec), 31 parts | + `tfb-t1catb`, `tfb-t1catb2` (CatBoost, 2 seed sets), `tfb-t1xgb` (XGBoost), 4 parts each: 43 parts |
+| Task 1 combine | `tfb-i4d`: 0.5 FD + 0.5 old, blackout 0.25 / 0.75 t1bspec | `tfb-k5d`: same, with 0.65 / 0.35 mean(catb, catb2) and then 0.65 / 0.35 xgb before the blackout override |
+| Task 1 post-processing | `tfb-i4`: R (FD recon) + T (1-D TV) | `tfb-k9`: M (flow LRTC (24, 40, 10), W 0.35, ordinary rows) + B (speed (8, 20, 20) / flow (8, 40, 10) LRTC, W 0.15, blackout rows) + the same R + T |
+| Queue rows | A2: osp sp4 / occ fs4occ / opv pv / pvogfv; B2: … / osp base / veto10 | identical (A3 inherits tfb-j4's rows through k3d → k3 → k5d → k9; B3 = tfb-k10 = the B2 private parts on tfb-k9) |
+| odme rows | tfb-final | identical |
+| Public LB | 0.88176 / 0.88176 | 0.88281 / 0.88281 |
+
+The LRTC steps use only the released cells of the target month (Task 1 is offline, no ≤ T rule); they never touch queue rows
+(asserted in the kernel). So the Task 2 rule and the Task 2 post-T rerun test are exactly those of A2 / B2.
+
+### 8.2 Entry-script changes
+
+- `tfb/config.py`: `PICKS = ('A3', 'B3', 'A2', 'B2')`, `PICK_GEN` (j / k generation), `K_EXTRA`, `QUAD_PANELS`, 3 new `T1_MEMBERS`,
+  `T1_MIX_K5D`, `LRTC_K9`, `QUEUE_PARTS['A3'/'B3']` (= A2 / B2), `ASSEMBLE_BASE`, `ASSEMBLE_MODULE`, `PICK_KERNEL` /
+  `PICK_REFERENCE` for A3 / B3, plan per generation (`t1_mix_k5d`, `t1_lrtc` instead of `t1_mix`, `t1_recon`).
+- New vendored stages (only `# [TFB]` lines differ from the originals): `t1_mix_k5d.py` (tfb-k5d), `t1_lrtc.py` (tfb-k9),
+  `assemble_k10.py` (tfb-k10; its "no March row changed" gate is switched by `march_from_parts`, because the T4 skeleton
+  base has no March queue rows and the validation parts fill them), templates `t1_catb.py`, `t1_xgb.py`.
+- A3's assembly writes into the virtual folder `tfb-k9-asm` (`submission_K9.csv`); its reference is `tfb-k9/submission_FDRTV.csv`.
+- Default pick of `run_all.py`: A3.
+- `bundle.py`: 5 light parity kernels (`tfb-par-k5d`, `-k9`, `-asma3`, `-asmb3`, `-chaint1k`) + 12 member parity kernels.
+
+### 8.3 Runtime and RAM
+
+| | Kaggle CPU-h | Wall (8 cores / 32 GB, est.) | Peak RAM |
+|---|---:|---:|---:|
+| 12 new member parts | 35.8 (catb 15.7, catb2 15.8, xgb 4.2) | ≈ 30–36 h (4 threads fixed; two in parallel need ≥ 64 GB) | 26.1 GB (parts a) |
+| `t1_mix_k5d` + `t1_lrtc` | ≈ 0.6 | ≈ 0.5 h | ≈ 10–12 GB (est.) |
+| **full A3** | 143–147 | ≈ 93–104 h | 28.0 GB (unchanged maximum) |
+| lean-1 A3 (old v12s4–s7, FD v13/s10/s11/ramp, bspec + the 3 new members) | 106–110 | ≈ 72–83 h | 28.0 GB |
+
+The lean-1 delta (−0.0002 … −0.0003 private for A2) has not been measured for A3; with 3 strong new members in the mix the
+loss from thinning the LightGBM bags is probably smaller, but the selected file should be rebuilt with **full**.
+
+### 8.4 Determinism and exactness
+
+- Locally (`tests/test_k9_parity.py`, real D12_I405_S April release, synthetic key): the vendored k5d / k9 / k10 stages
+  reproduce the original kernel sources byte for byte through the runner; a second run is byte-identical.
+- CatBoost / XGBoost: fixed seeds and 4 threads as in the originals; expected EXACT on the same package versions and CPU
+  family, otherwise smooth drift (a new member seed moves the private score by ≈ 0.00005).
+- LRTC (`numpy.linalg.eigh`): last-bit differences across BLAS builds / CPUs are possible (NUMERIC; ≤ 1e-9 relative is
+  expected, far below the 1 % tolerance).
+- A3's final file is EXACT by value but not byte-identical to tfb-k9's: one more pandas CSV cycle in `assemble` re-formats
+  about 6 % of the floats in the last printed digit (parsed values identical). This is cosmetic and is not changed (changing
+  the order of stages would only move the extra cycle to K5D, before the LRTC).
+- Images: the k-generation kernels ran on Kaggle's default image of 2026-10-10 … 11-03, not on image B; their package
+  versions were not logged. The member parity kernels print them (`ENV` lines).
+
+### 8.5 Open items for Nov 10 (A3 / B3)
+
+1. Kaggle parity of the light A3 / B3 stages (5 kernels, ≈ 2.1 Kaggle-h, parallel): `tfb-par-k9` and `tfb-par-k5d` first.
+2. Re-push `tfb-par-t4` / `tfb-par-chaint1` (path_flow fix; open since milestone 1).
+3. Member parity of the 12 catb / catb2 / xgb parts (38 Kaggle-h, ≈ 10 h wall at 5 sessions) and the milestone-2 parity
+   that is still open (pseudo, LightGBM members, Task 2 ongoing incl. the LGB_REPRO repeatability runs).
+4. **Task 2 post-T deletion rerun** (organizer check): delete every post-T row of each Task 2 window from a copy of the
+   release, rerun the Task 2 stages, require identical queue files. Same stages for all four picks; ≈ 0.5 day for the
+   deleter + ≈ 22 Kaggle-h (or ≈ 12 h on 8 cores).
+5. Off-Kaggle full A3 run for the rerun-vs-submission table and the measured wall time (≈ 4 days; only possible if started
+   by Nov 5 — otherwise report the Kaggle parity results and the projected runtime).
+6. ENVIRONMENT.md: pin `catboost` / `xgboost` from the parity `ENV` lines; README / report numbers for k9 / k10 runtimes.
+7. PDF report (§6 outline + CatBoost / XGBoost members, LRTC steps, LB 0.88176 → 0.88281): 1–1.5 days.

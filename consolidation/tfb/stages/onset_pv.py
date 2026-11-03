@@ -408,6 +408,7 @@ for panel, P in panels.items():
     Xm.append(Xk[e]); ym.append(y[e].astype(int))
     log(panel, 'March onset training windows', len(picks), 'rows', int(e.sum()), 'pos', int(y[e].sum()), 'mean a', round(a_mean, 3))
     del P['march'], X, Xk, R, Fe; gc.collect()
+if not Xm: Xm, ym = [np.zeros((0, _Xo_keep.shape[1]), np.float32)], [np.zeros(0, int)]  # [TFB] [POSTT-R2] no March onset window before the cut (was ValueError)
 Xm = np.concatenate(Xm); ym = np.concatenate(ym)
 log('March training rows', len(Xm), 'pos rate', round(float(ym.mean()), 4))
 cat_pv = []
@@ -448,7 +449,7 @@ for panel, P in panels.items():
             for r in grp.itertuples():
                 x = m[m.timestamp == r.forecast_origin]
                 x = x[x.link_id.isin(P['li'])].groupby('link_id').speed_kmh.mean()
-                VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+                VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [TFB] [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
         Fe, qlast = window_features(P, Vh, Fh, tod, dow, P['prior_all'], VT)
         R = dict(d=np.zeros(W, int), t=tod, cond=wi.condition.to_numpy(), qlast=qlast, W=W, L=L, rows=[])
         for h in range(1, F + 1):
@@ -458,7 +459,7 @@ for panel, P in panels.items():
         Xc, _, _, meta, _ = to_matrix(R, 'queue_onset', cols, None)
         wv, lv = meta[:, 0], meta[:, 1]
         # same-scenario prior per onset row: days of the scenario strictly before the window's day (date < T's day)
-        jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+        jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [TFB] [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)
         cls = (dow >= 5).astype(int)
         Xk, a_mean = blend_prior(Xc, meta, P, jd, cls, tod, cQ, cE, K_BLEND)
         variants = {'base': 'base', 'sp4': 'sp4', 'pv': 'pv'}
@@ -474,7 +475,7 @@ for panel, P in panels.items():
                     p_ = np.mean([m_.predict_proba(Xk)[:, 1] for m_ in cat_pv], 0)
                 P6[wv, meta[:, 2] - 1, lv] = p_
             preds[name] = np.stack([decode(P6[i].ravel()).reshape(F, L) if R['cond'][i] == 'queue_onset' else np.zeros((F, L), bool)
-                                    for i in range(W)])
+                                    for i in range(W)] or [np.zeros((F, L), bool)])[:W]  # [TFB] [POSTT-R5] split without windows -> empty stack (was ValueError)
         ison = R['cond'] == 'queue_onset'
         st = dict(panel=panel, split=split, onset_windows=int(ison.sum()), mean_scen_days=float(jd[ison].mean()), mean_a4_prior=a_mean)
         for name in variants:

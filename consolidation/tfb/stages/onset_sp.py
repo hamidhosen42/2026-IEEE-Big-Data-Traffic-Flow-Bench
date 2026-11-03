@@ -373,7 +373,7 @@ for panel, P in panels.items():
             for r in grp.itertuples():
                 x = m[m.timestamp == r.forecast_origin]
                 x = x[x.link_id.isin(P['li'])].groupby('link_id').speed_kmh.mean()
-                VT[wpos[r.window_id], x.index.map(P['li']).to_numpy()] = x.to_numpy()
+                VT[wpos[r.window_id], x.index.map(P['li']).to_numpy().astype(np.int64)] = x.to_numpy()  # [TFB] [POSTT-R1] empty slot-T frame -> no-op (was IndexError)
         Fe, qlast = window_features(P, Vh, Fh, tod, dow, P['prior_all'], VT)
         R = dict(d=np.zeros(W, int), t=tod, cond=wi.condition.to_numpy(), qlast=qlast, W=W, L=L, rows=[])
         for h in range(1, F + 1):
@@ -383,7 +383,7 @@ for panel, P in panels.items():
         Xc, _, _, meta, _ = to_matrix(R, 'queue_onset', cols, None)
         wv, lv = meta[:, 0], meta[:, 1]
         # same-scenario prior per onset row: days of the scenario strictly before the window's day (date < T's day)
-        jd = np.array([dpos[pd.Timestamp(x).strftime('%Y-%m-%d')] for x in org.to_numpy()])
+        jd = np.array([dpos.get(pd.Timestamp(x).strftime('%Y-%m-%d'), len(dpos)) for x in org.to_numpy()], dtype=np.int64)  # [TFB] [POSTT-R3/R4] day without masked file -> all available days; empty split -> int dtype (was KeyError / IndexError)
         cls = (dow >= 5).astype(int); s6 = np.minimum(tod + 6, 287)
         cr, jr, s6r, tr_ = cls[wv], jd[wv], s6[wv], tod[wv]
         trv = [P['prior_all'][cr, s6r, lv], P['prior_all'][cr, tr_, lv], P['prior_all'][2, s6r, lv]]
@@ -403,7 +403,7 @@ for panel, P in panels.items():
             if len(Xv):
                 P6[wv, meta[:, 2] - 1, lv] = cat_on.predict_proba(Xv)[:, 1]
             preds[name] = np.stack([decode(P6[i].ravel()).reshape(F, L) if R['cond'][i] == 'queue_onset' else np.zeros((F, L), bool)
-                                    for i in range(W)])
+                                    for i in range(W)] or [np.zeros((F, L), bool)])[:W]  # [TFB] [POSTT-R5] split without windows -> empty stack (was ValueError)
         ison = R['cond'] == 'queue_onset'
         st = dict(panel=panel, split=split, onset_windows=int(ison.sum()), mean_scen_days=float(jd[ison].mean()),
                   mean_a4_prior=float((nv[0] / (nv[0] + 4)).mean()) if len(nv[0]) else 0.0)
