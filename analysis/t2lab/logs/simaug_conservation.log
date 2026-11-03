@@ -1,0 +1,8 @@
+D7_I10_E: free-flow dF vs net ramp same link: corr +0.050 slope +0.121 | prev link corr +0.009 slope +0.025 | sd dF 166 sd net 69 | corridor F last-first -140 vs sum(ON)-sum(OFF) -189 vph; mean F 3895; max ramp mean 204
+D7_I10_W: free-flow dF vs net ramp same link: corr +0.057 slope +0.123 | prev link corr -0.012 slope -0.030 | sd dF 149 sd net 69 | corridor F last-first -29 vs sum(ON)-sum(OFF) +713 vph; mean F 3998; max ramp mean 159
+D7_I210_E: free-flow dF vs net ramp same link: corr +0.027 slope +0.099 | prev link corr -0.006 slope -0.062 | sd dF 155 sd net 41 | corridor F last-first -58 vs sum(ON)-sum(OFF) +20 vph; mean F 3183; max ramp mean 62
+D7_I210_W: free-flow dF vs net ramp same link: corr +0.026 slope +0.057 | prev link corr -0.004 slope -0.010 | sd dF 144 sd net 65 | corridor F last-first -85 vs sum(ON)-sum(OFF) +565 vph; mean F 3309; max ramp mean 128
+D7_I405_N: free-flow dF vs net ramp same link: corr +0.063 slope +0.210 | prev link corr +0.016 slope +0.136 | sd dF 210 sd net 63 | corridor F last-first -199 vs sum(ON)-sum(OFF) +22 vph; mean F 4398; max ramp mean 176
+D7_I405_S: free-flow dF vs net ramp same link: corr +0.032 slope +0.092 | prev link corr +0.006 slope +0.023 | sd dF 183 sd net 64 | corridor F last-first -203 vs sum(ON)-sum(OFF) +18 vph; mean F 4263; max ramp mean 128
+D12_I5_N: free-flow dF vs net ramp same link: corr +0.043 slope +0.154 | prev link corr -0.003 slope -0.032 | sd dF 151 sd net 42 | corridor F last-first -95 vs sum(ON)-sum(OFF) +209 vph; mean F 4091; max ramp mean 86
+D12_I5_S: free-flow dF vs net ramp same link: corr +0.069 slope +0.145 | prev link corr -0.021 slope -0.050 | sd dF 197 sd net 93 | corridor F last-first -131 vs sum(ON)-sum(OFF) +1258 vph; mean F 4257; max ramp mean 224

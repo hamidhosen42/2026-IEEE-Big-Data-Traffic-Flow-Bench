@@ -1,0 +1,22 @@
+[run_heavy] slot acquired after 0s
+[     0s] onset train rows 310782 sub 310782 ph6==1 share 0.376
+[    17s] base s0 trained 17s
+[    48s] phase s0 trained 31s
+[    80s] base s1 trained 31s
+[   111s] phase s1 trained 32s
+[   143s] base s2 trained 31s
+[   177s] phase s2 trained 34s
+[   196s] base s3 trained 18s
+[   213s] phase s3 trained 18s
+[   235s] base s4 trained 21s
+[   267s] phase s4 trained 33s
+[   267s] phase s0 importance of phase cols {'ph6': 2.932, 'ph_on': 1.843, 'ph_next': 3.426, 'ph_x': 0.0} rank of ph6 8
+[   268s] D7_I10_E pm onset windows 25 ph6==1 share 0.64
+[   269s] D7_I10_W pm onset windows 21 ph6==1 share 0.143
+[   270s] D7_I210_E pm onset windows 27 ph6==1 share 0.889
+[   270s] D7_I210_W pm onset windows 32 ph6==1 share 0.156
+[   272s] D7_I405_N pm onset windows 35 ph6==1 share 0.171
+[   272s] D7_I405_S pm onset windows 27 ph6==1 share 0.148
+[   273s] D12_I5_N pm onset windows 21 ph6==1 share 0.048
+[   274s] D12_I5_S pm onset windows 26 ph6==1 share 0.346
+[   327s] onset OOF fold 0 done

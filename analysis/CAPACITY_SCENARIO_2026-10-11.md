@@ -1,49 +1,49 @@
-# Capacity scenario (H1) — 2026-10-11
+# ক্ষমতা ( H1 )  ⁇ 2026 - 10 - 11
 
-Status: **DONE** (resumed and finished on 2026-10-16 after the 10-11 reboot). Analysis and lab only; nothing was pushed or submitted.
+অবস্থাঃ **  DONE  ** (পরের দিকে আরম্ভ এবং 2026 - 10 - 16  10 - 11 পুনরায় বুট করার পরে শেষ) । শুধুমাত্র বিশ্লেষণ এবং পরীক্ষাগার; কিছুই চাপানো বা জমা দেওয়া হয়নি।
 
-**Bottom line**
-1. **H1 is rejected.** No ×1.2 (or 1/1.2) capacity factor separates train from validation/private. Bottleneck discharge equals the published fd capacity in all three splits, and per-bottleneck discharge is identical across splits.
-2. **The real scenario differences:**
-   - a per-ramp demand re-draw (0.2–2.7×), with mainline flow within ±3 %;
-   - a different set of active bottlenecks (location), with unchanged capacities;
-   - no change in demand level or peak timing.
-3. **The pre-registered ongoing ramp corrections (noramp, ramprel) FAIL every gate.** FM-PM is −0.0004 on validation and −0.0008 on private, and pseudo-March is negative. The ramp columns still help in the new scenario. No kernel was written.
-4. **Public-LB selection bias** (section 4): a team with 48–100 submissions can plausibly sit +0.005..+0.02 above its true level. Our own 0.88198 is not bias-free either.
+** নিচের লাইন **
+1. **  H1 প্রত্যাখ্যান করা হয়। ** নং × 1.2 (বা 1 / 1.2 ) ক্ষমতা ফ্যাক্টর validation/private. থেকে ট্রেনকে আলাদা করে।
+2. ** বাস্তব পরিস্থিতির পার্থক্যঃ **
+   - র্যাম্প প্রতি চাহিদা পুনরায় আঁকা ( 0.2 ⁇ 2.7 ×), মূল লাইন প্রবাহ ± 3 % এর মধ্যে;
+   - একটি ভিন্ন সেট সক্রিয় বোতলঘাট (অবস্থান), অপরিবর্তিত ক্ষমতা;
+   - চাহিদার স্তর বা শীর্ষ সময়সীমার কোনো পরিবর্তন নেই।
+3. ** প্রাক নিবন্ধিত চলমান র্যাম্প সংশোধন (নরম্প, র্যামপ্রেল) FAIL প্রতিটি গেট। **  FM - PM হল - 0.0004 বৈধতা এবং - 0.0008 ব্যক্তিগত, এবং ছদ্ম মার্চ নেতিবাচক। র্যাম্প কলামগুলি এখনও নতুন পরিস্থিতিতে সহায়তা করে। কোনও কার্নেল লেখা হয়নি।
+4. ** পাবলিক- LB নির্বাচন bias ** (বিভাগ 4 ): 48 ⁇ 100 জমা দিয়ে একটি দল তার প্রকৃত স্তরের উপরে + 0.005 ..+ 0.02 বসতে পারে। আমাদের নিজস্ব 0.88198 ও পক্ষপাত মুক্ত নয়।
 
-## 0. PRE-REGISTRATION (written 2026-10-11 01:35 +06, after the H1 data test (section 1), before any model result)
+## 0 . PRE - REGISTRATION (লিখিত 2026 - 10 - 11  01 : 35 + 06 , H1 ডেটা টেস্টের পরে (বিভাগ 1 ), মডেলের ফলাফলের আগে)
 
-H1 itself (a capacity factor of about 1.2 or 1/1.2 between train and validation/private) is **rejected by the data**
-(section 1). So no capacity rescaling (a), x1.2 augmentation (b) or recalibrated FD constant (c) is tested: there is no factor to apply.
+H1 নিজেই (ট্রেন এবং validation/private এর মধ্যে 1.2 বা 1 / 1.2 এর ক্ষমতা ফ্যাক্টর) ** তথ্য দ্বারা প্রত্যাখ্যান করা হয় **
+(বিভাগ 1 ). সুতরাং কোন ক্ষমতা পুনরায় স্কেলিং (a), x 1.2 বৃদ্ধি (b) বা পুনরায় ক্যালিব্রেশন FD ধ্রুবক (c) পরীক্ষা করা হয় নাঃ কোন ফ্যাক্টর প্রয়োগ করা উচিত নয়।
 
-What the data does show is a **related scaling**: per-ramp demand is re-drawn in the new scenario.
-- Per-link ramp ON/OFF means move by factors of 0.2–2.7. 82–90 % of ramps change by more than 15 %, against 0–6 % for Feb vs the other train months.
-- Mainline flow stays within ±3 %.
+তথ্যগুলো দেখায় যে ** এর সাথে সম্পর্কিত স্কেলিং ** : প্রতি র্যাম্পের চাহিদা নতুন পরিস্থিতিতে পুনরায় আঁকা হয়।
+- প্রতি লিঙ্ক র্যাম্প ON/OFF মানে 0.2 ⁇ 2.7 এর ফ্যাক্টর দ্বারা চলাচল। 82 ⁇ 90 র্যাম্পগুলির % 15 % এর বেশি পরিবর্তিত হয়, 0 ⁇ 6 % এর তুলনায় ফেব্রুয়ারি বনাম অন্যান্য ট্রেনের মাসগুলিতে।
+- মূল লাইন প্রবাহ ± 3 % এর মধ্যে থাকে।
 
-The production ongoing model uses 5 ramp columns (`ramp_on3`, `ramp_off3`, `ramp_on_surge`, `ramp_on_pm3`, `ramp_off_pm3`), all scaled by link capacity. Their per-link level is therefore scenario-specific. The production onset model is already NORAMP.
+উৎপাদন চলমান মডেল 5 র্যাম্প কলামগুলি ব্যবহার করে ( `ramp_on3` , `ramp_off3` , `ramp_on_surge` , `ramp_on_pm3` , `ramp_off_pm3` ), যা সমস্ত লিঙ্ক ক্ষমতা দ্বারা স্কেল করা হয়। তাদের প্রতি লিঙ্ক স্তরটি অতএব দৃশ্যকল্প-নির্দিষ্ট। উত্পাদন শুরু মডেলটি ইতিমধ্যে NORAMP ।
 
-**Correction arms (ongoing, lab np recipe = og_np_base: F03 rows, 255 leaves, 500 trees, lr 0.05, folds 0 and 1):**
-- `og_np_noramp`: the 5 ramp columns dropped.
-- `og_np_ramprel`: the 5 ramp columns replaced by one scenario-invariant ratio, `rel_on = on3 / on12`, i.e. the recent on-ramp flow relative to the same ramp's flow 4–60 min earlier in the same window. It is computed as `ramp_on3 / (ramp_on3 − ramp_on_surge)`, NaN when the denominator ≤ 1e-6, and clipped to [0, 5].
+** সংশোধন বাহু (অনুসরণ, ল্যাব np রেসিপি = og_np_base:  F03 সারি, 255 পাতাগুলি, 500 গাছ, lr 0.05 , ভাঁজ 0 এবং 1 ): **
+- `og_np_noramp` : 5 র্যাম্পের স্তম্ভগুলি পড়ে গেছে।
+- `og_np_ramprel` : 5 র্যাম্প কলামগুলি একটি দৃশ্য-অবিন্যয় অনুপাত দ্বারা প্রতিস্থাপিত হয়, `rel_on = on3 / on12` , অর্থাৎ একই র্যাম্পের প্রবাহের তুলনায় সাম্প্রতিক প্রবাহ 4 ⁇ 60 min আগে একই উইন্ডোতে গণনা করা হয়। এটি `ramp_on3 / (ramp_on3 − ramp_on_surge)` , NaN হিসাবে গণনা করা হয় যখন নামক ≤ 1e-6 , এবং [  0 , 5  ] কেটে যায়।
 
-**Gates (binding, vs og_np_base, fold 0+1 mean probabilities):**
-- Ongoing: FM-PM validation ≥ +0.0015 LB **and** FM-PM private ≥ +0.0005 LB.
-  - FM-PM settings as in TRANSFER_ANALYSIS §5.0: panel-exact, ±2 h, all-cell predicted counts, pseudo-March offlike_m + runstart_m lab pairs.
-  - Footprint = decision changes between the two lab models on the 40 + 40 official ongoing windows (lab inputs, all-train prior).
-- Reported, not binding: train offlike / runstart OOF (folds 0, 1); pseudo-March offlike_m / runstart_m with CI and panels positive.
-- Onset: no arm. Production onset already excludes ramp columns, and no capacity scaling exists to correct. The gate (pseudo-March ≥ +0.01 IoU, CI > 0, official-40 sign not negative) is recorded but unused.
-- T1: no FD-constant arm, because the bottleneck discharge equals fd capacity in every split (section 1.3). Gate J ≥ +0.0003, 7/8 recorded but unused.
+** গেটস (বায়ন, বনাম og_np_base , ভাঁজ 0 + 1 গড় সম্ভাব্যতা): **
+- চলমানঃ FM - PM বৈধতা ≥ + 0.0015  LB  ** এবং **  FM - PM ব্যক্তিগত ≥ + 0.0005  LB ।
+  - FM - PM সেটিংস যেমন TRANSFER_ANALYSIS § 5.0 : প্যানেল-নিখুঁত, ± 2 h, সমস্ত কোষের পূর্বাভাস গণনা, ছদ্ম-মার্চ offlike_m + runstart_m ল্যাব জোড়া।
+  - 40 + 40 অফিসিয়াল চলমান উইন্ডোগুলিতে দুটি পরীক্ষাগার মডেলের মধ্যে সিদ্ধান্তের পরিবর্তন (ল্যাব ইনপুট, সমস্ত ট্রেন পূর্ববর্তী) ।
+- রিপোর্ট করা হয়েছে, বন্ডিং নয়ঃ ট্রেনের অফলাইক / রানস্টার্ট OOF (ফোল্ড 0 , 1 ); offlike_m / runstart_m এর সাথে CI এবং প্যানেলগুলি ইতিবাচক।
+- শুরুঃ কোন বাহু নেই। উৎপাদন শুরু ইতিমধ্যে র্যাম্প কলামগুলি বাদ দেয়, এবং সংশোধন করার জন্য কোনও ক্ষমতা স্কেলিং নেই। গেট (পসডো-মার্চ ≥ + 0.01 IoU, CI > 0 , অফিসিয়াল- 40 চিহ্নটি নেতিবাচক নয়) রেকর্ড করা হয় তবে ব্যবহৃত হয় না।
+- T1 : কোন FD -নিরবস্থা বাহু নেই, কারণ প্রতিটি বিভাজন (বিভাগ 1.3 ) এ বোতল ঘাড়ের স্রাবের পরিমাণ fd ক্যাপাসিটির সমান। গেট J ≥ + 0.0003 , 7 / 8 রেকর্ড করা হয়েছে কিন্তু ব্যবহৃত হয়নি।
 
-## 1. H1 data test: REJECTED
+## 1 . H1 ডেটা টেস্টঃ REJECTED
 
-Data: released masked observations only (`data/t2local/t2data_<P>.npz`).
-- Train is subsampled to the March/April visibility wherever a statistic depends on sample size.
-- Scripts: `analysis/t2lab/capscen_stats.py`, `capscen_links.py`, `capscen_heads.py`, `capscen_ramps.py`.
-- Logs: `analysis/t2lab/logs/capscen_*.log`. Tables: `analysis/t2lab/results/capscen/` (`stats_panel_month.csv`, `tod_share.csv`, `links.csv`, `heads.csv`, `heads_links.csv`, `ramps.csv`).
+তথ্যঃ শুধুমাত্র প্রকাশিত মাস্কযুক্ত পর্যবেক্ষণ ( `data/t2local/t2data_<P>.npz` ).
+- ট্রেনটি March/April দৃশ্যমানতার জন্য সাব-নমুনা সংগ্রহ করা হয় যেখানে কোনও পরিসংখ্যান নমুনার আকারের উপর নির্ভর করে।
+- স্ক্রিপ্টঃ `analysis/t2lab/capscen_stats.py` , `capscen_links.py` , `capscen_heads.py` , `capscen_ramps.py` .
+- লগঃ `analysis/t2lab/logs/capscen_*.log` . টেবিলঃ `analysis/t2lab/results/capscen/` ( `stats_panel_month.csv` , `tod_share.csv` , `links.csv` , `heads.csv` , `heads_links.csv` , `ramps.csv` ) ।
 
-### 1.1 High flow quantiles vs fd capacity (per panel; train-month median, then the MAR / APR ratio to it)
+### 1.1 উচ্চ প্রবাহের পরিমাণগুলি বনাম fd ক্ষমতা (প্রতি প্যানেল; ট্রেন-মাসের মধ্যম, তারপরে এর সাথে MAR / APR অনুপাত)
 
-| panel | q99 lane flow / cap, train median | MAR / train | APR / train | fitted capacity (median of the top 1 %) MAR / APR vs train |
+| প্যানেল | q 99 ল্যান প্রবাহ / ক্যাপ, ট্রেনের মধ্যম | MAR / ট্রেন | APR / ট্রেন | ফিটড ক্ষমতা (উচ্চের মধ্যভাগ 1 %) MAR / APR বনাম ট্রেন |
 |---|---:|---:|---:|---|
 | D12_I5_N | 0.770 | 0.95 | 0.96 | 0.97 / 0.97 |
 | D12_I5_S | 0.789 | 0.95 | 0.94 | 0.95 / 0.94 |
@@ -54,117 +54,117 @@ Data: released masked observations only (`data/t2local/t2data_<P>.npz`).
 | D7_I405_N | 0.962 | 1.00 | 0.98 | 1.00 / 0.99 |
 | D7_I405_S | 0.773 | 1.01 | 1.05 | 1.03 / 1.06 |
 
-Per link (1,450 links), the q99.5 lane-flow ratio:
+প্রতি লিঙ্ক ( 1,450 লিঙ্ক), q 99.5 ল্যান-ফ্লো অনুপাতঃ
 
-| comparison | median | q05–q95 | links in [1.15, 1.25] | links in [0.80, 0.87] |
+| তুলনা | মধ্যম | q05–q95 | [  1.15 , 1.25  ] এর মধ্যে লিঙ্ক | [  0.80 , 0.87  ] এর মধ্যে লিঙ্ক |
 |---|---:|---|---:|---:|
-| MAR / train | 0.998 | 0.957–1.031 | 0.5 % | 1.4 % |
-| APR / train | 0.993 | 0.907–1.049 | – | – |
-| Feb / other train months (null) | 0.998 | 0.978–1.008 | – | – |
+| MAR / ট্রেন | 0.998 | 0.957–1.031 | 0.5 % | 1.4 % |
+| APR / ট্রেন | 0.993 | 0.907–1.049 | – | – |
+| ফেব্রুয়ারি / অন্যান্য ট্রেন মাস (শূন্য) | 0.998 | 0.978–1.008 | – | – |
 
-There is **no cluster at 1.2 or at 1/1.2**. The train months are flat (spread ±1 %), so train does not "already include" a different factor from the rest.
+**  1.2 অথবা 1 / 1.2  ** এ কোন ক্লাস্টার নেই। ট্রেনের মাসগুলি সমতল (প্রসারিত ± 1 %), তাই ট্রেনটি অন্যের থেকে "এখনও" আলাদা একটি ফ্যাক্টর অন্তর্ভুক্ত করে না।
 
-### 1.2 Speed–flow / flow–density relation
+### 1.2 গতি ⁇ প্রবাহ/প্রবাহ ⁇ ঘনত্ব সম্পর্ক
 
-- Free-flow speed / vf: 0.998–1.002 in every split.
-- Congested branch (lane flow / cap against density / per-lane kcrit, queued cells):
-  - slope −0.15..−0.21, identical in train, MAR and APR (e.g. D7_I405_N −0.183 / −0.182 / −0.181);
-  - intercept-implied jam density 5.5–7.5 kcrit, equal within the train-month range except D12_I5_S (+6 %).
+- ফ্রি ফ্লো গতি / vf: 0.998 ⁇ 1.002 প্রতিটি স্প্লিটে।
+- ঘন ঘন শাখা (ল্যান প্রবাহ / ঘনত্বের প্রতি ক্যাপ / প্রতি ল্যান কিক্রিট, ক্যারেড সেল):
+  - ঢাল - 0.15 ..− 0.21 , ট্রেনে একই রকম, MAR এবং APR (উদাহরণস্বরূপ D7_I405_N - 0.183 / − 0.182 / − 0.181 );
+  - ইন্টারসেপ্ট-অন্তর্নিহিত জ্যাম ঘনত্ব 5.5 ⁇ 7.5 kcrit, D12_I5_S (+ 6 %) ব্যতীত ট্রেন-মাসের পরিসরের মধ্যে সমান।
 
-### 1.3 Breakdown and bottleneck discharge (the decisive test)
+### 1.3 ভাঙ্গন এবং বোতল ঘাড়ের স্রাব (নির্ণায়ক পরীক্ষা)
 
-**Discharge** = flow on the free link just downstream of a queue head, divided by *its* fd capacity:
-- q90: 1.00–1.03 in 20 of 24 panel × split cells (train-month median, MAR, APR). The exceptions are D7_I10_W at 0.94–0.98 in all three splits (few queues) and D7_I10_E MAR at 0.90. In train, MAR and APR the simulator discharges at the published fd capacity, not at 1.2× or 1/1.2× of it.
-- Per bottleneck, the discharge is identical across splits: e.g. D12_I5_S link 39: 0.500 / 0.509 / 0.500; D7_I10_E link 81: 0.438 / 0.437 / 0.441; D12_I5_N link 239: 0.785 / 0.792 / 0.793.
+** Discharge ** = একটি ক্যু হেডের নীচে নীচে মুক্ত লিঙ্কটিতে প্রবাহ, *its* fd capacity দ্বারা ভাগ করাঃ
+- q 90 : 1.00 ⁇ 1.03  20 এর 24 প্যানেল × বিভক্ত কোষ (ট্রেন-মাসের মধ্যম, MAR , APR ) । ব্যতিক্রম হল D7_I10_W  0.94 ⁇ 0.98 তিনটি বিভক্ত (কিছু ক্যুই) এবং D7_I10_E  MAR  0.90 এ । ট্রেনে, MAR এবং APR সিমুলেটর প্রকাশিত fd ক্ষমতাতে স্রাব হয়, 1.2 × বা 1 / 1.2 × এর নয়।
+- প্রতি বোতলঘাট, ব্রেকআপের মধ্যে ব্রেকআপটি একই রকমঃ উদাহরণস্বরূপ D12_I5_S লিঙ্ক 39 : 0.500 / 0.509 / 0.500 ; D7_I10_E লিঙ্ক 81 : 0.438 / 0.437 / 0.441 ; D12_I5_N লিঙ্ক 239 : 0.785 / 0.792 / 0.793 .
 
-**Flow just before breakdown** (t−1, free → queued at t, / cap):
-- MAR / train median 0.85–1.05; APR 0.91–1.04;
-- all inside or near the train-month range (train-month ranges are wide, e.g. 0.52–0.72 on D7_I210_E).
+** বিভাজনের ঠিক আগে প্রবাহ ** (t− 1 , মুক্ত → ক্যো এ t, / cap):
+- MAR / ট্রেনের মধ্যম 0.85 ⁇ 1.05 ; APR  0.91 ⁇ 1.04 ;
+- সমস্ত ট্রেন-মাস পরিসীমা বা তার কাছাকাছি (ট্রেন-মাস পরিসীমাগুলি বিস্তৃত, যেমন 0.52 ⁇ 0.72  D7_I210_E ) ।
 
-### 1.4 Queued share by time of day (pooled over 8 panels, % of observed cells)
+### 1.4 দিনের সময় অনুযায়ী সারিতে থাকা অংশ ( 8 প্যানেলের উপর সংমিশ্রণ, % পর্যবেক্ষণকৃত কোষ)
 
-| hour | 13 | 14 | 15 | 16 | 17 | 18 | 19 |
+| ঘন্টা | 13 | 14 | 15 | 16 | 17 | 18 | 19 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| train | 6.5 | 11.7 | 16.2 | 18.4 | 17.5 | 14.6 | 9.4 |
+| ট্রেন | 6.5 | 11.7 | 16.2 | 18.4 | 17.5 | 14.6 | 9.4 |
 | MAR | 6.4 | 10.0 | 14.1 | 15.5 | 14.8 | 12.2 | 8.6 |
 | APR | 7.3 | 11.2 | 14.7 | 15.9 | 14.8 | 12.0 | 7.8 |
 
-- Timing is unchanged: the flow peak slot is within ±1–2 slots, and the queue peak slot is unchanged pooled.
-- The level is panel-specific, outside the train-month range on 3 panels (15–18 h share):
-  - D12_I5_N: 0.099 MAR / 0.132 APR vs train 0.152–0.250;
-  - D7_I210_W: 0.188 / 0.147 vs 0.218–0.241;
-  - D7_I405_S: 0.221 / 0.223 vs 0.148–0.189.
-- Demand is unchanged. Mean v/c (all slots, AM, PM) changes by −4..+4 %, and the per-link PM mainline flow ratio has median 0.985–0.997.
+- সময় পরিবর্তন হয় নাঃ প্রবাহের শীর্ষ স্লট ± 1 ⁇ 2 স্লট এর মধ্যে এবং ক্যোয়ের শীর্ষ স্লটটি অপরিবর্তিতভাবে সংহত করা হয়।
+- 3 প্যানেলগুলিতে 15 ⁇ 18 h ভাগের উপর প্যানেল-মাসের পরিসীমা ছাড়িয়ে স্তরটি প্যানেল-নির্দিষ্টঃ
+  - D12_I5_N:  0.099  MAR / 0.132  APR বনাম ট্রেন 0.152 ⁇ 0.250 ;
+  - D7_I210_W:  0.188 / 0.147 বনাম 0.218 ⁇ 0.241 ;
+  - D7_I405_S:  0.221 / 0.223 বনাম 0.148 ⁇ 0.189 ।
+- চাহিদা অপরিবর্তিত। গড় v/c (সমস্ত স্লট, AM , PM ) পরিবর্তন হয় - 4 ..+ 4 %, এবং প্রতি লিঙ্ক PM মূল লাইন প্রবাহ অনুপাতের মধ্যম 0.985 ⁇ 0.997 ।
 
-**Verdict on H1: rejected.**
-- Relative to train: every capacity-type statistic is ≈1.00, and the 3–6 % panel-level moves are not 1.2.
-- Relative to fd_parameters: bottleneck discharge equals fd capacity in all splits.
-- `capacity_multiplier 1.2` is most likely already baked into the synthetic fd capacities. The manifest lists "FD capacity parameters" under `replaced_with_synthetic`, and observed flows on ordinary links top out at about 0.65–0.95 × cap. In any case, it applies to train and to validation/private alike.
-- A train-trained model, our FD features and our recon constants are **not** miscalibrated by a capacity factor.
+**রায় H1: প্রত্যাখ্যান করা হয়েছে।**
+- ট্রেনের সাথে সম্পর্কিতঃ প্রতিটি ক্ষমতা প্রকারের পরিসংখ্যান ≈ 1.00 , এবং 3 ⁇ 6 % প্যানেল স্তরের পদক্ষেপগুলি 1.2 নয় ।
+- fd_parameters: এর তুলনায়, সমস্ত স্প্লিটে ফ্ল্যাশ ক্যাপাসিটির সমান।
+- `capacity_multiplier 1.2` সম্ভবত ইতিমধ্যে সিন্থেটিক fd ক্ষমতা মধ্যে বেক করা হয়। ম্যানিফিশ `replaced_with_synthetic` অধীনে " FD ক্ষমতা পরামিতি" তালিকাভুক্ত করে, এবং সাধারণ লিঙ্ক উপর পর্যবেক্ষণ প্রবাহ উপরে আপ আপ প্রায় 0.65 ⁇ 0.95 × ক্যাপ. যে কোন ক্ষেত্রে, এটি প্রশিক্ষণ এবং validation/private উভয় প্রযোজ্য।
+- একটি ট্রেন-প্রশিক্ষিত মডেল, আমাদের FD বৈশিষ্ট্য এবং আমাদের সনাক্তকরণ ধ্রুবকগুলি ** নয় ** একটি ক্ষমতা ফ্যাক্টর দ্বারা ভুলভাবে ক্যালিব্রেশন করা হয়।
 
-## 2. Other systematic train → March/April differences (≤ T data could see them; data only)
+## 2 . অন্যান্য সিস্টেম্যাটিক ট্রেন → March/April পার্থক্য (≤ T তথ্য তাদের দেখতে পারে; শুধুমাত্র তথ্য)
 
-| difference | evidence | correctable with ≤ T data? |
+| পার্থক্য | প্রমাণ | ≤ টি তথ্য দিয়ে সংশোধন করা যায়? |
 |---|---|---|
-| **Ramp demand re-drawn per ramp** | Per-link ramp ON/OFF mean, AM and PM: MAR/train q05–q95 0.16–2.7, median 0.78–0.91; 82–90 % of ramps move by more than 15 %. Null: Feb vs the other train months, 0–6 %. Mainline flow at the same links: q05–q95 0.93–1.04 (`capscen_ramps.py`) | It is a pure input shift for every ramp-level feature. Ramps carry about 1 % of mainline flow and do not explain where queues move (corr(Δ downstream on-ramp, Δ queued share) −0.40..+0.39, sign-inconsistent). Tested in section 3 |
-| **Bottleneck activation set** | Discharge is identical at shared bottlenecks (1.3), but some train bottlenecks switch off and new ones switch on. Off: D12_I5_N link 114, 3,319 head cells in train, 0 in MAR/APR (17 % → 0 % queued share on links 111–114 at an unchanged flow of 5,944 / 5,753 / 5,930 vph). On: D12_I5_S links 91/95, 0 → 8–25 %; D7_I10_W link 20 (MAR only); D7_I10_E links 19/23 active in train + APR but not MAR | This is the scenario-specific location effect. Only same-scenario history (earlier March/April days) identifies it, which is the sp4 / pv lever already in use. Same-day: of the 10 % of new-scenario onsets at non-train-recurrent locations, only 15 % had an earlier queue on the same day at that link ±1 (`capscen_onsetloc.py`) |
-| **Onset location is mostly at train-recurrent places** | 90 % of MAR/APR onset events lie within ±1 link / ±30 min of a cell with train prior ≥ 0.05 (train itself: 97 %). Previous ≤ 4 same-split days had a queue there 84–89 % of the time (train: 87 %) | The location loss is a choice among known candidates, not unseen places. Same-month recency (prior blend) is the right tool; there is no capacity fix |
-| **"Incident-like" queues** | Days with a ≥ 30-min queued run on a link whose train prior is ≤ 0.02: train median 4–10 %. MAR/APR: D12_I5_S 94 % / 97 %, D7_I405_S 87 % / 87 %, D7_I10_E 48 % / 53 %; 0.3–13× on the other panels | Mostly the new recurrent bottlenecks above, not 5–7 incidents. Correctable only via same-split recurrence |
-| **Queue level** | Pooled PM queued share −15 % (16 h: 18.4 → 15.5 / 15.9). Outside the train-month range: D12_I5_N (lower), D7_I210_W (lower), D7_I405_S (higher) | Partly via same-split priors. A global level shift is not supported |
-| **Demand level, peak timing** | v/c −4..+4 %; flow-peak slot ±1–2; queue-peak slot unchanged pooled | Nothing to correct |
+| ** র্যাম্প চাহিদা প্রতি র্যাম্পে পুনরায় টানা ** | প্রতি লিঙ্ক র্যাম্প ON/OFF মানে, AM এবং PM: MAR/train q05–q95 0.16–2.7, মধ্যম 0.78–0.91; 82–90 র্যাম্পগুলির % এর বেশি গতি 15 %. শূন্যঃ ফেব্রুয়ারি বনাম অন্যান্য ট্রেন মাস, 0–6 একই লিঙ্কগুলিতে মূল লাইন প্রবাহঃ05–q95 0.93–1.04 (`capscen_ramps.py`) | এটি র্যাম্প স্তরের প্রতিটি বৈশিষ্ট্য জন্য একটি বিশুদ্ধ ইনপুট স্থানান্তর। র্যাম্পগুলি মূল লাইন প্রবাহের প্রায় 1 % বহন করে এবং ক্রমগুলি কোথায় চলে তা ব্যাখ্যা করে না (কোর ((Δ নীচের প্রবাহের র্যাম্পে, Δ ক্রম ভাগ) − 0.40 ..+ 0.39 , চিহ্ন-অসামঞ্জস্যপূর্ণ) । 3 বিভাগে পরীক্ষা করা হয়েছে। |
+| ** বোতল ঘাড় সক্রিয়করণ সেট ** | ভাগ করা বোতল ঘাড়ে বঞ্চনা একই রকম (1.3), কিন্তু কিছু ট্রেনের বোতলঘাট বন্ধ হয়ে যায় এবং নতুনগুলো চালু হয়ে যায়। D12_I5_N লিঙ্ক 114, 3,319 ট্রেনে মাথা কোষ, 0 মধ্যে MAR/APR (17 % → 0 লিঙ্কগুলিতে % ক্রম ভাগ 111–114 একটি অপরিবর্তিত প্রবাহ 5,944 / 5,753 / 5,930 vph) উপরঃ D12_I5_S লিঙ্ক 91/95, 0 → 8–25 %; D7_I10_W লিঙ্ক 20 (MAR শুধুমাত্র); D7_I10_E লিঙ্ক 19/23 ট্রেনে সক্রিয় APR কিন্তু না MAR | এটি একটি দৃশ্যকল্প-নির্দিষ্ট অবস্থান প্রভাব। শুধুমাত্র একই দৃশ্যকল্পের ইতিহাস (প্রথম March/April দিন) এটি সনাক্ত করে, যা ইতিমধ্যে ব্যবহৃত sp 4 / পিভি লিভারের। একই দিনেঃ 10 % নতুন দৃশ্যকল্পের শুরুগুলি থেকে ট্রেনের পুনরাবৃত্তিহীন অবস্থানে, কেবলমাত্র 15 % এর একই দিনে সেই লিঙ্কটিতে পূর্ববর্তী ক্যো ছিল ± 1 ( `capscen_onsetloc.py` ) |
+| ** স্টেশনটি বেশিরভাগই ট্রেনের পুনরাবৃত্তিস্থলে অবস্থিত ** | 90  MAR/APR এর ঘটনাগুলির % একটি কোষের ± 1 লিঙ্ক / ± 30 মিনিটের মধ্যে রয়েছে যার আগে ট্রেন ≥ 0.05 (ট্রেন নিজেইঃ 97 %) । পূর্ববর্তী ≤ 4 একই বিভক্ত দিনগুলিতে সেখানে ক্যো ছিল 84 ⁇ 89 % সময় (ট্রেনঃ 87 %) | অবস্থান হ্রাস পরিচিত প্রার্থীদের মধ্যে একটি পছন্দ, অদৃশ্য স্থান নয়। একই মাসের সাম্প্রতিকতা (পূর্ববর্তী মিশ্রণ) সঠিক সরঞ্জাম; কোন ক্ষমতা সংশোধন নেই |
+| **"অঘটন-মোড়" ক্যো** | ≥ সঙ্গে দিন 30-মিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃমিঃ 0.02: ট্রেনের মধ্যভাগ 4–10 %. MAR/APR: D12_I5_S 94 % / 97 %, D7_I405_S 87 % / 87 %, D7_I10_E 48 % / 53 %; 0.3–13× অন্যান্য প্যানেলগুলিতে | বেশিরভাগ ক্ষেত্রে উপরে নতুন পুনরাবৃত্তিমূলক বোতলঘাট, না 5 ⁇ 7 ঘটনা। শুধুমাত্র একই বিভক্ত পুনরাবৃত্তিমূলক মাধ্যমে সংশোধন করা যায় |
+| ** ক্রম স্তর ** | পুলড PM ক্যোয়ার শেয়ার − 15 % ( 16 h: 18.4 → 15.5 / 15.9 ). ট্রেন-মাসের ব্যাপ্তির বাইরেঃ D12_I5_N (নিম্ন), D7_I210_W (নিম্ন), D7_I405_S (উচ্চ) | এককভাবে বিভক্ত পূর্বসূরিগুলির মাধ্যমে। |
+| ** চাহিদার স্তর, শিখর সময় ** | v/c − 4 ..+ 4 %; প্রবাহের শিখর স্লট ± 1 ⁇ 2 ; ক্যু-পিক স্লট অপরিবর্তিত সংমিশ্রিত | সংশোধন করার কিছু নেই |
 
-## 3. Pre-registered ramp-correction arms: FAIL (both)
+## 3 . প্রাক নিবন্ধিত র্যাম্প-সংশোধন বাহুঃ FAIL (দুইটি)
 
-- Code: `analysis/t2lab/capscen_ramp_arm.py` (arms) and `capscen_ramp_report.py` (gates).
-- Logs: `logs/capscen_ramp_{noramp,ramprel,report}.log`.
-- Outputs:
-  - `data/t2local/cache/ogfeat/arms/og_np_{noramp,ramprel}/` (fold pickles, pm_f0/1, off_f0/1 with the base-model official probabilities);
-  - `results/capscen/ramp_fm.csv` and `official_footprint_*.csv`.
-- Reference: og_np_base (fold 0 + 1, existing models).
+- কোডঃ `analysis/t2lab/capscen_ramp_arm.py` (হাত) এবং `capscen_ramp_report.py` (গেইট) ।
+- লগঃ `logs/capscen_ramp_{noramp,ramprel,report}.log` .
+- আউটপুটঃ
+  - `data/t2local/cache/ogfeat/arms/og_np_{noramp,ramprel}/` (ফোল্ডিং পিচার্স, pm_f0/1 , off_f0/1 বেস মডেলের অফিসিয়াল সম্ভাবনার সাথে);
+  - `results/capscen/ramp_fm.csv` এবং `official_footprint_*.csv` ।
+- রেফারেন্সঃ og_np_base (ফোল্ড 0 + 1 , বিদ্যমান মডেল) ।
 
-| gate / set | noramp | ramprel |
+| গেট / সেট | নরম্প | রামপ্রেল |
 |---|---:|---:|
-| train official-40 (fold 0) | −0.0046 [−0.015, +0.005] 1/8 | −0.0079 [−0.019, +0.002] 2/8 |
-| train offlike (1,473, folds 0+1) | −0.0053 [−0.0074, −0.0032] 1/8 | −0.0061 [−0.0090, −0.0037] 1/8 |
-| train pseudo (1,055) | −0.0067 [−0.0097, −0.0036] 0/8 | −0.0070 [−0.0118, −0.0020] 3/8 |
-| **pseudo-March offlike_m (298)** | **−0.0059 [−0.0113, −0.0004] 3/8** | **−0.0105 [−0.0165, −0.0044] 1/8** |
-| pseudo-March runstart_m (1,124) | −0.0020 [−0.0053, +0.0014] 3/8 | −0.0007 [−0.0039, +0.0026] 4/8 |
-| official footprint, validation: windows / cells / Δn | 28 / 155 / +7 | 30 / 166 / +18 |
-| official footprint, private: windows / cells / Δn | 31 / 172 / +28 | 31 / 168 / +28 |
-| **FM-PM validation (gate ≥ +0.0015)** | **−0.00039** | **−0.00039** |
-| **FM-PM private (gate ≥ +0.0005)** | **−0.00080** | **−0.00079** |
-| decision | **FAIL** | **FAIL** |
+| ট্রেন অফিসিয়াল- 40 (ফোল্ড 0 ) | −0.0046 [−0.015, +0.005] 1/8 | −0.0079 [−0.019, +0.002] 2/8 |
+| ট্রেনের মতো (1,473, ভাঁজ 0+1) | −0.0053 [−0.0074, −0.0032] 1/8 | −0.0061 [−0.0090, −0.0037] 1/8 |
+| ট্রেনের ছদ্মবেশী ( 1,055 ) | −0.0067 [−0.0097, −0.0036] 0/8 | −0.0070 [−0.0118, −0.0020] 3/8 |
+| ** ছদ্ম মার্চ offlike_m ( 298 ) ** | **−0.0059 [−0.0113, −0.0004] 3/8** | **−0.0105 [−0.0165, −0.0044] 1/8** |
+| ছদ্ম মার্চ runstart_m ( 1,124 ) | −0.0020 [−0.0053, +0.0014] 3/8 | −0.0007 [−0.0039, +0.0026] 4/8 |
+| অফিসিয়াল ফিটপ্রিন্ট, বৈধতাঃ উইন্ডোজ / সেল / Δn | 28 / 155 / +7 | 30 / 166 / +18 |
+| অফিসিয়াল, প্রাইভেটঃ উইন্ডোজ / সেল / Δn | 31 / 172 / +28 | 31 / 168 / +28 |
+| **  FM - PM বৈধতা (গেট ≥ + 0.0015 ) ** | **−0.00039** | **−0.00039** |
+| **  FM - PM প্রাইভেট (গেট ≥ + 0.0005 ) ** | **−0.00080** | **−0.00079** |
+| সিদ্ধান্ত | **FAIL** | **FAIL** |
 
-Interpretation:
-- The ramp columns' *temporal* content (recent surge relative to the ramp's own level, and the neighbour sums) still carries signal in the new scenario. Dropping them, or reducing them to a within-window ratio, loses 0.006–0.011 IoU on pseudo-March offlike_m.
-- The per-ramp level shift does not cost the production ongoing model anything measurable. The earlier "+ramp gate −0.007" (TRANSFER_ANALYSIS §1a row 27) is not reproduced on the current recipe.
-- No kernel change (t2_occ_v26 / t2_ongoing_pvogf) is warranted. Nothing was written.
-- Onset and T1: no arm, as pre-registered. There is no capacity factor to apply, and production onset is already NORAMP.
+ব্যাখ্যাঃ
+- র্যাম্প কলামগুলির * সময়কালীন * সামগ্রী (র্যাম্পের নিজস্ব স্তরের তুলনায় সাম্প্রতিক প্রবলতা এবং প্রতিবেশী শূন্যতা) এখনও নতুন পরিস্থিতিতে সংকেত বহন করে। তাদের ফেলে দেওয়া বা উইন্ডোর অভ্যন্তরে অনুপাতে হ্রাস করা, ছদ্ম-মার্চ 0.006  0.011 IoU হারাবে offlike_m.
+- প্রতি র্যাম্প স্তরের পরিবর্তনটি উৎপাদন চলমান মডেলকে কোনও পরিমাপযোগ্য ব্যয় করে না। আগের "+ র্যাম্প গেট − 0.007 " ( TRANSFER_ANALYSIS § 1 একটি সারি 27 ) বর্তমান রেসিপিতে পুনরায় প্রকাশিত হয় না।
+- কোন কার্নেল পরিবর্তন ( t2_occ_v26 / t2_ongoing_pvogf ) এর জন্য কোন কারণ নেই। কিছুই লেখা হয়নি।
+- শুরু এবং T1 : কোনও বাহু নেই, যেমনটি আগে নিবন্ধিত হয়েছে। কোনও ক্ষমতা ফ্যাক্টর প্রয়োগ করা উচিত নয় এবং উত্পাদন শুরু ইতিমধ্যে NORAMP ।
 
-## 4. Public-LB noise vs selection bias
+## 4 . জনসাধারণের- LB শব্দ বনাম নির্বাচন পক্ষপাত
 
-Script: `analysis/t2lab/capscen_selbias.py`; log: `logs/capscen_selbias.log`.
+স্ক্রিপ্টঃ `analysis/t2lab/capscen_selbias.py` ; লগ: `logs/capscen_selbias.log` .
 
-- **Absolute sampling noise.** 40 + 40 official windows per split give an S_total SD of about 0.004–0.006 for one submission. The organizers' own figure for the persistence baseline is 0.0126, from a per-window IoU SD of 0.375. Public and private are independent draws, so a single team's public-to-private shift has SD ≈ 0.006–0.008 even with zero selection.
-- **Best-of-N selection.** The bias of picking the best of N submissions is σ·√(1−ρ)·E[max_N], where ρ is the correlation of public noise between a team's submissions. E[max] is 2.23 for N = 48 and 2.51 for N = 100.
-  - Our measured probe noise (TRANSFER_ANALYSIS §1) puts the difference SD between two variants at 0.0012–0.0027 LB (ongoing) and 0.003–0.005 (onset), which implies ρ ≈ 0.6–0.95.
-  - So best-of-N bias is about **+0.003..+0.007** (σ 0.004–0.006, ρ 0.8–0.9), and up to +0.010..+0.015 if the variants are diverse (ρ ≤ 0.5).
-- **Greedy hill-climbing (keep if public Δ > 0)** is worse, because accepted noise accumulates.
-  - A window-level simulation with bounded IoU on the fixed 80 public windows: half onset-type probes re-drawing 3–7 windows, half ongoing-type probes perturbing 25 windows, every probe zero-mean in truth.
-  - It gives a public-only gain of +0.025 (N = 48) to +0.035 (N = 100).
-  - That is an upper bound, because real probes are mostly genuine changes with correlated window effects. A naive additive model (independent noise per probe) gives an unphysical +0.05..+0.10.
-- **Estimate.** A team at 0.90 with 48–100 submissions plausibly carries **+0.005..+0.02** of public selection bias, central ≈ +0.01. Its true level is then roughly 0.88–0.895.
-- **Our 0.88198 (~70 submissions, KEEP rule at +0.0001 that "decided on noise") also carries positive bias**, probably +0.003..+0.01. So our true gap to a 0.90 team is likely 0.005–0.015, not 0.018. It is not zero, and it cannot be measured on the public LB.
-- **Consequence for the final picks.** Prefer changes whose evidence is lab / pseudo-March / FM-PM, not public deltas below ≈ +0.003. The two picks should differ on bets that are *independent* of public noise (the A/B scenario hedge already does this).
+- ** নিখুঁত নমুনা শব্দ। **  40 + 40 সরকারী উইন্ডো প্রতি স্প্লিট এক জমা দেওয়ার জন্য S_total  SD এর প্রায় 0.004 ⁇ 0.006 দেয়। স্থিরতার মূল রেখার জন্য সংগঠকদের নিজস্ব চিত্রটি 0.0126 , 0.375 এর প্রতি উইন্ডো IoU SD থেকে। পাবলিক এবং প্রাইভেট স্বাধীন ড্র হয়, তাই একক দলের পাবলিক-টু-প্রাইভেট শিফটে SD ≈ 0.006 ⁇ 0.008 থাকে এমনকি শূন্য নির্বাচনের সাথেও।
+- ** সেরা-এর N নির্বাচন। **  1 −ρ) ·E [  max_N  ] , যেখানে ρ একটি দলের জমা দেওয়ার মধ্যে জনসাধারণের শব্দ সম্পর্ক। E [ সর্বোচ্চ ] হল 2.23 N = 48 এবং 2.51 N = 100 জন্য।
+  - আমাদের পরিমাপকৃত জোন্ড শব্দ (TRANSFER_ANALYSIS §1) পার্থক্য করে SD দুইটি ভেরিয়েন্টের মধ্যে 0.0012–0.0027 LB (চলমান) এবং 0.003–0.005 (অনস্টল), যার অর্থ ρ ≈ 0.6–0.95.
+  - সুতরাং সেরা-এর-এন পক্ষপাত সম্পর্কে ** + 0.003 .. + 0.007  ** (σ 0.004 ⁇ 0.006 , ρ 0.8 ⁇ 0.9 ), এবং + 0.010 .. + 0.015 যদি ভেরিয়েন্টগুলি বৈচিত্র্যময় হয় (ρ ≤ 0.5 ).
+- ** লোভী পাহাড় আরোহণ (যদি এটি পাবলিক থাকে তবে তা রাখুন Δ > 0 ) ** খারাপ, কারণ গ্রহণযোগ্য শব্দ জমা হয়।
+  - 80 স্থির পাবলিক উইন্ডোতে সীমিত IoU সহ একটি উইন্ডো-স্তরের সিমুলেশনঃ অর্ধেক শুরু-টাইপ জোন্ডগুলি 3 ⁇ 7 উইন্ডোগুলি পুনরায় আঁকা, অর্ধেক চলমান-টাইপ জোন্ডগুলি 25 উইন্ডোগুলিকে বিরক্ত করে, প্রতিটি জোন্ড সত্যিকারের মধ্যে শূন্য-মিট।
+  - এটি কেবলমাত্র জনসাধারণের জন্য + 0.025 (N = 48 ) থেকে + 0.035 (N = 100 ) পর্যন্ত লাভ করে।
+  - এটি একটি উপরের সীমা, কারণ বাস্তব জোনবগুলি বেশিরভাগই সংশ্লিষ্ট উইন্ডো প্রভাবগুলির সাথে সত্যিকারের পরিবর্তন। একটি নায়িব সংযোজন মডেল (প্রতি জোনব প্রতি স্বাধীন শব্দ) একটি অ-ফজিকাল + 0.05 ..+ 0.10 দেয়।
+- ** অনুমান করুন। **  0.90 এ 48 ⁇ 100 জমা দিয়ে একটি দল ** + 0.005 .. + 0.02  ** জনসাধারণের নির্বাচনের পক্ষপাত বহন করে, কেন্দ্রীয় ≈ + 0.01 . তার আসল স্তর তখন প্রায় 0.88 ⁇ 0.895 ।
+- ** আমাদের 0.88198 (~ 70 জমা, KEEP + 0.0001 এ নিয়ম যে "শব্দ সিদ্ধান্ত") এছাড়াও ইতিবাচক পক্ষপাতিত্ব বহন করে ** , সম্ভবত + 0.003 ..+ 0.01 . সুতরাং একটি 0.90 দলের আমাদের প্রকৃত ফাঁক সম্ভবত 0.005 ⁇ 0.015 , না 0.018 . এটা শূন্য নয়, এবং এটি জনসাধারণের LB পরিমাপ করা যাবে না .
+- ** চূড়ান্ত নির্বাচনের ফলাফল। ** এমন পরিবর্তনগুলি পছন্দ করুন যার প্রমাণ ল্যাব / ছদ্ম-মার্চ / FM - PM , ≈ + 0.003 এর নীচে পাবলিক ডেলটা নয়। উভয় নির্বাচনের ক্ষেত্রে * জনগনের শব্দ থেকে স্বাধীন * বাজি আলাদা হওয়া উচিত ( A/B সিনারিও হেজিং ইতিমধ্যে এটি করে) ।
 
-## 5. What could plausibly reach 0.89 within the rules (honest view)
+## 5যা বিশ্বাসযোগ্যভাবে পৌঁছাতে পারে 0.89 নিয়মের মধ্যে (সত্যিমত)
 
-- **No physics constant is miscalibrated** (H1 rejected). There is no cheap global correction.
-- **The remaining loss is scenario-specific location / extent** (TRANSFER_ANALYSIS §3: onset location about 0.02 LB, ongoing extent about 0.009 LB). Only same-scenario history identifies it. On the public windows (March days 1–5, 0–4 earlier March days) that history barely exists.
-  - So **public 0.89 is probably not reachable honestly** without either luck or public-LB fitting (section 4).
-  - The private month has 30+ March days plus earlier April days before most windows. There the same-scenario lever (pv / pvo / sp4, i.e. pick A) is real: the lab estimates +0.03..+0.09 onset IoU and +0.009..+0.014 ongoing IoU on many-day pseudo-March.
-- **The most plausible remaining private gains**, all ≤ T and legitimate:
-  1. Scenario-recurrence location features built from earlier same-split days at the candidate links. This is about 90 % of onsets in the new scenario: they sit at train-recurrent places, chosen among candidates. The work is to strengthen and validate on many-day pseudo-March (pv2 a1–a3 showed +0.007..+0.014, concentrated in 1 panel).
-  2. Per-step extent calibration of growth calls on new-scenario data, i.e. fitting a shrink on released-March windows for April use. It falls into the "decode calibration" family, so it needs FM-PM private ≥ +0.0005.
-  3. Nothing from capacity, demand-level or timing corrections: the data shows none.
-- **Expected private upside is +0.002..+0.006 LB**, not +0.01. A final *public* number of 0.89 should not be the target.
+- ** কোন পদার্থবিজ্ঞানের ধ্রুবক ভুলভাবে ক্যালিব্রেট করা হয় না ** ( H1 প্রত্যাখ্যান করা হয়) । কোন সস্তা বিশ্বব্যাপী সংশোধন নেই।
+- ** অবশিষ্ট ক্ষতি হল পরিস্থিতি-নির্দিষ্ট অবস্থান / পরিধি ** ( TRANSFER_ANALYSIS § 3 : 0.02  LB সম্পর্কে সূচনা অবস্থান , 0.009  LB সম্পর্কে চলমান পরিধি) । শুধুমাত্র একই পরিস্থিতির ইতিহাস এটি সনাক্ত করে। পাবলিক উইন্ডোতে (মার্চ দিন 1 ⁇ 5 , 0 ⁇ 4 মার্চ এর আগের দিন) যে ইতিহাসটি অস্তিত্ব নেই।
+  - সুতরাং ** পাবলিক 0.89 সম্ভবত ভাগ্য বা পাবলিক LB ফিটিং ছাড়া সৎভাবে ** পৌঁছানো সম্ভব নয় (বিভাগ 4 ).
+  - ব্যক্তিগত মাস 30+ মার্চ দিন প্লাস এপ্রিলের আগের দিনগুলি বেশিরভাগ উইন্ডো আগে। একই চিত্রের লিভারেজ (পিভি / পিভিও / স্পি)4, অর্থাৎ নির্বাচন A) বাস্তবঃ পরীক্ষাগার অনুমান +0.03..+0.09 শুরু হওয়া IoU এবং +0.009..+0.014 বহুদিনের ছদ্ম মার্চ চলমান আইওইউ।
+- ** সবচেয়ে সম্ভাব্য ব্যক্তিগত লাভ ** , সব ≤ T এবং বৈধঃ
+  1. প্রার্থী লিঙ্কগুলিতে আগের একই বিভক্ত দিন থেকে নির্মিত দৃশ্য-পরিবর্তন অবস্থান বৈশিষ্ট্য। এটি প্রায় 90 নতুন পরিস্থিতিতে শুরু হওয়া ঘটনার %: তারা ট্রেনের পুনরাবৃত্তিস্থলে বসে থাকে, প্রার্থীদের মধ্যে নির্বাচিত।2 a1–a3 দেখানো হয়েছে0.007..+0.014, ঘন ঘন 1 প্যানেল) ।
+  2. ধাপে ধাপে বৃদ্ধি ক্যালিব্রেশন নতুন দৃশ্যের তথ্য প্রয়োজন, অর্থাৎ এপ্রিল ব্যবহারের জন্য প্রকাশিত মার্চ উইন্ডোতে একটি সংক্ষিপ্তকরণ ফিটিং। এটি "ডিকোড ক্যালিব্রেশন" পরিবারে পড়ে, তাই এটি FM - PM প্রাইভেট ≥ + 0.0005 প্রয়োজন।
+  3. ক্ষমতা, চাহিদা স্তর বা সময় সংশোধন থেকে কিছুই নেইঃ তথ্যটি দেখায় না।
+- ** প্রাইভেট আপস + 0.002 ..+ 0.006  LB  ** , + 0.01 নয়। 0.89 এর চূড়ান্ত * পাবলিক * সংখ্যা লক্ষ্য হওয়া উচিত নয়।

@@ -1,0 +1,7 @@
+simaug pilot, 2026-11-03 22:56 +0600: NO-GO at step 1 (simulator realism). No synthetic windows built, no model trained, no PREREG
+(gate never reached). Pseudo-March / April / LB not touched.
+Ramp conservation (logs/simaug_conservation.log): free-flow dF_mainline vs (ON-OFF) per link corr +0.03..+0.07, slope +0.06..+0.21
+(1.0 if conservative); corridor net ramp up to +1258 vph vs mainline -131 (D12_I5_S). Released ramps barely drive mainline flow.
+CTM realism, 40 train days x 8 panels (validate_*.csv, logs/simaug_summary.log): best variant cal_rs0.15 onset-location hit 0.618
+(non-boundary panels 0.534) vs train prior climatology 0.976; PM cell IoU 0.401 (other-day sim 0.270).
+Smoke run: validate_v1.csv (10 days D12_I5_S, raw ramps, share sim 0.29 vs obs 0.063).

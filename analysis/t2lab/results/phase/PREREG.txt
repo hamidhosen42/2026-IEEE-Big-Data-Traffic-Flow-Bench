@@ -1,0 +1,41 @@
+saved 2026-11-03 23:01:03 +0600 | sha1(pre-registered text in this file below the header line = rule.txt) 0640cceb83cd8ca36d6c2803b91098bc600fc9da
+
+PRE-REGISTERED DECISION RULE -- EXP_T2_PHASE (half-hour clock phase features), written before any phase column, model or number.
+Motivation (train truth only, caller's diagnostic): corridor onsets / sudden clearances peak at minute :05 and :35; official onset
+origins cluster at :05 in train / validation / private.  'tod' is dropped by the np and id ongoing members (PRIOR_COLS / ID_DROP).
+Compliance: the phase is a function of the clock time of T (and of the step h), known at T; no data after T is used.
+
+PHASE COLUMNS (4; t = slot of T, 0..287, 5 min, slot 0 = 00:00; h = step 1..6, target slot t+h; slot s is a ':05/:35 slot' iff s mod 6 == 1)
+  ph6     = t mod 6                                   (1 <=> T itself is at :05 / :35)
+  ph_on   = 1[(t + h) mod 6 == 1]                     (step h lands on a :05/:35 slot)
+  ph_next = 5 * (((-t) mod 6) + 1)                    (minutes from T to the next :05/:35 slot strictly after T: 5..30)
+  ph_x    = 1[h * 5 >= ph_next]                       (step h is at or after that boundary = interval (T, T+h] crosses it)
+  Train / lab rows: t = window slot (rc.win.t), h = rc.h; pseudo-March: z['win'].t, meta h; official windows: slot = hour*12 + minute//5
+  of forecast_origin.  Columns appended after the existing columns.
+
+ONGOING ARM  og_np_phase = og_np_base (EXP_T2_OGCAP / capscen: F03 rows via ogfeat_lib.train_matrix, the 58 np columns, LightGBM
+  255 leaves, lr 0.05, min_data_in_leaf 40, 500 trees, lab.lgb_params seed 0) + the 4 phase columns; same rows / order / weights /
+  labels; folds 0 and 1.  BASELINE = the cached og_np_base models (data/t2local/cache/ogfeat/arms/og_np_base/model_f{0,1}.txt),
+  re-scored by the same code (assert: reproduces the cached fold pickles on official / offlike / pseudo).
+  Gates (ALL binding; GO only if all hold):
+   G1 train OOF, folds 0+1 pooled, paired per window: offlike dIoU >= +0.005 AND runstart dIoU >= +0.005 (lab.aggregate deltas).
+   G2 pseudo-March offlike_m (ogfeat_lib.build_pm, probabilities = mean of the fold-0 and fold-1 models, as capscen_ramp_report):
+      dIoU >= +0.005 AND lab.paired_bootstrap CI lo > 0 AND >= 6/8 panels with positive panel-mean delta.
+   G3 FM-PM validation >= +0.0015 LB-equivalent: footprint = production decode of the fold-mean lab np probabilities, new vs base, on
+      the 40 validation ongoing windows (lab.split_rows, all-train prior); each changed window priced by
+      results/xfer/scripts/fpmatch_lib.forecast (defaults) on the pseudo-March lab pairs (offlike_m + runstart_m; dI, dn all-cell);
+      FM-PM = 0.15 x mean over the 40 windows.  FM-PM private is computed and REPORTED (not binding).
+  Info only (not binding): official-40 train, pseudo, runstart_m deltas; per-step deltas; gain share of the phase columns.
+
+ONSET ARM  on_phase vs on_base: production-like CatBoost onset as exp_onset_splitprior.py (dense1500 onset rows of the 8 panels,
+  eligible cells, subsample rng(0) min(n, 1.2 M), CatBoostClassifier 600 iterations, depth 8, lr 0.08, 4 threads); base = all 69
+  production columns; phase = the same rows + the 4 phase columns.  Seeds random_seed 0..4 for BOTH arms.
+  Evaluation: the 214 pseudo-March onset windows of exp_onset_splitprior.py (masked March month, production onset rule, official-like
+  greedy restarted at every day, all-train prior = 'base' variant), step-6 prediction only (P6[:, 5]), production decode.
+  Per-window IoU averaged over the 5 seeds per arm; dIoU = lab.aggregate(phase) - lab.aggregate(base); CI = lab.paired_bootstrap.
+  Gate (binding): dIoU >= +0.01 AND CI lo > 0 AND >= 6/8 panels positive.
+  Info only: per-seed deltas; train OOF onset (folds 0, 1; seed 0; CatBoost on dense1500 onset rows outside fold k, scored on the
+  fold-k offlike onset windows).
+
+Never used: April data, April labels, the public LB.  No production code is edited; a passing arm only yields a written change spec.
+END OF PRE-REGISTRATION

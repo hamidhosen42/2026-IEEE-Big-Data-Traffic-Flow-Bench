@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 0s
+[    11s] fold 0: phase share ph6==1 0.089, ph_on 0.167
+[   177s] og_np_phase fold 0: 6077021 rows x 62 cols trained in 177s
+[   245s] fold 0 base reproduced on official/offlike/pseudo; official base 0.8899 new 0.8873, offlike base 0.8787 new 0.8772, pseudo base 0.8762 new 0.8633, runstart base 0.9014 new 0.9060
+[   267s] fold 0 phase gain share ph6 0.0022, ph_on 0.0002, ph_next 0.0016, ph_x 0.0021
+[   271s] og_np_phase fold 0 done in 271s
+[   285s] fold 1: phase share ph6==1 0.089, ph_on 0.167

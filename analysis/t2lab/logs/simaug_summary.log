@@ -1,0 +1,5 @@
+rs0         onset_hit pooled 0.438 (prior 0.976) | non-boundary panels 0.293 | mean iou_pm 0.374 vs other-day 0.231 | mean prec 0.619 rec 0.447 | share_corr median 0.60
+rs0.15      onset_hit pooled 0.490 (prior 0.976) | non-boundary panels 0.356 | mean iou_pm 0.394 vs other-day 0.252 | mean prec 0.566 rec 0.485 | share_corr median 0.66
+rs1         onset_hit pooled 0.597 (prior 0.976) | non-boundary panels 0.466 | mean iou_pm 0.299 vs other-day 0.272 | mean prec 0.328 rec 0.704 | share_corr median 0.44
+cal_rs0     onset_hit pooled 0.594 (prior 0.976) | non-boundary panels 0.510 | mean iou_pm 0.373 vs other-day 0.248 | mean prec 0.541 rec 0.628 | share_corr median 0.64
+cal_rs0.15  onset_hit pooled 0.618 (prior 0.976) | non-boundary panels 0.534 | mean iou_pm 0.401 vs other-day 0.270 | mean prec 0.535 rec 0.658 | share_corr median 0.66

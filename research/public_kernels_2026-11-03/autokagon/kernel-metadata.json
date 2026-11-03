@@ -1,0 +1,26 @@
+{
+  "id": "autokagon/public-fast-gpu-inference",
+  "id_no": 141379026,
+  "title": "public fast GPU inference",
+  "code_file": "public-fast-gpu-inference.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "gpu"
+  ],
+  "dataset_sources": [
+    "anubisyy/trafficflowbench-086517-public-assets"
+  ],
+  "kernel_sources": [
+    "anubisyy/catboost-lgbm-nnls-pipeline-top-50-0-86517",
+    "yeashusemwal/trafficflowbench-trees-u-net-cnn-lb-0-87"
+  ],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}
