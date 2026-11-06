@@ -1,0 +1,7 @@
+[run_heavy] slot acquired after 0s
+[     0s] fold 0: base models 10, feat models 10
+[     1s] fold 1: base models 10, feat models 10
+[     1s] fold 2: base models 10, feat models 10
+[     2s] fold 3: base models 10, feat models 10
+[     3s] DONE
+[run_heavy] exit 0 after 3s

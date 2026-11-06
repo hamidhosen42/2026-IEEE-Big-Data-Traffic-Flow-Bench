@@ -1,0 +1,13 @@
+[run_heavy] slot acquired after 0s
+[    14s] e2 feat f1 s0 14s
+[    28s] e2 feat f1 s1 14s
+[    42s] e2 feat f1 s2 14s
+[    56s] e2 feat f1 s3 14s
+[    69s] e2 feat f1 s4 14s
+[    83s] e2 feat f1 s5 14s
+[    97s] e2 feat f1 s6 14s
+[   111s] e2 feat f1 s7 14s
+[   124s] e2 feat f1 s8 14s
+[   138s] e2 feat f1 s9 14s
+[   138s] DONE
+[run_heavy] exit 0 after 138s

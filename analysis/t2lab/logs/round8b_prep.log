@@ -1,0 +1,12 @@
+[run_heavy] slot acquired after 0s
+[     3s] train rows prod (310782, 64) pos 0.0214
+[     6s] train rows prodnoperm (310782, 64) pos 0.0214
+[     6s] train rows lab (310782, 64) pos 0.0214
+[     9s] March rows cut 15: windows {'D7_I10_E': 9, 'D7_I10_W': 8, 'D7_I210_E': 11, 'D7_I210_W': 14, 'D7_I405_N': 15, 'D7_I405_S': 11, 'D12_I5_N': 6, 'D12_I5_S': 10} rows 8677 pos rate 0.0222
+[     9s] March rows cut 15 (8677, 64)
+[    12s] March rows cut 20: windows {'D7_I10_E': 14, 'D7_I10_W': 13, 'D7_I210_E': 16, 'D7_I210_W': 20, 'D7_I405_N': 22, 'D7_I405_S': 16, 'D12_I5_N': 11, 'D12_I5_S': 15} rows 12564 pos rate 0.0225
+[    12s] March rows cut 20 (12564, 64)
+[    13s] eval cut 15 {'D7_I10_E': 16, 'D7_I10_W': 13, 'D7_I210_E': 16, 'D7_I210_W': 18, 'D7_I405_N': 21, 'D7_I405_S': 16, 'D12_I5_N': 15, 'D12_I5_S': 16} total 131
+[    13s] eval cut 20 {'D7_I10_E': 11, 'D7_I10_W': 8, 'D7_I210_E': 11, 'D7_I210_W': 12, 'D7_I405_N': 14, 'D7_I405_S': 11, 'D12_I5_N': 10, 'D12_I5_S': 11} total 88
+[    13s] DONE
+[run_heavy] exit 0 after 13s

@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 0s
+[    18s] lab cut 20 seed 0 w 10 18s
+[    36s] lab cut 20 seed 0 w 20 18s
+[    53s] lab cut 20 seed 0 w 40 17s
+[    53s] DONE
+[run_heavy] exit 0 after 54s

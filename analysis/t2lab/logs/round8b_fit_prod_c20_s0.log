@@ -1,0 +1,6 @@
+[run_heavy] slot acquired after 0s
+[    17s] prod cut 20 seed 0 w 10 17s
+[    33s] prod cut 20 seed 0 w 20 17s
+[    50s] prod cut 20 seed 0 w 40 16s
+[    50s] DONE
+[run_heavy] exit 0 after 50s

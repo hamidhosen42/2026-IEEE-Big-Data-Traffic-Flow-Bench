@@ -1,0 +1,30 @@
+[run_heavy] slot acquired after 0s
+ROUND 8b -- PREREG_8b.md sha1 235618405f00af4c39e788870f8d77b76d47e635 (asserted by every round8b_*.py); reading INTERPRETATION_8b.txt (sha1 1fd1a1e0, stamped 12:17:43 +06 before any round-8b model or number); recipe = production-exact pv.
+
+cut 15 (train March days < 15, evaluate days >= 15, n 131): seed0 0.8544, R0 A 0.8547, R0 B 0.8546, bag A 0.8570, bag B 0.8581, bag-20 0.8581
+  replicate A  R0 -> bag: 0.8547 -> 0.8570  +0.0023 [-0.0047, +0.0089]  non-tie panels 3/7 positive (min -0.0141)
+  replicate B  R0 -> bag: 0.8546 -> 0.8581  +0.0035 [-0.0031, +0.0116]  non-tie panels 4/7 positive (min -0.0083)
+  pooled       R0 -> bag: 0.8546 -> 0.8575  +0.0029 [-0.0037, +0.0098]  non-tie panels 4/7 positive (min -0.0109)
+    pooled panel deltas {'D12_I5_N': 0.01833, 'D12_I5_S': 0.00573, 'D7_I10_E': 0.00536, 'D7_I10_W': -0.0109, 'D7_I210_E': 0.0, 'D7_I210_W': 0.01236, 'D7_I405_N': -0.00536, 'D7_I405_S': -0.00223}
+  info seed 0 -> bag A: 0.8544 -> 0.8570  +0.0026 [-0.0048, +0.0125]  non-tie panels 1/2 positive (min -0.0128)
+  info seed 0 -> bag B: 0.8544 -> 0.8581  +0.0036 [-0.0037, +0.0135]  non-tie panels 2/4 positive (min -0.0128)
+  info seed 0 -> pooled bag: 0.8544 -> 0.8575  +0.0031 [-0.0037, +0.0128]  non-tie panels 2/4 positive (min -0.0128)
+  info bag A -> bag-20: 0.8570 -> 0.8581  +0.0011 [-0.0005, +0.0039]  non-tie panels 1/2 positive (min -0.0019)
+  info bag B -> bag-20: 0.8581 -> 0.8581  +0.0000 [+0.0000, +0.0000]  non-tie panels 0/0 positive (min +nan)
+  info single seeds: mean 0.8546 sd 0.0050 range 0.8448..0.8642; seed 0 rank 11/20
+
+cut 20 (train March days < 20, evaluate days >= 20, n 88): seed0 0.8906, R0 A 0.8801, R0 B 0.8881, bag A 0.8844, bag B 0.8887, bag-20 0.8844
+  replicate A  R0 -> bag: 0.8801 -> 0.8844  +0.0043 [-0.0021, +0.0123]  non-tie panels 4/6 positive (min -0.0100)
+  replicate B  R0 -> bag: 0.8881 -> 0.8887  +0.0006 [-0.0101, +0.0105]  non-tie panels 3/6 positive (min -0.0250)
+  pooled       R0 -> bag: 0.8841 -> 0.8866  +0.0024 [-0.0051, +0.0102]  non-tie panels 4/6 positive (min -0.0023)
+    pooled panel deltas {'D12_I5_N': 0.005, 'D12_I5_S': 0.00909, 'D7_I10_E': 0.00251, 'D7_I10_W': -0.00104, 'D7_I210_E': 0.0, 'D7_I210_W': 0.00625, 'D7_I405_N': -0.0, 'D7_I405_S': -0.00227}
+  info seed 0 -> bag A: 0.8906 -> 0.8844  -0.0063 [-0.0187, +0.0000]  non-tie panels 0/1 positive (min -0.0500)
+  info seed 0 -> bag B: 0.8906 -> 0.8887  -0.0019 [-0.0057, +0.0000]  non-tie panels 0/1 positive (min -0.0152)
+  info seed 0 -> pooled bag: 0.8906 -> 0.8866  -0.0041 [-0.0113, +0.0000]  non-tie panels 0/2 positive (min -0.0250)
+  info bag A -> bag-20: 0.8844 -> 0.8844  +0.0000 [+0.0000, +0.0000]  non-tie panels 0/0 positive (min +nan)
+  info bag B -> bag-20: 0.8887 -> 0.8844  -0.0044 [-0.0187, +0.0057]  non-tie panels 1/2 positive (min -0.0500)
+  info single seeds: mean 0.8841 sd 0.0084 range 0.8662..0.8984; seed 0 rank 5/20
+
+GATE PASS-April-A: False  {'1_cut15_pooled_ge_0.008_and_lo_gt_0': False, '2_each_replicate_cut15_ge_0.004': False, '3_cut15_nontie_70pct_pos_none_below_-0.02': False, '4_cut20_pooled_ge_0': True}
+[     3s] done main
+[run_heavy] exit 0 after 3s

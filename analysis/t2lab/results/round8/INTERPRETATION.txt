@@ -1,0 +1,68 @@
+ROUND 8 -- operational reading of PREREG.md (sha1 08beede615dcb148dead77d01ba502f73c075eb8), written 2026-11-06 ~11:58 +06 by the
+executing agent BEFORE any round-8 model was trained, any round-8 column computed or any round-8 number seen.  PREREG.md is binding
+and unchanged; where its text leaves a choice open, the choice below is fixed now.  Real deviations are marked DEVIATION.
+
+GENERAL
+- Score / aggregation: per-window IoU over the ev-visible cells of T+5..T+30 (production iou, empty union = 1), lab.aggregate
+  (window -> panel -> family -> mean, as phase_report); CI = lab.paired_bootstrap (2,000 draws, rng seed 0, windows resampled within
+  panel).  Panel delta = panel mean of the per-window delta; non-tie = |panel delta| > 1e-9; "non-negative" = panel delta >= 0.
+- Single-seed reference R0 of a set of seeds = per-window mean of the single-seed IoUs of those seeds (production-like single model).
+  Replicate delta = bag(seeds) - R0(seeds).  "Pooled E1" = per-window mean of the replicate-A (seeds 0-9) and replicate-B (seeds
+  10-19) values (bag IoU and R0 averaged separately, delta = difference), bootstrap on those per-window values.
+- E2 = train OOF offlike onset windows, folds 0-3 pooled, step-6 rows, fold-k prior, models trained on dense1500 onset rows outside
+  fold k (subsample rng(0) as EXP_T2_PHASE2), seeds 0-9 per fold.  DEVIATION (none in substance): the EXP_T2_PHASE2 fold models
+  (seeds 0-2) were never saved, so all 40 E2 base models are (re)trained with the identical recipe; the seed 0-2 single-model E2
+  IoUs are checked against results/phase2/oof_f*.pkl.
+- Production decoder = lab.decode (identical to consolidation/tfb/stages/onset_sp.py:243 / onset_pv.py:245), applied to the 6 x L
+  cell vector whose only non-zero cells are the step-6 model probabilities (production onset predicts T+30 only).
+
+ARM BAG
+- E1 replicate A = cached base models seeds 0-9, replicate B = seeds 10-19 (cache/phase/onset/cat_base_s*.cbm, all-train prior).
+- PASS-April / PASS-March exactly as PREREG; E2 delta for BAG = bag(0-9) - R0(0-9) on the 4-fold pool.
+- Info: seed 0 alone vs bag A; sp4 prior variant (exp_onset_splitprior s4 blend, as EXP_T2_PHASE2) bag vs R0 on E1.
+
+ARM DEC
+- Exact expected IoU of the top-m prefix S (descending p, all 6 x L cells): with I = |S n T|, O = |T \ S| independent
+  Poisson-binomials, E[I / (m + O)] = E[I] * E[1 / (m + O)]; the outside distribution is computed exactly by the Poisson-binomial
+  DP (suffix convolution), the inside enters through E[I] = sum of p in S (exact by independence).  m = 1..#cells; prefixes longer
+  than the number of positive-probability cells are provably dominated and skipped; argmax ties -> smallest m (as production).
+  Unit tests before use: brute-force enumeration (n <= 12) and Monte-Carlo (200,000 draws) on random probability vectors.
+- Isotonic variant: sklearn IsotonicRegression(increasing, y_min 0, y_max 1, out_of_bounds clip) fitted on the E2 OOF bag-10
+  step-6 probabilities vs the step-6 label of eligible-observed cells (rc.e) of the other 3 folds (E2 fold f) or of all 4 folds (E1).
+  The map is applied to the step-6 model probabilities only; the structural zeros of steps 1-5 stay 0.
+- Baseline for BOTH variants (binding) = production decoder on the RAW bag probabilities (what production would run after BAG);
+  info: isotonic variant vs production decoder on the isotonic probabilities.
+- E1 DEC delta pooled over replicates A and B exactly as in BAG; E2 on bag(0-9) per fold.
+- If both variants pass the same gate family, the one with the larger E2 delta is proposed.
+
+ARM FEAT (6 columns appended after the 69 base columns; downstream = higher link index, the production 'dn' convention)
+  t = slot of T, cubes V (speed km/h), Fq (flow veh/h, all lanes); slot-T values only through the visibility mask; slots < T from
+  the history source production uses (train cube / masked March layer); flow counted only where speed is visible.
+  kr = q / (v * fd_kcrit)  (= per-lane density q/lanes/v over per-lane critical density fd_kcrit/lanes; fd_kcrit from the panel npz)
+  (i)   f8_qT        = q_T / cap                                     (per lane / capacity per lane)
+  (ii)  f8_kT        = kr_T own link;  f8_kT_dn1 = kr_T of link i+1
+  (iii) f8_k_dn1_m15 = nanmean of kr of link i+1 over slots t-3, t-2, t-1, t
+  (iv)  f8_upacc3    = sum_{j in U(i), visible at T} (q_j / v_j) * len_j / sum_{same j} fd_kcrit_j * len_j, slot T,
+                       U(i) = links j < i with start_i - start_j <= 3 km (start = cumulative length); NaN if no visible j
+  (v)   f8_dq_bnd    = (nanmean q over slots b..min(b+2, t) - nanmean q over slots b-3..b-1) / cap, b = t - (t mod 6)
+                       (latest :00 / :30 slot at or before T; slot s covers the 5 minutes starting at s)
+- Slot-T visibility: train / E2 rows reuse the production make_rows mask exactly (rng = default_rng(#onset windows of the set),
+  rng.random((W, L)) < 0.62; verified against the cached has_T column); the same mask hides slot-T flow (in the released masked
+  layer speed and flow share the NaN pattern).  E1 rows: slot-T speed / flow from the masked March layer (as production E1 VT).
+- Checks before use: every slot index read is asserted <= t; truncation unit check (slots > t replaced by random values ->
+  columns bit-identical) on train and E1 windows; mask reproduction (has_T) on dense1500 and offlike rows.
+- Comparison: bag-10 FEAT vs bag-10 base, same seeds, replicates A (0-9) and B (10-19) on E1 (20 FEAT models on full train),
+  E2 seeds 0-9 per fold (40 FEAT fold models).
+- Decoder for FEAT (PREREG "production decoder (or DEC if DEC passed)"): E1 (April evidence) uses the proposed DEC variant iff DEC
+  PASS-April, E2 (March evidence) uses it iff DEC PASS-March; otherwise the production decoder.  Production-decoder FEAT numbers are
+  reported as info in any case.
+
+TRIAGE (no gate)
+- Zero-overlap E1 windows under the base bag (production decoder): union > 0 and intersection 0; replicates A and B reported.
+  Rank = 1 + number of links with a higher step-6 bag probability, best rank over the true T+30 links (truth & visible at step 6);
+  categories rank 1 / 2-3 / 4-5 / > 5 / no true T+30 link.
+- SHAP: CatBoost ShapValues of the 10 replicate-A base models on all E1 step-6 rows and on the rows of the zero-overlap windows;
+  mean |SHAP| per column averaged over the models, summed per group: prior (prior, prior_now, prior_alldays), position-time (pos,
+  lanes, cap_lane, cap_ratio_hi, cap_ratio_lo, length, tod, dow, h) vs state (all other columns; ramp columns also shown apart).
+
+Never used: April labels, the public leaderboard.  No production file is edited; a PASS yields a written change spec only.

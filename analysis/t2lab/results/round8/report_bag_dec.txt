@@ -1,0 +1,34 @@
+ROUND 8 verdicts -- PREREG.md sha1 08beede615dcb148dead77d01ba502f73c075eb8 (asserted by every round8_*.py); reading INTERPRETATION.txt (sha1 b4ad8ba6, saved 11:54:39 +06 before any round-8 number).
+
+ARM BAG -- bag of 10 seeds (mean probability, production decoder) vs single seeds (R0 = per-window mean of the single-seed IoUs)
+  E1 replicate A (seeds 0-9)  : base 0.6650 new 0.6733 diff +0.0083 [-0.0045, +0.0217] n 214, non-tie panels 4/5 pos (min -0.0010), non-neg 6/8
+  E1 replicate B (seeds 10-19): base 0.6714 new 0.6754 diff +0.0040 [-0.0071, +0.0153] n 214, non-tie panels 2/5 pos (min -0.0090), non-neg 4/8
+  E1 pooled                   : base 0.6682 new 0.6744 diff +0.0061 [-0.0052, +0.0179] n 214, non-tie panels 4/5 pos (min -0.0050), non-neg 6/8
+  E2 4 folds (seeds 0-9)      : base 0.8944 new 0.8974 diff +0.0030 [+0.0015, +0.0047] n 2105, non-tie panels 7/8 pos (min -0.0007), non-neg 7/8
+  PASS-April False  {'pooled': False, 'replicates': True, 'panels': True, 'e2': True}   (pooled >= +0.005 & lo > 0; each replicate >= +0.002; >= 70 % non-tie panels positive, none < -0.02; E2 >= -0.002)
+  PASS-March True  {'e2_diff': True, 'e2_lo': True, 'panels': True}   (E2 >= +0.002, lo > 0, >= 6/8 panels non-negative)
+  info seed 0 alone vs bag A, E1: base 0.6646 new 0.6733 diff +0.0087 [-0.0123, +0.0294] n 214, non-tie panels 3/5 pos (min -0.0238), non-neg 6/8
+  info seed 0 alone vs bag, E2  : base 0.8954 new 0.8974 diff +0.0020 [-0.0003, +0.0044] n 2105, non-tie panels 6/8 pos (min -0.0026), non-neg 6/8
+  info E1 single seeds: mean 0.6682 sd 0.0138 range 0.6396..0.6985; E2 single seeds sd 0.0010
+  info sp4 prior, E1 pooled     : base 0.7613 new 0.7809 diff +0.0197 [+0.0107, +0.0295] n 214, non-tie panels 7/7 pos (min +0.0020), non-neg 7/8
+  info sp4 replicates A +0.0208, B +0.0185
+  check: E2 single seeds 0-2 reproduce EXP_T2_PHASE2 per window: {0: {'n': 2105, 'max_abs': 0.0}, 1: {'n': 2105, 'max_abs': 0.0}, 2: {'n': 2105, 'max_abs': 0.0}}
+
+ARM DEC -- exact expected-IoU top-m decoding on the BAG probabilities vs the production decoder on the raw BAG probabilities
+  variant raw:
+    E1 pooled (A+B): base 0.6744 new 0.6724 diff -0.0020 [-0.0077, +0.0025] n 214, non-tie panels 1/4 pos (min -0.0156), non-neg 5/8
+    E1 replicates A -0.0031, B -0.0010
+    E2 4 folds     : base 0.8974 new 0.8955 diff -0.0019 [-0.0037, -0.0004] n 2105, non-tie panels 0/8 pos (min -0.0054), non-neg 0/8
+    PASS-April False {'e1': False, 'panels': False, 'e2': True}  (E1 >= +0.005 & lo > 0, >= 70 % non-tie panels positive, E2 >= -0.002)
+    PASS-March False {'e2_diff': False, 'e2_lo': False, 'panels': False}  (E2 >= +0.003, lo > 0, >= 6/8 non-negative)
+  variant iso:
+    E1 pooled (A+B): base 0.6744 new 0.6773 diff +0.0029 [-0.0134, +0.0205] n 214, non-tie panels 2/3 pos (min -0.0203), non-neg 7/8
+    E1 replicates A +0.0040, B +0.0017
+    E2 4 folds     : base 0.8974 new 0.8971 diff -0.0003 [-0.0017, +0.0011] n 2105, non-tie panels 3/7 pos (min -0.0040), non-neg 4/8
+    PASS-April False {'e1': False, 'panels': False, 'e2': True}  (E1 >= +0.005 & lo > 0, >= 70 % non-tie panels positive, E2 >= -0.002)
+    PASS-March False {'e2_diff': False, 'e2_lo': False, 'panels': False}  (E2 >= +0.003, lo > 0, >= 6/8 non-negative)
+    info iso: exact vs production decoder on the SAME isotonic probabilities, E1: base 0.6769 new 0.6773 diff +0.0003 [-0.0040, +0.0047] n 214, non-tie panels 3/5 pos (min -0.0139), non-neg 6/8
+    info iso: same, E2: base 0.8955 new 0.8971 diff +0.0015 [-0.0000, +0.0034] n 2105, non-tie panels 4/5 pos (min -0.0005), non-neg 7/8
+    info production decoder: isotonic vs raw probabilities, E1: base 0.6744 new 0.6769 diff +0.0026 [-0.0141, +0.0211] n 214, non-tie panels 2/5 pos (min -0.0258), non-neg 5/8
+    info production decoder: isotonic vs raw probabilities, E2: base 0.8974 new 0.8955 diff -0.0019 [-0.0041, +0.0000] n 2105, non-tie panels 3/8 pos (min -0.0068), non-neg 3/8
+  proposed: April None, March None

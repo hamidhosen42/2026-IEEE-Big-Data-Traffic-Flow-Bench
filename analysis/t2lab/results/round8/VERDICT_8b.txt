@@ -1,0 +1,70 @@
+ROUND 8b VERDICT -- seed bag inside pick A's April pv model -- 2026-11-06.  PREREG_8b.md sha1 235618405f00af4c39e788870f8d77b76d47e635
+(unchanged; asserted on import by every round8b_*.py via round8b_lib.check_prereg).  Reading fixed in INTERPRETATION_8b.txt (sha1
+1fd1a1e0, stamped 12:17:43 +06) before any round-8b model or number.  Numbers: report_8b.txt, verdict_8b.json, repro_8b.json.
+
+RESULT: PASS-April-A = FAIL (items 1, 2, 3 fail; item 4 passes) -> no change to pick A (tfb-k9) or pick B (tfb-k10).
+
+RECIPE (production-exact pv of consolidation/tfb/stages/onset_pv.py, rebuilt offline)
+- 64 production pv columns (= lab v20 columns without the 5 ramp columns; AST check: window_features, build_windows, to_matrix,
+  prior_table, prior_feats, established, decode identical to the lab's v20 copies; make_rows differs only by add_ramp).
+- Train rows = production _Xo_keep: onset windows of build_windows(dense_ongoing=True), slot-T draw default_rng(#onset + min(#ongoing,
+  3000)) as production make_rows, all-train prior, visible step-6 labels, production permutation rng(0).  Checked against the lab
+  rows: same 310,782 rows and labels, identical slot-T-independent columns.
+- March rows: production march_onset_windows (72-slot spacing, observed labels) on March days < cut, k = 4 blend over the scenario
+  days strictly before the window's day: cut 15 = 84 windows / 8,677 rows, cut 20 = 127 windows / 12,564 rows (= EXP_T2_OSP_MT).
+- CatBoost 600 it, depth 8, lr 0.08, 4 threads, sample weight 1 / w, one model per w in (10, 20, 40); single seed s = mean over the
+  3 weights; bag = per weight the mean over the replicate's seeds, then the mean over weights.  Production decoder.
+- Evaluation: pseudo-March onset windows with day >= cut (131 / 88, per panel identical to EXP_T2_OSP_MT), k = 4 blend over March
+  days < d, observed labels.  120 models (20 seeds x 3 weights x 2 cuts).
+
+SANITY (before any bag number, seed 0)
+  old EXP_T2_OSP_MT lab protocol: cut 15 0.8578 (B10 0.8580, B20 0.8523, B40 0.8515), cut 20 0.8883 (B10 0.8812, B20 0.8894,
+  B40 0.8801) -> the published numbers reproduced EXACTLY.
+  production-exact recipe: cut 15 0.8544 (-0.0034), cut 20 0.8906 (+0.0023).  The old lab protocol used the lab's slot-T draw
+  (rng(#onset windows) instead of production's rng(#onset + #ongoing); 36 % of has_T cells differ) and unpermuted train rows.
+  Attribution: production draw, unpermuted 0.8563 / 0.8766; + production permutation 0.8544 / 0.8906.  Each perturbation moves
+  seed 0 by up to +-0.014 at cut 20 in no fixed direction -- the same size as the seed spread below (sd 0.0050 / 0.0084), i.e.
+  training-data noise, not a protocol difference.  All bag numbers use the production-exact recipe.
+
+CUT 15 (binding; train March days < 15, evaluate days >= 15, n 131)
+  levels: seed 0 0.8544 (rank 11/20), R0 A 0.8547, R0 B 0.8546, bag A 0.8570, bag B 0.8581, bag-20 0.8581;
+  single seeds mean 0.8546, sd 0.0050, range 0.8448..0.8642
+  replicate A (0-9)    R0 -> bag  +0.0023 [-0.0047, +0.0089]  non-tie panels 3/7 positive (min -0.0141)
+  replicate B (10-19)  R0 -> bag  +0.0035 [-0.0031, +0.0116]  non-tie 4/7 positive (min -0.0083)
+  pooled               R0 -> bag  +0.0029 [-0.0037, +0.0098]  non-tie 4/7 positive (57 %), min -0.0109
+     panels: I5_N +0.018, I210_W +0.012, I5_S +0.006, I10_E +0.005, I405_S -0.002, I405_N -0.005, I10_W -0.011; I210_E tie
+CUT 20 (sign check; train days < 20, evaluate days >= 20, n 88)
+  levels: seed 0 0.8906 (rank 5/20), R0 A 0.8801, R0 B 0.8881, bag A 0.8844, bag B 0.8887, bag-20 0.8844;
+  single seeds mean 0.8841, sd 0.0084, range 0.8662..0.8984
+  replicate A  +0.0043 [-0.0021, +0.0123] 4/6;  replicate B  +0.0006 [-0.0101, +0.0105] 3/6 (min -0.0250)
+  pooled       +0.0024 [-0.0051, +0.0102]  non-tie 4/6 positive, min -0.0023
+
+GATE PASS-April-A (all must hold)
+  1. cut 15 pooled >= +0.008 and CI lo > 0      +0.0029, lo -0.0037                 FAIL
+  2. each replicate at cut 15 >= +0.004          A +0.0023, B +0.0035                FAIL
+  3. cut 15 >= 70 % non-tie positive, none < -0.02   4/7 = 57 %, min -0.0109         FAIL (the "none < -0.02" part holds)
+  4. cut 20 pooled >= 0                          +0.0024                             PASS
+  -> FAIL.
+
+REPORTED (item 5, not gated)
+  delta vs seed 0 (current production pv): cut 15 bag A +0.0026 [-0.0048, +0.0125], bag B +0.0036 [-0.0037, +0.0135], pooled bag
+    +0.0031 [-0.0037, +0.0128]; cut 20 bag A -0.0063 [-0.0187, +0.0000], bag B -0.0019 [-0.0057, +0.0000], pooled -0.0041
+    [-0.0113, +0.0000] (seed 0 is a strong seed at cut 20).
+  bag-of-10 vs bag-of-20: cut 15 A -> 20 +0.0011 [-0.0005, +0.0039], B -> 20 +0.0000 (identical per-window IoU); cut 20 A -> 20 +0.0000,
+    B -> 20 -0.0044 [-0.0187, +0.0057].
+  Note: the pv model is much more seed-stable than round 8's base model (single-seed sd 0.0050 at cut 15 vs 0.0138 on E1), so a
+  seed bag has little variance to remove here.
+
+DEVIATIONS / NOTES (none from the gate text)
+  - Bag numbers use the production-exact recipe; the old lab protocol is used only for the sanity reproduction.
+  - Evaluation rows reuse the round-8 E1 cache (production window_features on the masked March layer; ramp columns dropped -> the
+    64 pv columns; k = 4 blend over March days < d).  Shared lab limits (not specific to 8b): speeds stored as float16 in the
+    local npz; pseudo-March history comes from the masked March layer, production April history from window_history.
+  - CatBoost allow_writing_files=False (log files only).  One 1-second repro pass ran on 1 thread while the 8 training threads
+    were busy.
+  - kaggle_jobs/make_onset_bag.py was only read (it bags each pv weight over seeds, as PREREG_8b defines); per the deployment rule
+    it is NOT to be used for pick A.
+
+RUNTIME: PREREG_8b read 12:14; interpretation 12:17:43; rows 13 s; seed-0 sanity models 12:19-12:21; attribution + 114 main models
+12:21-12:37:39 (2 chains x 4 threads, 15-17 s per model); report 3 s.  About 25 min wall.  No April data or labels, no public LB,
+no push / submit / commit, nothing edited outside analysis/t2lab/round8b_*.py, results/round8/*8b*, logs/round8b_*.

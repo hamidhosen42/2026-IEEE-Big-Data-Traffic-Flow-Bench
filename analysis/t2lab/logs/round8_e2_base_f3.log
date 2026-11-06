@@ -1,0 +1,13 @@
+[run_heavy] slot acquired after 0s
+[    15s] e2 base f3 s0 15s
+[    29s] e2 base f3 s1 14s
+[    44s] e2 base f3 s2 14s
+[    58s] e2 base f3 s3 14s
+[    73s] e2 base f3 s4 15s
+[    87s] e2 base f3 s5 13s
+[   100s] e2 base f3 s6 13s
+[   114s] e2 base f3 s7 14s
+[   128s] e2 base f3 s8 14s
+[   141s] e2 base f3 s9 14s
+[   141s] DONE
+[run_heavy] exit 0 after 142s

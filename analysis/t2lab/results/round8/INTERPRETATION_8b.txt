@@ -1,0 +1,39 @@
+ROUND 8b -- operational reading of PREREG_8b.md (sha1 235618405f00af4c39e788870f8d77b76d47e635), written by the executing agent
+BEFORE any round-8b model was trained or any round-8b number seen.  PREREG_8b.md is binding and unchanged; choices it leaves open
+are fixed here.
+
+PRODUCTION pv RECIPE (consolidation/tfb/stages/onset_pv.py), as reproduced offline
+- Columns: the 64 production pv columns = lab v20 columns without the 5 ramp columns (lab NORAMP).  Checked by AST: onset_pv.py
+  window_features / build_windows / to_matrix / prior_table / prior_feats / established / decode are identical to the lab's
+  kaggle_jobs/t2_model_v20.py copies; make_rows differs only by the add_ramp call (absent in pv).
+- Train rows (_Xo_keep): onset windows of build_windows(P, global_spacing=False, dense_ongoing=True) (lab denseall cache) with
+  the production slot-T visibility draw of make_rows on trainw = onset + ongoing windows (ongoing capped at MAX_OG = 3000):
+  mask = default_rng(len(on) + min(len(og), 3000)).random((W, L)) < 0.62, rows of the onset windows = the first len(on);
+  all-train prior; step-6 rows with a visible label; panels in PANELS order; then the production permutation
+  _sub = default_rng(0).choice(n, min(n, 1.2 M), replace=False).
+- March rows (cut c): production march_onset_windows (onset rule on the visible masked March layer, blank-touching windows
+  dropped, coverage from eligibility, one chronological scan with 72-slot spacing) restricted to March days < c; production
+  window_features on the masked March layer (history and slot-T speed); h = 6; prior columns blended with k = 4 over the scenario
+  days strictly before the window's day (weekday class, slots +-2, a = n / (n + 4)); rows with a visible T+30 label.
+- Model per (seed s, weight w): CatBoostClassifier(iterations 600, depth 8, learning_rate 0.08, thread_count 4, verbose 0,
+  random_seed s), fitted on [_Xo_keep ; March rows] with sample weight 1 / w, w in (10, 20, 40).
+- Evaluation (cut c): the round-8 E1 pseudo-March onset windows (official-like multi-start greedy) with day >= c (131 / 88
+  expected); production columns on the masked March layer, prior blended as above (= sp4, March days < d); step-6 probability =
+  mean over the 3 weights; production decoder; per-window IoU over the visible cells of T+5..T+30 (observed labels).
+
+SANITY BEFORE ANY BAG NUMBER (seed 0 only)
+  (L) the old EXP_T2_OSP_MT lab protocol (lab dense1500 onset rows, unpermuted, NORAMP; lab March rows): must give 0.8578 (cut 15,
+      d >= 15, n 131) and 0.8883 (cut 20, d >= 20, n 88);
+  (P) the production-exact recipe above, seed 0: reported against the same numbers; if it differs, the intermediate (production
+      mask, unpermuted rows) is run to attribute the difference.  Bag numbers are computed with recipe (P) only.
+
+STATISTICS (PREREG_8b)
+- Single seed s: p_s = mean over the 3 weights; IoU_s.  R0(rep) = per-window mean of IoU_s over the replicate (A = 0-9, B = 10-19).
+- Bag(rep) = mean over the replicate's seeds of the per-weight probabilities, then mean over weights (= mean of p_s), decoded.
+- Pooled = per-window mean of the A and B values (bag and R0 separately); delta = lab.aggregate difference (window -> panel ->
+  family -> mean); CI = lab.paired_bootstrap (2,000 draws, rng 0, windows resampled within panel); panel delta = panel mean of
+  the pooled per-window delta; non-tie = |delta| > 1e-9.
+- Gate items exactly as PREREG_8b (1-4).  Reported (5): bag A / bag B / pooled bag vs seed 0 (= current production pv), and
+  bag-of-20 vs bag A and bag B; seed-level spread.
+
+Never used: April data or labels, the public LB.  No production file is edited.

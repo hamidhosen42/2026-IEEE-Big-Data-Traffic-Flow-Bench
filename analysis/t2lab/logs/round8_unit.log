@@ -1,0 +1,52 @@
+[run_heavy] slot acquired after 0s
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:74: RuntimeWarning: Mean of empty slice
+  k_dn_m15 = np.nanmean(np.stack(ks), 0)
+/Users/md.hamidhosen/Documents/Kaggle/2026 IEEE Big Data-Traffic Flow Bench/analysis/t2lab/round8_lib.py:84: RuntimeWarning: Mean of empty slice
+  dq = (np.nanmean(np.stack(after), 0) - np.nanmean(np.stack(before), 0)) / cap
+DEC unit tests OK {"brute_force_max_abs_err": 3.885780586188048e-16, "monte_carlo": [{"n": 20, "m": 1, "exact": 0.34727, "mc": 0.3478, "z": 0.74}, {"n": 20, "m": 2, "exact": 0.409, "mc": 0.40949, "z": 0.77}, {"n": 20, "m": 3, "exact": 0.36482, "mc": 0.36494, "z": 0.23}, {"n": 20, "m": 10, "exact": 0.19203, "mc": 0.19184, "z": -0.75}, {"n": 20, "m": 20, "exact": 0.10233, "mc": 0.10227, "z": -0.46}, {"n": 20, "m": 1,
+FEAT checks OK {"D7_I10_E/dense1500": {"windows": 265, "nan_share": [0.524, 0.524, 0.527, 0.04, 0.045, 0.157]}, "D7_I10_E/offlike": {"windows": 252, "nan_share": [0.526, 0.526, 0.529, 0.04, 0.046, 0.152]}, "D7_I10_E/truncation": "train 40 windows + E1 25 windows identical", "D12_I5_S/dense1500": {"windows": 264, "nan_share": [0.519, 0.519, 0.524, 0.045, 0.051, 0.115]}, "D12_I5_S/offlike": {"windows": 264, "nan_share": [0.519, 0.519, 0.524, 0.045, 0.051, 0.115]}, "D12_I5_S/truncation": "train 40 windows + E1 26 windows identical", "D7_I405_N/dense1500": {"windows": 355, "nan_share": [0.527, 0.527, 0.528, 0.036, 0.009, 0.106]}, "D7_I405_N/offlike": {"windows": 355, "nan_share": [0.527, 0.527, 0.528, 0.036, 0.009, 0.106]}, "D7_I405_N/truncation": "train 40 windows + E1 35 windows identical"}
+[run_heavy] exit 0 after 11s

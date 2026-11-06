@@ -1,0 +1,5 @@
+[run_heavy] slot acquired after 0s
+[     3s] E1 windows {'D7_I10_E': 25, 'D7_I10_W': 21, 'D7_I210_E': 27, 'D7_I210_W': 32, 'D7_I405_N': 35, 'D7_I405_S': 27, 'D12_I5_N': 21, 'D12_I5_S': 26} total 214
+[     5s] train rows (310782, 69) (310782, 6) pos 0.0214
+[     5s] DONE
+[run_heavy] exit 0 after 6s

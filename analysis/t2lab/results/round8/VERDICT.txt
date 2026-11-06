@@ -1,0 +1,101 @@
+ROUND 8 VERDICT (Task 2 onset) -- 2026-11-06.  PREREG.md sha1 08beede615dcb148dead77d01ba502f73c075eb8 (unchanged; asserted on import by
+every round8_*.py through round8_lib.check_prereg).  Operational reading fixed in INTERPRETATION.txt (sha1 b4ad8ba6, stamped
+11:54:39 +06; its header says "~11:58", the stamp is the true save time) before any round-8 model, column or number.
+Full numbers: report_bag_dec_feat_triage.txt, verdict.json.  Checks: seed-0 base E1 0.6646 (= EXP_T2_PHASE / PHASE2); E2 single
+seeds 0-2 reproduce the EXP_T2_PHASE2 per-window IoUs exactly (2,105 windows, max |diff| 0).
+
+E1 = 214 pseudo-March onset windows (April evidence only); E2 = train OOF offlike onset windows, 4 folds pooled, 2,105 windows
+(the only March evidence).  Delta = lab.aggregate difference, CI = window bootstrap 2,000 draws within panel.
+
+=== ARM BAG: bag of 10 seeds (mean probability, production decoder) vs R0 = per-window mean of the single-seed IoUs
+  E1 replicate A (0-9)    R0 0.6650 -> bag 0.6733  +0.0083 [-0.0045, +0.0217]  non-tie panels 4/5 positive (min -0.0010)
+  E1 replicate B (10-19)  R0 0.6714 -> bag 0.6754  +0.0040 [-0.0071, +0.0153]  non-tie 2/5 positive (min -0.0090)
+  E1 pooled               R0 0.6682 -> bag 0.6744  +0.0061 [-0.0052, +0.0179]  non-tie 4/5 positive (80 %), min -0.0050
+      pooled panels: I10_W +0.033, I5_S +0.012, I405_S +0.007, I210_W +0.001, I5_N -0.005; I10_E / I210_E / I405_N ties
+  E2 (seeds 0-9)          R0 0.8944 -> bag 0.8974  +0.0030 [+0.0015, +0.0047]  7/8 panels positive, 7/8 non-negative (I405_N -0.0008)
+  PASS-April  FAIL : pooled >= +0.005 yes (+0.0061) but CI lo -0.0052 not > 0 -> FAIL; replicates +0.0083 / +0.0040 >= +0.002 ok;
+                     panels 80 % positive, none < -0.02 ok; E2 +0.0030 >= -0.002 ok.
+  PASS-March  PASS : E2 +0.0030 >= +0.002 ok; CI lo +0.0015 > 0 ok; 7/8 >= 6/8 non-negative ok.
+  info  seed 0 alone (= production seed): E1 0.6646 -> bag A 0.6733 +0.0087 [-0.0123, +0.0294]; E2 0.8954 -> bag 0.8974 +0.0020
+        [-0.0003, +0.0044] 6/8.  Seed 0 happens to be an above-average seed on E2 (single seeds 0.8928..0.8961, sd 0.0010), so the
+        expected gain over the CURRENT production model is about +0.002, smaller than the gated +0.0030 against R0.
+  info  single seeds E1 mean 0.6682, sd 0.0138, range 0.6396..0.6985.
+  info  sp4 prior variant (E1): R0 0.7613 -> bag 0.7809 +0.0197 [+0.0107, +0.0295], 7/7 non-tie positive; replicates +0.0208 / +0.0185.
+        (E1 is April evidence; it cannot select March rows -- reported only.)
+
+=== ARM DEC: exact expected-IoU top-m decoding on the BAG probabilities vs production decoder on the raw BAG probabilities
+  (unit tests before use: brute-force enumeration n <= 12, max |err| 3.9e-16; Monte-Carlo 33 checks x 200,000 draws, max |z| 2.0)
+  variant raw  E1 pooled 0.6744 -> 0.6724 -0.0020 [-0.0077, +0.0025], non-tie 1/4 positive; replicates -0.0031 / -0.0010
+               E2 0.8974 -> 0.8955 -0.0019 [-0.0037, -0.0004], 0/8 non-negative
+               PASS-April FAIL (E1 delta < +0.005, CI lo < 0, panels 25 %); PASS-March FAIL (E2 < +0.003, lo < 0, 0/8)
+  variant iso  E1 pooled 0.6744 -> 0.6773 +0.0029 [-0.0134, +0.0205], non-tie 2/3 positive; replicates +0.0040 / +0.0017
+               E2 0.8974 -> 0.8971 -0.0003 [-0.0017, +0.0011], 4/8 non-negative
+               PASS-April FAIL (E1 < +0.005, CI lo < 0, 67 % < 70 %); PASS-March FAIL (E2 < +0.003, lo < 0, 4/8)
+  info (other reading of "same probabilities"): iso exact vs production decoder on the SAME isotonic probabilities: E1 +0.0003
+       [-0.0040, +0.0047], E2 +0.0015 [-0.0000, +0.0034] -> would also FAIL both families.  Production decoder isotonic vs raw:
+       E1 +0.0026, E2 -0.0019.
+  -> no DEC variant proposed; FEAT is evaluated with the production decoder.
+
+=== ARM FEAT: bag-10 FEAT (69 + 6 precursor columns, data <= T) vs bag-10 base, same seeds, production decoder
+  (checks before use: every slot read asserted <= T; truncation check -- slots > T replaced by random values -> columns
+   bit-identical on 120 train windows and 86 pseudo-March windows of 3 panels; production slot-T mask reproduced exactly (has_T)
+   on dense1500 and offlike rows of all 8 panels)
+  E1 replicate A  0.6733 -> 0.6553  -0.0180 [-0.0369, -0.0019]  non-tie 0/5 positive (min -0.0714)
+  E1 replicate B  0.6754 -> 0.6659  -0.0096 [-0.0280, +0.0046]  non-tie 1/4 positive (min -0.0318)
+  E1 pooled       0.6744 -> 0.6606  -0.0138 [-0.0316, -0.0002]  non-tie 1/5 positive, min -0.0516 (I10_W); I210_W -0.023, I405_S -0.032
+  E2 (seeds 0-9)  0.8974 -> 0.8950  -0.0024 [-0.0052, -0.0001]  4/8 non-negative (min -0.0137, I10_W)
+  PASS-April FAIL (every condition fails, incl. E2 -0.0024 < -0.002); PASS-March FAIL (E2 < +0.003, lo < 0, 4/8).
+  info single-seed FEAT vs single-seed base: E1 -0.0087 [-0.0180, -0.0005], E2 +0.0003 [-0.0014, +0.0018]; per-seed E1 deltas
+       -0.035..+0.019, 5/20 positive.
+
+=== TRIAGE (no gate)
+  Zero-overlap E1 windows under the base bag: 47/214 (bag A) and 47/214 (bag B).  Best rank of a true T+30 link in the bag
+  probability: rank 2-3 in 5 (10.6 %) / 6 (12.8 %), rank 4-5 in 6 / 6 (12.8 %), not in the top 5 in 36 (76.6 %) / 35 (74.5 %);
+  never rank 1, and every zero-overlap window has a true T+30 link.  -> the misses are mostly WHERE (wrong links ranked first),
+  not HOW MANY cells; a different m or decoder cannot fix them (consistent with the DEC fail).
+  Mean |SHAP| (10 replicate-A base models, 39,789 E1 rows / 5,725 rows of the zero-overlap windows), share of the total:
+    prior 34.5 % / 36.4 %, position-time 30.2 % / 29.4 %, state 35.4 % / 34.2 % (ramp part 8.7 % / 10.9 %).
+    Top columns: prior, tod, prior_alldays, pos, ramp_on_pm3 ...  About 65 % of the attribution is location / clock identity,
+    which is scenario-specific; consistent with the sp4 (same-scenario prior) gain and the FEAT fail.
+
+=== DECISION (PREREG deployment rule)
+  BAG: PASS-March only -> March (validation) onset rows only; April rows unchanged.
+  DEC: FAIL -> no change.     FEAT: FAIL -> no change.
+
+  Exact production change for BAG (March rows) -- consolidation/tfb/stages/onset_sp.py only (onset_pv.py unchanged):
+   1. Training block "CatBoost onset exactly as v13" (module level, lines 294-306): after cat_on.fit(_Xo[_sub], _yo[_sub]) (l. 305)
+      and BEFORE `del _Xo, _yo` (l. 306), fit 9 more CatBoostClassifier(iterations=600, depth=8, learning_rate=0.08, thread_count=4,
+      verbose=0, random_seed=s) for s = 1..9 on the identical _Xo[_sub], _yo[_sub]; cat_bag = [cat_on] + those 9 (seeds 0-9).
+   2. Inference, variants loop (l. 404, inside `for split in (...)` l. 349): P6[wv, meta[:, 2] - 1, lv] = cat_on.predict_proba(Xv)[:, 1] becomes, for
+      split == 'validation' only: np.mean([m.predict_proba(Xv)[:, 1] for m in cat_bag], 0); split == 'private' keeps cat_on.
+   3. Decoder unchanged (production decode); sp4 blend unchanged; features unchanged (no new data, post-T deletion unaffected).
+   Effect: the validation rows of queue_submission_sp4.csv (= "Task 2 onset | validation | tfb-t2osp sp4", the March producer of
+   BOTH picks A3 = tfb-k9 and B3 = tfb-k10) change; private rows of every onset_sp output stay bit-identical (pick B's April
+   onset = osp base must not change).  Cost: +9 CatBoost fits (14-19 s each at 4 threads here; expect a few minutes on Kaggle).
+   Caveats: (a) the March evidence (E2) uses the train prior, production March rows use the sp4 prior -- the PREREG makes E2 the
+   only March ruler; (b) versus the actual production seed 0 the E2 gain is +0.0020 [-0.0003, +0.0044], i.e. small.
+
+=== DEVIATIONS / IMPLEMENTATION NOTES (none changes a gate outcome)
+  1. E2 base fold models for seeds 0-2 were not saved by EXP_T2_PHASE2 -> all 40 E2 base models were retrained with the identical
+     recipe (reproduction exact, see checks).  CatBoost run with allow_writing_files=False (log files only; models identical).
+  2. DEC "Poisson-binomial DP inside and outside S": implemented as E[I] * E[1/(m+O)] with the exact Poisson-binomial DP for O;
+     the inside DP is unnecessary because I and O are independent (identical value; brute-force error 3.9e-16).  Prefixes longer
+     than the number of positive cells are skipped (provably dominated).
+  3. DEC baseline read as production decoder on the RAW bag probabilities for both variants (INTERPRETATION); the literal
+     alternative for the isotonic variant is reported above and fails as well.
+  4. Isotonic map applied to the step-6 model probabilities only (steps 1-5 are structural zeros in production onset).
+  5. FEAT open details fixed in INTERPRETATION before any number: k_crit = npz fd_kcrit (= cap / vf on all 1,450 links);
+     downstream = higher link index (production 'dn'; checked: queues spread to i-1 more often than to i+1); (iii) uses slots
+     t-3..t; (iv) at slot T over visible links, upstream = links j < i whose start lies within 3 km; (v) slot s = the 5 minutes
+     starting at s, after = b..min(b+2, t), before = b-3..b-1.
+  6. "Non-negative panel" counted as delta >= -1e-9 (float ties such as -0.0 = tie, as in the non-tie rule).  Changed after the
+     first BAG/DEC report pass (12:01) and before any FEAT number; no gated count changed (BAG E2 7/8, DEC raw 0/8, DEC iso 4/8
+     under both definitions).
+  7. Threads: training in 2 chains x 4 threads (8 heavy threads); the first BAG/DEC prediction (5 s) and report (13 s) ran with
+     1 thread while the FEAT models were still training (briefly 9 threads).
+  8. Order kept: BAG and DEC were computed (12:01) before the FEAT models finished (12:09); FEAT columns, seeds, recipe and the
+     decoder rule were fixed before.  Nothing was tuned after a result.
+
+Runtime (wall): PREREG read 11:50, unit checks + prep 11:55-11:56, 100 new CatBoost models (40 E2 base, 40 E2 FEAT, 20 E1 FEAT)
+11:56:47-12:09:30 in 2 parallel chains (14-20 s per model), predictions 4 s, report 34 s (SHAP 20 s); about 25 min in total.
+No April data or labels beyond production inputs, no public LB, no Kaggle push / submit, no commit, no production file edited.
