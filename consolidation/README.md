@@ -1,30 +1,28 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# TrafficFlowBench final picks — reproduction code (team hosen42)
 
-# TrafficFlowBench চূড়ান্ত নির্বাচন  —  প্রজনন কোড (টিম হোসেন 42 )
+> **Draft (milestone 3, 2026-11-03): final picks A3 = `tfb-k9` / B3 = `tfb-k10`.** Every stage of all four picks is ported.
+> - The new stages of A3 / B3 (`t1_mix_k5d`, `t1_lrtc`, `assemble_k10`, members `t1_catb` / `t1_xgb`) reproduce their original
+>   kernels byte for byte locally on one real panel-month (`tests/test_k9_parity.py`); their Kaggle parity kernels are generated, not run yet.
+> - Milestone 1 (light stages of A2 / B2) passed Kaggle parity on 2026-10-09. The path_flow fix is to be re-confirmed with `tfb-par-t4` / `tfb-par-chaint1`.
+> - The milestone-2 parity kernels (pseudo windows, Task 1 members, Task 2 ongoing) are generated and dry-run locally, and are waiting for their Kaggle runs.
+> - Open items for the Nov 10 package: see *Open items* at the end.
 
-> ** খসড়া (মাইলফলক 3 , 2026-11-03 ): চূড়ান্ত পিক A3 = `tfb-k9` / B3 = `tfb-k10` . ** চারটি পিকের প্রতিটি পর্যায় পোর্টেড হয়।
-> - A3 / B3 ( `t1_mix_k5d` , `t1_lrtc` , `assemble_k10` , সদস্য `t1_catb` / `t1_xgb` ) এর নতুন পর্যায়গুলি তাদের মূল পুনরায় প্রজনন করে
->   kernelগুলি স্থানীয়ভাবে এক বাস্তব প্যানেল-মাসে বাইট প্রতি বাইট ( `tests/test_k9_parity.py` ); তাদের ক্যাগল পারিতি kernelগুলি উত্পন্ন হয়, এখনও চালানো হয় না।
-> - মাইলস্টোন 1 ( A2 / B2 হালকা পর্যায়ে) 2026-10-09 এ ক্যাগল সমতা পাস করেছে । path_flow সংশোধন `tfb-par-t4` / `tfb-par-chaint1` দিয়ে পুনরায় নিশ্চিত করা হবে ।
-> - মাইলস্টোন- 2 পারিতি kernel (পসডো window, টাস্ক 1 সদস্য, টাস্ক 2 চলমান) উত্পন্ন এবং স্থানীয়ভাবে শুকনো চালানো হয়, এবং তাদের কেগল চালানোর জন্য অপেক্ষা করছে।
-> - নভেম্বর 10 প্যাকেজের জন্য খোলা আইটেমঃ শেষের দিকে *Open items* দেখুন।
+One entry script rebuilds either final submission of the 2026 IEEE Big Data Cup – TrafficFlowBench competition from the
+released data:
 
-একটি এন্ট্রি স্ক্রিপ্ট 2026  IEEE বিগ ডেটা কাপ  –  ট্রাফিকফ্লোবেঞ্চ প্রতিযোগিতার চূড়ান্ত জমা পুনরায় তৈরি করে
-প্রকাশিত তথ্যঃ
-
-| নির্বাচন করুন | ক্যাগল kernel | জনসাধারণ LB | পার্থক্য কি |
+| Pick | Kaggle kernel | Public LB | What differs |
 |---|---|---:|---|
-| **A3** (শেষ A) | `tfb-k9` | **0.88281** | 1 টাস্কঃ 18 সদস্য ( A2 এর 15 +2 CatBoost বীজ +1 XGBoost, `tfb-k5d` ), তারপর LRTC পদক্ষেপ M + B, recon, TV . এপ্রিল শুরু = `tfb-t2opv` pv; এপ্রিল চলমান = `tfb-t2ogpvogf` pvogfv |
-| **B3** (শেষ বি, হেজ) | `tfb-k10` | **0.88281** | = A3 রাজ্য সারি; এপ্রিলের শুরু = `tfb-t2osp` বেস; এপ্রিল চলমান = `tfb-t2ogveto` ভেতো 10 |
-| A2 (পূর্ববর্তী A) | `tfb-j4` | 0.88176 | 1 টাস্কঃ 15 সদস্য ( `tfb-i4d` ), recon, TV ; ক্যু রোল = A3 এর |
-| B2 (পূর্ববর্তী বি) | `tfb-j3` | 0.88176 | = A2 রাজ্য সারি; ক্যো সারি = B3 এর |
+| **A3** (final A) | `tfb-k9` | **0.88281** | Task 1: 18 members (A2's 15 + 2 CatBoost seeds + 1 XGBoost, `tfb-k5d`), then LRTC steps M + B, recon, TV. April onset = `tfb-t2opv` pv; April ongoing = `tfb-t2ogpvogf` pvogfv |
+| **B3** (final B, hedge) | `tfb-k10` | **0.88281** | = A3 state rows; April onset = `tfb-t2osp` base; April ongoing = `tfb-t2ogveto` veto10 |
+| A2 (previous A) | `tfb-j4` | 0.88176 | Task 1: 15 members (`tfb-i4d`), recon, TV; queue rows = A3's |
+| B2 (previous B) | `tfb-j3` | 0.88176 | = A2 state rows; queue rows = B3's |
 
-A3 এবং B3 প্রতিটি রাজ্য সারি ভাগ করে (টাস্ক 1/3 ), প্রতিটি মার্চ সারি সারি এবং প্রতিটি ওডম সারি (টাস্ক 4 ) । তাদের সারি সারি A2 এর সমান /
-B2 এর ব্লক প্রতি ব্লক; শুধুমাত্র রাজ্য সারি পরিবর্তন হয়েছে। নতুন পিকের বংশধর `LINEAGE_K9.md` / `lineage_K9.json`
-( 18 নতুন kernel); পরিকল্পনা এবং ঝুঁকি বিশ্লেষণ `DESIGN.md` (§ 8 জন্য A3 / B3 ) । `lineage_A2.json` , `lineage_K9.json` এবং
-`lineage_src/` ধরে রাখা 108 চারটি পিকের পেছনে মূল ক্যাগল কোর।
+A3 and B3 share every state row (Task 1/3), every March queue row and every odme row (Task 4). Their queue rows equal A2's /
+B2's block for block; only the state rows changed. The lineage of the new picks is in `LINEAGE_K9.md` / `lineage_K9.json`
+(18 new kernels); the plan and risk analysis are in `DESIGN.md` (§8 for A3 / B3). `lineage_A2.json`, `lineage_K9.json` and
+`lineage_src/` hold the 108 original Kaggle kernels behind the four picks.
 
-## দ্রুত শুরু
+## Quick start
 
 ```bash
 # 1. environment: the Kaggle Python image B (Python 3.13); see ENVIRONMENT.md
@@ -35,118 +33,118 @@ python run_all.py --data-root /data/kaggle_public --work-dir ./work --pick B3 --
 # reuses every shared stage (all Task 1 stages, t4, onset_sp, ongoing_val); only the B3 ongoing stages and the assembly run
 ```
 
-| বিকল্প | অর্থ |
+| Option | Meaning |
 |---|---|
-| `--data-root` | প্রতিযোগিতার `kaggle_public` ফোল্ডার ( `submission_key.csv` , `sample_submission.csv` , `corridors/` , `task1/` , `task2/` , `task4/` ) |
-| `--work-dir` | প্রতিটি পর্যায়ে `<work>/kernels/<original kernel>/<original file>` , `stage.log` এবং `.done.json` |
-| `--pick {A3,B3,A2,B2}` | কোন উপস্থাপনা তৈরি করা হবে (ডিফল্ট A3 ; A2 / B2 = পূর্ববর্তী নির্বাচন) |
-| `--recipe {full,lean1}` | কাজ 1 সদস্য ব্যাগঃ **পূর্ণ** = 8 পুরানো FTA +6 FD সদস্য + t1bspec (+ t)1catb, t1ক্যাটব2, t1xgb এর জন্য A3 / B3) = সঠিক; **পোঁদ1** = পুরোনো v12s4–s7, FD v13 / s10 / s11 / t1র্যাম্প + টি1bspec (+ দ্য 3 k সদস্যদের জন্য A3 / B3) (DESIGN §3.3: প্রত্যাশিত ব্যক্তিগত Δ −0.0002 থেকে −0.0003 পরিমাপ করা হয়েছে A2 , প্রায় 21 ক্যাগল-ঘন্টা কম; A3 এর জন্য পরিমাপ করা হয়নি) |
-| `--stages` | `all` (ডিফল্ট), `light` (t4 , onset_sp , onset_pv , দুটি টাস্ক 1 নির্বাচন, একত্রিতকরণের পর্যায়গুলি একত্রিত করে), অথবা একটি কমা তালিকা ( `t4,onset_sp,...` ) |
-| `--threads` | টাস্ক 1 LightGBM সদস্যদের (মাইলস্টোন 2 ). A3 / B3 এর CatBoost / XGBoost সদস্যরা তাদের আক্ষরিক 4 থ্রেডগুলি রাখে, এবং প্রতিটি টাস্ক 2 এবং টাস্ক 4 পর্যায়টি ক্যাগলে ( 4 ) ছিল তার থ্রেড গণনা রাখে, কারণ সেখানে একটি ক্যু ফ্লিপ ব্যয় 0.001–0.002 ব্যক্তিগত স্কোর |
-| `--env-threads` | OMP / BLAS প্রতিটি পর্যায়ের প্রক্রিয়া থ্রেড (ডিফল্ট 4 , Kaggle মান) |
-| `--force` | নির্বাচিত স্টেজগুলি ক্যাশে থাকা অবস্থায়ও পুনরায় চালান |
-| `--list` | স্টেজ প্ল্যান এবং প্রস্থান মুদ্রণ করুন |
+| `--data-root` | the competition's `kaggle_public` folder (`submission_key.csv`, `sample_submission.csv`, `corridors/`, `task1/`, `task2/`, `task4/`) |
+| `--work-dir` | cache of every stage: `<work>/kernels/<original kernel>/<original file>`, `stage.log` and `.done.json` per stage |
+| `--pick {A3,B3,A2,B2}` | which submission to build (default A3; A2 / B2 = the previous picks) |
+| `--recipe {full,lean1}` | Task 1 member bags: **full** = 8 old FTA + 6 FD members + t1bspec (+ t1catb, t1catb2, t1xgb for A3 / B3) = exact; **lean1** = old v12s4–s7, FD v13 / s10 / s11 / t1ramp + t1bspec (+ the 3 k members for A3 / B3) (DESIGN §3.3: expected private Δ −0.0002 to −0.0003 measured for A2, about 21 Kaggle-hours less; not measured for A3) |
+| `--stages` | `all` (default), `light` (t4, onset_sp, onset_pv, the two Task 1 combine stages of the pick, assemble), or a comma list (`t4,onset_sp,...`) |
+| `--threads` | LightGBM threads of the Task 1 LightGBM members (milestone 2). The CatBoost / XGBoost members of A3 / B3 keep their literal 4 threads, and every Task 2 and Task 4 stage keeps the thread count it had on Kaggle (4), because a queue flip there costs 0.001–0.002 of private score |
+| `--env-threads` | OMP / BLAS threads of every stage process (default 4, the Kaggle value) |
+| `--force` | rerun the selected stages even if cached |
+| `--list` | print the stage plan and exit |
 
-একটি পুনরায় চালানো প্রতিটি পর্যায়ে যে `.done.json` আঙ্গুলের ছাপ এখনও মিলিত হয় (স্টেজ কোড, ধ্রুবক, ইনপুট ফাইলের আকার এবং
-এটি পরিবর্তন করা ইনপুটের নীচে সবকিছু পুনরায় প্রবাহিত করে। একটি ক্র্যাশ স্টেজ কোন চিহ্নিতক ছাড়ায় না, তাই সর্বোচ্চ এক স্টেজ হারিয়ে যায়।
+A rerun skips every stage whose `.done.json` fingerprint still matches (stage code, constants, input file sizes and
+mtimes). It reruns everything downstream of a changed input. A crashed stage leaves no marker, so at most one stage is lost.
 
-## পর্যায়
+## Stages
 
-প্রতিটি পর্যায়ে মূল ক্যাগল kernel রয়েছে, যা `tfb/stages/` তে বিক্রি হয়, কেবলমাত্র তার I/O এবং রেসিপি-নিয়মিত লাইনগুলি পরিবর্তিত হয়।
-এক টাস্ক 1 পরিবারের মধ্যে 2–16 অংশগুলি শুধুমাত্র ধ্রুবক মধ্যে পৃথক হয়, তাই প্রতিটি পরিবার একটি টেমপ্লেট। ধ্রুবকগুলি `tfb/config.py` ( `t1_part_cfg` ) থেকে আসে।
-`tests/test_templates.py` প্রতিটি টেমপ্লেট প্রতিটি অংশের ধ্রুবক দিয়ে রেন্ডার করে এবং পরীক্ষা করে দেখায় যে ফলাফলটি AST হিসাবে সেই অংশের মূল উত্সের সমান, সমস্ত 31 অংশ এবং ogfa/ogfb. জন্য
-প্রতিটি পরিবর্তন লাইন `# [TFB]` শেষ হয়, এবং `tests/test_static.py` এই বলবৎ। একটি পর্যায়ে kernel ফাইল লিখুন এটা
-`<work>/kernels/<kernel>/` এর পরিবর্তে `TFB.kfile(<kernel>, <file>)` এর মাধ্যমে আপস্ট্রিম ফলাফলগুলি পড়ে
+Each stage is the original Kaggle kernel, vendored into `tfb/stages/` with only its I/O and recipe-constant lines changed.
+Within one Task 1 family the 2–16 parts differ only in constants, so each family is one template. The constants come from `tfb/config.py` (`t1_part_cfg`).
+`tests/test_templates.py` renders every template with each part's constants and checks that the result equals that part's original source as an AST, for all 31 parts and ogfa/ogfb.
+Every changed line ends in `# [TFB]`, and `tests/test_static.py` enforces this. A stage writes the files of the kernel it
+reproduces into `<work>/kernels/<kernel>/`. It reads upstream results through `TFB.kfile(<kernel>, <file>)` instead of
 `/kaggle/input/**/<kernel>/**/<file>`.
 
-| পর্যায় | প্রজনন | উৎস ( `lineage_src/` ) | লেখার | ক্যাগল চালনার সময় | পিক RAM | অবস্থা |
+| Stage | Reproduces | Source (`lineage_src/`) | Writes | Kaggle runtime | Peak RAM | Status |
 |---|---|---|---|---:|---:|---|
-| `pseudo` | `tfb-t2lab-full` | `tfb-t2lab-full.py` (`build_windows(P, cap=None)`) | `pseudo_<panel>.npz` (স্ব-নিরীক্ষণঃ গণনা + SHA -1 ) | 203 s | ছোট | M2 |
-| `t1m:<part>` ( `t1_members` = রেসিপি সব অংশ) | 15 সদস্য × অংশ a/b (/c): 31 kernel (lean1: 19 ) | 6 পরিবারের টেমপ্লেট `t1_{fta,fta_v11,fd,dark,ramp,bspec}.py` থেকে `tfb-t1v12s4a` , `v11a` , `v13a` , `darka` , `rampa` , `bspeca` | `state_submission_FTA.csv` | 1.3–5.6 h প্রতি অংশে | 26.6–28.0 GB | M2 |
-| `t1m:<part>` of A3 / B3 only | t1catb, t1catb 2 , t1xgb × অংশ a – d: 12 kernels | টেমপ্লেট `t1_catb.py` ( `tfb-t1catba` থেকে), `t1_xgb.py` ( `tfb-t1xgba` থেকে) | `state_submission_FTA.csv` | catb 3.2–4.9 h, xgb 0.8–1.2 h প্রতি অংশে | 10.8–26.1 GB | M3 |
-| `t4` | `tfb-final` cell 7 | `tfb-final.py` (নোটবুক) | `submission.csv` হাড় (odme rows = NNLS , state / queue rows 0 ), `odme_path_flow.csv` | ≈15 min | ছোট | **M1** |
-| `onset_sp` | `tfb-t2osp` | `tfb-t2osp.py` | `queue_submission_{base,sp2,sp4,sp8}.csv` | 333 s | < 8  GB (est.) | **M1** |
-| `onset_pv` (A2) | `tfb-t2opv` | `tfb-t2opv.py` | `queue_submission_{base,sp4,pv,pvb}.csv` | 523 s | < 8  GB (est.) | **M1** |
-| `ongoing_val` | `tfb-t2occ` | `tfb-t2occ.py` (`t2_occ.py`) | `queue_submission_fs4occ.csv`, `t2v26occ_probs.npz` | 5.5 h | 12–16  GB (est.) | M2 |
-| `ongoing_pvogf` (A2) | `tfb-t2ogpvogf` | `tfb-t2ogpvogf.py` (`t2_pvogf.py`) | `queue_submission_pvogf.csv` (= ব্যক্তিগত সারিগুলিতে pvogfv: 0/40 ভেটো দেয়, তাই pvo রেফারেন্সের প্রয়োজন নেই) | 4.6 h | 20–26  GB (est.) | M2 |
-| `ogfeat_a/b`, `ogfeat_comb`, `ogveto` (B2) | `tfb-t2ogfa/b/c`, `tfb-t2ogveto` | টেমপ্লেট `t2_ogfeat.py` (পার্ট এ / বি), `t2_ogfc.py` , `t2_ogveto.py` | `queue_submission_veto10.csv` | 5.1 +6.4 h +1 min | 20–25  GB (est.) | M2 |
-| `t1_mix` | `tfb-i4d` | `tfb-i4d.py` (`t1_t1dark_swap.py`) | `submission_T1DARK.csv` | 444 s | ≈10  GB (est.) | **M1** |
-| `t1_recon` | `tfb-i4` | `tfb-i4.py` (`swap_fdrecon.py`) | `submission_{FDR,FDRTV,TV}.csv` | 499 s | 6–10  GB (est.) | **M1** |
-| `assemble` | `tfb-j4` (A2) / `tfb-j3` (B2) | `tfb-j3.py` (`swap_queue2.py`) | `submission_J4.csv` / `submission_J3.csv` | 97 s | ছোট | **M1** |
-| `t1_mix_k5d` (A3 / B3) | `tfb-k5d` | `tfb-k5d.py` (`t1_div2_swap.py`) | `submission_K5D.csv` | ≤15.6 min | ≈10–12  GB (est.) | M3 |
-| `t1_lrtc` (A3 / B3) | `tfb-k9` | `tfb-k9.py` (`swap_lrtc_k9.py`) | `submission_LRTC.csv`, `submission_FDRTV.csv` | 16–20 min (est.) | ≈7–11  GB (est.) | M3 |
-| `assemble` ( A3 / B3 ; মডিউল `assemble_k10` ) | `tfb-k9` ফাইল ( A3 , ফোল্ডার `tfb-k9-asm` ) / `tfb-k10` ( B3 ) | `tfb-k10.py` (`swap_k10.py`) | `submission_K9.csv` / `submission_K10.csv` | ≈2 min | ছোট | M3 |
+| `pseudo` | `tfb-t2lab-full` | `tfb-t2lab-full.py` (`build_windows(P, cap=None)`) | `pseudo_<panel>.npz` (self-checked: counts + SHA-1) | 203 s | small | M2 |
+| `t1m:<part>` (`t1_members` = all parts of the recipe) | 15 members × parts a/b(/c): 31 kernels (lean1: 19) | 6 family templates `t1_{fta,fta_v11,fd,dark,ramp,bspec}.py` from `tfb-t1v12s4a`, `v11a`, `v13a`, `darka`, `rampa`, `bspeca` | `state_submission_FTA.csv` | 1.3–5.6 h per part | 26.6–28.0 GB | M2 |
+| `t1m:<part>` of A3 / B3 only | t1catb, t1catb2, t1xgb × parts a–d: 12 kernels | templates `t1_catb.py` (from `tfb-t1catba`), `t1_xgb.py` (from `tfb-t1xgba`) | `state_submission_FTA.csv` | catb 3.2–4.9 h, xgb 0.8–1.2 h per part | 10.8–26.1 GB | M3 |
+| `t4` | `tfb-final` cell 7 | `tfb-final.py` (notebook) | `submission.csv` skeleton (odme rows = NNLS, state / queue rows 0), `odme_path_flow.csv` | ≈ 15 min | small | **M1** |
+| `onset_sp` | `tfb-t2osp` | `tfb-t2osp.py` | `queue_submission_{base,sp2,sp4,sp8}.csv` | 333 s | < 8 GB (est.) | **M1** |
+| `onset_pv` (A2) | `tfb-t2opv` | `tfb-t2opv.py` | `queue_submission_{base,sp4,pv,pvb}.csv` | 523 s | < 8 GB (est.) | **M1** |
+| `ongoing_val` | `tfb-t2occ` | `tfb-t2occ.py` (`t2_occ.py`) | `queue_submission_fs4occ.csv`, `t2v26occ_probs.npz` | 5.5 h | 12–16 GB (est.) | M2 |
+| `ongoing_pvogf` (A2) | `tfb-t2ogpvogf` | `tfb-t2ogpvogf.py` (`t2_pvogf.py`) | `queue_submission_pvogf.csv` (= pvogfv on private rows: 0/40 vetoes, so the pvo reference is not needed) | 4.6 h | 20–26 GB (est.) | M2 |
+| `ogfeat_a/b`, `ogfeat_comb`, `ogveto` (B2) | `tfb-t2ogfa/b/c`, `tfb-t2ogveto` | template `t2_ogfeat.py` (part a / b), `t2_ogfc.py`, `t2_ogveto.py` | `queue_submission_veto10.csv` | 5.1 + 6.4 h + 1 min | 20–25 GB (est.) | M2 |
+| `t1_mix` | `tfb-i4d` | `tfb-i4d.py` (`t1_t1dark_swap.py`) | `submission_T1DARK.csv` | 444 s | ≈ 10 GB (est.) | **M1** |
+| `t1_recon` | `tfb-i4` | `tfb-i4.py` (`swap_fdrecon.py`) | `submission_{FDR,FDRTV,TV}.csv` | 499 s | 6–10 GB (est.) | **M1** |
+| `assemble` | `tfb-j4` (A2) / `tfb-j3` (B2) | `tfb-j3.py` (`swap_queue2.py`) | `submission_J4.csv` / `submission_J3.csv` | 97 s | small | **M1** |
+| `t1_mix_k5d` (A3 / B3) | `tfb-k5d` | `tfb-k5d.py` (`t1_div2_swap.py`) | `submission_K5D.csv` | ≤ 15.6 min | ≈ 10–12 GB (est.) | M3 |
+| `t1_lrtc` (A3 / B3) | `tfb-k9` | `tfb-k9.py` (`swap_lrtc_k9.py`) | `submission_LRTC.csv`, `submission_FDRTV.csv` | 16–20 min (est.) | ≈ 7–11 GB (est.) | M3 |
+| `assemble` (A3 / B3; module `assemble_k10`) | `tfb-k9` file (A3, folder `tfb-k9-asm`) / `tfb-k10` (B3) | `tfb-k10.py` (`swap_k10.py`) | `submission_K9.csv` / `submission_K10.csv` | ≈ 2 min | small | M3 |
 
-**কিভাবে সোয়্যাপ চেইন প্রতিস্থাপন করা হয়।** ( A3 / B3 : `t1_mix_k5d` এবং `t1_lrtc`  `t1_mix` এবং `t1_recon` এর জায়গায়)
-- `t4`  `sample_submission` অর্ডার দিয়ে একটি স্কেলেট জমা দেয়।
-- `t1_mix` এই হাড়ের প্রতিটি স্তরের সারির পুনরায় গণনা করেঃ কাঁচা = 0.5 ·mean( FD ব্যাগ) +0.5 ·mean(পুরানো FTA ব্যাগ) ব্ল্যাকআউট সারিগুলি 0.25 ·raw +0.75 ·t1bspec পায়।
-  A3 / B3 ( `t1_mix_k5d` ): কাঁচা ← 0.65 ·raw +0.35 ·mean(t1catb, t1catb 2 ), তারপর কাঁচা ← 0.65 ·raw +0.35 ·t1xgb, তারপর একই ব্ল্যাকআউট ওভাররাইড।
-- `t1_recon`  FD -gated reconciliation এবং 1 -D TV . A3 / B3 ( `t1_lrtc` ): প্রথম ধাপ M (flow LRTC ( 24 , 40 , 10 )
-  মুক্তির মাস, 0.35 সাধারণ সারিগুলিতে) এবং ধাপ B (গতি + প্রবাহ LRTC , 0.15 ব্ল্যাকআউট সারিগুলিতে), তারপর একই R এবং T।
-- `assemble` প্রতি ব্লক (শর্ত × বিভক্ত) এর জন্য একটি অংশ দিয়ে সারির সারিগুলি পূরণ করেঃ
-  - মার্চ শুরু হয় → osp `sp4` ;
-  - মার্চ চলমান ← occ `fs4occ` ;
-  - এপ্রিলের শুরুতে ← opv `pv` ( A2 ) অথবা osp `base` ( B2 );
-  - এপ্রিল চলমান ← `pvogfv` ( A2 ) অথবা `veto10` ( B2 ).
-- `assemble` বলেছেনঃ
-  - প্রতিটি ক্রমের লাইন কভার করা হয়;
-  - আইডিগুলি `sample_submission` ক্রমে রয়েছে;
-  - সমস্ত মান সমাপ্ত এবং ≥0 ;
-  - ক্যো মানগুলি বাইনারি;
-  -50 vph এর নিচে রাজ্য প্রবাহের অংশটি প্যানেল × পদ্ধতিতে ≤20 %।
-- প্রতিটি স্থিরতা `tfb/config.py` মধ্যে বাস করে .
+**How the swap chain is replaced.** (A3 / B3: `t1_mix_k5d` and `t1_lrtc` take the places of `t1_mix` and `t1_recon`.)
+- `t4` writes a skeleton submission in `sample_submission` order.
+- `t1_mix` recomputes every state row on that skeleton: raw = 0.5·mean(FD bag) + 0.5·mean(old FTA bag). Blackout rows get 0.25·raw + 0.75·t1bspec.
+  A3 / B3 (`t1_mix_k5d`): raw ← 0.65·raw + 0.35·mean(t1catb, t1catb2), then raw ← 0.65·raw + 0.35·t1xgb, then the same blackout override.
+- `t1_recon` applies the FD-gated reconciliation and 1-D TV. A3 / B3 (`t1_lrtc`): first step M (flow LRTC (24, 40, 10) of the
+  released month, 0.35 on ordinary rows) and step B (speed + flow LRTC, 0.15 on blackout rows), then the same R and T.
+- `assemble` fills the queue rows with one part per (condition × split) block:
+  - March onset ← osp `sp4`;
+  - March ongoing ← occ `fs4occ`;
+  - April onset ← opv `pv` (A2) or osp `base` (B2);
+  - April ongoing ← `pvogfv` (A2) or `veto10` (B2).
+- `assemble` asserts:
+  - every queue row is covered;
+  - ids are in `sample_submission` order;
+  - all values are finite and ≥ 0;
+  - queue values are binary;
+  - the share of state flows below 50 vph is ≤ 20 % per panel × regime.
+- Every constant lives in `tfb/config.py`.
 
-## রানটাইম এবং হার্ডওয়্যার
+## Runtime and hardware
 
-| চালান ( 8 কোর / 32  GB , লিনাক্স এক্স 86-64 , ধারাবাহিক পর্যায়ে) | ক্যাগল CPU -ঘন্টা | দেয়াল সময় |
+| Run (8 cores / 32 GB, Linux x86-64, sequential stages) | Kaggle CPU-hours | Wall time |
 |---|---:|---:|
-| **পূর্ণ A3** (নির্বাচিত ফাইল, সঠিক রেসিপি) | 143–147 | **≈93–104 h** |
-| পূর্ণ A3 + B3 (ভাগভাগে ভাগে ভাগ করা পর্যায়গুলি একবার চালানো হয়) | 155–159 | ≈100–112 h |
-| lean- 1  A3 | 106–110 | ≈72–83 h |
-| lean- 1  A2 | 70–74 | ≈42–47 h |
-| পূর্ণ A2 | 107–111 | 63–68 h |
-| lean- 1  B2 | ≈77 | ≈49 h |
-| lean- 1  A2 + B2 (ভাগভাগে ভাগে ভাগে একবার) | 81–85 | ≈55 h |
-| শুধুমাত্র হালকা পর্যায়ে ( `--stages light` , প্রদত্ত সদস্য / চলমান আউটপুট) | ≈0.7 | ≈0.5 h |
+| **full A3** (the selected file, exact recipe) | 143–147 | **≈ 93–104 h** |
+| full A3 + B3 (shared stages run once) | 155–159 | ≈ 100–112 h |
+| lean-1 A3 | 106–110 | ≈ 72–83 h |
+| lean-1 A2 | 70–74 | ≈ 42–47 h |
+| full A2 | 107–111 | 63–68 h |
+| lean-1 B2 | ≈ 77 | ≈ 49 h |
+| lean-1 A2 + B2 (shared stages run once) | 81–85 | ≈ 55 h |
+| light stages only (`--stages light`, given member / ongoing outputs) | ≈ 0.7 | ≈ 0.5 h |
 
-- **A3 / B3 বনাম A2**  12 CatBoost / XGBoost সদস্য অংশ যোগ করুন 35.8 Kaggle CPU - ঘন্টা (catb 15.7 h, catb2  15.8 h, xgb 4.2 h) ।
-  তারা তাদের আক্ষরিক 4 থ্রেডগুলি রাখে ( `--threads` প্রযোজ্য নয়), তাই 8 কোরগুলিতে তারা দ্রুত মেশিন থেকে সামান্য উপার্জন করেঃ
-  উপরে দেয়ালে সময় সারি যোগ ≈30–36 h তাদের জন্য (প্রকৃতি; দুই পাশের সাথে চলতে পারে ≥64  GB  RAM ). `t1_mix_k5d` +
-  `t1_lrtc` যোগ করুন ≈20 min over `t1_mix` + `t1_recon` .
-- **CPU / OS .** লিনাক্স এক্স 86-64 , কমপক্ষে 8 কোর। অ্যাপল সিলিকন অফিসিয়াল পুনরায় চালু করার জন্য সমর্থিত নয় ( FMA / SIMD পার্থক্য) । CPU পতাকা `manifest.json` এ রেকর্ড করা হয়।
+- **A3 / B3 vs A2.** The 12 CatBoost / XGBoost member parts add 35.8 Kaggle CPU-hours (catb 15.7 h, catb2 15.8 h, xgb 4.2 h).
+  They keep their literal 4 threads (`--threads` does not apply), so on 8 cores they gain little from the faster machine:
+  the wall-time rows above add ≈ 30–36 h for them (estimate; two can run side by side with ≥ 64 GB RAM). `t1_mix_k5d` +
+  `t1_lrtc` add ≈ 20 min over `t1_mix` + `t1_recon`.
+- **CPU / OS.** Linux x86-64, at least 8 cores. Apple Silicon is not supported for the official rerun (FMA / SIMD differences). The CPU flags are recorded in `manifest.json`.
 - **RAM.**
-  -32  GB সর্বনিম্নঃ একটি টাস্ক 1 সদস্যের 28.0  GB এর শীর্ষে ক্যাগল ( A3 / B3 CatBoost / XGBoost অংশ a: 26.1  GB ) । তাই সদস্যরা একের পর এক কাজ করে।
-  -48–64  GB আরামদায়ক, এবং দুই কাজ তারপর সমকালীন চালানো যেতে পারে (প্রায় 35–40 % কম প্রাচীর সময়).
-  - bspec অংশ c ( D7_I405_N ) এর সেটিংগুলি হ্রাস করা থাকে RAM যাই হোক না কেন।
-- **ডিস্ক**  13  GB তথ্য, 10  GB স্টেজ ক্যাশে সম্পর্কে, এবং 0.5  GB প্রতি জমা আকারের CSV (প্রায় 8 তাদের) ।
-- প্রাচীর-সময় ফ্যাক্টর DESIGN § 3.3 অনুমান। তারা প্রথম সদস্যের সমতা চলমান উপর পরিমাপ করা হবে।
+  - 32 GB is the minimum: a Task 1 member peaked at 28.0 GB on Kaggle (A3 / B3 CatBoost / XGBoost part a: 26.1 GB), so members run one at a time.
+  - 48–64 GB is comfortable, and two jobs can then run concurrently (about 35–40 % less wall time).
+  - bspec part c (D7_I405_N) keeps its reduced settings whatever the RAM.
+- **Disk.** 13 GB of data, about 10 GB of stage cache, and about 0.5 GB per submission-sized CSV (around 8 of them).
+- The wall-time factors are DESIGN §3.3 estimates. They will be measured on the first member parity run.
 
-## সিদ্ধান্ত গ্রহণ
+## Determinism
 
-- বীজ, থ্রেড গণনা এবং অপারেশন অর্ডার মূল kernelেরঃ
-  - CatBoost `random_seed 0` , `thread_count 4` ;
-  - প্রতি সদস্যের জন্য লাইটজিবিএম বীজ তিনগুণ, প্রতিটি টাস্ক 2 উৎপাদকের জন্য `num_threads 4` ;
-  - প্রতিটি `np.random.default_rng(<const>)` কল সাইট অপরিবর্তিত রাখা হয়।
-- প্রতিটি পর্যায়ে তার নিজস্ব প্রক্রিয়া চলবেঃ
+- Seeds, thread counts and operation order are those of the original kernels:
+  - CatBoost `random_seed 0`, `thread_count 4`;
+  - LightGBM seed triples per member, `num_threads 4` for every Task 2 producer;
+  - every `np.random.default_rng(<const>)` call site is kept unchanged.
+- Each stage runs in its own process with:
   - `PYTHONHASHSEED=0`;
-  - `OMP_NUM_THREADS = OPENBLAS_NUM_THREADS = MKL_NUM_THREADS = 4` (ক্যাগল মান);
-  - স্টেজ ফোল্ডারটি কাজ করার ডিরেক্টরি হিসাবে ( `catboost_info/` সেখানে অবতরণ করে, যেমন `/kaggle/working` ).
-- CSV ঘুরতে ঘুরতে যাওয়াগুলি ক্যাগল চেইনে (পান্ডা ডিফল্ট) হিসাবে একই। `t4`  path_flow এর CSV স্থির পয়েন্টে লিখেছে, যা চেইনের মান।
-- **LightGBM** ( DESIGN § 4.8 ): মূল kernels LightGBM এর histogram পথ ঠিক না, তাই তাদের সঠিক ফাইল পুনরায় তৈরি করা যাবে না।
-  - টাস্ক 2 লাইটজিবিএম স্টেজ `deterministic=True, force_row_wise=True` ( `tfb/config.py LGB_REPRO` ) ব্যবহার করে যাতে পুনরাবৃত্তি পুনরাবৃত্তি করা যায়।
-  - প্রাপ্ত ফাইলগুলির তুলনায় প্রত্যাশিত ড্রাইভঃ কয়েক ডজন 87,000 চলমান cell। ব্যক্তিগত বন্ধন ≈0.0012 , 0 সম্পর্কে প্রত্যাশিত।
-  - টাস্ক 1 সদস্যরা মূল সেটিংটি (সালাম NUMERIC ড্রাইভ) বজায় রাখে।
-- স্থানীয়ভাবে, প্রতিটি হালকা পর্যায়ে দ্বিতীয় রানটি প্রথম বাইট বাইট পুনরায় তৈরি করে (দেখুন *স্থানীয় ধোঁয়া ফলাফল*) ।
-- **A3 / B3 .** CatBoost ( `random_seed`  20261005 / 20261016 , `thread_count`  4 ) এবং XGBoost ( `seed`  20261016 , `nthread`  4 , hist)
-  মূলগুলির মতোই চালানো হয়; catb / xgb সদস্যরা LightGBM প্রশিক্ষণ দেয় না। LRTC of `t1_lrtc` uses `numpy.linalg.eigh`
-  ( LAPACK / BLAS ): অন্য BLAS বিল্ড বা CPU শেষ বিটগুলিতে তার মানগুলি সরিয়ে নিতে পারে (সালসাল, NUMERIC স্তর); রানার রাখে
-  BLAS থ্রেডগুলি 4 এ।
-- **A3 পাঠ্য বনাম মান।**  `tfb-k9` তার ফাইলটি সরাসরি মেমরি থেকে লিখেছিল; এন্ট্রি স্ক্রিপ্টের A3 ফাইলটি আরও একটি পান্ডা পাস করে
-  `assemble` মধ্যে লিখুন / পড়ুন চক্র ( A2 / B2 / B3 তাদের মূল চেইনেও সেই চক্র আছে) । প্রতিটি বিশ্লেষণ মান হয়
-  একই (স্থানীয় পরীক্ষাঃ 0  166,527 লাইন ভিন্ন), কিন্তু প্রায় 6 % লাইন শেষ মুদ্রিত সংখ্যা পুনরায় বিন্যাস করা হয়, তাই
-  A3 ফাইলটি মান অনুযায়ী EXACT , বাইট-স্বতন্ত্র নয়। B3 বাইট-স্বতন্ত্র।
+  - `OMP_NUM_THREADS = OPENBLAS_NUM_THREADS = MKL_NUM_THREADS = 4` (the Kaggle values);
+  - the stage folder as the working directory (`catboost_info/` lands there, as in `/kaggle/working`).
+- CSV round trips are the same as in the Kaggle chain (pandas defaults). `t4` writes path_flow at its CSV fixed point, which is the chain's value.
+- **LightGBM** (DESIGN §4.8): the original kernels did not fix LightGBM's histogram path, so their exact files cannot be reproduced.
+  - The Task 2 LightGBM stages use `deterministic=True, force_row_wise=True` (`tfb/config.py LGB_REPRO`) so that reruns are repeatable.
+  - Expected drift vs the submitted files: a few dozen of 87,000 ongoing cells. Private bound ≈ 0.0012, expected about 0.
+  - Task 1 members keep the original setting (smooth NUMERIC drift).
+- Locally, a second run of every light stage reproduces the first byte for byte (see *Local smoke results*).
+- **A3 / B3.** CatBoost (`random_seed` 20261005 / 20261016, `thread_count` 4) and XGBoost (`seed` 20261016, `nthread` 4, hist)
+  are run exactly as in the originals; the catb / xgb members train no LightGBM. The LRTC of `t1_lrtc` uses `numpy.linalg.eigh`
+  (LAPACK / BLAS): another BLAS build or CPU can move its values in the last bits (smooth, NUMERIC level); the runner keeps
+  the BLAS threads at 4.
+- **A3 text vs values.** `tfb-k9` wrote its file straight from memory; the entry script's A3 file passes one more pandas
+  write / read cycle in `assemble` (A2 / B2 / B3 have that cycle in their original chains too). Every parsed value is
+  identical (local test: 0 of 166,527 rows differ), but about 6 % of the lines are re-formatted in the last printed digit, so
+  the A3 file is EXACT by value, not byte-identical. B3 is byte-identical.
 
-## উন্নয়ন ও সমতা পরীক্ষা
+## Development and parity testing
 
 ```bash
 python tests/test_static.py                       # level 0: vendored diffs only on [TFB] lines; constants = original kernels
@@ -162,62 +160,62 @@ python bundle.py                                  # -> kaggle_parity/<slug>.py +
 python tests/dryrun_parity.py /tmp/fx             # runs every generated kernel against a fake /kaggle/input
 ```
 
-- `--seed-kernel-outputs DIR` (শুধুমাত্র উন্নয়ন) `DIR/<kernel>/...` কপিগুলিকে কাজের ডিরেক্টরে অন্তর্ভুক্ত করে। এটি এমন পর্যায়ে অন্তর্ভুক্ত করে যা এখনও পোর্ট করা হয়নি, উদাহরণস্বরূপ ডাউনলোড করা কেগল আউটপুটগুলি।
-- `--input-root DIR[:glob]` এমন একটি ফোল্ডার কপি না করেই অনুসন্ধান করে।
-- `--smoke` kernels নিজস্ব SMOKE সুইচ চালু করে ( 2 প্যানেল, 90 train-এর দিন) । এটি শুধুমাত্র পরীক্ষার জন্য।
+- `--seed-kernel-outputs DIR` (development only) copies `DIR/<kernel>/...` into the work dir. This covers stages that are not ported yet, for example downloaded Kaggle outputs.
+- `--input-root DIR[:glob]` searches such a folder without copying it.
+- `--smoke` turns on the kernels' own SMOKE switches (2 panels, 90 train days). It is for tests only.
 
-**ক্যাগল প্যারটি (স্তর) 1–2 এর DESIGN §4.7).** `bundle.py` প্রতি চেক প্রতি একক ফাইলের kernel লিখুন `kaggle_parity/`:
-- প্রয়োজনীয় `tfb` মডিউলগুলি বাইট প্রতি বাইট দ্বারা ইনলাইন করা হয়;
-- প্রতিটি kernelে চিত্রের প্যাকেজ সংস্করণগুলি ( `ENV` লাইন) মুদ্রণ করা হয়;
-- এটি প্রতিযোগিতার তথ্য এবং মূল আপস্ট্রিম আউটপুটগুলিকে kernel উত্স হিসাবে সংযুক্ত করে পর্যায়টি পুনরায় চালু করে;
-- এটি মূল kernel output এবং প্রিন্টের সাথে ফলাফলের তুলনা করেঃ
-  - `PARITY <check> <block> status=EXACT|NUMERIC|DIFF|FAIL ...` লাইন;
-  - শেষ `PARITY SUMMARY verdict=PASS|CLOSE|FAIL` লাইন।
+**Kaggle parity (level 1–2 of DESIGN §4.7).** `bundle.py` writes one single-file kernel per check into `kaggle_parity/`:
+- the needed `tfb` modules are inlined byte for byte;
+- each kernel prints the image's package versions (`ENV` lines);
+- it reruns the stage on the competition data and the original upstream outputs, attached as kernel sources;
+- it compares the result with the original kernel output and prints:
+  - `PARITY <check> <block> status=EXACT|NUMERIC|DIFF|FAIL ...` lines;
+  - a final `PARITY SUMMARY verdict=PASS|CLOSE|FAIL` line.
 
-সারির সারি এবং path_flow  EXACT হতে হবে . রাজ্য সারি জন্য kernel রিপোর্ট সর্বোচ্চ |Δ| এবং RMS প্রতি বিভক্ত এবং ব্ল্যাকআউট / সাধারণ সারি জন্য পৃথকভাবে। `kaggle_parity/SOURCES.md` প্রতিটি kernelের উত্স এবং ধাক্কা কমান্ড তালিকাভুক্ত করে।
+Queue rows and path_flow must be EXACT. For state rows the kernel reports max |Δ| and RMS per split and for blackout / ordinary rows separately. `kaggle_parity/SOURCES.md` lists the sources and the push command of each kernel.
 
-## A3 / B3 ( 2026-11-03 ) এর স্থানীয় ফলাফল
+## Local results for A3 / B3 (2026-11-03)
 
-| পরীক্ষা | ফলাফল |
+| Test | Result |
 |---|---|
-| `tests/test_static.py` | OK : 23 বিক্রিত পর্যায়ে তাদের মূল থেকে শুধুমাত্র `[TFB]` লাইনগুলিতে আলাদা হয়; প্রতিটি A3 / B3 ধারাবাহিক = tfb-k5d / k9 / k10 ; বেস চেইন j4 → k3d → k3 → k5d → k9 ক্রম-ক্রের দাবি সহ; SHA -1  108 উত্স |
-| `tests/test_templates.py` | OK : 43 সদস্য অংশ ( 31  A2 / B2 +12 catb / catb2 / xgb) রেন্ডার == মূল AST ; ogfa / ogfb |
-| `tests/test_k9_parity.py` | OK : মূল tfb-k5d / tfb-k9 / tfb-k10 বনাম রানারের মাধ্যমে বিক্রি করা পর্যায়ঃ K5D , LRTC , FDRTV , K10  **বাইট-স্বতন্ত্র** ; production সমাবেশ (শূন্য-ক্র্যাঙ্ক বেস +4 অংশ) A3 == tfb-k9  FDRTV প্রতিটি মানের উপর, B3 ==b-k10 বাইট-স্বতন্ত্র; রানার ক্যাশে OK ; পদক্ষেপ M / B 166,313 প্রবাহ এবং 2,029 গতি পরিবর্তন (অবাস্তব) |
-| উত্পন্ন সমতা kernel `tfb-par-k5d` , `-k9` , `-asma3` , `-asmb3` , একই ইনপুটগুলিতে শুকনো চালান | PASS (প্রতিটি ব্লকে EXACT ) |
-| ফিক্সড ধোঁয়া ( `make_fixture.py` , `--smoke` ) | t1_mix_k5d  10 -প্যানেল ফিক্সচার উপর সম্পন্ন; সদস্য `t1m:tfb-t1catba` , `t1m:tfb-t1catb2d` , `t1m:tfb-t1xgbb` সম্পন্ন, SMOKE গেট OK ( 4–5 s প্রতিটি) । `t1_lrtc` ফিক্সচার উপর চালানো যাবে নাঃ তার " LRTC সদস্য ভাঙা দেখায়" গেট সদস্য মান প্রয়োজন যে মুক্তি কক্ষ অনুসরণ (ফিক্সচার এর হয় এলোমেলো) |
+| `tests/test_static.py` | OK: 23 vendored stages differ from their originals only on `[TFB]` lines; every A3 / B3 constant = the literals of tfb-k5d / k9 / k10; base chain j4 → k3d → k3 → k5d → k9 with queue-row asserts; SHA-1 of 108 sources |
+| `tests/test_templates.py` | OK: 43 member parts (31 A2 / B2 + 12 catb / catb2 / xgb) rendered == original AST; ogfa / ogfb |
+| `tests/test_k9_parity.py` | OK: original tfb-k5d / tfb-k9 / tfb-k10 vs the vendored stages through the runner: K5D, LRTC, FDRTV, K10 **byte-identical**; production assembly (zero-queue base + 4 parts) A3 == tfb-k9 FDRTV on every value, B3 == tfb-k10 byte-identical; runner cache OK; steps M / B changed 166,313 flows and 2,029 speeds (non-trivial) |
+| generated parity kernels `tfb-par-k5d`, `-k9`, `-asma3`, `-asmb3`, dry run on the same inputs | PASS (EXACT on every block) |
+| fixture smoke (`make_fixture.py`, `--smoke`) | t1_mix_k5d done on the 10-panel fixture; members `t1m:tfb-t1catba`, `t1m:tfb-t1catb2d`, `t1m:tfb-t1xgbb` done, SMOKE gates OK (4–5 s each). `t1_lrtc` cannot run on the fixture: its "LRTC member looks broken" gate needs member values that follow the released cells (the fixture's are random) |
 
-## স্থানীয় ধোঁয়া ফলাফল ( A2 / B2 )
+## Local smoke results (A2 / B2)
 
-**ফিক্সচার.**  `tests/make_fixture.py` শুধুমাত্র স্থানীয় ফাইল থেকে ফিক্সচার তৈরি করেঃ
-- D7_I10_E এবং D12_I5_S: ভুয়া রিলিজ যা পরীক্ষাগার রপ্তানি থেকে পুনর্নির্মাণ করা হয়েছে, প্লাস ভাড়া এবং বাস্তব train window সূচক;
-- D12_I405_S: প্রকৃত স্থানীয় ফাইল;
-- D7_I10_W: একটি স্টেশন স্তরের ক্লোন D12_I405_S এর সাথে আসল D7_I10_W window, সদস্য SMOKE রানগুলির জন্য;
--408,000 রাষ্ট্র সারি, 29,520 ক্যু সারি, 4,842 ওডম সারি।
+**Fixture.** `tests/make_fixture.py` builds the fixture from local files only:
+- D7_I10_E and D12_I5_S: fake release rebuilt from the lab exports, plus occupancy and real train window indexes;
+- D12_I405_S: the real local files;
+- D7_I10_W: a station-level clone of D12_I405_S with the real D7_I10_W windows, for the member SMOKE runs;
+- 408,000 state rows, 29,520 queue rows, 4,842 odme rows.
 
-**চালায়।** সমস্ত পর্যায়ে `--smoke` দিয়ে চালানো হয়, যা কোরগুলির নিজস্ব SMOKE সুইচ চালু করে।
+**Runs.** All stages run with `--smoke`, which turns on the kernels' own SMOKE switches.
 
-| পর্যায় | ফলাফল |
+| Stages | Result |
 |---|---|
-| হালকা A2 / B2 (t4 , onset_sp , onset_pv , t1_mix , t1_recon , একত্রিত) | সব কাজ সম্পন্ন ( 1–20 s প্রতিটি); B2 প্রতিটি ক্যাশে থাকা স্টেজ পুনরায় ব্যবহার করে |
-| ছদ্মবেশী | সম্পন্ন; বিল্ডার 7 এর সাথে মিলিত 10 অফিসিয়াল train-এর window ( D7_I10_E ) |
-| ongoing_val, ongoing_pvogf (A2) | সম্পন্ন ( 35 s / 51 s); pvogf বৈধতা সারি = fs4occ; কোন pvo → pvogf শুধুমাত্র |
-| ogfeat_a / ogfeat_b / ogfeat_comb / ওগভটো ( B2 ) | সম্পন্ন; ওজিএফসি নিয়ন্ত্রণ "রিকম্পুট বনাম ওজিএফএ / ওজিএফবি ফাইলঃ চুক্তি 1.000000 " |
-| সদস্য `t1m:` v13a, v 12 s 4 a, v11a, darka, rampa, bspeca, bspecc | সম্পন্ন (প্রতিটি 7–11 s), সমস্ত SMOKE গেট OK ; bspec c 13/21 train-এর দিনগুলি ( 60 %) রাখে |
+| light A2 / B2 (t4, onset_sp, onset_pv, t1_mix, t1_recon, assemble) | all done (1–20 s each); B2 reuses every cached stage |
+| pseudo | done; builder matches 7 of the 10 official train windows (D7_I10_E) |
+| ongoing_val, ongoing_pvogf (A2) | done (35 s / 51 s); pvogf validation rows = fs4occ; no pvo → pvogf only |
+| ogfeat_a / ogfeat_b / ogfeat_comb / ogveto (B2) | done; ogfc control "recomputed vs ogfa / ogfb files: agreement 1.000000" |
+| members `t1m:` v13a, v12s4a, v11a, darka, rampa, bspeca, bspecc | done (7–11 s each), all SMOKE gates OK; bspec c keeps 13/21 train days (60 %) |
 
-**উৎপন্ন সমতা kernelের স্থানীয় শুকনো চালান** ( `tests/dryrun_parity.py` ; স্ট্যান্ড-ইন মূল = পূর্ববর্তী ধোঁয়া আউটপুট):
--25 এর 49 কোরগুলি চালানো হয়েছিলঃ 23  PASS (বাইট-একতৈক পুনরায় চালানো) এবং lean1  CLOSE ডিজাইন দ্বারা ফিরে আসে। অন্য 24 এ বাদ দেওয়া হয়েছিল কারণ তাদের জন্য কোনও স্থানীয় স্ট্যান্ড-ইন নেই (অংশগুলি ধোঁয়া চালানো নয়) ।
-- `tfb-par-v12s4a` ফিরে CLOSE : 4 এর 42,499 প্রবাহ মানগুলি এই ম্যাকের দুটি রানের মধ্যে 1.1e-13 vph (একটি ulp) দ্বারা পৃথক। এটি থ্রেডিং বা সংযোজন-ক্রম শব্দ, এবং এটি রাজ্য সারিগুলির জন্য ক্ষতিকারক নয়।
+**Local dry run of the generated parity kernels** (`tests/dryrun_parity.py`; stand-in originals = earlier smoke outputs):
+- 25 of the 49 kernels ran: 23 returned PASS (byte-identical reruns) and lean1 returned CLOSE by design. The other 24 were skipped because no local stand-in exists for them (member parts not smoke-run).
+- `tfb-par-v12s4a` returned CLOSE: 4 of 42,499 flow values differed by 1.1e-13 vph (one ulp) between two runs on this Mac. That is threading or summation-order noise, and it is harmless for state rows.
 
-## নভেম্বর 10 প্যাকেজের জন্য খোলা আইটেম ( A3 / B3 )
+## Open items for the Nov 10 package (A3 / B3)
 
-| আইটেম | কেন | অনুমান |
+| Item | Why | Estimate |
 |---|---|---|
-| আলোর ক্যাগল সমতা A3 / B3 পর্যায়ঃ `tfb-par-k5d` , `tfb-par-k9` , `tfb-par-asma3` , `tfb-par-asmb3` , `tfb-par-chaint1k` ( `kaggle_parity/SOURCES.md` ) | 1–2 স্তর প্রকৃত তথ্য এবং মূল আউটপুট (স্থানীয়ভাবে submission_key.csv নেই) | ≈2.1 Kaggle-h, প্রতিটি সেশন, সব সমান্তরাল → ≈1.5 h দেয়াল + পড়া |
-| `tfb-par-t4` / `tfb-par-chaint1` ( path_flow সংশোধন) পুনরায় চাপুন | এখনও মাইলস্টোন 1 থেকে খোলা; A3  path_flow সারিগুলি tfb-j4 এর | 1.1 ক্যাগল-হ |
-| 12 catb / catb2 / xgb সদস্য অংশের ক্যাগল সমতা ( `tfb-par-catb*` , `-xgb*` ) | মূল চিত্রের ক্যাটবস্ট / এক্সজিবিওস্ট সংস্করণগুলি লগ করা হয়নি; আজকের চিত্রের পুনরায় পুনরাবৃত্তি দেখায় যে সদস্যরা EXACT বা ড্রাইভ (প্রত্যাশিতঃ মসৃণ, ≈ "নতুন বীজ" সর্বাধিক) | 38 কেগল-হ, 5 সেশন সমান্তরাল → ≈10 h দেয়াল |
-| মাইলস্টোন- 2 সমতা এখনও চালানো হয়নি (পসইডো, টাস্ক 1 লাইটজিবিএম সদস্য, টাস্ক 2 চলমান incl. LGB_REPRO পুনরাবৃত্তিযোগ্যতা) | A2 / B2 থেকে অবিচল; A3 / B3 একই পর্যায়ে ব্যবহার করুন | ≈140 Kaggle-h (দেখুন SOURCES.md ) → 2–3 দিন 5 সেশনে দেয়াল |
-| **টাস্ক 2 পোস্ট-টি ডিলিট রি-রান টেস্ট** | সংগঠক পুনরায় কাজ চালায় 2 প্রতিটি windowর T-এর পরে প্রতিটি সারি সরিয়ে ফেলা হয়; ভবিষ্যদ্বাণী পরিবর্তন করা উচিত নয়। A3 / B3 একই টাস্ক ব্যবহার করুন 2 যেমন ধাপ A2 / B2 (`onset_sp`, `onset_pv`, `ongoing_val`, `ongoing_pvogf` / `ogfeat_*`, `ogveto`), তাই এক পরীক্ষা চারটি পিক আচ্ছাদন করেঃ প্রতিটি টাস্কের পোস্ট-টি সারি সঙ্গে মুক্তির একটি অনুলিপি তৈরি 2 window মুছে ফেলুন, টাস্ক পুনরায় চালান 2 ধাপে ধাপে, ক্রম ফাইলগুলি তুলনা করুন (EXACT প্রয়োজনীয়; LightGBM ধাপগুলি LGB_REPRO) | 0.5 দিন ডিলিটার লিখতে (প্রতি windowতেঃ T এর পরে মুখোশ / র্যাম্প / আবাস স্তর) + ≈22 টাস্ক 2 পর্যায়ের Kaggle-h (বা 12 h on 8 cores) |
-| A3 ( 8 কোর / ≥32  GB লিনাক্স এক্স 86-64 , Docker চিত্র বি) | 18 - সদস্য রেসিপি এর প্রকৃত প্রাচীর সময় / RAM পরিমাপ করে এবং পুনরায় চালান বনাম জমা দেওয়ার টেবিল দেয় | ≈4–4.5 দিন প্রাচীর (পূর্ণ A3 ; B3 +0.5 দিন)  –  নভেম্বর 10 এর জন্য খুব দেরিতে শুরু হয়, যদি না নভেম্বর 5 এর মধ্যে শুরু হয়; অন্যথায় ক্যাগল পারিতির ফলাফল এবং প্রত্যাশিত রানটাইম রিপোর্ট করুন |
-| k- প্রজন্মের চিত্রগুলির প্যাকেজ সংস্করণ | catb / xgb / k5d / k9 / k10 কেগলের ডিফল্ট চিত্রের উপর চালানো 10-10 … 11-03 (চিত্র বি নয়); রেকর্ড `ENV` প্যারিটি kernelের লাইন এবং পিন `catboost`, `xgboost` মধ্যে `ENVIRONMENT.md` | সমতা রান সঙ্গে |
-| PDF প্রতিবেদন (15 পুরস্কারের স্কোরের %) | DESIGN § 6 রূপরেখা + A3 সংযোজন (CatBoost / XGBoost সদস্য, LRTC পদক্ষেপ M / B, LB  0.88176 → 0.88281 ) | 1–1.5 দিন |
-| পরিমাপ k9 / k10 রানটাইম | ট্র্যাক করা হয়নি (প্রত্যাশিত 16–20 min / ≈2 min) | প্যারিটি লগ থেকে |
+| Kaggle parity of the light A3 / B3 stages: `tfb-par-k5d`, `tfb-par-k9`, `tfb-par-asma3`, `tfb-par-asmb3`, `tfb-par-chaint1k` (`kaggle_parity/SOURCES.md`) | level 1–2 on the real data and the original outputs (no submission_key.csv locally) | ≈ 2.1 Kaggle-h, one session each, all in parallel → ≈ 1.5 h wall + reading |
+| Re-push `tfb-par-t4` / `tfb-par-chaint1` (path_flow fix) | still open from milestone 1; the A3 path_flow rows are tfb-j4's | 1.1 Kaggle-h |
+| Kaggle parity of the 12 catb / catb2 / xgb member parts (`tfb-par-catb*`, `-xgb*`) | the CatBoost / XGBoost versions of the original image were not logged; a rerun on today's image shows whether the members are EXACT or drift (expected: smooth, ≈ "a new seed" at most) | 38 Kaggle-h, 5 sessions in parallel → ≈ 10 h wall |
+| Milestone-2 parity still not run (pseudo, Task 1 LightGBM members, Task 2 ongoing incl. LGB_REPRO repeatability) | unchanged from A2 / B2; A3 / B3 use the same stages | ≈ 140 Kaggle-h (see SOURCES.md) → 2–3 days wall at 5 sessions |
+| **Task 2 post-T deletion rerun test** | the organizer reruns Task 2 with every row after each window's T removed; predictions must not change. A3 / B3 use the same Task 2 stages as A2 / B2 (`onset_sp`, `onset_pv`, `ongoing_val`, `ongoing_pvogf` / `ogfeat_*`, `ogveto`), so one test covers all four picks: build a copy of the release with the post-T rows of every Task 2 window removed, rerun the Task 2 stages, compare the queue files (EXACT required; LightGBM stages with LGB_REPRO) | 0.5 day to write the deleter (per window: masked / ramp / occupancy layers after T) + ≈ 22 Kaggle-h of Task 2 stages (or 12 h on 8 cores) |
+| Off-Kaggle full run of A3 (8 cores / ≥ 32 GB Linux x86-64, Docker image B) | measures the real wall time / RAM of the 18-member recipe and gives the rerun-vs-submission table | ≈ 4–4.5 days wall (full A3; B3 + 0.5 day) – starts too late for Nov 10 unless begun by Nov 5; otherwise report the Kaggle parity results and the projected runtime |
+| Package versions of the k-generation images | catb / xgb / k5d / k9 / k10 ran on Kaggle's default image of 10-10 … 11-03 (not image B); record `ENV` lines of the parity kernels and pin `catboost`, `xgboost` in `ENVIRONMENT.md` | with the parity runs |
+| PDF report (15 % of the award score) | DESIGN §6 outline + the A3 additions (CatBoost / XGBoost members, LRTC steps M / B, LB 0.88176 → 0.88281) | 1–1.5 days |
+| Measure k9 / k10 runtimes | not traced (expected 16–20 min / ≈ 2 min) | from the parity logs |

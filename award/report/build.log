@@ -325,21 +325,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 339--339
 Underfull \hbox (badness 10000) in paragraph at lines 339--339
 \T1/pcr/m/n/9 all_submitted_notebooks/README.md \T1/ptm/m/n/8 (+20) (from #5; t
 he
-[4]
-Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
-res/lb_progression.pdf> <./figures/lb_by_task.pdf> <./figures/transfer.pdf>]
-Underfull \hbox (badness 3815) in paragraph at lines 454--460
+[4] [5 <./figures/lb_progression.pdf> <./figures/lb_by_task.pdf> <./figures/tra
+nsfer.pdf>]
+Underfull \hbox (badness 3815) in paragraph at lines 470--476
 []\T1/ptm/b/n/10 (+20) Entry script. \T1/pcr/m/n/9 consolidation/run_all.py \T1
 /ptm/m/n/10 (+20) re-builds
 
-Underfull \hbox (badness 10000) in paragraph at lines 454--460
-\T1/pcr/b/n/10 <kaggle_public> --work-dir ./work --pick
+Underfull \hbox (badness 2005) in paragraph at lines 470--476
+\T1/ptm/m/n/10 (+20) as an AST. Pick A (tfb-k9) is re-built with \T1/pcr/m/n/10
+ python
 
-Underfull \hbox (badness 7415) in paragraph at lines 454--460
-\T1/pcr/b/n/10 A3 --recipe full\T1/ptm/b/n/10 (+20) ; con-firm against the up-d
-ated
+Underfull \hbox (badness 10000) in paragraph at lines 470--476
+\T1/pcr/m/n/10 run_all.py --data-root <kaggle_public>
 
-Underfull \hbox (badness 1983) in paragraph at lines 468--470
+Underfull \hbox (badness 10000) in paragraph at lines 470--476
+\T1/pcr/m/n/10 --work-dir ./work --pick A3 --recipe full
+
+Underfull \hbox (badness 1983) in paragraph at lines 485--487
 []\T1/ptm/b/n/10 (+20) Environment. \T1/ptm/m/n/10 (+20) Python 3.13 Kag-gle im
 -age (di-gest in
 [6]
@@ -374,12 +376,11 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></opt/homebrew/Cellar/tex
 live/20260301_3/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></opt
 /homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmsy8.pfb></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/
-type1/urw/courier/ucrb8a.pfb></opt/homebrew/Cellar/texlive/20260301_3/share/tex
-mf-dist/fonts/type1/urw/courier/ucrr8a.pfb></opt/homebrew/Cellar/texlive/202603
-01_3/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></opt/homebrew/Cellar/te
-xlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></opt/homeb
-rew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
-></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/time
-s/utmri8a.pfb>
-Output written on report.pdf (7 pages, 323259 bytes).
+type1/urw/courier/ucrr8a.pfb></opt/homebrew/Cellar/texlive/20260301_3/share/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb></opt/homebrew/Cellar/texlive/20260301
+_3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></opt/homebrew/Cellar/tex
+live/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></opt/homebre
+w/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+
+Output written on report.pdf (7 pages, 313864 bytes).
 Transcript written on report.log.

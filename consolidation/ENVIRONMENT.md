@@ -1,66 +1,64 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# Environment (draft, milestone 1)
 
-# পরিবেশ (প্রস্তাব, মাইলফলক 1 )
+## Reference environment: Kaggle Python image B
 
-## রেফারেন্স পরিবেশঃ Kaggle Python চিত্র B
+Every Task 2 producer, every swap and 6 of the 15 Task 1 members (4 of the 9 lean-1 members) ran in image B. It is the
+reference environment for the organizers (DESIGN §4.5).
 
-প্রতিটি টাস্ক 2 প্রযোজক, প্রতিটি swap এবং 6  15 টাস্ক 1 সদস্যদের ( 4  9 lean- 1 সদস্যদের) চিত্র বি এ চলেছে।
-সংগঠকদের জন্য রেফারেন্স পরিবেশ ( DESIGN § 4.5 ).
-
-| চিত্র | হজম | পাইথন | মূল কোর যে এটি চালানো |
+| Image | Digest | Python | Original kernels that ran in it |
 |---|---|---|---|
-| **B (রেফারেন্স)** | `gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a` | 3.13 | v 13 s 10 / s11 , t1dark / ramp / ramp2 / bspec, সমস্ত টাস্ক 2 producers (osp, opv, occ, ogpvaf, ogpvogf, ogfa/b/c , ogveto), সমস্ত swaps (i4d, i4 , j3 , j4 ) |
-| A | `gcr.io/kaggle-images/python@sha256:dafd4ce5668bbf1ad422e4c109e0f18c9623c3a7c7f48b0235f13142755c40b9` | 3.12 | 8 পুরানো FTA সদস্য, v13 , t 2 v13 , t 2 পরীক্ষাগার পূর্ণ (পসডো window), tfb-final (টাস্ক 4 ) |
+| **B (reference)** | `gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a` | 3.13 | v13s10 / s11, t1dark / ramp / ramp2 / bspec, all Task 2 producers (osp, opv, occ, ogpvaf, ogpvogf, ogfa/b/c, ogveto), all swaps (i4d, i4, j3, j4) |
+| A | `gcr.io/kaggle-images/python@sha256:dafd4ce5668bbf1ad422e4c109e0f18c9623c3a7c7f48b0235f13142755c40b9` | 3.12 | the 8 old FTA members, v13, t2v13, t2lab-full (pseudo windows), tfb-final (Task 4) |
 
-চিত্র-এ উপাদানগুলি চিত্র বি-তে পুনরায় চালানো হয়ঃ
-- CatBoost ইতিমধ্যে A থেকে B পর্যন্ত সঠিকভাবে পুনরায় প্রজননঃ CONTROL t এর বিরুদ্ধে চুক্তি2v13 শুরু হয় 1.000000.
-- টাস্ক 4  NNLS (scipy) এবং পুরানো LightGBM সদস্যদের পারিত্রীণ kernel দ্বারা পরিমাপ করা হয়ঃ `tfb-par-t4` এবং সদস্যের পারিত্রীণ (মাইলস্টোন 2 ).
-- প্রত্যাশিত প্রভাব মসৃণ, প্রতি সদস্যের জন্য সর্বোচ্চ "একটি নতুন বীজ" (প্রায় ±0.00005 ) ।
+The image-A components are rerun in image B:
+- CatBoost already reproduced exactly from A to B: the CONTROL agreement against t2v13 onset was 1.000000.
+- The Task 4 NNLS (scipy) and the old LightGBM members are measured by the parity kernels: `tfb-par-t4` and member parity (milestone 2).
+- The expected effect is smooth, at most "a new seed" per member (about ±0.00005).
 
-## প্যাকেজ পিন
+## Packages to pin
 
-প্যাকেজ সংস্করণগুলো কোন লগইন রেকর্ড করা হয়নি। এই টেবিলটি কোন উৎস থেকে পূরণ করুন এবং প্রথমটি পছন্দ করুনঃ
+No log recorded the package versions. Fill this table from either source, and prefer the first:
 
-1. **  `pip freeze` ভিতরের ছবি B ** (কাগল চাপ প্রয়োজন নেই):
+1. **`pip freeze` inside image B** (no Kaggle push needed):
    ```bash
    docker pull gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a
    docker run --rm gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a \
        sh -c "python --version; pip freeze | grep -iE '^(numpy|pandas|scipy|lightgbm|catboost|pyarrow|scikit-learn)=='"
    ```
-2. **  `ENV packages ...` প্রতিটি পারিতি kernel লগের ** লাইন `kaggle_parity/` প্রতিটি kernelে `importlib.metadata` সংস্করণগুলি মুদ্রণ করে এবং CPU প্রথম পতাকা।
-   - সতর্কতাঃ আজ একটি kernel টিপে কেগলের *বর্তমান* ডিফল্ট ইমেজে চলে, যা বি এর চেয়ে নতুন হতে পারে।
-   - একটি পোর্টিং বাগ হিসাবে EXACT নয় এমন ফলাফল পড়ার আগে প্রতিটি সমতা রানের চিত্রটি B এর সাথে তুলনা করুন।
-   - একটি রান ছবি একই সঙ্গে পড়তে পারেন `GET /kernels/pull` জন্য ব্যবহৃত ট্র্যাক `lineage_A2.json`.
+2. **The `ENV packages ...` line of every parity kernel log.** Every kernel in `kaggle_parity/` prints `importlib.metadata` versions and CPU flags first.
+   - Caution: a kernel pushed today runs on Kaggle's *current* default image, which may be newer than B.
+   - Compare the image of each parity run with B before reading a non-EXACT result as a porting bug.
+   - The image of a run can be read with the same `GET /kernels/pull` trace used for `lineage_A2.json`.
 
-পরিমাপ করা হয়েছে 2026-10-09: `ENV` সব লাইন 11 মাইলস্টোন-1 সেই ছবিতে প্রতিটি ছবির পুনরায় প্রকাশ করা হয়েছে।
-বাইট প্রতি বাইটঃ t 1 মিশ্রণ, t1recon, asma2/b এবং chaint2a2/b একই ফাইল প্রদান করে, এবং sp/pv শুরু EXACT হয় .
+Measured on 2026-10-09: the `ENV` lines of all 11 milestone-1 parity kernels. That image reproduced every image-B
+stage byte for byte: t1mix, t1recon, asma2/b and chaint2a2/b gave identical files, and onset sp/pv was EXACT.
 
-| প্যাকেজ | পারিতি রানগুলির ক্যাগল চিত্র ( 2026-10-09 ) | চিত্র বি (মূল রান) | ব্যবহৃত |
+| Package | Kaggle image of the parity runs (2026-10-09) | Image B (original runs) | Used by |
 |---|---|---|---|
-| পাইটন | 3.13.15 | 3.13 (অন্তত অলেখিত) | সব |
-| নুপি | 2.1.3 | TBD (`pip freeze`) | সব |
-| পাণ্ডা | 2.3.3 | TBD | সব (ডিফল্ট CSV ফ্লোট প্যারেজার গুরুত্বপূর্ণঃ নীচে " CSV ঘুর-ফেরা" দেখুন) |
-| সিকিপি | 1.16.3 | TBD | `t4` ( `scipy.optimize.nnls` ; EXACT বনাম tfb-final, যা ছবি A-তে চলেছে) |
-| হালকা | 4.6.0 | TBD | টাস্ক 1 সদস্য, টাস্ক 2 চলমান |
-| ক্যাটবস্ট | 1.2.10 | TBD | `onset_sp`, `onset_pv` (EXACT) |
-| xgboost | 10-09 এর সমতা রান দ্বারা আমদানি করা হয়নি | – | `t1_xgb` ( A3 / B3 সদস্য `tfb-t1xgb` ; স্থানীয় 2.1.4 ). k- প্রজন্মের kernels (catb / xgb / k5d / k9 / k10 ) কেগলের ডিফল্ট ইমেজ 2026-10-10 ... 11-03 , ছবি নয় B: `ENV` লাইন থেকে `tfb-par-catb*` / `tfb-par-xgb*` |
-| পিয়ার্রো | 23.0.1 | TBD | পার্কেট পাঠক |
-| শিখতে শিখতে | 1.6.1 | TBD | কোন পর্যায়ে আমদানি করা হয়নি |
+| python | 3.13.15 | 3.13 (minor not logged) | all |
+| numpy | 2.1.3 | TBD (`pip freeze`) | all |
+| pandas | 2.3.3 | TBD | all (the default CSV float parser matters: see "CSV round trips" below) |
+| scipy | 1.16.3 | TBD | `t4` (`scipy.optimize.nnls`; EXACT vs tfb-final, which ran in image A) |
+| lightgbm | 4.6.0 | TBD | Task 1 members, Task 2 ongoing |
+| catboost | 1.2.10 | TBD | `onset_sp`, `onset_pv` (EXACT) |
+| xgboost | not imported by the parity runs of 10-09 | – | `t1_xgb` (A3 / B3 member `tfb-t1xgb`; local 2.1.4). The k-generation kernels (catb / xgb / k5d / k9 / k10) ran on Kaggle's default image of 2026-10-10 … 11-03, not image B: pin from the `ENV` lines of `tfb-par-catb*` / `tfb-par-xgb*` |
+| pyarrow | 23.0.1 | TBD | parquet reads |
+| scikit-learn | 1.6.1 | TBD | not imported by any stage |
 
-সমতা চিত্র 4 vCPU ( AMD  EPYC  7 B 12 বা Intel Xeon 2.20 GHz; AVX2 + FMA , কোন AVX -512 ) দিয়ে চালানো হয়েছিল 31.3  GB  RAM .
-যতক্ষণ না চিত্র বি এর নিজস্ব `pip freeze` পাওয়া যায়, **দ্বিতীয় কলামের সংস্করণগুলি** __ pin: তারা পুনরায় প্রজনন করার প্রমাণিত
-এখন পর্যন্ত পরীক্ষিত প্রতিটি পর্যায়ে মূল আউটপুট।
+The parity image ran on 4 vCPU (AMD EPYC 7B12 or Intel Xeon 2.20 GHz; AVX2 + FMA, no AVX-512) with 31.3 GB RAM.
+Until image B's own `pip freeze` is available, **pin the versions in the second column**: they are proven to reproduce
+the original outputs for every stage tested so far.
 
-**CSV ঘুর-ফুর করে যাওয়া।** পান্ডার ডিফল্ট ফ্লোট পার্সার ( `read_csv` , `float_precision=None` ) সঠিকভাবে গোলাকার নয়।
-- একটি লিখুন + পড়ুন চক্র একটি মান একটি ulp দ্বারা সরানো করতে পারেন, এবং পুনরাবৃত্ত চক্র শুধুমাত্র কয়েক ধাপ পরে ঘনিষ্ঠ হয়।
-- ক্যাগল চেইন path_flow এর মাধ্যমে 26 + এই ধরনের চক্র লিখেছিল। `t4` পর্যায় তাই সেই চক্রের স্থির পয়েন্ট লিখেছে, যা চেইনের মান ( `tests/test_csv_roundtrip.py` ) ।
-- পান্ডাদের ডিফল্ট পার্সার রাখুনঃ `float_precision='round_trip'` বা pyarrow CSV এর মাধ্যমে কোথাও পার্সিং করবেন না।
+**CSV round trips.** pandas' default float parser (`read_csv`, `float_precision=None`) is not correctly rounded.
+- One write + read cycle can move a value by an ulp, and repeated cycles converge only after several steps.
+- The Kaggle chain wrote path_flow through 26+ such cycles. The `t4` stage therefore writes the fixed point of that cycle, which is exactly the chain's value (`tests/test_csv_roundtrip.py`).
+- Keep pandas' default parser: do not switch to `float_precision='round_trip'` or pyarrow CSV parsing anywhere.
 
-রেফারেন্সের জন্য, স্থানীয় ল্যাব পরিবেশ **নয়** কেগল পরিবেশ। এটি শুধুমাত্র স্থানীয় ধোঁয়া রান জন্য ব্যবহৃত হয়ঃ
-পাইথন 3.9.6 (ম্যাকোস বাহু 64 ), নম্পি 2.0.2 , পান্ডা 2.3.3 , স্কাইপি 1.13.1 , লাইটজিবিএম 4.6.0 , ক্যাটবুস্ট 1.2.10 , পিয়াররো 21.0.0 ,
-স্কিট-লার্নিং 1.6.1 .
+For reference, the local lab environment is **not** the Kaggle environment. It was used only for the local smoke runs:
+Python 3.9.6 (macOS arm64), numpy 2.0.2, pandas 2.3.3, scipy 1.13.1, lightgbm 4.6.0, catboost 1.2.10, pyarrow 21.0.0,
+scikit-learn 1.6.1.
 
-## কনটেইনার (প্রস্তাব)
+## Container (draft)
 
 ```dockerfile
 FROM gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a
@@ -71,25 +69,25 @@ ENTRYPOINT ["python", "run_all.py"]
 # docker run --rm -v /data/kaggle_public:/data:ro -v $PWD/work:/work <image> --data-root /data --work-dir /work --pick A2 --recipe lean1 --threads 8
 ```
 
-একই পিন সহ একটি পাতলা ভার্চুয়াল পরিবেশ (`requirements.txt`, একবার লেখা TBD সংস্করণ পূরণ করা হয়) আলো
-বিকল্প. এটি Linux x86-64 উপর পাইথন 3.13 প্রয়োজন.
+A slim virtual environment with the same pins (`requirements.txt`, written once the TBD versions are filled) is the light
+alternative. It needs Python 3.13 on Linux x86-64.
 
-## রানটাইম সেটিং যা রানার প্রয়োগ করে
+## Runtime settings applied by the runner
 
-এইগুলি প্রতিটি পর্যায়ে প্রক্রিয়া জন্য সেট করা হয়; তারা হাতে সেট করতে হবে নাঃ
+These are set for every stage process; they do not have to be set by hand:
 
-| পরিবর্তনশীল | মূল্য | কেন |
+| Variable | Value | Why |
 |---|---|---|
-| `PYTHONHASHSEED` | 0 | হ্যাশ-অর্ডার নির্ভরতা নেই |
-| `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS`, `MKL_NUM_THREADS`, `VECLIB_MAXIMUM_THREADS` | `--env-threads` , ডিফল্ট 4 | কেগল মেশিনগুলিতে 4 vCPU ছিল; BLAS হ্রাসগুলি কেগলের থ্রেড গণনা রাখে |
-| লাইটজিবিএম `num_threads` / ক্যাটবুস্ট `thread_count` | 4 , বিক্রিত kernelগুলির ভিতরে | ঠিক যেমনটা প্রতিটি টাস্ক 2 প্রযোজকের জন্য ক্যাগলে হয়; টাস্ক 1 সদস্যরা `--threads` (মাইলস্টোন 2 ) গ্রহণ করেন। |
-| কর্মসূচি | স্টেজের আউটপুট ফোল্ডার | যেমন `/kaggle/working` ; CatBoost লিখেছে `catboost_info/` সেখানে |
+| `PYTHONHASHSEED` | 0 | no hash-order dependence |
+| `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS`, `MKL_NUM_THREADS`, `VECLIB_MAXIMUM_THREADS` | `--env-threads`, default 4 | the Kaggle machines had 4 vCPU; BLAS reductions keep Kaggle's thread count |
+| LightGBM `num_threads` / CatBoost `thread_count` | 4, inside the vendored kernels | exactly as on Kaggle for every Task 2 producer; Task 1 members take `--threads` (milestone 2) |
+| working directory | the stage's output folder | as `/kaggle/working`; CatBoost writes `catboost_info/` there |
 
-`manifest.json` কাজ ডিআর প্যাকেজ সংস্করণ, CPU মডেল এবং পতাকা ( AVX2 / AVX -512 ), কোর গণনা, মেমরি,
-প্রতিটি রানের জন্য থ্রেড সেটিংস এবং ডেটা রুট সংক্ষিপ্তসার (ফাইল গণনা, আকার) ।
+`manifest.json` in the work dir records the package versions, CPU model and flags (AVX2 / AVX-512), core count, memory,
+thread settings and a data-root summary (file count, size) for every run.
 
-## হার্ডওয়্যার
+## Hardware
 
-- **CPU / OS** লিনাক্স এক্স 86-64 কমপক্ষে 8 কোর সহ; অফিসিয়াল পুনরায় চালু করার জন্য কোন অ্যাপল সিলিকন নেই।
-- **RAM .**  32  GB ন্যূনতম (একটি টাস্ক 1 সদস্য 28.0  GB ) এ শীর্ষে থাকে); 48–64  GB আরামদায়ক।
-- **ডিস্ক।** সম্পর্কে 30 GB বিনামূল্যেঃ 13 GB ডেটা প্লাস স্টেজ ক্যাশে এবং জমা দেওয়ার আকারের সিএসভি।
+- **CPU / OS.** Linux x86-64 with at least 8 cores; no Apple Silicon for the official rerun.
+- **RAM.** 32 GB minimum (a Task 1 member peaks at 28.0 GB); 48–64 GB is comfortable.
+- **Disk.** About 30 GB free: 13 GB of data plus the stage cache and submission-sized CSVs.

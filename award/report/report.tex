@@ -406,8 +406,14 @@ predicted the LB (Sec.~\ref{sec:neg}).
 
 \textbf{Estimated component levels.} At 0.86217 the components were estimated as $S_\text{ODME}\approx0.994$,
 $S_\text{FD}\approx0.99$, $S_\text{state}\approx0.94$, $S_\text{LWR}\approx0.51$ and $S_\text{queue}\approx0.78$ (\emph{estimates}, solved from LB probes;
-\file{research/SCORE\_GAP\_ANALYSIS.md}). Since then, $+0.0095$ of LB has come from Tasks~1 and 3 and $+0.0111$ from Task~2 (\file{figures/lb\_steps.csv}). \todo{optional: final private-LB score
-and rank of the selected pick, once published}
+\file{research/SCORE\_GAP\_ANALYSIS.md}). Since then, $+0.0095$ of LB has come from Tasks~1 and 3 and $+0.0111$ from Task~2 (\file{figures/lb\_steps.csv}).
+
+\textbf{Measured component levels of the final pick.} On 2026-11-04 three probes zeroed one block of the exact tfb-k9 file
+(\file{kaggle\_jobs/probe\_k9.py}; all other rows unchanged). Zeroing the onset queue rows gave 0.76597, the ongoing rows 0.75602 and the
+path flows 0.68406, against 0.88281. Because each block enters the composite linearly, the drops give public-LB onset IoU $0.779$,
+ongoing IoU $0.845$, $S_\text{queue}=0.812$ and $S_\text{ODME}\approx0.994$ (zero path flows taken as $S_\text{ODME}=0$). The remaining
+$0.440$ is $0.35\,S_\text{state}+0.05\,S_\text{FD}+0.10\,S_\text{LWR}$. Onset is the weakest block. In new-scenario proxies, 57--78\,\% of its loss comes from windows whose predicted cells miss the
+true queue entirely (\file{analysis/TRANSFER\_ANALYSIS\_2026-10-08.md}). \todo{optional: final private-LB score and rank of the selected pick, once published}
 
 \section{What did not work}\label{sec:neg}
 \begin{table}[t]
@@ -441,6 +447,16 @@ did not help, since the decoder's size had no bias. A kinematic shock-wave gate 
 in W/S panels gave $-0.003$. A regime switch for windows that start mid-run ($-0.0002$ LB) did not help either. Raw space-time patches, a vehicle-count / jam-length estimate, occupancy on the
 April model and blending in 30\,\% persistence ($-0.0018$ LB) all failed.
 
+\textbf{Late Task~2 tests (pre-registered, train and pseudo-March only).} (i) \emph{Simulation-augmented onset.} A cell-transmission
+model driven by each train day's boundary data was meant to generate scenarios with redrawn ramp demand. It failed its realism check: the
+released ramp flows barely move the mainline (slope 0.06--0.21 of $\Delta q$ on net ramp flow, a conserving model gives 1), and the
+simulator placed onsets correctly in 62\,\% of windows against 98\,\% for the train location prior. Bottleneck activation in the
+generator is therefore not driven by ramp demand. (ii) \emph{Half-hour phase.} Train onsets cluster at :35 and :05 (612 and 346 against
+93 and 118 at :30 and :00), so demand appears to step every 30 minutes. Phase columns gave $+0.018$ IoU on 5 seeds but $+0.003$
+$[-0.008, +0.014]$ on 15 fresh seeds; per-seed noise on 214 windows (about $\pm0.02$) is as large as the effect. (iii) \emph{Joint
+trajectory decoding}, choosing a whole translated train trajectory by expected IoU instead of the top-$m$ cells, changed no window on
+the production-like model and lost $-0.164$ IoU on a weaker one.
+
 \textbf{Task 1 / 3.} Other approaches also failed. A Kalman/RTS smoother ($-0.019$ composite), interpolating per-lane flow instead of total
 flow, a density model $q=\hat k\hat v$, per-regime models and an L1 density model all lost. A day-grid U-Net (raw speed RMSE 2.5 against 1.7 for
 LightGBM), ExtraTrees, ridge and kNN-day members failed too. Density time-interpolation post-processing from public notebooks was negative in
@@ -454,16 +470,17 @@ station-to-station flux estimate is noisier than the signal.
 \textbf{Entry script.} \file{consolidation/run\_all.py} rebuilds either pick from the competition release with one command. Each
 stage is the original Kaggle kernel, vendored with only its I/O lines changed (each marked \texttt{\# [TFB]}, which a static test
 enforces). A template test checks that every rendered Task~1 member part equals its original source, compared as an AST.
-\todo{final command line for pick A3 = tfb-k9 and B3 = tfb-k10, e.g.\ \texttt{python run\_all.py --data-root <kaggle\_public>
---work-dir ./work --pick A3 --recipe full}; confirm against the updated \file{consolidation/README.md} / \file{LINEAGE\_K9.md}}
+Pick A (tfb-k9) is rebuilt with \texttt{python run\_all.py --data-root <kaggle\_public> --work-dir ./work --pick A3 --recipe full}
+and pick B (tfb-k10) with \texttt{--pick B3}; \texttt{--list} prints the stage plan.
 \todo{code location submitted to the organizers (GitHub URL or zip name)}
 
 \textbf{Compute.} All members ran on Kaggle CPU kernels (4 vCPU, about 30\,GB RAM). A Task~1 LightGBM member takes 4.6--8.8\,h over its 2--3 panel parts,
 with a peak of 28.0\,GB. The CatBoost members take 15.7\,h per seed over 4 parts and the XGBoost member 4.2\,h
 (\file{consolidation/lineage\_K9.json}). The previous pick (tfb-j4) was measured at 107--111 Kaggle CPU-hours in the full recipe. Adding the k
 generation gives an \emph{estimated} 143--147 CPU-hours for tfb-k9. On one 8-core, 32\,GB Linux machine the earlier full recipe was
-estimated at 63--68\,h of wall time. \todo{measured end-to-end wall time and peak RAM of the consolidated A3 / B3 run} \todo{runtime of the
-tfb-k9 kernel itself (estimated 16--20 min; tfb-k7 took 771\,s)}
+estimated at 63--68\,h of wall time. On Kaggle the consolidated light stages took: the k9 step (LRTC member, FD reconstruction, TV) 1121\,s including the parity
+comparison; the Task~4 + Task~1 mix + k9 chain from the member outputs 3599\,s; each queue assembly about 110\,s.
+\todo{measured end-to-end wall time and peak RAM of the consolidated A3 / B3 run on one machine}
 
 \textbf{Environment.} Python 3.13 Kaggle image (digest in \file{consolidation/ENVIRONMENT.md}). The parity runs used numpy 2.1.3, pandas 2.3.3,
 scipy 1.16.3, LightGBM 4.6.0, CatBoost 1.2.10 and pyarrow 23.0.1. \todo{pin the exact package versions of the reference image (pip freeze)}
@@ -473,8 +490,21 @@ scipy 1.16.3, LightGBM 4.6.0, CatBoost 1.2.10 and pyarrow 23.0.1. \todo{pin the 
 Task~1 mix, recon/TV, assembly, Task~4) matched the Kaggle outputs exactly. The original LightGBM kernels did not fix LightGBM's
 histogram construction, so reruns of the Task~2 ongoing models differ in a few dozen of 87{,}000 cells. The private-score bound for this
 is about 0.0012, within the organizers' 1\,\% tolerance (\file{consolidation/README.md}). The consolidated stages therefore run LightGBM with
-\texttt{deterministic=True, force\_row\_wise=True}. \todo{Kaggle parity of the consolidated A3 / B3 output versus the submitted
-tfb-k9 / tfb-k10 files: queue-row agreement, state RMS per split, path-flow equality, and the resulting score difference}
+\texttt{deterministic=True, force\_row\_wise=True}.
+
+\textbf{Kaggle parity of the final picks (2026-11-03/04).} Seven parity kernels ran the consolidated code on Kaggle CPU images and compared
+every row with the submitted files (\file{consolidation/kaggle\_parity/}). The k5d mix, the k9 step and the B3 assembly are byte-identical to
+tfb-k5d, tfb-k9 and tfb-k10. The full Task~4 $\rightarrow$ Task~1 mix $\rightarrow$ k9 chain, rebuilt from the member outputs, matches
+tfb-k9 exactly on all 6{,}735{,}795 state rows and 70{,}708 path flows. The A3 assembly matches tfb-k9 exactly on queue rows and path flows;
+its state rows differ by at most $3.6\times10^{-15}$\,km/h and $9.1\times10^{-13}$\,veh/h (floating-point order), and its upload scored
+0.88281 on the public LB, the same as tfb-k9. Task~4 alone matches the j4/j3 files exactly.
+
+\textbf{Task~2 rerun with post-origin rows removed.} We ran the organizers' check ourselves (\file{award/t2\_postT/}). Every Task~2
+producer used by the picks was rerun on release-shaped trees with all rows after a cut deleted, at cuts placed on each window's own $T$,
+in three deletion styles (rows emptied, files removed, later windows removed from the index). Across about 4 million compared cells no
+prediction for a window with $T\le$ cut changed. The test exposed crashes of the original code on empty inputs (an empty slot-$T$ frame, a
+split without windows); the consolidated stages carry 18 guarded lines (marked \texttt{[POSTT-R1..R6]}) that leave the full-data output
+byte-identical.
 
 \section{Limitations and conclusion}
 Only 40 windows per condition are scored per month, so Task~2 effects below about 0.002 cannot be seen on the LB, and our onset

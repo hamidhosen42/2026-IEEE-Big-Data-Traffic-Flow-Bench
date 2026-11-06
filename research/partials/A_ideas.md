@@ -1,423 +1,425 @@
-# Source family A: competition resources, generator analysis, Traffic4cast
+> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
 
-Written 2026-09-30. Resource IDs refer to `A_resources.csv`.
+# উৎস পরিবার A: প্রতিযোগিতার সম্পদ, জেনারেটর বিশ্লেষণ, ট্রাফিক 4 কাস্ট
 
-**What was read**
-- The official repository, including its full commit history (29 commits, with bodies).
-- The Kaggle forum dump.
-- Seven participant repositories, with code inspected.
-- Eight public Kaggle notebooks, pulled through the API.
-- The Traffic4cast 2019–2022 papers and repositories. arXiv lists no Traffic4cast 2023 edition, and nothing about one was found.
+লিখিত 2026-09-30 . রিসোর্স আইডিগুলি `A_resources.csv` এর সাথে সম্পর্কিত ।
 
-The most informative source by far is **Hisernberg/kraggle-3-in-one `trafficflow/`** (A0057–A0084): public LB 0.87249 on 2026-09-28, with every submission logged, single-factor LB deltas, and exact probe decompositions. It has no licence, so we take ideas only and copy no code.
+**যা পড়েছে**
+- অফিসিয়াল রিপোজিটরি, যার মধ্যে রয়েছে এর সম্পূর্ণ কমিট ইতিহাস ( 29 কমিট, সংস্থাগুলির সাথে) ।
+- কেগল ফোরামের ডাম্প।
+- কোড পরীক্ষা করা হয়েছে এমন সাতটি অংশগ্রহণকারীর repository।
+- আটটি পাবলিক ক্যাগল নোটবুক, যা API এর মধ্য দিয়ে টানানো হয়েছে।
+- ট্রাফিক 4 কাস্ট 2019–2022 কাগজপত্র এবং সংগ্রহস্থল। arXiv কোন ট্রাফিক 4 কাস্ট 2023 সংস্করণ তালিকাভুক্ত করেনি, এবং এর সম্পর্কে কিছুই পাওয়া যায়নি।
+
+সবচেয়ে তথ্যবহুল উৎসটি **  Hisernberg/kraggle-3-in-one  `trafficflow/`  ** ( A0057 – A0084 ): LB  0.87249  2026-09-28 , প্রতিটি জমায়েত লগ করা, একক ফ্যাক্টর LB ডেলটাস এবং সঠিক সন্ড বিভাজন সহ। এটির কোনও লাইসেন্স নেই, তাই আমরা কেবলমাত্র ধারণা গ্রহণ করি এবং কোনও কোড কপি করি না।
 
 ---
 
-## 0. Where we stand vs the best documented public pipeline
+## 0 . যেখানে আমরা দাঁড়িয়ে আছি বনাম সেরা নথিভুক্ত পাবলিক পাইপলাইন
 
-| Component | Ours (EXISTING_MAP) | Hisernberg H2/H11P (A0058) | Note |
+| উপাদান | আমাদের (EXISTING_MAP) | Hisernberg H2/H11P ( A0058 ) | নোট |
 |---|---|---|---|
-| S_ODME | ≈0.994 | 0.9938 (probe) | Same. Saturated. |
-| Task 1 + Task 3 (weighted) | S_state ≈0.93–0.94 val-holdout, S_phys ≈0.67 | 0.4327 weighted at H2, then +0.0038 more from transductive training | Their T1+T3 lead comes from transductive training, seed ensembles, TV smoothing and gated reconciliation. |
-| Onset IoU (March) | 0.743 (measured at LB 0.84855) | 0.732 (H2) | Ours is **not** behind on onset. |
-| Ongoing IoU (March) | 0.747 at LB 0.84855; later + prior-free + weekday priors, current value unmeasured | 0.843 (H2) | **Likely our largest Task 2 gap.** Re-probe it (zero-ongoing probe on COMBO5). |
+| S_ODME | ≈0.994 | 0.9938 (সোণ) | একই, পরিপূর্ণ। |
+| টাস্ক 1 + টাস্ক 3 (ওয়েট করা) | S_state ≈0.93–0.94 val-hold, S_phys ≈0.67 | 0.4327  H2 তে ওজন করা হয় , তারপর ট্রান্সডাক্টিভ trainিং থেকে +0.0038 বেশি | তাদের T1 + T3 সীসা ট্রান্সডাক্টিভ প্রশিক্ষণ, বীজ সমষ্টি, TV মসৃণতা এবং গেটযুক্ত পুনর্মিলন থেকে আসে। |
+| শুরু (মার্চ) | 0.743 ( LB  0.84855 এ পরিমাপ করা) | 0.732 (H2) | আমাদের **না** শুরুতে পেছনে। |
+| চলমান ইউআই (মার্চ) | 0.747 at LB  0.84855 ; পরে + পূর্বের বিনামূল্যে + কর্মদিবসের পূর্ববর্তী, বর্তমান মান পরিমাপ করা হয়নি | 0.843 (H2) | **সম্ভবত আমাদের সবচেয়ে বড় টাস্ক 2 ফাঁক.** এটি পুনরায় পরীক্ষা করে দেখুন (শূন্য চলমান জোন্ড COMBO5 ). |
 
 ---
 
-## 1. Candidate experiments (ranked by expected value)
+## 1 . প্রার্থী পরীক্ষা (প্রত্যাশিত মান অনুযায়ী)
 
-### I-1. Transductive Task 1 training on observed test-month cells (HIGH-VALUE, **NEW**)
+### I- 1 . ট্রান্সডাক্টিভ টাস্ক 1 প্রশিক্ষণ পর্যবেক্ষণ পরীক্ষার মাস cell ( HIGH - VALUE , **NEW** )
 
-**Basis:** A0058 (EXPERIMENTS.md, "Transductive Task 1 member"), A0066 (`t1_pseudo.py`), rule A0008.
+**বেসঃ**  A0058 ( EXPERIMENTS.md , " ট্রান্সডাক্টিভ টাস্ক 1 সদস্য"), A0066 ( `t1_pseudo.py` ), নিয়ম A0008 ।
 
-**Weakness it addresses:** our T1 model is fitted on train only (EXP_T1_l uses the val-month cells only as a holdout). The val and private months are independent demand draws (A0006, A0035, A0045), so train-only fits leave month-specific structure unlearned.
+**দুর্বলতা এটি সমাধান করেঃ** আমাদের T1 মডেলটি কেবলমাত্র trainে ইনস্টল করা হয় ( EXP_T1_l কেবলমাত্র ভ্যাল-মাস সেলগুলিকে হোল্ড আউট হিসাবে ব্যবহার করে) । ভ্যাল এবং প্রাইভেট মাসগুলি স্বাধীন চাহিদা ড্র ( A0006 , A0035 , A0045 ), তাই কেবলমাত্র trainে ফিটগুলি মাস-নির্দিষ্ট কাঠামোকে অপরিচিত করে দেয়।
 
-**Label:** NEW. We already built the val-month holdout, which is the evaluation half of this idea.
+**লেবেলঃ**  NEW . আমরা ইতিমধ্যে ভ্যাল-মাস হোল্ডআউট তৈরি করেছি, যা এই আইডিয়ার মূল্যায়নের অর্ধেক।
 
-**Exact change:**
-- For each panel and each of March and April, sample about 90k observed, eligible, non-target, non-blackout cells as extra training rows, labelled with their released values.
-- Build their features with those cells hidden. Hide them in rounds of about 30k per round (about 5% extra masking) so the neighbour context looks like a real target's.
-- Keep them disjoint from the evaluation cells (our 15% val-month holdout, plus an April holdout built the same way).
-- Add no absolute date or day-index feature.
-- Hisernberg's increments were 1× → 2× → 3× rows with different seeds, averaged.
+**সঠিক পরিবর্তনঃ**
+- মার্চ ও এপ্রিলের প্রতিটি প্যানেলের জন্য, অতিরিক্ত প্রশিক্ষণ রুট হিসাবে 90 k পর্যবেক্ষণ করা, যোগ্য, অ-লক্ষ্য, অ-বাকআউট cellগুলির নমুনা, তাদের প্রকাশিত মানগুলির সাথে লেবেলযুক্ত।
+- তাদের বৈশিষ্ট্যগুলি লুকানো cellগুলির সাথে তৈরি করুন। প্রতি রাউন্ডে প্রায় 30 k রুপে তাদের লুকান (প্রায় 5 % অতিরিক্ত মাস্কিং) যাতে প্রতিবেশী প্রসঙ্গে আসল লক্ষ্যের মতো দেখা যায়।
+- এগুলিকে মূল্যায়ন cell থেকে আলাদা রাখুন (আমাদের 15 % val-month holdout, প্লাস এপ্রিল holdout একই ভাবে তৈরি করা হয়েছে) ।
+- কোন পূর্ণ তারিখ বা দিন সূচক বৈশিষ্ট্য যোগ করবেন না।
+- হিজার্ণবার্গের বৃদ্ধি ছিল 1 × → 2 × → 3 × বিভিন্ন বীজ সহ সারি, গড়।
 
-**Data:** Task 1 is offline, and any released observation may be used (A0008). Not a Task 2 input.
+**ডেটাঃ** টাস্ক 1 অফলাইন, এবং যে কোন প্রকাশিত পর্যবেক্ষণ ব্যবহার করা যেতে পারে ( A0008 ). টাস্ক 2 ইনপুট নয়।
 
-**Leakage risk:** low, as long as evaluation cells are excluded from training rows and hidden when their own features are built.
+**ফুটো ঝুঁকিঃ** কম, যতক্ষণ না মূল্যায়ন cellগুলি প্রশিক্ষণ র্যাঙ্ক থেকে বাদ দেওয়া হয় এবং যখন তাদের নিজস্ব বৈশিষ্ট্যগুলি তৈরি করা হয় তখন লুকানো হয়।
 
-**Compute:** one more feature build over about 1.8M extra rows, plus one T1 fit. Fits a Kaggle CPU kernel.
+**গণনাঃ** আরও একটি বৈশিষ্ট্য বিল্ড প্রায় 1.8 M অতিরিক্ত সারি, প্লাস এক T1 ফিট। একটি Kaggle CPU kernel ফিট।
 
-**Expected gain:**
-- Hisernberg LB: +0.00229 (1×), +0.00109 (2×), +0.00047 (3×), about **+0.004 total**.
-- Their pseudo-holdout measured only the S_state part. The LB gain was about 1.2–2× the pseudo figure, the rest being LWR from better test-month density.
+**প্রত্যাশিত লাভঃ**
+- Hisernberg LB : +0.00229 ( 1 ×), +0.00109 ( 2 ×), +0.00047 ( 3 ×), প্রায় **+0.004 মোট** .
+- তাদের ছদ্মবেশী-হোল্ডউইট শুধুমাত্র S_state অংশটি পরিমাপ করে। LB লাভ ছিল 1.2–2 × ছদ্মবেশী চিত্র, বাকিটি ছিল LWR ভাল পরীক্ষার মাস ঘনত্ব থেকে।
 
-**Validation and reject rule:**
-- Use a pseudo-holdout on **both** March and April, scored with the official S_state formula.
-- Reject if 0.35·ΔS_state < +0.0005 on either month, or if fewer than 8/10 panels improve.
+**বৈধতা এবং প্রত্যাখ্যান নিয়মঃ**
+- **মার্চ এবং এপ্রিল উভয়** মার্চ এবং এপ্রিল উভয় ক্ষেত্রেই একটি ছদ্মবেশী-হোল্ডআউট ব্যবহার করুন, যা অফিসিয়াল S_state সূত্রের সাথে স্কোর করা হয়।
+- যদি 0.35 ·ΔS_state < +0.0005 হয় অথবা যদি 8/10 প্যানেলের চেয়ে কম উন্নতি হয় তবে তা প্রত্যাখ্যান করুন।
 
-### I-2. Ongoing model: blend a full-feature model with a "no location prior, keep link identity" model (**HIGH-VALUE RETEST**)
+### I- 2 . চলমান মডেলঃ একটি পূর্ণ বৈশিষ্ট্য মডেলকে "নিম্ন অবস্থান, লিঙ্ক পরিচয় বজায় রাখুন" মডেলের সাথে মিশ্রিত করুন ( **HIGH - VALUE  RETEST** )
 
-**Basis:** A0059 §11–12 (the v4/v5 recipes). A0058: v5 was the only ongoing change that transferred to March, with S_queue +0.0081. Their March ongoing was 0.843.
+**বেসঃ**  A0059 § 11–12 (the v4/v5 recipes). A0058 : v5 ছিল একমাত্র চলমান পরিবর্তন যা মার্চ স্থানান্তরিত হয়েছিল, যার মধ্যে S_queue +0.0081 ছিল। তাদের চলমান মার্চ ছিল 0.843 .
 
-**Weakness it addresses:** ongoing IoU. Our last measured value was 0.747. Our current ongoing is "prior-free (no location/time/prior features)".
+**দুর্বলতা এটি addresses:** চলমান IoU. আমাদের শেষ পরিমাপ মান ছিল 0.747 . আমাদের চলমান চলমান "পূর্ববর্তী মুক্ত (কোন location/time/prior বৈশিষ্ট্য নেই) " ।
 
-**Hisernberg's ablation on 3,001 selector windows:**
+**3,001 নির্বাচক windowগুলোতে হিসার্সবার্গের আবরনঃ**
 
-| Model | Score |
+| মডেল | স্কোর |
 |---|---|
-| Dropping only the location/TOD priors (pq_*, rq7_*) | 0.877 (unchanged vs full) |
-| Also dropping link identity, TOD and weekday | 0.829 vs 0.853 at the fast config. Hurts everywhere, **including the non-recurrent slice**. |
-| 50/50 blend of the full model and the "noloc" model | best on every slice |
+| শুধুমাত্র location/TOD প্রিওরগুলি বাদ দেওয়া (pq_*, rq 7 _*) | 0.877 (পরিবর্তিত না বনাম পূর্ণ) |
+| লিঙ্ক আইডি, TOD এবং সপ্তাহের দিনও বাদ দেওয়া হচ্ছে | 0.829 বনাম 0.853 দ্রুত কনফিগারেশন. **পুনরাবৃত্তিহীন টুকরো সহ**. |
+| 50/50 সম্পূর্ণ মডেল এবং "নোলোক" মডেলের মিশ্রণ | প্রতিটি টুকরো উপর সেরা |
 
-**Label:** RELATED / HIGH-VALUE RETEST.
-- Our "prior-free only" beat the 70/30 blend on the LB (+0.0045).
-- But if our prior-free model also removed link identity, position and static attributes, the Hisernberg variant (priors dropped, identity kept) has never been tested.
+**লেবেলঃ**  RELATED / HIGH - VALUE  RETEST .
+- আমাদের "পূর্ববর্তী মুক্ত শুধুমাত্র" 70/30 মিশ্রণকে LB (+0.0045 ) উপর আঘাত করেছে।
+- কিন্তু যদি আমাদের পূর্বের মুক্ত মডেলটি লিঙ্ক পরিচয়, অবস্থান এবং স্থিতিশীল বৈশিষ্ট্যগুলিও সরিয়ে দেয়, তবে হিসার্নবার্গ ভেরিয়েন্ট (পূর্ববর্তী বাদ দেওয়া, পরিচয় রাখা) কখনও পরীক্ষা করা হয়নি।
 
-**Exact change:**
-- Train ongoing model B with every feature except the location/TOD/weekday prior families. Keep link id or position, lanes, capacity and panel code.
-- Final probability = 0.5·B + 0.5·(current prior-free model). Also try 0.5·B + 0.5·(full model).
-- Their v5 weights were 0.35 LWR-all + 0.35 LWR-noloc + 0.15 v2-all + 0.15 v2-noloc.
+**সঠিক পরিবর্তনঃ**
+- location/TOD/weekday পূর্ববর্তী পরিবারগুলি ব্যতীত প্রতিটি বৈশিষ্ট্য সহ চলমান মডেল বি train করুন। লিঙ্ক আইডি বা অবস্থান, ল্যান, ক্ষমতা এবং প্যানেল কোড রাখুন।
+- শেষ সম্ভাবনা = 0.5 ·B +0.5 ·(বর্তমান পূর্ববর্তী মুক্ত মডেল) । এছাড়াও 0.5 ·B +0.5 ·(সম্পূর্ণ মডেল চেষ্টা করুন।
+- তাদের v5 ওজন ছিল 0.35  LWR -all +0.35  LWR -noloc +0.15 v2 -all +0.15 v2 -noloc।
 
-**Data:** ≤T only. **Leakage:** none. **Compute:** one more ongoing model (255 leaves). Low.
+**ডেটাঃ** ≤T শুধুমাত্র। **ফুটোঃ** কোন। **গণনাঃ** আরও একটি চলমান মডেল ( 255 leaves) । কম।
 
-**Expected gain:** +0.005 to +0.02 on ongoing IoU, i.e. +0.001 to +0.003 on S_total. Uncertain: Hisernberg's other ongoing CV gains failed on March (see §4).
+**প্রত্যাশিত লাভঃ** +0.005 + থেকে+0.02 চলমান আইওইউ, অর্থাৎ +0.001 + থেকে+0.003 উপর S_total. অনিশ্চিতঃ হিজার্ণবার্গের অন্যান্য চলমান CV মার্চ মাসে ব্যর্থ লাভ (দেখুন §4).
 
-**Validation and reject rule:**
-- Gate on the **test-month pseudo-holdout** (I-4), not on train CV.
-- Reject if its March-only ongoing delta is ≤ 0.
+**বৈধতা এবং প্রত্যাখ্যান নিয়মঃ**
+- **পরীক্ষার মাসের ছদ্মবেশী** (I- 4 ) এর গেট, train-এর CV নয়।
+- যদি তার মার্চ-শুধুমাত্র চলমান ডেল্টা ≤0 হয় তবে প্রত্যাখ্যান করুন।
 
-### I-3. Task 2 label repair: hybrid truth with a LightGBM imputer for missing train cells (**RELATED**, medium–high)
+### I-3- টাস্ক 2 লেবেল মেরামতঃ হাইব্রিড সত্য, হারিয়ে যাওয়া train সেলগুলির জন্য একটি লাইটজিবিএম ইমপুটর (**RELATED**(মধ্যম উচ্চ)
 
-**Basis:** A0059 §13 ("The label fix"), A0068 (`truthfix.py`). LB: onset **+0.030** on March (D1, +0.00453 S_total), against CV +0.005 to +0.012.
+**বেসঃ**  A0059 § 13 ("লিবেল ফিক্স"), A0068 ( `truthfix.py` ). LB : শুরু **+0.030** মার্চ ( D1 , +0.00453  S_total ), CV +0.005 থেকে +0.012 পর্যন্ত ।
 
-**Weakness it addresses:** our Task 2 truth is observed speed ≤ 0.6·v_free on eligible cells only (TRACKER). About 24% of cells are missing or ineligible.
-- Official truth is the complete noise-free state (A0021, A0011).
-- At a queue's first slot the state is sharp in time and smooth in space. So missing cells distort the replicated selector (which origin is chosen and the T+30 set) and the size of the onset positive set. Hisernberg's first-slot blocks came out 7–17% too small.
+**দুর্বলতা এটি সমাধান করেঃ** আমাদের টাস্ক 2 সত্যতা লক্ষ্য করা হয় গতি ≤0.6 · v_free শুধুমাত্র যোগ্য cellগুলিতে ( TRACKER ) । 24 % cell অনুপস্থিত বা অনুপযোগী।
+- সরকারি সত্য হল সম্পূর্ণ শব্দের মুক্ত অবস্থা (A0021, A0011).
+- একটি সারির প্রথম স্লট এ অবস্থা সময় এবং স্থান মধ্যে মসৃণ। সুতরাং অনুপস্থিত cellগুলি পুনরায় নির্বাচিত নির্বাচককে বিকৃত করে (যা উত্স নির্বাচিত হয় এবং T +30 সেট) এবং শুরু ইতিবাচক সেটের আকার। হিসার্সবার্গের প্রথম স্লট ব্লকগুলি 7–17 % খুব ছোট হয়ে ওঠে।
 
-**Label:** RELATED.
-- We exclude missing cells rather than time-filling them, so our bias is smaller than theirs was (their old fill had queued recall 0.266 at onset slots). The gain may be smaller for us.
-- Our onset (0.743) already exceeds theirs after the fix (0.728–0.732).
+**লেবেলঃ**  RELATED .
+- আমরা তাদের সময় পূরণ করার পরিবর্তে অনুপস্থিত cellগুলি বাদ দিই, তাই আমাদের পক্ষপাত তাদের চেয়ে ছোট (তারা শুরুতে 0.266 পুনরুদ্ধার করতে ক্যোয়ারে তাদের পুরানো পূরণ করেছিল) । আমাদের জন্য লাভটি ছোট হতে পারে।
+- আমাদের শুরু (0.743) ইতিমধ্যে তাদের চেয়ে বেশি (0.728–0.732).
 
-**Exact change:**
-- Train a LightGBM imputer of speed on observed train cells. Features: the cell's neighbours at t±1,2, links ±1,2 and the diagonals. Train on even days, check on odd days.
-- Hybrid truth: fill a missing cell with the imputer **only** within ±5 min and ±2 links of an observed queued cell. Elsewhere keep the observed-only truth.
-- This avoids scattering the imputer's 1–2% false positives through free flow.
-- Re-run our selector replica on the hybrid truth and retrain onset (CatBoost) on the redrawn windows.
+**সঠিক পরিবর্তনঃ**
+- একটি লাইটজিবিএম গতির ইনপুটরকে পর্যবেক্ষণ করা train সেলগুলিতে train করুন। বৈশিষ্ট্যঃ সেলের প্রতিবেশীগুলি t±1,2 , সংযোগগুলি ±1,2 এবং ডায়াগনালগুলি। সমান দিনে train করুন, অদ্ভুত দিনে চেক করুন।
+- হাইব্রিড সত্যঃ একটি অনুপস্থিত cellকে ± **মাত্র** ±5 মিনিটের মধ্যে এবং ±2 একটি পর্যবেক্ষণকৃত ক্যু cellের লিঙ্ক দিয়ে পূরণ করুন। অন্য কোথাও কেবলমাত্র পর্যবেক্ষণকৃত সত্যটি রাখুন।
+- এটি বিনামূল্যে প্রবাহের মাধ্যমে ইমপুটারের 1–2 % মিথ্যা ইতিবাচক ছড়িয়ে পড়া এড়ায়।
+- হাইব্রিড সত্যের উপর আমাদের নির্বাচক প্রতিলিপি পুনরায় চালান এবং পুনরায় আঁকা windowগুলোতে পুনরায় শুরু করুন (ক্যাটবস্ট) ।
 
-**Data:** train labels only, so no ≤T problem. **Leakage:** none. **Compute:** medium (imputer plus one selector and feature rebuild).
+**ডেটাঃ** শুধুমাত্র train-এর লেবেল, তাই কোন ≤T সমস্যা নেই। **ফুটোঃ** কোন. **গণনাঃ** মাঝারি (অনুগ্রহকারী প্লাস এক নির্বাচনকারী এবং বৈশিষ্ট্য পুনর্নির্মাণ) ।
 
-**Expected gain:** +0.00 to +0.004 S_total.
+**প্রত্যাশিত লাভঃ** +0.00 থেকে +0.004  S_total.
 
-**Validation and reject rule:**
-- Compare on the **test-month pseudo-holdout** (I-4, observed labels), because the train CV truth changes with the fix.
-- Reject if the March-only pseudo onset IoU (see the leakage note in I-4) does not improve by ≥ 0.005.
+**বৈধতা এবং প্রত্যাখ্যান নিয়মঃ**
+- **পরীক্ষার মাসে** (I- 4 , পর্যবেক্ষণ করা লেবেল) এর সাথে তুলনা করুন, কারণ train CV সত্য সংশোধন সঙ্গে পরিবর্তিত হয়।
+- যদি শুধুমাত্র মার্চ মাসে ছদ্মবেশী শুরু হওয়া IoU (I- 4 এর ফুটো নোট দেখুন) ≥0.005 দ্বারা উন্নত না হয় তবে প্রত্যাখ্যান করুন।
 
-### I-4. Task 2 test-month pseudo-holdout as the adoption gate (**NEW**, validation infrastructure, high)
+### I- 4 . গ্রহণের গেট হিসেবে 2 পরীক্ষার মাসকে ছদ্মবেশীভাবে ধরে রাখা ( **NEW** , বৈধকরণ অবকাঠামো, উচ্চ)
 
-**Basis:** A0074 (§21/21b on branch `claude/focused-allen-uzq8gr`), A0075 (`t2/pseudo.py`).
+**বেসঃ**  A0074 (§ 21/21 b শাখায় `claude/focused-allen-uzq8gr` ), A0075 ( `t2/pseudo.py` ).
 
-**Weakness it addresses:** our CV→LB ratio is about 0.84 and systematic. Hisernberg found 4 of 5 ongoing changes that passed plain and shift-weighted CV lost on March (§4).
+**দুর্বলতা এটি addresses:** আমাদের CV → LB অনুপাত প্রায় 0.84 এবং সিস্টেম্যাটিক। Hisernberg 4 খুঁজে পেয়েছে 5 চলমান পরিবর্তন যা সরল এবং শিফট-ওয়েটেড CV পাস হারিয়ে মার্চ (§ 4 ).
 
-**What the pseudo-holdout did for Hisernberg:**
-- It caught the G3 stacking failure: −0.0048 at 4 SE on pseudo-March, while CV said +0.0065.
-- It gives about 3,000 ongoing and 230 onset windows per month (about 330 ongoing in `sim` mode, which replays the official greedy selector from every start day).
-- The official windows sit in days 0–5 of each month, because the selector is chronological.
+**এই ছদ্মবেশী হোল্ডবার্গের জন্য কী করেছে:**
+- এটি G3 স্ট্যাকিং ব্যর্থতা ধরা পড়েঃ −0.0048  4  SE pseudo-মার্চ, যখন CV বলেছিল +0.0065 .
+- এটি প্রতি মাসে 3,000 চলমান এবং 230 শুরু window প্রদান করে (প্রায় 330  `sim` মোডে চলমান, যা প্রতিটি শুরু দিনের থেকে অফিসিয়াল লোভী নির্বাচককে পুনরায় প্রতিস্থাপন করে) ।
+- অফিসিয়াল windowগুলো প্রতি মাসের 0–5 দিনে বসে থাকে, কারণ নির্বাচকটি ক্রনিক্যাল।
 
-**Exact change:**
-- On the masked March/April view, run our selector replica with its rules: coverage ≥ 0.7, onset/ongoing definitions, queued horizon cell, persistence ≤ 0.9, greedy with 360-min spacing, started from every day.
-- Exclude windows touching released blackout rows ([T−12, T+6]).
-- Forward-fill hidden Task 1 targets in the history causally, ≤ 3 slots.
-- Labels are the observed eligible horizon cells. Leave hidden cells out of the IoU.
-- Score with the official aggregation.
+**সঠিক পরিবর্তনঃ**
+- মাস্কযুক্ত March/April ভিউতে, আমাদের নির্বাচক প্রতিলিপিটি তার নিয়ম সহ চালানঃ কভারেজ ≥0.7 , onset/ongoing সংজ্ঞা, ক্যুড horizon cell, ধৈর্য ≤0.9 , লোভী 360 -min ব্যবধানের সাথে, প্রতিদিন থেকে শুরু।
+- মুক্তি ব্ল্যাকআউট সারি ( [T−12 , T+6] ) স্পর্শ করে এমন windowগুলো বাদ দেওয়া হবে।
+- সামনে পূরণ লুকানো টাস্ক 1 ইতিহাসের লক্ষ্যমাত্রা, ≤3 স্লট।
+- লেবেল হল পর্যবেক্ষণযোগ্য horizon cell। লুকানো cellগুলিকে IoU থেকে বের করে দিন।
+- অফিসিয়াল সমষ্টির সাথে স্কোর।
 
-**Leakage risk: medium, and it decides protocol.**
-- The pseudo labels are observations after the official windows' T.
-- Using April labels to pick the model for April (private) windows means post-T data steers the forecast. Treat that as off-limits.
-- **Use March pseudo-windows to gate decisions for the private file.** All March timestamps precede every private T.
-- Treat April only as a sanity readout, never as a selection criterion. If in doubt, ask the organizers.
+**ফুটো ঝুঁকিঃ মাঝারি, এবং এটি প্রোটোকল সিদ্ধান্ত নেয়।**
+- ছদ্মবেশী লেবেলগুলি হল অফিসিয়াল windowের T এর পরে পর্যবেক্ষণ।
+- এপ্রিলের লেবেল ব্যবহার করে এপ্রিলের (ব্যক্তিগত) windowের মডেল নির্বাচন করার অর্থ হল, পোস্ট-টি ডেটা পূর্বাভাসকে পরিচালনা করে। এটিকে নিষিদ্ধ হিসাবে বিবেচনা করুন।
+- **ব্যক্তিগত ফাইলের জন্য সিদ্ধান্তগুলি গেট করতে মার্চ pseudo-windows ব্যবহার করুন।** সমস্ত মার্চ টাইমস্ট্যাম্প প্রতিটি ব্যক্তিগত T এর আগে থাকে।
+- এপ্রিলকে শুধু মনোরম হিসেবে বিবেচনা করুন, কখনোই নির্বাচনের মূল্যায়ন হিসেবে নয়।
 
-**Compute:** low (feature build on about 3k windows per month).
+**গণনাঃ** কম (প্রতি মাসে প্রায় 3 k windowগুলোতে বৈশিষ্ট্য বিল্ড) ।
 
-**Expected value:** it prevents LB-noise-driven mistakes. Hisernberg estimates the SD of a 40-window March ongoing LB delta at 0.005–0.009, so small Task 2 LB deltas are mostly noise.
+**প্রত্যাশিত মূল্যঃ** এটা প্রতিরোধ করে LBহিজার্ণবার্গ অনুমান করেছেন যে SD একটি 40- window মার্চ চলমান LB ডেল্টা এ 0.005–0.009, তাই ছোট টাস্ক 2 LB ডেল্টা বেশিরভাগই গোলমাল।
 
-### I-5. Task 1 seed/bagging ensemble (**NEW** for Task 1, medium)
+### I- 5 . টাস্ক 1  seed/bagging সমন্বয় (টাস্ক 1 জন্য **NEW** , মাঝারি)
 
-**Basis:** A0062 (T1_ENSEMBLE.md), A0058.
-- H2 (2-seed mean): +0.00066 LB against a +0.00077 local prediction.
-- H3 (3rd seed): +0.00022 against +0.00023 predicted.
-- Variance-reduction gains transferred at 85–95%. Capacity/row gains transferred at only 15–50%.
+**বেসঃ**  A0062 ( T1_ENSEMBLE.md ), A0058 ।
+- H2 ( 2 - বীজ গড়): +0.00066  LB +0.00077 স্থানীয় ভবিষ্যদ্বাণী বিরুদ্ধে।
+- H3 ( 3 rd seed): +0.00022 vs +0.00023 পূর্বাভাসিত।
+- ভ্যারিয়েন্স-রেডাকশন লাভের হার 85–95 % এ স্থানান্তরিত হয়। Capacity/row লাভের হার শুধুমাত্র 15–50 % এ স্থানান্তরিত হয়।
 
-**Weakness it addresses:** T1 variance; our capacity-driven gains (EXP_T1_E/F) may transfer only partly.
+**দুর্বলতাঃ**  T1 বৈচিত্র্য; আমাদের ক্ষমতা চালিত লাভ ( EXP_T1_E/F ) শুধুমাত্র আংশিকভাবে স্থানান্তরিত হতে পারে।
 
-**Label:** NEW. Our "3-seed averaging: no gain" was measured on Task 2 ongoing, not Task 1.
+**লেবেলঃ**  NEW . আমাদের " 3 - বীজ গড়ঃ কোন লাভ নেই " টাস্ক 2 চলমান উপর পরিমাপ করা হয়েছিল, টাস্ক 1 নয় .
 
-**Exact change:** train 2–3 T1 members, each with a different row subsample (seed changes both the row sample and the LightGBM seeds) and early stopping, and average raw speed, flow and density.
+**সঠিক পরিবর্তনঃ** train 2–3  T1 সদস্য, প্রতিটি একটি ভিন্ন সারি সাব-উদাহরণ (বীর্য সারি নমুনা এবং LightGBM বীজ উভয় পরিবর্তন) এবং প্রাথমিক স্টপিং, এবং গড় অপরিশোধিত গতি, প্রবাহ এবং ঘনত্ব।
 
-**Leakage:** none. **Compute:** 2–3× T1 training, which may need split kernels.
+**ফুটোঃ** none. **গণনাঃ**  2–3 × T1 প্রশিক্ষণ, যা বিভক্ত কোর প্রয়োজন হতে পারে।
 
-**Expected gain:** +0.0003 to +0.0007. **Reject rule:** val-month holdout J gain < +0.0003, or fewer than 7/10 panels improve.
+**প্রত্যাশিত লাভঃ** +0.0003 থেকে +0.0007 . **প্রত্যাখ্যান নিয়মঃ** val-month holdout J gain < +0.0003 , অথবা 7/10 প্যানেলের চেয়ে কম উন্নতি।
 
-### I-6. Task 3: TV smoothing of density inside runs of target cells (**NEW**, medium)
+### I- 6 . টাস্ক 3 : TV লক্ষ্য cellের অভ্যন্তরীণ স্রোতের ঘনত্ব মসৃণ করা ( **NEW** , মাঝারি)
 
-**Basis:** A0061 (T3_SMOOTHING.md), A0067. LB G1 +0.00060 against a local +0.00062.
+**বেসঃ**  A0061 ( T3_SMOOTHING.md ), A0067 . LB  G1 +0.00060 স্থানীয় +0.00062 এর বিরুদ্ধে .
 
-**Weakness it addresses:** S_LWR. Our physics score is about 0.67, and every Task 3 post-processing we tried failed. Ours was spatial flow smoothing, which is a different operation.
+**দুর্বলতা এটি addresses:**  S_LWR. আমাদের পদার্থবিজ্ঞান স্কোর সম্পর্কে 0.67 , এবং প্রতিটি টাস্ক 3 পোস্ট প্রসেসিং আমরা চেষ্টা ব্যর্থ. আমাদের স্থানিক প্রবাহ smoothing ছিল, যা একটি ভিন্ন অপারেশন।
 
-**Exact change:**
-- Per link, find runs of consecutive target cells.
-- Apply total-variation smoothing to per-lane k = q/v within the run. Increments smaller than τ·(mean run density) are set to zero, so queue fronts are kept.
-- τ values: 0.0075 in free flow, 0.02 inside the gate (v < 0.6·v_f), 0.05 in blackouts.
-- Add weak L1 anchors to the observed neighbours at the run ends.
-- Outside the gate move only the flow. Inside it, split the change between speed and flow.
+**সঠিক পরিবর্তনঃ**
+- প্রতি লিঙ্ক, পরপর লক্ষ্য cellের রান খুঁজুন।
+- রানের মধ্যে প্রতি-লেন k = q/v এর জন্য মোট-ভেরিয়েশন মসৃণতা প্রয়োগ করুন। τ·(প্রায়-রান ঘনত্বের চেয়ে ছোট ইনক্রিমেন্টগুলি শূন্যে সেট করা হয়, তাই ক্যো ফ্রন্টগুলি বজায় রাখা হয়।
+- τ মানঃ 0.0075 মুক্ত প্রবাহের মধ্যে, 0.02 গেটের ভিতরে (v < 0.6 · v_f ), 0.05 ব্ল্যাকআউটগুলিতে।
+- রান-এন্ডে দেখা প্রতিবেশীদের কাছে দুর্বল L1 অ্যাঙ্কর যোগ করুন।
+- গেটের বাইরে শুধু প্রবাহই চলে, ভেতরে গতি ও প্রবাহের মধ্যে পরিবর্তন ভাগ করে নিন।
 
-**Where the error sits:** only within-run transitions (about 29% of the LWR loss) are affected. Isolated cells carry 46–48% of the loss and need per-cell accuracy instead.
+**যেখানে ত্রুটিটি রয়েছেঃ** শুধুমাত্র চালিত অভ্যন্তরীণ রূপান্তরগুলি (প্রায় 29 % LWR ক্ষতির) প্রভাবিত হয়। বিচ্ছিন্ন cellগুলি 46–48 % ক্ষতির বহন করে এবং পরিবর্তে প্রতি cellের নির্ভুলতার প্রয়োজন।
 
-**Leakage:** none. **Compute:** negligible.
+**ফুটোঃ** কোন. **গণনাঃ** অবহেলিত।
 
-**Expected gain:** +0.0004 to +0.0006. Tripling the smoothing lost on LB (−0.0004), so it is already near its optimum.
+**প্রত্যাশিত লাভঃ** +0.0004 থেকে +0.0006 । LB (−0.0004 ) এ হারিয়ে যাওয়া মসৃণতা তিনগুণ বৃদ্ধি করে, তাই এটি ইতিমধ্যে তার সর্বোত্তমের কাছাকাছি।
 
-**Reject rule:** our LWR proxy + S_state J on at least 4 panels must be ≥ +0.0003, with none negative.
+**প্রত্যাখ্যান নিয়মঃ** আমাদের LWR প্রক্সি + S_state J কমপক্ষে 4 প্যানেলগুলিতে ≥ +0.0003 হওয়া উচিত, কোন নেতিবাচক নেই।
 
-### I-7. Gated density reconciliation with speed-heavy split (**HIGH-VALUE RETEST** of our rejected EXP_T1_f/g/m)
+### I-7. দ্রুত গতির ভারী বিভক্ত সঙ্গে গেট ঘনত্ব সমন্বয় (**HIGH-VALUE RETEST** আমাদের প্রত্যাখ্যান করা EXP_T1_f/g/m)
 
-**Basis:** A0058 (gated reconciliation table), A0065.
-- Gate: J +0.0016 on 4/4 panels.
-- Split a = 0.75: S_state +0.0018 on 4/4 panels, LB +0.00064, exactly as predicted.
+**বেসঃ**  A0058 (গেইটেড রিকনসিলেশন টেবিল), A0065 .
+- গেটঃ J +0.0016  4/4 প্যানেলগুলিতে।
+-0.75 : S_state +0.0018  4/4 প্যানেলগুলিতে LB +0.00064 ভাগ করুন, ঠিক যেমনটি পূর্বাভাস দেওয়া হয়েছিল।
 
-**What they did:**
-- A separate density model (near-L2, Huber α = 1; the L1-leaning version was worse).
-- Reconcile to q/v = k̂ **only where predicted v < 0.6·v_f**. Below 0.4·v_f the density model's L1 error is 1.50 against 1.77 for FD(v) and 2.99 for q/v. Above the gate, q/v is better.
-- Split the adjustment roughly 75/25 between the two variables, putting more of the change on speed. In queues, flow sits near discharge capacity.
+**তারা কি করেছেঃ**
+- একটি পৃথক ঘনত্ব মডেল (প্রায়-L2, হ্যাবার α = 1; L1-এটা আরও খারাপ ছিল।
+- q/v = k̂ **এর সাথে মিলিত হয় যেখানে শুধুমাত্র পূর্বাভাস দেওয়া হয় v < 0.6 · v_f** . 0.4 · v_f এর নীচে ঘনত্ব মডেলের L1 ত্রুটি 1.50 এর বিরুদ্ধে 1.77 এর জন্য FD (v) এবং 2.99 এর জন্য q/v. এর জন্য q/v এর চেয়ে ভাল।
+- দুটি পরিবর্তনশীলের মধ্যে প্রায় 75/25 সমন্বয়টি বিভক্ত করুন, গতিতে পরিবর্তনের আরও বেশি পরিমাণে স্থাপন করুন। সারিতে, প্রবাহ স্রাবের ক্ষমতা কাছাকাছি থাকে।
 
-**Label:** RELATED / partly CONTRADICTED. Our tests were ungated or on a single panel (D12_I405_S) and found 0.
+**লেবেলঃ** RELATED / আংশিকভাবে CONTRADICTEDআমাদের পরীক্ষা একক প্যানেলের উপর বা একক প্যানেলের উপর করা হয়েছিল (D12_I405_S) এবং পাওয়া যায় 0.
 
-**Caveat:** Hisernberg later found that LWR gains from *more accurate density models* transferred at only about 15% (H7). The gate and split themselves transferred.
+**গুহাঃ** হিজার্নবার্গ পরে আবিষ্কার করেছিলেন যে LWR * আরও সঠিক ঘনত্বের মডেলগুলি থেকে লাভ করে * কেবলমাত্র 15 % ( H7 ) এ স্থানান্তরিত হয়। গেট এবং স্প্লিট নিজেই স্থানান্তরিত হয়।
 
-**Reject rule:** J on ≥ 4 panels including D7_I10_W and D12_I5_S. Discount the LWR part to about 30% when predicting the LB.
+**প্রত্যাখ্যান নিয়মঃ** J D7_I10_W এবং D12_I5_S. সহ ≥4 প্যানেলগুলিতে LWR অংশটি 30 % এর মধ্যে হ্রাস করুন যখন LB পূর্বাভাস দেওয়া হয়।
 
-### I-8. Blackout rows: test-month simulated blackouts + ramp features (**NEW**, low–medium)
+### I- 8 . ব্ল্যাকআউট সারিঃ পরীক্ষার মাসে সিমুলেটেড ব্ল্যাকআউট + র্যাম্প বৈশিষ্ট্য ( **NEW** , নিম্ন – মধ্য)
 
-**Basis:** A0058 (fullPD, and the ramp member hold7), A0066.
-- Ramp flows are released even inside mainline blackouts (about 80% valid).
-- Ramp features cut blackout speed RMSE 6.89 → 6.11.
-- Training on simulated March/April blackouts cut blackout speed RMSE by 12–14% (7.33 → 6.42 March).
+**বেসঃ**  A0058 (fullPD, এবং র্যাম্প সদস্য ধরে 7 ), A0066 .
+- র্যাম্প প্রবাহগুলি মূল লাইন ব্ল্যাকআউটের মধ্যেও মুক্তি পায় (প্রায় 80 % বৈধ) ।
+- র্যাম্প বৈশিষ্ট্যগুলি ব্ল্যাকআউট গতি কমাতে RMSE  6.89 → 6.11 .
+- March/April ব্ল্যাকআউট সিমুলেটেড প্রশিক্ষণের ফলে RMSE ব্ল্যাকআউট গতি 12–14 % ( 7.33 → 6.42 মার্চ) হ্রাস পায়।
 
-**Weakness it addresses:** about 1.9–2.1% of targets are in blackouts, and they dominate the MSE.
+**দুর্বলতা এটি সমাধান করেঃ** about 1.9–2.1 % লক্ষ্যগুলি ব্ল্যাকআউট হয়, এবং তারা MSE উপর আধিপত্য বিস্তার করে।
 
-**Exact change:**
-- Add ramp features: own link and ±3 links, prev/next slot, net inflow, and on dark rows the change since blackout start.
-- Add training blackouts drawn at queue-like origins in the masked test months, away from the released blackouts, blanking T+1..T+18.
+**সঠিক পরিবর্তনঃ**
+- র্যাম্প বৈশিষ্ট্য যোগ করুনঃ নিজস্ব লিঙ্ক এবং ±3 লিঙ্ক, prev/next স্লট, নেট ইনফ্লো এবং অন্ধকার সারিগুলিতে ব্ল্যাকআউট শুরু হওয়ার পর থেকে পরিবর্তন।
+- মাস্কযুক্ত পরীক্ষার মাসগুলিতে ক্রমের মতো উত্সগুলিতে আঁকা প্রশিক্ষণ ব্ল্যাকআউটগুলি যুক্ত করুন, প্রকাশিত ব্ল্যাকআউটগুলি থেকে দূরে, T+1 ..T+18 খালি করে।
 
-**Leakage:** low (Task 1 is offline).
+**ফুটোঃ** কম (টাস্ক 1 অফলাইনে আছে) ।
 
-**Expected gain:** +0.0003 to +0.0006. Discount blackout-only local gains to about 1/3; Hisernberg saw 5–50% transfer.
+**প্রত্যাশিত লাভঃ** +0.0003 থেকে +0.0006 . শুধুমাত্র ব্ল্যাকআউট-এর মাধ্যমে স্থানীয় লাভের পরিমাণ হ্রাস করে 1/3 ; Hisernberg 5–50 % স্থানান্তর দেখেছে।
 
-**Reject rule:** blackout RMSE on the simulated test-month blackouts must improve by ≥ 5% on both months.
+**প্রত্যাখ্যান নিয়মঃ** ব্ল্যাকআউট RMSE পরীক্ষার মাস কাল্পনিক ব্ল্যাকআউট উভয় মাসে ≥5 % উন্নতি করতে হবে।
 
-### I-9. For the **private** file only: add March (validation-month) pseudo-windows as Task 2 training data (**NEW**, medium, rule-sensitive)
+### I-9. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . **ব্যক্তিগত** শুধুমাত্র ফাইলঃ মার্চ (প্রতিষ্ঠান-মাস) pseudo-windows টাস্ক হিসাবে যোগ করুন 2 প্রশিক্ষণ তথ্য (**NEW**(অর্থঃ গড়, নিয়ম-সংবেদনশীল)
 
-**Basis:** rule A0008 ("released data with a timestamp at or before T … any released file"), I-4 windows, the Traffic4cast temporal-domain-adaptation lesson (A0125, A0142, overview A0131), and the month-shift evidence in A0059 §8 (bottleneck activity shifts in March/April on D12_I5_N/S, D7_I405_S and D7_I210_W).
+**বেসঃ** নিয়ম A0008 ("সময়সীমার সাথে প্রকাশিত তথ্য T সময়ে বা তার আগে ... যে কোন প্রকাশিত ফাইল"), I-4 window, ট্রাফিক4সময়-অঞ্চল-সংকরণ পাঠ (A0125, A0142, সারসংক্ষেপ A0131), এবং মাসিক পরিবর্তনের প্রমাণ A0059 §8 (বটলকেন কার্যকলাপ পরিবর্তন March/April উপর D12_I5_N/S, D7_I405_S এবং D7_I210_W).
 
-**Weakness it addresses:** onset and ongoing transfer to a new demand draw. Private has 7 incidents against 5 in validation.
+**দুর্বলতা এটি সমাধান করেঃ** শুরু এবং একটি নতুন চাহিদা ড্র করার জন্য চলমান স্থানান্তর। ব্যক্তিগতভাবে 7  5 এর বিরুদ্ধে বৈধতা রয়েছে।
 
-**Exact change:** train Task 2 models for private windows on train plus March pseudo-windows, labelled from observed eligible March cells. The validation-file models stay train-only.
+**সঠিক পরিবর্তনঃ** train টাস্ক 2 train-এর ব্যক্তিগত windowের মডেল প্লাস মার্চ ছদ্ম-window, যা পর্যবেক্ষণযোগ্য মার্চ সেল থেকে লেবেলযুক্ত। বৈধতা ফাইল মডেলগুলি কেবলমাত্র train-এর জন্য থাকে।
 
-**Leakage risk:** medium. Every March timestamp precedes every April T, so this is literally allowed, but **confirm with the organizers** (forum or e-mail) before using it, and disclose it in the report.
+**ফুটো ঝুঁকিঃ** মাঝারি। প্রতি মার্চ টাইমস্ট্যাম্প প্রতি এপ্রিলের আগে থাকে, তাই এটি আক্ষরিক অর্থে অনুমোদিত, তবে **এর ব্যবহারের আগে সংগঠকদের সাথে** (ফোরাম বা ই-মেইল) নিশ্চিত করুন এবং এটি প্রতিবেদনে প্রকাশ করুন।
 
-**Expected gain:** unknown, probably small (+0.002 to +0.01 private S_queue). It cannot be checked on the public LB.
+**প্রত্যাশিত লাভঃ** অজানা, সম্ভবত ছোট (+0.002 থেকে +0.01 ব্যক্তিগত S_queue ). এটি সর্বজনীন LB এ পরীক্ষা করা যায় না।
 
-**Validation:** train on train + March days 1–15, test on March days 16–31 pseudo-windows, against a train-only model. Reject if the delta is ≤ 0.
+**বৈধতাঃ** train-এর উপর + মার্চ দিন 1–15 , মার্চ দিন 16–31 ছদ্ম-window পরীক্ষা, শুধুমাত্র train মডেলের বিরুদ্ধে। যদি ডেল্টা ≤0 হয় তবে প্রত্যাখ্যান করুন।
 
-### I-10. kNN analog-state features for onset (**RELATED**, low–medium)
+### I-10. kNN শুরু করার জন্য এনালগ-স্টেট বৈশিষ্ট্য (**RELATED**, নিম্ন – মধ্যম)
 
-**Basis:** Traffic4cast 2022 team TSE, 2nd in the extended track: kNN similarity features into a GBDT (A0134, A0206). Bolt, 2nd in core: target encodings plus a PCA "global traffic fingerprint" (A0128, A0225). Overview A0136: target encodings and global-state features were the most important everywhere.
+**বেসঃ** ট্রাফিক4কাস্ট 2022 দল TSE, 2প্রসারিত ট্র্যাকের মধ্যে nd: kNN অনুরূপতা বৈশিষ্ট্য একটি GBDT (A0134, A0206) বোল্ট, 2এনডি এর মূলঃ লক্ষ্য কোডিং প্লাস একটি PCA "বিশ্বব্যাপী ট্রাফিক ফিঙ্গারপ্রিন্ট" (A0128, A0225) সারসংক্ষেপ A0136: লক্ষ্য কোডিং এবং বিশ্ব-অবস্থা বৈশিষ্ট্য সর্বত্র সবচেয়ে গুরুত্বপূর্ণ ছিল।
 
-**Weakness it addresses:** onset site and extent when the site is non-recurrent. Our TOD/weekday priors cannot adapt to the current state.
+**দুর্বলতা এটি addresses:** onset site and extent when the site is non-recurrent. আমাদের TOD/weekday প্রিরিয়র বর্তমান অবস্থা সঙ্গে অভিযোজিত করতে পারে না।
 
-**Exact change:**
-- For each onset window, build the corridor vector of speed/v_cut and flow/capacity at T−15..T.
-- Find the k = 20–50 nearest train onset-candidate origins (same panel) and average their T+30 queue indicators per link as a feature.
-- Also add the top-3 PCA scores of the corridor state as global features.
+**সঠিক পরিবর্তনঃ**
+- প্রতিটি সূচনা windowর জন্য, T−15 ..T এ speed/v_cut এবং flow/capacity এর করিডোর ভেক্টরটি তৈরি করুন।
+- k = 20–50 নিকটতম train-এর সূচনা-প্রার্থী উৎপত্তি (একই প্যানেল) খুঁজে বের করুন এবং তাদের বৈশিষ্ট্য হিসাবে লিঙ্ক প্রতি T+30 ক্যু সূচকগুলি গড় করুন।
+- এছাড়াও, বৈশ্বিক বৈশিষ্ট্য হিসাবে করিডোর রাজ্যের শীর্ষ 3  PCA স্কোরগুলি যুক্ত করুন।
 
-**Label:** RELATED. Hisernberg's library shape-prior decoder, a posterior over training truth shapes, gained ≤ 0.004 and lost on non-recurrent windows (A0059 §13). Our onset-start prior was rejected.
+**লেবেলঃ**  RELATED . হিজার্ণবার্গের গ্রন্থাগারের ফর্ম-প্রিওর ডিকোডার, যা সত্য ফর্মগুলির উপর একটি পিছনের প্রশিক্ষণ, ≤0.004 অর্জন করেছে এবং পুনরাবৃত্তির অ-ফিন্ডোগুলিতে হারিয়ে গেছে ( A0059 § 13 ) । আমাদের শুরু-স্টার্ট প্রিওর প্রত্যাখ্যান করা হয়েছিল।
 
-**Leakage:** none, if neighbours come from train, or from dates before T. **Compute:** low.
+**ফুটোঃ** কোনটিই না, যদি প্রতিবেশীরা train থেকে আসে, অথবা T এর আগে তারিখ থেকে। **গণনাঃ** কম।
 
-**Reject rule:** pseudo-holdout onset (March) ≤ +0.003.
+**প্রত্যাখ্যান নিয়মঃ** ছদ্মবেশী ধারণার সূচনা (মার্চ) ≤ +0.003 .
 
-### I-11. Small items (low value; do only if cheap)
+### I- 11 . ছোট আইটেম (কম মূল্য; সস্তা হলেই ব্যবহার করা যাবে)
 
-- **Month-specific per-(link, month, speed-band) speed-level correction** (A0076, `t1_bias.py`).
-  - Correction: log-speed shift with flow scaled by the same factor, so q/v is unchanged. Cross-fitted by day parity and shrunk by n/(n+30).
-  - About +0.0001. Only useful after I-1, because transductive members pool both months.
-- **Eligibility-aware expected-IoU decoder** (A0070). The official IoU counts only eligible cells (A0029). Eligibility is uniform by design (A0043), so the expected gain is about 0.
-- **Onset stage-2 stacking plus more seeds** (A0072): +0.0006 LB for Hisernberg. Ours already uses CatBoost onset; test only if I-3 lands.
-- **Final-pick hedge.**
-  - Kaggle scores the better of the two selected files on private.
-  - Keep one file with the conservative ongoing model, and one with the best pseudo-holdout Task 2 variant (A0074 decision).
+- **প্রতি মাসে নির্দিষ্ট, লিঙ্ক, মাস, গতির ব্যাণ্ডে) গতির স্তরের সংশোধন** ( A0076 , `t1_bias.py` ).
+  - সংশোধনঃ একই ফ্যাক্টর দ্বারা স্কেল করা প্রবাহের সাথে লগ-স্পিড শিফট, তাই q/v অপরিবর্তিত। দিন সমতুল্য দ্বারা ক্রস-ফাইট এবং n/(n+30 দ্বারা সংক্ষিপ্ত করা হয়েছে ).
+  - প্রায় +0.0001আমি...1, কারণ ট্রান্সডাক্টর সদস্যরা দুই মাস জুড়ে থাকে।
+- **যোগ্যতা-সচেতন প্রত্যাশিত-IoU ডিকোডার** ( A0070 ). অফিসিয়াল IoU শুধুমাত্র যোগ্য cell গণনা করে ( A0029 ). যোগ্যতা নকশা দ্বারা অভিন্ন ( A0043 ), তাই প্রত্যাশিত লাভ প্রায় 0 ।
+- **শুরু পর্যায়ে-2 স্ট্যাকিং প্লাস আরো বীজ** ( A0072 ): +0.0006  LB জন্য Hisernberg. আমাদের ইতিমধ্যে CatBoost শুরু ব্যবহার করে; পরীক্ষা শুধুমাত্র যদি I- 3 অবতরণ.
+- **চূড়ান্ত পিক-আপ হেজিং।**
+  - কেগল বেসরকারি ফাইলের মধ্যে দুটিতে সেরা স্কোর করে।
+  - সংরক্ষণশীল চলমান মডেলের সাথে একটি ফাইল রাখুন এবং সেরা ছদ্মবেশী-হোল্ডআউট টাস্ক 2 ভেরিয়েন্ট ( A0074 সিদ্ধান্ত) সহ একটি ফাইল রাখুন।
 
 ---
 
-## 2. FACTS about top teams / generator
+## 2 . FACTS সম্পর্কে শীর্ষ দল / জেনারেটর
 
-### FACT (with source)
+### FACT (উত্স সহ)
 
-**Leaderboard (A0003, Kaggle API `leaderboard/view`, 2026-09-30)**
-- Top 5: Pardheev Krishna 0.92406 (date shown 09-12), Musa Peker 0.92226 (09-28), Jason Karpeles 0.91665 (09-19), Kushal Khemani 0.91004 (09-10), KTK 0.90187 (09-30).
-- Next: gichang 0.89702 (09-30), Kanak Khemani 0.89449 (09-10), Lukas 0.89260 (09-30), George Daniel Gherasim 0.89198 (09-29), Inocchi 0.88697 (09-30), Giorgio Ottoboni 0.88658 (09-30).
-- The board still mixes pre-rebuild scores (rebuild 2026-09-11, A0006). The organizer is asking Kaggle to remove them (A0016).
+** লিডারবোর্ড ( A0003 , Kaggle API  `leaderboard/view` , 2026-09-30 ) **
+- শীর্ষ 5 : পার্দহেভ কৃষ্ণ 0.92406 (তালিকা প্রদর্শিত 09-12 ), মুসা পেকার 0.92226 ( 09-28 ), জেসন কার্পেলস 0.91665 ( 09-19 ), কুশাল খেমানি 0.91004 ( 09-10 ), KTK  0.90187 ( 09-30 ).
+- পরবর্তীঃ গিচং 0.89702 ( 09-30 ), কানাক খেমানি 0.89449 ( 09-10 ), লূকস 0.89260 ( 09-30 ), জর্জ ড্যানিয়েল গেরসিম 0.89198 ( 09-29 ), ইনোকি 0.88697 ( 09-30 ), জর্জিও ওটোবনি 0.88658 ( 09-30 ).
+- বোর্ড এখনও প্রাক পুনর্নির্মাণ স্কোরগুলি মিশ্রিত করে (পুনর্নির্মাণ 2026-09-11 , A0006 ) । সংগঠক ক্যাগলকে সেগুলি সরিয়ে ফেলতে বলেছেন ( A0016 ).
 
-**Hisernberg's post-rebuild tracking (A0058)**
-- On 2026-09-27 they list the post-rebuild top as KTK 0.90085, gichang 0.89628, George Daniel Gherasim 0.89145, Inocchi 0.88697, Giorgio Ottoboni 0.88548. They place themselves 15th.
-- They treat Pardheev, Musa Peker, Jason Karpeles and the Khemanis as pre-rebuild, but the dates the API reports for some of these are after the rebuild (see INFERENCE).
+**Hisernberg এর পুনর্নির্মাণের পর ট্র্যাকিং ( A0058 )**
+-2026-09-27 এ তারা পুনর্নির্মাণের পরে শীর্ষস্থানীয় KTK  0.90085 , গিচাং 0.89628 , জর্জ ড্যানিয়েল গেরসিম 0.89145 , ইনোকি 0.88697 , জর্জিও ওটটোবনি 0.88548 হিসাবে তালিকাভুক্ত করে। তারা নিজেদের 15 থ.
+- তারা পার্ডহেভ, মুসা পেকার, জেসন কার্পেলস এবং কেমানিদের পুনর্নির্মাণের আগে বিবেচনা করে, তবে API এর কিছু তারিখের জন্য রিপোর্টগুলি পুনর্নির্মাণের পরে (দেখুন INFERENCE ).
 
-**Only documented pipelines above 0.85**
-- Hisernberg 0.87249 (A0057). S_queue 0.7878 at H2: onset 0.732, ongoing 0.843. S_ODME 0.9938. S_phys about 0.69 (S_LWR about 0.55).
-- happyc0der 0.84481 (A0085).
-- No team above 0.88 has published code or a write-up. No top-team technique is publicly known.
+**শুধুমাত্র 0.85** এর উপরে নথিভুক্ত পাইপলাইন
+- Hisernberg 0.87249 ( A0057 ). S_queue  0.7878 at H2 : শুরু 0.732 , চলমান 0.843 . S_ODME  0.9938 . S_phys about 0.69 ( S_LWR about 0.55 ).
+- happyc0der 0.84481 ( A0085 ).
+-0.88 এর উপরে কোন দলই কোড বা একটি লেখা প্রকাশ করেনি। কোন শীর্ষ দলীয় কৌশল সর্বজনীনভাবে পরিচিত নয়।
 
-**Rules**
-- Task 2 may use any released data timestamped ≤ T, including earlier days and the full train split (A0008).
-- Onset windows have truth only at T+30 (120/120, A0010).
-- Labels come from the noise-free underlying state (A0011, A0021).
-- Official IoU is computed only over `is_score_eligible` target cells. A window with no eligible cell scores 0 (A0029).
+**নিয়ম**
+-2 টাস্কটি পূর্ববর্তী দিন এবং সম্পূর্ণ train বিভক্ত ( A0008 ) সহ ≤ T টাইমস্ট্যাম্পযুক্ত যে কোনও প্রকাশিত তথ্য ব্যবহার করতে পারে।
+- অনসট window শুধুমাত্র T+30 ( 120/120 , A0010 ) এ সত্য থাকে।
+- লেবেলগুলি নয়েজমুক্ত মূল অবস্থা থেকে আসে (A0011, A0021).
+- অফিসিয়াল আইওইউ শুধুমাত্র `is_score_eligible` লক্ষ্য cellের উপর গণনা করা হয়। কোন যোগ্য cell স্কোর 0 ( A0029 ) নেই এমন একটি window।
 
-**Generator: provenance**
-- "Calibrated traffic-flow model". Parameters measured from real detector data on the same corridors: free-flow speed, per-lane capacity, jam density, demand by weekday × time of day, measurement-noise size, detector availability. No real rows are replayed (A0018, A0019).
-- The pre-synthetic design used Caltrans PeMS, train 2025-06-01..2026-02-28 and validation 2026-03. D12 I-405 was dropped from Queue for poor real observation quality (A0052).
+**জেনারেটরঃ উৎপত্তি**
+- "ক্যালিব্রেটেড ট্রাফিক-ফ্লো মডেল"। একই করিডোরগুলিতে প্রকৃত ডিটেক্টর ডেটা থেকে পরিমাপ করা পরামিতিঃ ফ্রি-ফ্লো গতি, প্রতি-লেন ক্ষমতা, জ্যাম ঘনত্ব, কর্মদিবসের দিন × দিনের সময় অনুযায়ী চাহিদা, পরিমাপ-শব্দ আকার, ডিটেক্টর উপলব্ধতা। কোন বাস্তব সারি পুনরাবৃত্তি করা হয় না ( A0018 , A0019 ) ।
+- প্রাক-সিন্থেটিক ডিজাইনটি Caltrans PeMS, train 2025-06-01..2026-02-28 এবং বৈধতা 2026-03 ব্যবহার করে। D12 I- 405 ক্রম থেকে খারাপ বাস্তব পর্যবেক্ষণের গুণমানের জন্য বাদ দেওয়া হয়েছিল ( A0052 ).
 
-**Generator: scenario contract (A0026)**
+**জেনারেটরঃ চিত্র চুক্তি ( A0026 )**
 - `capacity_multiplier 1.2`, `incident_severity 1.0`.
-- A removed field (A0037) said the master seed is a "stable integer from synthetic_release_v1, panel, split", with child seed offsets mainline_observation = 10, ramp_observation = 11, task4_prior = 12.
-- So the mainline and ramp observation-noise streams and the Task 4 prior noise are independent random streams per (panel, split).
-- After the rebuild, the val/private scenario seed is drawn at random and held by the organizers.
+- একটি অপসারণ ক্ষেত্র ( A0037 ) বলেছে যে মাস্টার বীজটি " synthetic_release_v1 , প্যানেল, বিভক্ত থেকে একটি স্থিতিশীল পূর্ণসংখ্যা", যার সাথে শিশু বীজ প্রতিশোধগুলি mainline_observation = 10 , ramp_observation = 11 , task4_prior = 12 ।
+- সুতরাং মূল লাইন এবং র্যাম্প পর্যবেক্ষণ-শব্দ প্রবাহ এবং টাস্ক 4 পূর্বের শব্দগুলি স্বাধীন র্যান্ডম প্রবাহ প্রতি (প্যানেল, বিভক্ত) ।
+- পুনর্নির্মাণের পরে, val/private দৃশ্যের বীজটি এলোমেলোভাবে টানা হয় এবং সংগঠকদের দ্বারা রাখা হয়।
 
-**Generator: rebuild**
-- Val and private were regenerated from new seeds. Train is identical cell for cell (A0006).
-- Val and private are independent demand draws and incident schedules: 5 incidents vs 7 (A0019, A0045).
+**জেনারেটরঃ পুনর্নির্মাণ**
+- ভ্যাল এবং প্রাইভেট নতুন বীজ থেকে পুনর্জন্ম লাভ করে। trainটি cellের জন্য একই cell ( A0006 ).
+- ভ্যাল এবং প্রাইভেট স্বাধীন চাহিদা ড্র এবং ইন্সটেন্ডেন্টের সময়সূচীঃ 5 ইন্সটেন্ডেন্ট বনাম 7 ( A0019 , A0045 ).
 
-**Generator: noise, as measured by participants**
-- Speed noise sd about 1.0–1.9 km/h; flow noise about 28 vph/lane, or 3.5–6% (A0063, A0086).
-- 5-minute fluctuations are white in time but correlated across links at the same instant: adjacent-link correlation 0.36–0.60 for speed, about 0.3 for flow (A0086).
-- Congested observations sit on the congested branch of the released triangular FD: median deviation 0%, IQR ±2.4% (A0058).
+**জেনারেটরঃ অংশগ্রহণকারীদের দ্বারা পরিমাপ করা শব্দ**
+- গতির শব্দ এসডি প্রায় 1.0–1.9  km/h ; প্রবাহের শব্দ প্রায় 28  vph/lane , অথবা 3.5–6 % ( A0063 , A0086 ).
+-5 - মিনিটের বিচ্যুতিগুলি সময়ের মধ্যে সাদা হয় তবে একই মুহুর্তে লিঙ্কগুলির মধ্যে সম্পর্কিতঃ গতির জন্য 0.36–0.60 , প্রবাহের জন্য প্রায় 0.3 ( A0086 ).
+- ঘন ঘন পর্যবেক্ষণগুলি মুক্তির ত্রিভুজীয় FD এর ঘন ঘন শাখায় বসেঃ মধ্যম বিচ্যুতি 0 %, IQR ±2.4 % ( A0058 ).
 
-**Generator: detector health and masking**
-- Detector health is uniform by design. Ramp coverage is 0.7560 on every corridor, so all corridors are Mode A (A0043). About 76% of cells are eligible (A0019).
-- The mask is blake2b(panel|regime|date|timestamp|link_id)/2^64 < rate (0.2/0.3/0.5), with one regime per day (A0020).
-- Around every scored Task 2 window, the horizon and the hour after it are blanked in all four channels, which blacks out T+1..T+18 (A0036, A0063).
-- The Task 1 template = the hash mask minus the window-history cells (2,837 on D7_I210_W val). The visible blanks add 6,980 horizon/buffer cells (A0036).
-- Ramps are still released inside mainline blackouts (A0058).
-- Lowest flow anywhere in the withheld data: 347 vph (commit 801bba8).
+**জেনারেটরঃ ডিটেক্টর স্বাস্থ্য এবং মাস্কিং**
+- ডিটেক্টর স্বাস্থ্য নকশা দ্বারা অভিন্ন। র্যাম্প কভারেজ প্রতিটি করিডোরের 0.7560 , তাই সমস্ত করিডোরগুলি মোড এ ( A0043 ) । 76 % cellগুলি যোগ্য ( A0019 ) ।
+- মাস্কটি ব্ল্যাক 2 b(প্যানেল|ব্যবস্থা|তারিখ|সময়সীমা|link_id )/ 2 ^ 64 < হার ( 0.2/0.3/0.5 ), প্রতিদিন এক ডোজ ( A0020 ).
+- প্রতিটি স্কোর করা টাস্ক 2 windowর চারটি চ্যানেলের মধ্যে horizon এবং তার পরের ঘন্টা ফাঁকা থাকে, যা T+1 ..T+18 ( A0036 , A0063 ) কে কালো করে দেয়।
+-1 টেমপ্লেট = হ্যাশ মাস্ক নিচে window-ইতিহাসের সেলগুলি ( 2,837  D7_I210_W val) । দৃশ্যমান ফাঁকা অংশগুলি 6,980  horizon/buffer সেল যোগ করে ( A0036 ).
+- প্রধান লাইন ব্ল্যাকআউটগুলির মধ্যে র্যাম্পগুলি এখনও মুক্তি পায় (A0058).
+- সংরক্ষিত তথ্যের সর্বনিম্ন প্রবাহঃ 347 vph (commit 801 bba 8 ).
 
-**Task 2 window selector** (A0026, A0059 §1, matched on train)
-- History [T−60, T) with eligible coverage ≥ 0.7.
-- Ongoing iff ≥ 2 queued eligible observations with ≥ 2 on one link.
-- At least one queued horizon cell.
-- Persistence IoU of the true state at T ≤ 0.9.
-- Greedy chronological, 5 per condition, ≥ 360 min between **any** two picks.
-- As a result the official windows sit in the first 0–5 days of each month (A0074).
-- The organizer notes the synthetic corridor yields "normal" windows almost only at morning-peak onset (A0026).
-- Onset is solvable: an hour before a queue forms, the road is at 1.28× its queue threshold against 1.54× where none follows, carrying 6912 vs 4620 vph (A0026).
+**টাস্ক 2 window নির্বাচক** ( A0026 , A0059 § 1 , trainে মিলিত)
+- ইতিহাস [ T−60 , T) যার জন্য যোগ্যতা রয়েছে ≥0.7 ।
+- যদি চলমান ≥2 ক্রমিকভাবে গ্রহণযোগ্য পর্যবেক্ষণ হয় তবে একটি লিঙ্কটিতে ≥2 থাকে।
+- অন্তত একটা ক্রমিক horizon সেল।
+- T ≤0.9 এ সত্য অবস্থা ধারাবাহিকতা IoU .
+- ক্ষুধার্ত ক্রনিক্যাল, 5 প্রতি শর্তে, ≥360 min **যে কোন** দুইটি পিকের মধ্যে।
+- ফলে, সরকারি windowগুলো প্রতি মাসের প্রথম 0–5 দিনে ( A0074 ) বসতে থাকে।
+- সংগঠক বলছেন, সিন্থেটিক করিডোরটি প্রায় সকালের শুরুতে ( A0026 ) "স্বাভাবিক" window দেয়।
+- শুরু সমাধানযোগ্যঃ একটি সারির গঠন হওয়ার এক ঘন্টা আগে, রাস্তা 1.28 × তার সারির সীমা 1.54 × যেখানে কোনটি অনুসরণ করে না, 6912 বনাম 4620 vph ( A0026 ) বহন করে।
 
-**Task 3**
-- The conservation signal is about 0.75% of N; the topology flux error is about 0.22% (A0043).
-- The practical ceiling is about 0.9636 (A0022).
-- Perfect / enhanced-baseline / congestion-erasing submissions score S_LWR 0.9446 / 0.4947 / 0.0 (commit 6eb935c).
+**টাস্ক 3**
+- সংরক্ষণ সংকেতটি N এর 0.75 % এর কাছাকাছি; টপোলজি ফ্লাক্স ত্রুটিটি 0.22 % ( A0043 ).
+- প্র্যাকটিক্যাল সর্বোচ্চ সীমাটি প্রায় 0.9636 ( A0022 ) ।
+- নিখুঁত / উন্নত ভিত্তি / congestion- erasing জমা স্কোর S_LWR  0.9446 / 0.4947 / 0.0 (commit 6 eb 935 c) ।
 
-**Task 4 (A0060)**
-- One path per OD pair, n(n−1)/2 paths. The counted links are pure screenlines, and counts within a segment are identical.
-- The prior is gravity-like with power-law deterrence (−1.05·ln(d−o)) and per-split lognormal noise, σ ≈ 0.61.
-- The organizer baseline 0.8359 is reproduced (0.8357) under the hypothesis "f* = ridge fit of the split prior to hidden mainline flows, c = A f*".
+**টাস্ক 4 ( A0060 )**
+- OD জোড়ায় এক পথ, n(n−1 )/ 2 পথ। গণনা করা লিঙ্কগুলি খাঁটি স্ক্রিনলাইন এবং একটি সেগমেন্টের মধ্যে গণনাগুলি একই।
+- প্রিরিয়রটি পাওয়ার-লাইট ডিসtrainশন (−1.05 ·ln(d−o)) এবং পার-স্প্লিট লোগনামাল শব্দ, σ ≈0.61 সহ মাধ্যাকর্ষণের মতো।
+- সংগঠক বেসলাইন 0.8359 পুনরায় প্রকাশিত হয় (0.8357) "f* = গোপন মূল লাইন প্রবাহের আগে বিভক্তের খাঁজ ফিট, c = A f*" এর অধীনে।
 
-**The organizer's old enhanced T1 baseline** (profile + same-day temporal/spatial interpolation) scored S_state 0.9083 on validation (A0039, A0053).
+**সংগঠকের পুরানো উন্নত T1 বেসলাইন** (প্রফাইল + একই দিনের temporal/spatial ইন্টারপোলেশন) যাচাইকরণে S_state  0.9083 স্কোর করেছে ( A0039 , A0053 ).
 
-### INFERENCE (ours, not stated by any source)
+### INFERENCE (আমাদের, কোন উৎস দ্বারা উল্লেখ করা হয়নি)
 
-- **The 0.91–0.92 scores.** Four entries in this range carry dates after the rebuild (09-12, 09-19, 09-28). Either the API returns the date of a team's latest submission rather than its best, or some teams really are above 0.91.
-  - Hisernberg's tracker treats them as stale, but gives no evidence.
-  - Treat the credible post-rebuild frontier as roughly 0.90–0.92.
-- **Where the gap to the frontier sits.** Task 4 (0.994) and S_state (≈0.94, ceiling about 0.955) are near saturation for serious teams. The remaining room is S_queue (+0.1 is worth +0.03) and S_LWR (+0.1 is worth +0.01).
-  - A team at 0.90 or above probably has S_queue ≥ 0.85, which needs ongoing ≥ 0.90 and onset ≥ 0.80 on March.
-  - For us, ongoing (0.747 at the last measurement) is the likeliest large deficit. Re-probe it.
-- **Private month.** Private has more incidents (7 vs 5), so possibly more non-recurrent queues than March. Hisernberg's recurrence metric (≤T data) found only 2.5% of private ongoing windows below recurrence 0.05, against 12.5% in March.
-  - Model choices tuned on March's non-recurrent mix may be less important on private. Robustness still matters.
-- **Noise streams.** Because observation-noise streams have their own child seeds, measurement noise is independent of the incident/demand scenario. Denoising cannot learn anything about the scenario beyond smoothing.
+- **0.91–0.92 স্কোর।** এই পরিসরের চারটি এন্ট্রি পুনর্নির্মাণের পরে তারিখগুলি বহন করে ( 09-12 , 09-19 , 09-28 ) । API একটি দলের সর্বশেষ জমা দেওয়ার তারিখটি সেরা নয় বরং ফেরত দেয়, অথবা কিছু দল সত্যিই 0.91 এর উপরে রয়েছে।
+  - হিজার্ণবার্গ এর ট্র্যাকার তাদের পুরানো হিসাবে আচরণ করে, কিন্তু কোন প্রমাণ দেয় না.
+  - পুনর্নির্মাণের পর সীমানাটিকে প্রায় 0.90–0.92 হিসাবে বিবেচনা করুন।
+- **যেখানে সীমান্তের ফাঁক রয়েছে।** টাস্ক 4 ( 0.994 ) এবং S_state (≈0.94 , সর্বোচ্চ সীমা প্রায় 0.955 ) গুরুতর দলের জন্য প্রায় পরিপূর্ণ। বাকি রুমটি S_queue (+0.1 এর মূল্য +0.03 ) এবং S_LWR (+0.1 এর মূল্য +0.01 ) ।
+  -0.90 বা তার উপরে একটি দল সম্ভবত S_queue ≥0.85 আছে, যা চলমান ≥0.90 এবং শুরু ≥0.80 প্রয়োজন মার্চ।
+  - আমাদের জন্য, চলমান ( 0.747 শেষ পরিমাপ) সবচেয়ে সম্ভবত বড় ঘাটতি। এটি পুনরায় পরীক্ষা করুন।
+- **ব্যক্তিগত মাস।** ব্যক্তিগত ক্ষেত্রে আরও বেশি ঘটনা ঘটে ( 7 বনাম 5 ), তাই মার্চ মাসের তুলনায় সম্ভবত আরও বেশি নন-রিকুরিন্ট ক্যু রয়েছে। হিজার্সবার্গের পুনরাবৃত্তি মেট্রিক (≤ টি ডেটা) কেবল 2.5 % প্রাইভেট চলমান windowগুলোর পুনরাবৃত্তির 0.05 এর নীচে পাওয়া যায়, মার্চ মাসে 12.5 % এর তুলনায়।
+  - মার্চের অ-পুনরাবৃত্তিক মিশ্রণ অনুযায়ী মডেল পছন্দগুলি ব্যক্তিগত ক্ষেত্রে কম গুরুত্বপূর্ণ হতে পারে।
+- **শব্দ প্রবাহ।** কারণ পর্যবেক্ষণ-শব্দ প্রবাহের নিজস্ব সন্তান বীজ রয়েছে, পরিমাপ শব্দ incident/demand দৃশ্যকল্প থেকে স্বাধীন। Denoising মসৃণতা ছাড়া দৃশ্যকল্প সম্পর্কে কিছুই শিখতে পারে না।
 
 ---
 
-## 3. Traffic4cast: transferable lessons (2019–2022)
+## 3 . ট্রাফিক 4 কাস্টঃ স্থানান্তরযোগ্য পাঠ ( 2019–2022 )
 
 - **2019–2021 (A0149, A0152, A0131, A0124, A0125, A0137, A0142, A0145).**
-  - U-Nets on gridded movies won. In 2021 the task added temporal (COVID) and spatial (unseen city) domain shift, handled with domain adaptation, fine-tuning and multi-task learning.
-  - Test-time overlapping patches improved stability.
-  - Our corridor is 1-D and tabular GBDT already works, so the transferable part is the **domain-adaptation / transductive** lesson: fit on the target period's own unlabelled or observed data. That is I-1 (Task 1) and I-9 (Task 2 private).
-- **2022 (A0136 overview; A0140 ustc-gobbler 1st; A0128/A0225 Bolt 2nd; A0132 oahciy 3rd; A0134/A0206 TSE).**
-  - GBDT with heavy feature engineering matched or beat GNNs.
-  - The most important features were target encodings (historical label distributions per edge, which match our priors), global-state and time features (PCA fingerprint, inferred time slot), then edge ids and static attributes.
-  - The winner imputed missing sensors (VAE) before forecasting. That is analogous to I-3, repairing labels and inputs by imputation.
-  - Rare congestion events were the hardest class everywhere. That matches our onset and non-recurrent ongoing weakness.
-- **Nothing** in Traffic4cast addresses the IoU-set decoding or the selection artifact specific to this competition.
+  -2021 এ টাস্কটি সময় ( COVID ) এবং স্থানিক (অদৃশ্য শহর) ডোমেন শিফট যুক্ত করেছিল, ডোমেন অভিযোজন, সূক্ষ্ম সুরকরণ এবং মাল্টি-টাস্ক লার্নিং নিয়ে কাজ করেছিল।
+  - পরীক্ষার সময় ওভারল্যাপিং প্যাচগুলি স্থিতিশীলতা উন্নত করেছে।
+  - আমাদের করিডর 1 -D এবং টেবিলের GBDT ইতিমধ্যে কাজ করে, তাই স্থানান্তরযোগ্য অংশটি হল **ডোমেন-অ্যাডাপ্টেশন / ট্রান্সডাক্টিভ** পাঠঃ লক্ষ্য সময়ের নিজস্ব লেবেলযুক্ত বা পর্যবেক্ষণ করা ডেটা অনুসারে ফিট। এটি হল I- 1 (টাস্ক 1 ) এবং I- 9 (টাস্ক 2 প্রাইভেট) ।
+- **2022 ( A0136 সারসংক্ষেপ; A0140 ustc-gobbler 1 st; A0128/A0225 Bolt 2 nd; A0132 oahciy 3 rd; A0134/A0206  TSE ).**
+  - GBDT ভারী বৈশিষ্ট্য প্রকৌশল সঙ্গে GNN সমন্বয় বা বিট।
+  - সবচেয়ে গুরুত্বপূর্ণ বৈশিষ্ট্যগুলি ছিল লক্ষ্য কোডিং (প্রতি প্রান্তে ঐতিহাসিক লেবেল বিতরণ, যা আমাদের পূর্ববর্তীগুলির সাথে মেলে), বিশ্বব্যাপী রাষ্ট্র এবং সময় বৈশিষ্ট্য ( PCA আঙুলের ছাপ, অনুমানিত সময়কাল), তারপর প্রান্ত আইডি এবং স্থিতিশীল বৈশিষ্ট্য।
+  - বিজয়ী পূর্বাভাস দেওয়ার আগে অনুপস্থিত সেন্সর ( VAE ) অনুমান করেছিলেন। এটি I- 3 এর অনুরূপ, ইম্পুটেশন দ্বারা লেবেল এবং ইনপুটগুলি মেরামত করা।
+  - বিরল congestion ঘটনা সব জায়গায় সবচেয়ে কঠিন শ্রেণী ছিল. যে আমাদের শুরু এবং পুনরাবৃত্তিহীন চলমান দুর্বলতা সঙ্গে মিলিত.
+- **ট্রাফিক 4 কাস্টে** কিছুই এই প্রতিযোগিতার জন্য নির্দিষ্ট আইওইউ সেট ডিকোডিং বা নির্বাচন আর্টিফ্যাক্টকে সম্বোধন করে না।
 
 ---
 
-## 4. NEGATIVE evidence (do not repeat without new reason)
+## 4 . NEGATIVE প্রমাণ (নতুন কারণ ছাড়া পুনরাবৃত্তি করবেন না)
 
-**Task 2 decoding**
-- Onset logit bias of +0.5 (larger sets): onset −0.016 on March (A0058, F1).
-- Site-commit decoders (fewer hedges): −0.012 (F2).
-- Contiguous-block, head+extent and library shape-prior decoders all lose (A0059 §12–13). This matches our DROP of morphology decoders.
+**টাস্ক 2 ডিকোডিং**
+- +0.5 এর সূচনা লগিট বিভাজন (বড় সেট): মার্চ মাসে সূচনা −0.016 ( A0058 , F1 ).
+- সাইট-কমিট ডিকোডার (কম হেজ): −0.012 ( F2 ).
+- ধারাবাহিক ব্লক, মাথা + এক্সটেনশন এবং লাইব্রেরি ফর্ম-পূর্ব ডিকোডার সব হারায় ( A0059 § 12–13 ). এটি আমাদের DROP এর সাথে মিলিত হয়।
 
-**Task 2 ongoing** (A0058, A0059 §16–20)
-- Stage-2 stacking: −0.023 on March while CV said +0.0065.
-- Shrink-only stacking: −0.010.
-- Hybrid labels for ongoing: −0.0013.
-- 255-leaf capacity: −0.0027 on March, although CV said +0.005 and every gate passed.
-- Our own 255/511-leaf ongoing gains may therefore not be real on the LB either. Check them on the March pseudo-holdout (I-4).
+**টাস্ক 2 চলমান** ( A0058 , A0059 § 16–20 )
+- ফেজ- 2 স্ট্যাকিংঃ −0.023 মার্চ মাসে যখন CV বলেছিল +0.0065 ।
+- শুধুমাত্র সংক্ষিপ্ততা স্তরঃ −0.010 .
+- চলমান জন্য হাইব্রিড লেবেলঃ −0.0013 .
+-255 -পাতা ক্ষমতাঃ −0.0027 মার্চ মাসে, যদিও CV বলেছিল +0.005 এবং প্রতিটি গেট পাস।
+- আমাদের নিজস্ব 255/511 -পাতা চলমান লাভ তাই LB উপর বাস্তব হতে পারে না. মার্চ pseudo-holdout (I- 4 ) এ তাদের পরীক্ষা করুন।
 
-**Task 2 onset**
-- Covariate-shift importance-weighted onset training loses (A0059 §18).
-- Ramp-demand features for onset: −0.0004 (A0086).
-- 1-D dilated CNN second opinion for ongoing: OOF 0.8997 vs LightGBM 0.9230, and blends were negative (A0090).
-- Onset decoder thresholds are saturated (A0086; our EXISTING_MAP agrees).
+**টাস্ক 2 শুরু**
+- কোভারেট-শিফট গুরুত্ব-ওয়েটেড শুরু প্রশিক্ষণ হার (A0059 §18).
+- শুরু করার জন্য র্যাম্প-ডিমান্ড বৈশিষ্ট্যঃ −0.0004 ( A0086 ).
+-1 -D dilated CNN second opinion for ongoing: OOF  0.8997 vs LightGBM 0.9230 , এবং মিশ্রণগুলি নেতিবাচক ছিল ( A0090 ).
+- ইনস্টল ডিসকোডার প্রান্তগুলি পরিপূর্ণ (A0086আমাদের EXISTING_MAP সম্মত হন) ।
 
-**Task 2 validation methods**
-- Onset first-slot extent is nearly unpredictable from anything observable at T (|r| ≤ 0.24). It is set within the 5-minute slot (A0059 §13).
-- A "post-blackout site check" that reads T+19..T+21 observations was used by Hisernberg only as a diagnostic. **It reads data after T. Do not use it, even for model selection** (A0059 §19).
+**টাস্ক 2 বৈধকরণ পদ্ধতি**
+- শুরুতে প্রথম স্লট প্রস্থ প্রায় অনির্দেশ্য যে কোন উপায়ে T (|r| ≤0.24 ). এটি 5 -মিনিটের মধ্যে সেট করা হয় ( A0059 § 13 ).
+- হিজার্নেবার্গ শুধুমাত্র একটি নির্ণয় হিসাবে একটি "ব্ল্যাকআউট পরে সাইট চেক" যা T+19 ..T+21 পর্যবেক্ষণগুলি পড়ে ব্যবহার করা হয়েছিল। **এটি T এর পরে ডেটা পড়ে। এটি মডেল নির্বাচনের জন্যও ব্যবহার করবেন না** ( A0059 § 19 ).
 
-**Task 1 / Task 3**
-- The L1-leaning density model is worse than near-L2 (A0058). Our EXP_T1_m agrees.
-- Blackout smoothing is at the LWR floor (A0077).
-- Per-day offsets hurt, and partial reconciliation above the 0.6·v_f gate is used up (A0074/A0076).
-- Treiber ASM smoothing: speed error 3.88 → 10.81 (A0013).
-- Ramp flux injection into conservation made things worse (A0013).
-- Wider same-link local-linear smoothing did not help (A0086).
-- Snapping v to v_free for S_FD: −0.008 (A0086).
-- Kalman/RTS on profile deviations is worse than interpolation (A0122; our EXP_T1_c).
-- **Transfer lesson (A0058):** capacity and data-volume gains validated on a train holdout transfer only 15–50% to the LB. Variance reduction and post-processing transfer 85–100%. Validate capacity changes on the test-month pseudo-holdout.
+**টাস্ক 1 / টাস্ক 3**
+- L1 -প্রতিষ্ঠিত ঘনত্ব মডেলটি নিকটতম L2 ( A0058 ) এর চেয়ে খারাপ। আমাদের EXP_T1_m একমত।
+- ব্ল্যাকআউট মসৃণতা LWR তলায় ( A0077 ) ।
+- প্রতিদিনের ক্ষতিপূরণ ক্ষতিগ্রস্ত হয় এবং 0.6 · v_f গেটের উপরে আংশিক পুনর্মিলন ব্যবহার করা হয় ( A0074/A0076 ).
+- ট্রেবার ASM মসৃণতাঃ গতি ত্রুটি 3.88 → 10.81 ( A0013 ).
+- র্যাম্প ফ্লাক্স ইনজেকশন সংরক্ষণের জন্য পরিস্থিতি আরও খারাপ করে দিয়েছে (A0013).
+- বৃহত্তর একই লিঙ্ক স্থানীয়-রৈখিক মসৃণতা সাহায্য করেনি (A0086).
+- S_FD: −0.008 ( A0086 ) এর জন্য v থেকে v_free পর্যন্ত snapping করা।
+- Kalman/RTS প্রোফাইল বিচ্যুতিতে ইন্টারপোলেশনের চেয়ে খারাপ ( A0122 ; আমাদের EXP_T1_c ) ।
+- **ট্রান্সফার পাঠ ( A0058 ):** ক্ষমতা এবং ডেটা ভলিউম বৃদ্ধি train-এর হোল্ডআউট ট্রান্সফারে শুধুমাত্র 15–50 % থেকে LB । ভ্যারিয়েন্স হ্রাস এবং পোস্ট প্রসেসিং ট্রান্সফার 85–100 %। পরীক্ষার মাসের ছদ্ম-হোল্ডআউটটিতে ক্ষমতা পরিবর্তনগুলি বৈধ করুন।
 
-**Task 4**
-- Every deviation from the L2 projection / NNLS λ = 0.05 on the split's own counts and prior lost on the LB:
+**টাস্ক 4**
+- L2 প্রজেকশন থেকে প্রতিটি বিচ্যুতি NNLS λ = 0.05 বিভক্তের নিজস্ব গণনা এবং LB উপর পূর্ব হারানোঃ
   - λ = 50: −0.084 S_ODME.
-  - Relative-deviation form: −0.180.
-  - Gravity-smoothed prior: −0.097 / −0.215 (A0086).
-  - Rescaling the prior first is harmful (A0060).
-- Stop working on Task 4.
+  - আপেক্ষিক বিচ্যুতির রূপঃ −0.180 ।
+  - মাধ্যাকর্ষণের দ্বারা মসৃণ পূর্ববর্তীঃ −0.097 / −0.215 ( A0086 ).
+  - পূর্ববর্তীটি পুনরায় স্কেল করা ক্ষতিকর ( A0060 ).
+- টাস্ক 4 এ কাজ বন্ধ করো।
 
-**Selection-artifact caution.** Training onset on T+5..T+25 is contradicted by the truth definition (A0010). This matches our EXISTING_MAP DROP.
+**নির্বাচন-আর্টিফ্যাক্ট সতর্কতা।** টি +5 ..T +25 প্রশিক্ষণ শুরু সত্য সংজ্ঞা দ্বারা বিপরীত হয় ( A0010 ). এটি আমাদের EXISTING_MAP  DROP সাথে মেলে।
 
 ---
 
-## 5. Honest counts for this partial
+## 5এই আংশিক জন্য সৎ গণনা
 
-A_resources.csv has 228 unique resources:
+A_resources.csv এর 228 অনন্য সম্পদ রয়েছেঃ
 
-| Status | Count |
+| অবস্থা | কাউন্ট |
 |---|---:|
-| DISCOVERED (seen only in search results or listings) | 73 |
+| DISCOVERED (শুধুমাত্র অনুসন্ধান ফলাফল বা তালিকাগুলিতে দেখা যায়) | 73 |
 | SCREENED | 62 |
 | DEEP_READ | 57 |
 | CODE_INSPECTED | 36 |
 
-**Gaps**
-- The web-search budget ran out mid-task, and the arXiv API rate-limited follow-up queries. Traffic4cast coverage is therefore limited to the 26 arXiv papers, 39 GitHub repositories and about 30 mirror/overview pages found.
-- The Kaggle notebook list returned only 8 competition kernels.
+**ফাঁক**
+- ওয়েব অনুসন্ধানের বাজেটটি কাজের মাঝখানে শেষ হয়ে গেছে, এবং arXiv API হার-সীমিত ফলো-আপ অনুসন্ধানগুলি। ট্র্যাফিক 4 কাস্ট কভারেজ তাই 26 arXiv কাগজ, 39 GitHub সংগ্রহস্থল এবং প্রায় 30  mirror/overview পেজগুলিতে সীমাবদ্ধ।
+- ক্যাগল নোটবুক তালিকা শুধুমাত্র 8 প্রতিযোগিতার kernels ফিরে।

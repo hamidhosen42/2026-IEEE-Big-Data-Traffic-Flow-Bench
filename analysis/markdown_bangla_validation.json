@@ -10,10 +10,8 @@
   {
     "file": "consolidation/DESIGN.md",
     "manual_review": false,
-    "issues": [
-      "translation-pending"
-    ],
-    "bengali_characters": 0,
+    "issues": [],
+    "bengali_characters": 21655,
     "extra_numbers": {},
     "missing_numbers": {}
   },
@@ -128,13 +126,9 @@
   {
     "file": "research/partials/A_ideas.md",
     "manual_review": false,
-    "issues": [
-      "numbers"
-    ],
-    "bengali_characters": 17950,
-    "extra_numbers": {
-      "7": 1
-    },
+    "issues": [],
+    "bengali_characters": 18023,
+    "extra_numbers": {},
     "missing_numbers": {}
   },
   {
@@ -188,10 +182,8 @@
   {
     "file": "experiments/TRACKER.md",
     "manual_review": false,
-    "issues": [
-      "translation-pending"
-    ],
-    "bengali_characters": 0,
+    "issues": [],
+    "bengali_characters": 36769,
     "extra_numbers": {},
     "missing_numbers": {}
   },
@@ -367,7 +359,7 @@
     "file": "discussions/743819.md",
     "manual_review": false,
     "issues": [],
-    "bengali_characters": 6199,
+    "bengali_characters": 6536,
     "extra_numbers": {},
     "missing_numbers": {}
   },
@@ -454,10 +446,8 @@
   {
     "file": "analysis/t2lab/results/firstcross/ref/hb_TASK2_ANALYSIS.md",
     "manual_review": false,
-    "issues": [
-      "translation-pending"
-    ],
-    "bengali_characters": 0,
+    "issues": [],
+    "bengali_characters": 45921,
     "extra_numbers": {},
     "missing_numbers": {}
   },
@@ -474,6 +464,14 @@
     "manual_review": false,
     "issues": [],
     "bengali_characters": 11675,
+    "extra_numbers": {},
+    "missing_numbers": {}
+  },
+  {
+    "file": "gpt/tfb_joint_trajectory_experiment/README.md",
+    "manual_review": true,
+    "issues": [],
+    "bengali_characters": 1893,
     "extra_numbers": {},
     "missing_numbers": {}
   }
