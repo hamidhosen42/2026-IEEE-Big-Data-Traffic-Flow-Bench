@@ -1,0 +1,19 @@
+{
+  "id": "sachith7/trafficflowbench-when-does-temporal-repair-fail",
+  "id_no": 136741461,
+  "title": "TrafficFlowBench: When Does Temporal Repair Fail?",
+  "code_file": "trafficflowbench-when-does-temporal-repair-fail.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

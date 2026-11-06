@@ -1,0 +1,21 @@
+{
+  "id": "robinamirbahar/trafficflowbench-physics-guided-state-odme",
+  "id_no": 140205405,
+  "title": "TrafficFlowBench Physics-Guided State & ODME",
+  "code_file": "trafficflowbench-physics-guided-state-odme.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "optimization"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "yanamiiannaa/trafficflow-directional-features-safe-profiles",
+  "id_no": 137200029,
+  "title": "TrafficFlow: Directional Features & Safe Profiles",
+  "code_file": "trafficflow-directional-features-safe-profiles.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "yanamiiannaa/trafficflow-directional-profile-cnn-controls"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

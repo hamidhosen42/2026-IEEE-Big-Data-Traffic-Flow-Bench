@@ -1,0 +1,19 @@
+{
+  "id": "chaitanyajamble/2026-ieee-big-data-traffic-flow-bench-3",
+  "id_no": 135494336,
+  "title": "2026 IEEE Big Data-Traffic Flow Bench/3",
+  "code_file": "2026-ieee-big-data-traffic-flow-bench-3.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

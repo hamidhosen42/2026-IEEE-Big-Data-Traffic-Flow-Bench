@@ -1,0 +1,19 @@
+{
+  "id": "lamhuy8904/traffic-flow-bench-pipeline",
+  "id_no": 133209720,
+  "title": "Traffic Flow Bench Pipeline",
+  "code_file": "traffic-flow-bench-pipeline.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

@@ -1,0 +1,24 @@
+{
+  "id": "yeashusemwal/trafficflowbench-trees-u-net-cnn-lb-0-87",
+  "id_no": 136865181,
+  "title": "TrafficFlowBench: Trees + U-Net + CNN | LB 0.87",
+  "code_file": "trafficflowbench-trees-u-net-cnn-lb-0-87.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "",
+    "anubisyy/trafficflowbench-086517-public-assets"
+  ],
+  "kernel_sources": [
+    "anubisyy/catboost-lgbm-nnls-pipeline-top-50-0-86517"
+  ],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

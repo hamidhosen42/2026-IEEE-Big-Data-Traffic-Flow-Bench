@@ -1,0 +1,21 @@
+{
+  "id": "soukeaizenz/0-809-lb-top-50-open-sourcing-physics-pipeline",
+  "id_no": 135669448,
+  "title": "[0.809 LB TOP 50] Open-Sourcing Physics Pipeline",
+  "code_file": "0-809-lb-top-50-open-sourcing-physics-pipeline.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "soukeaizenz/tfb-task2-lgbm"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

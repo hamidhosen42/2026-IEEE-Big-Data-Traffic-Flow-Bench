@@ -1,0 +1,25 @@
+{
+  "id": "avikdas567/hydrodynamic-traffic-reconstruction-queue-odme",
+  "id_no": 135709115,
+  "title": "Hydrodynamic Traffic Reconstruction & Queue ODME",
+  "code_file": "hydrodynamic-traffic-reconstruction-queue-odme.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "keywords": [
+    "physics",
+    "exploratory data analysis",
+    "artificial intelligence",
+    "research",
+    "data visualization"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

@@ -275,73 +275,73 @@ sb.fd)
 t-msb.cfg) [1{/opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/ma
 p/pdftex/updmap/pdftex.map}{/opt/homebrew/Cellar/texlive/20260301_3/share/texmf
 -dist/fonts/enc/dvips/base/8r.enc}]
-Underfull \hbox (badness 1521) in paragraph at lines 149--157
+Underfull \hbox (badness 1521) in paragraph at lines 155--163
 \T1/ptm/m/n/10 (+20) the of-fi-cial 0.355 (\T1/pcr/m/n/9 TRACKER\T1/ptm/m/n/10 
 (+20) , val-i-da-tion de-sign). Be-fore
 [2]
-Underfull \hbox (badness 1527) in paragraph at lines 216--220
+Underfull \hbox (badness 1527) in paragraph at lines 222--226
 []\T1/ptm/b/n/10 (+20) Step M. \T1/ptm/m/n/10 (+20) On or-di-nary rows, $\OML/c
 mm/m/it/10 q \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 :\OT1/cmr/
 m/n/10 65\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 +
 
-Underfull \hbox (badness 2293) in paragraph at lines 220--222
+Underfull \hbox (badness 2293) in paragraph at lines 226--228
 []\T1/ptm/b/n/10 (+20) Step B. \T1/ptm/m/n/10 (+20) On black-out rows, $\OML/cm
 m/m/it/10 v \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 :\OT1/cmr/m
 /n/10 85\OML/cmm/m/it/10 v \OT1/cmr/m/n/10 +
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--222
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 v[]; \OT1
 /cmr/m/n/10 3\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n
 /10 05\OML/cmm/m/it/10 v[]\OT1/cmr/m/n/10 )$ \T1/ptm/m/n/10 (+20) and $\OML/cmm
 /m/it/10 q \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 :\OT1/cmr/m/
 n/10 85\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 +
 
-Underfull \hbox (badness 5908) in paragraph at lines 220--222
+Underfull \hbox (badness 5908) in paragraph at lines 226--228
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 q[]; \OT1
 /cmr/m/n/10 20)$\T1/ptm/m/n/10 (+20) , with speed ranks $\OT1/cmr/m/n/10 (8\OML
 /cmm/m/it/10 ; \OT1/cmr/m/n/10 20\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 20)$ \T1/pt
 m/m/n/10 (+20) and
 [3]
-Overfull \hbox (1.32207pt too wide) in paragraph at lines 308--315
+Overfull \hbox (1.32207pt too wide) in paragraph at lines 314--321
 \T1/ptm/m/n/10 (-20) ``gen-er-ated in-de-pen-dently''. On many-day pseudo-March
 , mod-els
 
-Underfull \hbox (badness 6300) in paragraph at lines 326--333
+Underfull \hbox (badness 6300) in paragraph at lines 332--339
 \OT1/cmr/m/n/10 [\OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ; []\OML/cmm/m/it/10 I\OT1/c
 mr/m/n/10 ]\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 = [\OML/cmm/m/it/10 c\OT1/cmr/m/n
 /10 ; []\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 ]$ \T1/ptm/m/n/10 (+20) (\T1/pcr/m/n/
 9 scipy.optimize.nnls \T1/ptm/m/n/10 (+20) [[]]).
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--333
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 \T1/ptm/m/n/10 (+20) This is the or-ga-nizer's ref-er-ence con-struc-tion
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--333
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 \T1/ptm/m/n/10 (+20) (\T1/pcr/m/n/9 repo/src/task4/build_task4_odme_artifacts.p
 y\T1/ptm/m/n/10 (+20) ).
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--339
+Underfull \hbox (badness 10000) in paragraph at lines 345--345
 \T1/ptm/m/n/8 (+20) Fig. 2.  []Public LB of the 73 scored sub-mis-sions in
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--339
+Underfull \hbox (badness 10000) in paragraph at lines 345--345
 \T1/pcr/m/n/9 all_submitted_notebooks/README.md \T1/ptm/m/n/8 (+20) (from #5; t
 he
 [4] [5 <./figures/lb_progression.pdf> <./figures/lb_by_task.pdf> <./figures/tra
 nsfer.pdf>]
-Underfull \hbox (badness 3815) in paragraph at lines 470--476
+Underfull \hbox (badness 3815) in paragraph at lines 476--482
 []\T1/ptm/b/n/10 (+20) Entry script. \T1/pcr/m/n/9 consolidation/run_all.py \T1
 /ptm/m/n/10 (+20) re-builds
 
-Underfull \hbox (badness 2005) in paragraph at lines 470--476
+Underfull \hbox (badness 2005) in paragraph at lines 476--482
 \T1/ptm/m/n/10 (+20) as an AST. Pick A (tfb-k9) is re-built with \T1/pcr/m/n/10
  python
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--476
+Underfull \hbox (badness 10000) in paragraph at lines 476--482
 \T1/pcr/m/n/10 run_all.py --data-root <kaggle_public>
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--476
+Underfull \hbox (badness 10000) in paragraph at lines 476--482
 \T1/pcr/m/n/10 --work-dir ./work --pick A3 --recipe full
 
-Underfull \hbox (badness 1983) in paragraph at lines 485--487
+Underfull \hbox (badness 1983) in paragraph at lines 491--493
 []\T1/ptm/b/n/10 (+20) Environment. \T1/ptm/m/n/10 (+20) Python 3.13 Kag-gle im
 -age (di-gest in
 [6]
@@ -382,5 +382,5 @@ _3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></opt/homebrew/Cellar/tex
 live/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></opt/homebre
 w/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 
-Output written on report.pdf (7 pages, 313864 bytes).
+Output written on report.pdf (7 pages, 315095 bytes).
 Transcript written on report.log.

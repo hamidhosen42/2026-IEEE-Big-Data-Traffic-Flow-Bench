@@ -1,0 +1,19 @@
+{
+  "id": "shuangranse/trafficflowbench-06970-solution-writeup",
+  "id_no": 136083608,
+  "title": "TrafficFlowBench 06970 solution writeup",
+  "code_file": "trafficflowbench-06970-solution-writeup.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

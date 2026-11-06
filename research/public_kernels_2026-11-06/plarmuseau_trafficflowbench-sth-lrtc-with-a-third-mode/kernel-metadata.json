@@ -1,0 +1,21 @@
+{
+  "id": "plarmuseau/trafficflowbench-sth-lrtc-with-a-third-mode",
+  "id_no": 142876212,
+  "title": "TrafficFlowBench: STH-LRTC with a third mode",
+  "code_file": "trafficflowbench-sth-lrtc-with-a-third-mode.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    ""
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "2026-ieee-big-data-traffic-flow-bench"
+  ],
+  "model_sources": []
+}

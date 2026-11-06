@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.10.23)  4 NOV 2026 00:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.10.23)  6 NOV 2026 11:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -884,7 +884,7 @@ Package hyperref Info: Link coloring OFF on input line 19.
 \@outlinefile=\write4
 \openout4 = `report.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 27
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 33
 .
 
 (/opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/tex/latex/psnfss/t1pc
@@ -895,13 +895,14 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 33.
 
 (/opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/tex/latex/microtype/m
 t-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 39.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
 
 
 (/opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/tex/latex/amsfonts/um
@@ -912,7 +913,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 t-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 39.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 
 
 (/opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/tex/latex/amsfonts/um
@@ -928,27 +929,27 @@ ts/enc/dvips/base/8r.enc}
 
 
 ]
-Underfull \hbox (badness 1521) in paragraph at lines 149--157
+Underfull \hbox (badness 1521) in paragraph at lines 155--163
 \T1/ptm/m/n/10 (+20) the of-fi-cial 0.355 (\T1/pcr/m/n/9 TRACKER\T1/ptm/m/n/10 
 (+20) , val-i-da-tion de-sign). Be-fore
  []
 
 [2]
-Underfull \hbox (badness 1527) in paragraph at lines 216--220
+Underfull \hbox (badness 1527) in paragraph at lines 222--226
 []\T1/ptm/b/n/10 (+20) Step M. \T1/ptm/m/n/10 (+20) On or-di-nary rows, $\OML/c
 mm/m/it/10 q \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 :\OT1/cmr/
 m/n/10 65\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 +
  []
 
 
-Underfull \hbox (badness 2293) in paragraph at lines 220--222
+Underfull \hbox (badness 2293) in paragraph at lines 226--228
 []\T1/ptm/b/n/10 (+20) Step B. \T1/ptm/m/n/10 (+20) On black-out rows, $\OML/cm
 m/m/it/10 v \OMS/cmsy/m/n/10   []\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 :\OT1/cmr/m
 /n/10 85\OML/cmm/m/it/10 v \OT1/cmr/m/n/10 +
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--222
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 v[]; \OT1
 /cmr/m/n/10 3\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n
 /10 05\OML/cmm/m/it/10 v[]\OT1/cmr/m/n/10 )$ \T1/ptm/m/n/10 (+20) and $\OML/cmm
@@ -957,7 +958,7 @@ n/10 85\OML/cmm/m/it/10 q \OT1/cmr/m/n/10 +
  []
 
 
-Underfull \hbox (badness 5908) in paragraph at lines 220--222
+Underfull \hbox (badness 5908) in paragraph at lines 226--228
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 q[]; \OT1
 /cmr/m/n/10 20)$\T1/ptm/m/n/10 (+20) , with speed ranks $\OT1/cmr/m/n/10 (8\OML
 /cmm/m/it/10 ; \OT1/cmr/m/n/10 20\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 20)$ \T1/pt
@@ -965,13 +966,13 @@ m/m/n/10 (+20) and
  []
 
 [3]
-Overfull \hbox (1.32207pt too wide) in paragraph at lines 308--315
+Overfull \hbox (1.32207pt too wide) in paragraph at lines 314--321
 \T1/ptm/m/n/10 (-20) ``gen-er-ated in-de-pen-dently''. On many-day pseudo-March
 , mod-els
  []
 
 
-Underfull \hbox (badness 6300) in paragraph at lines 326--333
+Underfull \hbox (badness 6300) in paragraph at lines 332--339
 \OT1/cmr/m/n/10 [\OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ; []\OML/cmm/m/it/10 I\OT1/c
 mr/m/n/10 ]\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 = [\OML/cmm/m/it/10 c\OT1/cmr/m/n
 /10 ; []\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 ]$ \T1/ptm/m/n/10 (+20) (\T1/pcr/m/n/
@@ -979,67 +980,68 @@ mr/m/n/10 ]\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 = [\OML/cmm/m/it/10 c\OT1/cmr/m/n
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--333
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 \T1/ptm/m/n/10 (+20) This is the or-ga-nizer's ref-er-ence con-struc-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--333
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 \T1/ptm/m/n/10 (+20) (\T1/pcr/m/n/9 repo/src/task4/build_task4_odme_artifacts.p
 y\T1/ptm/m/n/10 (+20) ).
  []
 
-<figures/lb_progression.pdf, id=169, 249.3315pt x 173.448pt>
+<figures/lb_progression.pdf, id=168, 249.3315pt x 173.448pt>
 File: figures/lb_progression.pdf Graphic file (type pdf)
 <use figures/lb_progression.pdf>
-Package pdftex.def Info: figures/lb_progression.pdf  used on input line 337.
+Package pdftex.def Info: figures/lb_progression.pdf  used on input line 343.
 (pdftex.def)             Requested size: 252.0pt x 175.30548pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--339
+Underfull \hbox (badness 10000) in paragraph at lines 345--345
 \T1/ptm/m/n/8 (+20) Fig. 2.  []Public LB of the 73 scored sub-mis-sions in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--339
+Underfull \hbox (badness 10000) in paragraph at lines 345--345
 \T1/pcr/m/n/9 all_submitted_notebooks/README.md \T1/ptm/m/n/8 (+20) (from #5; t
 he
  []
 
-<figures/lb_by_task.pdf, id=170, 249.3315pt x 126.4725pt>
+<figures/lb_by_task.pdf, id=169, 249.3315pt x 126.4725pt>
 File: figures/lb_by_task.pdf Graphic file (type pdf)
 <use figures/lb_by_task.pdf>
-Package pdftex.def Info: figures/lb_by_task.pdf  used on input line 345.
+Package pdftex.def Info: figures/lb_by_task.pdf  used on input line 351.
 (pdftex.def)             Requested size: 252.0pt x 127.8269pt.
-<figures/transfer.pdf, id=176, 249.3315pt x 133.6995pt>
+[4]
+<figures/transfer.pdf, id=182, 249.3315pt x 133.6995pt>
 File: figures/transfer.pdf Graphic file (type pdf)
 <use figures/transfer.pdf>
-Package pdftex.def Info: figures/transfer.pdf  used on input line 394.
+Package pdftex.def Info: figures/transfer.pdf  used on input line 400.
 (pdftex.def)             Requested size: 252.0pt x 135.13129pt.
-[4] [5 <./figures/lb_progression.pdf> <./figures/lb_by_task.pdf> <./figures/tra
-nsfer.pdf>]
-Underfull \hbox (badness 3815) in paragraph at lines 470--476
+ [5 <./figures/lb_progression.pdf> <./figures/lb_by_task.pdf> <./figures/transf
+er.pdf>]
+Underfull \hbox (badness 3815) in paragraph at lines 476--482
 []\T1/ptm/b/n/10 (+20) Entry script. \T1/pcr/m/n/9 consolidation/run_all.py \T1
 /ptm/m/n/10 (+20) re-builds
  []
 
 
-Underfull \hbox (badness 2005) in paragraph at lines 470--476
+Underfull \hbox (badness 2005) in paragraph at lines 476--482
 \T1/ptm/m/n/10 (+20) as an AST. Pick A (tfb-k9) is re-built with \T1/pcr/m/n/10
  python
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--476
+Underfull \hbox (badness 10000) in paragraph at lines 476--482
 \T1/pcr/m/n/10 run_all.py --data-root <kaggle_public>
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--476
+Underfull \hbox (badness 10000) in paragraph at lines 476--482
 \T1/pcr/m/n/10 --work-dir ./work --pick A3 --recipe full
  []
 
 
-Underfull \hbox (badness 1983) in paragraph at lines 485--487
+Underfull \hbox (badness 1983) in paragraph at lines 491--493
 []\T1/ptm/b/n/10 (+20) Environment. \T1/ptm/m/n/10 (+20) Python 3.13 Kag-gle im
 -age (di-gest in
  []
@@ -1065,11 +1067,11 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 938E8FDDCFE7A4B7C868A5BD3629CAA7;4092.
  ) 
 Here is how much of TeX's memory you used:
- 24278 strings out of 467525
- 453847 string characters out of 5407384
- 891873 words of memory out of 5000000
- 52419 multiletter control sequences out of 15000+600000
- 772916 words of font info for 372 fonts, out of 8000000 for 9000
+ 24334 strings out of 467525
+ 454817 string characters out of 5407384
+ 891866 words of memory out of 5000000
+ 52462 multiletter control sequences out of 15000+600000
+ 778861 words of font info for 392 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,17n,94p,1003b,782s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/public/
@@ -1096,10 +1098,10 @@ ebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.
 pfb></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts
 /type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 313864 bytes).
+Output written on report.pdf (7 pages, 315095 bytes).
 PDF statistics:
  343 PDF objects out of 1000 (max. 8388607)
  272 compressed objects within 3 object streams
  58 named destinations out of 1000 (max. 500000)
- 73940 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 80596 words of extra memory for PDF output out of 89155 (max. 10000000)
 
