@@ -1,0 +1,3195 @@
+{
+ "generated": "2026-10-09",
+ "method": "BFS over kernelDataSources from GET /kernels/pull (metadata + source) for the roots; runtimes = last log timestamp of GET /kernels/output; python from the dist-packages paths in the logs; images A/B = Kaggle docker digests",
+ "roots": [
+  "tfb-i4",
+  "tfb-j3",
+  "tfb-t2ogpvogf"
+ ],
+ "virtual_roots": {
+  "tfb-j4": "A2 recipe (chain oct9 Q4, p9b_planner.py); not pushed yet when traced"
+ },
+ "images": {
+  "A": "gcr.io/kaggle-images/python@sha256:dafd4ce5668bbf1ad422e4c109e0f18c9623c3a7c7f48b0235f13142755c40b9 (Python 3.12)",
+  "B": "gcr.io/kaggle-images/python@sha256:81b1e7c4b4f0f2a7e0a33943c95754b1b7af6b30d65221633a284b6b601cd84a (Python 3.13)"
+ },
+ "data_release": {
+  "files": 9688,
+  "total_gb": 12.39,
+  "creation_date": "2026-09-11",
+  "largest": {
+   "corridors_gb": 9.1,
+   "task1_gb": 2.46,
+   "submission_key_gb": 0.64
+  }
+ },
+ "submission_rows": {
+  "total": 6980503,
+  "state": 6735795,
+  "queue": 174000,
+  "odme": 70708
+ },
+ "chain_since_g4": [
+  "tfb-g4 (queue2: private onset pv + private ongoing pvo on tfb-g3)",
+  "tfb-h1d/h1 (T1: FD3 + old8, blackout 0.75 t1ramp; recon+TV)",
+  "tfb-h5d/h5 (FD bag 5 = + t1dark, t1ramp)",
+  "tfb-i2d/i2 (FD bag 6 = + t1ramp2; blackout mean(ramp, ramp2))",
+  "tfb-i4d/i4 (blackout member -> t1bspec a/b/c)",
+  "tfb-j3 (B: queue2 on i4)",
+  "tfb-j4 (A2: queue2 on i4, pending)"
+ ],
+ "picks": {
+  "A (tfb-i4, public 0.88176)": {
+   "t1_state": {
+    "rows": {
+     "validation": 3451376,
+     "private": 3284419
+    },
+    "producer": "tfb-i4 (swap_fdrecon.py: FD-gated recon + 1-D TV) on tfb-i4d (t1_t1dark_swap.py raw mix)",
+    "raw_mix": {
+     "ordinary_rows": "0.5 * mean(FD bag of 6) + 0.5 * mean(old FTA bag of 8)",
+     "W_FD": 0.5,
+     "old_fta_bag": [
+      "tfb-t1v11",
+      "tfb-t1v12",
+      "tfb-t1v12s2",
+      "tfb-t1v12s3",
+      "tfb-t1v12s4",
+      "tfb-t1v12s5",
+      "tfb-t1v12s6",
+      "tfb-t1v12s7"
+     ],
+     "fd_bag": [
+      "tfb-t1v13",
+      "tfb-t1v13s10",
+      "tfb-t1v13s11",
+      "tfb-t1dark",
+      "tfb-t1ramp",
+      "tfb-t1ramp2"
+     ]
+    },
+    "blackout_rows": {
+     "definition": "state rows with timestamp in (origin, origin + 90 min] of an official Task 2 window of the panel (validation or private)",
+     "rows": 128465,
+     "share": 0.0191,
+     "rule": "0.25 * raw mix + 0.75 * tfb-t1bspec (parts a+b+c)",
+     "W_DARK": 0.75,
+     "dark_member": "tfb-t1bspec"
+    },
+    "recon_tv": {
+     "gate": 0.6,
+     "a": 0.75,
+     "logr_max": 0.5,
+     "tv_free": 0.0075,
+     "tv_free_anchor": 0.001,
+     "tv_gate": 0.02,
+     "tv_gate_anchor": 0.005,
+     "tv_iters": 300,
+     "run_gap_min": 5,
+     "w_range_kmh": [
+      8,
+      40
+     ],
+     "kjl_range": [
+      60,
+      200
+     ],
+     "excl_median": 0.02,
+     "excl_iqr": 0.05,
+     "excl_min_n": 200,
+     "links_excluded_implausible_fd": 10,
+     "panels_excluded": [],
+     "state_rows_changed_by_R": "3.98 %"
+    },
+    "members_file": "state_submission_FTA.csv of every part, joined on (panel, timestamp, station_id, link_id, mask_regime)"
+   },
+   "onset_validation": {
+    "rows": 43500,
+    "producer": "tfb-t2osp queue_submission_sp4.csv (via tfb-e5 swap, unchanged since)",
+    "recipe": "CatBoost onset (600 it, depth 8, lr 0.08, thread_count 4, random_seed 0) on train onset rows, v13 features, subsample rng(0) 1.2M; the 3 prior columns blended per cell with the scenario prior of the masked March days < d (slots +-2, weekday class, a = n/(n+4)); expected-IoU top-m decode"
+   },
+   "onset_private": {
+    "rows": 43500,
+    "producer": "tfb-t2opv queue_submission_pv.csv (via tfb-g4)",
+    "recipe": "April windows: mean probability of 3 CatBoost models (same params) trained on the train onset rows + the released-March onset windows (production onset rule, 72-slot spacing, observed labels; March sample weight 10 / 20 / 40; March rows carry the blended prior); April features use the sp4 blend (all March + April days < d). Positives 159."
+   },
+   "ongoing_validation": {
+    "rows": 43500,
+    "producer": "tfb-t2occ queue_submission_fs4occ.csv (via tfb-g3)",
+    "recipe": "F03 bag of 4 LightGBM (np511 + id511 x seeds 0/1; 511 leaves, min_data 40, lr 0.03, 1800 trees, num_threads 4): selection-faithful windows (faithful t%3 windows weight 0.3, run-starts 1.0; time fill <= 36 slots, persistence cap 0.9; MAX_OG 3000), all-finite inputs, 13 occupancy features; mean probability, expected-IoU decode"
+   },
+   "ongoing_private": {
+    "rows": 43500,
+    "producer": "tfb-t2ogpvaf queue_submission_pvo.csv (via tfb-g4)",
+    "recipe": "0.25 npB + 0.25 idB + 0.5 fullB (511 leaves, min_data 40, lr 0.05, 900 trees, num_threads 4, default LightGBM seeds) on the F03 train rows + released-March faithful ongoing windows (weight x5), all-finite inputs; fullB keeps the prior columns blended with the scenario prior (K 4)"
+   },
+   "t4_path_flow": {
+    "rows": 70708,
+    "producer": "tfb-final cell 7 (unchanged through every swap)",
+    "recipe": "scipy.optimize.nnls on [A_measured; sqrt(0.05) I] f = [counts; sqrt(0.05) prior] per panel and split"
+   }
+  },
+  "A2 (tfb-j4 planned = tfb-i4 + private ongoing rows of tfb-t2ogpvogf)": {
+   "t1_state": "= A",
+   "onset_validation": "= A",
+   "onset_private": "= A",
+   "ongoing_validation": "= A",
+   "ongoing_private": {
+    "rows": 43500,
+    "producer": "tfb-t2ogpvogf queue_submission_pvogfv.csv (kernel RUNNING on 2026-10-09; chain oct9 Q4 builds tfb-j4)",
+    "recipe": "pvo + the 98 + 5 ogfeat all2 columns in npB / idB / fullB = pvogf; pvogfv = pvogf unless a private window adds > 10 cells outside the queue at T vs pvo (then the pvo rows); needs tfb-t2ogpvaf pvo as the veto reference. Smoke: 0/10 windows vetoed."
+   },
+   "t4_path_flow": "= A",
+   "swap": {
+    "kernel": "queue2 (swap_queue2.py)",
+    "parts": [
+     [
+      "tfb-t2ogpvogf",
+      "queue_submission_pvogfv.csv",
+      "queue_ongoing",
+      "private"
+     ]
+    ],
+    "max_val_changed": 0,
+    "fallback": "queue_submission_pvogf.csv if the veto file is missing"
+   }
+  },
+  "B (tfb-j3, public 0.88176, hedge)": {
+   "t1_state": "= A",
+   "onset_validation": "= A",
+   "onset_private": {
+    "rows": 43500,
+    "producer": "tfb-t2osp queue_submission_base.csv (via tfb-j3)",
+    "recipe": "same CatBoost as ONSET_VAL with the plain train prior (no blend); positives 157; differs from pv in 48 rows"
+   },
+   "ongoing_validation": "= A",
+   "ongoing_private": {
+    "rows": 43500,
+    "producer": "tfb-t2ogveto queue_submission_veto10.csv (via tfb-j3)",
+    "recipe": "fs4ogf (tfb-t2ogfc = mean of the 4 ogfeat models of tfb-t2ogfa (np, id seed 0) and tfb-t2ogfb (np1, id1 seed 1): fs4occ inputs + 103 ogfeat columns) unless the window adds > 10 cells outside the visible queue at T (qlast of tfb-t2occ t2v26occ_probs.npz) vs fs4occ, then fs4occ; private: 1 window vetoed, 281 rows vs fs4occ, 12 vs fs4ogf"
+   },
+   "t4_path_flow": "= A",
+   "swap": {
+    "kernel": "queue2",
+    "parts": [
+     [
+      "tfb-t2osp",
+      "queue_submission_base.csv",
+      "queue_onset",
+      "private"
+     ],
+     [
+      "tfb-t2ogveto",
+      "queue_submission_veto10.csv",
+      "queue_ongoing",
+      "private"
+     ]
+    ],
+    "changed_rows": {
+     "validation": 0,
+     "private": 369
+    }
+   }
+  }
+ },
+ "t1_members": {
+  "tfb-t1v11": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v11a",
+    "tfb-t1v11b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 0,
+   "transductive_rounds": 2,
+   "transductive_rng_base": 1000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 4,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": null,
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA (v8 + transductive + ASM)",
+   "notes": "kernel also trains FT (unused, doubles training time)",
+   "runtime_s_parts": [
+    20200,
+    14196
+   ],
+   "runtime_s_total": 34396,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12a",
+    "tfb-t1v12b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 1,
+   "transductive_rounds": 2,
+   "transductive_rng_base": 2000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 4,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    1,
+    11,
+    21
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    11811,
+    8656
+   ],
+   "runtime_s_total": 20467,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s2": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 2,
+   "transductive_rounds": 2,
+   "transductive_rng_base": 3000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 4,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    2,
+    12,
+    22
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    11009,
+    5380
+   ],
+   "runtime_s_total": 16389,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s3": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 3,
+   "transductive_rounds": 2,
+   "transductive_rng_base": 4000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 4,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    3,
+    13,
+    23
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    11126,
+    8361
+   ],
+   "runtime_s_total": 19487,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s4": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 4,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 5000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    4,
+    14,
+    24
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    12545,
+    8874
+   ],
+   "runtime_s_total": 21419,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s5": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 5,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 6000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    5,
+    15,
+    25
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    9577,
+    9085
+   ],
+   "runtime_s_total": 18662,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s6": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 6,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 7000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.001,
+   "lgb_seeds": [
+    6,
+    16,
+    26
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "no holdout (0.1 % kept only so the code path runs)",
+   "runtime_s_parts": [
+    12930,
+    8746
+   ],
+   "runtime_s_total": 21676,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v12s7": {
+   "bag": "old_fta",
+   "parts": [
+    "tfb-t1v12s7a",
+    "tfb-t1v12s7b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 7,
+   "transductive_rounds": 4,
+   "transductive_rng_base": 8000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 8,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    7,
+    17,
+    27
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA",
+   "notes": "",
+   "runtime_s_parts": [
+    13794,
+    9666
+   ],
+   "runtime_s_total": 23460,
+   "peak_rss_gb_parts": [
+    null,
+    null
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v13": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1v13a",
+    "tfb-t1v13b"
+   ],
+   "image": "A",
+   "python": "3.12",
+   "row_subsample_rng": 9,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 10000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    9,
+    19,
+    29
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + 20 FD-implied columns",
+   "notes": "",
+   "runtime_s_parts": [
+    14046,
+    10716
+   ],
+   "runtime_s_total": 24762,
+   "peak_rss_gb_parts": [
+    26.64,
+    19.29
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v13s10": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 10,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 11000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    10,
+    20,
+    30
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD",
+   "notes": "",
+   "runtime_s_parts": [
+    14041,
+    7293
+   ],
+   "runtime_s_total": 21334,
+   "peak_rss_gb_parts": [
+    26.9,
+    19.74
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1v13s11": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 11,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 12000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    11,
+    21,
+    31
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD",
+   "notes": "",
+   "runtime_s_parts": [
+    15267,
+    7690
+   ],
+   "runtime_s_total": 22957,
+   "peak_rss_gb_parts": [
+    26.97,
+    19.69
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1dark": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1darka",
+    "tfb-t1darkb"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 13,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 14000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    13,
+    23,
+    33
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD",
+   "notes": "+ simulated-blackout transductive rows (DARK_N up to 48 per month, seed 1300)",
+   "runtime_s_parts": [
+    15334,
+    11850
+   ],
+   "runtime_s_total": 27184,
+   "peak_rss_gb_parts": [
+    27.13,
+    19.64
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1ramp": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1rampa",
+    "tfb-t1rampb"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 13,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 14000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    13,
+    23,
+    33
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD + 9 ramp columns",
+   "notes": "= t1dark + ramp features (same seed 13)",
+   "runtime_s_parts": [
+    16717,
+    12194
+   ],
+   "runtime_s_total": 28911,
+   "peak_rss_gb_parts": [
+    27.88,
+    20.82
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1ramp2": {
+   "bag": "fd",
+   "parts": [
+    "tfb-t1ramp2a",
+    "tfb-t1ramp2b"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 17,
+   "transductive_rounds": 3,
+   "transductive_rng_base": 18000,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    17,
+    27,
+    37
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD + 9 ramp columns",
+   "notes": "seed 17, DARK_SEED 1700",
+   "runtime_s_parts": [
+    16249,
+    11655
+   ],
+   "runtime_s_total": 27904,
+   "peak_rss_gb_parts": [
+    27.87,
+    20.95
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  },
+  "tfb-t1bspec": {
+   "bag": "blackout",
+   "parts": [
+    "tfb-t1bspeca",
+    "tfb-t1bspecb",
+    "tfb-t1bspecc"
+   ],
+   "image": "B",
+   "python": "3.13",
+   "row_subsample_rng": 13,
+   "transductive_rounds": 0,
+   "transductive_rng_base": null,
+   "transductive_hide": 0.2,
+   "transductive_cap_x_max_rows": 6,
+   "max_rows": 600000,
+   "val_holdout_share": 0.15,
+   "lgb_seeds": [
+    13,
+    23,
+    33
+   ],
+   "lgb": {
+    "num_leaves": 511,
+    "min_data_in_leaf": 100,
+    "learning_rate": 0.04,
+    "trees": 1500,
+    "num_threads": 4,
+    "max_bin": 63,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "targets": "speed/vf and flow/lane residual to temporal interpolation"
+   },
+   "features": "FTA + FD + ramp + 30 blackout timing columns",
+   "notes": "selection-faithful simulated blackouts (DARK_N 48, seed 1300); no transductive rounds; part a = panels[:4], b = panels[5:], c = D7_I405_N with 0.7x row caps (MAX_ROWS 420k) and 60 % of train days (day index mod 5 in {0,1,3})",
+   "runtime_s_parts": [
+    14035,
+    13266,
+    4541
+   ],
+   "runtime_s_total": 31842,
+   "peak_rss_gb_parts": [
+    28.0,
+    25.04,
+    19.99
+   ],
+   "input_hidden": "tfb-t2lab-full pseudo_<panel>.npz (train gap origins)"
+  }
+ },
+ "hidden_dependencies": {
+  "tfb-t2lab-full pseudo_<panel>.npz": {
+   "used_by": "every T1 member (train simulated 90-min gaps; bspec also uses the cond)",
+   "deterministic": true,
+   "rebuild": "build_windows(P, cap=None) of tfb-t2lab-full on the train split of the 8 Task 2 panels",
+   "expected": {
+    "D12_I5_N": {
+     "n_windows": 449,
+     "by_cond": {
+      "queue_ongoing": 194,
+      "queue_onset": 255
+     },
+     "sha1_d_t_cond": "4df9aecba6be7a817e509f5021cbcb343d5cbfe6"
+    },
+    "D12_I5_S": {
+     "n_windows": 474,
+     "by_cond": {
+      "queue_ongoing": 210,
+      "queue_onset": 264
+     },
+     "sha1_d_t_cond": "303996cfb7c5d0fd233c36340638a869cc90e2c4"
+    },
+    "D7_I10_E": {
+     "n_windows": 494,
+     "by_cond": {
+      "queue_ongoing": 229,
+      "queue_onset": 265
+     },
+     "sha1_d_t_cond": "65134eaed180fe5a4db71d7a47e8da3ab773c66d"
+    },
+    "D7_I10_W": {
+     "n_windows": 138,
+     "by_cond": {
+      "queue_ongoing": 4,
+      "queue_onset": 134
+     },
+     "sha1_d_t_cond": "0402cafd8f28b170a6295009751a4621baf6fd9e"
+    },
+    "D7_I210_E": {
+     "n_windows": 715,
+     "by_cond": {
+      "queue_ongoing": 439,
+      "queue_onset": 276
+     },
+     "sha1_d_t_cond": "519c38f4bac3842f32532f56f8ebb4c18b4b9406"
+    },
+    "D7_I210_W": {
+     "n_windows": 697,
+     "by_cond": {
+      "queue_ongoing": 387,
+      "queue_onset": 310
+     },
+     "sha1_d_t_cond": "a19c9b3001061f3c41d987f107beb3dd197315a2"
+    },
+    "D7_I405_N": {
+     "n_windows": 728,
+     "by_cond": {
+      "queue_ongoing": 375,
+      "queue_onset": 353
+     },
+     "sha1_d_t_cond": "75cbc9d545f26f274c838a9388075a62e3516458"
+    },
+    "D7_I405_S": {
+     "n_windows": 492,
+     "by_cond": {
+      "queue_ongoing": 221,
+      "queue_onset": 271
+     },
+     "sha1_d_t_cond": "c013ee0639f7fe9d1aa0a8c663365a0c5472d638"
+    }
+   }
+  },
+  "tfb-t2occ t2v26occ_probs.npz (qlast) + fs4occ": {
+   "used_by": "tfb-t2ogveto (B private ongoing veto)"
+  },
+  "tfb-t2ogpvaf queue_submission_pvo.csv": {
+   "used_by": "tfb-t2ogpvogf pvogfv veto (A2); not needed if the full run vetoes 0 private windows"
+  },
+  "tfb-t2v22af queue_submission_fs4af.csv": {
+   "used_by": "tfb-t2ogpvaf / tfb-t2ogpvogf copy their VALIDATION rows from it (never used in the final file; drop in the entry script)"
+  },
+  "tfb-t2v13 / tfb-e3 / tfb-f5": {
+   "used_by": "CONTROL lines only (onset kernels, pvaf/pvogf chain-base check); drop"
+  }
+ },
+ "order": [
+  "tfb-i4",
+  "tfb-j3",
+  "tfb-t2ogpvogf",
+  "tfb-i4d",
+  "tfb-t2osp",
+  "tfb-t2ogveto",
+  "tfb-t2v22af",
+  "tfb-f5",
+  "tfb-t2ogpvaf",
+  "tfb-t1v11a",
+  "tfb-t1v11b",
+  "tfb-t1v12a",
+  "tfb-t1v12b",
+  "tfb-t1v12s2a",
+  "tfb-t1v12s2b",
+  "tfb-t1v12s3a",
+  "tfb-t1v12s3b",
+  "tfb-t1v12s4a",
+  "tfb-t1v12s4b",
+  "tfb-t1v12s5a",
+  "tfb-t1v12s5b",
+  "tfb-t1v12s6a",
+  "tfb-t1v12s6b",
+  "tfb-t1v12s7a",
+  "tfb-t1v13a",
+  "tfb-t1v13b",
+  "tfb-t1v12s7b",
+  "tfb-t1v13s10a",
+  "tfb-t1v13s10b",
+  "tfb-t1v13s11a",
+  "tfb-t1v13s11b",
+  "tfb-t1darka",
+  "tfb-t1darkb",
+  "tfb-t1rampa",
+  "tfb-t1rampb",
+  "tfb-t1ramp2a",
+  "tfb-t1ramp2b",
+  "tfb-t1bspecb",
+  "tfb-i2",
+  "tfb-t1bspeca",
+  "tfb-t1bspecc",
+  "tfb-t2v13",
+  "tfb-e3",
+  "tfb-t2occ",
+  "tfb-t2ogfc",
+  "tfb-t2v22",
+  "tfb-e5",
+  "tfb-t2lab-full",
+  "tfb-i2d",
+  "tfb-t2v21",
+  "tfb-e2",
+  "tfb-t2ogfa",
+  "tfb-t2ogfb",
+  "tfb-e4",
+  "tfb-h5",
+  "tfb-t2v20",
+  "tfb-e1",
+  "tfb-h5d",
+  "tfb-e1m",
+  "tfb-h1",
+  "tfb-c20",
+  "tfb-h1d",
+  "tfb-c18",
+  "tfb-g4",
+  "tfb-t2v18",
+  "tfb-c17",
+  "tfb-t2opv",
+  "tfb-g3",
+  "tfb-c16",
+  "tfb-g1",
+  "tfb-combo15",
+  "tfb-g1d",
+  "tfb-combo13",
+  "tfb-t2v15",
+  "tfb-combo12",
+  "tfb-combo11",
+  "tfb-combo10",
+  "tfb-combo9",
+  "tfb-t1v9-full",
+  "tfb-combo8",
+  "tfb-t2v14",
+  "tfb-combo7",
+  "tfb-swap-v9",
+  "tfb-t2v11",
+  "tfb-t2v12",
+  "tfb-t1v8-full",
+  "tfb-final",
+  "tfb-t2v9-full"
+ ],
+ "edges": {
+  "tfb-i4": [
+   "tfb-i4d"
+  ],
+  "tfb-j3": [
+   "tfb-t2osp",
+   "tfb-i4",
+   "tfb-t2ogveto"
+  ],
+  "tfb-t2ogpvogf": [
+   "tfb-t2v22af",
+   "tfb-f5",
+   "tfb-t2ogpvaf"
+  ],
+  "tfb-i4d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-t1darka",
+   "tfb-t1darkb",
+   "tfb-t1rampa",
+   "tfb-t1rampb",
+   "tfb-t1ramp2a",
+   "tfb-t1ramp2b",
+   "tfb-t1bspecb",
+   "tfb-i2",
+   "tfb-t1bspeca",
+   "tfb-t1bspecc"
+  ],
+  "tfb-t2osp": [
+   "tfb-t2v13",
+   "tfb-e3"
+  ],
+  "tfb-t2ogveto": [
+   "tfb-t2occ",
+   "tfb-t2ogfc"
+  ],
+  "tfb-t2v22af": [
+   "tfb-t2v22"
+  ],
+  "tfb-f5": [
+   "tfb-e5",
+   "tfb-t2v22af"
+  ],
+  "tfb-t2ogpvaf": [
+   "tfb-t2v22af",
+   "tfb-f5"
+  ],
+  "tfb-t1v11a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v11b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s2a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s2b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s3a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s3b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s4a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s4b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s5a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s5b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s6a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s6b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s7a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v12s7b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s10a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s10b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s11a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1v13s11b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1darka": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1darkb": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1rampa": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1rampb": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1ramp2a": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1ramp2b": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1bspecb": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-i2": [
+   "tfb-i2d"
+  ],
+  "tfb-t1bspeca": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t1bspecc": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-t2v13": [],
+  "tfb-e3": [
+   "tfb-t2v21",
+   "tfb-e2"
+  ],
+  "tfb-t2occ": [
+   "tfb-t2v22af"
+  ],
+  "tfb-t2ogfc": [
+   "tfb-t2occ",
+   "tfb-t2ogfa",
+   "tfb-t2ogfb"
+  ],
+  "tfb-t2v22": [],
+  "tfb-e5": [
+   "tfb-t2osp",
+   "tfb-e4"
+  ],
+  "tfb-t2lab-full": [],
+  "tfb-i2d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-t1darka",
+   "tfb-t1darkb",
+   "tfb-t1rampa",
+   "tfb-t1rampb",
+   "tfb-h5",
+   "tfb-t1ramp2a",
+   "tfb-t1ramp2b"
+  ],
+  "tfb-t2v21": [
+   "tfb-t2v20"
+  ],
+  "tfb-e2": [
+   "tfb-t2v20",
+   "tfb-e1"
+  ],
+  "tfb-t2ogfa": [
+   "tfb-t2occ"
+  ],
+  "tfb-t2ogfb": [
+   "tfb-t2occ"
+  ],
+  "tfb-e4": [
+   "tfb-t2v22",
+   "tfb-e3"
+  ],
+  "tfb-h5": [
+   "tfb-h5d"
+  ],
+  "tfb-t2v20": [],
+  "tfb-e1": [
+   "tfb-e1m"
+  ],
+  "tfb-h5d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-t1darka",
+   "tfb-t1darkb",
+   "tfb-t1rampa",
+   "tfb-t1rampb",
+   "tfb-h1"
+  ],
+  "tfb-e1m": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-c20",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b"
+  ],
+  "tfb-h1": [
+   "tfb-h1d"
+  ],
+  "tfb-c20": [
+   "tfb-c18"
+  ],
+  "tfb-h1d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-g4",
+   "tfb-t1rampa",
+   "tfb-t1rampb"
+  ],
+  "tfb-c18": [
+   "tfb-t2v18",
+   "tfb-c17"
+  ],
+  "tfb-g4": [
+   "tfb-t2opv",
+   "tfb-t2ogpvaf",
+   "tfb-g3"
+  ],
+  "tfb-t2v18": [],
+  "tfb-c17": [
+   "tfb-c16"
+  ],
+  "tfb-t2opv": [
+   "tfb-t2v13",
+   "tfb-e3"
+  ],
+  "tfb-g3": [
+   "tfb-t2occ",
+   "tfb-g1"
+  ],
+  "tfb-c16": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-combo15",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v12s7b"
+  ],
+  "tfb-g1": [
+   "tfb-g1d"
+  ],
+  "tfb-combo15": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-combo13"
+  ],
+  "tfb-g1d": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-t1v12a",
+   "tfb-t1v12b",
+   "tfb-t1v12s2a",
+   "tfb-t1v12s2b",
+   "tfb-t1v12s3a",
+   "tfb-t1v12s3b",
+   "tfb-t1v12s4a",
+   "tfb-t1v12s4b",
+   "tfb-t1v12s5a",
+   "tfb-t1v12s5b",
+   "tfb-t1v12s6a",
+   "tfb-t1v12s6b",
+   "tfb-t1v12s7a",
+   "tfb-t1v13a",
+   "tfb-t1v13b",
+   "tfb-t1v12s7b",
+   "tfb-t1v13s10a",
+   "tfb-t1v13s10b",
+   "tfb-t1v13s11a",
+   "tfb-t1v13s11b",
+   "tfb-e5",
+   "tfb-t1darka",
+   "tfb-t1darkb"
+  ],
+  "tfb-combo13": [
+   "tfb-t2v15",
+   "tfb-combo12"
+  ],
+  "tfb-t2v15": [],
+  "tfb-combo12": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-combo11",
+   "tfb-t1v12a",
+   "tfb-t1v12b"
+  ],
+  "tfb-combo11": [
+   "tfb-t1v11a",
+   "tfb-t1v11b",
+   "tfb-combo10"
+  ],
+  "tfb-combo10": [
+   "tfb-t2v15",
+   "tfb-combo9"
+  ],
+  "tfb-combo9": [
+   "tfb-t1v9-full",
+   "tfb-combo8"
+  ],
+  "tfb-t1v9-full": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-combo8": [
+   "tfb-t2v14",
+   "tfb-combo7"
+  ],
+  "tfb-t2v14": [],
+  "tfb-combo7": [
+   "tfb-swap-v9",
+   "tfb-t2v11",
+   "tfb-t2v12",
+   "tfb-t1v8-full",
+   "tfb-t2v13"
+  ],
+  "tfb-swap-v9": [
+   "tfb-final",
+   "tfb-t2v9-full"
+  ],
+  "tfb-t2v11": [],
+  "tfb-t2v12": [],
+  "tfb-t1v8-full": [
+   "tfb-t2lab-full"
+  ],
+  "tfb-final": [],
+  "tfb-t2v9-full": []
+ },
+ "kernels": {
+  "tfb-i4": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-i4d"
+   ],
+   "runtime_s": 499,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_FDR.csv",
+    "submission_FDRTV.csv",
+    "submission_TV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-i4.py",
+   "source_sha1": "100d986ced41c94c721b15e7473348dec70bd467",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-j3": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2osp",
+    "tfb-i4",
+    "tfb-t2ogveto"
+   ],
+   "runtime_s": 97,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_J3.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-j3.py",
+   "source_sha1": "5049132f4c470263e335229fc87cbd088777c7b8",
+   "desc": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition (queue_onset / queue_ongoing / any) and one split (validation / private / any) with the rows of SRC_FILE from SRC_KERNEL."
+  },
+  "tfb-t2ogpvogf": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v22af",
+    "tfb-f5",
+    "tfb-t2ogpvaf"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2ogpvogf.py",
+   "source_sha1": "83c5fb942288c98e142fd0170b2f09dcc1752cd1",
+   "desc": "pvogf (track pvogf, E2 2026-10-09; lab analysis/t2lab/pvogf_*.py, generator analysis/t2lab/pvogf_make_kernel.py) = pvaf (tfb-t2ogpvaf, pick A's April ongoing pvo) + the 98 + 5 OGFEAT columns of lab arm all2 (g1b corridor context, g2 per-link kinematics + kx step"
+  },
+  "tfb-i4d": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-t1darka",
+    "tfb-t1darkb",
+    "tfb-t1rampa",
+    "tfb-t1rampb",
+    "tfb-t1ramp2a",
+    "tfb-t1ramp2b",
+    "tfb-t1bspecb",
+    "tfb-i2",
+    "tfb-t1bspeca",
+    "tfb-t1bspecc"
+   ],
+   "runtime_s": 444,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_T1DARK.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-i4d.py",
+   "source_sha1": "b395868bc7984543985a4ded3794656355f3064a",
+   "desc": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV). T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag) (= swap_t1mix.py); then on the blackout rows"
+  },
+  "tfb-t2osp": {
+   "version": 2,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v13",
+    "tfb-e3"
+   ],
+   "runtime_s": 333,
+   "peak_rss_gb": null,
+   "outputs": [
+    "catboost_info/catboost_training.json",
+    "catboost_info/learn/events.out.tfevents",
+    "catboost_info/learn_error.tsv",
+    "catboost_info/time_left.tsv",
+    "queue_submission_base.csv",
+    "queue_submission_sp2.csv",
+    "queue_submission_sp4.csv",
+    "queue_submission_sp8.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2osp.py",
+   "source_sha1": "8ee5c1d0cd79666d15bc624a3e6ce7482bc81e9b",
+   "desc": "Task 2 onset with a SAME-SCENARIO location prior (osp).  validation (March) and private (April) come from one scenario seed (release config: \"The scenario seed for validation and private is drawn at random\"); train comes from another, and the train"
+  },
+  "tfb-t2ogveto": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2occ",
+    "tfb-t2ogfc"
+   ],
+   "runtime_s": 26,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_veto10.csv",
+    "t2ogveto_windows.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2ogveto.py",
+   "source_sha1": "9e0bb455c4e7a1c2ac2805e772a80c560e953aab",
+   "desc": "t2_ogveto: X1 'veto10' ongoing rows = ogfeat bag (fs4ogf) with a growth veto, else fs4occ.  NOT PUSHED (written 2026-10-08). Per ongoing window (validation and private): addout = number of cells (any step h) that fs4ogf predicts queued, fs4occ does not, and"
+  },
+  "tfb-t2v22af": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v22"
+   ],
+   "runtime_s": 17808,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs2.csv",
+    "queue_submission_fs4af.csv",
+    "queue_submission_fs_np.csv",
+    "t2v22af_footprint.csv",
+    "t2v22af_probs.npz",
+    "t2v22af_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2v22af.py",
+   "source_sha1": "2f5f6921ec49e691b8514e7613941fe47fe7a419",
+   "desc": "v22af = v22 (F03 bag: np511 + id511, seeds 0 and 1) with ALL-FINITE INPUTS: every finite released speed / flow value (cells with is_score_eligible != 1 but a value present: about 7 % of cells, as accurate as eligible ones, never hidden by the"
+  },
+  "tfb-f5": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-e5",
+    "tfb-t2v22af"
+   ],
+   "runtime_s": 67,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_F5.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-f5.py",
+   "source_sha1": "5d754203615c129f3fa54a374390b028647cbee3",
+   "desc": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition (queue_onset / queue_ongoing / any) and one split (validation / private / any) with the rows of SRC_FILE from SRC_KERNEL."
+  },
+  "tfb-t2ogpvaf": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v22af",
+    "tfb-f5"
+   ],
+   "runtime_s": 8647,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_pvo.csv",
+    "queue_submission_pvo_npid.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2ogpvaf.py",
+   "source_sha1": "9f194a9d6fbab1c9a32407883ac6959b72fc06fe",
+   "desc": "Task 2 ONGOING for the PRIVATE month with same-scenario data AND all-finite inputs (ogpvaf) = t2_ongoing_pv.py with every finite released speed / flow value (ineligible-but-valued cells, about 7 %, never Task-1-masked) fed into the FEATURES of the train F03"
+  },
+  "tfb-t1v11a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 20200,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FT.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v11a.py",
+   "source_sha1": "afe27d81c1c73185216d0be32c807c1222ee8585",
+   "desc": "Task 1 v11: transductive rows (v9, LB +0.0017) + ASM features (v10, holdout +0.0005). Compared on the val-month holdout: FT (transductive, no ASM; = v9 FT) vs FTA (transductive + ASM). Both fitted on train rows + the same transductive rows."
+  },
+  "tfb-t1v11b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 14196,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FT.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v11b.py",
+   "source_sha1": "2f1ce6889d7aa5cf7457ba754fd83b287b93569c",
+   "desc": "Task 1 v11: transductive rows (v9, LB +0.0017) + ASM features (v10, holdout +0.0005). Compared on the val-month holdout: FT (transductive, no ASM; = v9 FT) vs FTA (transductive + ASM). Both fitted on train rows + the same transductive rows."
+  },
+  "tfb-t1v12a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11811,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12a.py",
+   "source_sha1": "786759d4ae210eab0dca18aa5947efadc35faf65",
+   "desc": "Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 8656,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12b.py",
+   "source_sha1": "e064c598a9a4680c3a5d88fc6bc6fb16f55515c1",
+   "desc": "Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12s2a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11009,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s2a.py",
+   "source_sha1": "5677e794ec4686fc8a9427ddb440cf5bbd7276a4",
+   "desc": "Task 1 v12s2 (bagging member): identical to v11 FTA except seed 2 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12s2b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 5380,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s2b.py",
+   "source_sha1": "03156f84f13708b85f4b8bb48a99291ea9b661ad",
+   "desc": "Task 1 v12s2 (bagging member): identical to v11 FTA except seed 2 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12s3a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11126,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s3a.py",
+   "source_sha1": "5bf2aa48ba9e719599f4fa6339b8c6e3fee8f319",
+   "desc": "Task 1 v12s3 (bagging member): identical to v11 FTA except seed 3 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12s3b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 8361,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s3b.py",
+   "source_sha1": "f2f7a85e6aa1b934c9a6ec5a28d37b0bcce4a301",
+   "desc": "Task 1 v12s3 (bagging member): identical to v11 FTA except seed 3 everywhere it is free: train-row subsample rng(1), transductive hidden-cell rounds rng(2000+...), LightGBM seed 1. Holdout (rng 7) unchanged. Averaged with v11 FTA in the swap kernel."
+  },
+  "tfb-t1v12s4a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12545,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s4a.py",
+   "source_sha1": "b519a3c8d37eead46c94863472a7cd810b9acd1f",
+   "desc": "Task 1 v12s4 (bagging member, 3 transductive rounds, cap 6x rows): seed 4. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s4b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 8874,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s4b.py",
+   "source_sha1": "e60c851e5440270ad2f17504464753b66997716b",
+   "desc": "Task 1 v12s4 (bagging member, 3 transductive rounds, cap 6x rows): seed 4. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s5a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 9577,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s5a.py",
+   "source_sha1": "8ad8edf94c680c4d2d0c90dc293734e8a08ce898",
+   "desc": "Task 1 v12s5 (bagging member, 3 transductive rounds, cap 6x rows): seed 5. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s5b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 9085,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s5b.py",
+   "source_sha1": "3587414b18d5582ce3754613a98d6af89d0f9448",
+   "desc": "Task 1 v12s5 (bagging member, 3 transductive rounds, cap 6x rows): seed 5. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s6a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12930,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s6a.py",
+   "source_sha1": "925b6628ec05694cd6d51f011c5f062d21876d43",
+   "desc": "Task 1 v12s6 (bagging member, 3 rounds, seed 6, NO holdout: 0.1% kept only so the code path runs; all released val cells usable as transductive targets). v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s6b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 8746,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s6b.py",
+   "source_sha1": "cb7e9a79c9001973458a07960f10f123a2ccb4df",
+   "desc": "Task 1 v12s6 (bagging member, 3 rounds, seed 6, NO holdout: 0.1% kept only so the code path runs; all released val cells usable as transductive targets). v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v12s7a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 13794,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s7a.py",
+   "source_sha1": "11d7b2c572c6ac27b6603f2c6fc1fd289c8562b1",
+   "desc": "Task 1 v12s7 (bagging member, 4 transductive rounds, cap 8x rows): seed 7. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v13a": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 14046,
+   "peak_rss_gb": 26.64,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13a.py",
+   "source_sha1": "3c6b45b3fdcbe5e6ad1e94584aca710d57d0d6a0",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1v13b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 10716,
+   "peak_rss_gb": 19.29,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13b.py",
+   "source_sha1": "15607b7b855d6023b4359033fea118ecaedd6931",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1v12s7b": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 9666,
+   "peak_rss_gb": null,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v12s7b.py",
+   "source_sha1": "5e64ef51c2ca38f6e5748b2ea602a374354cf878",
+   "desc": "Task 1 v12s7 (bagging member, 4 transductive rounds, cap 8x rows): seed 7. v12 notes: Task 1 v12 (bagging member): identical to v11 FTA except seed 1 everywhere it is free: train-row subsample rng(1),"
+  },
+  "tfb-t1v13s10a": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 14041,
+   "peak_rss_gb": 26.9,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13s10a.py",
+   "source_sha1": "679cb22ebf30d492652a556c61bdaeecce3498f2",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1v13s10b": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 7293,
+   "peak_rss_gb": 19.74,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13s10b.py",
+   "source_sha1": "b3274e1bf5d357d7f84d61bb3a5e3e33048f97d4",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1v13s11a": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 15267,
+   "peak_rss_gb": 26.97,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13s11a.py",
+   "source_sha1": "399caed81fd1fc6bc01ee944493739b5f526777d",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1v13s11b": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 7690,
+   "peak_rss_gb": 19.69,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1v13s11b.py",
+   "source_sha1": "a5b4e8b1aa1a52d283712163d59607a3090e9d1a",
+   "desc": "Task 1 v13 (FD-feature bagging member, 3 transductive rounds, cap 6x rows, 15% val holdout kept): seed 7. v13 notes: identical to v12s5 (same panel split per half, data loading, output names, gates) except"
+  },
+  "tfb-t1darka": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 15334,
+   "peak_rss_gb": 27.13,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1darka.py",
+   "source_sha1": "3d8962d18331c4e73214263d11d4d32b34a00fee",
+   "desc": "Task 1 t1dark member (= v13 FD-feature member, seed 13) + SIMULATED-BLACKOUT transductive rows. t1dark notes: identical to t1_pipeline_v13a/b.py (same panel halves, data loading, features, model, outputs, gates) except"
+  },
+  "tfb-t1darkb": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11850,
+   "peak_rss_gb": 19.64,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1darkb.py",
+   "source_sha1": "d3a34161d58319712c3cca17b398fd2150a4f5c9",
+   "desc": "Task 1 t1dark member (= v13 FD-feature member, seed 13) + SIMULATED-BLACKOUT transductive rows. t1dark notes: identical to t1_pipeline_v13a/b.py (same panel halves, data loading, features, model, outputs, gates) except"
+  },
+  "tfb-t1rampa": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 16717,
+   "peak_rss_gb": 27.88,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1rampa.py",
+   "source_sha1": "4826e76e86dcd4f988ec3f83d2d1f9c8e70424e7",
+   "desc": "Task 1 t1ramp member (= t1dark member, seed 13, + 9 RAMP feature columns). BLACKOUT-ONLY role: replaces the t1dark member on the Task 2 blackout rows in the swap kernel (lab: W 0.75 >= W 1.0 > W 0.5; W 0.5 is the drop-in). Same panel halves,"
+  },
+  "tfb-t1rampb": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 12194,
+   "peak_rss_gb": 20.82,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1rampb.py",
+   "source_sha1": "377d02dca1e0b14aacf003593861451c6255262c",
+   "desc": "Task 1 t1ramp member (= t1dark member, seed 13, + 9 RAMP feature columns). BLACKOUT-ONLY role: replaces the t1dark member on the Task 2 blackout rows in the swap kernel (lab: W 0.75 >= W 1.0 > W 0.5; W 0.5 is the drop-in). Same panel halves,"
+  },
+  "tfb-t1ramp2a": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 16249,
+   "peak_rss_gb": 27.87,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1ramp2a.py",
+   "source_sha1": "c8e9718caaeed9d704f13da47e4799a38b314347",
+   "desc": "t1ramp2 = t1ramp member with seed 17 instead of 13 everywhere it is free (row subsample, transductive rounds, simulated blackouts DARK_SEED 1700, LightGBM seeds 17/27/37). Second ramp member for the blackout rows and the FD bag (2026-10-08)."
+  },
+  "tfb-t1ramp2b": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 11655,
+   "peak_rss_gb": 20.95,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1ramp2b.py",
+   "source_sha1": "118f890afe4c44cd640445870bb2796b7ded66a9",
+   "desc": "t1ramp2 = t1ramp member with seed 17 instead of 13 everywhere it is free (row subsample, transductive rounds, simulated blackouts DARK_SEED 1700, LightGBM seeds 17/27/37). Second ramp member for the blackout rows and the FD bag (2026-10-08)."
+  },
+  "tfb-t1bspecb": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 13266,
+   "peak_rss_gb": 25.04,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1bspecb.py",
+   "source_sha1": "78e2202df1fa89e2b8cf877ebbd939069326efc5",
+   "desc": "Task 1 t1bspec member = BLACKOUT SPECIALIST (t1ramp member, seed 13, with selection-faithful simulated blackouts and 30 timing columns). BLACKOUT-ONLY role (swap kernel: Task 2 blackout rows only). Same panel halves, data loading, outputs,"
+  },
+  "tfb-i2": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-i2d"
+   ],
+   "runtime_s": 458,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_FDR.csv",
+    "submission_FDRTV.csv",
+    "submission_TV.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-i2.py",
+   "source_sha1": "0092ddbb89ca0f08e6680a1e16d738f24cde5630",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-t1bspeca": {
+   "version": 2,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 14035,
+   "peak_rss_gb": 28.0,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1bspeca.py",
+   "source_sha1": "523eacdd45fe301ee4c4ecd14815df52f0667ce9",
+   "desc": "Task 1 t1bspec member = BLACKOUT SPECIALIST (t1ramp member, seed 13, with selection-faithful simulated blackouts and 30 timing columns). BLACKOUT-ONLY role (swap kernel: Task 2 blackout rows only). Same panel halves, data loading, outputs,"
+  },
+  "tfb-t1bspecc": {
+   "version": 2,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": 4541,
+   "peak_rss_gb": 19.99,
+   "outputs": [
+    "state_submission.csv",
+    "state_submission_FTA.csv",
+    "t1_valholdout.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t1bspecc.py",
+   "source_sha1": "da5d4b6526a4d4f0dcd05f6a2ecf58f878e84a64",
+   "desc": "t1bspec part c = part a restricted to D7_I405_N (352 stations) with 0.7x row caps and 60 % of the train days; part a ran out of memory there."
+  },
+  "tfb-t2v13": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [],
+   "runtime_s": 5361,
+   "peak_rss_gb": null,
+   "outputs": [
+    "catboost_info/catboost_training.json",
+    "catboost_info/learn/events.out.tfevents",
+    "catboost_info/learn_error.tsv",
+    "catboost_info/time_left.tsv",
+    "queue_submission.csv",
+    "queue_submission_big255.csv",
+    "queue_submission_v11.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2v13.py",
+   "source_sha1": "46f1710c39463c34fbe651e97e5e69f007cde49a",
+   "desc": "v13 = v12 with ongoing 511 leaves / lr 0.03 / 1800 trees and 3000 ongoing windows per panel (oofY). Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding. Only data at or before the forecast origin T is used for features (the 12-step history)."
+  },
+  "tfb-e3": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v21",
+    "tfb-e2"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-e3.py",
+   "source_sha1": "504630427093a5a5d6de6ad1962b47f7eda3bba0",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-t2occ": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v22af"
+   ],
+   "runtime_s": 19630,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs2occ.csv",
+    "queue_submission_fs4occ.csv",
+    "queue_submission_fs_np.csv",
+    "t2v26occ_footprint.csv",
+    "t2v26occ_probs.npz",
+    "t2v26occ_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2occ.py",
+   "source_sha1": "ce3e89fdc951e3c39aaab3331624093eee8fd226",
+   "desc": "v26 = v22af (F03 bag: np511 + id511, seeds 0 and 1, ALL-FINITE INPUTS) + 13 OCCUPANCY features. Occupancy is an independent density reading of the same detector, co-masked with speed / flow (every cell with a speed value"
+  },
+  "tfb-t2ogfc": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2occ",
+    "tfb-t2ogfa",
+    "tfb-t2ogfb"
+   ],
+   "runtime_s": 26,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs4ogf.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2ogfc.py",
+   "source_sha1": "1d9ca35d2aee5596f11ccdd3087a18f922be0aca",
+   "desc": "t2_ogfeat_comb: fs4ogf = bag of the 4 ogfeat ongoing models of tfb-t2ogfa (t2_ogfeat_v27a.py: fs_np, fs_id, seed 0) and tfb-t2ogfb (t2_ogfeat_v27b.py: fs_np1, fs_id1, seed 1).  No training; minutes on CPU."
+  },
+  "tfb-t2v22": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [],
+   "runtime_s": 17274,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs2.csv",
+    "queue_submission_fs4.csv",
+    "queue_submission_fs_np.csv",
+    "t2v22_footprint.csv",
+    "t2v22_probs.npz",
+    "t2v22_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2v22.py",
+   "source_sha1": "eb8b58e8e5eff7e22abe1d56233ffad08b5aa9bc",
+   "desc": "v22 = v21 restricted to the selection-faithful F03 recipe, bagged: F03 np511 + id511 with seeds 0 and 1 (4 models). Variants: fs2 (seed 0 np+id; must reproduce tfb-t2v21 fs2), fs4 (mean of the 4 models), fs_np. Footprints are vs fs2."
+  },
+  "tfb-e5": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2osp",
+    "tfb-e4"
+   ],
+   "runtime_s": 92,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_E5.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-e5.py",
+   "source_sha1": "1ef720027359c81e339d334319790b13caa941c7",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-t2lab-full": {
+   "version": 1,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [],
+   "runtime_s": 203,
+   "peak_rss_gb": null,
+   "outputs": [
+    "builder_report.json",
+    "official_train_scores.csv",
+    "pseudo_D12_I5_N.npz",
+    "pseudo_D12_I5_S.npz",
+    "pseudo_D7_I10_E.npz",
+    "pseudo_D7_I10_W.npz",
+    "pseudo_D7_I210_E.npz",
+    "pseudo_D7_I210_W.npz",
+    "pseudo_D7_I405_N.npz",
+    "pseudo_D7_I405_S.npz",
+    "pseudo_scores.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2lab-full.py",
+   "source_sha1": "bbb3057594204c66b3415276aa785a5e8bd0551c",
+   "desc": "Task 2 lab (runs on Kaggle): replicate the window builder on train, build pseudo-windows, score strategies. Truth proxy: a link is queued when the mean eligible observed speed on it is <= 0.6 * free speed."
+  },
+  "tfb-i2d": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-t1darka",
+    "tfb-t1darkb",
+    "tfb-t1rampa",
+    "tfb-t1rampb",
+    "tfb-h5",
+    "tfb-t1ramp2a",
+    "tfb-t1ramp2b"
+   ],
+   "runtime_s": 728,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_T1DARK.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-i2d.py",
+   "source_sha1": "efb280804a409b3f50cf2e17815d641bf208c109",
+   "desc": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV). T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag) (= swap_t1mix.py); then on the blackout rows"
+  },
+  "tfb-t2v21": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v20"
+   ],
+   "runtime_s": 17700,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_cur2.csv",
+    "queue_submission_fs2.csv",
+    "queue_submission_fs_id.csv",
+    "queue_submission_fs_np.csv",
+    "queue_submission_fsblend.csv",
+    "queue_submission_h_np.csv",
+    "t2v21_footprint.csv",
+    "t2v21_probs.npz",
+    "t2v21_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2v21.py",
+   "source_sha1": "674aa4fbe5e8964da1845945a75a826551c78d92",
+   "desc": "v21 = selection-faithful ONGOING training (Task 2). Derived from t2_model_v20.py: same data loading, features, ramp features, keep mask, decode, template mapping. Onset rows are NOT produced by this kernel (written as 0; the swap keeps the base onset rows)."
+  },
+  "tfb-e2": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v20",
+    "tfb-e1"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-e2.py",
+   "source_sha1": "50ba66b63d98382a7d23a14fb75178bb025f760e",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-t2ogfa": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2occ"
+   ],
+   "runtime_s": 18352,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs2ogf.csv",
+    "queue_submission_fs_npogf.csv",
+    "t2v27a_footprint.csv",
+    "t2v27a_probs.npz",
+    "t2v27a_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2ogfa.py",
+   "source_sha1": "0e861f60c75ae6a6b63090c252fd98cfd25cef84",
+   "desc": "v27a (track ogfeat, E1 of analysis/LEVERS_2026-10-07.md) = v26 (tfb-t2occ: F03 np511 + id511, all-finite inputs, 13 occupancy features) + 98 + 5 OGFEAT columns (lab arm all2 = g1b corridor context, g2 per-link kinematics + kx step extrapolations,"
+  },
+  "tfb-t2ogfb": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2occ"
+   ],
+   "runtime_s": 22927,
+   "peak_rss_gb": null,
+   "outputs": [
+    "queue_submission_fs2ogf1.csv",
+    "t2v27b_footprint.csv",
+    "t2v27b_probs.npz",
+    "t2v27b_trainsets.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2ogfb.py",
+   "source_sha1": "1e17e696f237b6d1f541e74c6afc5ef6b8691161",
+   "desc": "v27b (track ogfeat, E1 of analysis/LEVERS_2026-10-07.md) = v26 (tfb-t2occ: F03 np511 + id511, all-finite inputs, 13 occupancy features) + 98 + 5 OGFEAT columns (lab arm all2 = g1b corridor context, g2 per-link kinematics + kx step extrapolations,"
+  },
+  "tfb-e4": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v22",
+    "tfb-e3"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-e4.py",
+   "source_sha1": "09fecd9124369d1dd66125e1ab0d139be0c1b3b5",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-h5": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-h5d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-h5.py",
+   "source_sha1": "70ac602f980a13e253f665348a019bd422787842",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-t2v20": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v20.py",
+   "source_sha1": "181c9230bdd276de83c49fe5d56b94ffdcf3ebfd",
+   "desc": "v20 = v18 + 4 more ongoing members (np511r / id511r x seeds 2, 3): variant og8 = mean of 8; og4 kept as control (= v18 og4). v18 = v15 + ongoing bagging: np511r and id511r, each with seeds 0 and 1 (row subsample + LightGBM seeds); variants"
+  },
+  "tfb-e1": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-e1m"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-e1.py",
+   "source_sha1": "7de1bc46fcbe2228a03805d2dfa3096d80100f99",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-h5d": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-t1darka",
+    "tfb-t1darkb",
+    "tfb-t1rampa",
+    "tfb-t1rampb",
+    "tfb-h1"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-h5d.py",
+   "source_sha1": "4b4b216d7c60b1b5953e30278bc9f754753a7468",
+   "desc": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV). T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag) (= swap_t1mix.py); then on the blackout rows"
+  },
+  "tfb-e1m": {
+   "version": 3,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-c20",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-e1m.py",
+   "source_sha1": "ead67e77ec86bf0ff9cd7e9c68589e68d4dff8aa",
+   "desc": "T1 MIX swap (raw, BEFORE FD recon/TV): T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag). Queue and Task 4 rows come from the base file unchanged. The output is meant to be passed through swap_fdrecon (DO_RECON+DO_TV)."
+  },
+  "tfb-h1": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-h1d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-h1.py",
+   "source_sha1": "b51266193d645888e200008554c54b781365bca8",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-c20": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-c18"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-c20.py",
+   "source_sha1": "60fd3987bb6fd85f2fe2f95acca25b2d593a7f76",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-h1d": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-g4",
+    "tfb-t1rampa",
+    "tfb-t1rampb"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-h1d.py",
+   "source_sha1": "a800d32f7fbe399fb38fa5e8dbc619ec5d8a4759",
+   "desc": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV). T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag) (= swap_t1mix.py); then on the blackout rows"
+  },
+  "tfb-c18": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v18",
+    "tfb-c17"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-c18.py",
+   "source_sha1": "d51c9b904f8894ed466ae429e7c17087f86f5e25",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-g4": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2opv",
+    "tfb-t2ogpvaf",
+    "tfb-g3"
+   ],
+   "runtime_s": 56,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_G4.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-g4.py",
+   "source_sha1": "a6ba671cfdb764c597a31c845cc901db2dff884c",
+   "desc": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition (queue_onset / queue_ongoing / any) and one split (validation / private / any) with the rows of SRC_FILE from SRC_KERNEL."
+  },
+  "tfb-t2v18": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v18.py",
+   "source_sha1": "fbf053b14e3c0664bc11ef5b0ec089acb1433afe",
+   "desc": "v18 = v15 + ongoing bagging: np511r and id511r, each with seeds 0 and 1 (row subsample + LightGBM seeds); variants \"og4\" = mean of the 4, \"npid\" = mean(np seed0, id seed0). Onset rows are not used from this kernel."
+  },
+  "tfb-c17": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-c16"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-c17.py",
+   "source_sha1": "f580175cde90b5c29079e6c2e67046ae6120f4a4",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-t2opv": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2v13",
+    "tfb-e3"
+   ],
+   "runtime_s": 523,
+   "peak_rss_gb": null,
+   "outputs": [
+    "catboost_info/catboost_training.json",
+    "catboost_info/learn/events.out.tfevents",
+    "catboost_info/learn_error.tsv",
+    "catboost_info/time_left.tsv",
+    "queue_submission_base.csv",
+    "queue_submission_pv.csv",
+    "queue_submission_pvb.csv",
+    "queue_submission_sp4.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-t2opv.py",
+   "source_sha1": "8a2fc00cbc435bcefae3992064fd4ca3a2e94652",
+   "desc": "Task 2 onset for the PRIVATE month with same-scenario data (pv).  validation (March) and private (April) come from one scenario seed (release config: \"The scenario seed for validation and private is drawn at random\"); train comes from another."
+  },
+  "tfb-g3": {
+   "version": 1,
+   "image": "B",
+   "python": "3.13",
+   "kernel_sources": [
+    "tfb-t2occ",
+    "tfb-g1"
+   ],
+   "runtime_s": 104,
+   "peak_rss_gb": null,
+   "outputs": [
+    "submission_G3.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-g3.py",
+   "source_sha1": "49eb049569ab672e3327a08fab7fa07e6efbb6f8",
+   "desc": "Multi-part queue swap: start from the exact base file; for every entry of PARTS replace the queue rows of one condition (queue_onset / queue_ongoing / any) and one split (validation / private / any) with the rows of SRC_FILE from SRC_KERNEL."
+  },
+  "tfb-c16": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-combo15",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v12s7b"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-c16.py",
+   "source_sha1": "7f54099b5bb9ad273be28e77cb71109119fb3c0e",
+   "desc": "T1 BAG-N swap (COMBO16): equal mean of all listed FTA members (seeds 0-3: 2 rounds; 4,5: 3 rounds; 6: 3 rounds no holdout). Base = COMBO15 (LB 0.86944). T1 BAG swap: start from the exact base file (BASE_KERNEL/BASE_FILE); Task 1 rows = mean of T1 v11 FTA (seed 0) and"
+  },
+  "tfb-g1": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-g1d"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-g1.py",
+   "source_sha1": "6bdaad7c29b0876afad5daf60144360495337373",
+   "desc": "FDRECON / TV swap (Task 1/3 post-processing on the exact base file; no training). Derived from the local draft scratchpad/t1loc/swap_fdrecon_tv.py with the data loading, output naming and hard gates of swap_combo15.py."
+  },
+  "tfb-combo15": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-combo13"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo15.py",
+   "source_sha1": "4b074157f4c52017c847c3176d94df27469eb8a2",
+   "desc": "T1 BAG-4 swap (COMBO15): mean of 4 FTA members (v11 seed0, v12 seed1, v12s2 seed2, v12s3 seed3). Base = COMBO13 (LB 0.86899). T1 BAG swap: start from the exact base file (BASE_KERNEL/BASE_FILE); Task 1 rows = mean of T1 v11 FTA (seed 0) and"
+  },
+  "tfb-g1d": {
+   "version": 1,
+   "image": "B",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-t1v12a",
+    "tfb-t1v12b",
+    "tfb-t1v12s2a",
+    "tfb-t1v12s2b",
+    "tfb-t1v12s3a",
+    "tfb-t1v12s3b",
+    "tfb-t1v12s4a",
+    "tfb-t1v12s4b",
+    "tfb-t1v12s5a",
+    "tfb-t1v12s5b",
+    "tfb-t1v12s6a",
+    "tfb-t1v12s6b",
+    "tfb-t1v12s7a",
+    "tfb-t1v13a",
+    "tfb-t1v13b",
+    "tfb-t1v12s7b",
+    "tfb-t1v13s10a",
+    "tfb-t1v13s10b",
+    "tfb-t1v13s11a",
+    "tfb-t1v13s11b",
+    "tfb-e5",
+    "tfb-t1darka",
+    "tfb-t1darkb"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-g1d.py",
+   "source_sha1": "dde81d8e1332af9ae7cbdf88c63ccb53d0da8743",
+   "desc": "t1dark swap = T1 MIX swap + BLACKOUT-ROW override (raw, BEFORE FD recon/TV). T1 rows = W_FD * mean(FD-feature members v13) + (1-W_FD) * mean(old FTA bag) (= swap_t1mix.py); then on the blackout rows"
+  },
+  "tfb-combo13": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v15",
+    "tfb-combo12"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo13.py",
+   "source_sha1": "d5385e922d2688d995e96d94115c1317c565e827",
+   "desc": "Generic queue swap: start from the exact base file; replace queue rows of one condition (COND) with SRC_FILE from SRC_KERNEL. Everything else untouched. Edit the four constants below before pushing."
+  },
+  "tfb-t2v15": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v15.py",
+   "source_sha1": "a7eb546dff90be8eb66c41ffe4ae4b1f4a0bf921",
+   "desc": "v15 = v14 + released ramp-flow features (slots T-3..T-1 only, strictly before T; oofR: ongoing +0.002 in 4/4 folds). Main ongoing = identity-kept prior-free 511 (id511, LB +0.0003 in COMBO8) with ramp features; np511 with ramp features as a variant."
+  },
+  "tfb-combo12": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-combo11",
+    "tfb-t1v12a",
+    "tfb-t1v12b"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo12.py",
+   "source_sha1": "96fb02e620782fc3664b2639c054d13733709aa6",
+   "desc": "T1 BAG swap: start from the exact base file (BASE_KERNEL/BASE_FILE); Task 1 rows = mean of T1 v11 FTA (seed 0) and T1 v12 FTA (seed 1, different transductive hidden rounds and row subsample). Queue and Task 4 rows untouched."
+  },
+  "tfb-combo11": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v11a",
+    "tfb-t1v11b",
+    "tfb-combo10"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo11.py",
+   "source_sha1": "7d8833c71abc7418f1f29f424fce1a2f1d892828",
+   "desc": "COMBO_11: start from the exact COMBO10 file (LB 0.86737); swap ONLY Task 1 rows with T1 v11 FTA (transductive + ASM; val-month holdout +0.0004/+0.0005 vs FT in both panel halves, 9/10 panels +). v11a = first 5 panels, v11b = last 5."
+  },
+  "tfb-combo10": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v15",
+    "tfb-combo9"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo10.py",
+   "source_sha1": "c5db5213e6be47a51a82b62a21868948e2fce265",
+   "desc": "COMBO_10: start from the exact COMBO9 file (LB 0.86707); replace ONLY queue_ongoing rows with v15 main (id511 + released ramp-flow features from slots T-3..T-1; oofR ongoing +0.002 in 4/4 folds). Onset, Task 1 and Task 4 untouched."
+  },
+  "tfb-combo9": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t1v9-full",
+    "tfb-combo8"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo9.py",
+   "source_sha1": "decdc1ee2e78afc8d09d02429e30ddb455841572",
+   "desc": "COMBO_9: start from the exact COMBO8 file (LB 0.86537); swap ONLY Task 1 rows with T1 v9 FT (transductive rows; val-month holdout 0.9406 vs F 0.9386, 10/10 panels)."
+  },
+  "tfb-t1v9-full": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t1v9-full.py",
+   "source_sha1": "7c7d8b431c59065f48e661897f7c6fce515fda08",
+   "desc": "Task 1 v9: transductive rows. Task 1 is offline, so released (observed) cells of the validation and private months are hidden in random rounds and used as extra training rows (features from the hidden view, target = released value)."
+  },
+  "tfb-combo8": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2v14",
+    "tfb-combo7"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo8.py",
+   "source_sha1": "a6e03112011ec7762a4b59dece81abefcf5b0018",
+   "desc": "COMBO_8: start from the exact COMBO7 file (LB 0.86509); replace ONLY queue_ongoing window rows with v14 'id511' (identity-kept prior-free ongoing: drops prior/tod/dow only; pseudo-March gate +0.0036 vs np511). Onset rows, Task 1 and Task 4 untouched."
+  },
+  "tfb-t2v14": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v14.py",
+   "source_sha1": "3cffd7cd7abe51b4568ec24079be0c6818102e95",
+   "desc": "v14 = v13 + ongoing variants: identity-kept prior-free (drop only prior/tod/dow) and full-feature 511-leaf models, 50/50 blends (research A I-2). v13 = v12 with ongoing 511 leaves / lr 0.03 / 1800 trees and 3000 ongoing windows per panel (oofY). Task 2 model (Kaggle): LightGBM cell classifier per co"
+  },
+  "tfb-combo7": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-swap-v9",
+    "tfb-t2v11",
+    "tfb-t2v12",
+    "tfb-t1v8-full",
+    "tfb-t2v13"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-combo7.py",
+   "source_sha1": "9bbe5845a7ee34dd1f9b423e0e5ca7b68bc4e7da",
+   "desc": "COMBO_7 (T1 F 511 leaves + CatBoost onset + ongoing 511 leaves from t2v13): start from the exact 0.85639 file (v9); swap Task 1 rows (T1 v8 F) and Task 2 rows (v13 main)."
+  },
+  "tfb-swap-v9": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-final",
+    "tfb-t2v9-full"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-swap-v9.py",
+   "source_sha1": "dba78f07280ee5939e437c68113acef16e1531fa",
+   "desc": "FINAL v2 submission with ONLY the Task 2 rows replaced by each Task 2 v5 variant (one file per variant)."
+  },
+  "tfb-t2v11": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v11.py",
+   "source_sha1": "58cfbfe95170b875a60d6db69a1a1cff4b1b8156",
+   "desc": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding. Only data at or before the forecast origin T is used for features (the 12-step history)."
+  },
+  "tfb-t2v12": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v12.py",
+   "source_sha1": "b47fd41244a7a87576ba0104205d3f56a5d4d4ea",
+   "desc": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding. Only data at or before the forecast origin T is used for features (the 12-step history)."
+  },
+  "tfb-t1v8-full": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [
+    "tfb-t2lab-full"
+   ],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t1v8-full.py",
+   "source_sha1": "ba2b04199e79ee18d5c646b4ff64b4c151cce06e",
+   "desc": "Task 1 (+ Task 3 proxy) pipeline on Kaggle. Validation: train split, targets from the official task1 train template, 3 contiguous day blocks (frozen)."
+  },
+  "tfb-final": {
+   "version": 2,
+   "image": "A",
+   "python": "3.12",
+   "kernel_sources": [],
+   "runtime_s": 8497,
+   "peak_rss_gb": null,
+   "outputs": [
+    "gaps/pseudo_D12_I5_N.npz",
+    "gaps/pseudo_D12_I5_S.npz",
+    "gaps/pseudo_D7_I10_E.npz",
+    "gaps/pseudo_D7_I10_W.npz",
+    "gaps/pseudo_D7_I210_E.npz",
+    "gaps/pseudo_D7_I210_W.npz",
+    "gaps/pseudo_D7_I405_N.npz",
+    "gaps/pseudo_D7_I405_S.npz",
+    "queue_submission.csv",
+    "state_submission.csv",
+    "submission.csv",
+    "t1_results.csv",
+    "t1_valholdout.csv",
+    "t2_cv_scores.csv",
+    "t2_importance.csv"
+   ],
+   "source": "consolidation/lineage_src/tfb-final.py",
+   "source_sha1": "e5b04d8a349d95b42433cb1ed2141f68b71f3f70",
+   "desc": "TrafficFlowBench \u2014 multi-task pipeline (final)"
+  },
+  "tfb-t2v9-full": {
+   "version": 1,
+   "image": "A",
+   "python": null,
+   "kernel_sources": [],
+   "runtime_s": null,
+   "peak_rss_gb": null,
+   "outputs": null,
+   "source": "consolidation/lineage_src/tfb-t2v9-full.py",
+   "source_sha1": "a3ee63e9d10e21ea2bf4d7cf8d909abbf7118db5",
+   "desc": "Task 2 model (Kaggle): LightGBM cell classifier per condition + expected-IoU mask decoding. Only data at or before the forecast origin T is used for features (the 12-step history)."
+  }
+ }
+}
