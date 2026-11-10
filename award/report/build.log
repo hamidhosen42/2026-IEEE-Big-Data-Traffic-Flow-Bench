@@ -331,15 +331,8 @@ Underfull \hbox (badness 3815) in paragraph at lines 476--482
 []\T1/ptm/b/n/10 (+20) Entry script. \T1/pcr/m/n/9 consolidation/run_all.py \T1
 /ptm/m/n/10 (+20) re-builds
 
-Underfull \hbox (badness 2005) in paragraph at lines 476--482
-\T1/ptm/m/n/10 (+20) as an AST. Pick A (tfb-k9) is re-built with \T1/pcr/m/n/10
- python
-
 Underfull \hbox (badness 10000) in paragraph at lines 476--482
-\T1/pcr/m/n/10 run_all.py --data-root <kaggle_public>
-
-Underfull \hbox (badness 10000) in paragraph at lines 476--482
-\T1/pcr/m/n/10 --work-dir ./work --pick A3 --recipe full
+\T1/pcr/m/n/10 --data-root <kaggle_public> --work-dir
 
 Underfull \hbox (badness 1983) in paragraph at lines 491--493
 []\T1/ptm/b/n/10 (+20) Environment. \T1/ptm/m/n/10 (+20) Python 3.13 Kag-gle im
@@ -382,5 +375,5 @@ _3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></opt/homebrew/Cellar/tex
 live/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></opt/homebre
 w/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 
-Output written on report.pdf (7 pages, 315095 bytes).
+Output written on report.pdf (7 pages, 315853 bytes).
 Transcript written on report.log.

@@ -1,303 +1,301 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# D: model families, ensembling, HPO, shift-aware validation, ODME — experiment ideas
 
-# D: মডেল পরিবার, সমন্বয়, HPO , শিফট-সচেতন বৈধতা, ODME —  পরীক্ষার ধারণা
+Scope: source family D. Resource IDs refer to `D_resources.csv`. Each idea was checked against `EXISTING_MAP.md` (2026-09-30) and `experiments/TRACKER.md`.
 
-পরিসীমাঃ উৎস পরিবার D. সম্পদ আইডি `D_resources.csv` উল্লেখ করে। প্রতিটি ধারণা `EXISTING_MAP.md` ( 2026-09-30 ) এবং `experiments/TRACKER.md` এর সাথে পরীক্ষা করা হয়েছিল।
+**Two facts from the code shaped this list.**
 
-**কোড থেকে দুটি তথ্য এই তালিকা তৈরি করেছে।**
+1. `kaggle_jobs/t1_pipeline_v8.py` builds Task 1 training rows **only from the `train` split**. The validation and private months are used only for prediction and for the internal 15% holdout. Nothing in the pipeline learns from the target month's own released cells.
+2. The organizer's Task 4 reference (`repo/src/task4/build_task4_odme_artifacts.py`, D0363) is the same NNLS with `REG_LAMBDA = 0.05` on `[A; √λ·I]` that we run. Our Task 4 therefore already equals the public reference. The remaining headroom is at most 0.006 of S_ODME, which is at most **0.0012** of the total score.
 
-1. `kaggle_jobs/t1_pipeline_v8.py`  1 প্রশিক্ষণ র্যাঙ্কগুলি ** শুধুমাত্র `train` বিভক্ত ** থেকে তৈরি করে। বৈধতা এবং ব্যক্তিগত মাসগুলি কেবলমাত্র ভবিষ্যদ্বাণী এবং অভ্যন্তরীণ 15 % হোল্ডআউটের জন্য ব্যবহৃত হয়। পাইপলাইনে কিছুই শেখার নেই লক্ষ্য মাসের নিজস্ব মুক্তিকৃত cellগুলি থেকে।
-2. সংগঠকের কাজ 4 রেফারেন্স (`repo/src/task4/build_task4_odme_artifacts.py`, D0363) একই NNLS সঙ্গে `REG_LAMBDA = 0.05` উপর `[A; √λ·I]` আমাদের কাজ 4 তাই ইতিমধ্যে পাবলিক রেফারেন্স সমান। 0.006 এর S_ODME, যা সর্বোচ্চ **0.0012** মোট স্কোরের।
-
-লেবেলঃ
-- **NEW** : মানচিত্রে পরীক্ষা করা হয়নি।
-- **RELATED** : চেষ্টা করা কিছু কাছাকাছি, কিন্তু প্রক্রিয়া ভিন্ন।
-- **DUPLICATE** : ইতিমধ্যে সম্পন্ন হয়েছে।
-- **CONTRADICTED** : প্রমাণ বা আমাদের নিজস্ব ফলাফল এর বিরুদ্ধে যুক্তি দেয়।
-- **HIGH - VALUE  RETEST** : আগে চেষ্টা করেছি, কিন্তু পরিবর্তিত অবস্থায় আবারও চেষ্টা করার যোগ্য।
+Labels:
+- **NEW**: not tried in the map.
+- **RELATED**: close to something tried, but the mechanism differs.
+- **DUPLICATE**: already done.
+- **CONTRADICTED**: the evidence or our own results argue against it.
+- **HIGH-VALUE RETEST**: tried before, but worth re-running under a changed condition.
 
 ---
 
-## A. সস্তা লাভ (পস্টহোক বা বিদ্যমান মডেলের একটি পুনর্নির্মাণ)
+## A. Cheap gains (post-hoc, or one retrain of an existing model)
 
-### A1- টাস্ক 2: সম্ভাব্যতা ক্যালিব্রেট করুন, তারপর প্রত্যাশিত-আইওইউ ডিকোড করার আগে কারণগত পূর্ববর্তী স্থানান্তর জন্য সামঞ্জস্য করুন। NEW.
+### A1. Task 2: calibrate probabilities, then adjust for causal prior shift, before expected-IoU decoding. Label: NEW.
 
-- **বেসঃ**
-  - D0256 : বাড়ানো গাছগুলি ভুলভাবে ক্যালিব্রেট করা হয়; প্লেট বা আইসোটোনিক স্কেলিং এটি ঠিক করে।
-  - D0163 : Saerens – Latinne – Decaestecker EM টার্গেট পূর্ববর্তীগুলিকে লেবেলযুক্ত না হওয়া পরবর্তীদের থেকে পুনরায় মূল্যায়ন করে।
-  - D0165 : EM পদ্ধতি ( MLLS ) + ক্যালিব্রেশন বেট BBSE ।
-  - D0161 : AdapTable, একটি মডেল-অনুসন্ধানক ক্যালিব্রেটর প্লাস ট্যাবলারের পরিবর্তনের জন্য লেবেল-বিক্রয় হ্যান্ডলার।
-  - D0160 : টেবিলশিফট, যেখানে শিফট ফাঁক লেবেল-বিকরণ শিফট ট্র্যাক করে।
-  - D0144 : F- টাইপ মেট্রিকের জন্য, সর্বোত্তম সীমাটি ক্যালিব্রেশনযুক্ত সম্ভাবনার উপর নির্ভর করে।
-- **দুর্বলতা সমাধান করা হয়েছেঃ**
-  - CV → LB অনুপাত প্রায় 0.84 এবং সিস্টেম্যাটিক।
-  - বৈধকরণ মাসের মধ্যে আরো বেশি অনবরত ক্যো এবং সপ্তাহান্তে window থাকে।
-  - প্রত্যাশিত-আইওইউ শীর্ষ-এম ডিকোডিং m নির্বাচন করার জন্য সম্ভাব্যতার মাত্রা ব্যবহার করে। তাই একটি প্রভালান্স শিফট আইওইউ-অপ্টিমাল m সরিয়ে দেয় এমনকি যখন সেল র্যাঙ্কিং সঠিক হয়।
-- **সঠিক পরিবর্তনঃ**
-  1. OOF ক্যাশে (tfb-t2oof / oofY) এ 3 foldগুলিতে প্রতি অবস্থার জন্য একটি আইসোটোনিক মানচিত্র (প্রতিষ্ঠিত, চলমান) মাপুন। এটি 4 th এ প্রয়োগ করুন এবং ঘূর্ণন করুন।
-  2. উপসংহারে, প্রতিটি বিভক্ত × শর্তের জন্য, প্রার্থী cellগুলির ক্যালিব্রেটেড সম্ভাবনার উপর SLD  EM দিয়ে লক্ষ্য প্রচলন π̂ অনুমান করুন। কেবলমাত্র উত্স ≤ বর্তমান টি সহ window ব্যবহার করা যেতে পারে (একটি চলমান অনুমান), তাই টাস্ক 2 "ডেটা ≤ টি" নিয়মটি ধরে রাখে। তারপরে `p' = r·p / (r·p + s·(1−p))` সেট করুন, যেখানে `r = π̂/π_tr` এবং `s = (1−π̂)/(1−π_tr)` ।
-  3. অর্ধেক shrink করুন (`r ← √r`), এবং r-কে [0.67, 1.5]-এ clip করুন। Incident-এর সময় p(x|y) অপরিবর্তিত থাকার অনুমান খাটে না, তাই পূর্ণ correction নিরাপদ নয়।
-  4. ঠিক এখনই ঠিক তেমনই ডিকোড করুন।
-- **গণনাঃ** মিনিট OOF ক্যাশে। কোন পুনর্নির্মাণ প্রয়োজন নেই।
-- **প্রত্যাশিত লাভঃ**  0 থেকে +0.004  LB . আইসোটোনিক স্কেলিং একা শুধুমাত্র m পরিবর্তন করে, অর্ডার নয়।
-- **বৈধতাঃ**
-  1. একটি ছদ্মবেশী fold ছেড়ে দিন এবং এটিতে π̂ blind অনুমান করুন। রৌ, ক্যালিব্রেটেড এবং ক্যালিব্রেটেড + SLD এর জন্য IoU তুলনা করুন।
-  2. এছাড়াও 40 অফিসিয়াল স্টার্ট window চেক করুন।
-  3. বৈধকরণ মাসটি সত্যিই পরিবর্তিত হয়েছে কিনা তা দেখার জন্য প্রতি মাসে π̂/π_tr লগ করুন।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান করুন যদি এটি ≥ +0.002 IoU না হয় ≥3/4 foldগুলিতে, অথবা যদি অফিসিয়াল window IoU 0.005 এর চেয়ে বেশি কমে যায়। যদি কেবলমাত্র কারণ-নির্দিষ্ট অনুমানটি পরিষ্কারভাবে বাস্তবায়ন করা যায় না, তবে SLD ধাপটি ফেলে দিন এবং কেবলমাত্র ক্যালিব্রেশন রাখুন।
+- **Basis:**
+  - D0256: boosted trees are miscalibrated; Platt or isotonic scaling fixes this.
+  - D0163: Saerens–Latinne–Decaestecker EM re-estimates target priors from unlabeled posteriors.
+  - D0165: the EM approach (MLLS) plus calibration beats BBSE.
+  - D0161: AdapTable, a model-agnostic calibrator plus label-distribution handler for tabular shift.
+  - D0160: TableShift, where the shift gap tracks label-distribution shift.
+  - D0144: for F-type metrics, the optimal threshold depends on calibrated probabilities.
+- **Weakness addressed:**
+  - The CV→LB ratio is about 0.84 and systematic.
+  - The validation month has more non-recurrent queues and more weekend windows.
+  - Expected-IoU top-m decoding uses probability magnitudes to choose m. A prevalence shift therefore moves the IoU-optimal m even when the cell ranking is right.
+- **Exact change:**
+  1. On the OOF cache (tfb-t2oof / oofY), fit an isotonic map per condition (onset, ongoing) on 3 folds. Apply it to the 4th, and rotate.
+  2. At inference, for each split × condition, estimate the target prevalence π̂ with the SLD EM on the calibrated probabilities of candidate cells. Only windows with origin ≤ the current T may be used (a running estimate), so the Task 2 "data ≤ T" rule holds. Then set `p' = r·p / (r·p + s·(1−p))`, where `r = π̂/π_tr` and `s = (1−π̂)/(1−π_tr)`.
+  3. Shrink halfway (`r ← √r`), and clip r to [0.67, 1.5]. Incidents violate the p(x|y)-invariance assumption, so full correction is unsafe.
+  4. Decode exactly as now.
+- **Compute:** minutes on the OOF cache. Needs no retraining.
+- **Expected gain:** 0 to +0.004 LB. Isotonic scaling alone changes only m, not the ordering.
+- **Validation:**
+  1. Leave one pseudo fold out and estimate π̂ blind on it. Compare IoU for raw, calibrated, and calibrated + SLD.
+  2. Also check the 40 official onset windows.
+  3. Log π̂/π_tr per month to see whether the validation month really is shifted.
+- **Reject rule:** reject if it is not ≥ +0.002 IoU in ≥ 3/4 folds, or if the official-window IoU drops by more than 0.005. If the causal-only estimate cannot be implemented cleanly, drop the SLD step and keep calibration only.
 
-### A2- টাস্ক 2: প্রশিক্ষণের লেবেলগুলিকে নয়েজমুক্ত সত্যের সাথে মেলে। NEW, উচ্চ মানের।
+### A2. Task 2: denoise the training labels to match the noise-free truth. Label: NEW, high value.
 
-- **বেসঃ**
-  - D0155 :: শব্দ 2 স্বয়ং। শুধুমাত্র শব্দ তথ্য থেকে একটি J-invariant denoiser ক্যালিব্রেট করা যেতে পারে।
-  - D0253 : আত্মবিশ্বাসী শিক্ষা OOF সম্ভাবনার ভিত্তিতে লেবেল শব্দ অনুমান এবং ছাঁটাই করুন।
-  - D0151 : শক্ত- GBDT , লেবেল শব্দের অধীনে non-convex ক্ষতি সঙ্গে।
-  - D0147 : জ্যাকার্ডের ক্ষতির জন্য নরম লেবেল ব্যবহার করা হয়।
-  - D0169 : লেবেল শব্দ "লাইন সঠিকতা" ভেঙে যায়।
-- **দুর্বলতা সমাধান করা হয়েছেঃ**
-  - সত্য হলো `speed ≤ 0.6·v_free` নয়েজমুক্ত অবস্থায়, কিন্তু আমাদের লেবেলগুলি নয়েজমুক্ত গতির জন্য প্রান্তিক।
-  - এই সীমার নিকটবর্তী cell এবং একক cellের বিচ্ছিন্ন ব্লপগুলি নিয়মিতভাবে ভুলভাবে চিহ্নিত করা হয়।
-  - এটি একটি যুক্তিসঙ্গত কারণ যে আমাদের মডেল এবং ধৈর্য্যের জন্য CV → LB অনুপাত 0.84 ।
-- **সঠিক পরিবর্তনঃ** বর্তমান v9/v13 রেসিপিতে তিনটি ভেরিয়েন্ট চেষ্টা করুন।
-  - (a) **হার্ড লেবেলকে অস্বীকার করা।** একটি ছোট স্থান × সময় মসৃণ প্রয়োগ করুন `v/v_free` প্রার্থীরা হ্রদ নির্ধারণের আগে সম্পূর্ণ train স্তর। 3×3 মধ্যম বা ASM থেকে kernel A5ব্যান্ডউইথ নির্বাচন করুন একটি শব্দ দিয়ে2স্ব-পর্যায়েঃ কেন্দ্রীয় cell বাদ দেওয়া হলে সবচেয়ে ভালোভাবে দেখা সেলগুলি ধরে রাখার পূর্বাভাস দেয় এমন ফিল্টার।
-  - (b) **নরম লেবেল।**  3 × 3 আশেপাশের অংশটি ব্যবহার করুন যা লক্ষ্য হিসাবে সারিতে রয়েছে, LightGBM `objective=cross_entropy` দিয়ে।
-  - (c) **আত্মবিশ্বাসী-শিক্ষা নিচে-ওয়েটিং।**  0.3 নিচে-ওয়েটিং যে কোন প্রশিক্ষণ cell যার OOF সম্ভাবনা তাদের নয়েজমুক্ত লেবেল সঙ্গে দৃঢ়ভাবে একমত নয় এবং যা বিচ্ছিন্ন (কোনও ক্যু প্রতিবেশী ±1 লিঙ্ক এবং ±5 মিনিট মধ্যে) ।
-- **গণনাঃ** প্রতি ভেরিয়েন্ট প্রতি টাস্ক 2 পুনরায় প্রশিক্ষণ, বর্তমান মডেলের মতোই খরচ।
-- **প্রত্যাশিত লাভঃ** +0.002 থেকে +0.01  LB । প্রভাব অনিশ্চিত, কারণ স্থানীয় প্রক্সি সত্য নিজেই গোলমাল।
-- **বৈধতাঃ**
-  - স্থানীয় স্কোরিং শব্দযুক্ত লেবেল ব্যবহার করে, তাই একটি লাভ স্থানীয়ভাবে অদৃশ্য বা সামান্য নেতিবাচক হতে পারে। (i) কাঁচা প্রক্সি এবং (ii) একটি denounced-সত্য প্রক্সি উপর প্রতিটি রূপ স্কোর।
-  - তারপর সেরা ভেরিয়েন্টের জন্য **এক**  LB সন্ড জমা দিন, শুধুমাত্র টাস্ক 2 বিনিময় করুন।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি LB জ্যোতিষ < +0.001 হয় , অথবা যদি রৌপিক-প্রক্সি আইওইউ 0.01 এর চেয়ে বেশি কমে যায়। এর অর্থ হ'ল আরও মসৃণভাবে মুছে ফেলা প্রকৃত সংক্ষিপ্ত ক্যো।
+- **Basis:**
+  - D0155: Noise2Self. A J-invariant denoiser can be calibrated from noisy data alone.
+  - D0253: confident learning. Estimate and prune label noise from OOF probabilities.
+  - D0151: Robust-GBDT, with non-convex losses under label noise.
+  - D0147: Jaccard losses work with soft labels.
+  - D0169: label noise breaks "accuracy on the line".
+- **Weakness addressed:**
+  - Truth is `speed ≤ 0.6·v_free` on the noise-free state, but our labels threshold noisy observed speed.
+  - Cells near the threshold, and isolated one-cell blips, are systematically mislabeled.
+  - This is a plausible reason why the CV→LB ratio is 0.84 for both our model and persistence.
+- **Exact change:** try three variants on the current v9/v13 recipe.
+  - (a) **Denoised hard labels.** Apply a small space×time smoother to `v/v_free` on the complete train layer before thresholding. Candidates are a 3×3 median, or the ASM kernel from A5. Pick the bandwidth with a Noise2Self criterion: the filter that best predicts held-out observed cells when the centre cell is excluded.
+  - (b) **Soft labels.** Use the fraction of the 3×3 neighbourhood that is queued as the target, with LightGBM `objective=cross_entropy`.
+  - (c) **Confident-learning down-weighting.** Down-weight to 0.3 any training cells whose OOF probability disagrees strongly with their noisy label and that are isolated (no queued neighbour within ±1 link and ±5 min).
+- **Compute:** one Task 2 retrain per variant, the same cost as the current model.
+- **Expected gain:** +0.002 to +0.01 LB. The effect is uncertain, because the local proxy truth is itself noisy.
+- **Validation:**
+  - Local scoring uses noisy labels, so a gain may be invisible or slightly negative locally. Score each variant on (i) the raw proxy and (ii) a denoised-truth proxy.
+  - Then submit **one** LB probe for the best variant, swapping Task 2 only.
+- **Reject rule:** reject if the LB probe is < +0.001, or if the raw-proxy IoU drops by more than 0.01. The latter would mean the smoother erased real short queues.
 
-### A3- টাস্ক 1: মাস্কড-অনুমোদন টাস্কের মাধ্যমে লক্ষ্য মাসের থেকে প্রশিক্ষণ সারি যোগ করুন (MIT / পরীক্ষার সময় প্রশিক্ষণ) লেবেলঃ NEW, উচ্চ মানের।
+### A3. Task 1: add training rows from the target month itself via a masked-imputation task (MIT / test-time training). Label: NEW, high value.
 
-- **বেসঃ**
-  - D0153 : SAITS মাস্কড-অনুদানের কাজ। পর্যবেক্ষণ করা মানগুলি পুনরায় মাস্কড করুন এবং তাদের দায়বদ্ধ করতে শিখুন।
-  - D0154 : বিতরণ শিফটে পরীক্ষার সময় প্রশিক্ষণ।
-  - D0155 : নয়েজমুক্ত তথ্যের স্বনির্দেশনা।
-  - D0166/D0167:  DG ট্রিকগুলি সাহায্য করে না, কিন্তু টার্গেট ডোমেনের তথ্য সাহায্য করে।
-- **দুর্বলতা সমাধান করা হয়েছেঃ**
-  - বৈধতা এবং ব্যক্তিগত মাসগুলি স্বাধীনভাবে তৈরি করা হয়, বিভিন্ন ঘটনার সাথে।
-  - টাস্ক 1 মডেলটি কখনই এটি পূর্বাভাস দেয়নি যে মাসের থেকে সারিগুলি দেখা যায়। প্রোফাইল-মুক্ত সুইচটি প্রথম লক্ষণ ছিল যে মাসের নির্দিষ্ট কাঠামো গুরুত্বপূর্ণ।
-- **সঠিক পরিবর্তনঃ**
-  1. প্রতিটি লক্ষ্য বিভক্ত জন্য, R = 2 প্রতিলিপি আঁকুন।
-  2. প্রতিটি প্রতিরূপে, মুক্তিপ্রাপ্ত যোগ্য cellগুলির অতিরিক্ত 8–10 % লুকান। একই আইডি-হাশ-স্টাইলের মুখোশ ব্যবহার করুন, cellের শাসনের দ্বারা স্তরিত, এবং সিমুলেটেড 90 -মিনিট ব্ল্যাকআউট যুক্ত করুন।
-  3. পুনরায় মাস্কযুক্ত ভিউতে বৈশিষ্ট্যগুলি পুনরায় গণনা করুন। লক্ষ্যগুলি একই অবশিষ্ট ফর্মের প্রকাশিত মানগুলি (`v/v_f − tv`, `q/lanes − tq`).
-  4. অথবা 0.5 ওজন সহ এই লাইনগুলিকে train-এর লাইনে সংযুক্ত করুন , অথবা লক্ষ্যমাত্রা-শুধুমাত্র লাইটজিবিএম লাইনে একটি ছোট সেকেন্ড ফিট করুন এবং 70/30 মিশ্রণ করুন ।
-  5. 15 % মূল্যায়ন হোল্ডআউট প্রতিটি পুনরায় মাস্কযুক্ত cell থেকে বিচ্ছিন্ন রাখুন।
-  6. অতিরিক্ত মাস্কের হার কম রাখুন, যাতে বৈশিষ্ট্য অভাব আসল লক্ষ্যের কাছাকাছি থাকে।
-- **গণনাঃ** +30–50 % টাস্ক 1 সারি। এটি বর্তমান kernelের ভিতরে ফিট করে যদি MAX_ROWS সম্মানিত হয়।
-- **প্রত্যাশিত লাভঃ** +0.001 থেকে +0.004 বৈধতা-মাস হোল্ডআউট S_state. এটি টাস্ক 3 ও উত্তোলন করে , যা টাস্ক 1 ভবিষ্যদ্বাণীর দ্বারা বোঝানো ঘনত্বের উপর নির্ভর করে।
-- **বৈধতাঃ** প্রতি প্যানেলের জন্য বৈধতা মাসের অভ্যন্তরীণ হোল্ডউট (বিচ্ছিন্ন) ব্যবহার করুন।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান করুন যদি E/F মডেলের উপরে লাভ < +0.001 হয় অথবা যদি 7/10 প্যানেলের চেয়ে কম উন্নতি হয়।
-- **ফুটো এবং নিয়মঃ** টাস্ক 1 অফলাইন, এবং শুধুমাত্র প্রকাশিত পর্যবেক্ষণ লক্ষ্য হিসাবে ব্যবহৃত হয়। কখনই লক্ষ্য হিসাবে টাস্ক 2 ব্ল্যাকআউট সেল ব্যবহার করবেন না।
+- **Basis:**
+  - D0153: the SAITS masked-imputation task. Re-mask observed values and learn to impute them.
+  - D0154: test-time training under distribution shift.
+  - D0155: self-supervision on noisy data.
+  - D0166/D0167: DG tricks do not help, but target-domain data does.
+- **Weakness addressed:**
+  - The validation and private months are generated independently, with different incidents.
+  - The Task 1 model has never seen rows from the month it predicts. The profile-free switch was the first sign that month-specific structure matters.
+- **Exact change:**
+  1. For each target split, draw R = 2 replicas.
+  2. In each replica, hide an extra 8–10% of the released eligible cells. Use the same iid-hash-style mask, stratified by the cell's regime, and also add simulated 90-minute blackouts.
+  3. Recompute features on the re-masked view. Targets are the released values in the same residual form (`v/v_f − tv`, `q/lanes − tq`).
+  4. Either append these rows to the train rows with weight 0.5, or fit a small second LightGBM on target-only rows and blend 70/30.
+  5. Keep the 15% evaluation holdout disjoint from every re-masked cell.
+  6. Keep the extra mask rate low, so the feature missingness stays close to the real targets.
+- **Compute:** +30–50% Task 1 rows. It fits inside the current kernel if MAX_ROWS is respected.
+- **Expected gain:** +0.001 to +0.004 on the validation-month holdout S_state. It also lifts Task 3, which depends on the density implied by the Task 1 predictions.
+- **Validation:** use the validation-month internal holdout (disjoint), per panel.
+- **Reject rule:** reject if the gain over model E/F is < +0.001, or if fewer than 7/10 panels improve.
+- **Leakage and rules:** Task 1 is offline, and only released observations are used as targets. Never use Task 2 blackout cells as targets.
 
-### A4 . টাস্ক 1 : লাইটজিবিএম বোতাম এখনো চেষ্টা করা হয়নি. লেবেলঃ NEW .
+### A4. Task 1: LightGBM knobs not yet tried. Label: NEW.
 
-- **বেসঃ**  D0171 (লাইটজিবিএম প্যারামিটার ডকুমেন্ট, পরিদর্শন করা হয়েছে), D0176 ( GBDT টুকরো-পুকরো লিনিয়ার পাতা সহ), D0174 (অতিরিক্ত গাছ) ।
-- **সঠিক পরিবর্তনঃ** মডেল E সেটিংস, পরীক্ষা এক সময়ে এক পরিবর্তনঃ
-  - (a) `linear_tree=True, linear_lambda=1.0` . বাকি লক্ষ্যটি প্রতিবেশী মানগুলিতে স্থানীয়ভাবে প্রায় লিনিয়ার এবং লিনিয়ার leaves একটি অদৃশ্য মাসে আরও মসৃণভাবে এক্সট্রাপল করে। 2 × সারিগুলিতে প্রথমে পরীক্ষা করুন, কারণ linear_tree মেমরি ব্যবহার বাড়ায়।
+- **Basis:** D0171 (LightGBM parameter docs, inspected), D0176 (GBDT with piece-wise linear leaves), D0174 (ExtraTrees).
+- **Exact change:** on model E settings, test one change at a time:
+  - (a) `linear_tree=True, linear_lambda=1.0`. The residual target is locally near-linear in the neighbour values, and linear leaves extrapolate more smoothly to an unseen month. Test at 2× rows first, because linear_tree raises memory use.
   - (b) `extra_trees=True, path_smooth=10`.
-  - (গ) `deterministic=True, force_row_wise=True` . এটি স্কোর পরিবর্তন নয়; এটি 1 % পুনরুৎপাদনযোগ্যতার নিয়মের জন্য একটি মুক্ত সুরক্ষা।
-- **গণনাঃ** প্রতি ভেরিয়েন্টের জন্য এক টাস্ক 1 চালানো।
-- **প্রত্যাশিত লাভঃ**
-  - (ক): −0.002 থেকে +0.003 পর্যন্ত ।
+  - (c) `deterministic=True, force_row_wise=True`. This is not a score change; it is a free guard for the 1% reproducibility rule.
+- **Compute:** one Task 1 run per variant.
+- **Expected gain:**
+  - (a): −0.002 to +0.003.
   - (b): ±0.001.
   - (c): 0.
-- **বৈধতাঃ** বৈধতা-মাস ধারণক্ষমতা **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি < +0.0007 , আমরা আগে গ্রহণ করা ক্ষুদ্রতম পরিবর্তন আকার।
+- **Validation:** validation-month holdout. **Reject rule:** reject if < +0.0007, the size of the smallest change we accepted before.
 
-### A5- টাস্ক 1 বৈশিষ্ট্যঃ বৈশিষ্ট্যগুলির সাথে সাথে পদার্থবিজ্ঞান সচেতন ইন্টারপোলেশন (ASM এবং নিউয়েল থ্রি-ডিটেক্টর। NEW.
+### A5. Task 1 features: physics-aware interpolation along characteristics (ASM and Newell three-detector). Label: NEW.
 
-এইগুলি GBDT এর বৈশিষ্ট্য, পোস্ট প্রসেসিং নয়, যা আমরা ইতিমধ্যে চেষ্টা করেছি এবং ফেলে দিয়েছি।
+These are features for the GBDT, not post-processing, which we already tried and dropped.
 
-- **বেসঃ**
-  - D0137/D0138/D0139: Treiber – Helbing অভিযোজিত মসৃণকরণ পদ্ধতি। কোরগুলি ফ্রি-ফ্লো (+ v_f ) এবং congested (−w) বৈশিষ্ট্য জুড়ে চালানো হয়। ক্যালিব্রেটেড পরামিতিগুলি সাইট জুড়ে স্থানান্তরিত হয়।
-  - D0131 : নিউয়েল-পরিবর্তিত সমষ্টিগত গণনা বৈশিষ্ট্য। পরিমাপ করাঃ RMSE −0.5 থেকে −2 %, স্থানান্তরিত সময় বৃহত্তর সাহায্যের সাথে।
-  - D0128 : তিন ডিটেক্টর পদ্ধতি।
-  - D0251 : PDFormer, যেখানে বিলম্ব সচেতন বৈশিষ্ট্য সাহায্য করে।
-- **দুর্বলতা সমাধান করা হয়েছেঃ**
-  - আমাদের সময় এবং স্থানিক অন্তর্ভুক্তিগুলি আইসোট্রপিক।
-  - জেনারেটরের ( CTM/LWR ), তথ্য v_f এ নীচে এবং w = cap/( k_jam − k_crit এ আপস্ট্রিম গতি করে। উভয়ই `fd_parameters.csv` থেকে লিঙ্ক প্রতি পরিচিত।
-- **সঠিক পরিবর্তনঃ** প্রতিটি লক্ষ্য cellের জন্য নিম্নলিখিত যোগ করুনঃ
-  - `asm_v` : ASM গতির অনুমান `c_free = v_f` , `c_cong = −w` , σ = 1 স্টেশন, τ = 1 স্লট, এবং `v_crit` থেকে স্যুইচিং = সমালোচনামূলক গতির সাথে।
-  - `newell_q` : `min(N_up(t − d/v_f), N_down(t − d/w) + k_jam·d)` থেকে প্রবাহ, নিকটতম পর্যবেক্ষণ করা উপstream এবং downstream স্টেশন থেকে পর্যবেক্ষণ করা সমষ্টিগত গণনা ব্যবহার করে। যেখানে কোন গণনা পাওয়া যায় না, interpolated প্রবাহ ফিরে আসা।
-  - `asm_cong_weight` : দুইটি পদ্ধতির মধ্যে ওজন।
-- **গণনাঃ** ভেক্টরাইজড নম্পি, বর্তমান ইন্টারপোলেশন বৈশিষ্ট্যগুলির আনুমানিক খরচ।
-- **প্রত্যাশিত লাভঃ** +0.001 থেকে +0.004 ধারণক্ষমতা। ঘনত্ব ভিজে থাকা মুখোশযুক্ত cellগুলিতে, যা 3 টাস্ক স্কোর করে, সবচেয়ে সম্ভাব্য উপকৃত হয়।
-- **বৈধতাঃ** বৈধতা-মাস ধরে রাখা, সামগ্রিকভাবে এবং R3 ( 50 % মাস্কিং) এর জন্য। **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি < +0.0007 , অথবা যদি টাস্ক 3 এর স্থানীয় LWR প্রক্সি খারাপ হয়।
+- **Basis:**
+  - D0137/D0138/D0139: the Treiber–Helbing adaptive smoothing method. Kernels run along the free-flow (+v_f) and congested (−w) characteristics. Calibrated parameters transfer across sites.
+  - D0131: Newell-shifted cumulative-count features. Measured: RMSE −0.5 to −2%, with a larger help under transfer.
+  - D0128: the three-detector method.
+  - D0251: PDFormer, where delay-aware features help.
+- **Weakness addressed:**
+  - Our temporal and spatial interpolations are isotropic.
+  - In the generator (CTM/LWR), information moves downstream at v_f and upstream at w = cap/(k_jam − k_crit). Both are known per link from `fd_parameters.csv`.
+- **Exact change:** add the following for every target cell:
+  - `asm_v`: an ASM speed estimate with `c_free = v_f`, `c_cong = −w`, σ = 1 station, τ = 1 slot, and switching from `v_crit` = critical speed.
+  - `newell_q`: the flow from `min(N_up(t − d/v_f), N_down(t − d/w) + k_jam·d)`, using observed cumulative counts from the nearest observed upstream and downstream stations. Where no counts are available, fall back to the interpolated flow.
+  - `asm_cong_weight`: the weight between the two regimes.
+- **Compute:** vectorised numpy, roughly the cost of the current interpolation features.
+- **Expected gain:** +0.001 to +0.004 holdout. Density at congested masked cells, which Task 3 scores, is the most likely beneficiary.
+- **Validation:** validation-month holdout, overall and for R3 (50% masking). **Reject rule:** reject if < +0.0007, or if Task 3's local LWR proxy gets worse.
 
-### A6 . টাস্ক 2 : লক্ষ্য মাসের ক্যালেন্ডার ভাগের দিকে সপ্তাহান্তে ওজন window। লেবেলঃ NEW , ছোট।
+### A6. Task 2: weight weekend windows toward the target month's calendar share. Label: NEW, small.
 
-- **বেসঃ**  D0156 (সমন্বয় পরিবর্তনের অধীনে গুরুত্বের ওজন), D0158 ( robust/clipped ওজন), D0082/D0083 (বিপরীত বৈধতা এবং পুনরায় ওজন) ।
-- **দুর্বলতা সমাধান করা হয়েছেঃ** সপ্তাহান্তে ভাগটি বৈধতা মাসে 35 % এবং trainে 24 % এবং ব্যক্তিগত মাসে নিজস্ব ক্যালেন্ডার রয়েছে। সপ্তাহের ক্লাসের পূর্ববর্তীগুলি ইতিমধ্যে সহায়তা করেছে (+0.0033 ). রায়ের ওজনগুলি সস্তা পরিপূরক।
-- **সঠিক পরিবর্তনঃ** প্রতিটি প্রশিক্ষণ window `share_target(dow class) / share_train(dow class)` দ্বারা ওজন করে [0.5 , 2] কেটে ফেলা হয়েছে। লক্ষ্য অংশটি লক্ষ্য মাসের ক্যালেন্ডার থেকে আসে, যা ডেটা না দেখে জানা যায়। চলমান এবং শুরু হওয়া মডেলগুলি পুনরায় প্রশিক্ষণ দিন।
-  - EXP_T2_l পরীক্ষা "সমতুল্য window ওজন", যা একটি ভিন্ন ওজন এবং ≈0 প্রদান।
-- **গণনাঃ** এক টাস্ক 2 পুনরায় প্রশিক্ষণ। **প্রত্যাশিত লাভঃ**  0 থেকে +0.002 .
-- **বৈধতাঃ** ওজন প্লেইড fold একই ভাবে, তারপর LB সন্ড চালান। **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি 3/4 fold মধ্যে < +0.001 প্রত্যাখ্যান।
+- **Basis:** D0156 (importance weighting under covariate shift), D0158 (robust/clipped weights), D0082/D0083 (adversarial validation and reweighting).
+- **Weakness addressed:** weekend share is 35% in the validation month and 24% in train, and the private month has its own calendar. Weekday-class priors already helped (+0.0033). Row weights are the cheaper complement.
+- **Exact change:** weight each training window by `share_target(dow class) / share_train(dow class)`, clipped to [0.5, 2]. The target share comes from the target month's calendar, which is known without looking at data. Retrain the ongoing and onset models.
+  - EXP_T2_l tested "equal window weights", which is a different weighting and gave ≈0.
+- **Compute:** one Task 2 retrain. **Expected gain:** 0 to +0.002.
+- **Validation:** weight the pseudo folds the same way, then run the LB probe. **Reject rule:** reject if < +0.001 in 3/4 folds.
 
-### A7 . প্রক্রিয়াঃ শীর্ষক শৃঙ্খলা এবং চূড়ান্ত নির্বাচন. লেবেলঃ RELATED ; এটি একটি পদ্ধতি, একটি মডেল নয়।
+### A7. Process: leaderboard discipline and final selection. Label: RELATED; this is methodology, not a model.
 
-- **বেসঃ**
-  - D0087 : সিঁড়ি। শুধুমাত্র যখন উপার্জন একটি শব্দ ধাপ অতিক্রম করে গ্রহণ করুন।
-  - D0086 : পরীক্ষার পুনরায় ব্যবহারের ফলে অতিরিক্ত ফিটিং ছোট, কিন্তু বিতরণ পরিবর্তন নয়।
-  - D0081 : ওভারটুনিং।
-  - D0068 : ভবিষ্যদ্বাণী-সংমিশ্রণ পাজল. অনুমান ওজন বৈচিত্র যোগ করে।
-  - D0093 : রোলিং-অরিজিন বৈধতা র্যাঙ্কিং ফ্লিপ করতে পারে।
-  - D0347 : ঝাঁকুনির বেঁচে থাকা।
-- **নিয়মঃ**
-  1. যদি LB লাভ ≥0.001  **এবং** হয় তবে স্থানীয় foldগুলি ≥3/4 এর সাথে সম্মত হয়। 70/30 বা 50/50 এর মতো স্থির সহজ মিশ্রণ অনুপাতগুলি 4 foldগুলিতে সুরযুক্ত অনুপাতের চেয়ে একটি পরিবর্তনকে গ্রহণ করুন।
-  2. দুইটি উপস্থাপনের মধ্যে চূড়ান্ত নির্বাচনঃ
-     - (i) সর্বোত্তম জনসাধারণ LB ;
-     - (ii) সবচেয়ে শিফট-প্রতিষ্ঠিত রেসিপিঃ পূর্ববর্তী বিনামূল্যে যেখানে এটি বন্ধ, এবং কোন পাবলিক-LB- টিন বোতাম।
-  3. ব্যক্তিগত মাসে 7 এর বিরুদ্ধে 5 এর বৈধতা রয়েছে। অতএব এটির আরও বেশি সংখ্যক নন-রিকর্ডিং ক্যু রয়েছে, যা (ii) এর পক্ষে যুক্তিযুক্ত।
-
----
-
-## B. কাঠামোগত (নতুন উপাদান, আরও বেশি কম্পিউটেশন বা ঝুঁকি)
-
-### B1 . টাস্ক 2 শুরুঃ CTM একটি বৈশিষ্ট্য হিসাবে T এ অবস্থার থেকে এগিয়ে রোলআউট। লেবেলঃ RELATED .
-
-ক্রম ব্লক, শকওয়ে এবং হুমকি বৈশিষ্ট্য ≈0 প্রদান। একটি সিমুলেটর রোলআউট একটি ভিন্ন সংকেত।
-
-- **বেসঃ**
-  - D0124 : CTM (ডাগানজো) ।
-  - D0210 : VecCTM, ব্যাচের জন্য ভেক্টরাইজড নম্পি CTM ।
-  - D0303 : লিঙ্ক ট্রান্সমিশন মডেল, একটি সস্তা নিউয়েল ভিত্তিক লোডিং মডেল।
-  - D0131 : নিউয়েল বৈশিষ্ট্যগুলি বেশিরভাগ স্থানান্তর সময় সাহায্য করে।
-  - D0255 : জমির সামনে bottleneckগুলোতে বাঁধাই রয়েছে।
-- **দুর্বলতা সমাধান করা হয়েছেঃ**
-  - প্রথম আইওইউ ( 0.743 ) এর সবচেয়ে বেশি মাথা আছে।
-  - অনস্টার্ট window সংজ্ঞা অনুযায়ী ইতিহাসের কোন ক্যু দেখায় না। যখন আপস্ট্রিম চাহিদা একটি bottleneck ক্ষমতা অতিক্রম করে তখন একটি ক্যু টি +30 এ উপস্থিত হয়।
-  - একটি CTM যা প্রতি লিঙ্ক FD পরামিতি ব্যবহার করে এবং T এ দেখা চাহিদা যেখানে সরবরাহ কম হয় তা পূর্বাভাস দিতে পারে। এটি জেনারেটরের নিজস্ব প্রক্রিয়া।
-- **সঠিক পরিবর্তনঃ**
-  1. প্রতিটি windowর জন্য, প্রাথমিক ঘনত্বটি প্রতি লিঙ্ক FD এর মাধ্যমে সর্বশেষ পর্যবেক্ষণ করা (অন্তঃনির্ধারিত) গতি এবং প্রবাহ থেকে সেট করুন।
-  2. ঊর্ধ্বমুখী সীমানা প্রবাহকে সর্বশেষ 15 মিনিটের মাঝারিতে সেট করুন, স্থির রাখা।
-  3. 6 × 5 -min ধাপগুলি চালান, যাতে CFL সন্তুষ্ট করতে সাব-ধাপগুলি থাকে।
-  4. বৈশিষ্ট্যঃ `ctm_queued_T30` (গতির ≤0.6 · v_f ), `ctm_density_ratio_T30` , `ctm_first_queued_step` , এবং `ctm_margin = min over t of (receiving capacity − sending demand)` ।
-  5. এইগুলিকে ক্যাটবস্ট শুরু মডেল এবং লাইটজিবিএম চলমান মডেলে যুক্ত করুন।
-- **গণনাঃ** সমস্ত windowের জন্য 1  CPU -মিনিটের কম। ব্যয় মূলত বাস্তবায়ন, প্রায় এক দিন।
-- **প্রত্যাশিত লাভঃ** শুরু IoU +0.00 থেকে +0.02 . এটি উচ্চ বৈচিত্র্য; LB প্রভাব ≤ +0.006 .
-- **বৈধতাঃ**  4 ছদ্মবেশী fold প্লাস 40 অফিসিয়াল স্টার্ট window।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান করুন যদি শুরু ≥ +0.004 হয় না ≥3/4 foldগুলিতে। আমাদের বৈশিষ্ট্য ইতিহাস বিবেচনা করে, প্রত্যাখ্যান আশা করুন যদি না রোলআউট ক্ষমতা তথ্য বহন করে GBDT পুনর্নির্মাণ করতে পারে না।
-
-### B2 . টাস্ক 2 ডিকোডারঃ স্বাধীনতার অনুমানের পরিবর্তে window স্তরের ক্যো আকারের তথ্য ব্যবহার করুন। লেবেলঃ NEW .
-
-এর আগে ডিকোডার পরীক্ষায় প্রান্তিক, ধাপ বা রূপকরণ পরিবর্তন করা হয়েছিল। |Y|.
-
-- **বেসঃ**
-  - D0145 : GFM , একটি সঠিক প্রত্যাশিত-F সর্বাধিকীকরণ যা P( y_i = 1 ব্যবহার করে , |y| = s) এবং কোন স্বাধীনতার অনুমান প্রয়োজন হয় না।
-  - D0146 : স্বাধীনভাবে ভিত্তিক প্লাগ-ইন ডিকোডিং লেবেলগুলি সংযুক্ত হলে অপ্টিম হতে পারে না।
-  - D0143 : প্লাগ ইন ডিকোডিং কেবলমাত্র সম্ভাব্যতা মডেলের মতোই ভাল।
-- **দুর্বলতা সমাধান করা হয়েছেঃ** ক্যু সেলগুলি দৃঢ়ভাবে সম্পর্কিত। আমাদের প্রত্যাশিত-IoU শীর্ষ-m ডিসকোডার তাদের স্বাধীন হিসাবে আচরণ করে, তাই এটি প্রতিটি প্রার্থী m এর IoU ভুল অনুমান করে।
-- **সঠিক পরিবর্তনঃ**
-  1. একটি window স্তরের লাইটজিবিএম ক্যান্টিল বা পোয়াসন রেগ্রেসারকে প্রশিক্ষণ দিন |Y| (সত্য-সেট আকার) window বৈশিষ্ট্য থেকে। এগুলি সেল সম্ভাবনার সমষ্টিঃ তাদের যোগফল, শীর্ষ-কে যোগফল, এবং স্থানিক বিস্তার।
-  2. ডিকোড করার সময়, পূর্বাভাসিত আকারের বিতরণ থেকে নমুনা s। প্রতিটি s এর জন্য, সেল সম্ভাব্যতা পুনরায় স্কেল করুন যাতে তারা s এ যোগ হয় এবং প্রতিটি m এর জন্য প্রত্যাশিত IoU গণনা করুন।
-  3. নমুনাগুলির উপর গড় সর্বোচ্চ পরিমাণে m নির্বাচন করুন।
-- **গণনাঃ**  OOF ক্যাশে প্রশিক্ষিত একটি ছোট মডেল। ডিকোড নিজেই কয়েক মিনিট ব্যয় করে।
-- **উভয় অবস্থার উপর প্রত্যাশিত লাভঃ** +0.002 থেকে +0.006 IoU।
-- **বৈধতা এবং প্রত্যাখ্যান নিয়মঃ**  OOF  4 foldগুলির উপর ক্যাশে। যদি লাভ হয় ≥3/4 foldগুলিতে < +0.002 প্রত্যাখ্যান করুন।
-
-### B3 . টাস্ক 2 শুরুঃ একটি বৈচিত্র্যময় নিউরাল সদস্য (RealMLP বা TabM) CatBoost সঙ্গে মিশ্রিত। লেবেলঃ RELATED .
-
-ক্যাটবস্ট চলমান এবং বীজ গড়করণ কোন বৈচিত্র্য এনেছে না; একটি নিউরাল নেটওয়ার্ক আরো দেয়।
-
-- **বেসঃ**
-  - D0244 : RealMLP প্লাস টিন-ডিফল্ট GBDT এককভাবে বেট করে।
-  - D0245 : TabM.
-  - D0246 : TabArena. ক্রস মডেল সমন্বয় সীসা; বৈধতা ওভার ফিটিং জন্য ঘড়ি.
-  - D0002 : একটি এক্সজিবিওস্ট + গভীর সমন্বয় ছিল সেরা প্রবেশ।
-  - D0012 এবং D0344 : GBDT + NN  KDD কাপ 2022 এবং Ubiquant এর বিজয়ী।
-  - D0239: 2–3 মডেল যথেষ্ট।
-- **সঠিক পরিবর্তনঃ**
-  - মডেলঃ a 3- স্তর MLP শুরু বৈশিষ্ট্য টেবিলের উপর। ক্যান্টিল-পরিবর্তিত ইনপুট ব্যবহার করুন এবং একটি BCE হারান, train চালু CPU ফর্সা দিয়ে, 8–15 নির্দিষ্ট বীজ এবং `torch.use_deterministic_algorithms`.
-  - মিশ্রণঃ CatBoost এর সাথে স্থির 70/30 এ র্যাঙ্ক-মধ্য, তারপর ডিকোড করুন।
-- **গণনাঃ**  20–40  CPU - শুরু হওয়ার মিনিট। শুরুতে চলমানের তুলনায় কম সারি রয়েছে।
-- **প্রত্যাশিত লাভঃ** শুরু IoU 0 থেকে +0.01 , যা ≤ +0.003  LB ।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি CatBoost এর সাথে সম্পর্ক > 0.98 হয় অথবা যদি 3/4 ফোল্ডে লাভ < +0.003 হয়।
-
-### B4 . টাস্ক 4 : KL ( entropy/IPF ) প্রক্ষেপণ, বা পূর্ব-ওয়েট করা GLS , পরিচয়-ওয়েট করা L2 এর পরিবর্তে । লেবেলঃ NEW , কিন্তু কম মান।
-
-- **বেসঃ**
-  - D0098 : ভ্যান জুইলেন –  উইলুমসেন ন্যূনতম তথ্য, KL প্রক্ষেপণ।
-  - D0097/D0100:  GLS এবং বেইসিয়ান স্টেম্যাটার। সঠিক গণনা দিয়ে, পিছনের মধ্যমটি একটি কোভারেন্স-ওয়েটেড প্রক্ষেপণের সমান।
-  - D0112/D0114:  IPF , বা সাধারণীকৃত IPF , লিনিয়ার সীমাবদ্ধতার জন্য।
-  - D0111 : সীমাবদ্ধ পোয়িশন GLM .
-  - D0109 : L1 অল্প পথ প্রবাহের জন্য পুনরুদ্ধার।
-  - D0363 : স্কোরার। S_dev পুরস্কার যা পূর্ববর্তী থেকে * সত্য * বিচ্যুতির মাত্রার সাথে মিলিত।
-- **যান্ত্রিকঃ**
-  - নয়েজমুক্ত গণনাগুলির মাধ্যমে, প্রতিটি অনুমানকারী A·f = c সন্তুষ্ট করে। তারা কেবলমাত্র A এর শূন্য-স্থানের উপাদানটিতে পৃথক হয় এবং সেই উপাদানটি পুরোপুরি পূর্ববর্তী প্লাস নিয়মিতক দ্বারা সেট করা হয় ( D0102 ).
-  - KL বা `diag(prior)` -weighted GLS পূর্ববর্তী *ratios * রাখে এবং যদি পূর্ববর্তী ত্রুটিটি বহুগুণ হয় তবে ভাল। L1 শুধুমাত্র যদি সত্যিকারের প্রবাহগুলি বিরল হয় তবে ভাল।
-- **সঠিক পরিবর্তনঃ** বর্তমানের পাশে একটি ভেরিয়েন্ট হিসাবে কঠিন বা নরম A·f = c দিয়ে `min Σ (f−b)²/b` যোগ করুন NNLS .
-- **প্রত্যাশিত লাভঃ** ≤ +0.0012 মোট সর্বোচ্চ; সম্ভবত 0.0005 এর চেয়ে কম।
-- **বৈধতাঃ** স্থানীয়ভাবে কোনটিই সম্ভব নয়। S_od , S_dev এবং S_attr সত্য গোপন রাখতে হবে; সংগঠকের ডকস্ট্রিং এটি স্পষ্টভাবে বলে। শুধুমাত্র LB সন্ডার সিদ্ধান্ত নিতে পারে।
-- **প্রত্যাখ্যান নিয়মঃ** শেষ দিনগুলোতে কেউ বাকি না থাকলে এই বিষয়ে কোনো জমা দিতে হবে না।
-
-### B5 . টাস্ক 1 : টেনসর-সম্পূর্ণতা ( LATC অথবা BGCP ) আউটপুট অতিরিক্ত বৈশিষ্ট্য হিসাবে। লেবেলঃ RELATED নিম্ন-র্যাঙ্ক SVD বৈশিষ্ট্য আমরা রাখা।
-
-- **বেসঃ**  D0217 ( LATC ), D0216 ( BGCP ), D0249 (ImputeFormer: নিম্ন- র্যাঙ্ক কাঠামো হল মূল ইন্ডাক্টিভ bias) ।
-- **সঠিক পরিবর্তনঃ** দৌড় LATC বা টুকরো টুকরো CP প্রতিটি বিভক্তের দিন × সময় × স্টেশন টেনসর শেষ। পুনর্গঠন যোগ করুন `lr_tensor_v` এবং `lr_tensor_q`.
-- **প্রত্যাশিত লাভঃ** +0.000 থেকে +0.002 । 5 এবং ক্রস-ডে SVD বৈশিষ্ট্যগুলি ইতিমধ্যে এর বেশিরভাগ অংশকে ক্যাপচার করে।
-- **প্রত্যাখ্যান নিয়মঃ** প্রত্যাখ্যান যদি < +0.0007 হয়।
+- **Basis:**
+  - D0087: the Ladder. Accept only when the gain exceeds a noise step.
+  - D0086: overfitting from test reuse is small, but distribution shift is not.
+  - D0081: overtuning.
+  - D0068: the forecast-combination puzzle. Estimated weights add variance.
+  - D0093: rolling-origin validation can flip rankings.
+  - D0347: shake-up survival.
+- **Rules:**
+  1. Accept a change only if the LB gain is ≥ 0.001 **and** the local folds agree in ≥ 3/4. Prefer fixed simple blend ratios, such as 70/30 or 50/50, over ratios tuned on 4 folds.
+  2. Final pick of two submissions:
+     - (i) the best public LB;
+     - (ii) the most shift-robust recipe: prior-free wherever that tied, and no public-LB-tuned knobs.
+  3. The private month has 7 incidents against 5 in validation. It therefore likely has more non-recurrent queues, which argues for (ii).
 
 ---
 
-## C. নেতিবাচক প্রমাণ (এগুলোতে সময় ব্যয় না করা কেন)
+## B. Structural (new component, more compute or risk)
 
-- **টাইম-সারি ভিত্তি মডেল (Chronos, TimesFM, Moirai, TabPFN- TS , LLM পূর্বাভাসক) টাস্ক 2 এর জন্যঃ**
-  - GIFT -Eval ( D0031 ): ট্রান্সপোর্ট টাইপ ডেটাতে TSFM সবচেয়ে দুর্বল এবং সংক্ষিপ্ত পরিসংখ্যান রয়েছে।
-  - সুইচযুক্ত AR বা তত্ত্বাবধানে পরিচালিত বেসলাইনগুলি বিশেষ ভিত্তি মডেলগুলির সাথে মিলিত বা বিট করে ( D0035 ), এবং কৃত্রিম-প্রাক প্রশিক্ষিত শূন্য শট মডেলগুলি 2 × তত্ত্বাবধানে পরিচালিত SOTA ( D0036 ) এর চেয়ে খারাপ।
-  - LLM উপাদান কোন যোগ করে না ( D0254 ).
-  - TSFM ইনপুট প্যাচ (TimesFM, D0029  32 ধাপে) আমাদের পুরো 12 ধাপের ইতিহাসের চেয়ে দীর্ঘ।
-  - লক্ষ্য হল একটি cellের জন্য বাইনারি আইওইউ সেট, একটি সংখ্যাগত পূর্বাভাস নয়।
-  - রায়ঃ CONTRADICTED .
-- **দীর্ঘ horizonের ট্রান্সফরমার এবং decomposition/MLP পূর্বাভাসকারী (Informer, Autoformer, FEDformer, PatchTST, TimesNet, iTransformer, TimeMixer, N-HiTS, N- BEATS ):**
-  - তারা 96–720 -step lookbacks ( D0004 , D0021 , D0022 ) এর জন্য ডিজাইন করা হয়েছে।
-  - DLinear ইতিমধ্যে এই রেফারেন্স মার্কেটে পুরোনো ট্রান্সফরমারকে পরাজিত করেছে।
-  - একটি windowযুক্ত GBRT  8 গভীরতা মডেলগুলিকে 9 ডেটাসেটগুলিতে, ট্র্যাফিক সহ ( D0238 ) বীট করে।
-  - রায়ঃ CONTRADICTED প্রতিস্থাপক হিসেবে। সর্বাধিক তারা বিভিন্ন সদস্য ( B3 ).
-- **GBDTs এর প্রতিস্থাপক হিসাবে গভীর টেবিল মডেলঃ**
-  - গাছগুলি অনিয়মিত, মাঝারি থেকে বড় টেবিলের তথ্য ( D0001 , D0002 , D0003 , D0243 ) উপর জয়লাভ করে।
-  - নিউরাল নেটওয়ার্ক শুধুমাত্র সমষ্টি সদস্য হিসেবে সাহায্য করে (D0244, D0246).
-- **স্প্যাসিও-টাইমোরাল জিএনএন ( DCRNN , গ্রাফ ওয়েভনেট, GRIN , SPIN , STAEformer):**
-  - পরিচয় এম্বেডিং সহ সাধারণ এমএলপিগুলি STGNN এর সাথে মিলে যায় (D0047, D0048).
-  - আমাদের করিডোর একটি 1 D লাইন গ্রাফ, এবং ±k প্রতিবেশী বৈশিষ্ট্য ইতিমধ্যে এটি এনকোড।
-  - পরিচয় এম্বেডিং হচ্ছে অবস্থান পূর্বসূরি, যা মাসিক পরিবর্তনের সময় ক্ষতি করে, যেমন আমাদের পূর্বসূরি মুক্ত চলমান ফলাফল দেখায়।
-  - GPU খরচ এবং অনির্ধারিততা 1 % পুনর্জন্মযোগ্যতার নিয়মের সাথে দ্বন্দ্বের মধ্যে রয়েছে।
-- **ডোমেইন জেনেরালাইজেশন এবং ইনভারিএন্স প্রশিক্ষণঃ**
-  - প্রতিটি DG পদ্ধতি ( D0167 ) এর সাথে ERM টাই বা বিটগুলি সুরক্ষিত করা হয়েছে।
-  - সময়সীমার পরিবর্তনের মানদণ্ডে DG , SSL এবং অবিচ্ছিন্ন শিক্ষার তুলনায় ERM ( D0166 ) এর কোন লাভ নেই।
-  - রায়ঃ CONTRADICTED . টার্গেট ডোমেইন * ডেটা* ( A3 ) এবং লেবেল-পূর্ব সংশোধন ( A1 ) প্রমাণ-প্রতিষ্ঠিত লিভারের, invariance নয়।
-- **ভারী স্তর এবং বড় সমষ্টিঃ**
-  - অনুমান করা মিশ্রন ওজনগুলি বৈচিত্র্য যোগ করে ( D0068 ).
-  - হিলক্লাইব এবং সমষ্টি নির্বাচন নির্বাচন সেটকে সামঞ্জস্য করে (D0062, D0246).
-  -2–3 মডেলগুলি প্রায় সমস্ত লাভ ( D0239 ) ক্যাপচার করে।
-  - আমাদের নিজস্ব তথ্য একমতঃ প্যানেল, প্রতি TOD এবং সপ্তাহের দিন মিশ্রণ ≈0 , 3 বীজ ≈0 , এবং CatBoost চলমান ছিল সম্পর্ক 0.997 .
-  - যদি আমরা স্ট্যাক করি, তবে OOF সম্ভাবনার উপর একটি লিনিয়ার বা লজিস্টিক মেটা-মডেল ব্যবহার করুন ( D0259 ), একটি GBDT মেটা-মডেল নয়।
-- **কঠিন বিভক্ত বিশেষজ্ঞদের মিশ্রণঃ**
-  - D0067 এর নরম গেটিং হল নীতিগত সংস্করণ।
-  - আমাদের হার্ড R1/R2/R3 টাস্ক 1 স্প্লিট প্রতিটি প্যানেলের উপর 0.002 হারিয়েছিল, এবং TSE এর অনুপস্থিত হার মডেল ( D0181 ) একটি ভিন্ন সেটিংয়ে একটি বিশেষ ক্ষেত্রে ছিল।
-  - নরম গেট ছাড়া আবার চেষ্টা করবেন না।
-- **পদার্থবিজ্ঞান-নির্দেশিত ক্ষতি এবং পদার্থবিজ্ঞানের পুনর্মিলন জন্য টাস্ক 1 /টাস্ক 3 :**
-  - D0134 নথি PIML ব্যর্থতা যখন পদার্থবিজ্ঞান ভুলভাবে নির্দিষ্ট করা হয় বা ক্ষতির শর্তাবলী ভারসাম্যহীন হয়।
-  - এটা আমাদের হ্রাস ঘনত্বের সাথে মিলিত, FD -প্ল এবং L1 -সমন্বয় পরীক্ষা।
-  - পদার্থবিজ্ঞানকে **বৈশিষ্ট্য** ( A5 , B1 ) হিসাবে প্রবেশ করা উচিত, সীমাবদ্ধতা নয়।
+### B1. Task 2 onset: CTM forward rollout from the state at T as a feature. Label: RELATED.
+
+Queue-block, shockwave and hazard features gave ≈0. A simulator rollout is a different signal.
+
+- **Basis:**
+  - D0124: the CTM (Daganzo).
+  - D0210: VecCTM, a vectorised numpy CTM for batch rollouts.
+  - D0303: the link transmission model, a cheaper Newell-based loading model.
+  - D0131: Newell features help most under transfer.
+  - D0255: congestion fronts are anchored at bottlenecks.
+- **Weakness addressed:**
+  - Onset IoU (0.743) has the most headroom.
+  - Onset windows by definition show no queue in the history. A queue appears at T+30 when upstream demand exceeds a bottleneck's capacity.
+  - A CTM that uses the per-link FD parameters and the demand observed at T can predict where supply falls short. This is the generator's own mechanism.
+- **Exact change:**
+  1. For each window, set the initial density from the last observed (interpolated) speed and flow via the per-link FD.
+  2. Set upstream boundary inflow to the mean of the last 15 minutes, held constant.
+  3. Run 6 × 5-min steps, with sub-steps to satisfy CFL.
+  4. Features: `ctm_queued_T30` (speed ≤ 0.6·v_f), `ctm_density_ratio_T30`, `ctm_first_queued_step`, and `ctm_margin = min over t of (receiving capacity − sending demand)`.
+  5. Add these to the CatBoost onset model and the LightGBM ongoing model.
+- **Compute:** less than 1 CPU-minute for all windows (vectorised). The cost is mainly implementation, about one day.
+- **Expected gain:** onset IoU +0.00 to +0.02. This is high variance; the LB effect is ≤ +0.006.
+- **Validation:** 4 pseudo folds plus the 40 official onset windows.
+- **Reject rule:** reject if onset is not ≥ +0.004 in ≥ 3/4 folds. Given our feature history, expect rejection unless the rollout carries capacity information the GBDT cannot reconstruct.
+
+### B2. Task 2 decoder: use window-level queue-size information instead of the independence assumption. Label: NEW.
+
+Earlier decoder experiments changed thresholds, steps or morphology. This one changes the model of |Y|.
+
+- **Basis:**
+  - D0145: GFM, an exact expected-F maximiser that uses P(y_i = 1, |y| = s) and needs no independence assumption.
+  - D0146: independence-based plug-in decoding can be far from optimal when labels are correlated.
+  - D0143: plug-in decoding is only as good as the probability model.
+- **Weakness addressed:** queue cells are strongly correlated. Our expected-IoU top-m decoder treats them as independent, so it mis-estimates the IoU of each candidate m.
+- **Exact change:**
+  1. Train a window-level LightGBM quantile or Poisson regressor for |Y| (truth-set size) from window features. These include aggregates of the cell probabilities: their sum, the sum of the top-k, and spatial spread.
+  2. At decode time, sample s from the predicted size distribution. For each s, rescale the cell probabilities so they sum to s, and compute the expected IoU for each m.
+  3. Choose the m that maximises the average over samples.
+- **Compute:** a small model trained on the OOF cache. The decode itself costs minutes.
+- **Expected gain:** +0.002 to +0.006 IoU on both conditions.
+- **Validation and reject rule:** OOF cache over 4 folds. Reject if the gain is < +0.002 in ≥ 3/4 folds.
+
+### B3. Task 2 onset: a diverse neural member (RealMLP or TabM) blended with CatBoost. Label: RELATED.
+
+CatBoost ongoing and seed averaging brought no diversity; a neural net gives more.
+
+- **Basis:**
+  - D0244: RealMLP plus tuned-default GBDT beats either alone.
+  - D0245: TabM.
+  - D0246: TabArena. Cross-model ensembles lead; watch for validation overfitting.
+  - D0002: an XGBoost + deep ensemble was the best entry.
+  - D0012 and D0344: GBDT+NN winners in KDD Cup 2022 and Ubiquant.
+  - D0239: 2–3 models are enough.
+- **Exact change:**
+  - Model: a 3-layer MLP on the onset feature table. Use quantile-transformed inputs and a BCE loss. Train on CPU with torch, 8–15 epochs, with fixed seeds and `torch.use_deterministic_algorithms`.
+  - Blend: rank-average with CatBoost at a fixed 70/30, then decode.
+- **Compute:** 20–40 CPU-minutes for onset. Onset has fewer rows than ongoing.
+- **Expected gain:** onset IoU 0 to +0.01, which is ≤ +0.003 LB.
+- **Reject rule:** reject if the correlation with CatBoost is > 0.98, or if the gain is < +0.003 in 3/4 folds.
+
+### B4. Task 4: KL (entropy/IPF) projection, or prior-weighted GLS, instead of the identity-weighted L2. Label: NEW, but low value.
+
+- **Basis:**
+  - D0098: Van Zuylen–Willumsen minimum information, a KL projection.
+  - D0097/D0100: GLS and Bayesian estimators. With exact counts, the posterior mean equals a covariance-weighted projection.
+  - D0112/D0114: IPF, or generalised IPF, for linear constraints.
+  - D0111: constrained Poisson GLM.
+  - D0109: L1 recovery for sparse path flows.
+  - D0363: the scorer. S_dev rewards matching the *true* deviation magnitude from the prior.
+- **Mechanics:**
+  - With noise-free counts, every estimator satisfies A·f = c. They differ only in the null-space component of A, and that component is set entirely by the prior plus the regulariser (D0102).
+  - KL or `diag(prior)`-weighted GLS keeps prior *ratios* and is better if the prior's error is multiplicative. L1 is better only if the true flows are sparse.
+- **Exact change:** add `min Σ (f−b)²/b` with a hard or soft A·f = c as a variant beside the current NNLS.
+- **Expected gain:** ≤ +0.0012 total at most; probably less than 0.0005.
+- **Validation:** none is possible locally. S_od, S_dev and S_attr need withheld truth; the organizer's docstring says so explicitly. Only an LB probe can decide.
+- **Reject rule:** do not spend a submission on this unless one is left over on the final days.
+
+### B5. Task 1: tensor-completion (LATC or BGCP) output as an extra feature. Label: RELATED to the low-rank SVD features we kept.
+
+- **Basis:** D0217 (LATC), D0216 (BGCP), D0249 (ImputeFormer: low-rank structure is the key inductive bias).
+- **Exact change:** run LATC or truncated CP completion on the day × time × station tensor of each split. Add the reconstruction as `lr_tensor_v` and `lr_tensor_q`.
+- **Expected gain:** +0.000 to +0.002. The rank-5 and cross-day SVD features already capture most of this.
+- **Reject rule:** reject if < +0.0007.
+
+---
+
+## C. Negative evidence (why not to spend time on these)
+
+- **Time-series foundation models (Chronos, TimesFM, Moirai, TabPFN-TS, LLM forecasters) for Task 2:**
+  - GIFT-Eval (D0031): TSFMs are weakest on Transport-type data and with short contexts.
+  - Tuned AR or supervised baselines match or beat specialised foundation models (D0035), and synthetic-pretrained zero-shot models are more than 2× worse than supervised SOTA (D0036).
+  - LLM components add nothing (D0254).
+  - The TSFM input patch (32 steps in TimesFM, D0029) is longer than our whole 12-step history.
+  - The target is a per-cell binary IoU set, not a numeric forecast.
+  - Verdict: CONTRADICTED.
+- **Long-horizon transformers and decomposition/MLP forecasters (Informer, Autoformer, FEDformer, PatchTST, TimesNet, iTransformer, TimeMixer, N-HiTS, N-BEATS):**
+  - They are designed for 96–720-step lookbacks (D0004, D0021, D0022).
+  - DLinear already beats the older transformers on those benchmarks.
+  - A windowed GBRT beats 8 deep models on 9 datasets, including traffic (D0238).
+  - Verdict: CONTRADICTED as replacements. At most they are diverse members (B3).
+- **Deep tabular models as replacements for the GBDTs:**
+  - Trees win on irregular, medium-to-large tabular data (D0001, D0002, D0003, D0243).
+  - Neural nets help only as ensemble members (D0244, D0246).
+- **Spatio-temporal GNNs (DCRNN, Graph WaveNet, GRIN, SPIN, STAEformer):**
+  - Plain MLPs with identity embeddings match STGNNs (D0047, D0048).
+  - Our corridor is a 1D line graph, and ±k neighbour features already encode it.
+  - Identity embeddings are location priors, which hurt under month shift, as our prior-free ongoing result shows.
+  - GPU cost and nondeterminism conflict with the 1% reproducibility rule.
+- **Domain generalisation and invariance training:**
+  - Tuned ERM ties or beats every DG method (D0167).
+  - On temporal shift benchmarks, DG, SSL and continual learning show no gain over ERM (D0166).
+  - Verdict: CONTRADICTED. Target-domain *data* (A3) and label-prior correction (A1) are the evidence-backed levers, not invariance.
+- **Heavy stacking and large ensembles:**
+  - Estimated combination weights add variance (D0068).
+  - Hillclimb and ensemble selection overfit the selection set (D0062, D0246).
+  - 2–3 models capture nearly all the gain (D0239).
+  - Our own data agree: per-panel, per-TOD and weekday blends ≈0, 3 seeds ≈0, and CatBoost ongoing had correlation 0.997.
+  - If we stack at all, use a linear or logistic meta-model on OOF probabilities (D0259), not a GBDT meta-model.
+- **Per-regime mixture of experts with hard splits:**
+  - The soft gating of D0067 is the principled version.
+  - Our hard R1/R2/R3 Task 1 split lost 0.002 on every panel, and TSE's missing-rate model (D0181) was a special case in a different setting.
+  - Do not retry without soft gating.
+- **Physics-informed losses and post-hoc physics reconciliation for Task 1/Task 3:**
+  - D0134 documents PIML failures when the physics is misspecified or the loss terms are imbalanced.
+  - This matches our dropped density, FD-pull and L1-reconciliation experiments.
+  - Physics should enter as **features** (A5, B1), not constraints.
 - **HPO:**
-  - GBDT এর জন্য অক্ষমতা-অপর-ডিফল্ট উপকারিতা বিনয়ী ( D0077 ), এবং ডেটা সেট প্রতি মাত্র কয়েকটি হাইপারপ্যারামিটার গুরুত্বপূর্ণ ( D0079 ).
-  - ওভারটুনিং ছোট বা গোলমাল বৈধতা সেট ( D0081 ) এর সাথে সাধারণ।
-  - আমাদের ক্ষমতা সোয়াইপগুলি পুরোপুরি পরিশোধিত হয়েছে (+0.003..0.008 ), তবে একই 4 foldগুলিতে আরও অন্ধ ওপ্টুনা সোয়াইপগুলি সম্ভবত ওভারফিট হবে। আপনি যদি সোয়াইপ করেন তবে নিস্তব্ধ foldগুলি ব্যবহার করুন ( D0258 ).
-- **ODME প্রজেকশনের বাইরে সাহিত্যঃ**
-  - Bilevel, SUE পথ-প্রবাহ estimators, গতিশীল এবং Kalman পদ্ধতি, এবং গভীর ODME ( D0101 , D0105 , D0106 , D0120 ) উভয়ইঃ
-    - অতিরিক্ত তথ্য প্রয়োজন (রুট, খরচ, গতিশীলতা) অথবা
-    - গণনা শব্দ থেকে রক্ষা করা, যা এখানে অনুপস্থিত।
-  - শব্দের নিখুঁত গণনাগুলির সাথে তাদের মধ্যে কেউই তথ্য যোগ করে না। 4 টাস্কটি পরিপূর্ণ ( B4 ).
+  - Tuned-over-default gains for GBDT are modest (D0077), and only a few hyperparameters matter per dataset (D0079).
+  - Overtuning is common with small or noisy validation sets (D0081).
+  - Our capacity sweeps paid off (+0.003..0.008), but further blind Optuna sweeps on the same 4 folds are likely to overfit. Use nested folds if you sweep at all (D0258).
+- **ODME literature beyond projection:**
+  - Bilevel, SUE path-flow estimators, dynamic and Kalman methods, and deep ODME (D0101, D0105, D0106, D0120) all either:
+    - need extra information (routes, costs, dynamics), or
+    - protect against count noise, which is absent here.
+  - With noise-free counts none of them adds information. Task 4 is saturated (B4).
 
-## D. অগ্রাধিকার অর্ডার (মূল্য ÷ খরচ)
+## D. Priority order (value ÷ cost)
 
-1. **A3** —  টাস্ক 1 লক্ষ্যমাসিক MIT সারি। NEW ; টাস্ক 1 এবং টাস্ক 3 ( 50 স্কোরের %) প্রভাবিত করে।
-2. **A2** —  টাস্ক 2 লেবেল ডাইনোসিং। NEW ; সিস্টেমিক CV → LB ফাঁককে লক্ষ্য করে।
-3. **A1** —  ক্যালিব্রেশন প্লাস কারণমূলক পূর্ব-পরিবর্তন।
-4. **A5** — ASM এবং টাস্ক 1 এর জন্য নিউয়েল বৈশিষ্ট্য।
-5. **B2** —  আকার সচেতন ডিকোডার।
-6. **B1** — CTM রোলআউট শুরু বৈশিষ্ট্য।
-7. **A4** , **A6** , তারপর **B3** ।
-8. **B4** এবং **B5** : শুধুমাত্র অতিরিক্ত জমা দেওয়ার বা গণনার ক্ষেত্রে।
+1. **A3** — Task 1 target-month MIT rows. NEW; affects Task 1 and Task 3 (50% of the score).
+2. **A2** — Task 2 label denoising. NEW; targets the systematic CV→LB gap.
+3. **A1** — calibration plus causal prior-shift. Post-hoc; one probe.
+4. **A5** — ASM and Newell features for Task 1.
+5. **B2** — size-aware decoder.
+6. **B1** — CTM rollout onset feature.
+7. **A4**, **A6**, then **B3**.
+8. **B4** and **B5**: only with spare submissions or compute.

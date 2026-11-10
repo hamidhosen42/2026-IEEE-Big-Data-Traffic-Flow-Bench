@@ -419,7 +419,7 @@ $S_\text{FD}\approx0.99$, $S_\text{state}\approx0.94$, $S_\text{LWR}\approx0.51$
 path flows 0.68406, against 0.88281. Because each block enters the composite linearly, the drops give public-LB onset IoU $0.779$,
 ongoing IoU $0.845$, $S_\text{queue}=0.812$ and $S_\text{ODME}\approx0.994$ (zero path flows taken as $S_\text{ODME}=0$). The remaining
 $0.440$ is $0.35\,S_\text{state}+0.05\,S_\text{FD}+0.10\,S_\text{LWR}$. Onset is the weakest block. In new-scenario proxies, 57--78\,\% of its loss comes from windows whose predicted cells miss the
-true queue entirely (\file{analysis/TRANSFER\_ANALYSIS\_2026-10-08.md}). \todo{optional: final private-LB score and rank of the selected pick, once published}
+true queue entirely (\file{analysis/TRANSFER\_ANALYSIS\_2026-10-08.md}). \textbf{Private leaderboard.} The selected pair (tfb-k9, tfb-k10) scored 0.87590 on the private (April) leaderboard, rank 83, against 0.88281 on the public (March) leaderboard. The drop of 0.0069 between the two independently generated months is in line with the per-panel window noise of Task~2 (Sec.~\ref{sec:val}) and with the organizers' warning that the two leaderboards will not agree.
 
 \section{What did not work}\label{sec:neg}
 \begin{table}[t]
@@ -478,7 +478,7 @@ stage is the original Kaggle kernel, vendored with only its I/O lines changed (e
 enforces). A template test checks that every rendered Task~1 member part equals its original source, compared as an AST.
 Pick A (tfb-k9) is rebuilt with \texttt{python run\_all.py --data-root <kaggle\_public> --work-dir ./work --pick A3 --recipe full}
 and pick B (tfb-k10) with \texttt{--pick B3}; \texttt{--list} prints the stage plan.
-\todo{code location submitted to the organizers (GitHub URL or zip name)}
+The code is submitted as \file{TrafficFlowBench\_Hack2Publish.zip}. Its root \file{README.md} lists the contents; the entry script is \file{code/run\_all.py}, and the folder called \file{consolidation/} in this report is \file{code/} in the zip.
 
 \textbf{Compute.} All members ran on Kaggle CPU kernels (4 vCPU, about 30\,GB RAM). A Task~1 LightGBM member takes 4.6--8.8\,h over its 2--3 panel parts,
 with a peak of 28.0\,GB. The CatBoost members take 15.7\,h per seed over 4 parts and the XGBoost member 4.2\,h
@@ -486,10 +486,10 @@ with a peak of 28.0\,GB. The CatBoost members take 15.7\,h per seed over 4 parts
 generation gives an \emph{estimated} 143--147 CPU-hours for tfb-k9. On one 8-core, 32\,GB Linux machine the earlier full recipe was
 estimated at 63--68\,h of wall time. On Kaggle the consolidated light stages took: the k9 step (LRTC member, FD reconstruction, TV) 1121\,s including the parity
 comparison; the Task~4 + Task~1 mix + k9 chain from the member outputs 3599\,s; each queue assembly about 110\,s.
-\todo{measured end-to-end wall time and peak RAM of the consolidated A3 / B3 run on one machine}
+We did not run the full recipe end to end on one machine before the deadline, so the per-stage Kaggle times above are measured and the totals are estimates. The largest measured peak is 28.0\,GB (one LightGBM member part), so a machine with at least 32\,GB of RAM is required; the stages are independent per member part and can run in parallel.
 
 \textbf{Environment.} Python 3.13 Kaggle image (digest in \file{consolidation/ENVIRONMENT.md}). The parity runs used numpy 2.1.3, pandas 2.3.3,
-scipy 1.16.3, LightGBM 4.6.0, CatBoost 1.2.10 and pyarrow 23.0.1. \todo{pin the exact package versions of the reference image (pip freeze)}
+scipy 1.16.3, LightGBM 4.6.0, CatBoost 1.2.10 and pyarrow 23.0.1. These versions, plus XGBoost 2.1.4, are pinned in \file{code/requirements.txt}. The original kernels did not log a \texttt{pip freeze} of their image; the parity runs on the later image reproduced them exactly or to floating-point order (Sec.~\ref{sec:repro}).
 
 \textbf{Determinism.} Seeds, thread counts and operation order are those of the original kernels. Each stage runs in its own process with
 \texttt{PYTHONHASHSEED=0} and 4 OMP/BLAS threads. CatBoost reproduced exactly across images (agreement 1.000000). Light stages (onset,

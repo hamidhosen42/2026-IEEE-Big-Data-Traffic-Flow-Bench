@@ -1,476 +1,474 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# Research → experiments (EXP_NEW_001 … EXP_NEW_055)
 
-# গবেষণা → পরীক্ষা ( EXP_NEW_001 ... EXP_NEW_055 )
+Updated 2026-10-01. Baseline for every entry: **COMBO5, public LB 0.86217** (see `EXISTING_MAP.md`).
 
-আপডেট 2026-10-01 . প্রতিটি এন্ট্রির জন্য বেসলাইনঃ **COMBO5 , পাবলিক LB  0.86217** (দেখুন `EXISTING_MAP.md` ).
+**Sources.** Resource ids `A…`, `B…`, `C…`, `D…` point to rows in `partials/*_resources.csv`. Merged ids (`R…`) are in `resource_index.csv`, whose `source_ids` column maps back to the partial ids.
 
-**উত্স.** রিসোর্স আইডি `A…` , `B…` , `C…` , `D…`  `partials/*_resources.csv` এর মধ্যে সারিগুলিকে নির্দেশ করে। সংযুক্ত আইডি ( `R…` ) `resource_index.csv` এর মধ্যে রয়েছে , যার `source_ids` কলাম আংশিক আইডিগুলির মানচিত্রগুলি পুনরায় দেখায়।
+**Labels:**
+- **NEW** = not in our history.
+- **RELATED** = a variant of something we did.
+- **DUPLICATE** = already done.
+- **CONTRADICTED** = our data or evidence says no.
+- **HIGH-VALUE RETEST** = we rejected it, but the new evidence says our test was too narrow.
 
-**লেবেলঃ**
-- **NEW** = আমাদের ইতিহাসে নেই।
-- **RELATED** = আমরা যা করেছি তার একটি বৈচিত্র।
-- **DUPLICATE** = ইতিমধ্যে সম্পন্ন হয়েছে।
-- **CONTRADICTED** = আমাদের তথ্য বা প্রমাণ বলছে না।
-- **HIGH-VALUE RETEST** = আমরা এটা প্রত্যাখ্যান করেছি, কিন্তু নতুন প্রমাণ আমাদের পরীক্ষা খুব সংকীর্ণ ছিল বলে।
+**Status:**
+- EXECUTED-KEEP / EXECUTED-DROP = run and decided.
+- RUNNING = on Kaggle now.
+- PROPOSED = not executed.
 
-**অবস্থাঃ**
-- EXECUTED - KEEP / EXECUTED - DROP = দৌড়াও এবং সিদ্ধান্ত নাও।
-- RUNNING = এখন কেগল এ।
-- PROPOSED = কার্যকর হয়নি।
+**Priority** ≈ gain × evidence × novelty × confidence / (compute × leakage risk), scored 1–5 by judgement, not computed.
 
-**অগ্রাধিকার** ≈ লাভ × প্রমাণ × নতুনত্ব × আত্মবিশ্বাস / (কম্পিউট × ফুটো ঝুঁকি), বিচার দ্বারা 1–5 স্কোর, গণনা করা হয়নি।
-
-**স্ট্যান্ডার্ড বৈধতা গেট** (নিচে উল্লেখ করা হয়েছে):
-- **T1 -hold-out:** ভ্যাল-মাস অভ্যন্তরীণ hold-out, 15 % মুক্তি যোগ্য cell বীজ 7 , পরিবারের গড় S_state.  KEEP যদি Δ ≥ +0.0007 এবং ≥6/8 প্যানেল উন্নতি।
+**Standard validation gates** (referred to below):
+- **T1-holdout:** the val-month internal holdout, 15% of released eligible cells with seed 7, family-mean S_state. KEEP if Δ ≥ +0.0007 and ≥ 6/8 panels improve.
 - **T2-CV:**
-  -4 প্লেইন window এবং 80 অফিসিয়াল train windowগুলোতে ধারাবাহিক দিনের ব্লক fold, প্রতিযোগিতার সমষ্টি।
-  - KEEP যদি 4/4 fold ≥0 হয় এবং অফিসিয়ালের সংখ্যা 0.003 এর বেশি কমে না।
-  - শিফট-চালিত ধারণা (পূর্ববর্তী মুক্ত, পরিচয়) জন্য, CV তথ্যপূর্ণ নয়; একটি **LB সন্ড** সিদ্ধান্ত নেয়।
-- **LB জ্যোতিষ:**  COMBO বেসে CONTROL চুক্তি পরীক্ষা করে 100 %. KEEP যদি LB Δ > +0.0005 ( T1 ) বা > +0.001 ( T2 চলমান; SD একটি 40 -window delta ≈0.005–0.009 প্রতি A0074 , তাই একক জ্যোতিষ দুর্বল প্রমাণ ।
-- **ধোঁয়াঃ** দ্য `SMOKE = True` kernelের অনুলিপি (2 প্যানেল, প্রতিটি 9th day) ত্রুটি ছাড়াই শেষ করতে হবে, NaN ছাড়াই, সমস্ত টেমপ্লেট লাইন ম্যাপ করা হবে এবং যুক্তিসঙ্গত পরিসীমা।
+  - 4 contiguous day-block folds on pseudo windows plus the 80 official train windows, with the competition aggregation.
+  - KEEP if 4/4 folds are ≥ 0 and official does not drop by more than 0.003.
+  - For shift-driven ideas (prior-free, identity), CV is not informative; an **LB probe** decides.
+- **LB probe:** a swap kernel on the exact COMBO base with the CONTROL agreement check at 100%. KEEP if LB Δ > +0.0005 (T1) or > +0.001 (T2 ongoing; SD of a 40-window delta ≈ 0.005–0.009 per A0074, so a single probe is weak evidence).
+- **Smoke:** the `SMOKE = True` copy of the kernel (2 panels, every 9th day) must finish without error, with no NaN, all template rows mapped, and plausible ranges.
 
 ---
 
-## টাস্ক 1 / টাস্ক 3 (পুনর্নির্মাণ; S_physics টাস্ক 1 ঘনত্বের সঠিকতার অনুসরণ করে)
+## Task 1 / Task 3 (reconstruction; S_physics follows Task 1 density accuracy)
 
-### EXP_NEW_001: লক্ষ্য মাসের থেকে ট্রান্সডাক্টিভ টাস্ক 1 লাইন
-- **বেসঃ**  A0059/A0058 (হাইজার্ণবার্গ লগঃ LB +0.0023 / +0.0011 / +0.0005 for 1 × / 2 × / 3 × rows); D0153 ( SAITS masked-imputation training); D0154 (টেস্ট-টাইম প্রশিক্ষণ) ।
-- **লেবেলঃ**  NEW .
-- **দুর্বলতাঃ** টাস্ক 1 শুধুমাত্র 9 train মাস থেকে শিখতে পারে, কিন্তু ভ্যাল এবং ব্যক্তিগত মাসগুলির নিজস্ব চাহিদা এবং ঘটনা রয়েছে।
-- **অনুমানঃ** লক্ষ্য মাসের মুক্তি cell, পুনরায় লুকানো, সবচেয়ে বিতরণ প্রশিক্ষণ লাইন উপলব্ধ। টাস্ক 1 অফলাইন, তাই এটি অনুমোদিত।
-- **সঠিক পরিবর্তনঃ**  `t1_pipeline_v9.py` , চূড়ান্ত ফিট আগে প্রতি প্যানেল ব্লক।
-  - {প্রমাণীকরণ, ব্যক্তিগত} এর মধ্যে বিভক্ত করার জন্য `TR_ROUNDS=2` রান্ট চালান, মুক্তিযোগ্য cellগুলির `TR_HIDE=0.20` লুকিয়ে রাখুন ( 15 % val holdout ব্যতীত, যা প্রতিটি ভিউতে লুকিয়ে থাকে) ।
-  - লুকানো ভিউতে বৈশিষ্ট্য গণনা করুন। লক্ষ্য হল মুক্তি মান।
-  - এই সারিগুলো সংযুক্ত করুন, 4×MAX_ROWS, F প্রশিক্ষণ সারি। মডেল FT: 511 পাতাগুলো, আইআর 0.04, 1500 গাছ।
-- **টাস্কঃ**  T1 + T3 .
-- **মেট্রিকঃ**  S_state হোল্ডআউট, LWR প্রক্সি।
-- **ধোঁয়াঃ**  PASS  FT  0.9364 বনাম F 0.9350  2 প্যানেলগুলিতে।
-- **বৈধতাঃ**  T1 -holdout, তারপর LB probe (পরিবর্তন T1 সারি COMBO6/7 ) ।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম (হোল্ডআউট ডিসচয়েন্ট; অফলাইন কাজ) | উচ্চ লাভ | আত্মবিশ্বাসের উচ্চতা।
-- **প্রান্তিকতাঃ** ধারণক্ষমতা Δ ≥ +0.0007 → LB জোন্ড; LB Δ > +0.0005 → KEEP .
-- **অবস্থাঃ**  RUNNING ( `tfb-t1v9-full` ). **অগ্রাধিকার 5 .**
+### EXP_NEW_001: Transductive Task 1 rows from the target months
+- **Basis:** A0059/A0058 (Hisernberg log: LB +0.0023 / +0.0011 / +0.0005 for 1× / 2× / 3× rows); D0153 (SAITS masked-imputation training); D0154 (test-time training).
+- **Label:** NEW.
+- **Weakness:** Task 1 learns only from the 9 train months, but the val and private months have their own demand and incidents.
+- **Hypothesis:** released cells of the target month, re-hidden, are the most in-distribution training rows available. Task 1 is offline, so this is allowed.
+- **Exact change:** `t1_pipeline_v9.py`, in the per-panel block before the final fit.
+  - For split in {validation, private}, run `TR_ROUNDS=2` rounds, hiding `TR_HIDE=0.20` of the released eligible cells (excluding the 15% val holdout, which stays hidden in every view).
+  - Compute features on the hidden view. The target is the released value.
+  - Append these rows, capped at 4×MAX_ROWS, to the F training rows. Model FT: 511 leaves, lr 0.04, 1500 trees.
+- **Task:** T1 + T3.
+- **Metric:** S_state holdout, LWR proxy.
+- **Smoke:** PASS. FT 0.9364 vs F 0.9350 on 2 panels.
+- **Validation:** T1-holdout, then LB probe (swap T1 rows into COMBO6/7).
+- **Scores:** compute Medium | leakage Low (holdout disjoint; offline task) | gain High | confidence High.
+- **Threshold:** holdout Δ ≥ +0.0007 → LB probe; LB Δ > +0.0005 → KEEP.
+- **Status:** RUNNING (`tfb-t1v9-full`). **Priority 5.**
 
-### EXP_NEW_002:  ASM/GASM বৈশিষ্ট্য-kernel বৈশিষ্ট্য
-- **বেসঃ**  C0001/C0002 (এএসএমএক্স কোড এবং পরামিতি, কোড পরিদর্শন করা হয়েছে); C0013 , C0014 , C0006 ।
-- **লেবেলঃ**  NEW .
-- **দুর্বলতাঃ** ইন্টারপোলেশন বৈশিষ্ট্যগুলি ট্রাফিক তরঙ্গগুলির যাত্রার দিককে উপেক্ষা করে। 18 km/h.
-- **সঠিক পরিবর্তনঃ**  `t1_pipeline_v10.py` , `asm_feats()`  `features()` থেকে কল করা হয়েছে ।
-  - মাস্ক-নরমালাইজড kernel গড় দৃশ্যমান v/v_f এবং q/lane.
-  - ±80 এবং ±18  km/h , ±5 স্লট × ±5 স্টেশন, σ= 0.6 কিমি, τ= 5 মিনিট, প্রকৃত মাইলপস্ট দূরত্ব সহ।
-  -12 বৈশিষ্ট্য যোগ করেঃ 4 তরঙ্গ × (v, q, সমর্থন) ।
-- **টাস্কঃ**  T1 + T3 .
-- **ধোঁয়াঃ**  PASS  FA  0.9351 বনাম F 0.9350 ; ধোঁয়া চলার সময় ASM বৈশিষ্ট্যগুলি কম লাভের গুরুত্ব রাখে।
-- **বৈধতাঃ**  T1 -holddown.
-- **স্কোরঃ** গণনা নিম্ন – মধ্যম | ফুটো কম | লাভ মাঝারি (এজেন্টের অনুমান +0.002..0.006 , GBDT এর উপরে পরীক্ষা করা হয়নি) | আত্মবিশ্বাস কম  –  মধ্যম।
-- **প্রান্তিকতাঃ** ধারণক্ষমতা Δ ≥ +0.0007 .
-- **অবস্থাঃ**  RUNNING ( `tfb-t1v10-full` ). **অগ্রাধিকার 4 .**
+### EXP_NEW_002: ASM/GASM characteristic-kernel features
+- **Basis:** C0001/C0002 (ASMx code and parameters, code inspected); C0013, C0014, C0006.
+- **Label:** NEW.
+- **Weakness:** interpolation features ignore the direction in which traffic waves travel. Congestion moves upstream at about 18 km/h.
+- **Exact change:** `t1_pipeline_v10.py`, `asm_feats()` called from `features()`.
+  - Mask-normalised kernel averages of visible v/v_f and q/lane.
+  - Waves ±80 and ±18 km/h, ±5 slots × ±5 stations, σ=0.6 km, τ=5 min, with real milepost distances.
+  - Adds 12 features: 4 waves × (v, q, support).
+- **Task:** T1 + T3.
+- **Smoke:** PASS. FA 0.9351 vs F 0.9350; the ASM features have low gain importance in the smoke run.
+- **Validation:** T1-holdout.
+- **Scores:** compute Low–Medium | leakage Low | gain Medium (agent estimate +0.002..0.006, untested on top of GBDT) | confidence Low–Medium.
+- **Threshold:** holdout Δ ≥ +0.0007.
+- **Status:** RUNNING (`tfb-t1v10-full`). **Priority 4.**
 
-### EXP_NEW_003: ক্রস-ফাইট দুই-স্তরের ইমপুটেশন ("tree message passing")
-- **বেসঃ**  C0031 ( MICE ), C0033 (মিসফরেস্ট), C0735 , C0260/C0339 (ট্রাফিক 4 দুই ধাপের GBDT ), C0009/C0010 ( GRIN/SPIN বার্তা পাস), C0185 (ক্রস ফিটিং) ।
-- **লেবেলঃ**  RELATED . আমাদের EXP_T1_e "প্যাক করা HGB " একটি স্থানীয় একক-স্তর স্ট্যাক ছিল, না একটি ভরাট-এবং-পরিশোধিত পর্যায়ে 2 .
-- **দুর্বলতাঃ**  20–50 % মাস্কিং, অনেক প্রতিবেশী ইনপুট ইন্টারপোলেশন (হোলডাউন 0.907 ), মডেল ভবিষ্যদ্বাণী নয় ( 0.939 ).
-- **সঠিক পরিবর্তনঃ**
-  -1 পর্যায় = ই-আকারের মডেল, 3 হিমায়িত দিনের ব্লক থেকে trainে বাইরের foldগুলির পূর্বাভাস এবং val/private. এর জন্য সম্পূর্ণ ফিট
-  - স্টেজ- 1 ভবিষ্যদ্বাণী দিয়ে মুখোশযুক্ত cellগুলো পূরণ করুন।
-  - পূরণ করা কিউবে `features()` পুনরায় চালান, তারপরে স্টেজ- 1 নিজস্ব ভবিষ্যদ্বাণী বৈশিষ্ট্য হিসাবে যোগ করুন।
-  -2 = F মডেল।
-- **ধোঁয়াঃ**  SMOKE কপি; এছাড়াও পরীক্ষা করুন যে স্টেজ- 2  CV উপার্জন ≤2 × হোল্ডআউট উপার্জন (লিক সিগন্যাল) ।
-- **স্কোরঃ** গণনা উচ্চ (+2–4 h) | ফুটো মাঝারি ( OOF অনুশাসন প্রয়োজন) | লাভ মাঝারি – উচ্চ (+0.002..0.008 est.) | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ** ধারণক্ষমতা Δ ≥ +0.0015 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 4**
+### EXP_NEW_003: Cross-fitted two-stage imputation ("tree message passing")
+- **Basis:** C0031 (MICE), C0033 (missForest), C0735, C0260/C0339 (Traffic4cast two-stage GBDT), C0009/C0010 (GRIN/SPIN message passing), C0185 (cross-fitting).
+- **Label:** RELATED. Our EXP_T1_e "stacked HGB" was a local single-stage stack, not a fill-and-refeature stage 2.
+- **Weakness:** at 20–50% masking, many neighbour inputs are interpolations (holdout 0.907), not model predictions (0.939).
+- **Exact change:**
+  - Stage 1 = the E-size model, with out-of-fold predictions on train from the 3 frozen day blocks and a full fit for val/private.
+  - Fill the masked cells with the stage-1 predictions.
+  - Re-run `features()` on the filled cube, then add the stage-1 own prediction as a feature.
+  - Stage 2 = the F model.
+- **Smoke:** the SMOKE copy; also check that the stage-2 CV gain is ≤ 2× the holdout gain (leakage signal).
+- **Scores:** compute High (+2–4 h) | leakage Medium (OOF discipline needed) | gain Medium–High (+0.002..0.008 est.) | confidence Medium.
+- **Threshold:** holdout Δ ≥ +0.0015.
+- **Status:** PROPOSED. **Priority 4.**
 
-### EXP_NEW_004: টাস্ক 1 বীজ / ব্যাগিং সমন্বয়
-- **বেসঃ**  A0059 (হিসার্সবার্গ +0.0007  LB ; ভ্যারিয়েন্স-রেডাকশন লাভ স্থানান্তরিত 85–95 %) ।
-- **লেবেলঃ**  NEW for T1 . আমাদের " 3 বীজ কোন লাভ নেই" T2 চলমান উপর পরিমাপ করা হয়েছিল।
-- **সঠিক পরিবর্তনঃ** চূড়ান্ত ফিট, বিভিন্ন সারি উপ-উদাহরণে 3 বীজ ( `seed` , `bagging_seed` , `feature_fraction_seed` = 0/1/2 ) দিয়ে F মডেলকে প্রশিক্ষণ দিন এবং অবশিষ্ট ভবিষ্যদ্বাণীগুলি গড় করুন।
-- **স্কোরঃ** গণনা মিডিয়াম ( 3 × F) | ফুটো কম | লাভ কম  –  মধ্যম | আত্মবিশ্বাস মধ্যম  –  উচ্চ।
-- **প্রান্তিকতাঃ** ধারণক্ষমতা Δ ≥ +0.0005 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 4**
+### EXP_NEW_004: Task 1 seed / bagging ensemble
+- **Basis:** A0059 (Hisernberg +0.0007 LB; variance-reduction gains transferred 85–95%).
+- **Label:** NEW for T1. Our "3 seeds no gain" was measured on T2 ongoing.
+- **Exact change:** in the final fit, train the F model with 3 seeds (`seed`, `bagging_seed`, `feature_fraction_seed` = 0/1/2) on different row subsamples, and average the residual predictions.
+- **Scores:** compute Medium (3× F) | leakage Low | gain Low–Medium | confidence Medium–High.
+- **Threshold:** holdout Δ ≥ +0.0005.
+- **Status:** PROPOSED. **Priority 4.**
 
-### EXP_NEW_005:  TV পরপর লক্ষ্য cellের অভ্যন্তরীণ ঘনত্বের মসৃণতা
-- **বেসঃ**  A0059 § TV (+0.0006  LB ). কোন TV -ডেনোসিং পেপার সূচকটিতে নেই; এটি ক্লাসিক কন্ড্যাট 1 -D TV অ্যালগরিদম (সূচকযুক্ত নয়) ।
-- **লেবেলঃ**  NEW .
-- **দুর্বলতাঃ**  LWR পার্শ্ববর্তী লিঙ্কগুলির মধ্যে ΔN স্কোর করে এবং q/v এর প্রতি সেল ত্রুটিগুলি ভুয়া স্থানিক লাফ তৈরি করে।
-- **সঠিক পরিবর্তনঃ** প্রক্রিয়া পরবর্তী ভবিষ্যদ্বাণী k = q/v স্থান জুড়ে, শুধুমাত্র অভ্যন্তরীণ রান ≥2 পার্শ্ববর্তী লক্ষ্য cell। 1 -D TV (কন্ড্যাট) ব্যবহার করুন LWR প্রক্সিতে λ টিউন করা, তারপর 75/25  speed/flow ওজন দিয়ে আবার k কে (v, q) তে বিভক্ত করুন।
-- **স্কোরঃ** গণনা কম | ফুটো কম | লাভ কম  –  মধ্যম | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ** ধারণক্ষমতা S_state  0.0002  **এবং**  LWR প্রক্সি Δ ≥ +0.002 এর চেয়ে খারাপ নয়।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_005: TV smoothing of density inside runs of consecutive target cells
+- **Basis:** A0059 §TV (+0.0006 LB). No TV-denoising paper is in the index; this is the classic Condat 1-D TV algorithm (not indexed).
+- **Label:** NEW.
+- **Weakness:** LWR scores ΔN between adjacent links, and per-cell errors in q/v create spurious spatial jumps.
+- **Exact change:** post-process predicted k = q/v along space, only inside runs of ≥ 2 adjacent target cells. Use 1-D TV (Condat) with λ tuned on the holdout LWR proxy, then re-split k into (v, q) with 75/25 speed/flow weighting.
+- **Scores:** compute Low | leakage Low | gain Low–Medium | confidence Medium.
+- **Threshold:** holdout S_state not worse by more than 0.0002 **and** LWR proxy Δ ≥ +0.002.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_006: গেটেড ঘনত্ব সমন্বয় (শুধুমাত্র v < 0.6 · v_f )
-- **বেসঃ**  A0059 (+0.0006..0.002 স্থানীয়) ।
-- **লেবেলঃ**  HIGH - VALUE  RETEST . আমাদের অপরিচিত ঘনত্ব ট্রাক (একক প্যানেল) ছিল 0 .
-- **সঠিক পরিবর্তনঃ**  q/v কে কেবলমাত্র যেখানে পূর্বাভাসিত v < 0.6 · v_f , 75/25  speed/flow বিভক্ত করে, ইন্টারপোলেড ঘনত্বের দিকে সামঞ্জস্য করে।
-- **স্কোরঃ** গণনা কম | ফুটো কম | লাভ কম | আত্মবিশ্বাস কম  –  মধ্যম।
-- **প্রান্তিকতাঃ**  T1 + T3 কন্ট্রোল আউট Δ > 0 ≥6/8 প্যানেলগুলিতে।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_006: Gated density reconciliation (v < 0.6·v_f only)
+- **Basis:** A0059 (+0.0006..0.002 local).
+- **Label:** HIGH-VALUE RETEST. Our ungated density pull (single panel) was 0.
+- **Exact change:** reconcile q/v toward the interpolated density only where the predicted v < 0.6·v_f, with a 75/25 speed/flow split.
+- **Scores:** compute Low | leakage Low | gain Low | confidence Low–Medium.
+- **Threshold:** T1+T3 holdout Δ > 0 on ≥ 6/8 panels.
+- **Status:** PROPOSED. **Priority 2.**
 
-### EXP_NEW_007: ব্ল্যাকআউট-নির্দিষ্ট প্রশিক্ষণ লাইন প্লাস র্যাম্প বৈশিষ্ট্য
-- **বেসঃ**  A0058 , A0063 (প্রধান লাইন ব্ল্যাকআউটগুলির মধ্যে র্যাম্পগুলি মুক্তি পায়; ব্ল্যাকআউট গতি RMSE −12..−14 %) ।
-- **লেবেলঃ** NEWআমরা ইতিমধ্যে সিমুলেটর 90-অবসান আছে কিন্তু র্যাম্প চ্যানেল ব্যবহার করবেন না।
-- **সঠিক পরিবর্তনঃ**
-  - একই প্যানেল এবং একই দিনে `ramp_states` লোড করুন।
-  - প্রতিটি স্টেশনের নিকটতম র্যাম্পের উপরে এবং নীচে প্রবাহিত র্যাম্পের উপর t এবং t ±1 এ ইন- এবং আউট-র্যাম্প প্রবাহ যোগ করুন।
-  - র্যাম্পে প্রতীয়মান মূল লাইন প্রবাহ ভারসাম্য যোগ করুন।
-  - সব সারিতে ব্যবহৃত হয়, যা বেশিরভাগ ক্ষেত্রে ফাঁকে (প্রায় 1.9 % লক্ষ্যমাত্রা) ।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম (টাস্ক 1 অফলাইনে) | লাভ কম  –  মধ্যম | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তঃ** ফাঁক cellগুলিতে Δ এর আটকান ≥0 এবং সামগ্রিকভাবে ≥0 ।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_007: Blackout-specific training rows plus ramp features
+- **Basis:** A0058, A0063 (ramps are released inside mainline blackouts; blackout speed RMSE −12..−14%).
+- **Label:** NEW. We already simulate the 90-min blackouts but use no ramp channel.
+- **Exact change:**
+  - Load `ramp_states` for the same panel and day.
+  - Add on-ramp and off-ramp flows, at t and t±1, at the nearest ramp up- and downstream of each station.
+  - Add the ramp-implied mainline flow balance.
+  - Used by all rows, which matters mostly in the gaps (about 1.9% of targets).
+- **Scores:** compute Medium | leakage Low (Task 1 is offline) | gain Low–Medium | confidence Medium.
+- **Threshold:** holdout Δ on the gap cells > 0 and overall ≥ 0.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_008: মাস্ক-সমর্থন বৈশিষ্ট্য এবং মাস্ক-রেট সমন্বয়
-- **বেসঃ**  C0008 (ImputeFormer Table 7 ), C0007 .
-- **লেবেলঃ**  RELATED (আমাদের কাছে `rate` এবং `gp` / `gn` ) ।
-- **সঠিক পরিবর্তনঃ**
-  -3 × 3 , 5 × 5 এবং 7 × 7 windowগুলোতে স্থানীয়ভাবে পর্যবেক্ষণ করা ভগ্নাংশ যোগ করুন।
-  - train-এর তুলনায় হোল্ডাউটের প্রতিবেশী-উপলব্ধতা বিতরণ কম হয় কিনা তা পরীক্ষা করুন। হোল্ডাউট অতিরিক্ত 15 % লুকিয়ে রাখে; পরীক্ষাটি তা করে না।
-- **স্কোরঃ** গণনা কম | ফুটো কম | লাভ কম | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0005 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_008: Mask-support features and mask-rate matching
+- **Basis:** C0008 (ImputeFormer Table 7), C0007.
+- **Label:** RELATED (we have `rate` and `gp`/`gn`).
+- **Exact change:**
+  - Add the local observed fraction in 3×3, 5×5 and 7×7 windows.
+  - Check whether the neighbour-availability distribution of the holdout is sparser than in train. The holdout hides an extra 15%; the test does not.
+- **Scores:** compute Low | leakage Low | gain Low | confidence Medium.
+- **Threshold:** Δ ≥ +0.0005.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_009: মাস্কড নিম্ন-পরিসীমায় সমাপ্তি (SoftImpute / LATC ) বৈশিষ্ট্য হিসাবে
-- **বেসঃ**  C0737 – C0739 (SoftImpute বাস্তবায়ন), C0005 ( LATC , কোড পরিদর্শন), C0216/C0217 , D- B5 ।
-- **লেবেলঃ**  HIGH - VALUE  RETEST . আজকের SVD *interpolated* ক্ষেত্রের উপর চালায় এবং ফাঁক পক্ষপাতের উত্তরাধিকার পায়।
-- **সঠিক পরিবর্তনঃ**  `lowrank()` শুধুমাত্র পর্যবেক্ষণকৃত cellগুলিতে (একক-মানের ফাঁক থেকে 5 , λ র্যাঙ্ক, 20 পুনরাবৃত্তি) প্রতি দিন এবং ক্রস-ডে প্রতিবার একটি পুনরাবৃত্তিশীল সফটইম্পুট হয়ে যায়।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম | লাভ কম  –  মধ্যম | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0007 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_009: Masked low-rank completion (SoftImpute / LATC) as features
+- **Basis:** C0737–C0739 (SoftImpute implementations), C0005 (LATC, code inspected), C0216/C0217, D-B5.
+- **Label:** HIGH-VALUE RETEST. Today's SVD runs on the *interpolated* field and inherits the gap bias.
+- **Exact change:** `lowrank()` becomes an iterative SoftImpute on the observed cells only (rank 5, λ from the singular-value gap, 20 iterations), per day and cross-day.
+- **Scores:** compute Medium | leakage Low | gain Low–Medium | confidence Medium.
+- **Threshold:** Δ ≥ +0.0007.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_010: সংরক্ষণ / CTM এক-পদক্ষেপ / নিউয়েল এন-কর্ভ বৈশিষ্ট্য
-- **বেসঃ**  C0015 ( CTM ), C0062/C0063 (নিউয়েল সরলীকৃত গতিশীল তরঙ্গ), C0275 ; D0131 (নিউয়েল তিন-ডিটেক্টর বৈশিষ্ট্য) ।
-- **লেবেলঃ**  NEW বৈশিষ্ট্য হিসাবে। শুধুমাত্র পোস্ট-প্রসেসিং সংস্করণ চেষ্টা করা হয়েছিল।
-- **সঠিক পরিবর্তনঃ**
-  - প্রবাহের ভারসাম্যকে উপরের এবং নিম্নের দিকে অনুমান করা, k = q/max (v, 1 ) ব্যবহার করে।
-  - t−1 থেকে একটি Godunov এক ধাপের পূর্বাভাস এবং t+1 থেকে একটি পিছনে ধাপ , প্রতি লিঙ্ক ত্রিভুজ FD থেকে `fd_parameters.csv` ।
-  - নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্যতম নূন্য
-- **স্কোরঃ** গণনা কম | ফুটো কম | লাভ কম  –  মধ্যম | আত্মবিশ্বাস কম  –  মধ্যম।
-- **প্রান্তিকঃ** T1+T3 প্রক্সি Δ > 0.
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_010: Conservation / CTM one-step / Newell N-curve features
+- **Basis:** C0015 (CTM), C0062/C0063 (Newell simplified kinematic waves), C0275; D0131 (Newell three-detector features).
+- **Label:** NEW as features. Only post-processing versions were tried.
+- **Exact change:**
+  - Upstream and downstream flow-balance estimates, using k = q/max(v, 1).
+  - A Godunov one-step forecast from t−1 and a backward step from t+1, with the per-link triangular FD from `fd_parameters.csv`.
+  - Newell minimum of the free- and congested-shifted cumulative counts.
+- **Scores:** compute Low | leakage Low | gain Low–Medium | confidence Low–Medium.
+- **Threshold:** T1+T3 proxy Δ > 0.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_011: প্রতি লিঙ্ক FD -অন্তর্নিহিত বৈশিষ্ট্য
-- **বেসঃ**  C0099 , C0109 ।
-- **লেবেলঃ**  NEW . আবাস→গতির পরিচয় উপ-ধারণ হল CONTRADICTED ; দেখুন EXP_NEW_054.
-- **সঠিক পরিবর্তনঃ**  v_FD (k̂) এবং q_FD (k̂) এর বৈশিষ্ট্যগুলি ইন্টারপোলার ঘনত্ব থেকে, প্রতিটি লিঙ্কের নিজস্ব v_f ব্যবহার করে, ক্ষমতা এবং k_jam.
-- **স্কোরঃ** গণনা কম | ফুটো কম | লাভ কম | আত্মবিশ্বাস কম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0005 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_011: Per-link FD-implied features
+- **Basis:** C0099, C0109.
+- **Label:** NEW. The occupancy→speed identity sub-idea is CONTRADICTED; see EXP_NEW_054.
+- **Exact change:** features v_FD(k̂) and q_FD(k̂) from the interpolated density, using each link's own v_f, capacity and k_jam.
+- **Scores:** compute Low | leakage Low | gain Low | confidence Low.
+- **Threshold:** Δ ≥ +0.0005.
+- **Status:** PROPOSED. **Priority 2.**
 
 ### EXP_NEW_012: LightGBM `linear_tree`
-- **বেসঃ**  D0171 , D0176 ।
-- **লেবেলঃ**  NEW .
-- **সঠিক পরিবর্তনঃ**  E/F পারামস প্লাস `linear_tree=True, linear_lambda=1.0` . 2 × সারি প্রথমে টেস্ট করুন, মেমরির কারণে।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম | লাভ −0.002 .. +0.003 | আত্মবিশ্বাস কম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0007 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+- **Basis:** D0171, D0176.
+- **Label:** NEW.
+- **Exact change:** E/F params plus `linear_tree=True, linear_lambda=1.0`. Test at 2× rows first, because of memory.
+- **Scores:** compute Medium | leakage Low | gain −0.002..+0.003 | confidence Low.
+- **Threshold:** Δ ≥ +0.0007.
+- **Status:** PROPOSED. **Priority 2.**
 
 ### EXP_NEW_013: LightGBM `extra_trees` / `path_smooth`
-- **বেসঃ**  D0171 , D0174 ।
-- **লেবেলঃ**  NEW .
-- **স্কোরঃ** লাভ ±0.001 | আত্মবিশ্বাস কম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0007 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+- **Basis:** D0171, D0174.
+- **Label:** NEW.
+- **Scores:** gain ±0.001 | confidence Low.
+- **Threshold:** Δ ≥ +0.0007.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_014:  `deterministic=True, force_row_wise=True` প্রতিটি LightGBM মডেলের
-- **বেসঃ**  D0171 .
-- **লেবেলঃ**  NEW (প্রক্রিয়া) ।
-- **দুর্বলতাঃ** পুরস্কারগুলি প্রাইভেট স্কোরের 1 % এর মধ্যে পুনরায় প্রয়োগের প্রয়োজন।
-- **Gain:** none; এটি একটি পুনর্জন্মযোগ্যতা রক্ষাকারী।
-- **প্রান্তিকতাঃ** পুনরায় রান বিট-টু-বিট বা 1e-6 পর্যন্ত মিলিত হয়।
-- **অবস্থাঃ**  PROPOSED ; শেষ নোটবুকের মধ্যে থাকা উচিত। **অগ্রাধিকার 5 (প্রক্রিয়ার) ।**
+### EXP_NEW_014: `deterministic=True, force_row_wise=True` in every LightGBM model
+- **Basis:** D0171.
+- **Label:** NEW (process).
+- **Weakness:** the awards require a rerun within 1% of the private score.
+- **Gain:** none; it is a reproducibility guard.
+- **Threshold:** the rerun matches bit-for-bit, or up to 1e-6.
+- **Status:** PROPOSED; must be in the final notebook. **Priority 5 (process).**
 
-### EXP_NEW_015: ছোট CPU স্পেস-টাইম ইউ-নেট ইনপেইন্টিং নেট একটি স্ট্যাকড বৈশিষ্ট্য হিসাবে
-- **বেসঃ**  C0045 (U-Net), C0049 (অংশিক কনভলুশন ইনপেইন্টিং), C0051 ; A (ট্রাফিক 4 কাস্ট ইউ-নেট সমাধান) ।
-- **লেবেলঃ**  NEW .
-- **স্কোরঃ** গণনা CPU উচ্চ | অনিশ্চিত লাভ | আত্মবিশ্বাস কম।
-- **প্রান্তিকতাঃ** Δ ≥ +0.0015 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_015: Small CPU space-time U-Net inpainting net as a stacked feature
+- **Basis:** C0045 (U-Net), C0049 (partial-convolution inpainting), C0051; A (Traffic4cast U-Net solutions).
+- **Label:** NEW.
+- **Scores:** compute High on CPU | gain uncertain | confidence Low.
+- **Threshold:** Δ ≥ +0.0015.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_016: ক্যালিব্রেটেড CTM ডেটা সমন্বয় (ডুসিং) বৈশিষ্ট্য হিসাবে
-- **বেসঃ**  C0275 ( CTM ঘনত্বের অনুমান), C0483 , C0488 , C0489 (ট্রাফিক ডেটা সমন্বয় / এনকেএফ), C0068 ( CTM ক্যালিব্রেশন) ।
-- **লেবেলঃ**  NEW , ঝুঁকিপূর্ণ।
-- **দুর্বলতাঃ** তথ্য একটি CTM -এর মতো জেনারেটর থেকে আসে, তাই একটি ক্যালিব্রেশন সিমুলেটর পরিসংখ্যানের চেয়ে ভাল ফাঁক পূরণ করতে পারে।
-- **স্কোরঃ** গণনা উচ্চ | অনিশ্চিত লাভ | আত্মবিশ্বাস কম।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_016: Calibrated CTM data assimilation (nudging) as a feature
+- **Basis:** C0275 (CTM density estimation), C0483, C0488, C0489 (traffic data assimilation / EnKF), C0068 (CTM calibration).
+- **Label:** NEW, risky.
+- **Weakness:** the data come from a CTM-like generator, so a calibrated simulator could fill gaps better than statistics can.
+- **Scores:** compute High | gain uncertain | confidence Low.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_017: বৈশিষ্ট্যযুক্ত-কর্জন বা হ্যানকেল নিম্ন-পরিমান সম্পন্ন
-- **বেসঃ** C- B4 .
-- **লেবেলঃ**  NEW , অনুমানমূলক।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_017: Characteristic-sheared or Hankel low-rank completion
+- **Basis:** C-B4.
+- **Label:** NEW, speculative.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_018: প্রতি মাসে নির্দিষ্ট গতির স্তরের সংশোধন (লিঙ্ক, মাস, গতির ব্যাংক)
-- **বেসঃ**  A0076 (+0.0001 ).
-- **লেবেলঃ**  NEW .
-- **স্কোরঃ** খুব কম লাভ।
-- **অবস্থাঃ**  PROPOSED ; শুধুমাত্র EXP_NEW_001.  **অগ্রাধিকার 1 .**
+### EXP_NEW_018: Month-specific speed-level correction per (link, month, speed band)
+- **Basis:** A0076 (+0.0001).
+- **Label:** NEW.
+- **Scores:** gain very low.
+- **Status:** PROPOSED; only after EXP_NEW_001. **Priority 1.**
 
-### EXP_NEW_019: প্রতিবেশী ইনপুট (দৃশ্যমান মানের উপর মধ্যম- 3 )
-- **বেসঃ** C- A6 .
-- **লেবেলঃ**  NEW .
-- **স্কোরঃ** লাভ কম। শব্দ সময় সাদা, sd ≈1–1.9  km/h ( A0063 ).
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_019: Denoised neighbour inputs (median-3 on visible values)
+- **Basis:** C-A6.
+- **Label:** NEW.
+- **Scores:** gain Low. Noise is white in time, sd ≈ 1–1.9 km/h (A0063).
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_020: F ( 1023 leaves বা 8 × সারি) এর উপরে বড় টাস্ক 1 মডেল
-- **বেসঃ** নিজস্ব ইতিহাস (ই +0.0024 , এফ +0.0012 , হ্রাস পাচ্ছে) ।
-- **লেবেলঃ**  RELATED .
-- **স্কোরঃ** প্রত্যাশিত লাভ < 0.0006 ; গণনা উচ্চ।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_020: Bigger Task 1 model on top of F (1023 leaves, or 8× rows)
+- **Basis:** own history (E +0.0024, F +0.0012, diminishing).
+- **Label:** RELATED.
+- **Scores:** expected gain < 0.0006; compute High.
+- **Status:** PROPOSED. **Priority 1.**
 
 ---
 
-## টাস্ক 2 (কোয়াই প্রজেক্ট)
+## Task 2 (queue forecast)
 
-### EXP_NEW_021: চলমান  —  পরিচয়-নিরক্ষিত পূর্বের মুক্ত মডেল এবং সম্পূর্ণ মডেল, 50/50 মিশ্রণ
-- **বেসঃ**  A0059 (হিসার্সবার্গ বনাম 5 : মার্চ পর্যন্ত স্থানান্তরিত একমাত্র চলমান পরিবর্তন, +0.008  S_queue ; লিঙ্ক পরিচয় বাদ দেওয়া প্রতিটি টুকরো ক্ষতিগ্রস্ত করে) ।
-- **লেবেলঃ**  HIGH - VALUE  RETEST . আমাদের পূর্বের মুক্ত মডেলটিও `pos` , `lanes` , `cap_*` এবং `length` ড্রপ করে।
-- **অনুমানঃ** অবস্থান *পূর্ববর্তী* মাসটি অতিক্রম করে; লিঙ্ক * পরিচয়* (গণতত্ত্ব) নয়।
-- **সঠিক পরিবর্তনঃ**  `t2_model_v14.py` .
-  - `og_id` = লাইটজিবিএম, যার leaves 511 , lr 0.03 , 1800 গাছ, যার আগে, prior_now , prior_alldays , tod, dow নেই।
-  - `og_full` = সব কলাম।
-  - ভ্যারিয়েন্ট: `id511`, `full511`, `bnf` = ½(np511 + full511), `bif` = ½(id511 + full511)।
-  - শুরু সারি v13 এর সাথে একই।
-- **বৈধতাঃ** প্রতি ভেরিয়েন্টের জন্য LB সন্ড, কারণ CV মাস পরিবর্তন দেখতে পারে না। এটি বিদ্যমান হলে 2 ছদ্ম-হোল্ডাউট ( EXP_NEW_025 ) টাস্কটি ব্যবহার করুন।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম | লাভ মিডিয়াম –  উচ্চ (অনুবর্তিত হচ্ছে বৃহত্তম ফাঁকঃ হিজার্ণবার্গ 0.843 বনাম আমাদের শেষ পরিমাপ 0.747 ) | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ**  LB Δ ≥ +0.001 বনাম COMBO7 .
-- **অবস্থাঃ**  RUNNING ( `tfb-t2v14` ). **অগ্রাধিকার 5 .**
+### EXP_NEW_021: Ongoing — identity-kept prior-free model and full model, 50/50 blends
+- **Basis:** A0059 (Hisernberg v5: the only ongoing change that transferred to March, +0.008 S_queue; dropping link identity hurt every slice).
+- **Label:** HIGH-VALUE RETEST. Our prior-free model also drops `pos`, `lanes`, `cap_*` and `length`.
+- **Hypothesis:** location *priors* overfit the month; link *identity* (geometry) does not.
+- **Exact change:** `t2_model_v14.py`.
+  - `og_id` = LightGBM with 511 leaves, lr 0.03, 1800 trees, trained without {prior, prior_now, prior_alldays, tod, dow}.
+  - `og_full` = all columns.
+  - Variants: `id511`, `full511`, `bnf` = ½(np511 + full511), `bif` = ½(id511 + full511).
+  - The onset rows are identical to v13.
+- **Validation:** an LB probe per variant, since CV cannot see the month shift. Use the Task 2 pseudo-holdout (EXP_NEW_025) once it exists.
+- **Scores:** compute Medium | leakage Low | gain Medium–High (ongoing is the largest gap: Hisernberg 0.843 vs our last measured 0.747) | confidence Medium.
+- **Threshold:** LB Δ ≥ +0.001 vs COMBO7.
+- **Status:** RUNNING (`tfb-t2v14`). **Priority 5.**
 
-### EXP_NEW_022: চলমান 511 leaves / lr 0.03 / 1800 গাছ
-- **বেসঃ** নিজের ওফওয়াই চালান।
-- **লেবেলঃ**  RELATED (ক্ষমতা) ।
-- **ফলাফলঃ** ছদ্ম 0.9017 বনাম 0.8958 এবং অফিসিয়াল 0.8626 বনাম 0.8551 , 4/4 foldগুলিতে ভাল। 255 পাতার তথ্য দ্বিগুণ করে ≈0 দেওয়া হয়।
-- **অবস্থাঃ**  EXECUTED - KEEP → `tfb-t2v13` → COMBO7 (অটো জমা দিন 2026-10-01 ).
+### EXP_NEW_022: Ongoing 511 leaves / lr 0.03 / 1800 trees
+- **Basis:** own oofY run.
+- **Label:** RELATED (capacity).
+- **Result:** pseudo 0.9017 vs 0.8958 and official 0.8626 vs 0.8551, better in 4/4 folds. Doubling the data at 255 leaves gave ≈ 0.
+- **Status:** EXECUTED-KEEP → `tfb-t2v13` → COMBO7 (auto-submit 2026-10-01).
 
-### EXP_NEW_023: বর্তমানের সর্বোত্তম (শূন্য-সোন্ড) উপর চলমান এবং শুরু IoU পুনরায় পরিমাপ
-- **বেসঃ**  A0058 (তাদের জোনব); আমাদের 09-28 জোনব।
-- **লেবেলঃ**  RELATED (নিরীক্ষা) ।
-- **দুর্বলতাঃ** আমাদের 0.747 চলমান চিত্রটি তিন প্রজন্মের পুরানো মডেল। এখন অনুমান করা হয়েছে ≈0.81 ( INFERENCE  LB ডেল্টা থেকে) ।
-- **সঠিক পরিবর্তনঃ**  COMBO7 থেকে একটি swap kernel যা সমস্ত চলমান `queue_pred`  0 এ সেট করা হয় . তারপর ΔLB ≈0.30 × 0.5 × IoU_ongoing.
-- **স্কোরঃ** গণনা কম | খরচ 1 জমা দেওয়া।
-- **অবস্থাঃ**  PROPOSED ; যখন জমা দেওয়ার সময় এটি করুন। **অগ্রাধিকার 3 .**
+### EXP_NEW_023: Re-measure ongoing and onset IoU on the current best (zero-probe)
+- **Basis:** A0058 (their probes); our 09-28 probes.
+- **Label:** RELATED (diagnostic).
+- **Weakness:** our 0.747 ongoing figure is three model generations old. Estimated now ≈ 0.81 (INFERENCE from the LB deltas).
+- **Exact change:** a swap kernel from COMBO7 with all ongoing `queue_pred` set to 0. Then ΔLB ≈ 0.30 × 0.5 × IoU_ongoing.
+- **Scores:** compute Low | costs 1 submission.
+- **Status:** PROPOSED; do it when a submission slot is free. **Priority 3.**
 
-### EXP_NEW_024: হাইব্রিড লেবেল মেরামত
-- **বেসঃ**  A0059 § 13 , A0068 (তার LB এর উপর +0.030 শুরু) ।
-- **লেবেলঃ**  RELATED আমাদের লেবেলগুলি সময় পূরণের পরিবর্তে অনুপস্থিত cellগুলি বাদ দেয়, তাই আমাদের পক্ষপাত তাদের চেয়ে ছোট।
-- **সঠিক পরিবর্তনঃ**
-  - একটি লাইটজিবিএম গতির ইমপুটরকে পর্যবেক্ষণ করা train সেলগুলিতে প্রশিক্ষণ দিন।
-  - একটি পর্যবেক্ষণকৃত ক্রমযুক্ত সেলের ±5 মিনিটের মধ্যে এবং ±2 লিঙ্কগুলির মধ্যে অনুপস্থিত cellগুলি পূরণ করুন।
-  - সেলেক্টর রেপ্লিকে পুনরায় চালান, তারপর CatBoost পুনরায় শুরু প্রশিক্ষণ।
-- **স্কোরঃ** গণনা মিডিয়াম | ফুটো কম | লাভ কম  –  মধ্যম | আত্মবিশ্বাস কম  –  মধ্যম।
-- **প্রান্তিকতাঃ** মার্চ মাস pseudo-holddown শুরু Δ ≥ +0.005 .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_024: Hybrid label repair
+- **Basis:** A0059 §13, A0068 (onset +0.030 on their LB).
+- **Label:** RELATED. Our labels exclude missing cells instead of time-filling them, so our bias is smaller than theirs was.
+- **Exact change:**
+  - Train a LightGBM speed imputer on observed train cells.
+  - Fill missing cells within ±5 min and ±2 links of an observed queued cell.
+  - Rerun the selector replica, then retrain onset CatBoost.
+- **Scores:** compute Medium | leakage Low | gain Low–Medium | confidence Low–Medium.
+- **Threshold:** March pseudo-holdout onset Δ ≥ +0.005.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_025: টাস্ক 2 পরীক্ষার মাস
-- **বেসঃ**  A0074 , A0075 (হিসার্নেবার্গঃ এটি একটি স্ট্যাকিং ব্যর্থতা ধরা পড়ে যা CV মিস করেছে) ।
-- **লেবেলঃ**  NEW (প্রমাণীকরণ) ।
-- **সঠিক পরিবর্তনঃ**
-  - **মাস্কযুক্ত বৈধকরণ মাসে** : কভারেজ ≥0.7 , একই শর্তের নিয়ম, প্রতিটি শুরু দিনের থেকে 360 মিনিটের সাথে লোভী চালান। মুক্তির ব্ল্যাকআউট স্পর্শ করে window বাদ দিন।
-  - লেবেল = পর্যবেক্ষণযোগ্য horizon cell।
-  - অফিসিয়াল সমষ্টির সাথে স্কোর।
-  - এটি শুধুমাত্র **প্রাইভেট ফাইল** সিদ্ধান্তগুলি গেট করতে ব্যবহার করুন। মার্চ সময়সীমা প্রতি এপ্রিলের আগে থাকে। এপ্রিল লেবেল ব্যবহার করে কখনই নির্বাচন করবেন না।
-- **স্কোরঃ** গণনা কম | ফুটো মাঝারি (প্রোটোকল-সংবেদনশীল) | লাভঃ সিদ্ধান্তের গুণমান | আত্মবিশ্বাসের মধ্যম।
-- **প্রান্তিকতাঃ** এটির বিশ্বাস করার আগে এটি পরিচিত LB ডেল্টার (পূর্ববর্তী মুক্ত +, ধৈর্য মিশ্রণ −, শুরু 30/70 −) চিহ্ন পুনরায় প্রজনন করতে হবে।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 4**
+### EXP_NEW_025: Task 2 test-month pseudo-holdout as the adoption gate
+- **Basis:** A0074, A0075 (Hisernberg: it caught a stacking failure that CV missed).
+- **Label:** NEW (validation).
+- **Exact change:**
+  - Run our selector replica on the **masked validation month**: coverage ≥ 0.7, the same condition rules, greedy with 360 min from every start day. Exclude windows touching released blackouts.
+  - Labels = observed eligible horizon cells.
+  - Score with the official aggregation.
+  - Use it to gate **private-file** decisions only. All March timestamps precede every April T. Never select using April labels.
+- **Scores:** compute Low | leakage Medium (protocol-sensitive) | gain: decision quality | confidence Medium.
+- **Threshold:** it must reproduce the sign of known LB deltas (prior-free +, persistence blend −, onset 30/70 −) before we trust it.
+- **Status:** PROPOSED. **Priority 4.**
 
-### EXP_NEW_026: শুধুমাত্র ব্যক্তিগত ফাইলের জন্য, কার্য 2 প্রশিক্ষণ ডেটা হিসাবে বৈধতা-মাসের ছদ্ম-window যোগ করুন
-- **বেসঃ** A-I- 9 .
-- **লেবেলঃ**  NEW .
-- **নিয়মের নোটঃ** মার্চ ডেটা প্রতি এপ্রিলের আগে টাইমস্ট্যাম্প করা হয়, তাই এটি "≤ T" পূরণ করে। এটি ব্যবহার করার আগে সংগঠকদের সাথে নিশ্চিত করুন।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_026: For the private file only, add validation-month pseudo-windows as Task 2 training data
+- **Basis:** A-I-9.
+- **Label:** NEW.
+- **Rule note:** March data is timestamped before every April T, so it satisfies "≤ T". Confirm with the organizers before using it.
+- **Status:** PROPOSED. **Priority 2.**
 
-### EXP_NEW_027: kNN অ্যানালগ-স্টেট বৈশিষ্ট্যগুলি শুরু করার জন্য
-- **বেসঃ** ট্রাফিক 4 কাস্ট 2022  GBDT সমাধান ( C0260 , C0339 , এবং A আংশিক ট্রাফিক 4 কাস্ট সারি) ।
-- **লেবেলঃ**  RELATED । হিজার্ণবার্গের ফর্ম-প্রাক ডিকোডারটি ≤0.004 অর্জন করে এবং পুনরাবৃত্তিমূলক windowতে হারিয়ে যায়।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_027: kNN analog-state features for onset
+- **Basis:** Traffic4cast 2022 GBDT solutions (C0260, C0339, and the A partial's Traffic4cast rows).
+- **Label:** RELATED. Hisernberg's shape-prior decoder gained ≤ 0.004 and lost on non-recurrent windows.
+- **Status:** PROPOSED. **Priority 2.**
 
-### EXP_NEW_028: শুরু পর্যায়ে-2 স্ট্যাকিং প্লাস আরো বীজ
-- **বেসঃ**  A0072 (+0.0006  LB ).
-- **লেবেলঃ**  RELATED .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_028: Onset stage-2 stacking plus more seeds
+- **Basis:** A0072 (+0.0006 LB).
+- **Label:** RELATED.
+- **Status:** PROPOSED. **Priority 2.**
 
-### EXP_NEW_029: নির্ভরতা সচেতন (কোমপন্ট-মিশ্রণ) সূচনা ডিকোডার
-- **বেসঃ** B (নোভোজিন 2014 গভীর পাঠ; RankSEG) ।
-- **স্থানীয়ঃ** শুরু +0.0015 ছদ্মবেশী, 4/4 fold ≥0 , আনুষ্ঠানিকভাবে অপরিবর্তিত। প্রায় +0.0002  LB ।
-- **লেবেলঃ**  NEW .
-- **অবস্থাঃ**  PROPOSED (অন্য পরিবর্তন সহ বান্ডিল) **অগ্রাধিকার 2 .**
+### EXP_NEW_029: Dependence-aware (component-mixture) onset decoder
+- **Basis:** B (Nowozin 2014 deep-read; RankSEG).
+- **Local:** onset +0.0015 pseudo, 4/4 folds ≥ 0, official unchanged. About +0.0002 LB.
+- **Label:** NEW.
+- **Status:** PROPOSED (bundle with another change). **Priority 2.**
 
-### EXP_NEW_030: বর্তমানের জন্য সঠিক পোয়িশন-বিনোমাল প্রত্যাশিত-আইওইউ ডিকোডার
-- **বেসঃ** B (RankSEG কোড পরীক্ষা করা হয়েছে) ।
-- **স্থানীয়ঃ** চলমান +0.0006  4/4 foldগুলিতে; আনুষ্ঠানিকভাবে অপরিবর্তিত।
-- **লেবেলঃ**  NEW .
-- **অবস্থাঃ**  PROPOSED (ব্যাণ্ডল) । **অগ্রাধিকার 2 .**
+### EXP_NEW_030: Exact Poisson-binomial expected-IoU decoder for ongoing
+- **Basis:** B (RankSEG code inspected).
+- **Local:** ongoing +0.0006 in 4/4 folds; official unchanged.
+- **Label:** NEW.
+- **Status:** PROPOSED (bundle). **Priority 2.**
 
-### EXP_NEW_031: শিফট ডায়াগনস্টিক
-- **বেসঃ** B- C3 .
-- **লেবেলঃ**  NEW (নিরীক্ষা) ।
-- **সঠিক পরিবর্তনঃ** আমাদের ভবিষ্যদ্বাণী max p এবং Σp তুলনা করুন 40 +40 val/private train-এর বিরুদ্ধে window OOFভবিষ্যদ্বাণী LB ট্রাস্ট বক্স থেকে শুরু হওয়া আইওইউঃ 91% OOF শুরু window সর্বোচ্চ p > 0.9 (IU 0.937), এবং 3% এর সর্বোচ্চ p < 0.5 স্কোর আইওইউ 0.10.
-- **ফুটো নোটঃ** এটি শুধুমাত্র পাঠযোগ্য; val এ কিছুই লাগানো নেই।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 3**
+### EXP_NEW_031: Shift diagnostic
+- **Basis:** B-C3.
+- **Label:** NEW (diagnostic).
+- **Exact change:** compare max p and Σp of our predictions on the 40 + 40 val/private windows against train OOF. Predict LB onset IoU from the confidence bins: 91% of OOF onset windows have max p > 0.9 (IoU 0.937), and the 3% with max p < 0.5 score IoU 0.10.
+- **Leakage note:** this is a read-out only; nothing is fitted on val.
+- **Status:** PROPOSED. **Priority 3.**
 
-### EXP_NEW_032: কড়া-মাস সুরক্ষা (শূন্য p < ε ডিকোড করার আগে)
-- **বেসঃ** B- C4 .
-- **স্থানীয়ঃ** ±0.0002 ।
-- **অবস্থাঃ**  PROPOSED (শুধুমাত্র শক্তি) **অগ্রাধিকার 1 .**
+### EXP_NEW_032: Tail-mass safeguard (zero p < ε before decoding)
+- **Basis:** B-C4.
+- **Local:** ±0.0002.
+- **Status:** PROPOSED (robustness only). **Priority 1.**
 
-### EXP_NEW_033: প্রত্যাখ্যান / নরম প্রশিক্ষণ লেবেল
-- **বেসঃ**  B0004 , B0041 , B0042 (বি- R1 , ডি- A2 ) ।
-- **লেবেলঃ**  NEW .
-- **প্রাক-পরীক্ষা (স্থানীয় D12_I405_S train-এর EXECUTED  2026-10-01 , 120 দিন):**
-  - ক্রম ভাগ 1.28 %;
-  - **বিচ্ছিন্ন ক্যুড সেল 0.9 %** ;
-  - ক্রমের cellের 1.9 % এর মধ্যে একটি মধ্যম- 3 পুনরায় লেবেল পরিবর্তন।
-- **সিদ্ধান্তঃ** লেবেল শব্দ 0.84  CV → LB অনুপাত ব্যাখ্যা করার জন্য খুব ছোট। **Depriorized** , এজেন্টের নিজস্ব নিয়ম অনুযায়ী (বিচ্ছিন্ন হলে skip < 1 %).
-- **অবস্থাঃ**  EXECUTED প্রাক-পরীক্ষা → DEFER  **অগ্রাধিকার 1**
+### EXP_NEW_033: Denoised / soft training labels
+- **Basis:** B0004, B0041, B0042 (B-R1, D-A2).
+- **Label:** NEW.
+- **Pre-check (EXECUTED 2026-10-01 on the local D12_I405_S train, 120 days):**
+  - queued share 1.28%;
+  - **isolated queued cells 0.9%**;
+  - a median-3 relabel changes about 1.9% of queued cells.
+- **Decision:** label noise is too small to explain the 0.84 CV→LB ratio. **Deprioritized**, per the agent's own rule (skip if isolated < 1%).
+- **Status:** EXECUTED pre-check → DEFER. **Priority 1.**
 
-### EXP_NEW_034: শুরু হওয়ার জন্য বিভাজন-সম্ভাব্যতা (স্টোকাস্টিক-ক্যাপাসিটি) বৈশিষ্ট্য
-- **বেসঃ** B (Brilon et al.; Elefteriadou) ।
-- **লেবেলঃ** RELATEDআমাদের ঝুঁকি/প্রবাহ ক্ষমতা বৈশিষ্ট্য ছিল শব্দ।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_034: Breakdown-probability (stochastic-capacity) features for onset
+- **Basis:** B (Brilon et al.; Elefteriadou).
+- **Label:** RELATED. Our hazard / flow-capacity features were noise.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_035: window-লেভেল অ্যাক্টিভেশন / ক্যু-স্কেলের মডেল ডিকোডার ফিডিং
-- **বেসঃ** B- R3 , D- B2 ( D0145 , D0146 ).
-- **লেবেলঃ**  NEW .
-- **সঠিক পরিবর্তনঃ** window প্রতি ক্যো আকার পূর্বাভাস এবং এটি ব্যবহার যখন শীর্ষ-m ডিকোডিং মধ্যে m নির্বাচন.
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 2**
+### EXP_NEW_035: Window-level activation / queue-size model feeding the decoder
+- **Basis:** B-R3, D-B2 (D0145, D0146).
+- **Label:** NEW.
+- **Exact change:** predict the queue size per window and use it when choosing m in top-m decoding.
+- **Status:** PROPOSED. **Priority 2.**
 
-### EXP_NEW_036: কারণ (≤ T) পূর্ব-পরিবর্তন / EM প্রাদুর্ভাব সংশোধন
-- **বেসঃ**  D0161 , D0163 , D0165 ।
-- **লেবেলঃ**  NEW , কিন্তু নিয়ম-নিষেধের সাথে সংযুক্তঃ শুধুমাত্র মূল < T সহ windowগুলিকে একত্রিত করা যেতে পারে।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_036: Causal (≤ T) prior-shift / EM prevalence correction
+- **Basis:** D0161, D0163, D0165.
+- **Label:** NEW, but rule-constrained: only windows with origin < T may be pooled.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_037: পরিবর্তন পয়েন্ট ( CUSUM / BOCPD ) ইতিহাস বৈশিষ্ট্য
-- **বেসঃ** B- R5 .
-- **লেবেলঃ**  DUPLICATE আমাদের প্রত্যাখ্যানিত বিপদ / গ্রেডিয়েন্ট বৈশিষ্ট্য।
-- **অবস্থাঃ**  DROP .
+### EXP_NEW_037: Change-point (CUSUM / BOCPD) history features
+- **Basis:** B-R5.
+- **Label:** DUPLICATE of our rejected hazard / gradient features.
+- **Status:** DROP.
 
-### EXP_NEW_038:  LB -নিষ্ঠ স্থানীয় সত্য (প্রত্যাখ্যাত রাষ্ট্র, সমস্ত লিঙ্ক)
-- **বেসঃ** B- V1 .
-- **লেবেলঃ**  NEW (প্রমাণীকরণ) ।
-- **দ্রষ্টব্যঃ**  EXP_NEW_033 এর প্রাক-চেকটি দেখায় যে লেবেল শব্দটি ছোট, তাই র্যাঙ্কিংয়ের প্রত্যাশিত পরিবর্তনটি ছোট।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_038: LB-faithful local truth (denoised state, all links)
+- **Basis:** B-V1.
+- **Label:** NEW (validation).
+- **Note:** the pre-check in EXP_NEW_033 shows label noise is small, so the expected change in rankings is small.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_039: সপ্তাহান্তে ভাগের দিকে গুরুত্ব-ভিত্তিক CV
-- **বেসঃ** B- V2 , D- A6 .
-- **লেবেলঃ**  CONTRADICTED . সপ্তাহান্তে স্থানীয়ভাবে * সহজ * হয় (প্রবর্তন 0.926 বনাম 0.881 ), তাই পুনরায় ওজন ব্যবধানকে প্রসারিত করে।
-- **অবস্থাঃ**  DROP .
+### EXP_NEW_039: Importance-weighted CV toward weekend share
+- **Basis:** B-V2, D-A6.
+- **Label:** CONTRADICTED. Weekends are *easier* locally (onset 0.926 vs 0.881), so re-weighting widens the gap.
+- **Status:** DROP.
 
-### EXP_NEW_040: প্রত্যাশিত-আইওইউ ডিকোডিংয়ের আগে সম্ভাব্যতা ক্যালিব্রেশন (আইসোটনিক, শক্তি)
-- **বেসঃ** D- A1 , B-C (প্ল্যাট / আইসোটনিক / বিটা) ।
-- **লেবেলঃ**  NEW .
-- **ফলাফল ( EXECUTED  2026-09-30 , oofX ক্যাশে):**
+### EXP_NEW_040: Probability calibration (isotonic, power) before expected-IoU decoding
+- **Basis:** D-A1, B-C (Platt / isotonic / beta).
+- **Label:** NEW.
+- **Result (EXECUTED 2026-09-30, oofX cache):**
 
-  | বৈচিত্র্য | ছদ্মবেশী | অফিসিয়াল |
+  | Variant | Pseudo | Official |
   |---|---|---|
-  | বেস | 0.8831 | 0.8904 |
-  | শক্তি 1.1 | 0.8845 | 0.8898 |
-  | ঘুষযুক্ত আইসোটনিক | 0.8808 | 0.8924 |
+  | Base | 0.8831 | 0.8904 |
+  | Power 1.1 | 0.8845 | 0.8898 |
+  | Nested isotonic | 0.8808 | 0.8924 |
 
-  এই লক্ষণগুলি ছদ্মবেশী এবং অফিসিয়ালের মধ্যে অসঙ্গতিপূর্ণ। 2 ধসে পড়ে।
-- **অবস্থাঃ**  EXECUTED - DROP .
+  The signs disagree between pseudo and official. B measured that temperature ≥ 2 collapses onset.
+- **Status:** EXECUTED-DROP.
 
-### EXP_NEW_041:  CTM প্রারম্ভিক বৈশিষ্ট্য হিসাবে T এ অবস্থার থেকে এগিয়ে রোলআউট
-- **বেসঃ** D- B1 ; C0015 .
-- **লেবেলঃ** RELATEDসম্ভবত শব্দ, আমাদের অন্যান্য পদার্থবিজ্ঞানের বৈশিষ্ট্য মত।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_041: CTM forward rollout from the state at T as an onset feature
+- **Basis:** D-B1; C0015.
+- **Label:** RELATED. Likely noise, like our other physics features.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_042: নিউরাল ইনিশিয়েট সদস্য (RealMLP / TabM) CatBoost এর সাথে মিশ্রিত
-- **বেসঃ** D- B3 .
-- **লেবেলঃ**  RELATED .
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
+### EXP_NEW_042: Neural onset member (RealMLP / TabM) blended with CatBoost
+- **Basis:** D-B3.
+- **Label:** RELATED.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_043: শুরু  —  CatBoost গভীরতা বজায় রাখুন 8 ; বড় ভেরিয়েন্ট হল শব্দ
-- **বেসঃ** নিজস্ব oofX।
-- **লেবেলঃ**  DUPLICATE (সত্পন্ন) ।
-- **অবস্থাঃ**  EXECUTED - DROP .
-
----
-
-## কাজ 4 ( ODME )
-
-### EXP_NEW_044:  KL / IPF অথবা পূর্ব-ওয়েটেড GLS প্রক্ষেপণ
-- **বেসঃ** D- B4 .
-- **লেবেলঃ**  NEW , কিন্তু সীমিতঃ সঠিক গণনা সঙ্গে, পদ্ধতি শুধুমাত্র শূন্য স্থান পূর্ববর্তী সংশোধন পার্থক্য। সর্বোচ্চ সম্পর্কে 0.0012 of S_total , এবং এটি স্থানীয়ভাবে চেক করা যাবে না।
-- **অবস্থাঃ**  PROPOSED  **অগ্রাধিকার 1**
-
-### EXP_NEW_045: থামুন টাস্ক 4 কাজ
-- **বেসঃ**
-  - D: `repo/src/task4/build_task4_odme_artifacts.py` আমাদের NNLS এর সাথে √ 0.05 ·I এর সাথে ঠিক একই।
-  - A0060 : সত্যটি একটি উপত্যকা যা পূর্ববর্তী অনুসারে।
-- **অবস্থাঃ**  DECISION .
+### EXP_NEW_043: Onset — keep CatBoost depth 8; bigger variants are noise
+- **Basis:** own oofX.
+- **Label:** DUPLICATE (done).
+- **Status:** EXECUTED-DROP.
 
 ---
 
-## প্রক্রিয়া / বৈধতা / নির্বাচন
+## Task 4 (ODME)
 
-### EXP_NEW_046: চূড়ান্ত পিক-হেকিং
-- **বেসঃ** A-I- 11 .
-- **সঠিক পরিবর্তনঃ**  2 চূড়ান্ত নির্বাচনের, একজন ব্যবহার করে সংরক্ষণশীল চলমান মডেল এবং অন্য শ্রেষ্ঠ pseudo-holdout টাস্ক 2 বৈকল্পিক।
-- **অবস্থাঃ**  PROPOSED (Nov 6 নির্বাচনের জন্য) **অগ্রাধিকার 4 .**
+### EXP_NEW_044: KL / IPF or prior-weighted GLS projection
+- **Basis:** D-B4.
+- **Label:** NEW, but capped: with exact counts, methods differ only in the null space the prior fixes. At most about 0.0012 of S_total, and it cannot be checked locally.
+- **Status:** PROPOSED. **Priority 1.**
 
-### EXP_NEW_047:  LB -দিল্টা শব্দ অনুশাসন
-- **বেসঃ** D- A7 , A0074 ।
-- **নিয়মঃ** একটি একক টাস্ক 2 চলমান LB Δ < 0.002 শব্দের মধ্যে রয়েছে। এটি রাখার আগে CV বা ছদ্ম-হোল্ড-আউট চুক্তি প্রয়োজন।
-- **অবস্থাঃ**  ADOPTED .
-
-### EXP_NEW_048: চূড়ান্ত পাইপলাইন জন্য একক প্রবেশযোগ্য পুনরায় প্রয়োগযোগ্য নোটবুক
-- **বেসঃ** নিয়ম (পরবর্তী 1 %) ।
-- **লেবেলঃ**  NEW (প্রয়োজনীয়) ।
-- **অবস্থাঃ**  PROPOSED , নভেম্বর 6 এর আগে । **অগ্রাধিকার 5 (প্রক্রিয়ার আগে) ।**
+### EXP_NEW_045: Stop Task 4 work
+- **Basis:**
+  - D: `repo/src/task4/build_task4_odme_artifacts.py` is exactly our NNLS with √0.05·I.
+  - A0060: the truth is a ridge fit to the prior.
+- **Status:** DECISION.
 
 ---
 
-## প্রমাণ দ্বারা প্রত্যাখ্যান করা হয়েছে (তাহলে তাদের কোন গণনা যায় না)
+## Process / validation / selection
 
-### EXP_NEW_049: টাস্ক 2 এর জন্য টাইম-সারি ফাউন্ডেশন মডেল (Chronos / TimesFM / Moirai)
-- **লেবেলঃ**  CONTRADICTED . 12 -step history এক ইনপুট প্যাচের চেয়ে কম এবং এই মডেলগুলি GIFT -Eval (D রায়) এর পরিবহন ডেটাতে সবচেয়ে দুর্বল।
+### EXP_NEW_046: Final-pick hedge
+- **Basis:** A-I-11.
+- **Exact change:** of the 2 final selections, one uses the conservative ongoing model and the other the best pseudo-holdout Task 2 variant.
+- **Status:** PROPOSED (for the Nov 6 selection). **Priority 4.**
 
-### EXP_NEW_050:  GNN / স্থান-সময়ের পূর্বাভাস কাঠামো (LibCity, BasicTS, STGCN , DCRNN , ...)
-- **লেবেলঃ**  CONTRADICTED আমাদের জন্য।
-- **কারণঃ**
-  -1 -D করিডোর, শুধুমাত্র CPU ;
-  - সাধারণ এমএলপি-র সাথে মিলিত ST -GNNs (D);
-  - GBRT window 8  9 ডেটাসেট (D) এর গভীর মডেলগুলিকে পরাজিত করে।
+### EXP_NEW_047: LB-delta noise discipline
+- **Basis:** D-A7, A0074.
+- **Rule:** a single Task 2 ongoing LB Δ < 0.002 is within noise. Require CV or pseudo-holdout agreement before keeping it.
+- **Status:** ADOPTED.
 
-### EXP_NEW_051:  PINN / পদার্থবিজ্ঞান হ্রাস প্রশিক্ষণ
-- **লেবেলঃ**  CONTRADICTED .
-- **কারণঃ**
-  - এটি খুব কম সেন্সরিংয়ে সাহায্য করে এবং শকগুলিতে ব্যর্থ হয় (C0011, C0012);
-  - আমাদের ঘনত্বের সমন্বয় ব্যর্থ হয়েছে।
+### EXP_NEW_048: Single-entry reproducible notebook for the final pipeline
+- **Basis:** the rules (rerun within 1%).
+- **Label:** NEW (required).
+- **Status:** PROPOSED, before Nov 6. **Priority 5 (process).**
 
-### EXP_NEW_052: মিশ্রণ বিশেষজ্ঞ / কর্মসূচির জন্য ব্যবস্থা 1
-- **লেবেলঃ**  CONTRADICTED আমাদের প্রতি-নিয়ম ফলাফল দ্বারা (−0.002 প্রতিটি প্যানেলের উপর) ।
+---
 
-### EXP_NEW_053: গভীর ইমপুটর ( SAITS , BRITS , GRIN , SPIN , ImputeFormer, CSDI / PriSTI diffusion)
-- **লেবেলঃ**  CONTRADICTED খরচ ও প্রমাণের উপর।
-- **কারণঃ**
-  - তাদের কাগজপত্র কখনোই GBDT এর সাথে তুলনা করা হয় না;
-  - তাদের 4–26  GPU -ঘন্টা প্রয়োজন;
-  - CPU (C) তে diffusion খুব ধীর হয়।
+## Rejected by evidence (listed so no compute goes to them)
+
+### EXP_NEW_049: Time-series foundation models (Chronos / TimesFM / Moirai) for Task 2
+- **Label:** CONTRADICTED. A 12-step history is shorter than one input patch, and these models are weakest on transport data in GIFT-Eval (D rows).
+
+### EXP_NEW_050: GNN / spatio-temporal forecasting frameworks (LibCity, BasicTS, STGCN, DCRNN, …)
+- **Label:** CONTRADICTED for us.
+- **Reasons:**
+  - 1-D corridors, CPU only;
+  - plain MLPs match ST-GNNs (D);
+  - windowed GBRT beat 8 deep models on 9 datasets (D).
+
+### EXP_NEW_051: PINN / physics-loss training
+- **Label:** CONTRADICTED.
+- **Reasons:**
+  - it helps only at very sparse sensing and fails at shocks (C0011, C0012);
+  - our density reconciliations failed.
+
+### EXP_NEW_052: Mixture-of-experts / regime gating for Task 1
+- **Label:** CONTRADICTED by our per-regime result (−0.002 on every panel).
+
+### EXP_NEW_053: Deep imputers (SAITS, BRITS, GRIN, SPIN, ImputeFormer, CSDI / PriSTI diffusion)
+- **Label:** CONTRADICTED on cost and evidence.
+- **Reasons:**
+  - their papers never compare against GBDT;
+  - they need 4–26 GPU-hours;
+  - diffusion is too slow on CPU (C).
 
 ### EXP_NEW_054: Occupancy → speed identity (speed ≈ flow·g / occupancy at masked cells)
-- **বেসঃ** C- A5 ধাপ 0 .
-- **লেবেলঃ**  CONTRADICTED আমাদের নির্ণয় দ্বারা ( 2026-10-01 , স্থানীয় বেসরকারী D12_I405_S ). যেখানে গতি মাস্ক করা হয়, সেখানে প্রবাহ এবং কর্মক্ষমতা 100 % cellগুলিতেও মাস্ক করা হয়; তারা সহ-মাস্ক করা হয়।
-- **অবস্থাঃ**  EXECUTED - DROP .
+- **Basis:** C-A5 step 0.
+- **Label:** CONTRADICTED by our diagnostic (2026-10-01, local private D12_I405_S). Where speed is masked, flow and occupancy are also masked in 100% of cells; they are co-masked.
+- **Status:** EXECUTED-DROP.
 
-### EXP_NEW_055: টাস্ক 1 প্রোফাইল বৈশিষ্ট্য / কালমান / প্রতি রান স্পেসাল ইন্টারপোলেশন
-- **লেবেলঃ**  DUPLICATE . সবগুলোই ইতিমধ্যেই প্রত্যাখ্যান করা হয়েছে (দেখুন `EXISTING_MAP.md` ).
+### EXP_NEW_055: Task 1 profile features / Kalman / per-lane spatial interpolation
+- **Label:** DUPLICATE. All were already rejected (see `EXISTING_MAP.md`).
 
 ---
 
-## সস্তা লাভ (কোনও পুনর্নির্মাণ বা একক কনফিগারেশন পরিবর্তন নেই)
+## Cheap gains (no retraining, or a single config change)
 
-| ID | কি | অবস্থা |
+| ID | What | Status |
 |---|---|---|
-| 022 | চলমান 511 leaves | সম্পন্ন → COMBO7 |
-| 029 / 030 | ব্লক সচেতন শুরু decoder / সঠিক চলমান decoder | ≈ +0.0002 প্রতিটি, প্যাকেজ |
-| 014 | নির্ধারণী পতাকা | প্রয়োজন, লাভ নেই |
-| 023 | শূন্য-সোন্ড পুনরায় পরিমাপ | ডায়াগনস্টিক, 1 জমা দেওয়া |
-| 031 | শিফট ডায়াগনস্টিক | ডায়াগনস্টিক |
-| 040 | ক্যালিব্রেশন | **পরীক্ষা করা হয়েছে, কোন লাভ নেই** |
-| 032 | কপালের ভর সুরক্ষা | ±0.0002 |
+| 022 | ongoing 511 leaves | done → COMBO7 |
+| 029 / 030 | block-aware onset decoder / exact ongoing decoder | ≈ +0.0002 each, bundle |
+| 014 | deterministic flags | required, no gain |
+| 023 | zero-probe re-measure | diagnostic, 1 submission |
+| 031 | shift diagnostic | diagnostic |
+| 040 | calibration | **tested, no gain** |
+| 032 | tail-mass safeguard | ±0.0002 |
 
-## উচ্চতর আকারের কাঠামোগত লাভ
+## High-upside structural gains
 
-| ID | কি | প্রত্যাশিত |
+| ID | What | Expected |
 |---|---|---|
-| 001 | ট্রান্সডাক্টিভ টাস্ক 1 | RUNNING ; LB +0.002..0.004 প্রত্যাশিত (হিসার্সবার্গ প্রমাণ) |
-| 021 | চলমান পরিচয় / পূর্ণ মিশ্রণ | RUNNING ; +0.003..0.005 পর্যন্ত যদি চলমান ফাঁক অনুমান করা পরিমাণে বড় হয় |
-| 003 | ক্রস-ফাইট দুই ধাপের টাস্ক 1 | +0.002..0.008 on holdout (est.) |
-| 025 | মার্চ প্লেইড-হোল্ডউট গেট | ব্যক্তিগত ফাইলের সিদ্ধান্তের গুণমান |
-| 024 / 026 | লেবেল মেরামত; মার্চ ব্যক্তিগত ফাইলের জন্য pseudo-windows | 026 এর জন্য প্রয়োজনীয় নিয়ম পরীক্ষা |
+| 001 | transductive Task 1 | RUNNING; LB +0.002..0.004 expected (Hisernberg evidence) |
+| 021 | ongoing identity / full blends | RUNNING; up to +0.003..0.005 if the ongoing gap is as large as estimated |
+| 003 | cross-fitted two-stage Task 1 | +0.002..0.008 on holdout (est.) |
+| 025 | March pseudo-holdout gate | decision quality for the private file |
+| 024 / 026 | label repair; March pseudo-windows for the private file | rule check needed for 026 |

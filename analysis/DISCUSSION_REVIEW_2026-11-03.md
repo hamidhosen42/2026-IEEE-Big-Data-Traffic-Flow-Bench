@@ -1,139 +1,139 @@
-# বর্তমান 0.88281 pipeline-এর সঙ্গে discussionগুলোর পর্যালোচনা
+# Discussion review against the current 0.88281 pipeline
 
-পর্যালোচনার তারিখ: 2026-11-03, Asia/Dhaka। কাজের পরিসর: শুধু বিশ্লেষণ; কোনো training, kernel push, submission বা নির্বাচিত prediction পরিবর্তন করা হয়নি।
+Reviewed: 2026-11-03, Asia/Dhaka. Scope: analysis only; no training, kernel push, submission, or changes to the selected predictions.
 
-## প্রধান ফলাফল
+## Finding
 
-স্থানীয়ভাবে সংরক্ষিত 19টি discussion thread-এ Task 2 সম্পর্কে আয়োজকদের নিশ্চিত করা কিছু উপকারী তথ্য আছে। তবে **বর্তমান pipeline-কে 0.90-এর ওপরে নিয়ে যাওয়ার নতুন কোনো পরীক্ষিত পদ্ধতি পাওয়া যায়নি**। প্রকাশিত সবচেয়ে কার্যকর সুবিধাগুলো বর্তমান সমাধানে ইতিমধ্যে আছে। এটি প্রমাণের মূল্যায়ন; 0.90 অসম্ভব—এমন দাবি নয়।
+The 19 locally archived discussion topics contain useful, organizer-confirmed Task 2 information, but **no newly demonstrated method that takes the current pipeline above 0.90**. The strongest disclosed advantages are already represented in the current solution. This is an evidence assessment, not a claim that 0.90 is impossible.
 
-বিশেষ করে, discussion 742328-এ উল্লিখিত **0.93** হলো আলাদা রাখা training date-এ শুধু onset-এর IoU; এটি সম্মিলিত public leaderboard score নয়। discussion 742761-এর **0.9** হলো S_queue নিয়ে একটি প্রশ্ন; অর্জিত ফল বা প্রমাণিত সর্বোচ্চ সীমা নয়।
+In particular, the **0.93** reported in discussion 742328 is an onset-only IoU on held-out training dates, not a composite public leaderboard score. The **0.9** in discussion 742761 is a question about S_queue, not an achieved result or a proven ceiling.
 
-বেসলাইন: `consolidation/README.md` ও `consolidation/LINEAGE_K9.md` অনুযায়ী A3 = tfb-k9 এবং B3 = tfb-k10; দুটির public LB **0.88281**। মূল README-এর 0.85309 এবং `research/SCORE_GAP_ANALYSIS.md`-এর শুরুর স্কোর পুরোনো, বর্তমান নয়।
+Baseline: `consolidation/README.md` and `consolidation/LINEAGE_K9.md` identify A3 = tfb-k9 and B3 = tfb-k10, both public LB **0.88281**. The root README's 0.85309 and the starting point in `research/SCORE_GAP_ANALYSIS.md` are historical, not current.
 
-## তথ্যসূত্র ও হালনাগাদ অবস্থা
+## Evidence and freshness
 
-- `discussions/`-এর 19টি topic file ও সংরক্ষিত উত্তর পুরো পড়া হয়েছে। সূচি অনুযায়ী forum সংগ্রহের সময় **2026-11-03 16:41 UTC / বাংলাদেশ সময় 22:41**।
-- তথ্যগুলো বর্তমান stage implementation, experiment tracker, selector replay, transfer analysis, capacity-scenario analysis এবং অক্টোবর 30 পর্যন্ত সাম্প্রতিক পরীক্ষার ফলের সঙ্গে মিলিয়ে দেখা হয়েছে।
-- ওয়েব অনুসন্ধানে competition-এর অফিসিয়াল পৃষ্ঠা পাওয়া গেছে। বিস্তারিত discussion পৃষ্ঠা সরাসরি পড়তে গেলে কিছু পৃষ্ঠা অনুপলব্ধ বা ফাঁকা ছিল; shell network-এ DNS অনুপলব্ধ থাকায় আলাদা anonymous API refresh-ও ব্যর্থ হয়। তাই বিস্তারিত discussion-এর প্রমাণ এখানে তারিখযুক্ত স্থানীয় archive থেকে নেওয়া; স্বাধীনভাবে নতুন করে সংগ্রহ করা live forum থেকে নয়।
-- বর্তমান অফিসিয়াল নিয়মে online/offline পার্থক্য ও সেপ্টেম্বরের rebuild-এর সমর্থন পাওয়া যায়: <https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/rules>।
-- আয়োজকের বক্তব্য, অংশগ্রহণকারীর দাবি, আমাদের পরিমাপ করা ফল এবং নতুন hypothesis নিচে আলাদা করে দেখানো হয়েছে। অপরীক্ষিত hypothesis-এর জন্য কোনো লাভ ধরে নেওয়া হয়নি।
+- Read all 19 topic files, including their archived replies, under `discussions/`. The index says the forum was fetched on **2026-11-03 16:41 UTC / 22:41 Bangladesh time**.
+- Cross-checked the claims against the current stage implementations, experiment tracker, selector replay, transfer analysis, capacity-scenario analysis, and recent experiment results through October 30.
+- Web search found the official competition pages. Direct web reads of the detailed discussion pages were unavailable or empty; a separate anonymous API refresh failed because shell network DNS was unavailable. Therefore the detailed discussion evidence here is the dated local archive, not an independently refreshed live forum.
+- Official current rules corroborate the online/offline distinction and the September rebuild: <https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/rules>.
+- Organizer statements, participant claims, measured project results, and new hypotheses are distinguished below. No gain is assigned to an untested hypothesis.
 
-## গুরুত্বপূর্ণ threadগুলো আসলে কী দেয়
+## What the useful threads actually offer
 
-| থ্রেড | প্রমাণ | তাৎপর্য | আমাদের সমাধানে অবস্থা |
+| Thread | Evidence | Implication | Status against our solution |
 |---|---|---|---|
-| [742350](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742350), [742328](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742328) | আয়োজক নিশ্চিত করেছেন: 120টি onset window-এর প্রথম পাঁচ horizon step-এ queue নেই; queue আসে শুধু T+30-এ। এই নিয়ম ব্যবহার করা অনুমোদিত | ছয় step-এ positive prediction ছড়িয়ে না দিয়ে step 6-এ location predict করা | **ব্যবহার হচ্ছে।** onset-এর জন্য `to_matrix`-এ `[6]` আছে। অংশগ্রহণকারীর 0.57 → 0.93 ফলটি train onset-এর; আমাদের baseline-এর ওপরে নতুন লাভ নয় |
-| [745700](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/745700) | T সময়ের observation ব্যবহার করা যায়। প্রকাশিত 360-minute spacing ও maximum-persistence-IoU selection rule-ও ব্যবহার করা যায়। শুধু T বা তার আগের origin ব্যবহার করা যাবে | Origin-slot feature ও selector মেনে training করা গুরুত্বপূর্ণ | **অনেকটাই ব্যবহার হয়েছে।** Slot T পড়া হয়; F03-এ faithful candidate ও run-start weighting আছে। ঠিক 360-minute ব্যবধানের window-তে model বদলানোর পরীক্ষা public লাভ প্রতিষ্ঠা করেনি |
-| [749278](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/749278) | Task 2-এর history span Task 1 masking থেকে সুরক্ষিত; train-এ unmasked state আছে | সাধারণ masked calendar window-এর history coverage অফিসিয়াল window-এর মতো নয় | **জানা আছে এবং আংশিক সমাধান হয়েছে।** Raw train history ও selection-faithful set আছে। বিশেষ করে ছোট onset পরিবর্তন যাচাইয়ে pseudo-March এখনও অসম্পূর্ণ proxy |
-| [748789](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/748789) | একই split-এর আগের observation দিয়ে model refit করা যায়। মার্চের সব released traffic এপ্রিলের forecast-এ কাজে লাগানো যায়; উল্টোটি নয় | একই scenario-এর তথ্য দিয়ে adaptation বৈধ; শুরুর public window-এর তুলনায় private window-তে সুযোগ বেশি | **ব্যবহার হচ্ছে।** Scenario prior sp4, মার্চ দিয়ে বাড়ানো onset pv ও ongoing pvogf আছে। A3/B3-তে এই অনুমান নিয়ে দুটি ভিন্ন নির্বাচন রাখা হয়েছে |
-| [748784](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/748784) | 80টি অফিসিয়াল train window সব জুনে। Label তৈরি হয় underlying state থেকে, noisy observation থেকে নয়। Train-এর আরও সময় থেকে window তৈরি যুক্তিসংগত | শুধু অফিসিয়াল train window দিয়ে validation করলে পরিসর ছোট হয়; observed-cell proxy IoU হুবহু অফিসিয়াল metric নয় | **জানা আছে।** নয় মাসজুড়ে faithful train set আছে; noisy ও আংশিক label এখনও validation-এর সীমাবদ্ধতা |
-| [749601](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/749601) | প্রকাশিত descriptive metadata দেখা বৈধ। T-এর পরের traffic fitting, selection বা forecast-এর কোনো মান তৈরিতে ব্যবহার করা যাবে না। আয়োজক প্রতিটি T-এর পরের row সরিয়ে code আবার চালাবেন | শুধু feature extraction নয়, পুরো forecasting পদ্ধতিকে সময়ের সীমা মানতে হবে | বর্তমান provenance/truncation কাজ প্রাসঙ্গিক। পুরো মার্চের pseudo-label diagnostic দিয়ে আগের মার্চ window-এর জন্য method বাছাইয়ের বৈধতা নিজে থেকে প্রতিষ্ঠিত হয় না |
-| [742761](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742761) | আয়োজক অর্জনযোগ্য score বা forecasting-এর কঠিনতা নির্দিষ্ট করেননি। Label-এ observation noise থেকে আসা কোনো বাধ্যতামূলক সীমা নেই | অংশগ্রহণকারীর onset প্রায় 0.7-এ আটকে যায়—এই দাবিকে প্রমাণিত সীমা ধরা যাবে না | **কোনো algorithm প্রকাশ হয়নি।** Noise-free label থাকলেই অনুমোদিত history থেকে ভবিষ্যৎ state নির্ভুল জানা যাবে, এমন নয় |
-| [743819](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/743819) | Ordering হবে milepost/link_id দিয়ে; connectivity হবে incoming/outgoing দিয়ে; ramp attachment আলাদা। শুধু detector link রাখলে graph বিচ্ছিন্ন হওয়া স্বাভাবিক | জোর করে graph connected করা বা from_node/to_node থেকে scorer-এর order অনুমান করা ঠিক নয় | **আগেই audit করা হয়েছে।** নতুন +0.01719 লাভের প্রমাণ নেই; scorer topology এবং data থেকে শেখা propagation direction আলাদা বিষয় |
-| [742980](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742980) | অংশগ্রহণকারী 0.809 pipeline, regularized NNLS ও soft FD projection দিয়েছেন। হঠাৎ onset হলে শুধু speed বেশি দেখে queue বাদ দেওয়া ব্যর্থ হয় | Baseline ও ODME scaling-এর উপকারী শিক্ষা আছে; সরল onset suppression ক্ষতি করতে পারে | **ইতিমধ্যে অতিক্রম করেছি।** আমাদের pipeline এই baseline থেকে তৈরি হলেও reconstruction ও queue model এখন আরও উন্নত |
-| [742068](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742068), [742910](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742910) | Task 2-তে T বা তার আগের traffic নেওয়া যায়; Task 1 offline। Synthetic তারিখ বাস্তব traffic archive-এর সঙ্গে মেলে না | Offline T1 reconstruction বা T-এর পরের ramp দিয়ে online queue forecast বানানো যাবে না। বাইরের traffic data উত্তর পাওয়ার উৎস নয় | **নিয়মের ব্যাখ্যা; নতুন predictive signal নয়** |
+| [742350](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742350), [742328](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742328) | Organizer confirms all 120 onset windows have empty first five horizon steps and queue only at T+30; conditioning on this is allowed | Predict location at step 6, rather than spreading positives over six steps | **Used.** `to_matrix` uses `[6]` for onset. Participant's 0.57 → 0.93 is a train-onset result; it is not fresh headroom over our baseline |
+| [745700](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/745700) | Organizer allows observations stamped T, plus conditioning on the published 360-minute spacing and maximum-persistence-IoU selection rule; only origins at or before T may be used | Origin-slot features and selector-faithful training matter | **Substantially used.** Slot T is read; F03 uses faithful candidates and run-start weighting. Exact-360-minute regime switching was tested and did not establish a public gain |
+| [749278](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/749278) | Organizer says Task 2 history spans are protected from Task 1 masking; train has unmasked states | Ordinary masked calendar windows do not match official history coverage | **Known and partly addressed.** Raw train histories and selection-faithful sets exist. Pseudo-March remains an imperfect proxy, especially for small onset effects |
+| [748789](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/748789) | Earlier same-split observations may refit a model; all released March traffic may inform April forecasts, but not the reverse | Same-scenario adaptation is legitimate and more promising for private than early public windows | **Used.** Scenario prior sp4, March-augmented onset pv and ongoing pvogf. A3/B3 already hedge this assumption |
+| [748784](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/748784) | Organizer confirms all 80 official train windows are in June; labels use underlying state, not noisy observations; wider train windows are reasonable | Official-train-only validation is too narrow; observed-cell proxy IoU is not the exact official metric | **Known.** Nine-month faithful train sets exist; noisy/partial labels remain a validation limitation |
+| [749601](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/749601) | Looking at released descriptive metadata is allowed. Traffic after T must not enter fitting, selection, or values in a forecast; organizers will truncate data after each T and rerun | A method must be causal end to end, not merely at feature extraction | Current provenance/truncation work is relevant. Full-March pseudo-label diagnostics cannot by themselves justify selecting a method for earlier March windows |
+| [742761](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742761) | Organizer rejects neither achievable scores nor forecasting difficulty; labels themselves have no observation-noise floor | Do not treat the participant's onset cap near 0.7 as a theorem | **No algorithm disclosed.** Noise-free labels do not imply that future state is identifiable from permitted history |
+| [743819](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/743819) | Organizer specifies milepost/link_id ordering, incoming/outgoing connectivity, ramp attachments; disconnected detector-only topology is expected | Do not force a connected graph or infer scorer order from from_node/to_node | **Known/audited.** No newly demonstrated 0.01719 gain; distinguish scorer topology from empirically learned propagation direction |
+| [742980](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742980) | Participant shares 0.809 pipeline, regularized NNLS, soft FD projection; abrupt onset defeats simple high-speed suppression | Good baseline lessons, especially ODME scaling; simplistic onset suppression can fail | **Already surpassed.** Our pipeline descends from this baseline, with richer reconstruction and queue models |
+| [742068](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742068), [742910](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench/discussion/742910) | Task 2 uses traffic at or before T; Task 1 is offline; synthetic dates do not match real traffic archives | Offline T1 reconstruction and post-T ramps cannot supply online queue forecasts. External traffic is not an answer source | **Contract clarification, not new signal** |
 
-বাকি threadগুলোও পড়া হয়েছে:
+Remaining topics were also read:
 
-| থ্রেড | 0.90 পদ্ধতির সঙ্গে সম্পর্ক |
+| Thread | Relevance to a 0.90 method |
 |---|---|
-| 740522, 740536 | আগে সরাসরি horizon এবং overlapping history থেকে উত্তর দেখা যেত। এসব disclosure-এর পর repair/rebuild হয়েছে। এগুলো বর্তমান forecasting পদ্ধতি নয় |
-| 740844 | সেপ্টেম্বর 11-এর rebuild-এ scored traffic ও ID বদলেছে; আগের public score তুলনাযোগ্য নয়। পুরোনো বেশি score দিয়ে বর্তমান সক্ষমতা বিচার করা যাবে না |
-| 744187, 749480 | Award, registration, reproducibility ও report-এর নিয়ম; modeling পদ্ধতি নেই |
-| 741898 | Student award-এর পুরোনো ব্যাখ্যা; পরের award announcement সেটি বদলেছে। Modeling পদ্ধতি নেই |
-| 743549 | দ্বিতীয় account থেকে accidental submission-এর ঘটনা; modeling পদ্ধতি নেই |
+| 740522, 740536 | Historical disclosures of direct horizon access and overlapping-history access; both led to repairs/rebuild. These are not remaining forecasting methods |
+| 740844 | September 11 rebuild changed the scored traffic and IDs; earlier public scores are incomparable. Do not infer present attainability from an old high score |
+| 744187, 749480 | Award process, registration, reproducibility and reporting; no modeling method |
+| 741898 | Older student-award clarification, superseded by the later award announcement; no modeling method |
+| 743549 | Secondary-account submission issue; no modeling method |
 
-## বর্তমান baseline থেকে স্কোরের নির্ভুল হিসাব
+## Exact score budget from today's baseline
 
-Competition-এর weight:
+The competition weights are:
 
-`S_total = 0.35 S_state + 0.30 S_queue + 0.15 S_physics + 0.20 S_ODME`।
+`S_total = 0.35 S_state + 0.30 S_queue + 0.15 S_physics + 0.20 S_ODME`.
 
-অন্য output অপরিবর্তিত থাকলে:
+With other outputs unchanged:
 
-`gap = 0.90000 - 0.88281 = 0.01719`।
+`gap = 0.90000 - 0.88281 = 0.01719`.
 
-| যে অংশ বদলাবে | সেই component-এ প্রয়োজনীয় absolute উন্নতি |
+| Changed part | Required absolute component improvement |
 |---|---:|
-| Queue: দুই condition-এর গড় | **+0.05730 S_queue** |
-| শুধু onset | **+0.11460 onset IoU** |
-| শুধু ongoing | **+0.11460 ongoing IoU** |
-| শুধু state | +0.04911 S_state |
+| Queue, both conditions averaged | **+0.05730 S_queue** |
+| Onset alone | **+0.11460 onset IoU** |
+| Ongoing alone | **+0.11460 ongoing IoU** |
+| State alone | +0.04911 S_state |
 
-স্থানীয় Task 3 specification অনুযায়ী effective weight FD-এর জন্য 0.05 এবং LWR-এর জন্য 0.10। শুধু LWR দিয়ে ঘাটতি পূরণ করতে হলে +0.17190 LWR লাগবে। এগুলো হিসাবের শর্ত; অর্জনযোগ্যতার সীমা নয়।
+The effective weights from the local Task 3 specification are 0.05 FD and 0.10 LWR. That would require +0.17190 LWR if that term alone closed the gap. These are arithmetic requirements, not feasibility bounds.
 
-`TRANSFER_ANALYSIS_2026-10-08.md`-এর পুরোনো decomposition-এ onset ≈0.765 এবং ongoing ≈0.863 ধরা হয়েছে। বর্তমান নির্বাচনেও একই public queue block আছে। **এই আনুমানিক মান সঠিক হলে**, S_queue প্রায় 0.814; অন্য অংশ স্থির রেখে লক্ষ্য পূরণে তা প্রায় **0.8713** হতে হবে। কয়েকটি উদাহরণ:
+The historical queue decomposition in `TRANSFER_ANALYSIS_2026-10-08.md` estimates onset ≈0.765 and ongoing ≈0.863. The current picks retain the same public queue block. **If those approximate estimates are accurate**, S_queue is about 0.814 and would need to reach about **0.8713** with the other terms held fixed. Illustrative combinations:
 
-| Onset | Ongoing | গড় S_queue | ওই আনুমানিক decomposition অনুযায়ী মোট স্কোর |
+| Onset | Ongoing | Mean S_queue | Approximate total under that decomposition |
 |---:|---:|---:|---:|
 | 0.7650 | 0.8630 | 0.8140 | 0.88281 |
 | 0.8200 | 0.9200 | 0.8700 | 0.89961 |
 | 0.8300 | 0.9200 | 0.8750 | 0.90111 |
 
-এই মোটগুলো সম্ভাব্য পরিস্থিতির হিসাব; কোনো candidate-এর পরিমাপ করা score নয়। শুধু composite leaderboard থেকে বর্তমান componentগুলোর নির্ভুল score জানা যায় না।
+These totals are scenarios, not measured candidate scores. Current exact component scores are not available from the composite leaderboard alone.
 
-Public-এ প্রতি condition-এ 40টি window আছে। সমান weight-এর aggregation অনুযায়ী একটি window-এর অবদান তার IoU-এর `0.15 / 40 = 0.00375` গুণ। Queue দিয়েই 0.01719 তুলতে হলে সব window মিলিয়ে **4.584 units per-window IoU উন্নতি** লাগবে; যেমন প্রায় দশটি window-এর প্রতিটিতে 0.4584 উন্নতি। এটি বড় আচরণগত পরিবর্তন; সামান্য কয়েকটি threshold edit নয়।
+There are 40 windows per condition on public. Under the balanced aggregation, one window contributes `0.15 / 40 = 0.00375` times its IoU. Closing 0.01719 through queues means **4.584 units of summed per-window IoU improvement**, e.g. roughly ten windows improving by 0.4584 each. It is a substantial behavioral change, not a few marginal threshold edits.
 
-## সম্ভাবনাময় মনে হওয়া কোন ধারণাগুলো আগে পরীক্ষা হয়েছে
+## Which apparently promising ideas have already been tested?
 
-মিলিয়ে দেখা হয়েছে: `experiments/TRACKER.md`, `analysis/TRANSFER_ANALYSIS_2026-10-08.md`, `analysis/CAPACITY_SCENARIO_2026-10-11.md` ও সংশ্লিষ্ট স্থানীয় result file।
+Cross-checks: `experiments/TRACKER.md`, `analysis/TRANSFER_ANALYSIS_2026-10-08.md`, `analysis/CAPACITY_SCENARIO_2026-10-11.md`, and the corresponding local result files.
 
-- **Selector মেনে training:** F03-এ ইতিমধ্যে public +0.00474 এসেছে। এটি baseline-এ আছে; ভবিষ্যতের লাভ হিসেবে আবার যোগ করা যাবে না।
-- **360-minute spacing flag:** EXP_T2_G72-তে flagged window-এ model বদলানো হয়েছিল; public delta −0.00022। সব ধরনের selector modeling ব্যর্থ—এটি তা প্রমাণ করে না, কিন্তু নতুন লাভও প্রতিষ্ঠা করে না।
-- **মাসের শুরুর same-split adaptation:** sp4 public +0.00104 দিয়েছে। আরও জটিল LODO ও mix9 যথাক্রমে −0.00496 ও −0.00144 হারিয়েছে। মাসের শেষের proxy-তে বড় লাভ মানেই মার্চের প্রথম পাঁচ দিনে লাভ নয়।
-- **Ongoing model-এর আরও ভাগ:** ছোট model-এ per-step, step-6 specialist ও queue/free split-এর লাভ 511 leaves-এ টেকেনি; পরীক্ষা EXP_T2_OGCAP।
-- **Extent calibration আগেও ভাবা হয়েছে:** `extcal_lib.py`-তে per-step Platt/isotonic calibration, queue-এর ভেতর/বাইরের calibration, Poisson size model ও size-rescaling arm আছে। নতুন প্রস্তাবকে এসব পরীক্ষা থেকে আলাদা হতে হবে।
-- **একই দিনের context:** OGCLOCK train-এ লাভ দেখিয়েছে; নতুন scenario-তে লাভ ছোট এবং seed অনুযায়ী বদলেছে। এটি deploy করা হয়নি।
-- **Physics/shock filtering:** EXP_T2_SHOCK transfer criteria পাস করেনি। পরের occupancy/vehicle-count feature এবং raw space-time patch-ও নির্ধারিত deployment gate পাস করেনি; পরীক্ষা EXP_T2_PHYS / PATCH।
-- **Private pvogf-এ occupancy:** সাম্প্রতিক PVOCC verdict-এ দুই arm-এই `adopt: false`। বহু দিনের +0.0031 IoU estimate-এর confidence interval-এ শূন্য আছে; private footprint অনুযায়ী মোট লাভ প্রায় +0.00015। এটি +0.01719-এর প্রমাণ নয়।
-- **Onset label noise:** EXP_onset_noise-এর sample-এ positive onset cell-এর মাত্র 0.2% cutoff-এর ±2 km/h-এর মধ্যে ছিল। মূল onset gap মিটিয়ে দেবে বলে label denoising-কে এখনই কৃতিত্ব দেওয়া যায় না।
-- **Capacity ×1.2 correction:** capacity-scenario study-তে train/evaluation-এর মধ্যে এমন miscalibration পাওয়া যায়নি। প্রকাশিত factor কোনো অব্যবহৃত score multiplier নয়।
-- **আরও T1 model ও smoothing:** কয়েকটি সংযোজন ইতিমধ্যে K9-এ আছে। সাম্প্রতিক লাভ অবশিষ্ট ঘাটতির তুলনায় অনেক ছোট; আগের probe অনুযায়ী T4-ও প্রায় saturated। তবে এগুলো T1/3-এর কোনো চূড়ান্ত সর্বোচ্চ সীমা প্রমাণ করে না।
+- **Selector fidelity:** F03 already produced public +0.00474. It is in the baseline, so it cannot be added again to the score budget.
+- **360-minute spacing flag:** EXP_T2_G72 switched models on the flagged windows; public delta was −0.00022. This does not disprove all selector modeling, but it gives no remaining demonstrated gain.
+- **Same-split early-month adaptation:** sp4 gave +0.00104 public. More elaborate LODO and mix9 variants lost −0.00496 and −0.00144. Large later-month proxy gains do not establish a gain on the first five March days.
+- **More ongoing structure:** per-step models, step-6 specialists and queue/free splits did not retain their smaller-model gains at 511 leaves (EXP_T2_OGCAP).
+- **Extent calibration is not unexplored:** `extcal_lib.py` already defines per-step Platt/isotonic calibration, inside/outside-queue calibration, a Poisson size model and size-rescaling arms. A fresh proposal must distinguish itself from these experiments rather than advertise them as new.
+- **Same-day context:** OGCLOCK showed train gains, but new-scenario gains were small and seed-sensitive; it was not shipped.
+- **Physics/shock filtering:** EXP_T2_SHOCK failed the transfer criteria. Later occupancy/vehicle-count features and raw space-time patch arms also failed the stated deployment gates (EXP_T2_PHYS / PATCH).
+- **Occupancy for private pvogf:** the recent PVOCC verdict has `adopt: false` for both arms. Its many-day +0.0031 IoU estimate has a confidence interval crossing zero, and the private-footprint estimate is only about +0.00015 total. It is not evidence for +0.01719.
+- **Onset label noise:** EXP_onset_noise found only 0.2% of positive onset cells within ±2 km/h of the cutoff in its sample. Label denoising cannot currently be credited with fixing the main onset gap.
+- **Capacity ×1.2 correction:** the capacity-scenario study found no corresponding train/evaluation miscalibration. The published factor is not an unused score multiplier.
+- **More T1 models and smoothing:** several additions are already in K9. Recent gains are much smaller than the remaining gap; T4 is already near saturation according to the existing probes. These observations do not constitute an absolute upper bound on T1/3.
 
-## 0.90-এর সমাধান দাবি না করে আর কী পরীক্ষা করা যায়
+## What is still worth investigating, without calling it a 0.90 solution?
 
-### 1. Selection শর্ত মেনে queue site ও extent-এর যৌথ সম্ভাব্যতা
+### 1. A joint distribution over queue sites and extent, conditioned on selection
 
-**এটি hypothesis; এই review-তে পরীক্ষা হয়নি।** বর্তমান `t2_occ.py:decode` cell probability rank করে এবং `sum(top p) / (m + sum(rest p))` proxy সর্বোচ্চ করে। এটি পুরো window-এর বিকল্প queue trajectoryগুলো আলাদাভাবে infer করে না।
+**Hypothesis, untested in this review.** Current `t2_occ.py:decode` ranks cell probabilities and maximizes the proxy `sum(top p) / (m + sum(rest p))`. It does not explicitly infer competing whole-window queue trajectories.
 
-একটি পৃথক পরীক্ষায় pre-origin evidence দিয়ে সম্ভাব্য onset site ও ongoing queue boundary trajectory যৌথভাবে model করা যায়। এরপর সম্ভাব্য trajectoryগুলো জুড়ে গড় IoU অনুযায়ী prediction বাছাই করা যায়। Trajectory distribution-এ প্রকাশিত onset/persistence selector-এর শর্ত রাখতে হবে। তুলনা হবে প্রকৃত production bag-এর সঙ্গে; দুর্বল single model-এর সঙ্গে নয়।
+A distinct experiment would model candidate onset sites and ongoing queue-boundary trajectories jointly, using pre-origin evidence, then choose a prediction by average IoU across plausible trajectories. Condition the trajectory distribution on the published onset/persistence selector. Compare against the actual production bag, not a weaker single model.
 
-এটি শুধু এক বা দুই site-এ prediction সীমিত করা, per-step size scaling বা shock-speed rule দিয়ে cell বাদ দেওয়ার সমান নয়; সেসবের কিছু variant আগেই পরীক্ষা হয়েছে। লক্ষ্য transfer study-তে পাওয়া দুটি ত্রুটি:
+This differs from simply narrowing predictions to one or two sites, per-step size scaling, or removing cells with a shock-speed rule; variants of those approaches have already been tested. It targets the two error types identified in the transfer study:
 
-- Onset: বিশ্লেষিত নতুন-scenario proxy-তে loss-এর 57–78% এসেছে zero-overlap window থেকে; অর্থাৎ location ভুল ছিল।
-- Ongoing: study-র per-step size oracle প্রায় +0.05–0.06 IoU ফেরত পায়। অর্থাৎ extent সম্পর্কে কার্যকর তথ্য পাওয়া গেলে লাভ হতে পারে। Inference-এ oracle পাওয়া যায় না; এই লাভ অর্জনযোগ্য বলে প্রতিষ্ঠিত হয়নি।
+- Onset: 57–78% of loss in the analyzed new-scenario proxies comes from zero-overlap windows, i.e. wrong location.
+- Ongoing: the study's per-step size oracle recovers about +0.05–0.06 IoU, indicating useful extent information could matter. That oracle is unavailable at inference and is not a demonstrated achievable gain.
 
-**অনুমানের গুরুত্বপূর্ণ সীমা:** selection-এ true-state persistence IoU ≤0.9 লাগে। কিন্তু T-তে আমাদের observed/filled queue noisy ও অসম্পূর্ণ। এই proxy-এর সঙ্গে final prediction-এর IoU জোর করে 0.9-এর নিচে নামালেই উন্নতি হবে, এমন নিশ্চয়তা নেই। Selector-কে probabilistic model-এর তথ্য হিসেবে নিয়ে যাচাই করতে হবে; noisy reference-এর ওপর নিশ্চিত উত্তর-শর্ত হিসেবে চাপানো যাবে না। এমনকি Bayes-optimal prediction-ও প্রতিটি সম্ভাব্য true trajectory-এর সব বৈশিষ্ট্য মানতে বাধ্য নয়।
+**Important inference limit:** selection requires true-state persistence IoU ≤0.9. Our observed/filled queue at T is noisy and incomplete. Forcing the final prediction's IoU against that proxy below 0.9 is not logically guaranteed to improve it. The selector should inform a probabilistic model and be validated, not imposed as an assumed answer constraint on a noisy reference. Even a Bayes-optimal prediction need not satisfy every property of each possible true trajectory.
 
-F03 training-এ selection-এর প্রভাব ইতিমধ্যে আছে, তাই বাড়তি লাভ ছোটও হতে পারে। এই প্রস্তাবের কোনো পরিমাপ করা লাভ নেই।
+Because F03 training already conditions on selection, the remaining benefit may be small. There is no measured gain for this proposal.
 
-### 2. শুরুর public ও পরের private সময়ের প্রমাণ আলাদা করে দেখা
+### 2. Treat early-public and later-private evidence separately
 
-**এটি প্রমাণসমর্থিত দিক; বেশিরভাগই ব্যবহার হচ্ছে।** মার্চের প্রথম official window-গুলোর আগে একই scenario-এর খুব অল্প data থাকে। এপ্রিলের আগে পুরো আগের মাস থাকে। আয়োজক সেই history ব্যবহার অনুমোদন করেছেন। তাই বর্তমান A3/B3 নির্বাচন যুক্তিসংগত; তবে সুবিধাটি বর্তমান সমাধানেই আছে।
+**Evidence-backed direction, mostly already used.** March's first official windows have very little same-scenario past; April has the preceding month. The organizer explicitly allows that history. The existing A3/B3 split is consequently sensible, but it is already part of the selected solution.
 
-নতুন adaptation পরীক্ষায় সময়ক্রমে বাড়তে থাকা data prefix ও protected-history-এর মতো input ব্যবহার করা উচিত। Queue location ও extent আলাদা করে মাপতে হবে। পুরো মার্চের diagnostic এপ্রিলের method selection-এ কাজে লাগতে পারে; কিন্তু তা দিয়ে আগের মার্চ forecast-এর fitting/selection-এ T-এর পরের traffic আনা যাবে না। আগেই স্থির করা backtest মূল্যায়নে held-out ভবিষ্যৎ label দেখা যায়; সেই একই আগের forecast fit বা বাছাই করতে তা ব্যবহার করা যাবে না।
+Any new adaptation experiment should use expanding chronological prefixes with protected-history-like inputs, and assess queue location and extent separately. Whole-March diagnostics may inform April method selection, but cannot supply post-origin traffic to earlier March fitting/selection. Held-out future labels may score a frozen backtest; they must not be used to fit or choose that same earlier forecast.
 
-### 3. ছোট লাভ বিশ্বাস করার আগে মাপার পদ্ধতি উন্নত করা
+### 3. Improve the ruler before believing a small gain
 
-**Validation উন্নতির প্রয়োজনের পক্ষে প্রমাণ আছে।** Protected history, মাসের শুরুর origin নির্বাচন, আংশিক observed proxy target ও hidden underlying official target—সবই গুরুত্বপূর্ণ। History coverage-এর distribution এবং সময়ক্রমিক month-start evaluation মিলিয়ে নিতে হবে; এরপর একাধিক panel ও আলাদা scenario-তে লাভ চাইতে হবে। Retrospective FM-PM diagnostic হিসেবে উপকারী; শুধু পুরো মার্চের ফল দিয়ে আগের মার্চ forecast-এর method selection সময়সীমা মেনেছে, তা প্রতিষ্ঠা হয় না।
+**Evidence-backed validation need.** Protected histories, early-origin sampling, partially observed proxy targets and latent official targets all matter. Reproduce the history-coverage distribution and rolling month-start evaluation, then require improvement across panels/scenario holdouts. Use retrospective FM-PM as a diagnostic; its whole-March outputs alone are not causal evidence for selecting an earlier March forecast.
 
-Transfer study-তে পরীক্ষা করা পরিবর্তনগুলোর onset public-probe variability মোট score-এ প্রায় 0.003–0.005। একই file-এর public score deterministic। এখানে variability বলতে sampling এবং variant বাছাইয়ের প্রভাব বোঝানো হয়েছে; server-এর randomness নয়। Public-এ কয়েক দশ-হাজার ভাগের পুনরাবৃত্ত লাভ দিয়ে নির্ভরযোগ্য private লাভ বা 0.90-এর পথ ধরে নেওয়া উচিত নয়।
+The transfer study estimates onset public-probe variability around 0.003–0.005 total for the tested changes. Public scoring is deterministic for a fixed file; this variability concerns sampling and choosing among variants, not server randomness. Repeated public gains of a few ten-thousandths should not be extrapolated into a reliable private gain or a route to 0.90.
 
-## সিদ্ধান্ত
+## Decision
 
-**Discussion থেকে 0.90+ দিতে পারে—এমন কোনো candidate পরীক্ষিত হয়নি।** প্রকাশিত উপকারী সুবিধার বেশিরভাগ ইতিমধ্যে ব্যবহার হয়েছে। পরের যুক্তিসংগত গবেষণা Task 2-এর site/extent prediction, সঙ্গে সময়সীমা মেনে নির্ভরযোগ্য evaluation। Joint trajectory model আলাদা একটি hypothesis; কিন্তু এর পরিমাপ করা লাভ নেই, তাই 0.90-এর প্রতিশ্রুত সমাধান বলা যাবে না।
+**No discussion-derived 0.90+ candidate is demonstrated.** The useful disclosed advantages are mostly already consumed. The remaining plausible research focus is Task 2's site/extent prediction with a faithful chronological evaluation. A joint trajectory model is a distinguishable hypothesis, but it has no measured gain and should not be presented as a promised 0.90 solution.
 
-এই review-তে production code, model output বা final pick পরিবর্তন করা হয়নি।
+No production code, model outputs or final picks were changed during this review.
 
-## পরে পাঠানো বিকল্প বিশ্লেষণের তথ্য যাচাই
+## Fact-check of the subsequently pasted alternative analysis
 
-পাঠানো বিশ্লেষণে onset timing, T-সহ input rule, মার্চ দিয়ে এপ্রিলের adaptation এবং topology contract ঠিকভাবে চিহ্নিত হয়েছে। তবে এসব তথ্য থেকে নিয়মসম্মত 0.90+ পদ্ধতি প্রতিষ্ঠিত হয়েছে—এই সিদ্ধান্ত আসে না।
+The pasted analysis correctly identifies the onset timing, inclusive-T input rule, March-to-April adaptation permission and topology contract. Its assertion that a compliant 0.90+ method has been established does not follow from those facts.
 
-1. **পুরোনো component estimate-কে বর্তমান সর্বোচ্চ সীমা বলা হয়েছে।** 0.940–0.945 state ও প্রায় 0.778 queue এসেছে 0.86217 সময়ের score-gap analysis থেকে। এগুলো বর্তমান নির্ভুল পরিমাপ বা গাণিতিক upper bound নয়। বিশেষ করে 0.530 LWR ceiling সব panel-এর জন্য ওই স্থানীয় prototype থেকে প্রতিষ্ঠিত হয় না।
-2. **Non-queue সর্বোচ্চ স্কোরের হিসাব নিজের table-এর সঙ্গে মেলে না।** উল্লিখিত সর্বোচ্চ মান বসালে `0.35*0.950 + 0.05*0.991 + 0.10*0.530 + 0.20*0.995 = 0.63405`, 0.631 নয়। ওই table ধরলে 0.90 পেতে S_queue = 0.8865 লাগে; 0.631 ধরলে প্রায় 0.89667 লাগে। কোনো অনুমানই অর্জনযোগ্যতা বা প্রকৃত সর্বোচ্চ সীমা প্রমাণ করে না।
-3. **Roadmap-এর ন্যূনতম target যথেষ্ট নয়।** Onset 0.85 ও ongoing 0.88 হলে S_queue = 0.865। Table-এর অনুমিত সেরা non-queue অংশসহ মোট **0.89355**। উপরের বর্তমান আনুমানিক decomposition ধরলে **0.89811**। আরও বেশি score অর্জিত হলে 0.90 ছাড়ানো যেতে পারে; কিন্তু দেওয়া threshold-গুলো নিজেরা সেটি প্রতিষ্ঠা করে না।
-4. **Onset-এর 0.93 একজন অংশগ্রহণকারীর held-out train ফল।** আয়োজক timing property ও তার অনুমোদিত ব্যবহার নিশ্চিত করেছেন; প্রতিটি model বা scored split ওই IoU পাবে বলেননি। আমাদের pipeline-এ timing property আছে।
-5. **Direction reversal নতুন অপরীক্ষিত fix নয়।** `experiments/TRACKER.md:89`-এ EXP_021 দিয়ে W/S panel উল্টে overall pseudo-window delta খারাপ পাওয়ার পর বাদ দেওয়ার তথ্য আছে। আবার `analysis/t2lab/ogphys_lib.py`-এর অক্টোবর 30-এর data check-এ আটটি synthetic panel-এই stable queue head বেশি index-এর দিকে পাওয়া গেছে। Synthetic dynamics যাচাই ছাড়া পাঠানো geographic-direction rule চাপানো উচিত নয়। পরে direction ঠিক করা occGd arm-ও সম্মিলিত deployment gate পাস করেনি।
-6. **বর্তমান baseline-এর অংশকে ভবিষ্যৎ লাভ বলা যাবে না।** Transductive training, CatBoost/LightGBM member, ODME regularization ও উন্নত FD-aware reconstruction আছে। সাধারণ 15% FD blend পুরোনো baseline setting; K9-এর ওপরে লাভের প্রমাণ নয়।
+1. **Historical component estimates are presented as current ceilings.** The 0.940–0.945 state and roughly 0.778 queue figures originate in the 0.86217-era score-gap analysis. They are neither current exact measurements nor mathematical upper bounds. In particular, the 0.530 LWR ceiling is not established across all panels by the cited local prototypes.
+2. **The claimed non-queue maximum is inconsistent with its own table.** Using its stated maxima gives `0.35*0.950 + 0.05*0.991 + 0.10*0.530 + 0.20*0.995 = 0.63405`, not 0.631. Under that assumed table, reaching 0.90 requires S_queue = 0.8865; under 0.631 it requires approximately 0.89667. Neither assumption proves attainability or a true ceiling.
+3. **The proposed roadmap's stated minimum targets do not suffice.** Onset 0.85 and ongoing 0.88 give S_queue = 0.865. Combined with the table's assumed best non-queue score, the total is **0.89355**. Under the illustrative current decomposition above it is **0.89811**. Higher achieved scores could cross 0.90, but the stated thresholds alone do not establish that.
+4. **The onset 0.93 is a participant's held-out train result.** The organizer confirmed the timing property and its permitted use, not that every model or scored split reaches that IoU. Our pipeline already uses the timing property.
+5. **Direction reversal is not an untested fix.** `experiments/TRACKER.md:89` records EXP_021 reversing W/S panels and rejecting it after a negative overall pseudo-window delta. Further, `analysis/t2lab/ogphys_lib.py` records an October 30 data check finding the stable queue head at the high index on all eight synthetic panels. The pasted geographic-direction rule must not be imposed without validating the synthetic dynamics; the later corrected occGd arm also failed its combined deployment gate.
+6. **Existing baseline components cannot be counted as future gains.** Transductive training, CatBoost/LightGBM members, ODME regularization and richer FD-aware reconstruction are already present. A generic 15% FD blend is a historical baseline setting, not evidence of improvement over K9.
 
-মূল্যায়ন: বিকল্প লেখাটি কিছু উপকারী তথ্য সংক্ষেপ করেছে, কিন্তু এই review-এর সিদ্ধান্ত বদলানোর মতো নতুন পরিমাপ করা candidate বা যুক্তিসংগত score budget দেয়নি। Task 2 এখনও গবেষণার সবচেয়ে শক্তিশালী অগ্রাধিকার। একে একমাত্র সম্ভাব্য পথ বলা বা এসব পরীক্ষা দিয়ে 0.90 অর্জনযোগ্য ঘোষণা করা প্রমাণের চেয়ে বেশি দাবি করা হয়।
+Assessment: the alternative text summarizes several useful facts, but supplies no new measured candidate or justified score budget that overturns the review's conclusion. Task 2 remains the strongest research priority; calling it the only possible route or declaring 0.90 achievable from these experiments overstates the evidence.

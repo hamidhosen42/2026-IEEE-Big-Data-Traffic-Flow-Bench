@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.10.23)  6 NOV 2026 11:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.10.23)  10 NOV 2026 22:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1025,19 +1025,8 @@ Underfull \hbox (badness 3815) in paragraph at lines 476--482
  []
 
 
-Underfull \hbox (badness 2005) in paragraph at lines 476--482
-\T1/ptm/m/n/10 (+20) as an AST. Pick A (tfb-k9) is re-built with \T1/pcr/m/n/10
- python
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 476--482
-\T1/pcr/m/n/10 run_all.py --data-root <kaggle_public>
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 476--482
-\T1/pcr/m/n/10 --work-dir ./work --pick A3 --recipe full
+\T1/pcr/m/n/10 --data-root <kaggle_public> --work-dir
  []
 
 
@@ -1067,11 +1056,11 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 938E8FDDCFE7A4B7C868A5BD3629CAA7;4092.
  ) 
 Here is how much of TeX's memory you used:
- 24334 strings out of 467525
- 454817 string characters out of 5407384
+ 24328 strings out of 467525
+ 454766 string characters out of 5407384
  891866 words of memory out of 5000000
  52462 multiletter control sequences out of 15000+600000
- 778861 words of font info for 392 fonts, out of 8000000 for 9000
+ 778610 words of font info for 388 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,17n,94p,1003b,782s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/public/
@@ -1098,10 +1087,10 @@ ebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/times/utmbi8a.
 pfb></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></opt/homebrew/Cellar/texlive/20260301_3/share/texmf-dist/fonts
 /type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 315095 bytes).
+Output written on report.pdf (7 pages, 315853 bytes).
 PDF statistics:
- 343 PDF objects out of 1000 (max. 8388607)
- 272 compressed objects within 3 object streams
+ 345 PDF objects out of 1000 (max. 8388607)
+ 274 compressed objects within 3 object streams
  58 named destinations out of 1000 (max. 500000)
  80596 words of extra memory for PDF output out of 89155 (max. 10000000)
 

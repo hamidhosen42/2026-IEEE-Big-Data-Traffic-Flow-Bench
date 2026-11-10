@@ -1,8 +1,8 @@
-# স্কোরের ঘাটতি বিশ্লেষণ: 0.86217 → 0.90
+# Score gap analysis: 0.86217 → 0.90
 
-**সূত্র:** S_total = 0.35·S_state + 0.30·S_queue + 0.15·S_physics + 0.20·S_ODME; এখানে S_physics = S_FD/3 + 2·S_LWR/3।
+**Formula:** S_total = 0.35·S_state + 0.30·S_queue + 0.15·S_physics + 0.20·S_ODME, where S_physics = S_FD/3 + 2·S_LWR/3.
 
-**কার্যকর weight:**
+**Effective weights:**
 
 | Component | Weight |
 |---|---:|
@@ -12,79 +12,79 @@
 | S_FD | 0.05 |
 | S_ODME | 0.20 |
 
-## 1. 0.86217 স্কোরে componentগুলোর অনুমান
+## 1. Component estimates at 0.86217
 
-| Component | আনুমানিক মান | হিসাবের ভিত্তি | নির্ভরযোগ্যতা |
+| Component | Estimate | How it was obtained | Confidence |
 |---|---:|---|---|
-| S_ODME | 0.994 | আমাদের LB probe ও Hisernberg-এর 0.9938 | উচ্চ |
-| Onset IoU | ≈ 0.758 | Probe-এ 0.84855 অবস্থায় 0.743; এরপর CatBoost-এর +0.004 এবং v9 prior লাভের অর্ধেক | মাঝারি |
-| Ongoing IoU | ≈ 0.797 | Probe-এ 0.747; এরপর prior-free +0.030, v9-এর অর্ধেক +0.011, 127 leaves +0.007 ও 255 leaves +0.002 | মাঝারি |
-| S_queue | ≈ 0.778 | Onset ও ongoing-এর গড়। যাচাই: T2-এর LB delta-র যোগফল 0.0099 = 0.30 × (0.778 − 0.745) | মাঝারি |
-| S_state | ≈ 0.940–0.945 | Validation মাসের holdout-এ 0.9374; সেখানে বাড়তি 15% cell লুকানো থাকায় কাজ কঠিন | মাঝারি |
-| S_FD | ≈ 0.99 | স্থানীয়ভাবে truth row-তে 0.991। FD সব row-তে মূল্যায়িত হয়; সেগুলোর 50–80% released truth | মাঝারি–উচ্চ |
-| S_LWR | ≈ 0.50–0.52 | LB থেকে পাওয়া: 0.35·S_state + 0.15·S_phys = 0.4300। S_state 0.940 ধরলে S_phys 0.674, ফলে S_LWR 0.515 | মাঝারি |
+| S_ODME | 0.994 | LB probes (ours, and Hisernberg's 0.9938) | High |
+| Onset IoU | ≈ 0.758 | Probe: 0.743 at 0.84855, plus the LB deltas since (CatBoost +0.004, half of the v9 prior gain) | Medium |
+| Ongoing IoU | ≈ 0.797 | Probe: 0.747, plus prior-free +0.030, v9 half +0.011, 127 leaves +0.007, 255 leaves +0.002 | Medium |
+| S_queue | ≈ 0.778 | Mean of onset and ongoing. Check: the sum of T2 LB deltas, 0.0099 = 0.30 × (0.778 − 0.745). | Medium |
+| S_state | ≈ 0.940–0.945 | Val-month holdout 0.9374 (harder: an extra 15% hidden) | Medium |
+| S_FD | ≈ 0.99 | Truth rows give 0.991 locally. FD is evaluated on all rows, 50–80% of which are released truth. | Medium–High |
+| S_LWR | ≈ 0.50–0.52 | Solved from the LB: 0.35·S_state + 0.15·S_phys = 0.4300. With S_state 0.940 → S_phys 0.674 → S_LWR 0.515. | Medium |
 
-**Probe-এর হিসাব।** একটি condition-এর prediction সব শূন্য করলে প্রতি panel-এর ওই অর্ধেকের IoU শূন্য হয়। তাই ΔLB = 0.30 × 0.5 × IoU।
-- Onset: 0.84855 − 0.73711 → IoU 0.743।
-- Ongoing: 0.84855 − 0.73657 → IoU 0.747।
+**Probe arithmetic.** Zeroing one condition's predictions sets that half of every panel to IoU 0, so ΔLB = 0.30 × 0.5 × IoU.
+- Onset: 0.84855 − 0.73711 → IoU 0.743.
+- Ongoing: 0.84855 − 0.73657 → IoU 0.747.
 
-## 2. প্রতি task-এ বাস্তবসম্মত বাড়তি লাভের অনুমান
+## 2. Realistic headroom per task
 
-| Task | বর্তমান আনুমানিক শক্তি | Component-এ সম্ভাব্য বৃদ্ধি | মোট score-এ বৃদ্ধি | প্রমাণ | নির্ভরযোগ্যতা |
+| Task | Current strength | Realistic upside (component) | Total-score upside | Evidence | Confidence |
 |---|---:|---:|---:|---|---|
-| Task 1 (S_state) | 0.94 | +0.005 … +0.010 | **+0.002 … +0.0035** | নিজের cell-এর truth ব্যবহার করা, বাস্তবে অপ্রাপ্য 3-point smoothed-truth oracle-এ S_state ≈ 0.950। প্রতিটি নতুন model-এর লাভ কমছে: +0.0024, তারপর +0.0012 | মাঝারি |
-| Task 3 (S_LWR) | 0.51 | +0.00 … +0.03 | **+0.000 … +0.003** | D12_I405_S-এর স্থানীয় prototype, 40/20-day split: temporal interpolation 0.523; residual-HGB model **0.520–0.524**। S_state 0.924 → 0.936 হলেও LWR অপরিবর্তিত। Density blend বা run-smoothing-এ +0.001 … +0.009 S_LWR, score-এ +0.0005। একই সময়ের high-pass neighbour feature-এ 0.516, অর্থাৎ খারাপ। 0.65 smoothed-truth oracle নিজের cell-এর truth ব্যবহার করে, তাই **অর্জনযোগ্য নয়**। Target cell-এর white observation noise LWR-কে আটকে রাখছে বলে স্থানীয় ফল ইঙ্গিত দেয়। Hisernberg-এর TV smoothing-এ +0.0006 LB | মাঝারি–উচ্চ |
-| Task 3 (S_FD) | 0.99 | ≈ 0 | 0 | Truth S_FD স্থানীয়ভাবে 0.991 | উচ্চ |
-| Task 2 onset | 0.758 | +0.02 … +0.05 | +0.003 … +0.0075 | আমাদের CV 0.89 হলেও LB 0.743–0.76। অংশগ্রহণকারীর দাবি করা প্রায় 0.7 সীমা আমরা ছাড়িয়েছি। আয়োজক বলেছেন label-এ noise floor নেই | নিম্ন–মাঝারি |
-| Task 2 ongoing | 0.797 | +0.05 … +0.09 | **+0.0075 … +0.0135** | একই data ও নিয়মে Hisernberg-এর public ongoing 0.843। আমাদের CV 0.92। সম্ভাব্য fix হিসেবে topology audit-এর direction সমস্যা বিবেচনায় ছিল | মাঝারি |
-| Task 4 | 0.994 | ≤ +0.001 | ≤ +0.0002 | প্রায় saturated; আয়োজকের পদ্ধতিই ব্যবহার করছি | উচ্চ |
+| Task 1 (S_state) | 0.94 | +0.005 … +0.010 | **+0.002 … +0.0035** | A 3-point smoothed-truth oracle (unreachable, uses the cell's own value) gives S_state ≈ 0.950. Gains shrink with each model (+0.0024, then +0.0012). | Medium |
+| Task 3 (S_LWR) | 0.51 | +0.00 … +0.03 | **+0.000 … +0.003** | Local prototype (D12_I405_S, 40/20-day split). Temporal interpolation 0.523; residual-HGB model **0.520–0.524** (S_state 0.924 → 0.936, but LWR is unchanged); density blend or run-smoothing +0.001 … +0.009 S_LWR (score +0.0005); same-instant high-pass neighbour features 0.516 (worse). The 0.65 'smoothed-truth oracle' uses the cell's own truth and is **not reachable**. S_LWR is pinned by white observation noise at the target cells. Hisernberg's TV smoothing: +0.0006 LB. | Medium–High |
+| Task 3 (S_FD) | 0.99 | ≈ 0 | 0 | Truth S_FD is 0.991. | High |
+| Task 2 onset | 0.758 | +0.02 … +0.05 | +0.003 … +0.0075 | Our CV is 0.89 but the LB is 0.743–0.76. The participant claim of a "cap near 0.7" is already exceeded. The organizer says labels have no noise floor. | Low–Medium |
+| Task 2 ongoing | 0.797 | +0.05 … +0.09 | **+0.0075 … +0.0135** | Hisernberg's public ongoing is 0.843, with the same data and rules. Our CV is 0.92. Possible fix: the direction bug (topology audit). | Medium |
+| Task 4 | 0.994 | ≤ +0.001 | ≤ +0.0002 | Saturated; we already use the organizer's method. | High |
 
-**বাস্তবসম্মত লাভের যোগফল:** ≈ +0.010 … +0.024 → **0.872 … 0.886**। এই অনুমানে শুধু Task 1 বা Task 3 দিয়ে 0.90 পৌঁছানো যায় না।
+**Sum of realistic upside:** ≈ +0.010 … +0.024 → **0.872 … 0.886**. On this estimate 0.90 is not reachable through Task 1 or Task 3.
 
-**ফলিত অনুমান—গাণিতিক inference:**
-- Task 1, Task 3 ও Task 4 সবার জন্য প্রায় saturated বলে এই বিশ্লেষণে ধরা হয়েছে। Task 3-এ noise বাধা; Task 4-এ আয়োজকের পদ্ধতি আছে।
-- সেক্ষেত্রে rebuild-পরবর্তী KTK-এর 0.90187 থেকে অনুমান হয়: S_queue ≈ 0.778 + (0.0397 − ~0.004) / 0.30 ≈ **0.89**।
-- **সেরাদের সঙ্গে ঘাটতির বড় অংশ Task 2-তে।** এই হিসাব অনুযায়ী তাদের S_queue আমাদের চেয়ে প্রায় 0.11 বেশি লাগবে: onset ও ongoing উভয়ই প্রায় 0.89; শুধু ভালো Task 1 reconstruction যথেষ্ট নয়।
+**Consequence (INFERENCE, arithmetic):**
+- Task 1, Task 3 and Task 4 are close to saturation for everyone. Task 3 is pinned by noise, and Task 4 is the organizer's own method.
+- A post-rebuild 0.90187 (KTK) therefore implies S_queue ≈ 0.778 + (0.0397 − ~0.004) / 0.30 ≈ **0.89**.
+- **The frontier gap is almost entirely Task 2.** Frontier teams need about 0.11 more S_queue than we have: ongoing and onset both ≈ 0.89, not just better Task 1 reconstruction.
 
-**শুধু একটি component দিয়ে +0.0378 তুলতে প্রয়োজনীয় বৃদ্ধি:**
+**Required improvement per component if one lever did it all** (+0.0378):
 
-| Component | প্রয়োজনীয় পরিবর্তন | এই বিশ্লেষণের সম্ভাব্যতার মূল্যায়ন |
+| Lever | Required change | Feasible? |
 |---|---|---|
-| S_queue | +0.126, অর্থাৎ 0.904 | অবাস্তব মনে হচ্ছে |
-| S_LWR | +0.378, অর্থাৎ 0.89 | এখানে অনুমিত noise ceiling-এর ওপরে; অসম্ভব বলে মূল্যায়িত |
-| S_state | +0.108 | অসম্ভব; score-এর সর্বোচ্চ সীমা ছাড়াবে |
+| S_queue | +0.126 (to 0.904) | Unrealistic |
+| S_LWR | +0.378 (to 0.89) | Impossible: above the noise ceiling |
+| S_state | +0.108 | Impossible |
 
-**এই মূল্যায়নে একটি task একা 0.90 দেয় না।** একাধিক অংশের লাভ যোগ করতে হবে।
+**So no single task gets us to 0.90.** The path is additive.
 
-## 3. Task 2-তে বাড়তি লাভের প্রশ্ন
+## 3. Task 2 ceiling questions
 
-- **Q1. Task 2 আর কতটা যোগ করতে পারে?** বাস্তবসম্মত অনুমান **মোট +0.010 … +0.021**; ongoing-এর অবদান বেশি। ওপরের frontier হিসাব সেরাদের সঙ্গে এই অংশে প্রায় +0.033 পার্থক্যের ইঙ্গিত দেয়।
-  - Hisernberg-এর পর্যায়ে ongoing 0.843, onset 0.758 হলে: +0.007।
-  - Ongoing 0.88 ও onset 0.80 হলে: +0.019।
-- **Q2. Task 2-তে কি লাভ কমে আসছে?**
-  - **Onset: আংশিকভাবে।** অংশগ্রহণকারীর দাবি করা 0.7 সীমা ইতিমধ্যে ছাড়ানো হয়েছে। অবশিষ্ট কাজ কোন link-এ queue হবে তা চেনা; selection rule থেকে আর সরাসরি সহজ সুবিধা পাওয়া যাচ্ছে না।
-  - **Ongoing: এখনও নয়।** Public pipeline-এ 0.843 পাওয়া গেছে, আমাদের প্রায় 0.80-এর তুলনায় বেশি। Pooled Task 2 model-এ direction inconsistency-ও পাওয়া গিয়েছিল, যা spatial-propagation feature-এ প্রভাব ফেলতে পারে।
-- **Q3. +0.05 S_queue কি যথেষ্ট?**
-  - এতে মোট +0.015 হয়, অর্থাৎ প্রায় 0.877। **একা যথেষ্ট নয়।**
-  - Task 1-এর +0.002 … +0.0035 ও Task 3-এর ≤ +0.003 যোগ করলেও 0.90-এর নিচে থাকে। **এই baseline থেকে প্রায় +0.11 S_queue লাগবে।**
+- **Q1. How much can Task 2 still add?** Realistically **+0.010 … +0.021 total**, with ongoing the larger part. The frontier arithmetic (section 2) implies top teams have about +0.033 over us here.
+  - At the Hisernberg level (ongoing 0.843, onset 0.758): +0.007.
+  - At ongoing 0.88 and onset 0.80: +0.019.
+- **Q2. Is Task 2 near diminishing returns?**
+  - **Onset: partly.** It is already above the participant-claimed cap of 0.7. What remains is deciding which links queue, and the selection rule gives no further free structure.
+  - **Ongoing: no.** A public pipeline reports 0.843 against our ≈ 0.80. We also found a direction inconsistency in the pooled Task 2 model that affects exactly the spatial-propagation features ongoing depends on.
+- **Q3. Would +0.05 S_queue be enough?**
+  - It gives +0.015 total, reaching about 0.877. **Not enough on its own.**
+  - Even with Task 1 (+0.002 … +0.0035) and Task 3 (≤ +0.003), it stays below 0.90. **0.90 needs roughly +0.11 S_queue.**
 
-## 4. সম্ভাব্য পরিস্থিতির স্কোর হিসাব
+## 4. Scenario budget
 
-এগুলো কোন পরীক্ষা থেকে কত লাভ দরকার তা বোঝানোর **target; অর্জিত ফলের দাবি নয়**।
+These are targets that tell us where experiments must come from, **not claimed gains**.
 
-| পরিস্থিতি | Task 1 | Task 3 LWR | Task 2 | Task 4 | মোট | যা প্রয়োজন |
+| Scenario | Task 1 | Task 3 LWR | Task 2 | Task 4 | Total | Requires |
 |---|---:|---:|---:|---:|---:|---|
-| A: বাস্তবসম্মত | +0.003 | +0.001 | +0.012 | 0 | 0.878 | Transductive T1, direction fix ও ongoing identity |
-| B: শক্তিশালী ফল | +0.0035 | +0.002 | +0.020 | 0 | 0.883 | A-এর ভালো প্রান্তের ফল এবং ongoing ≈ 0.88 |
-| C: 0.90 লক্ষ্য | +0.004 | +0.003 | +0.031 | 0 | 0.900 | S_queue ≈ 0.88: ongoing ≈ 0.92 **ও** onset ≈ 0.84 |
+| A (realistic) | +0.003 | +0.001 | +0.012 | 0 | 0.878 | transductive T1, direction fix + ongoing identity |
+| B (strong) | +0.0035 | +0.002 | +0.020 | 0 | 0.883 | A at the top end, plus ongoing ≈ 0.88 |
+| C (0.90) | +0.004 | +0.003 | +0.031 | 0 | 0.900 | S_queue ≈ 0.88: ongoing ≈ 0.92 **and** onset ≈ 0.84 |
 
-## 5. কাজের অগ্রাধিকারের সিদ্ধান্ত
+## 5. Allocation decision
 
-এই প্রমাণে Task 1 / Task 3-এ compute সরানোর বদলে:
-- Task 3-এ noise-এর বাধা; স্থানীয় prototype-এ প্রায় +0.003-এর বেশি অর্জনযোগ্য সুযোগ পাওয়া যায়নি।
-- Task 1-এ এখানে অনুমিত অবশিষ্ট লাভ সর্বোচ্চ প্রায় +0.0035।
-- **Task 2-তেই সবচেয়ে বেশি কাজ দেওয়া উচিত; শুধু tuning নয়, পদ্ধতিগত পরিবর্তন দরকার।** তখনকার candidate:
-  - Direction সমস্যা—তখন পরীক্ষা চলছিল;
-  - Ongoing-এর link identity—তখন পরীক্ষা চলছিল;
-  - Onset-এর T+30-এ সঠিক queued link বাছাই: bottleneck propensity × live state ও ranking।
-- Task 1-এ দুটি তুলনামূলক সস্তা, প্রমাণসমর্থিত কাজ রাখা হয়েছিল: transductive row বাড়ানো—তখন চলমান—এবং seed bagging।
+The evidence says the opposite of shifting compute to Task 1 / Task 3:
+- Task 3 is noise-pinned; the local prototype shows no reachable lever beyond about +0.003.
+- Task 1 has at most about +0.0035 left.
+- **Task 2 must get most of the effort, and it must be structural rather than tuning.** Candidates:
+  - the direction bug (running);
+  - link identity for ongoing (running);
+  - features that decide *which* links queue at T+30 in onset: bottleneck propensity × live state, and ranking.
+- Task 1 keeps two cheap, well-evidenced items: transductive rows (running) and seed bagging.

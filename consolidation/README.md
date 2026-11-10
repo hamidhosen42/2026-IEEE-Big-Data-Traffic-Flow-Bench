@@ -1,11 +1,9 @@
 # TrafficFlowBench final picks — reproduction code (team hosen42)
 
-> **Draft (milestone 3, 2026-11-03): final picks A3 = `tfb-k9` / B3 = `tfb-k10`.** Every stage of all four picks is ported.
-> - The new stages of A3 / B3 (`t1_mix_k5d`, `t1_lrtc`, `assemble_k10`, members `t1_catb` / `t1_xgb`) reproduce their original
->   kernels byte for byte locally on one real panel-month (`tests/test_k9_parity.py`); their Kaggle parity kernels are generated, not run yet.
-> - Milestone 1 (light stages of A2 / B2) passed Kaggle parity on 2026-10-09. The path_flow fix is to be re-confirmed with `tfb-par-t4` / `tfb-par-chaint1`.
-> - The milestone-2 parity kernels (pseudo windows, Task 1 members, Task 2 ongoing) are generated and dry-run locally, and are waiting for their Kaggle runs.
-> - Open items for the Nov 10 package: see *Open items* at the end.
+> **Final package (2026-11-10).** Selected final submissions: A3 = `tfb-k9` and B3 = `tfb-k10` (public 0.88281 each; private
+> 0.87590, rank 83). The consolidated code rebuilds both: on Kaggle, the A3 assembly scored 0.88281 on the public leaderboard
+> (same as `tfb-k9`), B3 is byte-identical to `tfb-k10`, and the full Task 4 -> Task 1 mix -> k9 chain matches `tfb-k9`
+> exactly on every state and path-flow row (status table at the end).
 
 One entry script rebuilds either final submission of the 2026 IEEE Big Data Cup – TrafficFlowBench competition from the
 released data:
@@ -206,16 +204,14 @@ Queue rows and path_flow must be EXACT. For state rows the kernel reports max |�
 - 25 of the 49 kernels ran: 23 returned PASS (byte-identical reruns) and lean1 returned CLOSE by design. The other 24 were skipped because no local stand-in exists for them (member parts not smoke-run).
 - `tfb-par-v12s4a` returned CLOSE: 4 of 42,499 flow values differed by 1.1e-13 vph (one ulp) between two runs on this Mac. That is threading or summation-order noise, and it is harmless for state rows.
 
-## Open items for the Nov 10 package (A3 / B3)
+## Status at submission (2026-11-10)
 
-| Item | Why | Estimate |
-|---|---|---|
-| Kaggle parity of the light A3 / B3 stages: `tfb-par-k5d`, `tfb-par-k9`, `tfb-par-asma3`, `tfb-par-asmb3`, `tfb-par-chaint1k` (`kaggle_parity/SOURCES.md`) | level 1–2 on the real data and the original outputs (no submission_key.csv locally) | ≈ 2.1 Kaggle-h, one session each, all in parallel → ≈ 1.5 h wall + reading |
-| Re-push `tfb-par-t4` / `tfb-par-chaint1` (path_flow fix) | still open from milestone 1; the A3 path_flow rows are tfb-j4's | 1.1 Kaggle-h |
-| Kaggle parity of the 12 catb / catb2 / xgb member parts (`tfb-par-catb*`, `-xgb*`) | the CatBoost / XGBoost versions of the original image were not logged; a rerun on today's image shows whether the members are EXACT or drift (expected: smooth, ≈ "a new seed" at most) | 38 Kaggle-h, 5 sessions in parallel → ≈ 10 h wall |
-| Milestone-2 parity still not run (pseudo, Task 1 LightGBM members, Task 2 ongoing incl. LGB_REPRO repeatability) | unchanged from A2 / B2; A3 / B3 use the same stages | ≈ 140 Kaggle-h (see SOURCES.md) → 2–3 days wall at 5 sessions |
-| **Task 2 post-T deletion rerun test** | the organizer reruns Task 2 with every row after each window's T removed; predictions must not change. A3 / B3 use the same Task 2 stages as A2 / B2 (`onset_sp`, `onset_pv`, `ongoing_val`, `ongoing_pvogf` / `ogfeat_*`, `ogveto`), so one test covers all four picks: build a copy of the release with the post-T rows of every Task 2 window removed, rerun the Task 2 stages, compare the queue files (EXACT required; LightGBM stages with LGB_REPRO) | 0.5 day to write the deleter (per window: masked / ramp / occupancy layers after T) + ≈ 22 Kaggle-h of Task 2 stages (or 12 h on 8 cores) |
-| Off-Kaggle full run of A3 (8 cores / ≥ 32 GB Linux x86-64, Docker image B) | measures the real wall time / RAM of the 18-member recipe and gives the rerun-vs-submission table | ≈ 4–4.5 days wall (full A3; B3 + 0.5 day) – starts too late for Nov 10 unless begun by Nov 5; otherwise report the Kaggle parity results and the projected runtime |
-| Package versions of the k-generation images | catb / xgb / k5d / k9 / k10 ran on Kaggle's default image of 10-10 … 11-03 (not image B); record `ENV` lines of the parity kernels and pin `catboost`, `xgboost` in `ENVIRONMENT.md` | with the parity runs |
-| PDF report (15 % of the award score) | DESIGN §6 outline + the A3 additions (CatBoost / XGBoost members, LRTC steps M / B, LB 0.88176 → 0.88281) | 1–1.5 days |
-| Measure k9 / k10 runtimes | not traced (expected 16–20 min / ≈ 2 min) | from the parity logs |
+| Item | Result |
+|---|---|
+| Kaggle parity of the light A3 / B3 stages (`tfb-par-k5d`, `-k9`, `-asma3`, `-asmb3`, `-chaint1k`), 2026-11-03/04 | k5d, k9, asmb3: PASS (byte-identical); chaint1k: PASS (state and path_flow EXACT vs `tfb-k9`); asma3: CLOSE (queue and path_flow EXACT, state rows differ by <= 3.6e-15 km/h / 9.1e-13 veh/h); its upload scored 0.88281 on the public leaderboard |
+| Re-push `tfb-par-t4` / `tfb-par-chaint1` (path_flow fix) | t4: CLOSE (EXACT vs tfb-j4 / tfb-j3; 390 values one ulp from tfb-final); chaint1: CLOSE |
+| Task 2 rerun with every row after each window's T removed | done offline on release-shaped trees (`award/t2_postT/` in the package): 0 changed cells in every comparison; the run exposed crashes of the original code on empty inputs, fixed by 18 guarded lines (`[POSTT-R1..R6]` in `tfb/stages/`) that leave the full-data output byte-identical |
+| Kaggle parity of the 12 catb / catb2 / xgb member parts | not run (38 Kaggle-h); the members are covered indirectly by `tfb-par-chaint1k`, which rebuilds k5d -> k9 from their outputs exactly |
+| Milestone-2 parity (pseudo windows, Task 1 LightGBM members, Task 2 ongoing) | not run on Kaggle (about 140 Kaggle-h); local dry runs above. Task 2 ongoing LightGBM stages run with `deterministic=True, force_row_wise=True` (LGB_REPRO); the original kernels did not, so a rerun differs from the submitted file in a few dozen of 87,000 queue cells (private-score bound about 0.0012, inside the 1 % tolerance) |
+| Off-Kaggle full run of A3 | not run (about 4 days on 8 cores); measured Kaggle times of the light stages: k9 step 1121 s, Task 4 + Task 1 mix + k9 chain 3599 s, each assembly about 110 s |
+| Package versions | `requirements.txt` pins the versions of the Kaggle image the parity runs used (see `ENVIRONMENT.md`) |

@@ -1,117 +1,115 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# 2026-IEEE-Big-Data-Traffic-Flow-Bench
 
-# 2026 - IEEE -বিগ ডেটা-ট্রাফিক-ফ্লো-বেঞ্চ
+Our solution and experiment log for the Kaggle competition
+[**2026 IEEE Big Data – Traffic Flow Bench**](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench).
+Kaggle team: *Md. Hamid Hosen* (`hosen42`).
 
-ক্যাগল প্রতিযোগিতার জন্য আমাদের সমাধান এবং পরীক্ষার লগ
-[  **2026  IEEE বড় ডেটা  –  ট্রাফিক ফ্লো বেঞ্চ**  ](https://www.kaggle.com/competitions/2026-ieee-big-data-traffic-flow-bench) .
-ক্যাগল দলঃ * মেডিকেল হামিদ হোসেন* ( `hosen42` ).
+**Best public LB: 0.85309.** We started from 0.53880, and the public base notebook scores 0.80939.
 
-**সেরা পাবলিক LB : 0.85309 .** আমরা 0.53880 থেকে শুরু করেছি , এবং পাবলিক বেস নোটবুকের স্কোর 0.80939 ।
-
-> পাবলিক লিডারবোর্ডটি বৈধতা মাসের (মার্চ) স্কোর করে। চূড়ান্ত র্যাঙ্কিংটি একটি পৃথক ব্যক্তিগত মাস (এপ্রিল) ব্যবহার করে, স্বতন্ত্রভাবে এবং আরও বেশি ঘটনা সহ তৈরি করা হয়।
+> The public leaderboard scores the validation month (March). The final ranking uses a separate private month (April), generated independently and with more incidents.
 
 ---
 
-## এক প্যারাগ্রাফের প্রতিযোগিতা
+## The competition in one paragraph
 
-5 -মিনিটের রেজোলিউশনে দশটি সিন্থেটিক হাইওয়ে করিডোর, চারটি কাজ একসাথে স্কোর করা হয়েছেঃ
+Ten synthetic freeway corridors at 5-minute resolution, with four tasks scored together:
 
 ```
 S_total = 0.35·S_state + 0.30·S_queue + 0.15·S_physics + 0.20·S_ODME
 ```
 
-| টাস্ক | প্রশ্ন করা হয় | মেট্রিক |
+| Task | What is asked | Metric |
 |---|---|---|
-| 1 রাষ্ট্র | মাস্কযুক্ত গতি এবং প্রবাহ পুনর্নির্মাণ ( 20/30/50 % মাস্ক) | `0.54·(1−RMSE_v/25) + 0.46·(1−RMSE_q,lane/600)` |
-| 2 ক্রম | T+5 ..T+30 এর জন্য লিঙ্ক প্রতি বাইনারি ক্যু (গতির ≤0.6 · v_free ) , ইতিহাসের 60 মিনিট থেকে | প্রতি windowতে স্থান-সময় আইওইউ |
-| 3 পদার্থবিজ্ঞান | টাস্ক 1 ফাইল থেকে গণনা করা হয়েছেঃ মৌলিক চিত্র + যানবাহন সংরক্ষণ | `(S_FD + 2·S_LWR)/3` |
-| 4 ODME | লিঙ্ক গণনা এবং একটি দুর্বল পূর্ববর্তী থেকে পথ প্রবাহ | OD , লিঙ্ক, বিচ্যুতি এবং আকর্ষণের পদগুলির সমন্বিত |
+| 1 State | Reconstruct masked speed and flow (20/30/50% masks) | `0.54·(1−RMSE_v/25) + 0.46·(1−RMSE_q,lane/600)` |
+| 2 Queue | Binary queue (speed ≤ 0.6·v_free) per link for T+5..T+30, from 60 min of history | Space-time IoU per window |
+| 3 Physics | Computed from the Task 1 file: fundamental diagram + vehicle conservation | `(S_FD + 2·S_LWR)/3` |
+| 4 ODME | Path flows from link counts and a weak prior | Composite of OD, link, deviation and attraction terms |
 
-অফিসিয়াল ডকুমেন্টস, মূল্যায়নকারী এবং বেসলাইনঃ https://github.com/jacky850/trafficflowbench-public
+Official docs, evaluators and baselines: https://github.com/jacky850/trafficflowbench-public
 
 ---
 
-## লিডারবোর্ডের ইতিহাস
+## Leaderboard history
 
-| উপস্থাপনা | যা পরিবর্তন হয়েছে | জনসাধারণ LB |
+| Submission | What changed | Public LB |
 |---|---|---:|
-| একটি পাবলিক পাইপলাইন এর পূর্ববর্তী অনুলিপি | – | 0.53880 |
-| বেস নোটবুক * [0.809  LB] পদার্থবিজ্ঞান পাইপলাইন* (সুকীয়াইজেনজ) | রেফারেন্স | 0.80939 |
-| PROBE_T2 | বেস + **আমাদের টাস্ক 2 মডেল** (শুধুমাত্র ক্যো লাইন পরিবর্তন) | 0.84357 |
-| SUB_A | + আমাদের টাস্ক 1 লাইটজিবিএম (গ্যাপ-সচেতন) | 0.84499 |
-| FINAL v2 | + প্রোফাইল মুক্ত টাস্ক 1 মডেল, আবাসন বৈশিষ্ট্য, গতির সীমা | 0.84855 |
-| **OG_NOPRIOR** | **+ চলমান ক্যু windowতে পূর্বের মুক্ত মডেল** | **0.85309** |
-| ON30 | আগে থেকে মুক্ত মিশ্রণ (প্রত্যাখ্যান করা) | 0.84917 |
+| Earlier copy of a public pipeline | – | 0.53880 |
+| Base notebook *[0.809 LB] Physics Pipeline* (soukeaizenz) | reference | 0.80939 |
+| PROBE_T2 | base + **our Task 2 model** (only queue rows changed) | 0.84357 |
+| SUB_A | + our Task 1 LightGBM (gap-aware) | 0.84499 |
+| FINAL v2 | + profile-free Task 1 model, occupancy features, speed cap | 0.84855 |
+| **OG_NOPRIOR** | **+ prior-free model on ongoing queue windows** | **0.85309** |
+| ON30 | onset with a more prior-free blend (rejected) | 0.84917 |
 
-**পরিমাপ LB বিভাজন** (জোন্ড উপস্থাপনা যা এক window টাইপ শূন্য করে): শুরু IoU 0.743 , চলমান IoU 0.747 , S_queue  0.745 . এটি ছিল আগে OG_NOPRIOR বাড়ানো চলমান দ্বারা প্রায় 0.03 .
-
----
-
-## পাইপলাইন
-
-### 2 টাস্কঃ ক্যু পূর্বাভাস (সর্বাধিক লাভ, +0.034 on LB )
-- **window সেলেক্টর প্রতিলিপি.**
-  - আয়োজকদের কাছ থেকে পুনরাবৃত্তি করা নিয়মঃ
-    - ইতিহাস [ T−60 , T), কমপক্ষে 70 % cellের যোগ্যতা রয়েছে।
-    - একটি window `ongoing` যদি ইতিহাসের মধ্যে একটি লিঙ্কটিতে ≥2 ক্রম পর্যবেক্ষণের সাথে ≥2 থাকে; অন্যথায় এটি `onset` হয়।
-    - horizonের মধ্যে অবশ্যই একটি সারির ব্যবস্থা থাকবে।
-    - ধারাবাহিকতা IoU ≤0.9 হতে হবে।
-    - নির্বাচন সময়সূচিতে লোভী, 360 -মিনিট বৈশ্বিক ব্যবধানের সাথে।
-  - প্রতিরূপটি সমস্ত 40 অফিসিয়াল train-এর সূচনা windowগুলো পুনরায় তৈরি করে। প্রতিটিতে, সারিতে প্রথমে টি +30 এ উপস্থিত হয়।
-  - আমরা এটি ব্যবহার করে 5,000 trainিং windowগুলো আঁকতে 9 train মাস থেকে।
-- **বৈশিষ্ট্য.** শুধুমাত্র T এর আগে ডেটা, প্লাস T স্লট এ মাস্কড ভিউঃ
-  - speed/v_cut এবং flow/capacity একাধিক লেগেস;
-  - লিঙ্ক ব্যান্ডে প্রতিবেশী লিঙ্ক ±1..3 এবং upstream/downstream সর্বনিম্ন;
-  - এখন এবং 15 মিনিট আগে নিকটতম ক্যোয়ার থেকে দূরত্ব;
-  - ক্যারিয়ার ক্যোয়ার শেয়ার;
-  - স্ট্যাটিক লিঙ্ক ডেটা;
-  - লিঙ্ক × সময়সীমা দ্বারা একটি ঐতিহাসিক ক্যু আগে।
-- **মডেল।** দুটি যৌথ LightGBM শ্রেণীবিভাজনকারীঃ
-  - শুরুঃ শুধুমাত্র T+30 সারি;
-  - চলমানঃ ক্রমের কাছাকাছি কক্ষ।
-  - প্রতিটি প্রশিক্ষণ **পূর্বের-মুক্ত** সংস্করণেও দেওয়া হয়, যেখানে অবস্থান এবং সময় বৈশিষ্ট্য নেই।
-- **ডিকোডিং.** প্রতিটি windowর জন্য, শীর্ষ-m cellগুলি নির্বাচন করুন যা প্রত্যাশিত-IoU surrogate `Σp_S / (|S| + Σp_¬S)` সর্বাধিক করে।
-- **মিশ্রণ।**
-  - শুরুঃ 0.7 ·main +0.3 ·previous-free। শুরুতে অবস্থান পূর্বসূরি প্রয়োজন; একটি আরো পূর্ব-free শুরু 0.004 হারিয়ে LB উপর।
-  - চলমানঃ **শুধুমাত্র** , যা মাসের পুনরাবৃত্তিহীন (অঘটন) ক্যারেজগুলির জন্য শক্তিশালী (+0.0045  LB ) ।
-
-### টাস্ক 1 (+ টাস্ক 3 ): রাষ্ট্রীয় পুনর্গঠন
-- **অবশিষ্ট থেকে প্রতি স্টেশন সময়কালীন অন্তর্ভুক্তি** উপর LightGBM . বৈশিষ্ট্যঃ
-  - সময় এবং স্থানিক অন্তর্ভুক্তি (মিলেপস্ট দ্বারা অর্ডারযুক্ত **মোট** প্রবাহের উপর স্থানিক);
-  - t−1 , t এবং t+1 এ প্রতিবেশী মান;
-  - ভাড়া;
-  - দূরত্ব;
-  - স্ট্যাটিক লিঙ্ক ডেটা।
-- train-এর ভিউতে **অনুশীলন 90 - মিনিট ব্ল্যাকআউট** প্রতিটি টাস্ক 2 উত্সের পরে প্রশিক্ষণ দেওয়া হয়েছে। বৈধতা এবং ব্যক্তিগত মাসগুলিতে এই অন্ধকার ফাঁক রয়েছে, প্রায় 1.9 % লক্ষ্য।
-- চূড়ান্ত মডেলের **নেই কর্মদিবসের × দিনের সময় প্রোফাইল বৈশিষ্ট্য** . এটি 10/10 প্যানেলগুলিতে বৈধতা-মাসের অভ্যন্তরীণ স্থিরতার উপর প্রোফাইল মডেলকে ছাড়িয়ে গেছে ( 0.9307 বনাম 0.9280 ; বেস 0.9141 ).
-- গতি 1.05 · v_free এ সীমাবদ্ধ এবং প্রবাহ ≥20 vph ( S_FD ফাঁকা রাস্তা গার্ডের অনেক উপরে) ।
-
-### কাজ 4 : ODME
-- **এর উপর পূর্ব-নিয়মিত NNLS (λ = 0.05 ) প্রতিটি বিভাগের নিজস্ব মুক্তি গণনা এবং নিজস্ব পূর্ব** । S_link ≈0.9999 , এবং S_ODME ≈0.994  LB এর উপর অন্য দলের জরিপ অনুযায়ী ।
+**Measured LB decomposition** (probe submissions that zero out one window type): onset IoU 0.743, ongoing IoU 0.747, S_queue 0.745. This was before OG_NOPRIOR raised ongoing by about 0.03.
 
 ---
 
-## বৈধতা (জমে থাকা fold)
-- **টাস্ক 1 :** train বিভক্ত, অফিসিয়াল টেমপ্লেট থেকে লক্ষ্য, 3 ধারাবাহিক দিনের ব্লক। **বৈধতা মাসের অভ্যন্তরীণ স্থগিতকরণও রয়েছে** : 15 % মুক্তিকৃত cell লুকানো রয়েছে, যা ফুটো মুক্ত এবং LB দিকটি ট্র্যাক করে।
-- **টাস্ক 3 :** স্থানীয় LWR প্রক্সি `1 − Σ|ΔN_pred − ΔN_obs| / Σ|ΔN_obs|` . সংগঠকের সীমান্ত প্রবাহ প্রকাশিত পর্যবেক্ষণের উপর প্রজেক্ট করা হয়, তাই এই প্রক্সি অফিসিয়াল শব্দটি ট্র্যাক করে।
-- **টাস্ক 2 :**  4 ধারাবাহিক দিনের ব্লক, নির্মাতা-নিষ্ঠানবান ছদ্মবেশী windowতে এবং 80 অফিসিয়াল train windowতে স্কোর করা হয়েছে। স্থানীয় CV  0.88 এর তুলনায় LB এর প্রায় 0.75 এর তুলনায়। অফিসিয়াল ধারাবাহিকতার বেসলাইন একই অনুপাত দেখায় ( 0.82 ), তাই ফাঁকটি পদ্ধতিগত (প্রক্সি সত্য এবং মাস পরিবর্তনের), মডেল-নির্দিষ্ট নয়।
+## Pipeline
 
-## যা কাজ করেনি (সমস্ত পরিমাপ)
-| ধারণা | ফলাফল |
+### Task 2: queue forecasting (largest gain, +0.034 on LB)
+- **Window selector replica.**
+  - Rules replicated from the organizers:
+    - History is [T−60, T), with at least 70% of cells eligible.
+    - A window is `ongoing` if the history holds ≥2 queued observations with ≥2 on one link; otherwise it is `onset`.
+    - The horizon must contain a queue.
+    - Persistence IoU must be ≤ 0.9.
+    - Selection is greedy in time order, with 360-minute global spacing.
+  - The replica reproduces all 40 official train onset windows. In every one, the queue first appears at T+30.
+  - We used it to draw about 5,000 training windows from the 9 train months.
+- **Features.** Only data before T, plus the masked view at slot T:
+  - speed/v_cut and flow/capacity at several lags;
+  - neighbour links ±1..3 and upstream/downstream minima in link bands;
+  - distance to the nearest queue now and 15 minutes ago;
+  - corridor queue share;
+  - static link data;
+  - a historical queue prior by link × time slot.
+- **Models.** Two pooled LightGBM classifiers:
+  - onset: T+30 rows only;
+  - ongoing: cells near queue activity.
+  - Each is also trained in a **prior-free** version, without the location and time features.
+- **Decoding.** For each window, pick the top-m cells that maximise the expected-IoU surrogate `Σp_S / (|S| + Σp_¬S)`.
+- **Blend.**
+  - Onset: 0.7·main + 0.3·prior-free. Onset needs location priors; a more prior-free onset lost 0.004 on LB.
+  - Ongoing: **prior-free only**, which is robust to the month's non-recurrent (incident) queues (+0.0045 on LB).
+
+### Task 1 (+ Task 3): state reconstruction
+- LightGBM on the **residual to per-station temporal interpolation**. Features:
+  - temporal and spatial interpolation (spatial on **total** flow, ordered by milepost);
+  - neighbour values at t−1, t and t+1;
+  - occupancy;
+  - gap distances;
+  - static link data.
+- Trained on train views with **simulated 90-minute blackouts** after each Task 2 origin. The validation and private months contain these dark gaps, about 1.9% of targets.
+- The final model has **no weekday × time-of-day profile features**. It beat the profile model on a validation-month internal hold-out in 10/10 panels (0.9307 vs 0.9280; base 0.9141).
+- Speed is capped at 1.05·v_free, and flow at ≥ 20 vph (well above the S_FD empty-road guard).
+
+### Task 4: ODME
+- Prior-regularised NNLS (λ = 0.05) on **each split's own released counts and own prior**. S_link is ≈ 0.9999, and S_ODME is ≈ 0.994 on LB according to other teams' probes.
+
+---
+
+## Validation (frozen folds)
+- **Task 1:** train split, targets from the official template, 3 contiguous day blocks. There is also an internal hold-out on the **validation month itself**: 15% of the released cells are hidden, which is leakage-free and tracks the LB direction.
+- **Task 3:** local LWR proxy `1 − Σ|ΔN_pred − ΔN_obs| / Σ|ΔN_obs|`. The organizer's boundary flows are projected onto the released observations, so this proxy tracks the official term.
+- **Task 2:** 4 contiguous day blocks, scored on builder-faithful pseudo windows and on the 80 official train windows. Local CV is about 0.88, against about 0.75 on LB. The official persistence baseline shows the same ratio (0.82), so the gap is systematic (proxy truth and month shift), not model-specific.
+
+## What did not work (all measured)
+| Idea | Result |
 |---|---|
-| স্ট্রাকচারাল Kalman/RTS ফর টাস্ক 1 | ইন্টারপোলার থেকেও খারাপ |
-| প্রতি রান প্রবাহের উপর স্থানিক অন্তর্ভুক্তি | −0.055 S_state |
-| ঘনত্ব মডেল / ঘনত্ব টান / L1 - ঘনত্ব সমন্বয় জন্য টাস্ক 3 | কোন T1 + T3 লাভ নেই |
-| 2 টাস্কের প্রেক্ষাপট বৈশিষ্ট্য (একই দিন, পূর্ববর্তী দিন) | ≈0 |
-| ক্রম ব্লক (শকওয়েভ) বৈশিষ্ট্য, সমান window ওজন | ≈0 |
-| আরও বেশি প্রাক-মুক্ত শুরু | −0.004 LB |
-| অনুমানঃ ভুল v_cut উৎস, অসেন্সরযুক্ত লিঙ্কগুলি অবলোকন করা হয়নি | তথ্য দ্বারা প্রত্যাখ্যান করা |
+| Structural Kalman/RTS for Task 1 | worse than interpolation |
+| Spatial interpolation on per-lane flow | −0.055 S_state |
+| Density model / density pull / L1-density reconciliation for Task 3 | no T1+T3 gain |
+| Task 2 context features (same day, previous days) | ≈ 0 |
+| Queue-block (shockwave) features, equal window weights | ≈ 0 |
+| More prior-free onset | −0.004 LB |
+| Hypotheses: wrong v_cut source, unsensored links unobserved | rejected by data |
 
-প্রতিটি পরীক্ষার সাথে সম্পূর্ণ লগঃ [  `experiments/TRACKER.md`  ](experiments/TRACKER.md) .
+Full log with every experiment: [`experiments/TRACKER.md`](experiments/TRACKER.md).
 
 ---
 
-## রিপোজিটরি লেআউট
+## Repository layout
 ```
 TFB_final_notebook.ipynb   single end-to-end notebook (Task 2 → Task 1 → Task 4 → assembly + gates)
 kaggle_jobs/               everything that ran on Kaggle
@@ -131,14 +129,14 @@ notebooks/                 public competition notebooks studied (renamed with th
 top2_notebooks.zip         notebooks of the two best submissions
 ```
 
-## কিভাবে দৌড়ানো যায়
-1. **Kaggle (প্রস্তাবিত):** প্রতিযোগিতার তথ্য সংযুক্ত একটি নোটবুক তৈরি করুন এবং `TFB_final_notebook.ipynb` উপরে থেকে নীচে চালান। CPU এ এটি 2.5 ঘন্টা সময় নেয়। দ্রুত শেষ থেকে শেষ চেক করার জন্য `SMOKE = True` সেট করুন।
-2. **এই মেশিন থেকে:**
-   - `python3 kaggle_jobs/kjob.py push <slug> <file.py|.ipynb> [upstream kernels...]` দিয়ে একটি kernel চাপুন , তারপর `wait` এবং `output` দিয়ে ।
-   - `KAGGLE_API_TOKEN=... python kaggle_jobs/submit.py <slug> <version> "<description>" [file]` দিয়ে একটি kernel আউটপুট জমা দিন .
+## How to run
+1. **Kaggle (recommended):** create a notebook with the competition data attached and run `TFB_final_notebook.ipynb` top to bottom. It takes about 2.5 hours on CPU. Set `SMOKE = True` for a quick end-to-end check.
+2. **From this machine:**
+   - Push a kernel with `python3 kaggle_jobs/kjob.py push <slug> <file.py|.ipynb> [upstream kernels...]`, then `wait` and `output`.
+   - Submit a kernel output with `KAGGLE_API_TOKEN=... python kaggle_jobs/submit.py <slug> <version> "<description>" [file]`.
 
-**এই রেপোতে নেইঃ** প্রতিযোগিতার তথ্য (ক্যাগল নিয়ম পুনর্বিন্যাসের নিষেধাজ্ঞা), বড় kernel আউটপুট এবং শংসাপত্র। প্রতিযোগিতা শেষ না হওয়া পর্যন্ত এই **সংগ্রহস্থলটি** ব্যক্তিগত রাখুন। টিম জুড়ে প্রায় অভিন্ন ভবিষ্যদ্বাণী উভয়কে অযোগ্য করতে পারে।
+**Not in this repo:** the competition data (Kaggle rules forbid redistribution), large kernel outputs and credentials. Keep this repository **private** until the competition ends. Near-identical predictions across teams can make both ineligible.
 
-## সময়সীমা
-- `trafficflowbench@gmail.com` এ নিবন্ধন ইমেইল **Oct 25 , 2026** .
-- চূড়ান্ত জমা দেওয়ার সময়সীমা **নভেম্বর 7 , 2026  06:55  UTC** . 2 চূড়ান্ত জমা দেওয়ার জন্য নির্বাচন করুন।
+## Deadlines
+- Registration e-mail to `trafficflowbench@gmail.com` by **Oct 25, 2026**.
+- Final submission deadline **Nov 7, 2026 06:55 UTC**. Select 2 final submissions.

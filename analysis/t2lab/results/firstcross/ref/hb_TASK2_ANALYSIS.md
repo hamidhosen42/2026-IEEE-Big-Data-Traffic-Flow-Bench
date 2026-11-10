@@ -1,496 +1,494 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# Task 2 (online queue-propagation forecasting): analysis and models
 
-# 2 (অনলাইন কয়েন-প্রসারণ পূর্বাভাস): বিশ্লেষণ ও মডেল
+Code: `trafficflow/t2/` (run with `PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2`;
+`trafficflow/t2/run_all.sh` runs the whole thing).
+Candidate files: `/home/user/work/t2/*.csv` (validation + private rows of all 8
+scored panels, 174,000 rows, template-exact, timestamps verbatim, binary int).
 
-কোডঃ `trafficflow/t2/` ( `PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2` দিয়ে চালানো);
-`trafficflow/t2/run_all.sh` পুরোটা চালায়) ।
-প্রার্থী ফাইলঃ `/home/user/work/t2/*.csv` (সমস্ত 8 এর বৈধতা + ব্যক্তিগত সারি)
-প্যানেল, 174,000 সারি, টেমপ্লেট-নিখুঁত, টাইমস্ট্যাম্প ভার্বাটাইম, বাইনারি int) ।
+## 0. Summary
 
-## 0 . সংক্ষিপ্তসার
+Scores are 4-fold week-blocked CV on windows drawn by our reproduction of the
+official selector on train. `sim` = 2,082 onset + 3,001 ongoing windows;
+`off` = the 80 official train windows. Official aggregation is used.
 
-আমাদের প্রতিলিপি দ্বারা আঁকা windowগুলোতে 4 -fold week-blocked CV
-trainে অফিসিয়াল সেলেক্টর। `sim` = 2,082 শুরু +3,001 চলমান window;
-`off` = 80 অফিসিয়াল train-এর window। অফিসিয়াল সমষ্টি ব্যবহার করা হয়।
-
-| প্রার্থী ফাইল | শুরু সিম / বন্ধ | চলমান সিম / অফ | **সামগ্রিক সিম / অফ** |
+| candidate file | onset sim / off | ongoing sim / off | **overall sim / off** |
 |---|---:|---:|---:|
-| `persistence.csv` (অফিসিয়াল বেসলাইন) | 0.000 / 0.025 | 0.569 / 0.581 | 0.285 / 0.303 |
+| `persistence.csv` (official baseline) | 0.000 / 0.025 | 0.569 / 0.581 | 0.285 / 0.303 |
 | `persistence_fill.csv` | 0.000 / 0.025 | 0.705 / 0.749 | 0.353 / 0.387 |
-| `range_prior_pers_fill.csv` (শুধুমাত্র নিয়ম) | 0.622 / 0.683 | 0.705 / 0.749 | 0.663 / 0.716 |
-| `lgb_v2.csv` (প্রারম্ভিক p1 +পূর্ববর্তী + ওজন, চলমান p1 + ওজন) | 0.709 / 0.758 | 0.867 / 0.879 | 0.788 / 0.819 |
-| **  `lgb_v3.csv`  **(প্রারম্ভিক p1 + পূর্ববর্তী, চলমান p2 + ওজন) |**0.713 / 0.758**|**0.877 / 0.888**|**0.795 / 0.823** |
+| `range_prior_pers_fill.csv` (rules only) | 0.622 / 0.683 | 0.705 / 0.749 | 0.663 / 0.716 |
+| `lgb_v2.csv` (onset p1+prior+weights, ongoing p1+weights) | 0.709 / 0.758 | 0.867 / 0.879 | 0.788 / 0.819 |
+| **`lgb_v3.csv`** (onset p1+prior, ongoing p2+weights) | **0.713 / 0.758** | **0.877 / 0.888** | **0.795 / 0.823** |
 
-প্রস্তাবিতঃ `lgb_v3.csv` . স্কোরটি কী গতিতে চলেছে, যাতেঃ
-1. ** অনসেট window শুধুমাত্র `T+30`  ** (নির্বাচন আর্টিফ্যাক্ট, সংগঠক) এ সত্য আছে
-   নিশ্চিত এবং অনুমোদিত) কোন ভবিষ্যদ্বাণী `T+5..T+25` এবং কিছু লিঙ্ক
-   `T+30` : 0.00 -> 0.62 শুধুমাত্র একটি অবস্থান আগে, 0.71 মডেল সঙ্গে।
-2. **অনুপস্থিত cell.** ধৈর্য্য পাঠ করে ~ 25 % missing/ineligible  `T-5`
-   সেলগুলি মুক্ত প্রবাহের মতো; শেষ বৈধ ভর্তিটি চলমান windowতে +0.14 যোগ করে।
-3. **একটি সেল শ্রেণীবিভাজনকারী যা প্রত্যাশিত-IoU ডিকোডিং** যোগ করে +0.17 চলমান
-   ভরাট-প্রতিষ্ঠানের উপর window (+0.14 স্লট `T` সহ গতিশীল নিয়মের উপর) । বড় গাছ
-   শুরু না করে চলমান সাহায্য ( 0.852 -> 0.867 -> 0.877 )
-4. **  `<= T` তথ্য নিয়ম ** (প্রাথমিক স্লট `T`  50-66 % cellের জন্য দৃশ্যমান,
-   পূর্ববর্তী দিন): +0.02-0.03 নিয়মের ভিত্তিরেখা, ছোট কিন্তু
-   মডেলের মধ্যে ইতিবাচক।
+Recommended: `lgb_v3.csv`. What moves the score, in order:
+1. **Onset windows have truth only at `T+30`** (selector artifact, organizer
+   confirmed and allowed). Predict nothing at `T+5..T+25` and a few links at
+   `T+30`: 0.00 -> 0.62 with a location prior alone, 0.71 with the model.
+2. **Missing cells.** Persistence reads the ~25% missing/ineligible `T-5`
+   cells as free-flow; last-valid fill adds +0.14 on ongoing windows.
+3. **A cell classifier with expected-IoU decoding** adds +0.17 on ongoing
+   windows over fill-persistence (+0.14 over the kinematic rule with slot `T`). Bigger trees
+   keep helping on ongoing (0.852 -> 0.867 -> 0.877), not on onset.
+4. **The `<= T` data rule** (origin slot `T` visible for 50-66% of cells,
+   earlier hours, previous days): +0.02-0.03 on the rule baselines, small but
+   positive in the model.
 
-## 1 . window নির্বাচন করার পদ্ধতি (পরিবর্তিত প্রকৌশল, train-এর মধ্যে যাচাই করা)
+## 1. How the windows are selected (reverse-engineered, verified on train)
 
-`core.PanelT2.selector_stats` + `core.PanelT2.greedy` প্রজনন করুন
-নিয়ম (সমস্তই 80 অফিসিয়াল train-এর windowগুলোর বিরুদ্ধে নিশ্চিত):
+`core.PanelT2.selector_stats` + `core.PanelT2.greedy` reproduce the official
+selector. Rules (all confirmed against the 80 official train windows):
 
-| নিয়ম | মূল্য |
+| rule | value |
 |---|---|
-| ইতিহাস | স্লট `[T-60, T)` ( 12 স্লট) । উৎপত্তি স্লট `T` ইতিহাস বা horizonের মধ্যে নেই |
-| horizon | `T+5 .. T+30` ( 6 ধাপ) |
-| কভারেজ | `>= 0.7` ইতিহাসের * যোগ্য* cellের অংশ (পরিসর্গে `history_coverage`  `window_index.csv` এর সাথে সমান) |
-| অবস্থা | `ongoing` যদি ইতিহাস `>= 2` ক্রম যোগ্য পর্যবেক্ষণ রাখে এবং কিছু লিঙ্ক `>= 2` ; অন্যথায় `onset` |
-| horizon ক্যু | অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, অবশেষে, |
-| স্থায়িত্বের সীমা | **সত্য অবস্থা IoU স্লট T** উপর পুনরাবৃত্তি হরিজন্ট বনাম সত্য হরিজন্ট `<= 0.9` |
-| আদেশ | বিভক্ত শুরু থেকে ক্রোনোলজিকাল লোভী, 5 প্রতি শর্তে, **প্রতিটি নির্বাচিত উৎপত্তি (কোনও শর্ত) >= 360 min apart** |
+| history | slots `[T-60, T)` (12 slots). The origin slot `T` is in neither history nor horizon |
+| horizon | `T+5 .. T+30` (6 steps) |
+| coverage | share of *eligible* cells in the history `>= 0.7` (equals `history_coverage` in `window_index.csv` exactly) |
+| condition | `ongoing` iff the history holds `>= 2` queued eligible observations and some link has `>= 2`; else `onset` |
+| horizon queue | at least one truly queued cell in the horizon |
+| persistence cap | IoU of the **true state at slot T** repeated over the horizon vs the true horizon `<= 0.9` |
+| order | chronological greedy from the split start, 5 per condition, **every pair of selected origins (either condition) >= 360 min apart** |
 
-80 অফিসিয়াল train-এর windowগুলোর উপর হাইপোথেসিস পরীক্ষা (প্রাক্ক্ষিক সত্য, নীচে দেখুন):
-`T-1` পর্যবেক্ষণ থেকে কেবলমাত্র শর্তের মধ্যে স্থানান্তর / ধারাবাহিকতা পুনরায় প্রজনন
-4-6 প্রতি প্যানেলের 10 window; গ্লোবাল স্পেসিং + সত্য-সমস্থার `T` স্থিতিশীলতা
-9,10,6,7,10,9,8,6 এর 10 পুনরায় প্রজনন করে , এবং বাকি প্রতিটি অসঙ্গতি একটি
-5 - মিনিট পরিবর্তন আমাদের আনুমানিক সত্য একটি প্রান্তিক শব্দ cell দ্বারা সৃষ্ট।
+Hypothesis test on the 80 official train windows (approximate truth, see below):
+spacing within condition only / persistence from `T-1` observation reproduce
+4-6 of 10 windows per panel; global spacing + true-state-at-`T` persistence
+reproduces 9,10,6,7,10,9,8,6 of 10, and every remaining mismatch is a
+5-minute shift caused by one threshold-noise cell in our approximate truth.
 
-**ফল (এখন সংগঠকও ঘোষণা করেছেন, ফোরাম # 742350 ):** একটি শুরু
-window হল প্রাচীনতম উৎপত্তি যার horizon একটি নতুন ক্যারে স্পর্শ, তাই তার সত্য
-`T+30` এর মধ্যে 2,082 সিমুলেটেড স্টার্ট window ( 8 প্যানেল) 98.0 % আছে
-আমাদের আনুমানিক সত্যের সাথে 1-5 ধাপে কোন লাইন নেই ( 93.6-100 % প্রতি প্যানেল;
-সংগঠক 120/120 অফিসিয়াল window নিশ্চিত করে।
-শুরু windowতে `T+5..T+25` এ যে কোনও কিছু একটি খাঁটি মিথ্যা ইতিবাচক।
+**Consequence (now also announced by the organizer, forum #742350):** an onset
+window is the earliest origin whose horizon touches a new queue, so its truth
+lies only at `T+30`. Of 2,082 simulated onset windows (8 panels) 98.0% have
+nothing queued at steps 1-5 with our approximate truth (93.6-100% per panel;
+the organizer confirms 120/120 official windows). Predicting
+anything at `T+5..T+25` for an onset window is a pure false positive.
 
-প্রথম সত্যটি ছোটঃ `T+30` = 6 ( D7_I10_E ), 1 ( D7_I10_W ),
-4 ( D7_I210_E ), 2 ( D7_I210_W ), 2 ( D7_I405_N , নীচের প্রবাহী সীমানা
-bottleneck, 4 (D7_I405_S), 3 (D12_I5_N), 3 (D12_I5_S); উপর `D7_I405_S` 2
-একই 5 মিনিটে ( 2 পৃথক রান) bottleneckগুলি প্রায়শই ভেঙে যায়।
+Onset truth is small: median cells at `T+30` = 6 (D7_I10_E), 1 (D7_I10_W),
+4 (D7_I210_E), 2 (D7_I210_W), 2 (D7_I405_N, the downstream boundary
+bottleneck), 4 (D7_I405_S), 3 (D12_I5_N), 3 (D12_I5_S); on `D7_I405_S` 2
+bottlenecks often break down in the same 5 minutes (2 separate runs).
 
-## 2trainে লেবেল
+## 2. Labels on train
 
-সত্য = মূল গতি `<= 0.6 * free_speed` ( `links.csv` মুক্ত গতি; সমান
-`fd_parameters.csv` ; কোন `v_cut` কলাম মুক্তি পায় না। trainে আমরা
-Unmasked পর্যবেক্ষণ, NaN cell interpolated (সময় <= 3 slots, তারপর স্থান <= 2
-লিঙ্ক, তারপর সময় <= 12 ). পরিমাপ শব্দ হয় ~ 1.3  km/h (রাতের লেগ- 1
-পার্থক্য / sqrt 2: 0.85-1.32  km/h ) এবং গতি দ্রুত সীমা অতিক্রমঃ শুধুমাত্র
-0.44-0.47 ক্রমযুক্ত horizon cellের % 1  km/h এর মধ্যে অবস্থিত `v_cut` ( 0.9-1.0 %
-2  km/h ), তাই শব্দ দ্বারা প্রবর্তিত লেবেল ফ্লিপগুলি অবহেলনীয়;
-ত্রুটিটি ~ 17 % ইন্টারপোলার সেল দ্বারা প্রভাবিত হয়।
+Truth = underlying speed `<= 0.6 * free_speed` (`links.csv` free speed; equals
+`fd_parameters.csv`; no `v_cut` column is released). On train we use the
+unmasked observation, NaN cells interpolated (time <= 3 slots, then space <= 2
+links, then time <= 12). Measurement noise is ~1.3 km/h (night lag-1
+differences / sqrt 2: 0.85-1.32 km/h) and speeds cross the threshold fast: only
+0.44-0.47% of queued horizon cells lie within 1 km/h of `v_cut` (0.9-1.0%
+within 2 km/h), so noise-induced label flips are negligible; the approximation
+error is dominated by the ~17% interpolated cells.
 
-## 3 . ব্যবহৃত ডেটা নিয়ম
+## 3. Data rule used
 
-সংগঠক (ফোরাম # 742068 ): উৎপত্তি `T` জন্য একটি পূর্বাভাস প্রকাশিত তথ্য ব্যবহার করতে পারে
-`<= T` (একই দিন আগে, একই বিভক্তির আগের দিন, সব
-train-এর; মাস্কযুক্ত মূল লাইন এবং র্যাম্প), `T` এর পরে কিছুই নয়। বৈশিষ্ট্যগুলি ব্যবহারঃ
-60 -min এর প্রকাশিত ইতিহাস, `T` ( 50-66 সেলগুলির %) স্লট এ মাস্কযুক্ত দৃশ্য
-দৃশ্যমান), মাস্কযুক্ত দৃশ্য `[T-180, T-60)` , পূর্ববর্তী 7 এর মাস্কযুক্ত দৃশ্য
-দিন (সাম্প্রতিক দিনের ক্রম জলবায়ুবিদ্যা) এবং train-সত্য সময় দিনের প্রোফাইল।
-horizon, বাফার বা বাফার পরে মান পড়া হয়।
+Organizer (forum #742068): for origin `T` a forecast may use any released data
+with timestamp `<= T` (earlier the same day, earlier days of the same split, all
+of train; masked mainline states and ramps), nothing after `T`. Features use:
+the released 60-min history, the masked view at slot `T` (50-66% of cells
+visible), the masked view `[T-180, T-60)`, the masked view of the previous 7
+days (recent-days queue climatology) and train-truth time-of-day profiles. No
+horizon, buffer or post-buffer value is read.
 
-## 4 . মূল্যায়ন প্রোটোকল
+## 4. Evaluation protocol
 
-`dataset.py` প্রতিটি train-এর দিনে শুরু হওয়া অফিসিয়াল সেলেক্টর সিমুলেট করে
-(দিন 0..265 , যেন সেদিন একটি বিভক্ত শুরু হয়) এবং অনন্য window রাখেঃ
-~ 250-350 শুরু এবং ~ 130-490 প্রতি প্যানেলের চলমান window ( `sim` ), প্লাস 80
-অফিসিয়াল train window ( `off` ). প্রশিক্ষণ অতিরিক্তভাবে প্রতিটি প্রথম-রান ব্যবহার করে
-প্রথম প্রার্থী এবং প্রতি দ্বিতীয় ক্রমাগত প্রার্থী উৎপত্তি ( `cand` ).
-ক্রস বৈধতাঃ 4 interleaved week folds ( `(day // 7) % 4` ); মডেল এবং
-একটি ফোল্ডের জন্য সময়-দিন প্রোফাইল তার দিন দেখতে না। স্কোর অফিসিয়াল ব্যবহার করে
-সমষ্টি (window -> প্যানেল & অবস্থা -> প্যানেল -> পরিবার -> 4 এর গড়) ।
+`dataset.py` simulates the official selector started on every train day
+(days 0..265, as if a split began that day) and keeps the unique windows:
+~250-350 onset and ~130-490 ongoing windows per panel (`sim`), plus the 80
+official train windows (`off`). Training additionally uses every first-of-run
+onset candidate and every second ongoing candidate origin (`cand`).
+Cross-validation: 4 interleaved week folds (`(day // 7) % 4`); models and
+time-of-day profiles for a fold never see its days. Scores use the official
+aggregation (window -> panel & condition -> panel -> family -> mean of 4).
 
-`sim` = 2,082 শুরু +3,001 চলমান নির্বাচনকারী-ড্রাগ window (নির্ভরযোগ্য
-সংখ্যা; প্রতি window IoU sd ~ 0.3 তাই সমষ্টিগত SE হয় ~ 0.005 এবং জোড়া
-`off` = 80 অফিসিয়াল train window ( 40 প্রতি
-অবস্থা; শব্দ, SE ~ 0.03-0.05 ). সামগ্রিক = দুইটি অবস্থা স্কোরের মধ্যম
-(সংযোগটি লিনিয়ার এবং প্রতিটি প্যানেলের উভয় শর্ত রয়েছে) ।
+`sim` = 2,082 onset + 3,001 ongoing selector-drawn windows (the reliable
+number; per-window IoU sd ~0.3 so the aggregated SE is ~0.005 and paired
+method differences are tighter). `off` = the 80 official train windows (40 per
+condition; noisy, SE ~0.03-0.05). Overall = mean of the two condition scores
+(the aggregation is linear and every panel has both conditions).
 
-## 5 . পদ্ধতি
+## 5. Methods
 
-* `persistence` - অফিসিয়াল বেসলাইনঃ `T-5` এ পুনরাবৃত্তিযোগ্য পর্যবেক্ষণ।
-  আমাদের ফাইলটি `src/task2/build_task2_persistence_submission.py` এর সাথে বিট-একত্রে
-  বৈধতা নিয়ে।
-* `persistence_fill` - সর্বশেষ শূন্য নয়
-  ইতিহাস (যে কোন `pct_observed` ), পুনরাবৃত্তি। সাধারণ ধারাবাহিকতা ~ 25 %
-  missing/ineligible cell `T-5` "কোয়িং না" হিসাবে।
-* `+T` - একই, উৎপত্তি স্লটে মাস্কযুক্ত দৃষ্টি পর্যবেক্ষণ ব্যবহার করে `T`
-  যেখানে সেলগুলি দৃশ্যমান ( 50-66 %) ।
-* `kinematic` (অনুবর্তিত) - আগের এবং এখন 15 মিনিটের মধ্যে মিলিত ক্যো ব্লক;
-  tail/head মাইলপোস্টে লিনিয়ারভাবে এক্সট্রাপল করা হয়েছে ( `kinematic.py` ).
-* `range_prior` (আসতে) - `T+30` এর সাথে সংলগ্ন সংযোগের পরিসীমা যা সর্বোচ্চ মধ্যম
-  একই প্যানেলের প্রশিক্ষণ শুরু windowগুলোর উপর +-90 min সময়
-  দিন; পদক্ষেপ 1-5 খালি ( `baselines.py` ).
-* `lgb` - দুটি LightGBM বাইনারি শ্রেণীবিভাজনকারী 8 প্যানেলগুলিতে একত্রিত
+* `persistence` - official baseline: eligible observation at `T-5` repeated.
+  Our file is bit-identical to `src/task2/build_task2_persistence_submission.py`
+  on validation.
+* `persistence_fill` - last non-null observation of each link within the
+  history (any `pct_observed`), repeated. Plain persistence reads the ~25%
+  missing/ineligible cells at `T-5` as "not queued".
+* `+T` - the same, using the masked-view observation at the origin slot `T`
+  where visible (50-66% of cells).
+* `kinematic` (ongoing) - queue blocks matched between 15 min earlier and now;
+  tail/head extrapolated linearly in milepost (`kinematic.py`).
+* `range_prior` (onset) - the contiguous link range at `T+30` maximising mean
+  IoU over training onset windows of the same panel within +-90 min time of
+  day; steps 1-5 empty (`baselines.py`).
+* `lgb` - two LightGBM binary classifiers pooled over the 8 panels
   (`build_features.py`, `cv.py`, `pipeline.py`):
-  * শুরুঃ প্রতি (window, লিঙ্ক) এক সারি `T+30` শুধুমাত্র; 1-5 ধাপগুলি ফাঁকা বলে অনুমান করা হয়;
-  * চলমানঃ ক্রম কার্যকলাপের কাছাকাছি সেলগুলিতে প্রতি (window, লিঙ্ক, পদক্ষেপ) এক সারি
-    ( queued/slow ইতিহাসের মধ্যে, 12 কিলোমিটার নীচে প্রবাহিত একটি কায়ায়া, অথবা একটি
-    ঐতিহাসিকভাবে ঘন ঘন cell): 1/3 cell, 99.5 % ক্রমযুক্ত cell
-    (প্রকৃত cellের 0.46 % বাইরে পড়ে এবং পূর্বাভাস দেওয়া হয় 0 ).
-  বৈশিষ্ট্য (`features.py`, `extra.py`, `oprior.py`, ~100 কলামঃ গতি/`v_cut`
-  অনুপাত (শেষ, গড়, মিনিট, সর্বোচ্চ, 15/30/55 - মিনিট পরিবর্তন, শেষের বয়স
-  পর্যবেক্ষণ), flow/capacity , ঘনত্ব, +-1..6 লিঙ্কগুলিতে প্রতিবেশী অনুপাত,
-  0-1/1-3/3-6/6-12 কিলোমিটার ব্যাংকগুলিতে নিম্নতর প্রবাহিত এবং
-  উপরের দিকে, সবচেয়ে কাছের ক্যু লিঙ্ক থেকে দূরত্ব downstream/upstream এখন, 15 , 30 ,
-  60 মিনিট আগে এবং তাদের হার (উত্তর-উত্তর গতি), করিডোর ক্যো শেয়ার এবং
-  প্রবণতা, স্থিতিশীল লিঙ্ক তথ্য (মুক্ত গতি, সারি, capacity/lane , দৈর্ঘ্য, র্যাম্পস
-  2 লিঙ্ক, আপেক্ষিক অবস্থান, প্যানেল কোড), দিনের সময়, সপ্তাহের দিন, train
-  `T` , `T-30` , `T+k` তারিখে সপ্তাহের দিন অনুযায়ী দিনের সময়সূচী ক্যোয়ারের সম্ভাবনা; উৎপত্তি
-  `T` (অনুপাত, প্রবাহ, প্রতিবেশী, ক্যু জ্যামিতি), 2 ঘন্টা আগে
-  ইতিহাস, পূর্ববর্তী 7 - দিনের ক্রমের ফ্রিকোয়েন্সি `T` এবং `T+k` ;
-  প্রশিক্ষণের সূচনা window ভাগ (একই প্যানেল, +-60 /+-90 মিনিট, সপ্তাহের দিন ক্লাস,
-  সবগুলো), যেগুলোর `T+30` truth-এ link আছে (`oprior.py`; CV-তে out-of-fold)।
-  শেষ প্যারামিটারঃ সূচনা lr 0.05 , 63 leaves, min_data  100 , feature/bagging
-  0.8 , 400 রান্ডের ভগ্নাংশ; 127 পাতার সাথে একই চলমান, min_data  50 , 600
-  ঘূর্ণি এবং সারি ওজনযুক্ত যাতে প্রতিটি windowর মোট ওজন সমান থাকে; চলমান
-  প্রশিক্ষণ অতিরিক্ত প্রার্থী window (মেমরি) অর্ধেক ব্যবহার করে।
-* ডিকোডিং ( `models.eiou_topm` ): প্রতি windowতে সম্ভাবনার ভিত্তিতে শীর্ষ-m সেলগুলি নির্বাচন করুন
-  `sum_S p / (|S| + sum_notS p)` (প্রত্যাশিত-ইউউউ স্যরোগেট) সর্বাধিকীকরণ করা।
+  * onset: one row per (window, link) at `T+30` only; steps 1-5 predicted empty;
+  * ongoing: one row per (window, link, step) on cells near queue activity
+    (queued/slow in the history, a queue within 12 km downstream, or a
+    historically congested cell): ~1/3 of cells, 99.5% of queued cells
+    (0.46% of true cells fall outside and are predicted 0).
+  Features (`features.py`, `extra.py`, `oprior.py`, ~100 columns): speed/`v_cut`
+  ratio (last, mean, min, max, 15/30/55-min change, age of the last
+  observation), flow/capacity, density, neighbour ratios at +-1..6 links,
+  spatial minima of the ratio in 0-1/1-3/3-6/6-12 km bands downstream and
+  upstream, distance to the nearest queued link downstream/upstream now, 15, 30,
+  60 min ago and their rates (queue-tail motion), corridor queue share and
+  trend, static link data (free speed, lanes, capacity/lane, length, ramps
+  within 2 links, relative position, panel code), time of day, weekday, train
+  time-of-day queue probability by weekday at `T`, `T-30`, `T+k`; the origin
+  slot `T` (ratio, flow, neighbours, queue geometry), the 2 hours before the
+  history, the previous-7-days queue frequency at `T` and `T+k`; for onset the
+  share of training onset windows (same panel, +-60/+-90 min, weekday class,
+  all) whose `T+30` truth contains the link (`oprior.py`, out-of-fold in CV).
+  Final parameters: onset lr 0.05, 63 leaves, min_data 100, feature/bagging
+  fraction 0.8, 400 rounds; ongoing the same with 127 leaves, min_data 50, 600
+  rounds and rows weighted so every window has equal total weight; ongoing
+  training uses half of the extra candidate windows (memory).
+* Decoding (`models.eiou_topm`): per window pick the top-m cells by probability
+  maximising `sum_S p / (|S| + sum_notS p)` (expected-IoU surrogate).
 
-## 6 . ক্রস বৈধ ফলাফল
+## 6. Cross-validated results
 
-### নিয়মের মূল রেখা
+### Rule baselines
 
-| পদ্ধতি | শুরু সিম | শুরু | চলমান সিম | চলমান বন্ধ | সামগ্রিক সিএম | মোটামুটি বন্ধ |
+| method | onset sim | onset off | ongoing sim | ongoing off | overall sim | overall off |
 |---|---:|---:|---:|---:|---:|---:|
-| ধৈর্য্য (সরকারি) | 0.000 | 0.025 | 0.569 | 0.581 | 0.285 | 0.303 |
+| persistence (official) | 0.000 | 0.025 | 0.569 | 0.581 | 0.285 | 0.303 |
 | persistence_fill | 0.000 | 0.025 | 0.705 | 0.749 | 0.353 | 0.387 |
 | persistence_fill+T | - | - | 0.729 | 0.758 | - | - |
-| সিনেমাটিক | - | - | 0.711 | 0.741 | - | - |
-| সিনেমাটিক+টি | - | - | 0.739 | 0.754 | - | - |
-| range_prior (প্রতিষ্ঠা) + persistence_fill | 0.622 | 0.683 | 0.705 | 0.749 | 0.663 | 0.716 |
+| kinematic | - | - | 0.711 | 0.741 | - | - |
+| kinematic+T | - | - | 0.739 | 0.754 | - | - |
+| range_prior (onset) + persistence_fill | 0.622 | 0.683 | 0.705 | 0.749 | 0.663 | 0.716 |
 
-(অফিসিয়াল train-এর windowয় স্থিরতা স্কোর 0.3028
-আমাদের সত্য; সংগঠকরা 0.3017 এর বৈধতা সম্পর্কে 10 করিডোর এবং
-0.2518 মধ্যে README .)
+(The official persistence scores 0.3028 on the official train windows with
+our truth; the organizers quote 0.3017 on validation for 10 corridors and
+0.2518 in the README.)
 
-### LightGBM, শুরু (শুধুমাত্র `T+30` , শীর্ষ-m ডিকোডিং)
+### LightGBM, onset (`T+30` only, top-m decoding)
 
-| বৈকল্পিক | সিম | বন্ধ |
+| variant | sim | off |
 |---|---:|---:|
-| ইতিহাসের বৈশিষ্ট্য (v1 ), lr . 05 / 63 leaves / 400 | 0.706 | 0.725 |
-| v2 (+ স্লট টি, আজ আগের দিন, সাম্প্রতিক দিন), lr . 08 / 31 leaves / 250 | 0.692 | 0.764 |
-| v2 , lr. 05 / 63 leaves / 400 | 0.709 | 0.764 |
-| v2 + শুরু হওয়ার আগে অবস্থান, lr. 05 / 63 / 400 ( **চূড়ান্ত** ) | **0.713** | 0.758 |
-| v2 + শুরু করার আগে + window ওজন | 0.709 | 0.758 |
-| v2 + শুরু হওয়ার আগে, lr. 05 / 127 leaves / 600 | 0.707 | 0.752 |
-| একই + window ওজন | 0.710 | 0.749 |
-| গত দুইটির মধ্যম | 0.709 | 0.752 |
+| history-only features (v1), lr .05 / 63 leaves / 400 | 0.706 | 0.725 |
+| v2 (+ slot T, earlier today, recent days), lr .08 / 31 leaves / 250 | 0.692 | 0.764 |
+| v2, lr .05 / 63 leaves / 400 | 0.709 | 0.764 |
+| v2 + onset location prior, lr .05 / 63 / 400 (**final**) | **0.713** | 0.758 |
+| v2 + onset prior + window weights | 0.709 | 0.758 |
+| v2 + onset prior, lr .05 / 127 leaves / 600 | 0.707 | 0.752 |
+| same + window weights | 0.710 | 0.749 |
+| average of the last two | 0.709 | 0.752 |
 
-ছোট মডেলের সাথে Ablations (বেস 0.692 sim): ড্রপ স্লট-টি গ্রুপ 0.698 , ড্রপ
-সাম্প্রতিক দিনগুলোতে 0.694 , আগে-আজকে 0.695 , প্যানেল code/position  0.687 ,
-+ window ওজন 0.699 , +ইনস্টল আগে 0.699 . নতুন গ্রুপ sim উপর সামান্য গুরুত্বপূর্ণ
-(শব্দের মধ্যে) কিন্তু আরো 40 অফিসিয়াল window.
+Ablations with the small model (base 0.692 sim): drop slot-T group 0.698, drop
+recent-days 0.694, drop earlier-today 0.695, drop panel code/position 0.687,
++window weights 0.699, +onset prior 0.699. The new groups matter little on sim
+(within noise) but more on the 40 official windows.
 
-একই OOF সম্ভাবনার উপর ডিকোডার (ছোট মডেল): শীর্ষ-m 0.692 , শীর্ষ-m সঙ্গে
-p^ 0.8  0.691 , threshold 0.25/0.3/0.5  0.681/0.680/0.651 , সেরা ধারাবাহিক পরিসীমা
-0.652 (প্রায়শই একই সময়ে দুটি স্থানে ভেঙে যায়, যেমন D7_I405_S ), ফাঁক
-বন্ধ হচ্ছে 0.648 .
+Decoders on the same OOF probabilities (small model): top-m 0.692, top-m with
+p^0.8 0.691, threshold 0.25/0.3/0.5 0.681/0.680/0.651, best contiguous range
+0.652 (onset often breaks down at two sites at once, e.g. D7_I405_S), gap
+closing 0.648.
 
-ত্রুটি অ্যানাটমি (ছোট মডেল, সিম): পূর্বাভাস সেট 94 % এর সত্যের উপর ওভারল্যাপ করে
-শুরু window; একটি আঘাত দেওয়া IoU 0.75 ; সত্য আকার জানতে এবং গ্রহণ
-উপরের...|Y| লিঙ্ক শুধুমাত্র 0.727 দিতে হবে. অবশিষ্ট সঠিক পরিমাণ
-প্রথম সারিতে থাকা ব্লক, তার অবস্থান নয়। প্যানেল (ছোট মডেল):
+Error anatomy (small model, sim): the predicted set overlaps the truth in 94%
+of onset windows; IoU given a hit is 0.75; knowing the true size and taking
+the top-|Y| links would give only 0.727. The residual is the exact extent of
+the first queued block, not its location. Per panel (small model):
 D7_I210_E 0.78, D7_I405_N 0.76, D7_I10_W 0.75, D7_I210_W 0.72, D7_I10_E 0.69,
 D12_I5_N 0.67, D12_I5_S 0.63, D7_I405_S 0.54.
 
-### লাইটজিবিএম, চলমান
+### LightGBM, ongoing
 
-| বৈকল্পিক | সিম | বন্ধ |
+| variant | sim | off |
 |---|---:|---:|
-| v2 , lr. 08 / 31 leaves / 250 , শীর্ষ-m | 0.852 | 0.869 |
-| একই, প্রান্তিক সীমা 0.3 / 0.4 / 0.5 | 0.843 / 0.849 / 0.847 | 0.863 / 0.868 / 0.864 |
-| একই + window ওজন | 0.853 | 0.877 |
-| v2 , lr . 05 / 63 leaves / 400 , window ওজন | 0.867 | 0.879 |
-| v2 , lr . 05 / 127 leaves / 600 , min_data  50 , window ওজন ( **চূড়ান্ত** ) | **0.877** | **0.888** |
+| v2, lr .08 / 31 leaves / 250, top-m | 0.852 | 0.869 |
+| same, threshold 0.3 / 0.4 / 0.5 | 0.843 / 0.849 / 0.847 | 0.863 / 0.868 / 0.864 |
+| same + window weights | 0.853 | 0.877 |
+| v2, lr .05 / 63 leaves / 400, window weights | 0.867 | 0.879 |
+| v2, lr .05 / 127 leaves / 600, min_data 50, window weights (**final**) | **0.877** | **0.888** |
 
-প্রতি প্যানেল (ছোট মডেল, সিম): 0.80 ( D7_I10_E ) থেকে 0.88 ( D7_I210_E , D7_I405_N ).
-ত্রুটি অ্যানাটমিঃ মিথ্যা ইতিবাচক এবং নেতিবাচক কণাগুলি থেকে ~ 0.6/0.5 প্রতি কণাগুলি থেকে বৃদ্ধি পায়
-`T+5` থেকে ~ 1.7/1.4 পর্যন্ত `T+30` ; প্রতি window গড়
-ছোট, বিচ্ছিন্ন ক্যো (<= 6 সত্য cellের windowঃ IoU 0.31 , 12-24
-cellঃ 0.79 , > 96 cellঃ 0.92 ).
+Per panel (small model, sim): 0.80 (D7_I10_E) to 0.88 (D7_I210_E, D7_I405_N).
+Error anatomy: false positives and negatives grow from ~0.6/0.5 cells per
+window at `T+5` to ~1.7/1.4 at `T+30`; the per-window mean is pulled down by
+small, dissipating queues (windows with <= 6 true cells: IoU 0.31, 12-24
+cells: 0.79, > 96 cells: 0.92).
 
-## 7 . Validation/private ভবিষ্যদ্বাণী (সৌদ্ধিক)
+## 7. Validation/private predictions (sanity)
 
-`lgb_v2.csv` : শুরু হওয়া windowগুলো কেবলমাত্র `T+30` ( 298 cellের উপরে 80 cellগুলি পেতে পারে
-window, 1-9 প্রতি window, মধ্যম 3 ); চলমান window ~ 1,630-1,750 প্রতি সেল
-ধাপ. চলমান window 0.74 এর জন্য `persistence_fill` এর সাথে window স্তরের চুক্তি,
-`range_prior` এর সাথে শুরু windowতে 0.76 .
-train-এর আগে কেবলমাত্র নয়, বরং প্রমাণঃ উদাহরণস্বরূপ `D12_I5_N` বেশিরভাগ লিঙ্ক
-103-105 (এপ্রিল পর্যবেক্ষণের সবচেয়ে ঘন ঘন সংযোগ এবং
-মার্চ মাসে সবচেয়ে বেশি train-এর সংযোগ ছিল 233-239 ), `D7_I405_S` দুই সাইটের মধ্যে বিভক্ত
-11-15 এবং 32-39 (দুইটিই March/April তে সক্রিয়) ।
+`lgb_v2.csv`: onset windows get cells only at `T+30` (298 cells over 80
+windows, 1-9 per window, median 3); ongoing windows ~1,630-1,750 cells per
+step. Window-level agreement with `persistence_fill` on ongoing windows 0.74,
+with `range_prior` on onset windows 0.76. Predicted onset sites follow the
+evidence rather than only the train prior: e.g. `D12_I5_N` mostly links
+103-105 (the most congested links in the April observations and among the
+top in March, whereas the most congested links on train were 233-239), `D7_I405_S` splits between the two sites
+11-15 and 32-39 (both active in March/April).
 
-## 8 . বিতরণ স্থানান্তর validation/private
+## 8. Distribution shift to validation/private
 
-প্রতি মাসে প্রতি করিডোর সেগমেন্টের জন্য পর্যবেক্ষণকৃত ক্যোয়ার শেয়ার (মস্কড ভিউ, যোগ্য)
-cell) 9 train মাস ধরে স্থিতিশীল কিন্তু কিছু সময় March/April মধ্যে পরিবর্তন
-প্যানেল (বিভাজনগুলির নিজস্ব চাহিদা ড্র এবং ঘটনা রয়েছে): `D12_I5_N`
-7-8 সেগমেন্ট 13-18 % থেকে 3-5 %, `D12_I5_S` সেগমেন্ট 2-4 মার্চ মাসে কমেছে,
-`D7_I405_S` সেগমেন্ট 8 এপ্রিল মাসে দ্বিগুণ হয়, `D7_I210_W` সেগমেন্ট 7-9 কমে যায়।
-trainে শেখানো অবস্থান পূর্বসূরিগুলি ঝুঁকিপূর্ণ; সাম্প্রতিক দিনগুলোতে
-বৈশিষ্ট্য (পূর্ব 7 দিন, `<= T` নিয়ম দ্বারা অনুমোদিত এবং জন্য উপলব্ধ
-validation/private থেকে মাস্কযুক্ত দৃশ্য) এবং history/origin-slot প্রমাণ
-এই মডেলটি বর্তমানে সক্রিয় bottleneckে চলে যেতে দেয়।
+Observed queued share per corridor segment by month (masked view, eligible
+cells) is stable over the 9 train months but shifts in March/April on some
+panels (the splits have their own demand draws and incidents): `D12_I5_N`
+segments 7-8 drop from 13-18% to 3-5%, `D12_I5_S` segments 2-4 drop in March,
+`D7_I405_S` segment 8 doubles in April, `D7_I210_W` segments 7-9 drop.
+Location priors learned on train are therefore a risk; the recent-days
+features (previous 7 days, allowed by the `<= T` rule and available for
+validation/private from the masked view) and the history/origin-slot evidence
+are what let the model move to the currently active bottleneck.
 
-## 9 . গুহা
+## 9. Caveats
 
-* train সত্য হল কক্ষের ~ 17 % interpolated সঙ্গে পর্যবেক্ষণ (শব্দ) গতি;
-  সরকারি সত্য হল প্রতিটি সেল এর শব্দ মুক্ত অবস্থা। ত্রুটিটি
-  বেশিরভাগই ক্যোয়ের প্রান্তে, তাই নিখুঁত সূচনা স্কোর (ছোট সত্য সেট) সবচেয়ে বেশি
-  প্রভাবিত; পদ্ধতির শ্রেণীবিভাগ বজায় রাখা উচিত।
-* রেলের window সারা বছর ধরে স্থির চাহিদা থেকে আঁকা হয়; বৈধতা
-  এবং ব্যক্তিগতদের নিজস্ব চাহিদা ড্র এবং ঘটনা আছে (বিভাগ 8 ).
-  সক্রিয় bottleneckগুলির মাসিক পরিবর্তনগুলি শুরু হওয়ার প্রধান ঝুঁকি।
-* `off` এর প্রতি প্যানেল এবং শর্তে শুধুমাত্র 5 window রয়েছে ( SE ~ 0.03-0.05 ), তাই
-  `sim` কলাম পদ্ধতি তুলনা করার জন্য।
-* লাইটজিবিএম 2 থ্রেড দিয়ে চালিত হয়। শেষ চলমান মডেল ( 127 leaves, 600 )
-  গোল) ~ লাগে12 সব window এবং ~35 মিনিটের জন্য 4- fold CVপিক
-  RSS হয় 3.6 GB মধ্যে CV এবং 2.8 GB পাইপলাইনে. ডাটা লোডার কলাম পড়তে
-  একক প্রাক বরাদ্দকৃত ম্যাট্রিক্সে গ্রুপ করে এবং বিনিংয়ের পরে অপরিশোধিত ম্যাট্রিক্সকে মুক্ত করে।
-  যে সংস্করণটি এটি করেনি তা 5.9  GB এ পৌঁছেছিল এবং OOM -কে হত্যা করা হয়েছিল।
+* Train truth is the observed (noisy) speed with ~17% of cells interpolated;
+  the official truth is the noise-free state on every cell. The error sits
+  mostly at queue edges, so absolute onset scores (tiny truth sets) are the most
+  affected; the method ranking should hold.
+* Train windows are drawn all year round from a stationary demand; validation
+  and private have their own demand draws and incidents (section 8).
+  Month-to-month shifts in active bottlenecks are the main risk for onset.
+* `off` has only 5 windows per panel and condition (SE ~0.03-0.05), so use the
+  `sim` column to compare methods.
+* LightGBM runs with 2 threads. The final ongoing model (127 leaves, 600
+  rounds) takes ~12 min to train on all windows and ~35 min for 4-fold CV. Peak
+  RSS is 3.6 GB in CV and 2.8 GB in the pipeline. The data loader reads column
+  groups into one preallocated matrix and frees the raw matrix after binning. An
+  earlier version that did not do this reached 5.9 GB and was OOM-killed.
 
-## 10 . পরবর্তী পদক্ষেপগুলি সম্ভব
+## 10. Possible next steps
 
-* মডেলের আকার এবং বৈশিষ্ট্য গ্রুপের মধ্যে শুরু একটি প্লেটো (~ 0.71 ) ।
-  সঠিক স্থান খুঁজে পায় 94 % সময়, তাই অবশিষ্ট ফাঁক সঠিক
-  প্রথম ক্রম ব্লকের লিঙ্কগুলি নির্দেশনাঃ যৌথ (সেট-লেভেল) ডিকোডিং,
-  উদাহরণস্বরূপ, অনুচ্ছেদের অধীনে অনুকরণীয় প্রশিক্ষণ window থেকে নেওয়া প্রার্থী ব্লকগুলি স্কোর করা
-  মডেল মার্জিনাল এবং একটি শারীরিক পূর্ববর্তী যা একটি bottleneckের লিঙ্ক
-  প্রথমে ভেঙে যায়।
-* Ongoing: model capacity বাড়ানো এখনও লাভ দিচ্ছে (0.852 -> 0.867 -> 0.877)। আরও বড়
-  মডেল বা আরো প্রার্থী window (শুধুমাত্র অর্ধেক ব্যবহার করা হয়, মেমরি জন্য)
-  ক্ষুদ্রতর বিচ্ছিন্নকারী ক্যো (<= 12 সত্য cell) 0.3-0.5 এবং
-  এই সবই প্রধান ভুল।
-* সাম্প্রতিক দিন বৈশিষ্ট্য আগের মাস (ব্যক্তিগত জন্য, সব
-  মার্চ বৈধতা) এর মাধ্যমে bottleneck shift-এর আরও ভাল ট্র্যাকিং করা যায়।
+* Onset is at a plateau (~0.71) across model sizes and feature groups. It
+  finds the right place 94% of the time, so the remaining gap is the exact
+  links of the first queued block. Directions: joint (set-level) decoding, for
+  example scoring candidate blocks taken from analogous training windows under
+  the model marginals, and a physics prior on which link of a bottleneck
+  breaks down first.
+* Ongoing: capacity is still paying off (0.852 -> 0.867 -> 0.877). Larger
+  models or more candidate windows (only half are used, for memory) are the
+  cheapest gain. Small dissipating queues (<= 12 true cells) score 0.3-0.5 and
+  are the main error.
+* Recent-days features could use the whole previous month (for private, all
+  of March validation) to track bottleneck shifts better.
 
-## 11 . জনসাধারণের LB স্থানান্তর (মার্চ) এবং শিফট-জবুত ভেরিয়েন্ট `lgb_v4_robust`
+## 11. Public LB transfer (March) and shift-robust variant `lgb_v4_robust`
 
-**  LB  `lgb_v3.csv`  ** এর ফলাফল (টাস্ক 2 সমন্বয়কারীকে দেওয়া সন্ডার জমায়েত দ্বারা বিচ্ছিন্ন করা হয়েছে,
-বৈধতা = মার্চ): S_queue 0.749 বিরুদ্ধে 0.795 মধ্যে CVওনসেট গোল করেছেন 0.686
-( CV  0.713 , -0.027 ) এবং চলমান 0.812 ( CV  0.877 , -0.065 ).
+**LB result for `lgb_v3.csv`** (Task 2 isolated by the coordinator's probe submissions,
+validation = March): S_queue 0.749 against 0.795 in CV. Onset scored 0.686
+(CV 0.713, -0.027) and ongoing 0.812 (CV 0.877, -0.065).
 
-### রোগ নির্ণয় (শুধুমাত্র তথ্য <= T: ইতিহাস, মাস্কযুক্ত দৃশ্য, train-এর প্রোফাইল)
+### Diagnosis (data <= T only: histories, masked view, train profiles)
 
-`robust.recurrence` একটি windowর ক্রম কত পুনরাবৃত্তি পরিমাপ করে। এটি গড়
-একই সপ্তাহের দিন টি-তে train-এর দিনের ক্যু প্রবণতা এবং
-ইতিহাসের শেষে লাইনচ্যুত লিঙ্কগুলোতে, সেখান থেকে শিখেছি।
+`robust.recurrence` measures how recurrent a window's queue is. It averages
+the train time-of-day queue probability at T, for the same weekday and
+learned out of fold, over the links queued at the end of the history.
 
-* **মডেল নিজেই মার্চ চলমান windowকে আরও কঠিন বলে মনে করে।** তার
-  প্রত্যাশিত-IoU সারোগ্যাট (ডিকোডার লক্ষ্য) বৈধতা দেওয়ার সময় 0.841 গড়
-  এবং 0.853 প্রাইভেট, 0.882 এর বিরুদ্ধে CV windowগুলোতে, যেখানে বাস্তবায়ন করা হয়েছে
-  IU ছিল 0.877 . D12_I5_N ( 0.74 ) এবং D7_I10_W এর মধ্যে বৈধতা সবচেয়ে কম।
-  ( 0.74 ). সারোগেট 0.04 সম্পর্কে ব্যাখ্যা করে 0.065 ড্রপ। বাকিটি হল
-  পরিবর্তিত window নিয়ে অতিরিক্ত আস্থা।
-* **মার্চ অনেক বেশি নন-রিকুরিন্ট ক্যু আছে।**  12.5 % বৈধতা চলমান
-  window পুনরাবৃত্তি আছে < 0.05, বিরুদ্ধে 2.6trainে % CV এবং 2.5% এ
-  এই সবই 5  D7_I10_W windowঃ লিঙ্কগুলিতে সারিতে 24-26 , train
-  তবে সপ্তাহের দিনগুলোতে এবং সময়গুলোতে train প্রায় কখনো সেখানে সারিতে না থাকে।
-  বৈধতা আরও বেশি window আছে (train-এর মধ্যে 35 % বনাম 24 %) এবং কম
-  বড় ক্যু ( 90 th percentile of queued links 38 vs 67 ). বড় ক্যু হল
-  সহজঃ >= 24 ক্যু লিঙ্ক সহ IoU 0.95 ।
-* **CV IoU পুনরাবৃত্তি দ্বারা** (v3 চলমান মডেল):
+* **The model itself rates the March ongoing windows as harder.** Its
+  expected-IoU surrogate (the decoder objective) averages 0.841 on validation
+  and 0.853 on private, against 0.882 on the CV windows, where the realised
+  IoU was 0.877. Validation is lowest on D12_I5_N (0.74) and D7_I10_W
+  (0.74). The surrogate explains about 0.04 of the 0.065 drop. The rest is
+  overconfidence on shifted windows.
+* **March has far more non-recurrent queues.** 12.5% of validation ongoing
+  windows have recurrence < 0.05, against 2.6% in train CV and 2.5% on
+  private. These are all 5 D7_I10_W windows: queues at links 24-26, the train
+  bottleneck, but at weekdays and times when train almost never queues there.
+  Validation also has more weekend windows (35% vs 24% in train) and fewer
+  large queues (90th percentile of queued links 38 vs 67). Large queues are
+  the easy ones: IoU 0.95 with >= 24 queued links.
+* **CV IoU by recurrence** (v3 ongoing model):
 
-  | পুনরাবৃত্তি | window | ইওউ | মডেল সারোগেট |
+  | recurrence | windows | IoU | model surrogate |
   |---|---:|---:|---:|
   | < 0.05 | 78 | 0.562 | 0.691 |
   | 0.05-0.2 | 220 | 0.838 | 0.841 |
   | >= 0.2 | 2,703 | 0.891 | 0.88-0.89 |
 
-  এই CV স্কোরগুলিকে বৈধতা মিশ্রণে পুনরায় ওজন করা ইতিমধ্যে 0.847 পূর্বাভাস দেয় ,
-  শুধুমাত্র কম্পোজিশন থেকে -0.03 সম্পর্কে। মডেলটি সঠিকভাবে নির্ভর করে
-  সেখানে আসল ক্যু 9.4 থেকে 16.1 পর্যন্ত বৃদ্ধি পায়।
-  T+5 এবং T+30 এর মধ্যে সংযোগ রয়েছে , যখন ভবিষ্যদ্বাণী কেবল 8.6 থেকে বেড়ে যায়
-  10.8দিনের সময় পূর্বসূরিতে বলা হয়েছে, "এখানে কোন ক্যু নেই", যা বৃদ্ধিকে কমিয়ে দেয়।
-  এই windowগুলোতে নিয়মগুলো আরও খারাপঃ ভরাট-প্রতিষ্ঠান 0.433 , গতিশীল 0.442 ।
-* **"Shift-like" CV subset:** train CV windows with recurrence < 0.2 ( 298 )
-  windows) অথবা < 0.05 ( 78 ). শুরু করার জন্য, প্রক্সি সত্য ব্যবহার করে, তাই এটি জন্য
-  মূল্যায়ন শুধুমাত্রঃ train-এর মধ্যম প্রোফাইল T+30 এর উপর সত্যিই ক্যোযুক্ত লিঙ্কগুলি
-  < 0.2 ( 471 window) বা < 0.05 ( 143 ).
+  Reweighting these CV scores to the validation mix already predicts 0.847,
+  about -0.03 from composition alone. The model is overconfident exactly on
+  the non-recurrent windows. There the true queue grows from 9.4 to 16.1
+  links between T+5 and T+30, while the prediction grows only from 8.6 to
+  10.8. The time-of-day priors say "no queue here", which pulls growth down.
+  Rules do worse on these windows: fill-persistence 0.433, kinematic 0.442.
+* **"Shift-like" CV subset:** train CV windows with recurrence < 0.2 (298
+  windows) or < 0.05 (78). For onset, the proxy uses the truth, so it is for
+  evaluation only: the mean train profile at T+30 over the truly queued links
+  is < 0.2 (471 windows) or < 0.05 (143).
 
-### ভ্যারিয়েন্ট ( 4 -fold CV ; চলমান window; শিফট কলামগুলি সহজ সরঞ্জাম)
+### Variants (4-fold CV; ongoing windows; shift columns are plain means)
 
-| চলমান ভেরিয়েন্ট | সিম | বন্ধ | পুনরাবৃত্তি0.05 | পুনরাবৃত্তি0.2 |
+| ongoing variant | sim | off | recur<0.05 | recur<0.2 |
 |---|---:|---:|---:|---:|
-| দ্রুত কনফিগারেশন ( 31 leaves, 250 রান্ড, window ওজন), সমস্ত বৈশিষ্ট্য | 0.853 | 0.877 | 0.522 | 0.731 |
-| দ্রুত, কোন location/time-of-day পূর্বসূরি ( `noloc` : drop pq_*, rq 7 _*) | 0.848 | 0.868 | 0.541 | 0.727 |
-| দ্রুত, শুধুমাত্র গতিশীলতা (এছাড়াও ড্রপ লিঙ্ক পরিচয়, tod, সপ্তাহের দিন) | 0.829 | 0.844 | 0.539 | 0.707 |
-| দ্রুত, 50/50 সব মিলে + noloc | 0.856 | 0.872 | 0.540 | 0.738 |
-| **v3** : p2 কনফিগারেশন ( 127 leaves, 600 গোল, ওজন), সমস্ত বৈশিষ্ট্য | 0.877 | 0.888 | 0.562 | 0.766 |
-| p2, নোলক | 0.877 | 0.890 | 0.586 | 0.768 |
-| **v4** : 50/50 মিশ্রণ v3 + p2 noloc | **0.881** | 0.889 | **0.588** | **0.775** |
-| v4, শুধুমাত্র পুনরাবৃত্তি হলে 0.05 | 0.881 | 0.889 | 0.586 | 0.775 |
-| v4 , logit +0.5 যখন পুনরাবৃত্তি < 0.2 | 0.881 | 0.889 | 0.583 | 0.773 |
-| v3 , logit +0.5 যখন পুনরাবৃত্তি < 0.2 | 0.878 | 0.889 | 0.572 | 0.771 |
+| fast config (31 leaves, 250 rounds, window weights), all features | 0.853 | 0.877 | 0.522 | 0.731 |
+| fast, no location/time-of-day priors (`noloc`: drop pq_*, rq7_*) | 0.848 | 0.868 | 0.541 | 0.727 |
+| fast, dynamics only (also drop link identity, tod, weekday) | 0.829 | 0.844 | 0.539 | 0.707 |
+| fast, 50/50 blend all + noloc | 0.856 | 0.872 | 0.540 | 0.738 |
+| **v3**: p2 config (127 leaves, 600 rounds, weights), all features | 0.877 | 0.888 | 0.562 | 0.766 |
+| p2, noloc | 0.877 | 0.890 | 0.586 | 0.768 |
+| **v4**: 50/50 blend v3 + p2 noloc | **0.881** | 0.889 | **0.588** | **0.775** |
+| v4, noloc alone when recurrence < 0.05 | 0.881 | 0.889 | 0.586 | 0.775 |
+| v4, logit +0.5 when recurrence < 0.2 | 0.881 | 0.889 | 0.583 | 0.773 |
+| v3, logit +0.5 when recurrence < 0.2 | 0.878 | 0.889 | 0.572 | 0.771 |
 
-প্রতিটি লিভারের কাজ:
-* শুধুমাত্র অবস্থান পূর্ববর্তী ড্রপ খরচ পূর্ণ ক্ষমতা কোন এবং সাহায্য করে
-  পুনরাবৃত্তিহীন window।
-* লিঙ্ক পরিচয় বাদ দেওয়াও সব জায়গায় আঘাত করে, পরিবর্তনের সহ
-  উপসংকলনঃ কোন bottleneck একটি সারিতে বসে আছে এখনও গুরুত্বপূর্ণ।
-* দুটি মডেলকে মিশ্রিত করা প্রতিটি মেট্রিকের জন্য সেরা বিকল্প।
-* গেটিং এবং সম্ভাব্যতা বৃদ্ধি মিশ্রণের উপরে কিছুই যোগ করে না।
+What each lever did:
+* Dropping only the location priors costs nothing at full capacity and helps
+  the non-recurrent windows.
+* Dropping the link identity as well hurts everywhere, including the shift
+  subset: which bottleneck a queue sits at still matters.
+* Blending the two models is the best option on every metric.
+* Gating and probability boosts add nothing on top of the blend.
 
-শুরু শিফট সাবসেটগুলিতে শুরু ভেরিয়েন্ট (সিম / রিসিভ< 0.05 / রিসিভ< 0.2 ):
-* দ্রুত এবং পূর্ববর্তীঃ 0.692 / 0.240 / 0.512
-* দ্রুত + আগেঃ 0.699 / 0.265 / 0.533
-* p2 + পূর্ববর্তীঃ 0.707 / 0.244 / 0.523
-* p2 + পূর্ববর্তী, ওজনঃ 0.710 / 0.249 / 0.530
-* **v3 = p1 + পূর্ববর্তীঃ 0.713 / 0.275 / 0.543**
+Onset variants on the onset shift subsets (sim / recur<0.05 / recur<0.2):
+* fast without prior: 0.692 / 0.240 / 0.512
+* fast + prior: 0.699 / 0.265 / 0.533
+* p2 + prior: 0.707 / 0.244 / 0.523
+* p2 + prior, weighted: 0.710 / 0.249 / 0.530
+* **v3 = p1 + prior: 0.713 / 0.275 / 0.543**
 
-স্থান পূর্ববর্তী পুনরাবৃত্তি না শুরু উপর সাহায্য করে, কারণ এটা
-এই ক্ষেত্রে, V 3 এর মত শুরু হয়।
+The location prior helps on the non-recurrent onsets too, because it
+includes all-day and weekday-class variants. So onset stays as in v3.
 
-### ফলাফল
+### Result
 
 `/home/user/work/t2/lgb_v4_robust.csv` (`robust_pipeline.py`):
-* **Onset:** v3 মডেল এবং ডিকোডার, অপরিবর্তিত। ফাইলের শুরু সারিগুলি হল
-  v3 এর সাথে একক।
-* **চলমানঃ** সম্ভাবনা = 0.5 × v3 চলমান মডেল +0.5 × কোন অবস্থান-পূর্ব
-  মডেল (পি)2আমি আশা করছি, আগের মতই এটাকে ডিকোড করা যাবে।
-* **কভারেজঃ**  174,000 সারি, বাইনারি, সমস্ত 160 window খালি নয়, স্টার্ট সেল
-  শুধুমাত্র T+30চলমান ভবিষ্যদ্বাণী v এর সাথে একমত3 একটি গড় window IoU
-  0.948 (ন্যূনতম 0.727 ) ।
+* **Onset:** the v3 model and decoder, unchanged. The file's onset rows are
+  identical to v3.
+* **Ongoing:** probability = 0.5 × v3 ongoing model + 0.5 × the no-location-prior
+  model (p2, weights). Top-m expected-IoU decoding as before.
+* **Coverage:** 174,000 rows, binary, all 160 windows non-empty, onset cells
+  only at T+30. Ongoing predictions agree with v3 at a mean window IoU of
+  0.948 (minimum 0.727).
 
-| | শুরু সিম / বন্ধ / শিফট< 0.2 | চলমান সিম / অফ / শিফট< 0.2 / শিফট< 0.05 | সামগ্রিক সিম / অফ |
+| | onset sim / off / shift<0.2 | ongoing sim / off / shift<0.2 / shift<0.05 | overall sim / off |
 |---|---|---|---|
 | lgb_v3 | 0.713 / 0.758 / 0.543 | 0.877 / 0.888 / 0.766 / 0.562 | 0.795 / 0.823 |
 | lgb_v4_robust | 0.713 / 0.758 / 0.543 | 0.881 / 0.889 / 0.775 / 0.588 | 0.797 / 0.823 |
 
-মার্চ মাসে প্রত্যাশিত প্রভাবঃ সামান্য লাভ (প্রতিবৃত্তি < 0.05 বালতি হয় 12.5%
-চলমান window মার্চ করুন, +0.026 সেখানে, +0.004 অন্য কোথাও। LB ফাঁক বেশিরভাগই
-মার্চ window মিশ্রণ থেকে আসে (ছোট, পুনরাবৃত্তিহীন ক্যো) এবং নয়
-এখানে পরীক্ষিত যে কোন ভেরিয়েন্টের মাধ্যমে পুনরুদ্ধারযোগ্য।
+Expected effect on March: a small gain (the recur < 0.05 bucket is 12.5% of
+March ongoing windows, +0.026 there, +0.004 elsewhere). Most of the LB gap
+comes from the March window mix (small, non-recurrent queues) and is not
+recoverable by any variant tested here.
 
-## 12 . পদার্থবিদ্যা ও শক ওয়েভ বৈশিষ্ট্যঃ `lgb_v5`
+## 12. Physics and shockwave features: `lgb_v5`
 
-** পাবলিক LB for `lgb_v4_robust` : ** it was submitted together with a Task 1
-Public 0.85732 vs 0.85204 (+0.0053 ); টাস্ক 2 এর ভাগ আলাদা করা হয়নি।
+**Public LB for `lgb_v4_robust`:** it was submitted together with a Task 1
+change. Public 0.85732 vs 0.85204 (+0.0053); Task 2's share was not separated.
 
-### নতুন বৈশিষ্ট্য (`physics.py`, শুধুমাত্র তথ্য <= T; বৈশিষ্ট্য টেবিল `feat_v3/`)
+### New features (`physics.py`, data <= T only; feature tables `feat_v3/`)
 
-* ** শৃঙ্খলা শুরু ( `ph_*` , 30 কলাম) । ** প্রতিটি লিঙ্ক জন্য, ইতিহাস এবং
-  মূল স্লট, যেখানে দৃশ্যমানঃ
-  * flow/capacity: স্তর, 30 -min- সর্বনিম্ন বর্গক্ষেত্রের ঢাল,
-    T+30 , সর্বোচ্চ 15 -min ঘণ্টায় গড়;
-  * ঘনত্ব `k = q/v` সমালোচনামূলক ঘনত্বের ( `fd_parameters` ): অনুপাত,
-    ঢাল, T+30 , `k/k_jam` থেকে এক্সট্রাপলেশন;
-  * `v_cut` পর্যন্ত গতির মার্জিনঃ পর্বত, T+30 , 15 -min পর্যন্ত এক্সট্রাপলেশন, এবং
-    ঘণ্টার মধ্যে সর্বনিম্ন;
-  * bottleneck স্বাক্ষরঃ ক্ষমতা অনুপাত ডাউনস্ট্রিম এবং আপস্ট্রিম
-    প্রতিবেশী, প্রতিবেশীকে রুট পরিবর্তন, 1.5 কিলোমিটারের মধ্যে সর্বনিম্ন ক্ষমতা
-    সংযোগের তুলনায় নীচে প্রবাহিত এবং নীচে প্রবাহিত-মিনিস-উপরে প্রবাহিত গতি
-    অনুপাত পার্থক্য ( 1 লিঙ্ক এবং ±2 লিঙ্ক);
-  * 0.8 এর নিচে থাকা নিকটতম সংযোগের জন্য প্রবাহিত এবং প্রবাহিত দূরত্ব এবং
-    মুক্ত গতির 0.7 এর নিচে;
-  * লিঙ্ক প্রতি সর্বাধিক এক ক্যু পর্যবেক্ষণের জন্য একটি সূচনা ইতিহাস থাকতে পারেঃ
-    লিঙ্কটিতে উপস্থিতি, এর বয়স, এর সাথে নিকটতম লিঙ্ক থেকে দূরত্ব,
-    এবং করিডোর গণনা;
-  * প্রাপ্ত চাহিদাঃ স্থানীয় ক্ষমতা উপর 3 আপস্ট্রিম সংযোগের গড় প্রবাহ,
-    আর তার প ্ রত ্ যাবর ্ তন ।
+* **Onset rows (`ph_*`, 30 columns).** For each link, from the history and
+  the origin slot where visible:
+  * flow/capacity: level, 30-min least-squares slope, linear extrapolation to
+    T+30, maximum 15-min mean in the hour;
+  * density `k = q/v` against critical density (`fd_parameters`): ratio,
+    slope, extrapolation to T+30, `k/k_jam`;
+  * speed margin to `v_cut`: slope, extrapolation to T+30, 15-min minimum, and
+    the minimum over the hour;
+  * bottleneck signature: capacity ratio to the downstream and upstream
+    neighbour, lane change to each neighbour, minimum capacity within 1.5 km
+    downstream relative to the link, and the downstream-minus-upstream speed
+    ratio difference (1 link and ±2 links);
+  * distance downstream and upstream to the nearest link already below 0.8 and
+    below 0.7 of free speed;
+  * the at-most-one queued observation per link an onset history may hold:
+    presence at the link, its age, the distance to the nearest link with one,
+    and the corridor count;
+  * arriving demand: mean flow of the 3 upstream links over local capacity,
+    and its slope.
 
-  একটি পর্যবেক্ষণঃ D7_I10_E শুরু windowতে কোন লিঙ্ক বিনামূল্যে 0.8 এর নিচে নেই
-  T. ক্রমগুলি প্রায় 0.87 মুক্ত গতি থেকে 35 মিনিটের মধ্যে গঠন করে, তাই চাহিদা
-  ক্ষমতা বিরুদ্ধে সংকেত অধিকাংশ বহন করে।
-* ** চলমান সারি ( `lw_*` , 11 ভাগ +3 প্রতি ধাপে কলাম) । **
-  * সূত্রের ক্যো ব্লকঃ গতি <= `v_cut` সঙ্গে লিঙ্ক রান, গ্রহণ
-    স্লট-টি মান যেখানে দৃশ্যমান এবং শেষ ইতিহাস মান অন্যথায়.
-    ব্লকের একটি কড়া (উপরে প্রবাহিত শেষ) এবং একটি মাথা মাইলস্টপ রয়েছে।
-  * র্যাঙ্কিন-হুগনিট লেজ স্পিড `s = (q_q - q_u)/(k_q - k_u)` ।
-    অবস্থা হল 3 লিঙ্কগুলির মধ্যম, যা উঁচুতে থাকে; ক্যু স্ট্যাটাস হল
-    ব্লকের প্রথম 3 লিঙ্ক।
-  * মাথা থেকে মাথা নীচে প্রবাহিত রাজ্য থেকে মাথা গতি
-    এর আগে সবচেয়ে ভালোভাবে ওভারল্যাপিং ব্লক 20 থেকে।
-  * প্রতি লিঙ্ক, এটি ধারণকারী ব্লক থেকে বা তার নিকটতম ব্লক থেকে প্রবাহিত
-    (<= 12 কিমি; মাথা, প্রবাহের উপরে সবচেয়ে কাছের, <= 5 কিমি): স্বাক্ষরিত
-    কপাল এবং মাথা থেকে দূরত্ব, ব্লক দৈর্ঘ্য, আগমন এবং ক্যো প্রবাহ
-    ক্ষমতা, ঘনত্ব `k_c` এর উপরে।
-  * প্রতি ধাপ k: পূর্বাভাসিত কপালের থেকে স্বাক্ষরিত দূরত্ব `x_tail + s*5k min`
-    ( RH গতি, এবং পৃথকভাবে পরীক্ষামূলক গতি) এবং পূর্বাভাস মাথা।
+  One observation: in D7_I10_E onset windows no link is below 0.8 of free
+  speed at T. Queues form from about 0.87 free speed within 35 min, so demand
+  against capacity carries most of the signal.
+* **Ongoing rows (`lw_*`, 11 shared + 3 per-step columns).**
+  * Queue blocks at the origin: runs of links with speed <= `v_cut`, taking the
+    slot-T value where visible and the last history value otherwise. Each
+    block has a tail (upstream end) and head milepost.
+  * Rankine-Hugoniot tail speed `s = (q_q - q_u)/(k_q - k_u)`. The arriving
+    state is the mean of the 3 links upstream of the tail; the queue state is
+    the first 3 links of the block.
+  * Head speed from the state downstream of the head. Empirical tail speed
+    from the best-overlapping block 20 min earlier.
+  * Per link, from the block containing it or the nearest one downstream
+    (<= 12 km; for the head, the nearest one upstream, <= 5 km): signed
+    distances to the tail and head, block length, arriving and queue flow over
+    capacity, densities over `k_c`.
+  * Per step k: signed distance to the predicted tail `x_tail + s*5k min`
+    (RH speed, and separately the empirical speed) and to the predicted head.
 
-  মানসিক স্বাস্থ্য পরীক্ষা 100 D7_I10_E windowঃ ভিতরে 3 কিলোর কিলোমিটার, 81%
-  RH -extrapolated queue মধ্যে ভবিষ্যদ্বাণী cellগুলি queued হয়, তুলনায় 24 %
-  বাইরে যা ভবিষ্যদ্বাণী করা হয়েছে।
+  Sanity check on 100 D7_I10_E windows: within 3 km of the tail, 81% of
+  cells predicted inside the RH-extrapolated queue are queued, against 24% of
+  those predicted outside.
 
-### শুরু করার জন্য সেট-লেভেল ডিকোডিং (v3 শুরু OOF )
+### Set-level decoding for onset (the v3 onset OOF)
 
-| ডিসকোডার | সিম | বন্ধ | পুনরাবৃত্তি0.05 | পুনরাবৃত্তি0.2 |
+| decoder | sim | off | recur<0.05 | recur<0.2 |
 |---|---:|---:|---:|---:|
-| উচ্চ-মি, প্রত্যাশিত আইওইউ (বর্তমান) | **0.713** | 0.758 | **0.275** | **0.543** |
-| সর্বোত্তম সংলগ্ন পরিসীমা | 0.666 | 0.706 | 0.261 | 0.511 |
-| সবচেয়ে সম্ভবত লিঙ্ক + সর্বোত্তম আপস্ট্রিম এক্সটেনশন | 0.498 | 0.493 | 0.177 | 0.376 |
-| সবচেয়ে সম্ভবত সাইট (p >= 0.05 ক্লাস্টার), ভিতরে শীর্ষ-m | 0.711 | 0.766 | 0.275 | 0.543 |
-| সেরা 1-2 সাইট ( 2 nd যদি এর ভর >= 0.5 × 1 st) | 0.714 | 0.762 | 0.270 | 0.542 |
+| top-m, expected IoU (current) | **0.713** | 0.758 | **0.275** | **0.543** |
+| best contiguous range | 0.666 | 0.706 | 0.261 | 0.511 |
+| most likely link + best upstream extension | 0.498 | 0.493 | 0.177 | 0.376 |
+| most likely site (p >= 0.05 cluster), top-m inside | 0.711 | 0.766 | 0.275 | 0.543 |
+| best 1-2 sites (2nd if its mass >= 0.5 × 1st) | 0.714 | 0.762 | 0.270 | 0.542 |
 
-একটি সাইট বা ব্লক প্রতিশ্রুতিবদ্ধ হয় না শীর্ষ-m বিপরীত. ক্রম প্রায়ই প্রসারিত
-সবচেয়ে সম্ভাব্য লিঙ্ক এর তীরের নিচে, এবং মডেল ইতিমধ্যে ডান বেছে নেয়
-D7_I405_S , D12_I5_S এবং D12_I5_N এর সাইট বিভ্রান্তি
-বেশিরভাগ ক্ষেত্রে ডায়াগোনাল। অবশিষ্ট ত্রুটিটি সাইটের মধ্যে প্রস্থঃ
-উদাহরণস্বরূপ D7_I405_S এর 15 -link site B scores 0.57 এমনকি যখন সাইটটি
-ঠিক আছে, টপ-এম থাকবেন।
+Committing to one site or block does not beat top-m. The queue often extends
+downstream of the most likely link, and the model already picks the right
+site in most windows. Site confusion on D7_I405_S, D12_I5_S and D12_I5_N is
+mostly on the diagonal. The remaining error is the extent within the site:
+for example D7_I405_S's 15-link site B scores 0.57 even when the site is
+right. Top-m stays.
 
-### CV প্রতি টুকরো ( 4 -fold, sim = নির্বাচনকারী দ্বারা আঁকা train-এর window; পুনরাবৃত্তি টুকরো সহজ উপায়)
+### CV per slice (4-fold, sim = selector-drawn train windows; recur slices are plain means)
 
-| মডেল / মিশ্রণ | শুরু সিম | শুরু | শুরু রিসেপ্ট< 0.05 | শুরু রিসেপ্ট< 0.2 |
+| model / blend | onset sim | onset off | onset rec<0.05 | onset rec<0.2 |
 |---|---:|---:|---:|---:|
-| v4 শুরু (v2 বৈশিষ্ট্য + আগে, p1 ) | 0.7133 | 0.7578 | 0.275 | 0.543 |
-| v3 বৈশিষ্ট্য (+ পদার্থবিদ্যা) + পূর্ববর্তী, p1 , বীজ 0 | 0.7152 | 0.7703 | 0.282 | 0.551 |
-| একই, বীজ 1 / বীজ 2 | 0.7171 / 0.7171 | 0.768 / 0.775 | 0.285 / 0.291 | 0.551 / 0.555 |
-| 3 বীজের গড় | 0.7200 | 0.7630 | 0.289 | 0.557 |
-| কোন পূর্ববর্তী বৈশিষ্ট্য নেই, v3 | 0.7109 | 0.7638 | 0.239 | 0.524 |
-| **v5 শুরুঃ 0.75 × 3 বীজ +0.25 × v4 শুরু** | **0.7210** | **0.7691** | **0.295** | **0.561** |
+| v4 onset (v2 features + prior, p1) | 0.7133 | 0.7578 | 0.275 | 0.543 |
+| v3 features (+ physics) + prior, p1, seed 0 | 0.7152 | 0.7703 | 0.282 | 0.551 |
+| same, seed 1 / seed 2 | 0.7171 / 0.7171 | 0.768 / 0.775 | 0.285 / 0.291 | 0.551 / 0.555 |
+| mean of the 3 seeds | 0.7200 | 0.7630 | 0.289 | 0.557 |
+| no prior, v3 features | 0.7109 | 0.7638 | 0.239 | 0.524 |
+| **v5 onset: 0.75 × 3 seeds + 0.25 × v4 onset** | **0.7210** | **0.7691** | **0.295** | **0.561** |
 
-| মডেল / মিশ্রণ | চলমান সিম | চলমান বন্ধ | চলমান গবেষণা0.05 | চলমান গবেষণা0.2 |
+| model / blend | ongoing sim | ongoing off | ongoing rec<0.05 | ongoing rec<0.2 |
 |---|---:|---:|---:|---:|
-| দ্রুত কনফিগারেশন, v2 বৈশিষ্ট্য | 0.8529 | 0.8767 | 0.522 | 0.731 |
-| দ্রুত কনফিগারেশন, + LWR | 0.8567 | 0.8725 | 0.546 | 0.741 |
-| p2w, v2 বৈশিষ্ট্য (v3 এর মডেল) | 0.8772 | 0.8875 | 0.562 | 0.766 |
+| fast config, v2 features | 0.8529 | 0.8767 | 0.522 | 0.731 |
+| fast config, + LWR | 0.8567 | 0.8725 | 0.546 | 0.741 |
+| p2w, v2 features (v3's model) | 0.8772 | 0.8875 | 0.562 | 0.766 |
 | p2w, + LWR | 0.8796 | 0.8873 | 0.581 | 0.773 |
-| p2w, + LWR , কোন অবস্থান পূর্বসূরি নেই | 0.8792 | 0.8869 | 0.597 | 0.772 |
-| v4 চলমানঃ 50/50 v2 সব + v2 noloc | 0.8809 | 0.8889 | 0.588 | 0.775 |
-| 50/50  LWR সব + LWR noloc | 0.8820 | 0.8883 | 0.599 | 0.779 |
-| 4 -পথে সমান | 0.8832 | 0.8902 | 0.598 | 0.781 |
-| **v5 চলমানঃ 0.35  LWR সব +0.35  LWR noloc +0.15 v2 সব +0.15 v2 noloc** | **0.8833** | **0.8906** | **0.599** | **0.781** |
+| p2w, + LWR, no location priors | 0.8792 | 0.8869 | 0.597 | 0.772 |
+| v4 ongoing: 50/50 v2 all + v2 noloc | 0.8809 | 0.8889 | 0.588 | 0.775 |
+| 50/50 LWR all + LWR noloc | 0.8820 | 0.8883 | 0.599 | 0.779 |
+| 4-way equal | 0.8832 | 0.8902 | 0.598 | 0.781 |
+| **v5 ongoing: 0.35 LWR all + 0.35 LWR noloc + 0.15 v2 all + 0.15 v2 noloc** | **0.8833** | **0.8906** | **0.599** | **0.781** |
 
-| | শুরু সিম / বন্ধ | চলমান সিম / অফ | **সামগ্রিক সিম / অফ** |
+| | onset sim / off | ongoing sim / off | **overall sim / off** |
 |---|---|---|---|
 | lgb_v4_robust | 0.7133 / 0.7578 | 0.8809 / 0.8889 | 0.7971 / 0.8233 |
 | **lgb_v5** | **0.7210 / 0.7691** | **0.8833 / 0.8906** | **0.8022 / 0.8299** |
 
-গ্রহণের নিয়মঃ সামগ্রিক সিম অবশ্যই >= v4 -0.002 হতে হবে এবং শুরু বা
-v5 উপার্জন +0.005 সামগ্রিক সিম, শুরু
-+0.008 (অপুনরাবৃত্তি শুরু +0.018 থেকে +0.020 ) এবং চলমান +0.002
-(অপুনরাবৃত্তিহীন চলমান +0.006 + থেকে+0.011) গৃহীত হয়েছে।
+Adoption rule: overall sim must be >= v4 - 0.002, and onset or the
+non-recurrent slices must improve. v5 gains +0.005 overall sim, with onset
++0.008 (non-recurrent onset +0.018 to +0.020) and ongoing +0.002
+(non-recurrent ongoing +0.006 to +0.011). Adopted.
 
-### ফাইল
+### The file
 
-`/home/user/work/t2/lgb_v5.csv`  `robust_pipeline.py` দ্বারা লেখা হয়েছে
-`T2_FEAT=feat_v3` . মডেলগুলো সব train-এর windowয় পুনরায় প্রশিক্ষিত হয়েছিলঃ
+`/home/user/work/t2/lgb_v5.csv` was written by `robust_pipeline.py` with
+`T2_FEAT=feat_v3`. The models were retrained on all train windows:
 
-* **শুরুঃ** তিন v3 -ফ্যাক্টর শুরু মডেলের মধ্যম (p1 কনফিগারেশন, অবস্থান)
-  আগে, 0/1/2 ) বীজ 0.25 প্রতিটি, প্লাস v4/v3 শুরু মডেল 0.25 .
-  শীর্ষ-m প্রত্যাশিত-IoU ডিকোডিং, শুধুমাত্র T+30 ।
-* **চলমানঃ**  0.35 × LWR মডেল প্রতিটি বৈশিষ্ট্য সঙ্গে, 0.35 × LWR মডেল
-  অবস্থান পূর্বসূরি ছাড়া (উভয় p2 window ওজন সঙ্গে কনফিগার), 0.15 ×
-  v3 চলমান মডেল, এবং 0.15 × v4 কোন অবস্থান-পূর্ব মডেল।
-  ডিকোডিং।
+* **Onset:** mean of three v3-feature onset models (p1 config, location
+  prior, seeds 0/1/2) at 0.25 each, plus the v4/v3 onset model at 0.25.
+  Top-m expected-IoU decoding, T+30 only.
+* **Ongoing:** 0.35 × the LWR model with every feature, 0.35 × the LWR model
+  without location priors (both p2 config with window weights), 0.15 × the
+  v3 ongoing model, and 0.15 × the v4 no-location-prior model. Top-m
+  decoding.
 
-চেকঃ
-* 174,000 শৃঙ্খলা এবং v4 শৃঙ্খলাগুলির সাথে একই কী এবং ক্রমে সারি;
-  `queue_pred` { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { { {0, 1}.
-* সমস্ত 160 window খালি নয়।
-* শুরুতে cellগুলি কেবলমাত্র টি+30: 309 cellগুলিতে উপস্থিত হয়, প্রতি windowতে 1-9 , মধ্যস্থতাকারী 4 ।
-  চলমান প্রতি ধাপে 1,621-1,735 cell আছে।
-* v4 এর সাথে গড় window চুক্তি হচ্ছে 0.964 চলমান windowগুলোতে (অন্তত 0.80 )
-  এবং 0.938 শুরু windowতে। 12 এর 80 শুরু windowতে পরিবর্তন হয়েছে। বেশিরভাগ পরিবর্তন
-  একই প্রার্থী সাইটের লিঙ্ক যোগ করুন বা বাদ দিন, অথবা দ্বিতীয় সাইট যোগ করুন
-  ( D12_I5_S ). একটি window ( D7_I10_W বৈধতা 005 , 05:25 ) 28 লিঙ্ক থেকে সরানো হয়েছে
-  51 এর সাথে লিঙ্ক করতে।
-* শীর্ষ RSS ছিল 3.2  GB প্রশিক্ষণ এবং ভবিষ্যদ্বাণী জন্য, এবং 3.15  GB জন্য
-  সবচেয়ে বড় CV রান। প্রশিক্ষণ 2 থ্রেড দিয়ে চালানো হয়।
+Checks:
+* 174,000 rows with the same keys and order as v4 and the templates;
+  `queue_pred` is in {0, 1}.
+* All 160 windows are non-empty.
+* Onset cells appear only at T+30: 309 cells, 1-9 per window, median 4.
+  Ongoing has 1,621-1,735 cells per step.
+* Mean window agreement with v4 is 0.964 on ongoing windows (minimum 0.80)
+  and 0.938 on onset windows. 12 of 80 onset windows changed. Most changes
+  add or drop links within the same candidate sites, or add the second site
+  (D12_I5_S). One window (D7_I10_W validation 005, 05:25) moved from link 28
+  to link 51.
+* Peak RSS was 3.2 GB for training and prediction, and 3.15 GB for the
+  largest CV run. Training ran with 2 threads.
 
-পুনরায় প্রজননঃ
+Reproduce:
 ```
 T2_PHYSICS=1 T2_FEAT=/home/user/work/t2/feat_v3 python -m trafficflow.t2.build_features
 T2_FEAT=/home/user/work/t2/feat_v3 python -m trafficflow.t2.robust_pipeline lgb_v5 \
@@ -499,164 +497,164 @@ T2_FEAT=/home/user/work/t2/feat_v3 python -m trafficflow.t2.robust_pipeline lgb_
   --ongoing train:og_v3:p2:w:noop:0.35 --ongoing train:og_v3_noloc:p2:w:noop:0.35 \
   --ongoing lgb_v3:0.15 --ongoing rob_noloc_p2w:0.15
 ```
-উপরে CV সারিগুলি `python -m trafficflow.t2.robust cv VARIANT CFG
+The CV rows above come from `python -m trafficflow.t2.robust cv VARIANT CFG
 [--weighted] [--cond queue_onset --oprior]` with `T2_FEAT=.../feat_v3`
-( `T2_SEED` বীজ সেট করে) `trafficflow.t2.v5_eval` মিশ্রণগুলি তুলনা করে, এবং
-`python -m trafficflow.t2.onset_decode OOF` ডিকোডার তুলনা করে।
+(`T2_SEED` sets the seed). `trafficflow.t2.v5_eval` compares the blends, and
+`python -m trafficflow.t2.onset_decode OOF` compares the decoders.
 
-## 13 . শুরু হওয়া মাত্রাঃ নির্ণয়, ডিকোডার এবং লেবেল ফিক্স ( `lgb_v6` )
+## 13. Onset extent: diagnosis, decoders, and the label fix (`lgb_v6`)
 
-### ভি-এ নির্ণয়5 শুরু OOF (পুরানো সত্য, 2,082 সিম window)
+### Diagnosis on the v5 onset OOF (old truth, 2,082 sim windows)
 
-**সাইটটি সাধারণত সঠিক; সীমানা ভুল হয়।**
-* পূর্বাভাস ব্লক window 94.4 % মধ্যে সত্য ব্লক ওভারল্যাপ, এবং IoU উপর
-  ঐ windowগুলো 0.776 .
-* যখন ব্লকের উভয় প্রান্ত সঠিক হয় ( 61.6 % ঐ window) IoU হয়
-  0.931 ; অন্যথায় এটি 0.527 ।
-* তাদের মধ্যে 22 % এর মধ্যে মাথা কমপক্ষে একটি লিঙ্ক এবং 22 % এর মধ্যে লেজটি বাদ দেওয়া হয়েছে।
+**The site is usually right; the boundaries are what go wrong.**
+* The predicted block overlaps the true block in 94.4% of windows, and IoU on
+  those windows is 0.776.
+* When both ends of the block are exact (61.6% of those windows) IoU is
+  0.931; otherwise it is 0.527.
+* The head is off by at least one link in 22% of them, the tail in 22%.
 
-**এই সত্যের সাথে সম্পর্কিত মডেলটি অতিরিক্ত ভবিষ্যদ্বাণী করে।** প্রতি windowতে 0.68 আছে
-সাইটের ভিতরে মিথ্যা-সংশতিকর লিঙ্ক এবং 0.12 মিথ্যা-নেতিবাচক, প্লাস 0.17 / 0.13
-এর বাইরে. পূর্বাভাস নিচে সত্যিকারের ব্লক আকারঃ
+**Relative to this truth the model over-predicts.** Per window there are 0.68
+false-positive links inside the site and 0.12 false negatives, plus 0.17 / 0.13
+outside it. Predicted minus true block size:
 
-| পূর্বাভাস − সত্যিকারের লিঙ্ক | windowের ভাগ |
+| predicted − true links | share of windows |
 |---|---:|
 | 0 | 54% |
 | +1 | 24% |
 | +2 | 8% |
-| +3 বা তার বেশি | 7% |
-| নেতিবাচক | 7% |
+| +3 or more | 7% |
+| negative | 7% |
 
-**সংক্ষিপ্ত লিঙ্ক সবচেয়ে কঠিন।**
-* 0.2 কিমি বা তার কম লিংক থাকা সাইটগুলি IoU 0.61 ( 0.71 কিমি পূর্বাভাস বনাম
-  0.34 km true) ।
-* 0.45-0.7 কিমি স্কোর 0.91 এর লিঙ্কগুলি।
-* প্যানেল দ্বারা (যখন সাইটটি সঠিক হয় তখন IoU), D7_I405_S  0.62 এ সবচেয়ে দুর্বল এবং
-  D7_I10_W  0.89 এ সবচেয়ে শক্তিশালী। 07-08 h উত্স স্কোর 0.71-0.72 ; 14 h
-  স্কোর 0.83 .
+**Short links are the hardest.**
+* Sites with links of 0.2 km or less score IoU 0.61 (0.71 km predicted vs
+  0.34 km true).
+* Links of 0.45-0.7 km score 0.91.
+* By panel (IoU when the site is right), D7_I405_S is weakest at 0.62 and
+  D7_I10_W strongest at 0.89. The 07-08 h origins score 0.71-0.72; 14 h
+  scores 0.83.
 
-**শারীরিক পরিধি চাহিদা থেকে পূর্বাভাসযোগ্য নয়।**
-* একটি নির্দিষ্ট মাথা সংযোগে প্রথম স্লট প্রস্থের পরিবর্তিত হয় একটি মান বিয়োগ দ্বারা
-  0.5-1.5 লিঙ্ক।
-* এটি T: flow/capacity এ দেখা যায় এমন যেকোনো কিছুর সাথে প্রায় সম্পর্কিত নয় , এর
-  ঢাল এবং এক্সট্রাপোলেশন, আপস্ট্রিম চাহিদা, ঘনত্ব (সমস্ত |r| <= 0.24 এ
-  চারটি প্রধান সাইট) ।
-* যে 5 - মিনিট ফাঁকা মধ্যে, যখন দ্বারা নির্ধারিত পরিসীমা
-  বিপর্যয় ঘটে, যা দেখা যায় না।
-* প্রকৃত মাথাটি জানা থাকলে সাইটের মোডাল প্রস্থে ব্লক IoU 0.893 প্রদান করা হয়।
-* তাই শক ওয়েভ স্পিডের পরিধি অনুমানটি শক ওয়েভের গতির উপর কোন যোগ করার ছিল না
-  প্রতি সাইটের জন্য পরীক্ষামূলক পরিসীমা।
+**Physics extent is not predictable from demand.**
+* At a given head link the first-slot extent varies by a standard deviation of
+  0.5-1.5 links.
+* It is nearly uncorrelated with anything observable at T: flow/capacity, its
+  slope and extrapolation, upstream demand, density (all |r| <= 0.24 at the
+  four main sites).
+* That fits the extent being set by when, within the 5-minute slot, the
+  breakdown happens, which cannot be observed.
+* With the true head known, the site's modal extent gives block IoU 0.893.
+* A shockwave-speed extent estimate therefore had nothing to add over the
+  per-site empirical extent.
 
-**অন্যান্য কাজের উপর প্রভাব ফেলে এমন দুটি তথ্য।**
-* **দিকনির্দেশনা।**  W/S প্যানেলগুলিতে ( D7_I10_W , D7_I210_W , D7_I405_S , D12_I5_S )
-  লিঙ্ক i+1 হল লিঙ্ক i এর উপকূলীয় প্রতিবেশী, উপকূলীয় নয়।
-  " downstream/upstream " বৈশিষ্ট্য এবং LWR  tail/head বিভাগের 12 বৈশিষ্ট্য,
-  এই প্যানেলগুলোতে প্রতিফলিত হয়।
-  0.7195 বনাম 0.7210  4 মডেলের জন্য নির্দেশনা-স্বাভাবিকীকৃত সূচনা বৈশিষ্ট্যগুলি স্কোর করা হয়েছে
-  মিশ্রণ।
-* **লেবেল পক্ষপাত.** train সত্য প্রথম সারিতে স্লট পক্ষপাতী। যে
-  পূর্ববর্তী "অধিক পূর্বাভাস" এর অধিকাংশ ব্যাখ্যা মডেল নয় (পরবর্তী
-  উপ-বিভাগ) ।
+**Two findings that affect other work.**
+* **Direction.** On the W/S panels (D7_I10_W, D7_I210_W, D7_I405_S, D12_I5_S)
+  link i+1 is the upstream neighbour of link i, not the downstream one. All
+  "downstream/upstream" features, and the LWR tail/head features of section 12,
+  are mirrored on those panels. The tree compensates with the panel code:
+  direction-normalised onset features scored 0.7195 vs 0.7210 for the 4-model
+  blend.
+* **Label bias.** The train truth is biased at the first queued slot. That
+  bias, not the model, explains most of the "over-prediction" above (next
+  subsection).
 
-### ডিকোডার এবং স্ট্যাকিং (v5  OOF , পুরানো সত্য, 6 -step metric)
+### Decoders and stacking (v5 OOF, old truth, 6-step metric)
 
-| পদ্ধতি | শুরু সিম | বন্ধ | রিসি < 0.05 | রিসি < 0.2 |
+| method | onset sim | off | rec<0.05 | rec<0.2 |
 |---|---:|---:|---:|---:|
-| **top-m (v5 )** | **0.7210** | 0.7691 | 0.295 | 0.561 |
-| মাথা (উপরে থেকে মি) + পরীক্ষামূলক প্রস্থ, প্রবাহিত ব্লক আপstream | 0.6708 | 0.7225 | 0.296 | 0.532 |
-| মডেলের মাথা থেকে মাথা সম্ভাবনা + প্রস্থ | 0.6680 | 0.7138 | 0.282 | 0.521 |
-| হাইব্রিডঃ পূর্বাভাস ব্লক ±1 লিঙ্কের ভিতরে শীর্ষ-মি | 0.7216 | 0.7691 | 0.295 | 0.562 |
-| সম্ভাব্যতার প্রোফাইলের উপর 2 স্তর স্তর স্তর স্তর স্তর স্তর 3 বীজ, 50/50 স্তর 1 ) | 0.7237 | 0.7710 | 0.311 | 0.576 |
+| **top-m (v5)** | **0.7210** | 0.7691 | 0.295 | 0.561 |
+| head (from top-m) + empirical extent, contiguous block upstream | 0.6708 | 0.7225 | 0.296 | 0.532 |
+| head from the model's head probability + extent | 0.6680 | 0.7138 | 0.282 | 0.521 |
+| hybrid: top-m inside the predicted block ± 1 link | 0.7216 | 0.7691 | 0.295 | 0.562 |
+| stage-2 stacking on the probability profile (3 seeds, 50/50 with stage 1) | 0.7237 | 0.7710 | 0.311 | 0.576 |
 
-* **ধারাবাহিক ব্লক** হারাচ্ছে কারণ সত্যিকারের প্রথম স্লট ব্লকগুলি প্রায়শই একটি লিঙ্কটি বাদ দেয়।
-  D7_I405_N লিঙ্ক 350  349 এবং 351 এর মধ্যে খুব কমই সারিতে থাকে এবং পয়েন্টওয়াইন্ড
-  মডেল ইতিমধ্যে এটি স্লিপ.
-* **লাইব্রেরী ফর্ম-পূর্ব ডিকোডার.** এটি প্রশিক্ষণের উপর পিছনের গণনা করে
-  প্যানেলের সত্য আকার, তারপর বেস-অপ্টিমাল প্রত্যাশিত-IoU পছন্দ গ্রহণ।
-  এটি সর্বোচ্চ +0.002 থেকে +0.004 পর্যন্ত লাভ করে এবং অফিসিয়াল window এবং
-  পুনরাবৃত্তিহীন টুকরো।
-* **স্ট্যাকিং বাস্তব কিন্তু ছোটঃ** +0.0027 ±0.0016 (জোড়া বুটস্ট্র্যাপ) ।
-* ক্লাসার বৈশিষ্ট্য এবং একটি বৃহত্তর স্টেজ- 2 মডেল সাহায্য করেনি. আরও চার যোগ করা
-  1 মডেলগুলি 0.7213 প্রদান করে।
+* **Contiguous blocks lose** because true first-slot blocks often skip a link.
+  At D7_I405_N link 350 is rarely queued between 349 and 351, and the pointwise
+  model already skips it.
+* **Library shape-prior decoder.** It computes the posterior over training
+  truth shapes of the panel, then takes the Bayes-optimal expected-IoU choice.
+  It gains at most +0.002 to +0.004 and loses on the official windows and the
+  non-recurrent slice.
+* **Stacking is real but small:** +0.0027 ± 0.0016 (paired bootstrap).
+* Cluster features and a larger stage-2 model did not help. Adding four more
+  stage-1 models gave 0.7213.
 
-এই সবগুলোতে কোনটিই +0.005 বারটি পরিষ্কার করে না।
+None of these clears the +0.005 bar.
 
-### লেবেল ফিক্স
+### The label fix
 
-**সমস্যা.** train সত্য অনুপস্থিত cell পূরণ (প্রায় 17 %, র্যান্ডম
-প্রথমবারের মতো, একটি নতুন ক্রমের প্রথম স্লট
-ক্রম রাজ্য সময় ধারালো এবং স্থান মসৃণ. একটি মাস্ক পরীক্ষা লুকানো
-পর্যবেক্ষণ করা cell এবং পুনরায় পূরণ করা; শুরু হওয়া স্লটগুলিতে ক্রমিক cell পুনরুদ্ধারঃ
+**The problem.** The train truth fills missing cells (about 17%, random
+detector gaps) by time interpolation first. At the first queued slot of a new
+queue the state is sharp in time and smooth in space. A masked test hid
+observed cells and re-filled them; queued-cell recall at onset slots:
 
-| একটি অনুপস্থিত cell পূরণ | সঠিকতা | কয়েন রিমোট | বিশেষত্ব |
+| fill of a missing cell | accuracy | queued recall | specificity |
 |---|---:|---:|---:|
-| সময় অন্তঃস্থলীকরণ (এখন পর্যন্ত ব্যবহৃত) | 0.792 | **0.266** | 0.984 |
-| স্পেস ইন্টারপোলেশন | 0.819 | 0.550 | 0.916 |
-| দুইটির মধ্যম | 0.859 | 0.506 | 0.988 |
-| **LightGBM imputer** ( `truthfix.py` : প্রতিবেশী t±1,2 , লিঙ্ক ±1,2 , ডায়াগনাল) | **0.962** | **0.947** | 0.967 |
+| time interpolation (used so far) | 0.792 | **0.266** | 0.984 |
+| space interpolation | 0.819 | 0.550 | 0.916 |
+| mean of the two | 0.859 | 0.506 | 0.988 |
+| **LightGBM imputer** (`truthfix.py`: neighbours t±1,2, links ±1,2, diagonals) | **0.962** | **0.947** | 0.967 |
 
-**ইমপুটর.**
-* চলমান horizon cellগুলিতে এটি সময়ের অন্তর্ভুক্তির মতোই ভাল (0.988 বনাম
+**The imputer.**
+* On ongoing horizon cells it is as good as time interpolation (0.988 vs
   0.984).
-* শরীরে দেখা যায় যে cellগুলো 5-15 মিনিট আগে তার বিশেষত্ব হল 0.98-0.99 ।
-* এটাকে সমান train-এর দিনগুলোতে প্রশিক্ষণ দেওয়া হয়েছিল এবং অদ্ভুত দিনগুলোতে পরীক্ষা করা হয়েছিল।
-* সরকারি সত্য হল সম্পূর্ণ মূল রাষ্ট্র, তাই পুরানো ভরা
-  অনুপস্থিত ক্যো cellগুলি আমাদের সত্যের একটি প্রতীক ছিল। মডেলটি শিখেছে
-  প্রথম স্লট ব্লক 7-17 % খুব ছোট (প্রতি প্যানেল) এবং তাদের বিরুদ্ধে স্কোর করা হয়েছিল।
+* On observed cells 5-15 min before an onset its specificity is 0.98-0.99.
+* It was trained on even train days and checked on odd days.
+* The official truth is the complete underlying state, so the old fill's
+  missing queue cells were an artifact of our truth only. The model learned
+  first-slot blocks 7-17% too small (per panel) and was scored against them.
 
-**হাইব্রিড সত্য.** ইমপুটারের 1-2 % মিথ্যা-সकारात्मक হার (নির্দিষ্টতা)
-0.98-0.99 শুরু হওয়ার আগে), লক্ষ লক্ষ অনুপস্থিত cellের উপর প্রয়োগ করা হয়, মিথ্যা ছড়িয়ে দেয়
-window নির্বাচকের "কোনও ক্যো সেল" নিয়ম
-তারপর ভাঙায়ঃ 5/80 অফিসিয়াল window পুনরায় প্রজনন।
-± ± এর মধ্যে অনুপস্থিত cell ছাড়া সব জায়গায় পুরানো ভরাট5 মিনিট / ±2 একটি লিঙ্ক
-observed queued cell, যেখানে imputer সিদ্ধান্ত নেয়।
-* নির্বাচক প্রজননঃ 68/80 সঠিক (পুরানো সত্য 66 ) এবং 75/80  5 মিনিটের মধ্যে
-  (পুরানো 78 ).
-* এটি শুরু windowতে 7-17 % ক্যুড সেল যোগ করে T+30 ( D7_I10_E  3,019 → 3,428 );
+**Hybrid truth.** The imputer's 1-2% false-positive rate (specificity
+0.98-0.99 before onsets), applied to millions of missing cells, scatters false
+queue cells through free flow. The window selector's "any queued cell" rule
+then breaks: 5/80 official windows reproduced. The hybrid truth keeps the
+old fill everywhere except missing cells within ±5 min / ±2 links of an
+observed queued cell, where the imputer decides.
+* Selector reproduction: 68/80 exact (old truth 66) and 75/80 within 5 min
+  (old 78).
+* It adds 7-17% queued cells at T+30 in onset windows (D7_I10_E 3,019 → 3,428;
   D7_I405_N 1,397 → 1,631).
 
-**ফলাফল.**  4 -মডেলের শুরু রেসিপি হিসাবে v5 (v3 পদার্থবিজ্ঞান বীজ বৈশিষ্ট্য 0/1/2
-+ v2 বৈশিষ্ট্য, p1 , অবস্থান পূর্ব), পুরানো বনাম হাইব্রিড লেবেলঃ
+**Results.** Same 4-model onset recipe as v5 (v3 physics features seeds 0/1/2
++ v2 features, p1, location prior), old vs hybrid labels:
 
-| মূল্যায়ন | সত্য | পুরোনো লেবেল (v5 ) | হাইব্রিড লেবেল (v6 ) | Δ sim | বন্ধ | রিসি < 0.05 | রিসি < 0.2 |
+| evaluation | truth | old labels (v5) | hybrid labels (v6) | Δ sim | off | rec<0.05 | rec<0.2 |
 |---|---|---:|---:|---:|---|---|---|
-| মূল সিম window নিচে 222 যার হাইব্রিড T+30 খালি ( 1,860 ), প্রকৃত v5  OOF | হাইব্রিড | 0.8510 | 0.8629 | **+0.0119** | 0.9075 → 0.9194 | 0.358 → 0.392 | 0.679 → 0.702 |
-| একই | পুরানো | 0.7750 | 0.7827 | **+0.0077** | 0.7881 → 0.7932 | 0.332 → 0.352 | 0.632 → 0.650 |
-| হাইব্রিড সত্যের উপর নির্বাচনকারী দ্বারা পুনরায় আঁকা window (2,081) | হাইব্রিড | 0.8518 | 0.8589 | **+0.0071 ±0.0017** | 0.8758 → 0.8841 | 0.406 → 0.412 | 0.689 → 0.704 |
-| একই | পুরানো | 0.7555 | 0.7605 | **+0.0050 ±0.0018** | 0.7565 → 0.7659 | 0.373 → 0.374 | 0.632 → 0.641 |
+| original sim windows minus 222 whose hybrid T+30 is empty (1,860), actual v5 OOF | hybrid | 0.8510 | 0.8629 | **+0.0119** | 0.9075 → 0.9194 | 0.358 → 0.392 | 0.679 → 0.702 |
+| same | old | 0.7750 | 0.7827 | **+0.0077** | 0.7881 → 0.7932 | 0.332 → 0.352 | 0.632 → 0.650 |
+| windows re-drawn by the selector on the hybrid truth (2,081) | hybrid | 0.8518 | 0.8589 | **+0.0071 ± 0.0017** | 0.8758 → 0.8841 | 0.406 → 0.412 | 0.689 → 0.704 |
+| same | old | 0.7555 | 0.7605 | **+0.0050 ± 0.0018** | 0.7565 → 0.7659 | 0.373 → 0.374 | 0.632 → 0.641 |
 
-* পুনরায় আঁকা windowগুলোতে, 110 হাইব্রিড সত্যের অধীনে উন্নত এবং 46 খারাপ হয়;
-  102 এবং 50 পুরানো সত্যের অধীনে।
-* নিখুঁত স্তর সত্যের উপর নির্ভর করে। সংশোধন সত্যের অধীনে CV শুরু হয়
-  0.85-0.86 সম্পর্কে, 0.72 সম্পর্কে নয়ঃ পুরানো "ত্রুটি" এর অনেকটা সত্য cellের অভাব ছিল।
-  শুধুমাত্র এক সারিতে তুলনা করুন।
-* চলমান পরিবর্তন নেই, তাই সামগ্রিক সিম শুরু লাভ অর্ধেক বৃদ্ধি, প্রায়
-  +0.0025 থেকে +0.006 পর্যন্ত।
+* On the re-drawn windows, 110 improve and 46 worsen under the hybrid truth;
+  102 and 50 under the old truth.
+* Absolute levels depend on the truth. Under the corrected truth onset CV is
+  about 0.85-0.86, not 0.72: much of the old "error" was missing truth cells.
+  Compare within a row only.
+* Ongoing is unchanged, so overall sim rises by half the onset gain, about
+  +0.0025 to +0.006.
 
-**গৃহীত হয়েছে।**
-* প্রতিটি মূল্যায়নে কমপক্ষে +0.005 উন্নতি হয়। সবচেয়ে সংরক্ষণশীল
-  একটা (পুনরায় আঁকা window, পুরানো সত্য) ঠিক বারের পাশে বসে আছে।
-* সামগ্রিকভাবে v5 এর চেয়ে কম নয় , এবং পুনরাবৃত্তিহীন সূচনা স্লিপগুলি উন্নত হয়
-  সবখানে।
+**Adopted.**
+* Onset improves by at least +0.005 in every evaluation. The most conservative
+  one (re-drawn windows, old truth) sits exactly at the bar.
+* Overall is not lower than v5, and the non-recurrent onset slices improve
+  everywhere.
 
-### ফাইল
+### The file
 
 `/home/user/work/t2/lgb_v6.csv`:
-* **শুরুঃ** চারটি শুরু মডেলের মধ্যম (v5 রেসিপি), যা
-  হাইব্রিড লেবেলযুক্ত পুনরায় আঁকা window।
-  হাইব্রিড-সত্যের সূচনা এবং বৈশিষ্ট্য টেবিল ( `/home/user/work/t2h/feat` )
-  হাইব্রিড-সত্যের সময়-দিনের প্রোফাইল ব্যবহার করুন। শীর্ষ-এম ডিকোডিং, শুধুমাত্র টি+30 ।
-* **চলমানঃ** সারিগুলি হল lgb_v5 সারি, একই।
+* **Onset:** the mean of four onset models (the v5 recipe), trained on the
+  re-drawn windows with hybrid labels. The location prior is built from
+  hybrid-truth onsets, and the feature tables (`/home/user/work/t2h/feat`)
+  use hybrid-truth time-of-day profiles. Top-m decoding, T+30 only.
+* **Ongoing:** rows are the lgb_v5 rows, identical.
 
-চেকঃ
-* v5 ও template-এর মতো একই key ও order-এ 174,000টি row; binary।
-* সমস্ত 160 window খালি নয়।
-* 311 শুরু cell, সব T+30 , 1-9 প্রতি window (মধ্যস্থ 4 ).
-* 19 এর 80 সূচনা window পরিবর্তন vs v5 . বেশিরভাগ ক্ষেত্রেই সাইটের প্রস্থ একটি বা
-  দুইটি লিঙ্ক বা একটি দ্বিতীয় সাইট যুক্ত করা হয়েছে বা বাদ দেওয়া হয়েছে। D7_I10_W বৈধতা 005
-  28 লিঙ্ক (v4 এর পছন্দ) এ ফিরে যান।
+Checks:
+* 174,000 rows with the same keys and order as v5 and the templates; binary.
+* All 160 windows are non-empty.
+* 311 onset cells, all at T+30, 1-9 per window (median 4).
+* 19 of 80 onset windows changed vs v5. Mostly the site extent moved by one or
+  two links, or a second site was added or dropped. D7_I10_W validation 005
+  moved back to link 28 (v4's choice).
 
-পুনরায় প্রজননঃ
+Reproduce:
 ```
 python -m trafficflow.t2.truthfix fit                 # imputer + masked check
 python -m trafficflow.t2.truthfix relabel hybrid      # WORK/ds_<p>_y2.npz (hybrid truth)
@@ -664,322 +662,322 @@ T2_WORK=/home/user/work/t2h T2_TRUTHQ=/home/user/work/t2/ds_{panel}_y2.npz pytho
 T2_WORK=/home/user/work/t2h T2_PHYSICS=1 T2_ONLY=queue_onset T2_FEAT=/home/user/work/t2h/feat python -m trafficflow.t2.build_features
 T2_WORK=/home/user/work/t2h T2_FEAT=/home/user/work/t2h/feat python -m trafficflow.t2.onset_v6 /home/user/work/t2/lgb_v6.csv
 ```
-এই বিভাগের অন্যান্য মডিউলঃ
-* `onset_extent.py` : রোগ নির্ণয়, মাথা+প্রসারিত এবং লাইব্রেরি ডিকোডার।
-* `stack.py` : স্টেজ- 2 স্ট্যাকিং।
-* `onset_decode.py` : সাইট ডিকোডার।
-* `T2_NORMDIR=1` in `build_features.py` : দিকনির্দেশিত বৈশিষ্ট্য।
+Other modules for this section:
+* `onset_extent.py`: diagnosis, head+extent and library decoders.
+* `stack.py`: stage-2 stacking.
+* `onset_decode.py`: site decoders.
+* `T2_NORMDIR=1` in `build_features.py`: direction-normalised features.
 
-CV চালানো হয় `robust cv on_v3|on_v2 p1 --cond queue_onset --oprior` ব্যবহার করে,
-`T2_OOF_ALL=1` এবং `T2_TAGX` সেট।
+The CV runs use `robust cv on_v3|on_v2 p1 --cond queue_onset --oprior`, with
+`T2_OOF_ALL=1` and `T2_TAGX` set.
 
-## 14 . চলমান মডেলের হাইব্রিড-সত্য লেবেল ফিক্সঃ গৃহীত হয়নি
+## 14. Hybrid-truth label fix for the ongoing model: not adopted
 
-**LB প্রেক্ষাপট (মার্চ, সমন্বয়কারী একক ফ্যাক্টর জোন্ড) ।** v5 চলমান
-মিশ্রণ S_queue +0.0081 প্রদান করে। v6 শুরু লেবেল সংশোধন করে S_queue +0.0151 প্রদান করে।
-যা শুরু হয় +0.030 মার্চ ( CV বলেছিল +0.005 থেকে +0.012 ) ।
+**LB context (March, the coordinator's single-factor probes).** The v5 ongoing
+blend gave S_queue +0.0081. The v6 onset label fix gave S_queue +0.0151,
+which is onset +0.030 on March (CV had said +0.005 to +0.012).
 
-**চলমান লেবেলগুলি কত পরিবর্তন করে।**  3,001 মূল সিমুলেটেড
-চলমান window, হাইব্রিড সত্য পরিবর্তন 0.23 % horizon cell.
-* যা হল 1.7 % পুরোনো ক্রমের cell, অথবা 2.6 cell প্রতি window প্রতি
-  প্রায় 148 সারিতে।
-* বেশিরভাগ পরিবর্তন ক্রম কক্ষ যোগ করে ( 6,690 যোগ করা হয়েছে বনাম 1,049 সরানো হয়েছে), এবং 79 %
-  windowের অন্তত একটি পরিবর্তন আছে।
-* যেখানে পরিবর্তন করা সেলগুলি বসে আছেঃ 33 % ক্যো ব্লকের ঠিক উপরে
-  পাশের), 26 % শুধু প্রবাহিত (প্রধান দিক), 38 % ব্লকের ভিতরে (গ্যাপ পূরণ),
-  2অন্য কোথাও %।
-* window বৃদ্ধি এবং বিচ্ছিন্ন করার ক্ষেত্রে প্যাটার্নটি একইঃ 2.3 বনাম 2.9
-  প্রতি windowতে পরিবর্তন করা cellগুলি, প্রায় 0.9 লেজ সাইড এবং 0.6-0.7 লেজ
-  মাথা পাশ।
-* শুরুতে পরিবর্তনটি ছিল 7-17 % টি +30 ক্রম cell, অনেক বড়
-  এখানে.
+**How much the ongoing labels change.** On the 3,001 original simulated
+ongoing windows, the hybrid truth changes 0.23% of horizon cells.
+* That is 1.7% of the old queued cells, or 2.6 cells per window against
+  about 148 queued.
+* Most changes add queue cells (6,690 added vs 1,049 removed), and 79% of
+  windows have at least one change.
+* Where the changed cells sit: 33% just upstream of a queue block (tail
+  side), 26% just downstream (head side), 38% inside blocks (gaps filled),
+  2% elsewhere.
+* The pattern is the same in growing and dissipating windows: 2.3 vs 2.9
+  changed cells per window, about 0.9 on the tail side and 0.6-0.7 on the
+  head side.
+* For onset the change was 7-17% of the T+30 queue cells, much larger than
+  here.
 
-**মূল্যায়ন।**
-* সেটআপঃ v5 মিশ্রণ রেসিপি ( 0.35  LWR -all +0.35  LWR -noloc +0.15 v2 -all +
-  0.15 v2 -noloc, window ওজন) প্রতিটি উপাদান পুরানো বা
-  windowগুলোতে হাইব্রিড লেবেল দিয়ে, নির্বাচনকারীটি হাইব্রিড সত্যের উপর ভিত্তি করে,
-  4 -fold CV .
-* প্রক্সিঃ দ্রুত কনফিগেশন ( 31 leaves, 250 রান্ড) p2 এর জায়গায় দাঁড়িয়েছিল।
-  p2  CV রান (প্রায় 40-50 min প্রতি ভাগ করা মেশিনে)
-  সময়।
-* লেবেলগুলি ফ্লাইতে বিনিময় করা হয়েছিল (`T2_RELABEL=<npz>:<key>` মধ্যে `cv.gather`),
-  তাই ডিস্কে কোন রিলেবেলড ফিচার টেবিলের কপি রাখা হয় না।
+**Evaluation.**
+* Setup: the v5 blend recipe (0.35 LWR-all + 0.35 LWR-noloc + 0.15 v2-all +
+  0.15 v2-noloc, window weights). Each component was retrained with old or
+  with hybrid labels on the windows the selector draws on the hybrid truth,
+  4-fold CV.
+* Proxy: the fast config (31 leaves, 250 rounds) stood in for p2. Eight
+  p2 CV runs (about 40-50 min each on the shared machine) did not fit in the
+  time available.
+* Labels were swapped on the fly (`T2_RELABEL=<npz>:<key>` in `cv.gather`),
+  so no relabelled feature-table copies are kept on disk.
 
-| পুনরায় আঁকা window (2,081 sim) | পুরোনো লেবেল | হাইব্রিড লেবেল | Δ sim (জোড়া বুটস্ট্র্যাপ) | window ভালো / খারাপ | বন্ধ | রিসি < 0.05 | রিসি < 0.2 |
+| re-drawn windows (2,081 sim) | old labels | hybrid labels | Δ sim (paired bootstrap) | windows better / worse | off | rec<0.05 | rec<0.2 |
 |---|---:|---:|---:|---|---|---|---|
-| পুরানো সত্য | 0.8665 | 0.8671 | **+0.0006 ±0.0006** | 948 / 932 | 0.8784 → 0.8828 | **0.586 → 0.581** | 0.747 → 0.748 |
-| হাইব্রিড সত্য | 0.8634 | 0.8666 | **+0.0032 ±0.0006** | 1,036 / 839 | 0.8810 → 0.8878 | **0.578 → 0.572** | 0.741 → 0.743 |
+| old truth | 0.8665 | 0.8671 | **+0.0006 ± 0.0006** | 948 / 932 | 0.8784 → 0.8828 | **0.586 → 0.581** | 0.747 → 0.748 |
+| hybrid truth | 0.8634 | 0.8666 | **+0.0032 ± 0.0006** | 1,036 / 839 | 0.8810 → 0.8878 | **0.578 → 0.572** | 0.741 → 0.743 |
 
-প্রথম উপাদানটি ( LWR -all) একই প্যাটার্ন দেখায়ঃ +0.0006 ±0.0007
-পুরনো সত্যের অধীনে +0.0028 ±0.0006 হাইব্রিড সত্যের অধীনে, এবং পুনরাবৃত্তি
-উভয় স্তরের নীচে −0.006 এ < 0.05 ।
+The first component alone (LWR-all) shows the same pattern: +0.0006 ± 0.0007
+under the old truth, +0.0028 ± 0.0006 under the hybrid truth, and recurrence
+< 0.05 at −0.006 under both.
 
-**রায়ঃ গৃহীত হয়নি।**
-* নিয়মটি প্রয়োজন হয় ≥ +0.003 উভয় সত্যের অধীনে পুনরায় আঁকা window এবং না
-  হাইব্রিড-সত্যের উপার্জন (+0.0032 ) ।
-* পুরোনো সত্যের লাভ (+0.0006) ব্যর্থ হয় এবং পুনরাবৃত্তি < 0.05 স্লিট খারাপ হয়
-  উভয় সত্যের অধীনে (−0.005 / −0.006 ).
-* মূল window সারি বন্ধ করা হয়েছিল একবার সংরক্ষণশীল সারি ছিল
-  সিদ্ধান্তটা নিয়েছি।
+**Verdict: not adopted.**
+* The rule needs ≥ +0.003 under both truths on the re-drawn windows and no
+  worse non-recurrent slice. The hybrid-truth gain passes (+0.0032).
+* The old-truth gain (+0.0006) fails, and the recurrence < 0.05 slice worsens
+  under both truths (−0.005 / −0.006).
+* The original-window rows were stopped once the conservative rows had
+  decided the verdict.
 
-**কেন প্রভাব ছোট।** ক্রমাগত লেবেল পরিবর্তন ~ 1.7 % ক্রমযুক্ত cell,
-পুরানো সত্যের অধিকাংশ কক্ষই
-ডানদিকেঃ টাইম ইন্টারপোলেশন 97 % ক্রমিক cellের মধ্যে পুনরুদ্ধার করে
-নতুন এক প্রথম সারিতে স্লট প্রতি 27 %. সুতরাং bias সংশোধন
-v6 (আগামী ফিক্স + v5 চলমান)
-প্রস্তাবিত ফাইল।
+**Why the effect is small.** Ongoing labels change on ~1.7% of queued cells,
+spread over boundaries and gaps. The old truth already gets most ongoing cells
+right: time interpolation recovers 97% of queued cells inside established
+queues, against 27% at the first queued slot of a new one. So the bias the fix
+removes is concentrated at onset. v6 (onset fix + v5 ongoing) remains the
+recommended file.
 
-**কোড।**
-* `og_labelfix_eval.py` : মূল্যায়ন।
-* `ongoing_v7.py` : v7 নির্মাতা, প্রস্তুত কিন্তু চালানো হয়নি।
-* টেবিলঃ `/home/user/work/t2h/feat_og` (পুনরায় আঁকা window চলমান বৈশিষ্ট্য,
-  ~1 GB) ডিস্ক প্রয়োজন হলে মুছে ফেলুন।
+**Code.**
+* `og_labelfix_eval.py`: the evaluation.
+* `ongoing_v7.py`: the v7 builder, ready but not run.
+* Tables: `/home/user/work/t2h/feat_og` (re-drawn-window ongoing features,
+  ~1 GB). Delete it if disk is needed.
 
-## 15 . শুরু পর্যায়ে-2 স্তর এবং হাইব্রিড সত্যের আরও বীজ ( `lgb_v8_*` )
+## 15. Onset stage-2 stacking and more seeds on the hybrid truth (`lgb_v8_*`)
 
-**লক্ষ্য.**  `lgb_v6` এর উপরে একটি একক ফ্যাক্টর পরিবর্তন শুরু করা।
-মাস, সত্য-সমন্বিত সূচনা পরিবর্তন শক্তিশালী স্থানান্তরঃ v6 লেবেল ফিক্স
-মার্চ মাসে শুরু হয় +0.030 যেখানে CV বলেছিল +0.005 থেকে +0.012 (মার্চ শুরু হয়
-এখন 0.728 ).
+**Goal.** A single-factor onset change on top of `lgb_v6`. On the public
+month, truth-consistent onset changes transfer strongly: the v6 label fix
+gave onset +0.030 on March where CV said +0.005 to +0.012 (March onset is
+now 0.728).
 
-**গেট** (অন্তর্ভুক্ত কর্মসূচির জন্য একজন প্রার্থী পাঠানোর জন্য সমন্বয়কারী নিয়ম 2
-শীর্ষস্থানীয় তালিকাঃ
-* হাইব্রিড সত্যের অধীনে শুরু সিম v6 এ উন্নতি করে;
-* সংরক্ষণশীল মূল্যায়ন (পুরানো সত্য, পুনরায় আঁকা window) নেতিবাচক নয়;
-* পুনরাবৃত্তিহীন টুকরো (পুনরাবৃত্তি < 0.05, পুনরাবৃত্তি 0.2) এর চেয়েও খারাপ নয়
-  শব্দ থেকে।
+**Gate** (the coordinator's rule for sending a Task 2 candidate to the
+leaderboard):
+* onset sim under the hybrid truth improves on v6;
+* the conservative evaluation (old truth, re-drawn windows) is not negative;
+* the non-recurrent slices (recur < 0.05, recur < 0.2) are not worse by more
+  than noise.
 
-### মূল্যায়নকারী ( `onset_eval.py` )
+### Evaluator (`onset_eval.py`)
 
-`OnsetEval` v6 সূচনাটির সারির সাথে সারিবদ্ধ কোন সম্ভাব্যতা ভেক্টর স্কোর করে
-OOF ফাইল. এই সারিগুলি সমস্ত 4,583 শুরু window × টি +30 লিঙ্কগুলি জুড়ে
-( `T2_OOF_ALL=1` ). স্কোরিং 2,081 পুনরায় আঁকা সিম window এবং 40 ব্যবহার করে
-অফিসিয়াল windowঃ
-* **ডিকোডিংঃ** প্রতি windowতে প্রত্যাশিত IoU-m।
-* **সত্যঃ** `hybrid` (`ds_<p>.npz["y"]`) এবং `old` (`y_old`) ধাপ 1-5
-  উভয় অধীনে খালি, যেমন `robust.load_truth` .
-* **স্কোরঃ** সিম এবং অফ জন্য অফিসিয়াল সমষ্টি। পুনরাবৃত্তি স্লিপগুলি হল
-  তারা t2h টেবিলগুলিতে `robust.onset_recurrence` ব্যবহার করে, যা
-  হাইব্রিড সত্যের উপর ভিত্তি করে, সুতরাং উভয় সত্য একই 144 / 438 window ব্যবহার করে।
-* **  `compare(a, b)` : ** window দ্বারা Δ sim এর জোড়া বুটস্ট্র্যাপ। এটি
-  sim windows jointly ( 2,000 replicates, as `og_labelfix_eval` does) । এটিও
-  রিপোর্ট Δ off, Δ এবং SE slices, এবং window সংখ্যা ভাল /
-  আরও খারাপ।
-* **  `stack_v8.nested_weight` : ** মিশ্রণের ওজন তিন সপ্তাহের ফোল্ডিংয়ে নির্বাচন করে
-  এবং এটি চতুর্থ উপর স্কোর. এই একটি সৎ অনুমান দেয়
-  ওজন।
+`OnsetEval` scores any probability vector aligned to the rows of the v6 onset
+OOF files. Those rows cover all 4,583 onset windows × links at T+30
+(`T2_OOF_ALL=1`). Scoring uses the 2,081 re-drawn sim windows and the 40
+official windows:
+* **Decoding:** top-m expected IoU per window.
+* **Truths:** `hybrid` (`ds_<p>.npz["y"]`) and `old` (`y_old`). Steps 1-5
+  are empty under both, as in `robust.load_truth`.
+* **Scores:** official aggregation for sim and off. The recurrence slices are
+  plain means. They use `robust.onset_recurrence` on the t2h tables, which is
+  based on the hybrid truth, so both truths use the same 144 / 438 windows.
+* **`compare(a, b)`:** paired bootstrap of Δ sim by window. It resamples the
+  sim windows jointly (2,000 replicates, as `og_labelfix_eval` does). It also
+  reports Δ off, Δ and SE of the slices, and the number of windows better /
+  worse.
+* **`stack_v8.nested_weight`:** picks the blend weight on three week folds
+  and scores it on the fourth. This gives an honest estimate of a tuned
+  weight.
 
-**প্রজনন বিভাগ 13** (v6 = এর চারটি OOF ফাইলের মধ্যভাগ):
+**Reproducing section 13** (v6 = mean of its four OOF files):
 
-| সত্য | সিম | বন্ধ | রিসি < 0.05 | রিসি < 0.2 |
+| truth | sim | off | rec<0.05 | rec<0.2 |
 |---|---:|---:|---:|---:|
-| হাইব্রিড (বিভাগ 13: 0.8589 / 0.8841 / 0.412 / 0.704 ) | 0.8589 | 0.8841 | 0.412 | 0.704 |
-| পুরানো, ধাপ 1-5 রাখা (বিভাগ 13: 0.7605 / 0.7659 / 0.374 / 0.641 ) | 0.7605 | 0.7659 | 0.374 | 0.641 |
-| **পুরানো, ধাপ 1-5 খালি (এখান থেকে ব্যবহার করা হয়)** | **0.7871** | **0.7943** | **0.383** | **0.661** |
+| hybrid (section 13: 0.8589 / 0.8841 / 0.412 / 0.704) | 0.8589 | 0.8841 | 0.412 | 0.704 |
+| old, steps 1-5 kept (section 13: 0.7605 / 0.7659 / 0.374 / 0.641) | 0.7605 | 0.7659 | 0.374 | 0.641 |
+| **old, steps 1-5 empty (used from here on)** | **0.7871** | **0.7943** | **0.383** | **0.661** |
 
-* প্রতিটি বিভাগ 13 সংখ্যা সঠিকভাবে পুনরায় তৈরি করা হয়।
-* **কেন পুরানো সত্যের সারিগুলি ভিন্ন।** বিভাগ 13 পুরানো সত্য সারিটি
-  1-5 . 2,081 পুনরায় আঁকা সিম window (পরিচিত উপর আঁকা
-  হাইব্রিড সত্য), 261 T+ এ পুরানো সত্যের ক্যু সেল আছে5..T+25. A T+30-শুধু
-  এই হাইব্রিড সত্যের মধ্যে এই ধরনের cell আছে 41
-  window, এবং তারা খালি হয়.
-* 1-5 খালি ধাপে (হাইব্রিড সত্যের জন্য, এবং শুরুতে সত্য হিসাবে
-  সংজ্ঞায়িত করা হয়েছে), v6 স্কোর 0.7871 / 0.7943 পুরানো সত্যের অধীনে।
-* সেকশন 13 এর টুকরো দুটি সত্যের জন্য হাইব্রিড-সত্য পুনরাবৃত্তি ব্যবহার করে।
-  এখানে রাখা হয়।
-* `OnsetEval(truths=ALL_TRUTHS)`  13 কনভেনশন বিভাগকে `old_e` হিসাবে যোগ করে।
+* Every section 13 number is reproduced exactly.
+* **Why the old-truth rows differ.** The section 13 old-truth row kept the
+  old truth's steps 1-5. Of the 2,081 re-drawn sim windows (drawn on the
+  hybrid truth), 261 have old-truth queue cells at T+5..T+25. A T+30-only
+  forecast can never hit those cells. The hybrid truth has such cells in 41
+  windows, and those are emptied.
+* With steps 1-5 empty (as for the hybrid truth, and as onset truth is
+  defined), v6 scores 0.7871 / 0.7943 under the old truth.
+* Section 13's slices used the hybrid-truth recurrence for both truths. That
+  is kept here.
+* `OnsetEval(truths=ALL_TRUTHS)` adds the section 13 convention as `old_e`.
 
-### স্টেজ- 2 ভি 6  OOF ( `stack_v8.py` )
+### Stage-2 stacking on the v6 OOF (`stack_v8.py`)
 
-**সেটআপ।**
-* এটি হল t2h OOF এর `stack.py` (বিভাগ 13 ) ।
-* Stage 1 হল v6 এর চারটি OOF ফাইলের মধ্যম। Stage 2 হল LightGBM
-  windowর স্টেজ- 1 সম্ভাব্যতা প্রোফাইল ( 26 বৈশিষ্ট্য, ট্রাফিক দিক) ।
-* এটি প্রতিটি সূচনা windowর (ক্যান, সিম এবং
-  বন্ধ), একই 4 সপ্তাহের fold ( OOF স্ট্যাকিং) দিয়ে।
-* শেষ সম্ভাবনা = `w × stage 2 + (1 − w) × stage 1` , তারপর শীর্ষ-m ডিকোডিং.
-* ডিফল্ট স্টেজ 2: 31 leaves, min_data  100 , lr 0.05 , 300 রানড।
+**Setup.**
+* This is `stack.py` (section 13) on the t2h OOF.
+* Stage 1 is the mean of v6's four OOF files. Stage 2 is LightGBM on the
+  window's stage-1 probability profile (26 features, traffic direction).
+* It is trained on the hybrid labels of every onset window (cand, sim and
+  off), with the same 4 week folds (OOF stacking).
+* Final probability = `w × stage 2 + (1 − w) × stage 1`, then top-m decoding.
+* Default stage 2: 31 leaves, min_data 100, lr 0.05, 300 rounds.
 
-2 স্তর 3 বীজগুলিতে প্যাক করা, মিশ্রণের ওজন অনুসারে (Δ বনাম v6 ± জোড়া-bootstrap SE ):
+Stage 2 bagged over 3 seeds, by blend weight (Δ vs v6 ± paired-bootstrap SE):
 
-| w | হাইব্রিড সিম | Δ | পুরানো সিম | Δ | হাইব্রিড রিসি < 0.05 / রিসি < 0.2 | পুরোনো রিসি0.05 / rec<0.2 |
+| w | hybrid sim | Δ | old sim | Δ | hybrid rec<0.05 / rec<0.2 | old rec<0.05 / rec<0.2 |
 |---|---:|---:|---:|---:|---|---|
 | 0 (v6) | 0.8589 | | 0.7871 | | 0.412 / 0.704 | 0.383 / 0.661 |
-| 0.2 | 0.8610 | +0.0022 ±0.0009 | 0.7878 | +0.0008 ±0.0008 | 0.433 / 0.713 | 0.394 / 0.667 |
-| **0.3** | **0.8620** | **+0.0031 ±0.0011** | **0.7887** | **+0.0016 ±0.0011** | **0.431 / 0.713** | **0.393 / 0.667** |
-| 0.4 | 0.8616 | +0.0027 ±0.0013 | 0.7882 | +0.0011 ±0.0013 | 0.430 / 0.713 | 0.393 / 0.668 |
-| 0.5 | 0.8590 | +0.0001 ±0.0017 | 0.7853 | −0.0017 ±0.0016 | 0.430 / 0.714 | 0.390 / 0.666 |
-| 0.7 | 0.8567 | −0.0022 ±0.0020 | 0.7828 | −0.0043 ±0.0020 | 0.429 / 0.710 | 0.389 / 0.662 |
-| 1 (শুধুমাত্র 2 পর্যায়ে) | 0.8511 | −0.0077 ±0.0025 | 0.7786 | −0.0085 ±0.0026 | 0.433 / 0.706 | 0.392 / 0.657 |
+| 0.2 | 0.8610 | +0.0022 ± 0.0009 | 0.7878 | +0.0008 ± 0.0008 | 0.433 / 0.713 | 0.394 / 0.667 |
+| **0.3** | **0.8620** | **+0.0031 ± 0.0011** | **0.7887** | **+0.0016 ± 0.0011** | **0.431 / 0.713** | **0.393 / 0.667** |
+| 0.4 | 0.8616 | +0.0027 ± 0.0013 | 0.7882 | +0.0011 ± 0.0013 | 0.430 / 0.713 | 0.393 / 0.668 |
+| 0.5 | 0.8590 | +0.0001 ± 0.0017 | 0.7853 | −0.0017 ± 0.0016 | 0.430 / 0.714 | 0.390 / 0.666 |
+| 0.7 | 0.8567 | −0.0022 ± 0.0020 | 0.7828 | −0.0043 ± 0.0020 | 0.429 / 0.710 | 0.389 / 0.662 |
+| 1 (stage 2 alone) | 0.8511 | −0.0077 ± 0.0025 | 0.7786 | −0.0085 ± 0.0026 | 0.433 / 0.706 | 0.392 / 0.657 |
 
-স্টেজ- 2 ভেরিয়েন্ট w = 0.3 , এবং fold থেকে নির্বাচিত ওজন (ঘোড়া):
+Stage-2 variants at w = 0.3, and with the weight chosen out of fold (nested):
 
-| পর্যায় 2 | হাইব্রিড Δ | পুরানো Δ | ঘরের মধ্যে সংযুক্ত হাইব্রিড Δ | ঘোড়ার পুরাতন Δ | ফোল্ডে নির্বাচিত ওজন |
+| stage 2 | hybrid Δ | old Δ | nested hybrid Δ | nested old Δ | weights chosen per fold |
 |---|---:|---:|---:|---:|---|
-| 1 বীজ | +0.0031 ±0.0012 | +0.0014 ±0.0011 | +0.0024 ±0.0014 | +0.0006 ±0.0013 | 0.4 / 0.3 / 0.3 / 0.3 |
-| **3 বীজ (বাগ)** | **+0.0031 ±0.0011** | **+0.0016 ±0.0011** | **+0.0025 ±0.0013** | **+0.0010 ±0.0012** | 0.4 / 0.3 / 0.3 / 0.3 |
-| 3 বীজ, 150 গোল | +0.0029 ±0.0011 | +0.0018 ±0.0010 | +0.0029 ±0.0011 | +0.0018 ±0.0010 | 0.3 সর্বত্র |
-| 3 বীজ, 15 leaves, min_data  200 | +0.0023 ±0.0010 | +0.0012 ±0.0010 | +0.0013 ±0.0010 | +0.0004 ±0.0010 | 0.4 / 0.2 / 0.3 / 0.2 |
-| 3 বীজ, + লিঙ্ক বৈশিষ্ট্য এবং অবস্থান আগে ( `T2_STACK_EXTRA` ) | +0.0018 ±0.0011 | +0.0008 ±0.0009 | −0.0004 ±0.0014 | −0.0018 ±0.0014 | 0.7 / 0.2 / 0.3 / 0.2 |
+| 1 seed | +0.0031 ± 0.0012 | +0.0014 ± 0.0011 | +0.0024 ± 0.0014 | +0.0006 ± 0.0013 | 0.4 / 0.3 / 0.3 / 0.3 |
+| **3 seeds (bagged)** | **+0.0031 ± 0.0011** | **+0.0016 ± 0.0011** | **+0.0025 ± 0.0013** | **+0.0010 ± 0.0012** | 0.4 / 0.3 / 0.3 / 0.3 |
+| 3 seeds, 150 rounds | +0.0029 ± 0.0011 | +0.0018 ± 0.0010 | +0.0029 ± 0.0011 | +0.0018 ± 0.0010 | 0.3 everywhere |
+| 3 seeds, 15 leaves, min_data 200 | +0.0023 ± 0.0010 | +0.0012 ± 0.0010 | +0.0013 ± 0.0010 | +0.0004 ± 0.0010 | 0.4 / 0.2 / 0.3 / 0.2 |
+| 3 seeds, + link features and location prior (`T2_STACK_EXTRA`) | +0.0018 ± 0.0011 | +0.0008 ± 0.0009 | −0.0004 ± 0.0014 | −0.0018 ± 0.0014 | 0.7 / 0.2 / 0.3 / 0.2 |
 
-**এখানে কোন পর্যায়ের 2 কাজ করে।**
-* শুধুমাত্র 2 স্টেজ হারাতে হয় (−0.008 ). v5 / পুরানো লেবেলগুলিতে এটি হারিয়েছে −0.003 এবং
-  সর্বোত্তম ওজন ছিল 0.5 ; হাইব্রিড OOF এর জন্য সর্বোত্তম ওজন 0.3 ।
-* **ক্যালিব্রেশন.** পর্যায় 1 (v6 গড়) শীর্ষে অতিরিক্ত আত্মবিশ্বাসী
-  (প্রাক্কালে 0.991 → পর্যবেক্ষণ 0.966 ) এবং মাঝখানে অল্প আত্মবিশ্বাসী ( 0.10 →
-  0.20 , 0.29 → 0.41 ). 2 পর্যায়টি ক্যালিব্রেট করা হয় ( 0.094 → 0.090 , 0.98 → 0.97 ).
-* **লাভ একটি ক্যালিব্রেশন পরিবর্তন নয়.** একটি logit bias on v6 does not
-  পুনরায় প্রজনন করুনঃ
+**What stage 2 does here.**
+* Stage 2 alone loses (−0.008). On v5 / old labels it lost −0.003 and the
+  best weight was 0.5; on the hybrid OOF the best weight is 0.3.
+* **Calibration.** Stage 1 (the v6 mean) is overconfident at the top
+  (predicted 0.991 → observed 0.966) and underconfident in the middle (0.10 →
+  0.20, 0.29 → 0.41). Stage 2 is calibrated (0.094 → 0.090, 0.98 → 0.97).
+* **The gain is not a calibration shift.** A logit bias on v6 does not
+  reproduce it:
 
   | logit bias b | −0.25 | 0 | +0.25 | +0.5 | +0.75 | +1.0 |
   |---|---:|---:|---:|---:|---:|---:|
-  | v6 + b, হাইব্রিড Δ | −0.0014 | 0 | +0.0005 | −0.0001 | −0.0024 | −0.0034 |
-  | v6 + b, পুরানো Δ | −0.0014 | 0 | −0.0001 | −0.0009 | −0.0035 | −0.0047 |
-  | স্ট্যাক w= 0.3 + b, হাইব্রিড Δ | +0.0020 | **+0.0031** | +0.0004 | −0.0016 | −0.0038 | −0.0088 |
-  | স্ট্যাক w= 0.3 + b, পুরানো Δ | +0.0005 | **+0.0016** | −0.0009 | −0.0031 | −0.0055 | −0.0103 |
-  | v6 + b, অ-হাইব্রিড / পুরানো | 0.8841 / 0.7943 | 0.8841 / 0.7943 | 0.8841 / 0.7943 | 0.8928 / 0.8038 | 0.8945 / 0.8060 | 0.8970 / 0.8088 |
-  | স্ট্যাক + বি, অ-হাইব্রিড / পুরানো | 0.8841 / 0.7943 | 0.8897 / 0.8006 | 0.8925 / 0.8037 | 0.8952 / 0.8068 | 0.9001 / 0.8119 | 0.8995 / 0.8068 |
+  | v6 + b, hybrid Δ | −0.0014 | 0 | +0.0005 | −0.0001 | −0.0024 | −0.0034 |
+  | v6 + b, old Δ | −0.0014 | 0 | −0.0001 | −0.0009 | −0.0035 | −0.0047 |
+  | stack w=0.3 + b, hybrid Δ | +0.0020 | **+0.0031** | +0.0004 | −0.0016 | −0.0038 | −0.0088 |
+  | stack w=0.3 + b, old Δ | +0.0005 | **+0.0016** | −0.0009 | −0.0031 | −0.0055 | −0.0103 |
+  | v6 + b, off hybrid / old | 0.8841 / 0.7943 | 0.8841 / 0.7943 | 0.8841 / 0.7943 | 0.8928 / 0.8038 | 0.8945 / 0.8060 | 0.8970 / 0.8088 |
+  | stack + b, off hybrid / old | 0.8841 / 0.7943 | 0.8897 / 0.8006 | 0.8925 / 0.8037 | 0.8952 / 0.8068 | 0.9001 / 0.8119 | 0.8995 / 0.8068 |
 
-  (Δ v6 এর বিপক্ষে। স্ট্যাকড মিশ্রণের সিম-window অপ্টিম হল
-  b = 0 . 40 অফিসিয়াল windowতে একটি ইতিবাচক পক্ষপাত উভয়কে সাহায্য করে, প্রায়
+  (Δ is against plain v6. The sim-window optimum of the stacked blend is at
+  b = 0. On the 40 official windows a positive bias helps both, by about
   +0.01.)
-* **যেখানে এটি লাভ করে।** যেখানে পর্যায়ে 1 অনিশ্চিত window থেকে লাভ আসে;
-  windowটির স্টেজ থেকে...1 সর্বোচ্চ
-  সম্ভাব্যতা (সিম window, সাধারণ মধ্যম Δ):
+* **Where it gains.** The gain comes from windows where stage 1 is unsure;
+  confident windows are unchanged. By the window's stage-1 maximum
+  probability (sim windows, plain mean Δ):
 
-  | পর্যায়-1 সর্বোচ্চ p | window | v6 IoU (হাইব্রিড) | Δ হাইব্রিড | Δ পুরানো | বৈধতা / ব্যক্তিগত window |
+  | stage-1 max p | windows | v6 IoU (hybrid) | Δ hybrid | Δ old | validation / private windows |
   |---|---:|---:|---:|---:|---|
-  | ≤0.5 | 64 | 0.238 | +0.051 | +0.025 | 5 / 2 |
+  | ≤ 0.5 | 64 | 0.238 | +0.051 | +0.025 | 5 / 2 |
   | 0.5-0.8 | 64 | 0.543 | +0.016 | +0.018 | 6 / 3 |
   | 0.8-0.95 | 195 | 0.754 | +0.000 | −0.002 | 4 / 2 |
   | > 0.95 | 1,758 | 0.914 | +0.001 | +0.000 | 25 / 33 |
 
-  2 পর্যায়টি বেশিরভাগই পার্শ্ববর্তী ব্লকে একটি নিম্ন-বিশ্বাসের ছড়িয়ে পড়ে
-  (যেমন 104 , 107 , 153 → 103-107 , 153 ) ।
-* **বৈধতা এবং ব্যক্তিগত এই window আরো আছে** (মার্চ শিফট,
-  8 এবং 11 বিভাগে) । 1 স্তরের সর্বোচ্চ সম্ভাব্যতার গড় 0.82
-  বৈধতা এবং 0.92 প্রাইভেট, 0.95 এর বিরুদ্ধে CV সিম windowগুলোতে।
-  বৈধকরণ মিশ্রণের প্রতি বকেট লাভের পরিমাণ প্রায় +0.009 (হাইব্রিড) /
-  +0.006 (পুরানো), এবং +0.004 ব্যক্তিগত জন্য। এই সহজ উপায় কয়েক
-  window, তাই তারা শুধুমাত্র নির্দেশমূলক।
-* **স্থিতিশীলতা।**
-  * সপ্তাহের গুণে, Δ হাইব্রিড +0.0008 / +0.0027 / +0.0037 / +0.0050 এবং Δ পুরানো
-    +0.0000 / +0.0016 / +0.0010 / +0.0038 .
-  * প্যানেল অনুযায়ী, Δ হাইব্রিড ≥0 উপর 7 এর 8 প্যানেলঃ D7_I10_W +0.011, D12_I5_S
+  Stage 2 mostly extends a low-confidence scatter into the adjacent block
+  (e.g. links 104, 107, 153 → 103-107, 153).
+* **Validation and private have more of these windows** (the March shift,
+  sections 8 and 11). The stage-1 maximum probability averages 0.82 on
+  validation and 0.92 on private, against 0.95 on CV sim windows. Reweighting
+  the per-bucket gains to the validation mix gives about +0.009 (hybrid) /
+  +0.006 (old), and +0.004 for private. These are plain means over few
+  windows, so they are only indicative.
+* **Stability.**
+  * By week fold, Δ hybrid is +0.0008 / +0.0027 / +0.0037 / +0.0050 and Δ old
+    is +0.0000 / +0.0016 / +0.0010 / +0.0038.
+  * By panel, Δ hybrid is ≥ 0 on 7 of 8 panels: D7_I10_W +0.011, D12_I5_S
     +0.007, D7_I405_N +0.005, D12_I5_N +0.004, D7_I210_W +0.002, D7_I210_E
-    +0.001 , D7_I10_E  0 . D7_I405_S হল −0.005 , যেখানে দুইটি সাইট প্রায়ই ভেঙে যায়
-    অবিলম্বে।
-* **অন্যান্য চেক.** একটি সঠিক প্রত্যাশিত-IoU ডিকোডার v6 উপর চেষ্টা করা হয়েছে. এটা ব্যবহার করে
-  স্বাধীন cellের উপর পোয়িসন-বাইনোমালের যোগফল
-  −0.0014 ±0.0009 হাইব্রিড, −0.0020 ±0.0008 পুরানো।
-  cellগুলো ব্লকের মধ্যে সংযুক্ত থাকে। উপরের-এম অনুপাতের ডিকোডার থাকে।
+    +0.001, D7_I10_E 0. D7_I405_S is −0.005, where two sites often break down
+    at once.
+* **Other checks.** An exact expected-IoU decoder was tried on v6. It uses
+  Poisson-binomial sums over independent cells in place of the ratio of
+  expectations. It is worse: −0.0014 ± 0.0009 hybrid, −0.0020 ± 0.0008 old.
+  The cells are correlated within a block. The top-m ratio decoder stays.
 
-### আরও বীজ (একই রেসিপি, হাইব্রিড লেবেল)
+### More seeds (same recipe, hybrid labels)
 
-**সেটআপ।**
-* নতুন মডেলঃ `robust cv on_v3 p1 --cond queue_onset --oprior` বীজ সহ
-  3/4/5 , এবং `on_v2` বীজ 1/2 সহ ।
+**Setup.**
+* New models: `robust cv on_v3 p1 --cond queue_onset --oprior` with seeds
+  3/4/5, and `on_v2` with seeds 1/2.
 * `T2_WORK=/home/user/work/t2h`, `T2_FEAT=/home/user/work/t2h/feat`,
-  `T2_OOF_ALL=1` , `T2_TAGX=_new` . নতুন কোন লেবেলিংয়ের প্রয়োজন নেইঃ t2h টেবিল
-  ইতিমধ্যে হাইব্রিড লেবেল বহন করে।
-* পুনরায় চালানো বীজ 0 একটি OOF ফাইল বিট দেয় যা v6 এর সাথে একক
-  (সর্বোচ্চ) |Δp| = 0).
+  `T2_OOF_ALL=1`, `T2_TAGX=_new`. No relabelling is needed: the t2h tables
+  already carry the hybrid labels.
+* Re-running seed 0 gives an OOF file bit-identical to v6's
+  (max |Δp| = 0).
 
-| মডেল / গড় | হাইব্রিড সিম | বন্ধ | রিসি < 0.05 | রিসি < 0.2 | পুরানো সিম | Δ হাইব্রিড বনাম v6 | Δ পুরানো |
+| model / mean | hybrid sim | off | rec<0.05 | rec<0.2 | old sim | Δ hybrid vs v6 | Δ old |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| v6 (0.75 on_v3 s0-2 +0.25 on_v2 s0) | 0.8589 | 0.8841 | 0.412 | 0.704 | 0.7871 | | |
-| on_v3 , একক বীজ 0-5 | 0.8566-0.8589 | 0.884-0.897 | 0.409-0.428 | 0.699-0.705 | 0.7846-0.7872 | −0.0022 … +0.0001 | |
-| on_v2 , একক বীজ 0-2 | 0.8532-0.8546 | 0.874-0.887 | 0.377-0.386 | 0.689-0.692 | 0.7809-0.7841 | −0.0057 … −0.0043 | |
-| on_v3 × 3 (s0-2 ), কোন on_v2 | 0.8596 | 0.8841 | 0.421 | 0.706 | 0.7878 | +0.0007 ±0.0007 | +0.0007 ±0.0007 |
-| **`v3x6`**: on_v3 × 6 | 0.8597 | 0.8841 | 0.426 | 0.708 | 0.7883 | +0.0008 ±0.0010 | +0.0013 ±0.0010 |
-| **  `seeds9`  ** : 0.75  on_v3 × 6 +0.25  on_v2 × 3 (v6 অনুপাত) | 0.8593 | 0.8841 | 0.410 | 0.704 | 0.7877 | +0.0004 ±0.0007 | +0.0006 ±0.0007 |
-| 9 এর সমান মধ্যম | 0.8592 | 0.8841 | 0.406 | 0.704 | 0.7876 | +0.0003 ±0.0006 | +0.0005 ±0.0007 |
+| v6 (0.75 on_v3 s0-2 + 0.25 on_v2 s0) | 0.8589 | 0.8841 | 0.412 | 0.704 | 0.7871 | | |
+| on_v3, single seeds 0-5 | 0.8566-0.8589 | 0.884-0.897 | 0.409-0.428 | 0.699-0.705 | 0.7846-0.7872 | −0.0022 … +0.0001 | |
+| on_v2, single seeds 0-2 | 0.8532-0.8546 | 0.874-0.887 | 0.377-0.386 | 0.689-0.692 | 0.7809-0.7841 | −0.0057 … −0.0043 | |
+| on_v3 × 3 (s0-2), no on_v2 | 0.8596 | 0.8841 | 0.421 | 0.706 | 0.7878 | +0.0007 ± 0.0007 | +0.0007 ± 0.0007 |
+| **`v3x6`**: on_v3 × 6 | 0.8597 | 0.8841 | 0.426 | 0.708 | 0.7883 | +0.0008 ± 0.0010 | +0.0013 ± 0.0010 |
+| **`seeds9`**: 0.75 on_v3 × 6 + 0.25 on_v2 × 3 (v6 proportions) | 0.8593 | 0.8841 | 0.410 | 0.704 | 0.7877 | +0.0004 ± 0.0007 | +0.0006 ± 0.0007 |
+| equal mean of the 9 | 0.8592 | 0.8841 | 0.406 | 0.704 | 0.7876 | +0.0003 ± 0.0006 | +0.0005 ± 0.0007 |
 
-* **বীজ তিনটার মধ্যে পরিপূর্ণ হয়।** হাইব্রিড লেবেলগুলিতে on_v2 উপাদানটি
-  (v2 বৈশিষ্ট্য, কোন পদার্থবিজ্ঞান) হয় সম্পর্কে 0.004 একটি on_v3 বীজ তুলনায় দুর্বল। এটা
-  খরচ 0.0007 v-এ6 মিশ্রণ. এটা v যোগ করা হয়েছে5, যেখানে এটি সাহায্য
-  পুরোনো লেবেলগুলো।
-* এটি ( `v3x6` ) ফেলে দেওয়া একটি পোস্ট-হোক পছন্দ, তাই এটি রিপোর্ট করা হয়
-  শুধু শব্দের মধ্যে আরো বীজ আছে।
+* **Seeds saturate at three.** On the hybrid labels the on_v2 component
+  (v2 features, no physics) is about 0.004 weaker than an on_v3 seed. It
+  costs about 0.0007 in the v6 mix. It was added in v5, where it helped on
+  the old labels.
+* Dropping it (`v3x6`) is a post-hoc choice, so it is reported as
+  exploratory. More seeds alone are within noise.
 
-### প্রার্থী এবং গেট
+### Candidates and the gate
 
-Δ v6 এর বিরুদ্ধে 2,081 পুনরায় আঁকা সিম window (± জোড়া-bootstrap SE );
-p = বুটস্ট্র্যাপের ভাগ Δ ≤0 ).
-স্ট্যাক করা ভেরিয়েন্টগুলি 2 স্টেজ ব্যবহার করে 3 বীজগুলি w = 0.3 এ প্যাক করা হয়। "নস্তিকৃত" পিকস
-ফোল্ডের বাইরে ওজন (w = 0.3 প্রতিটি ফোল্ডে `seeds9_stack03` এর জন্য নির্বাচিত হয়েছিল) ।
+Δ is against v6 on the 2,081 re-drawn sim windows (± paired-bootstrap SE;
+p = share of bootstrap Δ ≤ 0). The slices are hybrid / old truth. The
+stacked variants use stage 2 bagged over 3 seeds at w = 0.3. "Nested" picks
+the weight out of fold (w = 0.3 was chosen in every fold for `seeds9_stack03`).
 
-| প্রার্থী | হাইব্রিড সিম | Δ হাইব্রিড | পুরানো সিম | Δ পুরানো | Δ rec< 0.05 | Δ rec< 0.2 | ঘরের মধ্যে Δ হাইব্রিড / পুরানো | অ-হাইব্রিড / পুরানো | গেট |
+| candidate | hybrid sim | Δ hybrid | old sim | Δ old | Δ rec<0.05 | Δ rec<0.2 | nested Δ hybrid / old | off hybrid / old | gate |
 |---|---:|---:|---:|---:|---|---|---|---|---|
 | v6 | 0.8589 | | 0.7871 | | | | | 0.8841 / 0.7943 | |
-| `seeds9` | 0.8593 | +0.0004 ±0.0007 (p 0.28) | 0.7877 | +0.0006 ±0.0007 | −0.002 ±0.003 / +0.000 ±0.004 | −0.000 / +0.002 | | 0.8841 / 0.7943 | নামক পাস, শব্দ |
-| `v3x6` (অনুসন্ধানমূলক) | 0.8597 | +0.0008 ±0.0010 (p 0.18) | 0.7883 | +0.0013 ±0.0010 | +0.014 / +0.015 | +0.004 / +0.005 | | 0.8841 / 0.7943 | নামক পাস, শব্দ |
-| `stack03` | 0.8620 | +0.0031 ±0.0011 (p 0.000) | 0.7887 | +0.0016 ±0.0011 | +0.018 / +0.010 | +0.009 / +0.006 | +0.0025 / +0.0010 | 0.8897 / 0.8006 | **পাস** |
-| **`seeds9_stack03`**|**0.8624**|**+0.0035 ±0.0011 (p 0.001)**|**0.7894**|**+0.0024 ±0.0012**|**+0.019 / +0.013**|**+0.011 / +0.009**|**+0.0035 / +0.0024**|**0.8925 / 0.8037**|** পাস (প্রস্তাবিত) ** |
-| `v3x6_stack03` (অনুসন্ধানমূলক) | 0.8627 | +0.0038 ±0.0013 (p 0.000) | 0.7896 | +0.0025 ±0.0013 | +0.036 / +0.026 | +0.013 / +0.011 | +0.0028 / +0.0016 | 0.8869 / 0.7974 | পাস |
+| `seeds9` | 0.8593 | +0.0004 ± 0.0007 (p 0.28) | 0.7877 | +0.0006 ± 0.0007 | −0.002 ± 0.003 / +0.000 ± 0.004 | −0.000 / +0.002 | | 0.8841 / 0.7943 | nominal pass, noise |
+| `v3x6` (exploratory) | 0.8597 | +0.0008 ± 0.0010 (p 0.18) | 0.7883 | +0.0013 ± 0.0010 | +0.014 / +0.015 | +0.004 / +0.005 | | 0.8841 / 0.7943 | nominal pass, noise |
+| `stack03` | 0.8620 | +0.0031 ± 0.0011 (p 0.000) | 0.7887 | +0.0016 ± 0.0011 | +0.018 / +0.010 | +0.009 / +0.006 | +0.0025 / +0.0010 | 0.8897 / 0.8006 | **pass** |
+| **`seeds9_stack03`** | **0.8624** | **+0.0035 ± 0.0011 (p 0.001)** | **0.7894** | **+0.0024 ± 0.0012** | **+0.019 / +0.013** | **+0.011 / +0.009** | **+0.0035 / +0.0024** | **0.8925 / 0.8037** | **pass (recommended)** |
+| `v3x6_stack03` (exploratory) | 0.8627 | +0.0038 ± 0.0013 (p 0.000) | 0.7896 | +0.0025 ± 0.0013 | +0.036 / +0.026 | +0.013 / +0.011 | +0.0028 / +0.0016 | 0.8869 / 0.7974 | pass |
 
-টেবিলে নোটঃ
-* 1-5 ধাপে ধাপে রাখা পুরানো সত্য (অধ্যায় 13 সম্মেলন) একই রকম
-  Δs থেকে ±0.0001 ( `seeds9_stack03` : +0.0023 ±0.0012 ) ।
-* হাইব্রিড সত্যের অধীনে window ভাল / খারাপঃ `stack03` 40 / 28,
+Notes on the table:
+* The old truth with steps 1-5 kept (section 13 convention) gives the same
+  Δs to ±0.0001 (`seeds9_stack03`: +0.0023 ± 0.0012).
+* Windows better / worse under the hybrid truth: `stack03` 40 / 28,
   `seeds9_stack03` 49 / 28, `v3x6_stack03` 49 / 32.
 
-** প্রস্তাবিতঃ `lgb_v8_seeds9_stack03.csv`  **
-* রেসিপিটি স্কোর করার আগে ঠিক করা হয়েছিলঃ6আরো অনেকের সাথে মডেল মিশ্রণ
-  বীজ, প্লাস ভি 6  OOF বেছে নেওয়া ওজন উপর stacking।
-* এটির সেরা নেস্টেড অনুমান (+0.0035 ±0.0011 হাইব্রিড, +0.0024 ±0.0012
-  পুরনো) ।
-* উভয় সত্যের অধীনে উভয়ই পুনরাবৃত্তিমূলক নয়।
-* `v3x6_stack03` স্কোর একটু বেশি, কিন্তু এটা পোস্ট-হক ড্রপ উপর নির্ভর করে
-  on_v2 এর, এবং এর নিস্তব্ধ অনুমান কম।
-* শুধুমাত্র বীজ বৈকল্পিক শুধুমাত্র নামমাত্র পাস এবং একটি মূল্য নয়
-  লিডারবোর্ড স্লট।
+**Recommended: `lgb_v8_seeds9_stack03.csv`.**
+* Its recipe was fixed before it was scored: v6's model mix with more
+  seeds, plus stacking at the weight the v6 OOF chose.
+* It has the best nested estimate (+0.0035 ± 0.0011 hybrid, +0.0024 ± 0.0012
+  old).
+* Both non-recurrent slices improve under both truths.
+* `v3x6_stack03` scores slightly higher, but it relies on the post-hoc drop
+  of on_v2, and its nested estimate is lower.
+* The seeds-only variants pass only nominally and are not worth a
+  leaderboard slot.
 
-**ফাইলগুলি** ( lgb_v6.csv শুধুমাত্র শুরু সারি প্রতিস্থাপন; দ্বারা নির্মিত
+**The files** (lgb_v6.csv with only the onset rows replaced; built by
 `onset_v8.py`):
-* স্টেজ- 1 মডেলগুলি সমস্ত স্টার্ট windowতে প্রশিক্ষিত হয়। চারটি v6 মডেলগুলি
-  পুনরায় ব্যবহার করা হয় এবং পাঁচটি নতুন বীজ `model_v8_*` হিসাবে সংরক্ষণ করা হয়।
-* 2 পর্যায় সমস্ত সূচনা window OOF পর্যায় 1 মধ্যম উপর প্রশিক্ষিত হয়।
-  validation/private পর্যায়-1 মধ্যমায় প্রয়োগ করা হয়। T+30 এ শীর্ষ-m ডিকোডিং।
+* Stage-1 models are trained on all onset windows. The four v6 models are
+  reused, and the five new seeds are saved as `model_v8_*`.
+* Stage 2 is trained on the OOF stage-1 mean of all onset windows. It is
+  applied to the validation/private stage-1 mean. Top-m decoding at T+30.
 
-| ফাইল | শুরু window পরিবর্তন ( 80 এর) | শুরু হওয়া cell পরিবর্তন | যোগ করা / সরানো | শুরু হওয়া cell (v6  311 ) | v6 এর সাথে মধ্যম window চুক্তি |
+| file | onset windows changed (of 80) | onset cells changed | added / removed | onset cells (v6 311) | mean window agreement with v6 |
 |---|---:|---:|---|---:|---:|
 | `lgb_v8_stack03.csv` | 5 | 13 | 11 / 2 | 320 | 0.964 |
 | `lgb_v8_seeds9.csv` | 4 | 4 | 2 / 2 | 311 | 0.985 |
 | `lgb_v8_v3x6.csv` | 5 | 6 | 3 / 3 | 311 | 0.979 |
-| **`lgb_v8_seeds9_stack03.csv`**|**  7  **( 4 বৈধতা, 3 ব্যক্তিগত) |**15**|**14 / 1**|**324**|**0.966** |
+| **`lgb_v8_seeds9_stack03.csv`** | **7** (4 validation, 3 private) | **15** | **14 / 1** | **324** | **0.966** |
 | `lgb_v8_v3x6_stack03.csv` | 9 | 16 | 12 / 4 | 319 | 0.960 |
 
-চেকঃ
-* `submit.check` প্রতিটি ফাইলের জন্যঃ 174,000 সারি, 0 অনুপস্থিত, 0 অতিরিক্ত, বাইনারি।
-* চলমান সারি v6 এর সাথে একই . অনসেট সেল শুধুমাত্র T+30 এ উপস্থিত হয় , যার সাথে
-  1-9 প্রতি windowতে এবং সমস্ত 80 সূচনা window খালি নয়।
-* Validation/private সম্ভাবনাগুলি সংরক্ষণ করা হয়
-  `/home/user/work/t2h/probs_v8_<name>_onset.parquet` (কলাম এবং সারি
-  `probs_v6_onset.parquet` এর অর্ডার) ।
+Checks:
+* `submit.check` for every file: 174,000 rows, 0 missing, 0 extra, binary.
+* Ongoing rows are identical to v6. Onset cells appear only at T+30, with
+  1-9 per window and all 80 onset windows non-empty.
+* Validation/private probabilities are saved as
+  `/home/user/work/t2h/probs_v8_<name>_onset.parquet` (the columns and row
+  order of `probs_v6_onset.parquet`).
 
-**স্বয়ং পরীক্ষা।**
-* `onset_v8` চারটি v6 স্পেক্স এবং কোন স্ট্যাকিং পুনরুত্পাদন
-  `probs_v6_onset.parquet` (সর্বোচ্চ) |Δp| = 0 ) এবং `lgb_v6.csv` বাইট প্রতি বাইট।
-* স্টেজ- 2 অনুমান পথ ( `onset_v8.stage2_probs` ) প্রশিক্ষণের সাথে মিলিত
-  `stack.build` এর বৈশিষ্ট্যগুলি ঠিক মিলে যাওয়া সারিগুলিতে।
+**Self-tests.**
+* `onset_v8` with the four v6 specs and no stacking reproduces
+  `probs_v6_onset.parquet` (max |Δp| = 0) and `lgb_v6.csv` byte for byte.
+* The stage-2 inference path (`onset_v8.stage2_probs`) matches the training
+  features of `stack.build` exactly on shuffled rows.
 
-**  `seeds9_stack03` পরিবর্তন বনাম v6 : **
-* প্রতিটি যোগ লিঙ্ক একটি v ছিল6 সম্ভাব্যতা 0.01-0.40দশটা 14 যোগ করা হয়েছে
-  লিঙ্কগুলি তিনটি windowতে রয়েছে যার v6 সর্বোচ্চ সম্ভাব্যতা সর্বোচ্চ 0.10 ।
-* D12_I5_N বৈধতা 003 : লিঙ্ক 104 , 107 , 153 → 45 , 103-107 , 153 , 154 , 156 ,
-  সবগুলো p ≈0.06-0.10 .
-* D12_I5_N বৈধতা 004: 116 , 237 → 236-238 .
-* D12_I5_S বৈধতা 004 : + লিঙ্ক 15 . D12_I5_S বৈধতা 005 : + লিঙ্ক 41 .
-* D7_I10_W প্রাইভেট 003 : + লিঙ্ক 22 , 28 .
-* D7_I405_S প্রাইভেট 001 : + লিঙ্ক 15 .
-* D12_I5_N প্রাইভেট 001 : + লিঙ্ক 238 .
+**`seeds9_stack03` changes vs v6:**
+* Every added link had a v6 probability of 0.01-0.40. Ten of the 14 added
+  links are in three windows whose v6 maximum probability is at most 0.10.
+* D12_I5_N validation 003: links 104, 107, 153 → 45, 103-107, 153, 154, 156,
+  all at p ≈ 0.06-0.10.
+* D12_I5_N validation 004: 116, 237 → 236-238.
+* D12_I5_S validation 004: + link 15. D12_I5_S validation 005: + link 41.
+* D7_I10_W private 003: + links 22, 28.
+* D7_I405_S private 001: + link 15.
+* D12_I5_N private 001: + link 238.
 
-**ক্যালিব্রেশন bias.** স্ট্যাক করা সম্ভাবনাগুলি ভাল ক্যালিব্রেশন
-v6তাই একটি ইতিবাচক যুক্তি bias তাদের তাড়াতাড়ি আঘাত. `seeds9_stack03`, Δ
-হাইব্রিড / পুরানো বনাম সাধারণ v6 দ্বারা বিভেদঃ
+**Calibration bias.** The stacked probabilities are better calibrated than
+v6's, so a positive logit bias hurts them sooner. For `seeds9_stack03`, Δ
+hybrid / old vs plain v6 by bias:
 
-| পক্ষপাত | Δ হাইব্রিড | Δ পুরানো |
+| bias | Δ hybrid | Δ old |
 |---|---:|---:|
 | −0.25 | +0.0023 | +0.0015 |
 | 0 | +0.0035 | +0.0024 |
@@ -987,19 +985,19 @@ v6তাই একটি ইতিবাচক যুক্তি bias তাদ
 | +0.5 | −0.0004 | −0.0018 |
 | +0.75 | −0.0035 | −0.0052 |
 
-v6 এর জন্য, +0.5 সমতল (−0.0001 / −0.0009 ) । যদি একটি পক্ষপাত প্রয়োগ করা হয়
-v8 সম্ভাবনা, এটা সর্বোচ্চ সম্পর্কে হওয়া উচিত +0.25 , না মান জন্য সুর করা
-v6 . 40 অফিসিয়াল window উভয় জন্য একটি ইতিবাচক পক্ষপাত অনুকূল, প্রায়
+For v6 itself, +0.5 is flat (−0.0001 / −0.0009). If a bias is applied to the
+v8 probabilities, it should be at most about +0.25, not the value tuned for
+v6. The 40 official windows favour a positive bias for both, by about
 +0.01.
 
-**প্রত্যাশিত প্রভাব।**
-* CV শুরু +0.0035 প্রায় S_queue +0.0018 হয়।
-* লাভ কম আত্মবিশ্বাসী windowতে রয়েছে, যা
-  মার্চ (বিভাগ) 11, এবং স্টেজ-1 উপরোক্ত আস্থা টেবিল) v6 লেবেল
-  2.5-6 × তার CV লাভ. সুতরাং মার্চ প্রভাব বৃহত্তর হতে পারে,
-  কিন্তু শুধুমাত্র 4 বৈধতা window পরিবর্তন।
+**Expected effect.**
+* CV onset +0.0035 is about S_queue +0.0018.
+* The gain sits in low-confidence windows, which are over-represented in
+  March (section 11, and the stage-1 confidence table above). The v6 label
+  fix transferred at 2.5-6× its CV gain. So the March effect may be larger,
+  but only 4 validation windows change.
 
-### পুনরায় প্রজনন
+### Reproduce
 
 ```
 export PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2 T2_WORK=/home/user/work/t2h T2_FEAT=/home/user/work/t2h/feat
@@ -1022,283 +1020,283 @@ python -m trafficflow.t2.onset_v8 v3x6 --specs on_v3:0,on_v3:1,on_v3:2,on_v3:3,o
 python -m trafficflow.t2.onset_v8 v3x6_stack03 --specs on_v3:0,on_v3:1,on_v3:2,on_v3:3,on_v3:4,on_v3:5 --stack 0.3 --stack-seeds 0,1,2
 ```
 
-সম্পদঃ
-* শুরু CV প্রায় 1.3  GB  RSS এ শীর্ষে পৌঁছেছে , 0.7-0.9  GB এ স্তরিত হয় এবং একটি বিল্ড হয়
+Resources:
+* Onset CV peaks at about 1.3 GB RSS, stacking at 0.7-0.9 GB and a build at
   0.7 GB.
-* প্রার্থী বিল্ডিং এবং স্ট্যাকিং 1 থ্রেড দিয়ে চলেছে। নতুন পর্যায় 1
-  1 থ্রেডের সাথে মডেলগুলি প্রশিক্ষিত হয়েছিল। থ্রেডের সংখ্যা LightGBM পরিবর্তন করতে পারে
-  শেষ বিটগুলোতে ফলাফল।
-* লগ `/home/user/work/t2h/logs/` মধ্যে আছে। স্টেজ- 2 OOFs মধ্যে আছে
+* The candidate builds and the stacking ran with 1 thread. The new stage-1
+  models were trained with 1 thread. Thread count can change LightGBM
+  results in the last bits.
+* Logs are in `/home/user/work/t2h/logs/`. Stage-2 OOFs are in
   `/home/user/work/t2h/stack8_oof_<tag>.parquet`.
 
-## 16 . চলমান পর্যায়-2 v5 সম্ভাব্যতার ক্ষেত্রে স্তরিত ( `lgb_v9_ogstack08` )
+## 16. Ongoing stage-2 stacking on the v5 probability field (`lgb_v9_ogstack08`)
 
-**লক্ষ্য.**  `lgb_v8_seeds9_stack03` এর উপরে একক ফ্যাক্টর চলমান পরিবর্তন।
-মার্চ মাসে 0.840 এর বিরুদ্ধে 0.883 এর মধ্যে CV এর উপর চলমান স্কোর। মার্চ মাসেও অনেকগুলি
-আরো পুনরাবৃত্তিহীন চলমান window (বিভাগ 11 ) ।
-বিভাগ 15 মার্চ মাসে স্থানান্তরিত হয়েছে (প্রায় +0.004 ).
+**Goal.** A single-factor ongoing change on top of `lgb_v8_seeds9_stack03`.
+On March, ongoing scores about 0.840 against 0.883 in CV. March also has many
+more non-recurrent ongoing windows (section 11). The onset stacking of
+section 15 transferred to March (about +0.004).
 
-**গেট** (লিডারবোর্ড প্রার্থীর জন্য সমন্বয়কারীর নিয়ম):
-* CV sim উন্নত করেঃ জোড়া-bootstrap Δ > 0 , আদর্শভাবে 1  SE এর চেয়ে বেশি।
-* শব্দের চেয়ে খারাপ কিছু নেই।
-* পুনরাবৃত্তিহীন টুকরোগুলি খারাপ নয়। তাদের উন্নতি করাই লক্ষ্য।
+**Gate** (the coordinator's rule for a leaderboard candidate):
+* CV sim improves: paired-bootstrap Δ > 0, ideally by more than 1 SE.
+* off is not worse beyond noise.
+* The non-recurrent slices are not worse. Improving them is the goal.
 
-### সেটআপ ( `og_stack.py` )
+### Setup (`og_stack.py`)
 
-* **পর্যায় 1 .** v5 চলমান মিশ্রণঃ 0.35  LWR -all, 0.35  LWR -noloc,
-  0.15 v2 -all এবং 0.15 v2 -noloc (p2 config, পুরানো লেবেল) ।
-  * এর OOF ফাইলগুলি শুধুমাত্র মূল্যায়ন windowগুলোকে কভার করেঃ 3,001 সিম এবং 40 বন্ধ
-    চলমান window, 1.73 M প্রার্থী cell ( `robust cv` ছাড়া
+* **Stage 1.** The v5 ongoing blend: 0.35 LWR-all, 0.35 LWR-noloc,
+  0.15 v2-all and 0.15 v2-noloc (p2 config, old labels).
+  * Its OOF files cover only the evaluation windows: 3,001 sim and 40 off
+    ongoing windows, 1.73 M candidate cells (`robust cv` without
     `T2_OOF_ALL`).
-  * তাই এই 3,041 windowগুলোতে 2 trainগুলিকে একই 4 সপ্তাহের fold দিয়ে স্টেজ করুন
-    (OOF স্টেজ...2 একটি fold মডেল কখনো যে fold দেখতে না
-    window।
-* **পর্যায় 2 .** প্রতি প্রার্থী cellের জন্য লাইটজিবিএম (window, ধাপ k, লিঙ্ক): 31 leaves,
-  min_data  100 , lr 0.05 , 300 গোল, বৈশিষ্ট্য এবং ব্যাগিং ভগ্নাংশ 0.8 ,
-  2 থ্রেড। এটি 3 বীজের উপর প্যাকেজ করা হয়। 4 fold প্রতি বীজ প্রতি 2 মিনিট সময় নেয়।
-* **চূড়ান্ত সম্ভাবনা** = `w × p2 + (1 − w) × p1` , তারপর শীর্ষ-m ডিকোডিং.
-* **বৈশিষ্ট্য** সমস্ত ট্রাফিক দিকের। W/S প্যানেলগুলির লিঙ্ক অক্ষ
-  `core.direction` দিয়ে বিপরীত হয়, যেমন `stack.py` ।
-  * ** ক্ষেত্র ( `s_` ). **
-    * p, এবং p এর লিঙ্ক অফসেট −4..+4 .
-    * k- 1 এবং k+1 ধাপে p, একই লিঙ্ক এবং ±1 লিঙ্ক।
-    * ধাপের যোগফল এবং সর্বোচ্চ, window যোগফল, ধাপ-সংখ্যা বৃদ্ধি বনাম ধাপ 1 , বনাম ধাপ
-      k−1 এবং T-এ দেখা যায় এমন ক্যারেজের বিরুদ্ধে।
-    * ধাপে অবস্থান, p / ধাপ সর্বোচ্চ, ভর 0.5 / 1 / 2 কিলোমিটার প্রবাহিত এবং
-      প্রবাহের উপরে।
-    * পূর্বাভাসিত ব্লক (p ≥0.5 ): লিঙ্ক এবং কিলোমিটারে স্বাক্ষরিত দূরত্ব
-      লিঙ্ক বা পরবর্তী ব্লক ধারণকারী ব্লকের কাব্য
-      প্রবাহিত নীচে এবং ধারণকারী ব্লকের মাথা বা পরবর্তী ব্লকের দিকে
-      প্রবাহের উপরে।
-    * ব্লক দৈর্ঘ্য (লিঙ্ক, কিমি) এবং ভর, ব্লক সংখ্যা।
-    * লেজ এবং মাথা আন্দোলন বনাম ধাপ k- 1 এবং T এ পর্যবেক্ষণ করা ব্লক বনাম
-  * ** পর্যবেক্ষণ করা ক্যু ( `o_` , তথ্য ≤ T) **
-    * ক্যো ইন্ডিকেটর `r_now ≤ 1` : স্লট T যেখানে দৃশ্যমান, অন্যথায় শেষ
-      ইতিহাসের মূল্য।
-    * পর্যবেক্ষণ ব্লক এর কড়া এবং মাথা দূরত্ব এবং দৈর্ঘ্য, এবং
-      ক্রমযুক্ত লিঙ্ক সংখ্যা।
-    * শেষ 20 এবং 35 মিনিটে লেজ এবং মাথা চলাচল।
-      T- 20 / T- 35 min এ পূরণ করা ইতিহাস অনুপাত, যা `r_last − d_r15` /
+  * So stage 2 trains on those 3,041 windows, with the same 4 week folds
+    (OOF stacking). The stage-2 model of a fold never sees that fold's
+    windows.
+* **Stage 2.** LightGBM per candidate cell (window, step k, link): 31 leaves,
+  min_data 100, lr 0.05, 300 rounds, feature and bagging fraction 0.8,
+  2 threads. It is bagged over 3 seeds. The 4 folds take about 2 min per seed.
+* **Final probability** = `w × p2 + (1 − w) × p1`, then top-m decoding.
+* **Features** are all in traffic direction. The link axis of the W/S panels
+  is reversed with `core.direction`, as in `stack.py`.
+  * **Field (`s_`).**
+    * p, and p at link offsets −4..+4.
+    * p at steps k−1 and k+1, same link and ±1 link.
+    * Step sum and max, window sum, step-sum growth vs step 1, vs step
+      k−1 and vs the observed queue at T.
+    * Rank in the step, p / step max, mass 0.5 / 1 / 2 km downstream and
+      upstream.
+    * Predicted blocks (runs of p ≥ 0.5): signed distance in links and km
+      to the tail of the block containing the link or the next block
+      downstream, and to the head of the containing block or the next one
+      upstream.
+    * Block length (links, km) and mass, number of blocks.
+    * Tail and head movement vs step k−1 and vs the observed block at T.
+  * **Observed queue (`o_`, data ≤ T).**
+    * The queue indicator `r_now ≤ 1`: slot T where visible, else the last
+      history value.
+    * The observed block's tail and head distances and length, and the
+      number of queued links.
+    * Tail and head movement over the last 20 and 35 min. It comes from the
+      filled history ratio at T−20 / T−35 min, which is `r_last − d_r15` /
       `r_last − d_r30`.
-    * পর্যবেক্ষণ করা লেজটি টি+5 k তে লিনিয়ারভাবে এক্সট্রাপল করা হয়েছে।
-    * এই প্রতিস্থাপন feat_v3's `lw_*` কলামগুলো। W/S
-      প্যানেল (বিভাগ 13 ), তাই এখানে সেগুলি ব্যবহার করা হয় না।
-  * ** window প্রসঙ্গ ( `x_` ). **
-    * পুনরাবৃত্তি ( `robust.recurrence` ).
-    * ইতিহাসের শেষে এবং টি-তে সারিতে লিঙ্ক এবং 15 / 60 -min
-      প্রবণতা।
-    * সপ্তাহান্তে পতাকা এবং দিনের সময়।
-    * প্রতি লিঙ্কঃ `r_now` , `r_last` , `d_r15` ।
-  * **স্ট্যাটিক.** ধাপ k, লিঙ্ক দৈর্ঘ্য, আপেক্ষিক অবস্থান, প্যানেল কোড।
-* ** মূল্যায়নকারী ( `OngoingEval` ). ** এটি `OnsetEval` এর উপশ্রেণী, তাই `compare()` এবং
-  `stack_v8.nested_weight` পুনরায় ব্যবহার করা হয়।
-  * প্রতি windowতে শীর্ষ-মি ডিকোডিং।
-  * মূল windowয় দুটি সত্যঃ
-    * **পুরানো** : `ds_<p>.npz["y"]` , প্রশিক্ষণ লেবেল;
-    * **হাইব্রিড** : truthfix হাইব্রিড সত্য, `ds_<p>_y2.npz["y"]` .
-  * সিম এবং অফের জন্য অফিসিয়াল সংমিশ্রণ। পুনরাবৃত্তি স্লিপগুলি সহজ
-    মানে 78 / 298 window।
-  * window দ্বারা জোড়া বুটস্ট্র্যাপ, 2,000 প্রতিরূপ.
-  * এটি v5 সঠিকভাবে পুনরায় প্রজনন করেঃ sim 0.8833 , off 0.8906 , rec< 0.05  0.599 ,
-    রিসি0.2 0.781 (পুরানো সত্য) হাইব্রিড সত্য দেয় 0.8804 / 0.8938 /
+    * The observed tail extrapolated linearly to T+5k.
+    * These replace feat_v3's `lw_*` columns. Those are mirrored on the W/S
+      panels (section 13), so they are not used here.
+  * **Window context (`x_`).**
+    * Recurrence (`robust.recurrence`).
+    * Queued links at the end of the history and at T, and the 15 / 60-min
+      trends.
+    * Weekend flag and time of day.
+    * Per link: `r_now`, `r_last`, `d_r15`.
+  * **Static.** Step k, link length, relative position, panel code.
+* **Evaluator (`OngoingEval`).** It subclasses `OnsetEval`, so `compare()` and
+  `stack_v8.nested_weight` are reused.
+  * Top-m decoding per window.
+  * Two truths on the original windows:
+    * **old**: `ds_<p>.npz["y"]`, the training labels;
+    * **hybrid**: the truthfix hybrid truth, `ds_<p>_y2.npz["y"]`.
+  * Official aggregation for sim and off. The recurrence slices are plain
+    means over 78 / 298 windows.
+  * Paired bootstrap by window, 2,000 replicates.
+  * It reproduces v5 exactly: sim 0.8833, off 0.8906, rec<0.05 0.599,
+    rec<0.2 0.781 (old truth). The hybrid truth gives 0.8804 / 0.8938 /
     0.593 / 0.774.
-  * t2h পুনরায় আঁকা windowগুলো স্কোর করা হয়নিঃ শুধুমাত্র দ্রুত কনফিগার করা চলমান OOFs
-    সেখানে বসবাস করা।
+  * The t2h re-drawn windows were not scored: only fast-config ongoing OOFs
+    exist there.
 
-### ফলাফল
+### Results
 
-সমস্ত সারি ব্যবহার করে w = 0.8 , প্রার্থী দ্বারা ব্যবহৃত ওজন। Δ v5 এর বিরুদ্ধে , ±
-জোড়া-bootstrap SE .
-* "নেস্টেড" অন্যান্য তিনটি ফোল্ডে w প্রতি ফোল্ড নির্বাচন করে (পুরানো সত্য, গ্রিড)
-  0.2-1.0 ) এবং নির্বাচিত ওজনগুলির সাথে পুরানো / হাইব্রিড Δ রিপোর্ট করে।
-* শেষ কলামটি D7_I10_W এর নন-রিকুরেক্টর windowগুলোতে সাধারণ-মিডিয়ায় Δ
-  (recurrence < 0.05 থাকা 78টির মধ্যে 18টি)। মার্চের D7_I10_W-এর পাঁচটি ongoing
-  window এই রকম।
+All rows use w = 0.8, the weight used by the candidate. Δ is against v5, ±
+the paired-bootstrap SE.
+* "Nested" chooses w per fold on the other three folds (old truth, grid
+  0.2-1.0) and reports the old / hybrid Δ with the weights chosen.
+* The last column is the plain-mean Δ on D7_I10_W's non-recurrent windows
+  (18 of the 78 with recurrence < 0.05). All five March D7_I10_W ongoing
+  windows are of this kind.
 
-| পর্যায় 2 (বিনোদন) | পুরানো সিম | Δ পুরানো | Δ হাইব্রিড | বন্ধ | রিসি < 0.05 | রিসি < 0.2 | ঘাঁটি Δ পুরানো / হাইব্রিড (উ প্রতি fold) | D7_I10_W rec< 0.05 |
+| stage 2 (seeds) | old sim | Δ old | Δ hybrid | off | rec<0.05 | rec<0.2 | nested Δ old / hybrid (w per fold) | D7_I10_W rec<0.05 |
 |---|---:|---:|---:|---:|---:|---:|---|---:|
-| v5 (স্তেজ 1 ) | 0.8833 | | | 0.8906 | 0.599 | 0.781 | | |
-| সমস্ত বৈশিষ্ট্য ( 3 ) | 0.8901 | +0.0068 ±0.0011 | +0.0069 | 0.9017 | 0.621 | 0.798 | +0.0062 / +0.0065 (0.8/0.8/1/0.7) | −0.041 |
-| সমস্ত বৈশিষ্ট্য ( 1 ) | 0.8899 | +0.0066 ±0.0010 | +0.0069 | 0.9025 | 0.619 | 0.799 | +0.0065 / +0.0067 (1/1/1/0.7) | −0.037 |
-| + window ওজন ( 1 ) | 0.8894 | +0.0061 ±0.0011 | +0.0058 | 0.8960 | 0.626 | 0.800 | +0.0055 / +0.0054 | −0.025 |
-| + loc / noloc উপাদান p ( 1 ) | 0.8892 | +0.0058 ±0.0011 | +0.0062 | 0.9004 | 0.617 | 0.798 | +0.0053 / +0.0055 | −0.049 |
-| + দিনের সময় আগে `pq_k` ( 1 ) | 0.8903 | +0.0070 ±0.0011 | +0.0070 | 0.9017 | 0.626 | 0.799 | +0.0069 / +0.0068 | −0.032 |
-| − প্যানেল কোড ( 1 ) | 0.8898 | +0.0065 ±0.0011 | +0.0067 | 0.9023 | 0.627 | 0.802 | +0.0064 / +0.0066 | −0.041 |
-| − প্রেক্ষাপট ( `x_*` , প্যানেল, অবস্থান) ( 1 ) | 0.8892 | +0.0059 ±0.0009 | +0.0063 | 0.9042 | 0.629 | 0.801 | +0.0059 / +0.0062 | −0.028 |
-| শুধুমাত্র ক্ষেত্র (− `o_*`, `x_*`) (1) | 0.8885 | +0.0052 ±0.0009 | +0.0050 | 0.9025 | 0.613 | 0.792 | +0.0048 / +0.0046 | −0.031 |
-| **  `dyn` : − পুনরাবৃত্তি, দিনের সময়, সপ্তাহান্তে, প্যানেল, অবস্থান ( 3 ) **|**0.8899**|**+0.0065 ±0.0009**|**+0.0069**|**0.9031**|**0.630**|**0.801**|**+0.0065 ±0.0009 / +0.0068 (0.8/0.7/0.8/0.8)**|**−0.020** |
-| - পরিসংখ্যান (3) | 0.8896 | +0.0063 ±0.0009 | +0.0065 | 0.9040 | 0.630 | 0.802 | +0.0063 / +0.0065 (0.8 ×4) | −0.027 |
-| - পরিসংখ্যান, 63 leaves / 500 গোল ( 1 ) | 0.8902 | +0.0069 ±0.0011 | +0.0067 | 0.9050 | 0.636 | 0.801 | +0.0065 / +0.0065 | −0.025 |
+| v5 (stage 1) | 0.8833 | | | 0.8906 | 0.599 | 0.781 | | |
+| all features (3) | 0.8901 | +0.0068 ± 0.0011 | +0.0069 | 0.9017 | 0.621 | 0.798 | +0.0062 / +0.0065 (0.8/0.8/1/0.7) | −0.041 |
+| all features (1) | 0.8899 | +0.0066 ± 0.0010 | +0.0069 | 0.9025 | 0.619 | 0.799 | +0.0065 / +0.0067 (1/1/1/0.7) | −0.037 |
+| + window weights (1) | 0.8894 | +0.0061 ± 0.0011 | +0.0058 | 0.8960 | 0.626 | 0.800 | +0.0055 / +0.0054 | −0.025 |
+| + loc / noloc component p (1) | 0.8892 | +0.0058 ± 0.0011 | +0.0062 | 0.9004 | 0.617 | 0.798 | +0.0053 / +0.0055 | −0.049 |
+| + time-of-day prior `pq_k` (1) | 0.8903 | +0.0070 ± 0.0011 | +0.0070 | 0.9017 | 0.626 | 0.799 | +0.0069 / +0.0068 | −0.032 |
+| − panel code (1) | 0.8898 | +0.0065 ± 0.0011 | +0.0067 | 0.9023 | 0.627 | 0.802 | +0.0064 / +0.0066 | −0.041 |
+| − context (`x_*`, panel, position) (1) | 0.8892 | +0.0059 ± 0.0009 | +0.0063 | 0.9042 | 0.629 | 0.801 | +0.0059 / +0.0062 | −0.028 |
+| field only (− `o_*`, `x_*`) (1) | 0.8885 | +0.0052 ± 0.0009 | +0.0050 | 0.9025 | 0.613 | 0.792 | +0.0048 / +0.0046 | −0.031 |
+| **`dyn`: − recurrence, time of day, weekend, panel, position (3)** | **0.8899** | **+0.0065 ± 0.0009** | **+0.0069** | **0.9031** | **0.630** | **0.801** | **+0.0065 ± 0.0009 / +0.0068 (0.8/0.7/0.8/0.8)** | **−0.020** |
+| − context (3) | 0.8896 | +0.0063 ± 0.0009 | +0.0065 | 0.9040 | 0.630 | 0.802 | +0.0063 / +0.0065 (0.8 ×4) | −0.027 |
+| − context, 63 leaves / 500 rounds (1) | 0.8902 | +0.0069 ± 0.0011 | +0.0067 | 0.9050 | 0.636 | 0.801 | +0.0065 / +0.0065 | −0.025 |
 
-মিশ্রণের ওজন ( `dyn` , 3 বীজ, Δ পুরানো):
+Blend weight (`dyn`, 3 seeds, Δ old):
 
 | w | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | **0.8** | 1.0 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Δ sim | +0.0023 | +0.0034 | +0.0043 | +0.0051 | +0.0059 | +0.0065 | **+0.0065** | +0.0061 |
-| বন্ধ | 0.8919 | 0.8940 | 0.8964 | 0.8989 | 0.9001 | 0.9012 | **0.9031** | 0.9046 |
-| রিসি < 0.05 | 0.601 | 0.604 | 0.605 | 0.605 | 0.619 | 0.628 | **0.630** | 0.610 |
+| off | 0.8919 | 0.8940 | 0.8964 | 0.8989 | 0.9001 | 0.9012 | **0.9031** | 0.9046 |
+| rec<0.05 | 0.601 | 0.604 | 0.605 | 0.605 | 0.619 | 0.628 | **0.630** | 0.610 |
 
-* **ভেরিয়েন্টগুলি একে অপরের মধ্যে শব্দ।**
-  * `dyn` − সমস্ত বৈশিষ্ট্যঃ −0.0003 ±0.0006 ।
-  * `dyn` − কোন প্রসঙ্গ নেইঃ +0.0002 ±0.0003 .
-  * 63 পাতার -31 পাতারঃ +0.0006 ±0.0006 .
-  * বেশিরভাগ লাভ ক্ষেত্র নিজেই (+0.0052 ).
-  * পর্যবেক্ষণ-উত্তর বৈশিষ্ট্যগুলি পুনরাবৃত্তিহীন লাভ যোগ করেঃ rec< 0.05 goes
-    +0.014 (শুধুমাত্র ক্ষেত্র) থেকে +0.030 পর্যন্ত।
-* **সময় এবং অবস্থান প্রসঙ্গে non-recurrent slices সাহায্য করে না.**
-  সিমেও কিছু যোগ করে না, পুনরাবৃত্তি, দিনের সময়, সপ্তাহান্তে,
-  প্যানেল কোড এবং অবস্থান ( `dyn` ) সিম রাখে এবং +0.009 দ্বারা rec< 0.05 বৃদ্ধি করে।
-  এটি মার্চ শিফট সবচেয়ে বেশি প্রদর্শিত বৈশিষ্ট্য অপসারণ করে। সুতরাং `dyn` হয়
-  প্রার্থী।
-* **ওজন নিয়ম.** w = 0.8 হল যে নেস্টেড পদ্ধতি যখন চালানো হয়
-  চারটি fold (আর্গম্যাক্স পুরানো সত্য sim) ।
-  পদ্ধতি হল +0.0065 ±0.0009 (পুরানো) এবং +0.0068 (হাইব্রিড) ।
+* **The variants are within noise of each other.**
+  * `dyn` − all features: −0.0003 ± 0.0006.
+  * `dyn` − no context: +0.0002 ± 0.0003.
+  * 63 leaves − 31 leaves: +0.0006 ± 0.0006.
+  * Most of the gain is the field itself (+0.0052).
+  * The observed-queue features add the non-recurrent gain: rec<0.05 goes
+    from +0.014 (field only) to +0.030.
+* **The time and location context does not help the non-recurrent slices.**
+  It adds nothing on sim either. Dropping recurrence, time of day, weekend,
+  panel code and position (`dyn`) keeps sim and raises rec<0.05 by +0.009.
+  It also removes the features most exposed to the March shift. So `dyn` is
+  the candidate.
+* **The weight rule.** w = 0.8 is what the nested procedure picks when run on
+  all four folds (the argmax of old-truth sim). The nested estimate of that
+  procedure is +0.0065 ± 0.0009 (old) and +0.0068 (hybrid).
 
-### যেখানে লাভ আসে ( `dyn` , w = 0.8 )
+### Where the gain comes from (`dyn`, w = 0.8)
 
-* **foldঃ** +0.0071 / +0.0085 / +0.0041 / +0.0063 (হাইব্রিড +0.0076 / +0.0087 /
+* **Folds:** +0.0071 / +0.0085 / +0.0041 / +0.0063 (hybrid +0.0076 / +0.0087 /
   +0.0041 / +0.0069).
-* **প্যানেল (প্রত্যেক গড়):**  7 এর 8 ইতিবাচক।
+* **Panels (plain mean):** 7 of 8 positive.
   * D7_I210_E +0.020, D7_I10_E +0.016, D12_I5_N +0.007, D7_I405_N +0.006.
   * D12_I5_S +0.004, D7_I210_W +0.003, D7_I405_S +0.001.
-  * D7_I10_W −0.004 ±0.003.
-* **By stage- 1 confidence** (ডিকোডার এর প্রত্যাশিত-IoU surrogate), sim
-  windowঃ
+  * D7_I10_W −0.004 ± 0.003.
+* **By stage-1 confidence** (the decoder's expected-IoU surrogate), sim
+  windows:
 
-  | স্তর- 1 সারোগেট | window | v5 IoU | Δ পুরানো | Δ হাইব্রিড | বৈধতা / ব্যক্তিগত window |
+  | stage-1 surrogate | windows | v5 IoU | Δ old | Δ hybrid | validation / private windows |
   |---|---:|---:|---:|---:|---|
-  | ≤0.6 | 93 | 0.495 | +0.099 | +0.095 | 3 / 2 |
+  | ≤ 0.6 | 93 | 0.495 | +0.099 | +0.095 | 3 / 2 |
   | 0.6-0.8 | 417 | 0.732 | +0.016 | +0.019 | 7 / 10 |
   | 0.8-0.9 | 919 | 0.890 | +0.003 | +0.004 | 17 / 12 |
   | 0.9-0.95 | 982 | 0.935 | +0.001 | +0.001 | 9 / 10 |
   | > 0.95 | 590 | 0.962 | +0.001 | +0.001 | 4 / 6 |
 
-  সার্জোগেট গড় 0.831 বৈধতা এবং 0.837 ব্যক্তিগত, তুলনায়
-  0.872  CV সিম window উপর। প্রতি বালতি লাভ পুনরায় ওজন প্রদান করে
-  +0.012 (প্রতিষ্ঠান) এবং +0.010 (ব্যক্তিগত) সাধারণ উপায় হিসাবে +0.007 এর বিরুদ্ধে
-  CV মিশ্রণ। এটি শুধুমাত্র নির্দেশমূলকঃ কয়েকটি window।
-* **সত্যিকারের ক্যু আকার দ্বারা।**
-  * ≤6 cellঃ +0.077 ( 67 window) ।
-  * 6-12 cellঃ +0.091 ( 54 window) ।
+  The surrogate averages 0.831 on validation and 0.837 on private, against
+  0.872 on CV sim windows. Reweighting the per-bucket gains gives about
+  +0.012 (validation) and +0.010 (private) as plain means, against +0.007 on
+  the CV mix. This is indicative only: few windows.
+* **By true queue size.**
+  * ≤ 6 cells: +0.077 (67 windows).
+  * 6-12 cells: +0.091 (54 windows).
   * 12-24: +0.007; 24-48: +0.005; 48-96: +0.000; > 96: +0.003.
-  * ছোট, বিচ্ছিন্ন ক্যো যে বিভাগ 6 প্রধান ত্রুটি নামকরণ করা হয়
-    যেখানে এটি লাভ করে।
-* **এটা ক্যালিব্রেশন নয়।**
-  * v5 এর ধাপে ধাপে আইসোটনিক ক্যালিব্রেশন , fold থেকে সজ্জিতঃ +0.0005 ±0.0003 .
-  * v5 এর উপর একটি লজিক্স bias: সর্বোত্তম ক্ষেত্রে +0.0002 (হাইব্রিড সত্য, +0.25 ), এবং নেতিবাচক
-    পুরনো সত্যের অধীনে।
-  * 2 পর্যায়টি প্রতি সেল প্রতি 147.9 সেল পরিবর্তনহীনভাবে গড় পূর্বাভাস সেট ছেড়ে দেয়
-    সেলগুলো সরিয়ে দেয়, সেগুলি যোগ করে না।
-* **রিসিউর windowগুলোতে বৃদ্ধি< 0.05** প্রতি ধাপে গড় পূর্বাভাসিত cell, টি+5 →
+  * The small, dissipating queues that section 6 named the main error are
+    where it gains.
+* **It is not calibration.**
+  * Per-step isotonic calibration of v5, fitted out of fold: +0.0005 ± 0.0003.
+  * A logit bias on v5: at best +0.0002 (hybrid truth, +0.25), and negative
+    under the old truth.
+  * Stage 2 leaves the mean predicted set unchanged (147.9 cells per
+    window). It moves cells, it does not add them.
+* **Growth on the rec<0.05 windows.** Mean predicted cells per step, T+5 →
   T+30:
   * v5: 8.7 → 11.5;
-  * স্ট্যাকঃ 8.6 → 12.0 ;
-  * সত্যঃ 9.4 → 16.1 .
+  * stack: 8.6 → 12.0;
+  * truth: 9.4 → 16.1.
 
-  T+30 এর সঠিক cellগুলি 10.33 থেকে 10.58 এ বৃদ্ধি পায়।
-  আংশিকভাবে সংশোধন করা হয়েছে।
-* **ওয়াচঃ D7_I10_W নন-রিকুরেক্টিভ window।**  18  CV window স্কোর −0.020 ±
-  0.014 ( 9 ভালো, 7 খারাপ) । অন্য 60 rec< 0.05 window gain +0.046 ±
-  0.020 . প্রতিটি রূপ সেখানে হারাতে হয়, -0.020 থেকে −0.049 , তাই কারণ হল
-  ক্ষেত্রের পুনরায় স্কোরিং, প্রসঙ্গ বৈশিষ্ট্য নয়।
-  * ক্ষতির কারণ হল window, যার ক্রমটি ভেঙে গেছে, যখন স্ট্যাকটি
-    উদাহরণঃ T+30 , 12 এ 4 → 0 পূর্বাভাসিত সত্য cell।
-  * গড়ভাবে স্ট্যাকটি চলতে থাকে D7_I10_Wনতুন cellগুলো
-    T+30 এ T+5 সেটের নিম্ন সূচক দিকেরঃ সত্য 111 , v5  60 , স্ট্যাক 78 ।
-  * মার্চের D7_I10_W-এর পাঁচটি window-তে stack দুই দিকেই cell পরিবর্তন করে:
-    27 → 23 , 38 → 43 , 38 → 40 , 11 → 11 , 23 → 19 (চুক্তি 0.69-0.95 ) ।
-  * এই অংশ মার্চ স্থানান্তরের জন্য প্রধান ঝুঁকি।
-* **বিস্ময়ঃ সারির বৃদ্ধি সবসময় প্রবাহের উপরে নয়।** ট্রাফিক দিক থেকে,
-  T+5 এবং T+30 এর মধ্যে নতুন cellগুলি T+5 সেট থেকে প্রবাহিত হয়ে উঠবে
-  D12_I5_N , D7_I405_N , D7_I210_W এবং D7_I405_S.  D7_I10_E ( 94 % নতুন
-  সেল), D7_I210_E এবং D12_I5_S তারা তার তীরের নিচে প্রদর্শিত হয়। D7_I10_W হয়
-  এটা সত্যের বিরুদ্ধে পরীক্ষা করা হয়েছে, এবং `core.direction`
-  একটি স্থির "কুড়ি প্রবাহিত হয়" নিয়ম ভুল হবে
-  স্টেজ 2 মাঠ থেকে প্যাটার্ন শিখতে এবং
-  জ্যামিতি পর্যবেক্ষণ করা।
+  Correct cells at T+30 rise from 10.33 to 10.58. The growth deficit is only
+  partly corrected.
+* **Watch: D7_I10_W non-recurrent windows.** 18 CV windows score −0.020 ±
+  0.014 (9 better, 7 worse). The other 60 rec<0.05 windows gain +0.046 ±
+  0.020. Every variant loses there, from −0.020 to −0.049, so the cause is
+  the field re-scoring, not the context features.
+  * The losses come from windows whose queue dissipated while the stack
+    extended it. Example: true cells 4 → 0 at T+30, 12 predicted.
+  * On average the stack moves D7_I10_W's growth toward the truth. New cells
+    at T+30 on the low-index side of the T+5 set: truth 111, v5 60, stack 78.
+  * On the five March D7_I10_W windows the stack changes cells both ways:
+    27 → 23, 38 → 43, 38 → 40, 11 → 11, 23 → 19 (agreement 0.69-0.95).
+  * This slice is the main risk for the March transfer.
+* **Surprise: queue growth is not always upstream.** In traffic direction,
+  new cells between T+5 and T+30 appear upstream of the T+5 set on
+  D12_I5_N, D7_I405_N, D7_I210_W and D7_I405_S. On D7_I10_E (94% of new
+  cells), D7_I210_E and D12_I5_S they appear downstream of it. D7_I10_W is
+  mixed. This was checked against the truth, and `core.direction` is
+  topology-based. A fixed "the tail moves upstream" rule would be wrong on
+  half the panels. Stage 2 learns the pattern from the field and the
+  observed geometry.
 
-### ডিকোডার চেক (টাস্ক 4 ): শীর্ষ-m এর আগে logit bias b
+### Decoder check (task 4): logit bias b before top-m
 
-Δ হল v5 এর বিরুদ্ধে।
+Δ is against plain v5.
 
 | b | −0.5 | −0.25 | 0 | +0.25 | +0.5 | +0.75 | +1.0 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| v5 , Δ পুরানো / হাইব্রিড | −0.0036 / −0.0070 | −0.0006 / −0.0024 | 0 / 0 | −0.0013 / +0.0002 | −0.0045 / −0.0018 | −0.0098 / −0.0056 | −0.0175 / −0.0120 |
-| `dyn` w= 0.8 , Δ পুরানো / হাইব্রিড | +0.0040 / +0.0014 | +0.0066 / +0.0049 | **+0.0065 / +0.0069** | +0.0052 / +0.0068 | +0.0018 / +0.0045 | −0.0029 / +0.0009 | −0.0088 / −0.0042 |
-| `dyn` w= 0.8 , বন্ধ (পুরানো) | 0.8978 | 0.8977 | 0.9031 | 0.9041 | 0.9025 | 0.9012 | 0.8951 |
+| v5, Δ old / hybrid | −0.0036 / −0.0070 | −0.0006 / −0.0024 | 0 / 0 | −0.0013 / +0.0002 | −0.0045 / −0.0018 | −0.0098 / −0.0056 | −0.0175 / −0.0120 |
+| `dyn` w=0.8, Δ old / hybrid | +0.0040 / +0.0014 | +0.0066 / +0.0049 | **+0.0065 / +0.0069** | +0.0052 / +0.0068 | +0.0018 / +0.0045 | −0.0029 / +0.0009 | −0.0088 / −0.0042 |
+| `dyn` w=0.8, off (old) | 0.8978 | 0.8977 | 0.9031 | 0.9041 | 0.9025 | 0.9012 | 0.8951 |
 
-b = 0 হল স্ট্যাক করা সম্ভাবনার জন্য সুষমতম। −0.25 শুধুমাত্র উপযুক্ত
-পুরানো সত্য এবং +0.25 শুধুমাত্র হাইব্রিড সত্য. কোন ডিকোডার পরিবর্তন প্রস্তাবিত হয় না.
+b = 0 is the balanced optimum for the stacked probabilities. −0.25 suits only
+the old truth and +0.25 only the hybrid truth. No decoder change is proposed.
 
-### গেট এবং রায়
+### Gate and verdict
 
-| মূল্যায়ন | ফলাফল |
+| criterion | result |
 |---|---|
-| CV sim Δ (জোড়া বুটস্ট্র্যাপ) | +0.0065 ±0.0009 পুরানো ( 7  SE ), +0.0069 ±0.0009 হাইব্রিড; ঘরের মধ্যে +0.0065 / +0.0068 |
-| বন্ধ | +0.0125 পুরানো, +0.0119 হাইব্রিড ( 0.9031 / 0.9057 ) |
-| রিসি < 0.05 | +0.031 ±0.016 পুরানো, +0.029 হাইব্রিড |
-| রিসি < 0.2 | +0.020 ±0.005 পুরানো, +0.019 হাইব্রিড |
+| CV sim Δ (paired bootstrap) | +0.0065 ± 0.0009 old (7 SE), +0.0069 ± 0.0009 hybrid; nested +0.0065 / +0.0068 |
+| off | +0.0125 old, +0.0119 hybrid (0.9031 / 0.9057) |
+| rec<0.05 | +0.031 ± 0.016 old, +0.029 hybrid |
+| rec<0.2 | +0.020 ± 0.005 old, +0.019 hybrid |
 
-**পাস.** প্রার্থী হল `lgb_v9_ogstack08.csv` . গুহাঃ
-D7_I10_W non-recurrent slice (−0.020 ±0.014 on 18 windows) সবচেয়ে কাছাকাছি
-CV মার্চের চলমান পরিবর্তনের সমান্তরাল।
+**Passes.** The candidate is `lgb_v9_ogstack08.csv`. Caveat: the
+D7_I10_W non-recurrent slice (−0.020 ± 0.014 on 18 windows) is the closest
+CV analogue of March's ongoing shift.
 
-### ফাইল
+### The file
 
-`/home/user/work/t2/lgb_v9_ogstack08.csv` হল `lgb_v8_seeds9_stack03.csv`
-এটি `ongoing_v9.py` দ্বারা নির্মিত।
-* **পর্যায় 1** v5  validation/private সম্ভাব্যতাঃ চলমান সারি
-  `probs_lgb_v5.parquet` . তাদের ডিকোডিং বেস ফাইলের 87,000 পুনরায় তৈরি করে
-  সঠিকভাবে চলমান সারি।
-* **পর্যায় 2 .**  `dyn` বৈশিষ্ট্য, 3 বীজ, সমস্ত 1.73 M OOF সারিতে প্রশিক্ষণ দেওয়া
-  ( 3,041 window), ভবিষ্যদ্বাণী গড়. w = 0.8 , তারপর শীর্ষ-m decoding.
-* **ডেটা নিয়ম.**  validation/private windowর বৈশিষ্ট্যগুলি কেবলমাত্র তার স্টেজ- 1 ব্যবহার করে
-  ক্ষেত্র এবং তার নিজস্ব বৈশিষ্ট্য টেবিল সারি (প্রকাশিত ইতিহাস, T এ মাস্কযুক্ত দৃশ্য,
-  পূর্ণ train প্রোফাইল), প্লাস স্ট্যাটিক লিঙ্ক ডেটা।
+`/home/user/work/t2/lgb_v9_ogstack08.csv` is `lgb_v8_seeds9_stack03.csv` with
+only the ongoing rows replaced. It is built by `ongoing_v9.py`.
+* **Stage 1.** The v5 validation/private probabilities: the ongoing rows of
+  `probs_lgb_v5.parquet`. Decoding them reproduces the base file's 87,000
+  ongoing rows exactly.
+* **Stage 2.** `dyn` features, 3 seeds, trained on all 1.73 M OOF rows
+  (3,041 windows), predictions averaged. w = 0.8, then top-m decoding.
+* **Data rule.** Features of a validation/private window use only its stage-1
+  field and its own feature-table rows (released history, masked view at T,
+  full-train profile), plus static link data. That is data ≤ T only.
 
-চেকঃ
-* `submit.check` : 174,000 সারি, 0 অনুপস্থিত, 0 অতিরিক্ত, বাইনারি, ইতিবাচক হার
+Checks:
+* `submit.check`: 174,000 rows, 0 missing, 0 extra, binary, positive rate
   0.0608.
-* অনসেট লাইনগুলি বেস ফাইলের সাথে বাইট-একই।
+* Onset lines are byte-identical to the base file.
 
-পরিবর্তনগুলি বনাম বেস ফাইল (শুধুমাত্র চলমান সারি):
+Changes vs the base file (ongoing rows only):
 
-| বিভক্ত | window পরিবর্তন করা হয়েছে ( 40 থেকে) | cell পরিবর্তন | যোগ করা / সরানো | চলমান cell, বেস → নতুন | গড় (মি) window চুক্তি |
+| split | windows changed (of 40) | cells changed | added / removed | ongoing cells, base → new | mean (min) window agreement |
 |---|---:|---:|---|---|---|
-| বৈধতা | 27 | 139 | 94 / 45 | 5,365 → 5,414 | 0.945 (0.667) |
-| ব্যক্তিগত | 27 | 78 | 36 / 42 | 4,841 → 4,835 | 0.962 (0.500) |
+| validation | 27 | 139 | 94 / 45 | 5,365 → 5,414 | 0.945 (0.667) |
+| private | 27 | 78 | 36 / 42 | 4,841 → 4,835 | 0.962 (0.500) |
 
-সবচেয়ে বড় পরিবর্তনঃ
-* D7_I10_W প্রাইভেট 010: 14 → 7 cell।
-* D12_I5_N বৈধতা 009: 9 → 6 .
-* D7_I210_E প্রাইভেট 009: 15 → 22 , পুনরাবৃত্তি সহ একক প্রাইভেট window
+Largest changes:
+* D7_I10_W private 010: 14 → 7 cells.
+* D12_I5_N validation 009: 9 → 6.
+* D7_I210_E private 009: 15 → 22, the one private window with recurrence
   < 0.05.
-* D7_I10_E বৈধতা 007 / 010: 121 → 148 এবং 137 → 159 (স্তেজ- 1 )
-  সারোগেট 0.80 / 0.82 ).
+* D7_I10_E validation 007 / 010: 121 → 148 and 137 → 159 (stage-1
+  surrogate 0.80 / 0.82).
 
-অন্যান্য আউটপুটঃ
-* **সম্ভাব্যতাঃ**  `/home/user/work/t2/probs_v9_ogstack08_ongoing.parquet` ,
-  কলামযুক্ত window_id, প্যানেল, k, লিঙ্ক, p, p1, p2, বিভক্ত. এটা সারি আছে এবং
-  `probs_lgb_v5` চলমান সারিগুলির ক্রমে, এবং `p1` v5 এর সমান।
-  পর্যায়-2 সারোগেট 0.848 / 0.859 পর্যন্ত বৃদ্ধি পায় বৈধতা / ব্যক্তিগত।
-* **মডেলঃ**  `/home/user/work/t2/model_v9_ogstack08_stage2_s{0,1,2}_queue_ongoing.txt` .
+Other outputs:
+* **Probabilities:** `/home/user/work/t2/probs_v9_ogstack08_ongoing.parquet`,
+  with columns window_id, panel, k, link, p, p1, p2, split. It has the rows and
+  order of the `probs_lgb_v5` ongoing rows, and `p1` equals v5 exactly. The
+  stage-2 surrogate rises to 0.848 / 0.859 on validation / private.
+* **Models:** `/home/user/work/t2/model_v9_ogstack08_stage2_s{0,1,2}_queue_ongoing.txt`.
 
-স্ব-পরীক্ষা ( `ongoing_v9 selftest` ):
-* (ক) window_id কী সহ মিশ্রিত সারিগুলিতে পরীক্ষার সময় বৈশিষ্ট্য পথ সমান
-  প্রশিক্ষণের বৈশিষ্ট্যগুলি ঠিক D7_I10_W , D7_I405_N এবং D12_I5_S.
-* (খ) প্রতিটি প্যানেলের জন্য 10 অফিসিয়াল train-এর window,
-  `feat_<p>_train` ), 24,330 cellের 24,318 ভাগ
-  শুধুমাত্র window সমষ্টিগুলি 12 দ্বারা স্পর্শ করা হয়
-  অনুপস্থিত cellগুলি ভিন্ন, এবং পুনরাবৃত্তি নকশা দ্বারা ভিন্ন (পূর্ণ train
-  প্রোফাইল) ।
-* সংরক্ষিত সম্ভাবনার পুনরায় ডিকোড করা ফাইল বাইট বাইট পুনরায় প্রজনন করে।
+Self-tests (`ongoing_v9 selftest`):
+* (a) The test-time feature path on shuffled rows with window_id keys equals
+  the training features exactly on D7_I10_W, D7_I405_N and D12_I5_S.
+* (b) The 10 official train windows per panel, run through the
+  released-history tables (`feat_<p>_train`), share 24,318 of 24,330 cells
+  with the training rows. Only the window aggregates touched by the 12
+  missing cells differ, and the recurrence differs by design (full-train
+  profile).
+* Re-decoding the saved probabilities reproduces the file byte for byte.
 
-**প্রত্যাশিত প্রভাব.**  CV এর চলমান লাভ +0.0065 প্রায় S_queue +0.003 ।
-লাভ কম আত্মবিশ্বাসী এবং ছোট ক্যু window, যা
-মার্চ ও এপ্রিল মাসে অতিরিক্ত প্রতিনিধিত্ব করা হয়েছে। প্রতি বাক্টের পুনরায় ওজন
-+0.010 থেকে +0.012 পর্যন্ত চলমান।
+**Expected effect.** The CV ongoing gain of +0.0065 is about S_queue +0.003.
+The gain sits in low-confidence and small-queue windows, which are
+over-represented in March and April. The per-bucket reweighting suggests
++0.010 to +0.012 on ongoing.
 
-### পুনরায় প্রজনন
+### Reproduce
 
 ```
 export PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2 T2_THREADS=2 T2_WORK=/home/user/work/t2 T2_FEAT=/home/user/work/t2/feat_v3
@@ -1324,347 +1322,347 @@ python -m trafficflow.t2.ongoing_v9 ogstack08 --stack 0.8 --seeds 0,1,2 --drop '
 python -m trafficflow.t2.ongoing_v9 selftest
 ```
 
-সম্পদঃ
-* স্টেজ- 2  CV প্রায় 2.1  GB  RSS এবং বিল্ড প্রায় 2  GB এ শীর্ষে।
-* সমস্ত রান 2 থ্রেড ব্যবহার করে।
-* লগ `/home/user/work/t2/logs_og9/` মধ্যে। স্টেজ- 2 OOFs হয়
-  `/home/user/work/t2/ogstack_oof_<tag>.parquet` ( 11 ফাইল, 27  MB প্রতিটি) ।
+Resources:
+* Stage-2 CV peaks at about 2.1 GB RSS and the build at about 2 GB.
+* All runs used 2 threads.
+* Logs are in `/home/user/work/t2/logs_og9/`. Stage-2 OOFs are
+  `/home/user/work/t2/ogstack_oof_<tag>.parquet` (11 files, 27 MB each).
 
-## 17 . শিফট-ওয়েটেড CV ( `shift_cv.py` ) এবং G3 ব্যর্থতা
+## 17. Shift-weighted CV (`shift_cv.py`) and the G3 failure
 
-**লক্ষ্য.** Plain CV  G3 : চলমান পর্যায়ে 2 স্ট্যাক অর্জন করা হয়েছে
-+0.0065 ±0.0009  CV কিন্তু চলমান IoU এর 0.023 হারিয়ে মার্চ।
-প্রতি লক্ষ্য মাসের দিকে CV window পুনরায় ওজন করুন যাতে স্থানীয় গেট
-সত্যি কথা বলতে, এবং ইতিমধ্যে হাতে থাকা লিডারবোর্ডের ফলাফলের সাথে এটি পরীক্ষা করার জন্য।
+**Goal.** Plain CV failed badly on G3: the ongoing stage-2 stack gained
++0.0065 ± 0.0009 in CV but lost 0.023 of ongoing IoU on March. The idea was to
+re-weight the CV windows toward each target month so the local gate becomes
+honest, and to check this against the leaderboard results already in hand.
 
-### window বৈশিষ্ট্য (ডেটা <= T, CV এবং অফিসিয়াল windowগুলোর জন্য একটি সংজ্ঞা)
+### Window features (data <= T, one definition for CV and official windows)
 
-`shift_cv.window_features(cond)` প্রতি windowতে একটি সারি তৈরি করেঃ 2,081 / 3,001
-CV সিম window, 40 অফিসিয়াল train window, এবং 40 বৈধতা এবং
-40 প্রতিটি অবস্থার ব্যক্তিগত window। Onset t2h পুনরায় আঁকা window ব্যবহার করে এবং
-`t2h/feat` ; চলমান ব্যবহার মূল window এবং `feat_v3` .
-* **সূত্র.**  CV লাইনগুলি `feat_<p>.parquet` থেকে আসে (ফোল্ড-অexcluded)
-  অফিসিয়াল লাইনগুলি `feat_<p>_<split>.parquet` থেকে তৈরি।
-  সম্পূর্ণ train-এর প্রোফাইল সহ প্রকাশিত ইতিহাস।
-  `window_index.csv` মান; CV windowের জন্য এটি `ds` মান, যা এর সমান
-  ঠিক অফিসিয়াল train-এর windowয়।
-* **Stage- 1 confidence.** এটি রেফারেন্স মডেল থেকে এসেছেঃ v5
-  v6 এর জন্য। OOF সম্ভাবনা CV window এবং পূর্ণ train-এর জন্য ব্যবহৃত হয়
-  বৈধকরণ এবং ব্যক্তিগত মডেল।
-* **চলমান বৈশিষ্ট্য।**
-  * প্রত্যাশিত-ইউর সারোগেট `sur` .
-  * পুনরাবৃত্তি `rec` (যেমন `robust.recurrence` ) এবং সাম্প্রতিক দিনগুলিতে কার্যকলাপ `rq7`
-    সারিতে থাকা লিঙ্কগুলোতে।
-  * T `lnq` এ সারির লিঙ্ক এবং সারির ফ্রেগমেন্টের সংখ্যা `nblk` ।
-  * 35 এবং 60 min `g30` / `g60` এর উপর আপেক্ষিক বৃদ্ধি এবং T `gT` এর স্পট এ
-    (< 0 মানে বিচ্ছিন্নতা)
-  * ন্যূনতম গতির অনুপাত `rmin` , ইতিহাসের কভারেজ `cov` , এবং সেল ভাগ
-    T `visT` এ দৃশ্যমান।
-  * সপ্তাহান্তে পতাকা, এবং ঘন্টা হিসাবে sin/cos.
-* **চালু বৈশিষ্ট্য।**
-  * `sur` , এবং সম্ভাব্যতা-ওয়েটেড পুনরাবৃত্তি `orec` এবং সাম্প্রতিক দিনগুলোতে
-    T+30 এ পূর্বাভাসিত সাইটের `orq7` কার্যকলাপ।
-  * প্রত্যাশিত সেট আকার `lpsum` , p ≥0.05  `nsite` ,
-    `rmin` , এবং flow/capacity এক্সট্রাপোলেশন `fext` .
-  * `cov` , `visT` , সপ্তাহান্তে এবং ঘন্টা.
+`shift_cv.window_features(cond)` builds one row per window: the 2,081 / 3,001
+CV sim windows, the 40 official train windows, and the 40 validation and
+40 private windows of each condition. Onset uses the t2h re-drawn windows and
+`t2h/feat`; ongoing uses the original windows and `feat_v3`.
+* **Sources.** The CV rows come from `feat_<p>.parquet` (fold-excluded
+  profiles). The official rows come from `feat_<p>_<split>.parquet`, built from
+  the released histories with full-train profiles. The history coverage is the
+  `window_index.csv` value; for CV windows it is the `ds` value, which equals it
+  exactly on the official train windows.
+* **Stage-1 confidence.** It comes from the reference model: v5 for ongoing,
+  v6 for onset. OOF probabilities are used for CV windows and the full-train
+  models for validation and private.
+* **Ongoing features.**
+  * The expected-IoU surrogate `sur`.
+  * Recurrence `rec` (as `robust.recurrence`), and recent-days activity `rq7`
+    at the queued links.
+  * Queued links at T `lnq`, and the number of queue fragments `nblk`.
+  * Relative growth over 35 and 60 min `g30` / `g60`, and at slot T `gT`
+    (< 0 means dissipating).
+  * Minimum speed ratio `rmin`, history coverage `cov`, and share of cells
+    visible at T `visT`.
+  * Weekend flag, and hour as sin/cos.
+* **Onset features.**
+  * `sur`, and the probability-weighted recurrence `orec` and recent-days
+    activity `orq7` of the predicted site at T+30.
+  * The expected set size `lpsum`, the number of sites with p ≥ 0.05 `nsite`,
+    `rmin`, and the flow/capacity extrapolation `fext`.
+  * `cov`, `visT`, weekend and hour.
 
-প্যানেলের অভ্যন্তরীণ মানক গড় পার্থক্য (টার্গেট মাইনস CV সিম), আগে এবং
-ওজন করার পরঃ
+Within-panel standardised mean differences (target minus CV sim), before and
+after weighting:
 
-| বৈশিষ্ট্য | শুরু | → ওজন | প্রাইভ শুরু | → ওজন | চলমান ভ্যাল | → ওজন | চলমান প্রাইভেট | → ওজন |
+| feature | onset val | → weighted | onset priv | → weighted | ongoing val | → weighted | ongoing priv | → weighted |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| স্তর- 1 সারোগেট | −0.97 | −0.31 | −0.39 | −0.20 | −0.47 | −0.13 | −0.37 | −0.28 |
-| সাম্প্রতিক দিনগুলোতে কার্যকলাপ | −0.37 | −0.12 | −0.41 | −0.20 | −0.39 | −0.12 | −0.35 | −0.26 |
-| পুনরাবৃত্তি | −0.19 | +0.03 | −0.08 | +0.07 | −0.22 | −0.00 | −0.28 | −0.19 |
-| প্রত্যাশিত আকার (প্রারম্ভ) / T `gT` এ বিচ্ছিন্নতা (চলমান) | −0.74 | −0.23 | −0.01 | +0.04 | −0.38 | −0.12 | −0.10 | −0.06 |
-| সপ্তাহান্তে | +0.26 | +0.06 | −0.24 | −0.10 | +0.23 | +0.05 | −0.18 | −0.13 |
+| stage-1 surrogate | −0.97 | −0.31 | −0.39 | −0.20 | −0.47 | −0.13 | −0.37 | −0.28 |
+| recent-days activity | −0.37 | −0.12 | −0.41 | −0.20 | −0.39 | −0.12 | −0.35 | −0.26 |
+| recurrence | −0.19 | +0.03 | −0.08 | +0.07 | −0.22 | −0.00 | −0.28 | −0.19 |
+| expected size (onset) / dissipation at T `gT` (ongoing) | −0.74 | −0.23 | −0.01 | +0.04 | −0.38 | −0.12 | −0.10 | −0.06 |
+| weekend | +0.26 | +0.06 | −0.24 | −0.10 | +0.23 | +0.05 | −0.18 | −0.13 |
 
-মার্চ শুরু হয় শনিবার, তাই 37.5এর windowগুলোর % সপ্তাহান্তে পড়ে।
-মঙ্গলবার শুরু হয় (17.5মার্চ মাসে মডেলটি অনেক কম নিশ্চিত (প্রারম্ভ)
-প্যানেলের মধ্যে −0.97  SD ), এবং T এ ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশই ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রমশ ক্রম
+March starts on a Saturday, so 37.5% of its windows fall on a weekend. April
+starts on a Tuesday (17.5%). On March the model is much less sure (onset
+surrogate −0.97 SD within panel), and queues are dissipating at T more often.
 
-### গুরুত্বের ওজন
+### Importance weights
 
-`shift_cv.weights(cond, target)` একটি রিটার্ন `pd.Series` গ. দ্বারা, mean 1
-প্রতিটি প্যানেলের মধ্যে।
-* **শ্রেণীবিভাজনকারী.**  L2 -দণ্ডিত লজিস্টিক রিগ্রেশনঃ লক্ষ্য window ( 40 ) বনাম CV
-  সিম window. এটি অপেনালাইজড প্যানেল intercepts আছে, তাই শুধুমাত্র প্যানেল ভিতরে
-  পার্থক্য গণনা করা হয় এবং স্ট্যান্ডার্ড বৈশিষ্ট্য।
-* **শাস্তি।** λ 5 -fold ক্রস-ভালাইড লগ-সম্ভাব্যতা দ্বারা নির্বাচিত হয়।
-* **ক্রস-ফাইটিং.**  5 fold × 5 পুনরাবৃত্তি, প্যানেল এবং ক্লাস দ্বারা স্তরিত। প্রতিটি
-  windowটির ওজন এমন মডেলের থেকে আসে যারা কখনো এটা দেখেনি।
-* **ওজন.**  `w = exp(x·β)` , যা প্যানেলের ধ্রুবক সঙ্গে সম্ভাবনা
-  এটি মানক করা হয় মানে 1 প্রতি প্যানেল, 10 × প্যানেল
-  এবং পুনরায় স্বাভাবিক করা।
-* **সমষ্টি।** সরকারী সমষ্টিটি ওজনযুক্ত প্যানেলের উপর চালিত হয়, যার অর্থ,
-  সুতরাং প্রতিটি প্যানেল তার ওজন 1/8 রাখে।
+`shift_cv.weights(cond, target)` returns a `pd.Series` by gw, with mean 1
+within each panel.
+* **Classifier.** L2-penalised logistic regression: target windows (40) vs CV
+  sim windows. It has unpenalised panel intercepts, so only within-panel
+  differences count, and standardised features.
+* **Penalty.** λ is chosen by 5-fold cross-validated log-likelihood.
+* **Cross-fitting.** 5 folds × 5 repeats, stratified by panel and class. Each
+  window's weight comes from models that never saw it.
+* **Weight.** `w = exp(x·β)`, which is the odds with the panel constant
+  cancelled. It is normalised to mean 1 per panel, capped at 10 × the panel
+  mean, and renormalised.
+* **Aggregation.** The official aggregation runs on the weighted panel means,
+  so each panel keeps its weight of 1/8.
 
-| কন্ড / টার্গেট | λ | ক্রস-ফাইটেড AUC (প্যানেলের ভিতরে) | ESS সমষ্টি (প্লিন) | ESS অনুপাত | min প্যানেল ESS | কাটা | w সর্বোচ্চ / q99 | বৃহত্তম কোয়েফিশিয়ন্স (প্রতি SD ) |
+| cond / target | λ | cross-fitted AUC (within panel) | ESS of the aggregation (plain) | ESS ratio | min panel ESS | clipped | w max / q99 | largest coefficients (per SD) |
 |---|---:|---:|---|---:|---:|---:|---|---|
-| শুরু / বৈধতা | 10 | **0.70** | 1,082 (1,941) | 0.56 | 79 ( D7_I10_W , 133 ) | 0.2% | 10 / 5.1 | sur −0.59 , orq7 −0.34 , সপ্তাহান্তে +0.27 , cov −0.23 , খনিজ +0.18 |
-| শুরু / ব্যক্তিগত | 30 | 0.54 | 1,745 | 0.90 | 112 | 0 | 3.6 / 1.9 | orq7 −0.23 , sur −0.17 , সপ্তাহান্তে −0.12 |
-| শুরু/অফ (নল চেক) | 30 | 0.57 | 1,793 | 0.92 | 124 | 0 | 2.5 / 1.9 | orq7 −0.34 (train শুরু হয় 0 দিনেঃ আগের দিন নেই) |
-| চলমান / বৈধতা | 10 | **0.64** | 1,629 (2,556) | 0.64 | 68 ( D7_I10_W , 131 ) | 0 | 9.3 / 3.5 | sur −0.40 , rq7 −0.35 , gT −0.25 , ঘন্টা −0.21/−0.23 , rmin −0.18 , সপ্তাহান্তে +0.15 |
-| চলমান / ব্যক্তিগত | 100 | 0.555 | 2,479 | 0.97 | 127 | 0 | 2.2 / 1.6 | sur −0.10 , rq7 −0.08 |
-| চলমান / বন্ধ (নোল চেক) | 300 | 0.545 | 2,536 | 0.99 | 131 | 0 | 1.3 / 1.2 | কোন |
+| onset / validation | 10 | **0.70** | 1,082 (1,941) | 0.56 | 79 (D7_I10_W, of 133) | 0.2% | 10 / 5.1 | sur −0.59, orq7 −0.34, weekend +0.27, cov −0.23, orec +0.18 |
+| onset / private | 30 | 0.54 | 1,745 | 0.90 | 112 | 0 | 3.6 / 1.9 | orq7 −0.23, sur −0.17, weekend −0.12 |
+| onset / off (null check) | 30 | 0.57 | 1,793 | 0.92 | 124 | 0 | 2.5 / 1.9 | orq7 −0.34 (train starts on day 0: no previous days) |
+| ongoing / validation | 10 | **0.64** | 1,629 (2,556) | 0.64 | 68 (D7_I10_W, of 131) | 0 | 9.3 / 3.5 | sur −0.40, rq7 −0.35, gT −0.25, hour −0.21/−0.23, rmin −0.18, weekend +0.15 |
+| ongoing / private | 100 | 0.555 | 2,479 | 0.97 | 127 | 0 | 2.2 / 1.6 | sur −0.10, rq7 −0.08 |
+| ongoing / off (null check) | 300 | 0.545 | 2,536 | 0.99 | 131 | 0 | 1.3 / 1.2 | none |
 
-* **বৈধতা স্পষ্টভাবে স্থানান্তরিত হয়.** ব্যক্তিগত শুধুমাত্র সামান্য স্থানান্তরিত হয়ঃ CV
-  সম্ভাবনা একটি শক্তিশালী শাস্তি নির্বাচন, এবং ব্যক্তিগত SMDs কম
-  ওজন।
-* **শূন্য চেক কাজ করে।**  40 অফিসিয়াল train-এর window (একই মাসের CV )
-  প্রায় অভিন্ন ওজন পেতে।
+* **Validation is clearly shifted.** Private is only mildly shifted: the CV
+  likelihood picks a strong penalty, and the private SMDs shrink less after
+  weighting.
+* **The null check works.** The 40 official train windows (same months as CV)
+  get nearly uniform weights.
 
-### ওজন এবং SE
+### Weighted score and SE
 
-`shift_cv.score(df, cond, target, ref=None)` যে কোন `window_iou` ফ্রেম নেয়
-(gw, প্যানেল, src, iou_*) শুধুমাত্র সিম window ব্যবহার করা হয়।
-* **আউটপুট.** ভারী অফিসিয়াল সমষ্টি, এবং একটি জোড়া Δ এর জন্য
-  বুটস্ট্র্যাপ SE এবং P(Δ ≤0 ). বুটস্ট্র্যাপটি প্যানেলের ভিতরে windowগুলির সাথে পুনরায় নমুনা করে
-  ওজন স্থির করা হয়েছে।
-* **  `boot_refit` . ** এছাড়াও প্রতি প্রতিরূপের ওজন মডেল পুনর্নির্মাণ (লক্ষ্য
-  এবং CV window পুনরায় নমুনা করা হয়েছে) । SE হয় 0.9-1.3× স্থির ওজন SE.
-* **  `lb_predictive`  ** লিডারবোর্ডের আকারের ড্রের বিস্তারঃ 5 প্রতি window
-  প্যানেল, ওজন অনুপাত আঁকা। এটা একটি Δ এর LB শব্দ যদি
-  ওজনযুক্ত CV লক্ষ্য জনসংখ্যা ছিল।
+`shift_cv.score(df, cond, target, ref=None)` takes any `window_iou` frame
+(gw, panel, src, iou_*). Only sim windows are used.
+* **Output.** The weighted official aggregation, and for a paired Δ its
+  bootstrap SE and P(Δ ≤ 0). The bootstrap resamples windows within panel with
+  the weights fixed.
+* **`boot_refit`.** Also refits the weight model on each replicate (target
+  and CV windows resampled). This total SE is 0.9-1.3× the fixed-weight SE.
+* **`lb_predictive`.** The spread of a leaderboard-sized draw: 5 windows per
+  panel, drawn in proportion to the weights. This is the LB noise of a Δ if
+  the weighted CV were the target population.
 
-### লিডারবোর্ডের তথ্য (মার্চ, শর্ত স্তর Δ = মোট Δ / 0.15 )
+### Leaderboard facts (March, condition-level Δ = total Δ / 0.15)
 
-* **Onset v4 → v5: +0.0122 .**  P3/P4/D1 জোনদের থেকে: v4 onset 0.6857 (A),
-  v6 0.7281 (P4), v5 = 0.7281 −0.0302.
-* **শুরু v5 → v6: +0.0302 .**  D1 − C1 .
+* **Onset v4 → v5: +0.0122.** From the P3/P4/D1 probes: v4 onset 0.6857 (A),
+  v6 0.7281 (P4), v5 = 0.7281 − 0.0302.
+* **Onset v5 → v6: +0.0302.** D1 − C1.
 * **F1: −0.0157. F2: −0.0115. G2: +0.0040.**
-* **চলমান v4 → v5: +0.0040 .**  C1 − B1 ΔS_queue +0.0081 দেয় , এবং শুরু হয়
-  দ্বিগুণকৃত মোটের মধ্যে +0.0122 এর জন্য অ্যাকাউন্ট।
-* **চলমান v3 → v4 : ≈ +0.024 , আনুমানিক.**  B1 − A (+0.0053 ) - স্থানীয়
-  টাস্ক- 1 গেটিং অনুমান (+0.0016 ).
+* **Ongoing v4 → v5: +0.0040.** C1 − B1 gives ΔS_queue +0.0081, and onset
+  accounts for +0.0122 of the doubled total.
+* **Ongoing v3 → v4: ≈ +0.024, approximate.** B1 − A (+0.0053) minus the local
+  Task-1 gating estimate (+0.0016).
 * **G3: −0.0233.**
 
-### প্রজনন (প্রাথমিক সত্যঃ শুরুতে হাইব্রিড, চলমানের জন্য পুরানো)
+### Reproduction (primary truth: hybrid for onset, old for ongoing)
 
-| পরিবর্তন | **LB Δ** | সাধারণ CV Δ ± SE | **বৈধতা-ওয়েটেড Δ ± SE** ( SE পুনর্নির্মাণ সহ) | পরিবর্তন সম্পর্কে সচেতন | ব্যক্তিগত ওজনের | LB শব্দ sd (ওয়েট করা) | z plain → z ওজনযুক্ত | বৈধকরণের সময় পাদচরণ (টার্গেট / ওজন CV , pct) |
+| change | **LB Δ** | plain CV Δ ± SE | **validation-weighted Δ ± SE** (SE with refit) | change-aware | private-weighted | LB noise sd (weighted) | z plain → z weighted | footprint on validation (target / weighted CV, pct) |
 |---|---:|---:|---:|---:|---:|---:|---|---|
-| শুরু v4 → v5 | **+0.012** | +0.0061 ±0.0016 | **+0.0128 ±0.0041** (0.0051) | +0.0110 | +0.0083 | 0.017 | +0.52 → −0.03 | প্রচলিত (অন্তর্ভুক্ত p87 ) |
-| শুরু v5 → v6 (ল্যাবেল) | **+0.030** | +0.0071 ±0.0017 | **+0.0105 ±0.0046** (0.0056) | +0.0148 | +0.0086 | 0.018 | +1.91 → +1.08 | **সরানো 0.30 / 0.13 (p98 )** |
-| F1 bias +0.5 | **−0.016** | −0.0001 ±0.0012 | **+0.0013 ±0.0028** (0.0025) | +0.0015 | +0.0004 | 0.011 | −1.95 → −1.57 | **যোগ করা হয়েছে 0.30 / 0.14 (p98 ); window সম্পাদনা করা হয়েছে 97** |
-| F2 সাইট 2 | **−0.012** | −0.0011 ±0.0012 | **−0.0039 ±0.0019** (0.0022) | −0.0061 | −0.0017 | 0.010 | −1.25 → −0.79 | প্রচলিত (অনুসরণ করা হয়েছে p68 ) |
-| G2 শুরু স্ট্যাকিং | **+0.004** | +0.0035 ±0.0011 | **+0.0106 ±0.0036** (0.0044) | +0.0092 | +0.0058 | 0.013 | +0.07 → −0.50 | প্রচলিত (অন্তর্ভুক্ত p73 ) |
-| চলমান v3 → v4 | **≈ +0.024** | +0.0038 ±0.0011 | **+0.0065 ±0.0031** (0.0039) | +0.0136 | +0.0051 | 0.011 | +2.81 → +1.63 | **সরানো 1.80 / 1.09 (p96 )** |
-| চলমান v4 → v5 | **+0.004** | +0.0024 ±0.0006 | **+0.0037 ±0.0014** (0.0014) | +0.0044 | +0.0027 | 0.006 | +0.34 → +0.04 | প্রচলিত (সম্পাদিত p93 ) |
-| G3 চলমান স্ট্যাক | **−0.023** | +0.0065 ±0.0009 | **+0.0100 ±0.0018** (0.0022) | +0.0114 | +0.0081 | 0.009 | **−4.02 → −3.55** | **যোগ করা হয়েছে 2.35 / 1.24 (p96 )** |
+| onset v4 → v5 | **+0.012** | +0.0061 ± 0.0016 | **+0.0128 ± 0.0041** (0.0051) | +0.0110 | +0.0083 | 0.017 | +0.52 → −0.03 | typical (add p87) |
+| onset v5 → v6 (labels) | **+0.030** | +0.0071 ± 0.0017 | **+0.0105 ± 0.0046** (0.0056) | +0.0148 | +0.0086 | 0.018 | +1.91 → +1.08 | **removed 0.30 / 0.13 (p98)** |
+| F1 bias +0.5 | **−0.016** | −0.0001 ± 0.0012 | **+0.0013 ± 0.0028** (0.0025) | +0.0015 | +0.0004 | 0.011 | −1.95 → −1.57 | **added 0.30 / 0.14 (p98); edited windows p97** |
+| F2 site2 | **−0.012** | −0.0011 ± 0.0012 | **−0.0039 ± 0.0019** (0.0022) | −0.0061 | −0.0017 | 0.010 | −1.25 → −0.79 | typical (removed p68) |
+| G2 onset stacking | **+0.004** | +0.0035 ± 0.0011 | **+0.0106 ± 0.0036** (0.0044) | +0.0092 | +0.0058 | 0.013 | +0.07 → −0.50 | typical (added p73) |
+| ongoing v3 → v4 | **≈ +0.024** | +0.0038 ± 0.0011 | **+0.0065 ± 0.0031** (0.0039) | +0.0136 | +0.0051 | 0.011 | +2.81 → +1.63 | **removed 1.80 / 1.09 (p96)** |
+| ongoing v4 → v5 | **+0.004** | +0.0024 ± 0.0006 | **+0.0037 ± 0.0014** (0.0014) | +0.0044 | +0.0027 | 0.006 | +0.34 → +0.04 | typical (edited p93) |
+| G3 ongoing stack | **−0.023** | +0.0065 ± 0.0009 | **+0.0100 ± 0.0018** (0.0022) | +0.0114 | +0.0081 | 0.009 | **−4.02 → −3.55** | **added 2.35 / 1.24 (p96)** |
 
-প্রাচীন সত্যের সূচনা Δ (প্লাইন → ভারসাম্যযুক্ত): v4 → v5 +0.0067 → +0.0135 , v5 → v6
+Old-truth onset Δ (plain → weighted): v4 → v5 +0.0067 → +0.0135, v5 → v6
 +0.0047 → +0.0072, F1 −0.0009 → −0.0002, F2 −0.0011 → −0.0039, G2
-+0.0024 → +0.0067 . পরিবর্তন সচেতন কলাম প্রতিটি পরিবর্তনের নিজস্ব পদচিহ্ন যোগ করে
-(windowতে সেল সংখ্যা যা সে সম্পাদনা করে, T-তে গণনা করা যায়) শ্রেণীবিভাজনকারীকে।
++0.0024 → +0.0067. The change-aware column adds each change's own footprint
+(number of cells it edits in the window, computable at T) to the classifier.
 
-**স্তর.** মার্চ স্তর ছয়টি সংস্করণে পরিচিত। ওজন স্থানান্তরিত হয়
-প্রত্যেকটি LB এর দিকেঃ
+**Levels.** The March levels are known for six versions. The weights move
+every one of them toward the LB:
 
-| সংস্করণ | LB মার্চ | সাধারণ CV (হাইব্রিড / পুরানো) | বৈধতা-ভিত্তিক (হাইব্রিড / পুরানো) | 40 -window LB স্তরের sd |
+| version | LB March | plain CV (hybrid / old) | validation-weighted (hybrid / old) | sd of a 40-window LB level |
 |---|---:|---|---|---:|
-| শুরু V 4 | 0.686 | 0.846 / 0.776 | 0.746 / **0.689** | 0.055 |
-| শুরু V 5 | 0.698 | 0.852 / 0.782 | 0.759 / **0.702** | 0.054 |
-| শুরু V 6 | 0.728 | 0.859 / 0.787 | 0.769 / **0.710** | 0.054 |
-| চলমান v3 | 0.812 | 0.875 / 0.877 | 0.836 / 0.838 | 0.030 |
-| চলমান v5 | ≈0.840 | 0.880 / 0.883 | 0.846 / 0.849 | 0.029 |
-| চলমান G3 | ≈0.817 | 0.887 / 0.890 | 0.857 / 0.859 | 0.028 |
+| onset v4 | 0.686 | 0.846 / 0.776 | 0.746 / **0.689** | 0.055 |
+| onset v5 | 0.698 | 0.852 / 0.782 | 0.759 / **0.702** | 0.054 |
+| onset v6 | 0.728 | 0.859 / 0.787 | 0.769 / **0.710** | 0.054 |
+| ongoing v3 | 0.812 | 0.875 / 0.877 | 0.836 / 0.838 | 0.030 |
+| ongoing v5 | ≈ 0.840 | 0.880 / 0.883 | 0.846 / 0.849 | 0.029 |
+| ongoing G3 | ≈ 0.817 | 0.887 / 0.890 | 0.857 / 0.859 | 0.028 |
 
-**ওজন কি পুনরুদ্ধার করে।**
-* **LB শব্দ।**  40 windowগুলোতে একটি জোড়া Δ এর LB sd আছে 0.006-0.018 । শুধুমাত্র
-  চারটি LB তথ্য স্পষ্টতই শূন্য নয়ঃ G3 −0.023 , v3 → v4 +0.024 , v5 → v6
-  +0.030 , এবং F1 −0.016 (সীমান্ত) v4 → v5 (দুইটি অবস্থা), F2 এবং G2
-  LB-তে শূন্যের প্রায় 1 sd-এর মধ্যে আছে।
-* **ম্যাগনিটিউডঃ ভাল.** ওজন তার LB আকারের প্রতি প্রতিটি পরিবর্তনকে বাড়িয়ে তোলে
-  যেখানে পরিবর্তন কম আত্মবিশ্বাসী windowগুলোতে প্রভাবিত হয়।
-  * v4 → v5 শুরুঃ +0.0128 বনাম LB +0.0122 . চলমান v4 → v5: +0.0037 বনাম +0.0040 .
-  * F2 উল্লেখযোগ্যভাবে নেতিবাচক হয়ে যায় (−0.0039 ±0.0019 ).
-  * v5 → v6 এবং v3 → v4 ফাঁকের একটি অংশ বন্ধ করুন (পরিবর্তনের সচেতনঃ +0.015 এবং
+**What the weighting reproduces.**
+* **LB noise.** A paired Δ on 40 windows has an LB sd of 0.006-0.018. Only
+  four LB facts are clearly non-zero: G3 −0.023, v3 → v4 +0.024, v5 → v6
+  +0.030, and F1 −0.016 (borderline). v4 → v5 (both conditions), F2 and G2
+  are within about 1 sd of zero on the LB.
+* **Magnitudes: better.** The weights amplify every change toward its LB size
+  wherever the change acts on low-confidence windows.
+  * v4 → v5 onset: +0.0128 vs LB +0.0122. Ongoing v4 → v5: +0.0037 vs +0.0040.
+  * F2 becomes significantly negative (−0.0039 ± 0.0019).
+  * v5 → v6 and v3 → v4 close part of the gap (change-aware: +0.015 and
     +0.014).
-  * LB/CV অনুপাত 3.2 × (প্লাইন) থেকে 2.1 × (ওয়েটেড) পর্যন্ত পড়ে।
-    হল ছয়টি পরিবর্তনের উপর অনুপাতের জ্যামিতিক মধ্যম যার CV চিহ্ন
-    LB এর সাথে মিলিত।
-  * 8 ঘটনাগুলির গাউসীয় লগ পূর্বাভাস ঘনত্বঃ 14.4 সাধারণ, 18.6
-    ওজন ( 18.5 বনাম 21.2 ছাড়া G3 ) । |z|: 1.61 সাধারণ, 1.15 ওজনযুক্ত।
-* **দিকঃ ভালো নয়।** Plain CV এর LB চিহ্ন 7 এর 8 ; F1 শুধুমাত্র দ্বারা
-  −0.0001 , যা শব্দ। ওজনযুক্ত CV এটি 6 এর 8 এর উপর আছে।
-  * F1 শূন্যে থাকেঃ +0.0013 হাইব্রিড, −0.0002 পুরানো।
-  * **G3 ইতিবাচক থাকে এবং আরও বড় হয়** (+0.010 ).
-  * "সত্যিভাবে পুনরুত্পাদিত" (ডান চিহ্ন, ≥2  SE , LB স্পষ্টভাবে শূন্য নয়): v5 → v6
-    এবং v3 → v4 , উভয়ই 3-4 × দ্বারা অনির্দেশিত। F2 এর চিহ্নটিও 2  SE এ ঠিক আছে
-    ওজন নিচে, কিন্তু তার LB মান শব্দ মধ্যে।
-  * পুনর্নবীকরণ করা হয়নিঃ G3 , এবং F1 ।
-* **G3 কোন যুক্তিসঙ্গত পুনরায় ওজন দ্বারা অর্জন করা যায় না।**
-  * সংবেদনশীলতাঃ 8 ওজন বৈকল্পিক চেষ্টা করা হয়েছিল (λ 1-300 , ক্লিপ 5-20 ,
-    শুধুমাত্র সারোগেট, কোন সারোগেট, কোন rq7 , একটি ছোট LightGBM শ্রেণীবিভাগ, এবং
-    পরিবর্তন-সচেতন ওজন) সবই G3 +0.007 থেকে +0.013 এবং F1 থেকে −0.0003 পর্যন্ত
+  * The typical LB/CV ratio falls from 3.2× (plain) to 2.1× (weighted). This
+    is the geometric mean of the ratio over the six changes whose CV sign
+    matches the LB.
+  * Gaussian log predictive density of the 8 facts: 14.4 plain, 18.6
+    weighted (18.5 vs 21.2 without G3). Mean |z|: 1.61 plain, 1.15 weighted.
+* **Directions: not better.** Plain CV has the LB sign on 7 of 8; F1 only by
+  −0.0001, which is noise. The weighted CV has it on 6 of 8.
+  * F1 stays at zero: +0.0013 hybrid, −0.0002 old.
+  * **G3 stays positive and gets larger** (+0.010).
+  * "Clearly reproduced" (sign right, ≥ 2 SE, LB clearly non-zero): v5 → v6
+    and v3 → v4, both under-predicted by 3-4×. F2's sign is also right at 2 SE
+    under the weights, but its LB value is within noise.
+  * Not reproduced: G3, and F1.
+* **G3 cannot be reached by any sensible reweighting.**
+  * Sensitivity: 8 weighting variants were tried (λ 1-300, clip 5-20,
+    surrogate only, no surrogate, no rq7, a small LightGBM classifier, and
+    change-aware weights). All give G3 +0.007 to +0.013 and F1 −0.0003 to
     +0.0023.
-  * মার্চ মানটি হ'ল −3.6 sd ইভেন্ট ওজনযুক্ত পূর্বাভাস অধীনে
-    বন্টন এবং −4.0 sd সহজ CV অধীনে। এটি কখনই 20,000 ড্রগুলিতে ঘটে না।
-  * একটি ফলাফল-ওরাকল পুনরায় ওজন শুধুমাত্র 10 × ওজন দ্বারা এটি পৌঁছাতে পারে
-    প্রতিটি প্যানেলের সবচেয়ে খারাপ 10 % G3 window (সীমাবদ্ধ −0.044 ; 3 ক্লিপ সহ),
+  * The March value is a −3.6 sd event under the weighted predictive
+    distribution and −4.0 sd under plain CV. It never occurs in 20,000 draws.
+  * An outcome-oracle reweighting could reach it only by putting 10× weight
+    on each panel's worst 10% of G3 windows (bound −0.044; with a clip of 3,
     −0.016).
-  * বৈশিষ্ট্যযুক্ত বোনা প্যানেলগুলির মধ্যে শুধুমাত্র D7_I10_W নেতিবাচক (−0.004 ).
+  * Among the feature-weighted panels only D7_I10_W is negative (−0.004).
 
-### কেন G3 মার্চ মাসে ব্যর্থ হয় (নিরীক্ষা, T ব্যবহারের পরে সত্য নেই)
+### Why G3 fails on March (diagnostics, no truth after T used)
 
-* **পর্যায় 2 মার্চ মাসে ভিন্নভাবে আচরণ করে।** পর্যায় দ্বারা p2 এর গড় _ 1 সম্ভাব্যতা
-  বালতিঃ
+* **Stage 2 behaves differently on March.** Mean p2 by stage-1 probability
+  bucket:
 
-  | p1 বালতি | CV (নিরীক্ষিত হার) | বৈধতা | ব্যক্তিগত |
+  | p1 bucket | CV (observed rate) | validation | private |
   |---|---|---|---|
   | 0.05-0.2 | 0.108 → 0.074 (0.082) | 0.103 → **0.100** | 0.111 → 0.071 |
   | 0.2-0.4 | 0.292 → 0.253 (0.260) | 0.295 → **0.277** | 0.294 → 0.249 |
 
-  * CV এবং ব্যক্তিগত পর্যায়ে 2 মার্জিনাল সেলগুলি হ্রাস করে; বৈধতা দেওয়ার পরে এটি
-    তাদের ধরে রাখে।
-  * Σ(p2 − p1 ) প্রতি windowতেঃ CV +0.50 , বৈধতা +1.11 , ব্যক্তিগত +0.25 .
-  * বৈধতা উপর স্ট্যাক যোগ করা হয় 2.35 প্রতি window প্রতি সেল 1.24 ±0.52 জন্য
-    ওজনযুক্ত CV ড্র (p96 ). অপসারণগুলি সাধারণ (p56 ).
-* **এটা আমাদের সত্যের একটি হস্তক্ষেপের আর্টিফ্যাক্ট নয়।**
-  * 17.6 % স্ট্যাকের CV সম্পাদনাগুলি সত্য cellগুলিতে অবতরণ করে যা ইন্টারপোলা করা হয়,
-    বেস রেট সম্পর্কে।
-  * প্রতি সম্পাদনার জন্য নেট মানটি +0.23 পর্যবেক্ষণকৃত cellগুলিতে এবং +0.12
-    ইন্টারপোলার।
-  * অপসারণের মধ্যে CV মানের অধিকাংশ থাকেঃ নেট +972 cell, +367 এর তুলনায়
-    সংযোজন।
-* **উপার্জন প্রতি window সেট আকারের মধ্যে lies.** একটি আকার সংরক্ষণকারী ডিকোড (স্তর 2
-  v5 এর সেট আকারের মধ্যে শুধুমাত্র সেল পুনরায় স্থানান্তরিত করতে পারে) শুধুমাত্র +0.0004 এর
+  * On CV and on private, stage 2 lowers the marginal cells; on validation it
+    keeps them.
+  * Σ(p2 − p1) per window: CV +0.50, validation +1.11, private +0.25.
+  * On validation the stack adds 2.35 cells per window against 1.24 ± 0.52 for
+    weighted CV draws (p96). Removals are typical (p56).
+* **It is not an interpolation artifact of our truth.**
+  * 17.6% of the stack's CV edits land on truth cells that are interpolated,
+    about the base rate.
+  * The net value per edit is +0.23 on observed cells and +0.12 on
+    interpolated ones.
+  * Removals carry most of the CV value: net +972 cells, against +367 for
+    additions.
+* **The gain lies in per-window set sizes.** A size-preserving decode (stage 2
+  may only re-rank cells within v5's set size) keeps only +0.0004 of the
   +0.0065.
-* **প্রতি সম্পাদনা মার্চ গণনা করা হয়.** যদি প্রতিটি G3 সম্পাদনা বৈধতা উপর ছিল
-  ভুল, ক্ষতি হবে প্রায় −0.055: −0.027 থেকে যোগ ( D7_I10_E
-  007/010 ) এবং −0.030 ছোট window থেকে অপসারণ ( D12_I5_N  009  9 → 6 ,
-  D7_I10_W  006/009/010 ). যা দেখা যায় তা হল −0.023 এর অর্থ হল যে সম্পাদনাগুলি ভুল ছিল।
-  মার্চ।
-* **ব্যর্থতা কোন কিছুর বাইরে CV train-এর উপর নির্মিত মাস দেখতে পারেন.** এটা
-  আচরণগত বা ধারণাগত পরিবর্তন বা ক্রমের মধ্যে অফিসিয়াল সত্যের পার্থক্য
-  সীমানা, কিন্তু একটি গঠন প্রভাব নয়।
+* **Every edit counts on March.** If every G3 edit on validation had been
+  wrong, the loss would be about −0.055: −0.027 from additions (D7_I10_E
+  007/010) and −0.030 from removals in small windows (D12_I5_N 009 9 → 6,
+  D7_I10_W 006/009/010). The observed −0.023 means the edits were net wrong on
+  March.
+* **The failure is outside what any CV built on train months can see.** It is
+  a behavioural or concept shift, or an official-truth difference at queue
+  boundaries, but not a composition effect.
 
-### পাদচরণ পরীক্ষা (সত্য ছাড়া) এবং গেট উপর রায়
+### The footprint check (truth-free) and the verdict on the gate
 
-`shift_cv.footprint_check(cond, new, ref, target)` তিনটি পরিসংখ্যানের তুলনা করে
-40 লক্ষ্য windowগুলোতে LB - আকারের ওজনযুক্ত CV ড্রগুলির পরিবর্তনেরঃ
-window সম্পাদনা এবং সেল যোগ এবং প্রতি window মুছে ফেলা ভাগ.
-* **এটি ঠিক চারটি LB বিস্ময়** (≥ p95 ): G3 এবং F1 (অতিরিক্ত),
-  এবং v5 → v6 এবং v3 → v4 (নিষ্কাশন) । |z| ওজনযুক্ত CV এর অধীনে ছিল
+`shift_cv.footprint_check(cond, new, ref, target)` compares three statistics
+of a change on the 40 target windows with LB-sized weighted CV draws: the
+share of windows edited, and the cells added and removed per window.
+* **It flags exactly the four LB surprises** (≥ p95): G3 and F1 (additions),
+  and v5 → v6 and v3 → v4 (removals). Their |z| under the weighted CV was
   1.1-3.6.
-* **অজানা পরিবর্তনগুলি পূর্বাভাসযোগ্য ছিল।** v4 → v5 (দুইটি অবস্থা), F2
-  এবং G2 সবগুলোই 0.8 sd এর মধ্যে অবতরণ করেছে।
-* **বিস্ময়ের দিক।** মার্চ মাসে হারিয়ে যাওয়া অস্বাভাবিক এবং অস্বাভাবিক যোগ
-  মার্চ ক্যোয়ার ছোট হওয়ার সাথে মিলিত
-  মডেলদের প্রত্যাশা থেকেও বেশি, কিন্তু এটা চারটি মামলায় ভিত্তি করে।
+* **The unflagged changes were predictable.** v4 → v5 (both conditions), F2
+  and G2 all landed within 0.8 sd of the weighted prediction.
+* **Direction of the surprise.** Atypical additions lost on March and atypical
+  removals gained more than predicted. That fits March queues being smaller
+  than the models expect, but it rests on four cases.
 
-**রায়ঃ ভারী CV কাজটি করা উচিত নয় 2 গেট নিজেই।** এটা
-এটি একটি ভাল মাত্রা পূর্বাভাস. এটা সিস্টেমগত under- পূর্বাভাস ঠিক
-স্থানান্তর, এবং এটি মার্চ স্তর পুনরায় তৈরি করে (পুরানো সত্যের শুরু 0.003-0.018 মধ্যে,
-0.009 এর মধ্যে চলমান v5 ) । এটি G3 ধরা পড়েনি , যা হল যে
-টাস্ক 2 প্রার্থীদের জন্য প্রস্তাবিত গেটঃ
-1. **বিদ্যমান সাধারণ- CV মানদণ্ড.** জোড়া Δ > 0 , শব্দ ছাড়া খারাপ নয়,
-   পুনরাবৃত্তিহীন টুকরো, খারাপ নয়।
-2. **উভয় ওজনযুক্ত Δs ইতিবাচক।** বৈধতা- এবং ব্যক্তিগত-ভিত্তিক পয়েন্ট
-   অনুমান উভয়ই > 0 হতে হবে; যদি কোনটি −1  SE এর নিচে থাকে তবে প্রত্যাখ্যান করা হবে।
-   (`shift_cv.score`; `boot_refit` জন্য SE ওজন মডেলের সাথে)
-   বৈধতা-ভিত্তিক Δ (× 1-3 ) মার্চ মাসের প্রত্যাশিত আকার হিসাবে।
-   * এখানে 2  SE এর জন্য কোন প্রয়োজন নেই। ওজনগুলি ESS কেটে দেয়, এবং দুটি বৃহত্তম LB
-     লাভ শুধুমাত্র 1.9 SE (v5 → v6) এবং 1.7 SE (v3 → v4) তাদের পুনর্নির্মাণের SE.
-3. **উভয় মাসে পদচিহ্ন পরীক্ষা।** একটি পতাকা ≥ p95 মানে CV
-   সেই মাসে এক্সট্রাপলিং। LB এপ্রিলে,
-   যা তদন্ত করা যায় না, তা প্রাইভেট চিহ্নিত পরিবর্তন গ্রহণ করবেন না।
+**Verdict: the weighted CV should not become the Task 2 gate on its own.** It
+is a better magnitude predictor. It fixes the systematic under-prediction of
+transfer, and it reproduces the March levels (old-truth onset within 0.003-0.018,
+ongoing v5 within 0.009). It did not catch G3, which is the case that
+motivated it. Proposed gate for Task 2 candidates:
+1. **Existing plain-CV criteria.** Paired Δ > 0, off not worse beyond noise,
+   non-recurrent slices not worse.
+2. **Both weighted Δs positive.** The validation- and private-weighted point
+   estimates must both be > 0; reject if either is below −1 SE
+   (`shift_cv.score`; `boot_refit` for the SE with the weight model). Use the
+   validation-weighted Δ (× 1-3) as the expected March size.
+   * Do not demand 2 SE here. The weights cut the ESS, and the two largest LB
+     gains sit at only 1.9 SE (v5 → v6) and 1.7 SE (v3 → v4) of their refit SE.
+3. **Footprint check on both months.** A flag at ≥ p95 means the CV is
+   extrapolating on that month. Probe on the LB before adopting. For April,
+   which cannot be probed, do not adopt a change flagged on private.
 
-পেরিয়ে যেতে সক্ষমভাবে প্রয়োগ করা হলে, এই গেটটি সমস্ত 8 পরিবর্তনগুলিতে সঠিক কল করেঃ
-* **সন্ড ছাড়া গ্রহণ করুনঃ** v4 → v5 (দুইটিই অবস্থা) এবং G2 . তারা পাস 1-2
-  এবং চিহ্নিত নয়; LB +0.012 , +0.004 এবং +0.004 দিয়েছে ।
-* **জোন্ড ছাড়া প্রত্যাখ্যানঃ**  F2 (প্রমাণীকরণ-ওয়েটেড −0.0039 , প্রায় −2  SE )
-  এবং F1 (প্লিন Δ ≤0 ; ওজন ≈0 ; p98 ) । LB
-  −0.012 এবং −0.016 ।
-* **প্রথম প্রোব (ফ্লেগড):** v5 → v6, v3 → v4 এবং G3- দ্য ... LB তারপর গৃহীত হয়
-  প্রথম দুটি (+0.030 , +0.024 ) এবং প্রত্যাখ্যান G3 (−0.023 ), যেমন ঘটেছে। গেট
-  কোন দিকে একটি চিহ্নিত পরিবর্তন যায় তা বলতে পারে না; এটা বলে CV গ্যারান্টি দিতে পারে না
-  এটা.
+Applied retroactively, this gate makes the right call on all 8 changes:
+* **Adopt without a probe:** v4 → v5 (both conditions) and G2. They pass 1-2
+  and are not flagged; the LB gave +0.012, +0.004 and +0.004.
+* **Reject without a probe:** F2 (validation-weighted −0.0039, about −2 SE)
+  and F1 (plain Δ ≤ 0; weighted ≈ 0; additions flagged at p98). The LB gave
+  −0.012 and −0.016.
+* **Probe first (flagged):** v5 → v6, v3 → v4 and G3. The LB then adopts the
+  first two (+0.030, +0.024) and rejects G3 (−0.023), as happened. The gate
+  cannot say which way a flagged change goes; it says the CV cannot vouch for
+  it.
 
-### চলমান স্ট্যাকের জন্য হ্রাস
+### Mitigations for the ongoing stack
 
-নিম্নলিখিত নিয়মগুলি একইভাবে প্রয়োগ করা হয় CV OOF এবং
-validation/private প্রবণতা ( `OG_VARIANTS` ). Δ v5 ± SE এর বিপক্ষে ,
-পুরানো সত্য প্রথম এবং হাইব্রিড দ্বিতীয়; "ভ্যাল" বৈধতা-ওয়েটেড, "প্রাইভ"
-বেসরকারি ওজন. পাদচরণ কলাম প্রতি window cell তাদের
-%s = weighted CV draws; "flag" মানে একটি পরিসংখ্যান ≥ p95 .
+The rules below are applied identically to the CV OOF and to the
+validation/private probabilities (`OG_VARIANTS`). Δ is against v5 ± SE, with
+old truth first and hybrid second; "val" is validation-weighted, "priv" is
+private-weighted. The footprint columns give cells per window with their
+percentile against weighted CV draws; "flag" means a statistic ≥ p95.
 
-| বৈকল্পিক | সহজ | ভ্যাল | প্রাইভেট | বন্ধ | rec< 0.05 / D7_I10_W rec< 0.05 | val add / rem (পতাকা) | priv add / rem (পতাকা) | সম্পাদনা window val / priv |
+| variant | plain | val | priv | off | rec<0.05 / D7_I10_W rec<0.05 | val add / rem (flag) | priv add / rem (flag) | edited windows val / priv |
 |---|---|---|---|---:|---|---|---|---|
-| G3 (w 0.8) | +0.0065 / +0.0069 | +0.0100 / +0.0108 | +0.0081 / +0.0085 | +0.0125 | +0.031 / −0.020 | 2.35 (p96 ) / 1.12  **পতাকা** | 0.90 / 1.05 | 27 / 27 |
+| G3 (w 0.8) | +0.0065 / +0.0069 | +0.0100 / +0.0108 | +0.0081 / +0.0085 | +0.0125 | +0.031 / −0.020 | 2.35 (p96) / 1.12 **flag** | 0.90 / 1.05 | 27 / 27 |
 | w 0.5 | +0.0051 / +0.0052 | +0.0079 / +0.0085 | +0.0060 / +0.0062 | +0.0083 | +0.005 / −0.016 | 1.35 (p91) / 0.72 | 0.62 / 0.60 | 26 / 23 |
-| w 0.3 | +0.0034 / +0.0034 | +0.0057 / +0.0059 | +0.0041 / +0.0043 | +0.0035 | +0.005 / −0.002 | 0.88 (p91) / 0.50 | 0.45 / 0.47  **পতাকা** (সম্পাদনা পাতা 98 ) | 21 / 23 |
-| পর্যায় 2 শুধুমাত্র যদি ক্রমবর্ধমান হয় ( 35 min) | +0.0013 / +0.0013 | +0.0024 | +0.0014 | +0.0074 | −0.001 / −0.009 | 1.52 (p95 ) **পতাকা** | 0.28 / 0.23 | 15 / 7 |
-| ... এবং T এ ছোট না | +0.0012 / +0.0012 | +0.0021 | +0.0013 | +0.0074 | −0.002 / −0.009 | 1.50 (p97 ) **পতাকা** | 0.28 / 0.23 | 14 / 7 |
-| 2 মাত্র যদি পুনরাবৃত্তি ≥0.2 হয় | +0.0049 / +0.0052 | +0.0076 | +0.0057 | +0.0116 | 0 / 0 | 2.05 (p97 ) **পতাকা** | 0.72 / 0.97  **পতাকা** | 20 / 25 |
-| v5 সেট আকার বজায় রাখা (শুধুমাত্র পুনরায় স্থানান্তরিত) | +0.0004 / +0.0004 | +0.0007 | +0.0004 | +0.0058 | +0.004 / −0.001 | 0.62 / 0.62 | 0.50 / 0.50 | 15 / 15 |
-| শুধু কমানো: v5 ∩ stack | +0.0036 / +0.0029 | +0.0050 / +0.0042 | +0.0046 / +0.0039 | +0.0016 | +0.035 / −0.018 | 0 / 1.12 (p56) | 0 / 1.05 | 13 / 16 |
-| শুধু যোগ করা: v5 ∪ stack | +0.0030 / +0.0040 | +0.0051 / +0.0066 | +0.0036 / +0.0046 | +0.0108 | −0.002 / −0.001 | 2.35 (p96 ) **পতাকা** | 0.90 / 0 | 18 / 16 |
-| **শুধুমাত্র সংকুচিত, পুনরাবৃত্তি ≥0.05** | **+0.0029 ±0.0005 / +0.0023 ±0.0006** | **+0.0049 ±0.0010 / +0.0044 ±0.0010** | **+0.0035 ±0.0006 / +0.0029 ±0.0007** | +0.0016 | 0 / 0 | 0 / 0.88 (p42) | 0 / 1.05 (p71 ; সম্পাদনা p93 ) | 10 / 16 |
-| w 0.3 , পুনরাবৃত্তি ≥0.05 | +0.0033 ±0.0004 / +0.0033 | +0.0058 / +0.0061 | +0.0040 / +0.0041 | +0.0037 | 0 / 0 | 0.80 (p91) / 0.40 | 0.38 / 0.47  **পতাকা** (সম্পাদনা পাতা 99 ) | 16 / 22 |
+| w 0.3 | +0.0034 / +0.0034 | +0.0057 / +0.0059 | +0.0041 / +0.0043 | +0.0035 | +0.005 / −0.002 | 0.88 (p91) / 0.50 | 0.45 / 0.47 **flag** (edited p98) | 21 / 23 |
+| stage 2 only if the queue grew (35 min) | +0.0013 / +0.0013 | +0.0024 | +0.0014 | +0.0074 | −0.001 / −0.009 | 1.52 (p95) **flag** | 0.28 / 0.23 | 15 / 7 |
+| ... and not shrinking at T | +0.0012 / +0.0012 | +0.0021 | +0.0013 | +0.0074 | −0.002 / −0.009 | 1.50 (p97) **flag** | 0.28 / 0.23 | 14 / 7 |
+| stage 2 only if recurrence ≥ 0.2 | +0.0049 / +0.0052 | +0.0076 | +0.0057 | +0.0116 | 0 / 0 | 2.05 (p97) **flag** | 0.72 / 0.97 **flag** | 20 / 25 |
+| v5 set size kept (re-rank only) | +0.0004 / +0.0004 | +0.0007 | +0.0004 | +0.0058 | +0.004 / −0.001 | 0.62 / 0.62 | 0.50 / 0.50 | 15 / 15 |
+| shrink-only (v5 ∩ stack) | +0.0036 / +0.0029 | +0.0050 / +0.0042 | +0.0046 / +0.0039 | +0.0016 | +0.035 / −0.018 | 0 / 1.12 (p56) | 0 / 1.05 | 13 / 16 |
+| add-only (v5 ∪ stack) | +0.0030 / +0.0040 | +0.0051 / +0.0066 | +0.0036 / +0.0046 | +0.0108 | −0.002 / −0.001 | 2.35 (p96) **flag** | 0.90 / 0 | 18 / 16 |
+| **shrink-only, recurrence ≥ 0.05** | **+0.0029 ± 0.0005 / +0.0023 ± 0.0006** | **+0.0049 ± 0.0010 / +0.0044 ± 0.0010** | **+0.0035 ± 0.0006 / +0.0029 ± 0.0007** | +0.0016 | 0 / 0 | 0 / 0.88 (p42) | 0 / 1.05 (p71; edited p93) | 10 / 16 |
+| w 0.3, recurrence ≥ 0.05 | +0.0033 ± 0.0004 / +0.0033 | +0.0058 / +0.0061 | +0.0040 / +0.0041 | +0.0037 | 0 / 0 | 0.80 (p91) / 0.40 | 0.38 / 0.47 **flag** (edited p99) | 16 / 22 |
 
-হ্রাস লাইনগুলো কী দেখায়ঃ
-* **উল্লিখিত বার প্রায় সব কিছু পাস, G3 অন্তর্ভুক্ত.** প্রতিটি ভেরিয়েন্ট সঙ্গে
-  উভয় ভারী সিভিতে একটি প্রকৃত CV উপার্জন ইতিবাচক এবং সাধারণ ক্ষেত্রে খারাপ নয়।
-  G3 নিজেই পাস, তাই বার একা LB নিরাপত্তা সম্পর্কে কিছু বলে না
-  স্ট্যাক।
-* **প্রস্তাবিত বৃদ্ধি গেট উপার্জন অধিকাংশ অপসারণ করে।** স্ট্যাক উপার্জন
-  মার্চ মাসে এটি এখনও সেল যোগ করে
-  অস্বাভাবিকভাবে।
-* ** শুধুমাত্র একটি ভেরিয়েন্টই উল্লিখিত বার এবং উভয় ক্ষেত্রে পাদচরণ পরীক্ষা পাস করে
-  মাসঃ শুধুমাত্র পুনরাবৃত্তি সহ 0.05.**
-  * 2 মাত্র v5 cellের উপর ভেটো করতে পারে, এবং কখনোই 16 পর্যবেক্ষণ বিভাগে কাজ করে না
-    স্লিস (অপুনরাবৃত্তি window, যা মার্চ পাঁচটি অন্তর্ভুক্ত D7_I10_W
-    চলমান window) ।
-  * λ = 10 এর সাথে ব্যক্তিগত ওজনঃ +0.0043 / +0.0039 ।
-  * SE পুনর্নির্মাণের সাথেঃ 0.0012 (নির্ধারণ) ।
-  * 40 -window মার্চ পূর্বাভাসঃ +0.0050 ±0.0062 .
-  * যদি প্রতিটি সম্পাদনা ভুল হয়, তাহলে ক্ষতি হবে −0.017 বৈধতা এবং −0.021
-    ব্যক্তিগতভাবে।
+What the mitigation rows show:
+* **The stated bar passes almost everything, G3 included.** Every variant with
+  a real CV gain is positive under both weighted CVs and not worse on plain.
+  G3 itself passes, so the bar alone says nothing about LB safety for the
+  stack.
+* **The suggested growth gate removes most of the gain.** The stack gains
+  mostly on non-growing and dissipating queues. On March it still adds cells
+  atypically.
+* **Only one variant passes the stated bar and the footprint check on both
+  months: shrink-only with recurrence ≥ 0.05.**
+  * Stage 2 may only veto v5 cells, and never acts in the section 16 watch
+    slice (non-recurrent windows, which include all five March D7_I10_W
+    ongoing windows).
+  * With private weights at λ = 10: +0.0043 / +0.0039.
+  * SE with refit: 0.0012 (validation).
+  * 40-window March prediction: +0.0050 ± 0.0062.
+  * If every edit were wrong, the loss would be −0.017 on validation and −0.021
+    on private.
 
-### প্রার্থী `lgb_v10_og_shrink08_rec05.csv`
+### Candidate `lgb_v10_og_shrink08_rec05.csv`
 
-`/home/user/work/t2/lgb_v10_og_shrink08_rec05.csv` হল `lgb_v8_seeds9_stack03.csv`
-শুধুমাত্র চলমান সারিগুলোই প্রতিস্থাপন করা হবে।
-* **নিয়ম.** windowগুলোতে যার পুনরাবৃত্তি ≥0.05 , সেটটি v5 এর শীর্ষ-m সেট
-  0.8 × স্টেজ 2 +0.2 × v5 এর উপরের-m সেট দিয়ে ছেদ করা হয়েছে , সেকশনটি ব্যবহার করে
-  16 `dyn` অন্য কোথাও এটা v5.
-* **সম্ভাব্যতা**  `probs_v10_og_shrink08_rec05_ongoing.parquet` ( probs_v9 )
-  লেআউট প্লাস `stage2` পতাকা) ।
-* **  `submit.check`  **  174,000 সারি, 0 অনুপস্থিত, 0 অতিরিক্ত, বাইনারি, ইতিবাচক হার
+`/home/user/work/t2/lgb_v10_og_shrink08_rec05.csv` is `lgb_v8_seeds9_stack03.csv`
+with only the ongoing rows replaced.
+* **Rule.** In windows whose recurrence is ≥ 0.05, the set is v5's top-m set
+  intersected with the top-m set of 0.8 × stage 2 + 0.2 × v5, using the section
+  16 `dyn` models. Elsewhere it is v5.
+* **Probabilities.** `probs_v10_og_shrink08_rec05_ongoing.parquet` (probs_v9
+  layout plus a `stage2` flag).
+* **`submit.check`.** 174,000 rows, 0 missing, 0 extra, binary, positive rate
   0.0601.
-* **অনসেট লাইনগুলি বাইট-সমান।** শুধুমাত্র 77 চলমান সারিগুলি আলাদা, সমস্ত
-  অপসারণ এবং তাদের সব G3 অপসারণ (তার 87 এর 77 ) ।
-* **বৈধতা।**  10 এর 40 window পরিবর্তন করা হয়েছে, 35 cell সরানো হয়েছে
-  ( 5,365 → 5,330 ). গড় window চুক্তি 0.983 ; সর্বনিম্ন, 0.667 , হল
-  D12_I5_N  009  9 → 6 cellগুলিতে D7_I405_N  010  15 cell হারাবে।
-* **ব্যক্তিগত.**  16  40 window পরিবর্তন, 42 cell অপসারণ ( 4,841 → 4,799 ).
-  গড় চুক্তি 0.979 ; সর্বনিম্ন 0.50 , D7_I10_W ব্যক্তিগত 010 এ
-  14 → 7 cell।
+* **Onset lines are byte-identical.** Only 77 ongoing rows differ, all
+  removals, and all of them G3 removals (77 of its 87).
+* **Validation.** 10 of 40 windows changed, 35 cells removed
+  (5,365 → 5,330). Mean window agreement 0.983; the minimum, 0.667, is
+  D12_I5_N 009 at 9 → 6 cells. D7_I405_N 010 loses 15 cells.
+* **Private.** 16 of 40 windows changed, 42 cells removed (4,841 → 4,799).
+  Mean agreement 0.979; the minimum, 0.50, is D7_I10_W private 010 at
+  14 → 7 cells.
 
-** বিভাগ 16 মূল্যায়নকারী ( `OngoingEval.compare` , জোড়া, বনাম v5 ). **
-* পুরানো সত্যঃ +0.0029 ±0.0005 , P(Δ ≤0 ) = 0 , 552 window ভাল / 391 খারাপ।
-* হাইব্রিড সত্যঃ +0.0023 ±0.0006 .
-* অফিসিয়াল train-এর window (বন্ধ): +0.0016 পুরানো, +0.0009 হাইব্রিড।
-* রিসোর্স 0.05: নির্মাণের কারণে অপরিবর্তিত। 0.2: +0.0067 ±0.0029 পুরনো,
-  +0.0057 হাইব্রিড।
+**Section 16 evaluator (`OngoingEval.compare`, paired, vs v5).**
+* Old truth: +0.0029 ± 0.0005, P(Δ ≤ 0) = 0, 552 windows better / 391 worse.
+* Hybrid truth: +0.0023 ± 0.0006.
+* Official train windows (off): +0.0016 old, +0.0009 hybrid.
+* rec < 0.05: unchanged by construction. rec < 0.2: +0.0067 ± 0.0029 old,
+  +0.0057 hybrid.
 
-তাই এটি প্রস্তাবিত গেটের তিনটি মানদণ্ডও পাস করে,
-এবং কেবল গেটই এটিকে গ্রহণ করবে কোন সন্ডা ছাড়াই।
+It therefore passes all three criteria of the proposed gate without a flag,
+and the gate alone would adopt it without a probe.
 
-**প্রস্তাবনা.** এটিকে একটি সন্ড হিসাবে বিবেচনা করুন, গ্রহণের নয়। কারণটি হল
-এই মডেল পরিবারের জন্য নির্দিষ্ট, গেট নয়।
-* **CV প্রমাণ অনুকূল।** ওজন CV এবং পদচিহ্ন সব চেক
-  এটা পছন্দ করুন, এবং এপ্রিলের window মার্চের চেয়ে অনেক বেশি CV মত দেখায়
-  (বিভাগকারী AUC  0.55 ).
-* **কিন্তু এর সম্পাদনাগুলি G3 এর একটি উপসংকলন।** যদি G3 এর মার্চ সম্পাদনা মান প্রযোজ্য হয়
-  এই অপসারণের ক্ষেত্রে মার্চ ফলাফল প্রায় −0.007 (প্রায় −0.001 )
-  ওজন করা CV বলে +0.005 (+0.0008 মোট) ।
-* **একটি জোন্ড পড়ার.** একটি মার্চ চলমান Δ নিচে প্রায় −0.004 (the 5 th
-  ওজনযুক্ত ভবিষ্যদ্বাণীর শতাংশ) মানে G3 ব্যর্থতা
-  অপসারণ; তারপর চূড়ান্ত জমা দেওয়ার জন্য স্ট্যাক পরিবারকে ফেলে দেওয়া উচিত।
+**Recommendation.** Treat it as a probe, not an adoption. The reason is
+specific to this model family, not the gate.
+* **CV evidence is favourable.** Weighted CV and the footprint checks all
+  favour it, and April's windows look much more like CV than March's
+  (classifier AUC 0.55).
+* **But its edits are a subset of G3's.** If G3's March edit quality applies
+  uniformly to these removals, the March result is about −0.007 (about −0.001
+  total). The weighted CV says +0.005 (+0.0008 total).
+* **Reading a probe.** A March ongoing Δ below about −0.004 (the 5th
+  percentile of the weighted prediction) means the G3 failure extends to the
+  removals; the stack family should then be dropped for the final submission.
 
-### পুনরায় প্রজনন
+### Reproduce
 
 ```
 export PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2 T2_WORK=/home/user/work/t2 T2_FEAT=/home/user/work/t2/feat_v3
@@ -1675,164 +1673,164 @@ python -m trafficflow.t2.shift_cv mitigate    # mitigation_table.csv (~2 min)
 python -m trafficflow.t2.shift_cv build "w0.8 shrink-only rec05" og_shrink08_rec05
 ```
 
-প্রতিটি রান 1  GB  RSS এবং 2 থ্রেডের অধীনে থাকে। টেবিলগুলি
+Every run stays under 1 GB RSS and 2 threads. Tables are in
 `/home/user/work/t2shift/`.
 
-## 18 . কোভারেট- শিফট- অ্যাডাপ্ট করা শুরু মডেল ( `onset_iw.py` ): গৃহীত হয়নি
+## 18. Covariate-shift-adapted onset models (`onset_iw.py`): not adopted
 
-**লক্ষ্য.** প্রতিটি লক্ষ্যের দিকে গুরুত্বের ওজন দিয়ে v8 সূচনা রেসিপি প্রশিক্ষণ দিন
-মাস, 17 বিভাগের ওজন মডেল থেকে নেওয়া। বৈধতা-ভিত্তিক মডেলগুলি
-বৈধতা সারি এবং ব্যক্তিগত-ওয়েটেড মডেল
-সারি।
-* কারণঃ মার্চ মাসের শুরুতে windowগুলো CV windowর চেয়ে কঠিন (স্তেজ- 1 )
-  প্যানেলের মধ্যে −0.97  SD ), এবং বৈধতা-ওয়েটেড CV
-  মার্চ শুরু স্তর ভাল।
-* ডেলিভারি একক ফ্যাক্টর প্রার্থী ছিল
-  `lgb_v8_seeds9_stack03.csv` যদি তা টাস্ক 2 গেট পাস করে।
+**Goal.** Train the v8 onset recipe with importance weights toward each target
+month, taken from the section 17 weight model. The validation-weighted models
+would predict the validation rows and the private-weighted models the private
+rows.
+* The motivation: March onset windows are harder than the CV windows (stage-1
+  surrogate −0.97 SD within panel), and the validation-weighted CV predicts the
+  March onset levels well.
+* The deliverable was a single-factor candidate on top of
+  `lgb_v8_seeds9_stack03.csv` if it passed the Task 2 gate.
 
-** ফলাফলঃ ওজন শুরু মডেল খারাপ করে তোলে, তাই কোন
-প্রার্থী. ** সস্তা একক বীজ পরীক্ষা বীজ ছাড়াও, প্রতিটি ওজন অধীনে হারিয়ে
-শব্দ, এবং একটি শক্তিশালী ওজন আরো হারিয়ে।
-তাই প্ল্যানের স্টপ নিয়ম অনুযায়ী চলবে না।
+**Result: the weighting makes the onset model worse, so there is no
+candidate.** The cheap single-seed test lost under every weighting, beyond seed
+noise, and a stronger weighting lost more. The full recipe and the gate were
+therefore not run, per the plan's stop rule.
 
-### প্রশিক্ষণ windowের জন্য গুরুত্বের ওজন
+### Importance weights for the training windows
 
-**বৈশিষ্ট্য.**  `shift_cv` সূচনা window বৈশিষ্ট্য (ডেটা <= T, v6  OOF
-প্রতি শুরু প্রশিক্ষণের জন্য একই ফাংশন দিয়ে গণনা করা হয়
-windowঃ 2,462 cand +2,081 sim +40 off = 4,583 . সিম এবং অফ সারি সমান
-`shift_cv` এর ক্যাশে টেবিল ঠিক আছে.
+**Features.** The `shift_cv` onset window features (data <= T, v6 OOF
+confidence) are computed with the same functions for every onset training
+window: 2,462 cand + 2,081 sim + 40 off = 4,583. The sim and off rows equal
+`shift_cv`'s cached table exactly.
 
-**শ্রেণীবিভাজনকারী।**  17 বিভাগের ফিট করা শ্রেণীবিভাজনকারী (পূর্ণ তথ্য সহগ,
-λ CV দ্বারা নির্বাচিতঃ বৈধতা λ 10 , AUC  0.70 ; ব্যক্তিগত λ 30 , AUC  0.54 . বৈশিষ্ট্য
-সিম windowের গড় এবং SD এর সাথে মানক করা হয়। সিম windowের উপর তার লগ
-0.995 (নিয়ন্ত্রণ) এবং 0.980 (ব্যক্তিগত) এর সাথে `shift_cv` এর সম্ভাবনা সম্পর্কিত
-ক্রস ফিট লগ odds.
+**Classifier.** The fitted classifier of section 17 (full-data coefficients,
+λ chosen by CV): validation λ 10, AUC 0.70; private λ 30, AUC 0.54. Features
+are standardised with the sim windows' mean and SD. On the sim windows its log
+odds correlate 0.995 (validation) and 0.980 (private) with `shift_cv`'s
+cross-fitted log odds.
 
-**ওজন.**  `w = exp(α · x·β)` , α = 0.5 দিয়ে tempered ।
-প্রতিটি প্যানেলের মধ্যে সমস্ত প্রশিক্ষণ windowগুলোর মধ্যে 1 এর মধ্যম, 10 × প্যানেলের উপর সীমানা
-গড় করে আবার normalize করা হয়েছে (`clip_normalise`)। প্রতিটি window-এর প্রতিটি row, অর্থাৎ T+30 × প্রতিটি
-লিঙ্ক) windowর ওজন বহন করে, তাই প্রতিটি প্যানেল তার unweighted অংশ বজায় রাখে
-প্রশিক্ষণের হার।
+**Weights.** `w = exp(α · x·β)`, tempered with α = 0.5. They are normalised to
+mean 1 within each panel over all training windows, capped at 10 × the panel
+mean, and renormalised (`clip_normalise`). Every row of a window (T+30 × every
+link) carries the window's weight, so each panel keeps its unweighted share of
+the training loss.
 
-ESS নীচে কিশ এর, প্যানেল উপর যোগ করা হয়েছে. ভারসাম্য কলাম প্যানেলের ভিতরে হয়
-লক্ষ্য মাসের তুলনায় প্রশিক্ষণ মিশ্রণের SMD (target − training, in SD
-সিম windowগুলোর মধ্যে), ওজনহীন → ওজনযুক্ত।
+ESS below is Kish's, summed over panels. The balance columns are within-panel
+SMDs of the training mix against the target month (target − training, in SD
+of the sim windows), unweighted → weighted.
 
-| লক্ষ্য | α | ESS / n (4,583) | ক্যান / সিম / বন্ধ | ক্ষুদ্রতম প্যানেল ESS | কাটা | w max / q99 / q01 | SMD sur | SMD orq7 | SMD আইপিএস |
+| target | α | ESS / n (4,583) | cand / sim / off | smallest panel ESS | clipped | w max / q99 / q01 | SMD sur | SMD orq7 | SMD lpsum |
 |---|---:|---:|---|---|---:|---|---|---|---|
-| বৈধতা | **0.5** | **0.81** | 0.77 / 0.88 / 0.93 | D7_I405_N 568 / 773 | 0 | 8.7 / 3.1 / 0.44 | −0.95 → −0.62 | −0.35 → −0.23 | −0.75 → −0.57 |
-| বৈধতা | 1 | 0.41 | 0.37 / 0.54 / 0.80 | D7_I10_E 178 / 569 | 0.7% | 10 / 7.8 / 0.16 | −0.95 → −0.22 | −0.35 → −0.13 | −0.75 → −0.32 |
-| ব্যক্তিগত | **0.5** | **0.97** | 0.97 / 0.97 / 0.97 | D7_I10_W 263 / 273 | 0 | 1.7 / 1.5 / 0.52 | −0.36 → −0.27 | −0.40 → −0.28 | −0.02 → +0.01 |
-| ব্যক্তিগত | 1 | 0.89 | 0.89 / 0.90 / 0.92 | D7_I10_W 229 / 273 | 0 | 2.7 / 2.0 / 0.26 | −0.36 → −0.17 | −0.40 → −0.17 | −0.02 → +0.04 |
+| validation | **0.5** | **0.81** | 0.77 / 0.88 / 0.93 | D7_I405_N 568 / 773 | 0 | 8.7 / 3.1 / 0.44 | −0.95 → −0.62 | −0.35 → −0.23 | −0.75 → −0.57 |
+| validation | 1 | 0.41 | 0.37 / 0.54 / 0.80 | D7_I10_E 178 / 569 | 0.7% | 10 / 7.8 / 0.16 | −0.95 → −0.22 | −0.35 → −0.13 | −0.75 → −0.32 |
+| private | **0.5** | **0.97** | 0.97 / 0.97 / 0.97 | D7_I10_W 263 / 273 | 0 | 1.7 / 1.5 / 0.52 | −0.36 → −0.27 | −0.40 → −0.28 | −0.02 → +0.01 |
+| private | 1 | 0.89 | 0.89 / 0.90 / 0.92 | D7_I10_W 229 / 273 | 0 | 2.7 / 2.0 / 0.26 | −0.36 → −0.17 | −0.40 → −0.17 | −0.02 → +0.04 |
 
-* α = 0.5 এ বৈধতা ওজন প্রশিক্ষণ মিশ্রণ প্রায় এক তৃতীয়াংশ
-  মার্চ মাসের দিকে, আত্মবিশ্বাসের সারোগেট।
-* ব্যক্তিগত ওজন প্রায় অভিন্ন, কারণ এপ্রিল শুধুমাত্র সামান্য স্থানান্তরিত হয়
-  (বিভাগ 17 ) ।
-* ক্যান্ড windowগুলি সিম windowের চেয়ে কিছুটা মার্চ-এর মতো (প্রায়
-  বৈধতা ওজন 1.035 বনাম 0.958 ).
+* At α = 0.5 the validation weights move the training mix about a third of
+  the way toward March on the confidence surrogate.
+* The private weights are nearly uniform, because April is only mildly shifted
+  (section 17).
+* The cand windows are slightly more March-like than the sim windows (mean
+  validation weight 1.035 vs 0.958).
 
-### সস্তা পরীক্ষাঃ এক পর্যায়ে 1 উপাদান
+### Cheap test: one stage-1 component
 
-**সেটআপ.**  on_v3 , বীজ 0 , p1 , অবস্থান পূর্ববর্তী, হাইব্রিড লেবেল, 4 সপ্তাহের fold, OOF
-সমস্ত সূচনা সারিগুলিতে Δ হল unweighted seed- 0  OOF (± paired SE ) এর বিরুদ্ধে
-2,081 পুনরায় আঁকা সিম window. "ভ্যাল" এবং "প্রাইভ" হল বৈধতা- এবং
-ব্যক্তিগত ওজন CV ( `shift_cv.score` ). শূন্য সারিগুলি ওজনহীন বীজগুলির তুলনা করে
-1-5 একই মেট্রিকের সাথে 0 বীজ।
+**Setup.** on_v3, seed 0, p1, location prior, hybrid labels, 4 week folds, OOF
+on all onset rows. Δ is against the unweighted seed-0 OOF (± paired SE) on the
+2,081 re-drawn sim windows. "val" and "priv" are the validation- and
+private-weighted CV (`shift_cv.score`). The null rows compare unweighted seeds
+1-5 with seed 0 on the same metrics.
 
-| মডেল | সাধারণ হাইব্রিড | পুরনো | ভ্যাল হাইব্রিড / পুরানো | প্রাইভ হাইব্রিড / পুরানো | rec< 0.05 / rec< 0.2 (হাইব্রিড) | হাইব্রিড নয় | ভালো / খারাপ |
+| model | plain hybrid | plain old | val hybrid / old | priv hybrid / old | rec<0.05 / rec<0.2 (hybrid) | off hybrid | better / worse |
 |---|---|---|---|---|---|---:|---|
-| বৈধতা-ওয়েটেড, α 0.5 | −0.0033 ±0.0019 | −0.0029 ±0.0020 | **−0.0054 ±0.0043** / −0.0047 | −0.0041 / −0.0035 | −0.011 / −0.003 | −0.003 | 62 / 81 |
-| ব্যক্তিগত ওজন, α 0.5 | −0.0017 ±0.0015 | −0.0013 ±0.0015 | −0.0051 / −0.0069 | **−0.0027 ±0.0019** / −0.0028 | −0.018 / −0.006 | −0.004 | 63 / 72 |
-| বৈধতা-ভিত্তিক, α 1 (ডোজ চেক) | −0.0047 ±0.0020 | −0.0047 ±0.0020 | **−0.0138 ±0.0055** / −0.0139 | −0.0064 / −0.0065 | −0.030 / −0.008 | −0.011 | 61 / 91 |
-| null: ওজনহীন বীজ 1-5 , পরিসীমা | −0.0017 … +0.0007 | −0.0012 … +0.0013 | −0.0038 … −0.0011 / −0.0044 … +0.0007 | −0.0019 … −0.0003 / −0.0014 … +0.0010 | −0.019 … −0.003 / −0.005 … +0.001 | −0.012 … −0.007 | |
+| validation-weighted, α 0.5 | −0.0033 ± 0.0019 | −0.0029 ± 0.0020 | **−0.0054 ± 0.0043** / −0.0047 | −0.0041 / −0.0035 | −0.011 / −0.003 | −0.003 | 62 / 81 |
+| private-weighted, α 0.5 | −0.0017 ± 0.0015 | −0.0013 ± 0.0015 | −0.0051 / −0.0069 | **−0.0027 ± 0.0019** / −0.0028 | −0.018 / −0.006 | −0.004 | 63 / 72 |
+| validation-weighted, α 1 (dose check) | −0.0047 ± 0.0020 | −0.0047 ± 0.0020 | **−0.0138 ± 0.0055** / −0.0139 | −0.0064 / −0.0065 | −0.030 / −0.008 | −0.011 | 61 / 91 |
+| null: unweighted seeds 1-5, range | −0.0017 … +0.0007 | −0.0012 … +0.0013 | −0.0038 … −0.0011 / −0.0044 … +0.0007 | −0.0019 … −0.0003 / −0.0014 … +0.0010 | −0.019 … −0.003 / −0.005 … +0.001 | −0.012 … −0.007 | |
 | null SD | 0.0008 | 0.0011 | 0.0012 / 0.0023 | 0.0007 / 0.0009 | 0.007 / 0.002 | 0.002 | |
 
-**শূন্য SDs মধ্যে ছয় unweighted বীজ গড় বিরুদ্ধে.** বীজ 0 ঘটে
-উভয় ভারী CVs মধ্যে সেরা বীজ হতে, তাই বীজ গড় হয় fairer
-বেস লাইন।
+**Against the mean of the six unweighted seeds, in null SDs.** Seed 0 happens
+to be the best seed on both weighted CVs, so the seed mean is the fairer
+baseline.
 
-| মডেল | সাধারণ হাইব্রিড | পুরনো | ভ্যাল হাইব্রিড | প্রাইভ হাইব্রিড / পুরানো |
+| model | plain hybrid | plain old | val hybrid | priv hybrid / old |
 |---|---|---|---|---|
-| বৈধতা-ওয়েটেড, α 0.5 | −0.0028 (−3.4 SD) | −0.0031 (−2.9) | −0.0033 (−2.9) | −0.0029 (−4.3) |
-| ব্যক্তিগত ওজন, α 0.5 | −0.0012 (−1.5) | −0.0014 (−1.4) | | −0.0015 (−2.2) / −0.0024 (−2.6) |
-| বৈধতা-ওয়েটেড, α 1 | −0.0042 (−5.1) | −0.0049 (−4.6) | −0.0117 (−10) | |
+| validation-weighted, α 0.5 | −0.0028 (−3.4 SD) | −0.0031 (−2.9) | −0.0033 (−2.9) | −0.0029 (−4.3) |
+| private-weighted, α 0.5 | −0.0012 (−1.5) | −0.0014 (−1.4) | | −0.0015 (−2.2) / −0.0024 (−2.6) |
+| validation-weighted, α 1 | −0.0042 (−5.1) | −0.0049 (−4.6) | −0.0117 (−10) | |
 
-**সিদ্ধান্ত (পূর্ব নির্ধারিত স্টপ নিয়ম)** পরীক্ষাটি শুধুমাত্র যদি সব
-তিনটি রাখা হয়েছেঃ
-* বৈধতা মডেলের বৈধতা-ওজনের হাইব্রিড Δ > max(null SD , 0.001 );
-* তার সাধারণ হাইব্রিড Δ ≥ −0.002 ;
-* ব্যক্তিগত মডেলটি ব্যক্তিগত ওজন-এর নিচে নেই −1 null SD ।
+**Decision (pre-specified stop rule).** The test was "promising" only if all
+three held:
+* the validation model's validation-weighted hybrid Δ > max(null SD, 0.001);
+* its plain hybrid Δ ≥ −0.002;
+* the private model is not below −1 null SD on the private weighting.
 
-দুই মাস ব্যর্থ হয়। α = 1 ডোজ চেক প্রতিটি মেট্রিকের উপর খারাপ হয়, তাই ক্ষতি
-ওজন শক্তির সাথে সাথে বৃদ্ধি পায়। সম্পূর্ণ রেসিপি (নবটি বীজ + ওজন স্তর 2
-প্রতি মাসে), পদচিহ্ন পরীক্ষা এবং প্রার্থী বিল্ডিং
-দৌড়াও।
+Both months fail. The α = 1 dose check is worse on every metric, so the loss
+grows with the weight strength. The full recipe (nine seeds + weighted stage 2
+per month), the footprint check and the candidate build were therefore not
+run.
 
-### কোথায় হার আসে
+### Where the loss comes from
 
-সিম windowের সাধারণ মধ্যম Δ হাইব্রিড v6 পর্যায়-1 সর্বোচ্চ p, মধ্যম
-ছয়টি ওজনহীন বীজের মধ্যেঃ
+Plain mean Δ hybrid of the sim windows by v6 stage-1 max p, against the mean
+of the six unweighted seeds:
 
-| v6 সর্বোচ্চ p | window | গড় বৈধতা ওজন (মূল্যায়ন) | বীজ-মধ্যম আয়ু | বৈধতা-ওয়েটেড α 0.5 | ব্যক্তিগত ওজন α 0.5 | শূন্য পরিসীমা ( 6 বীজ) |
+| v6 max p | windows | mean validation weight (evaluation) | seed-mean IoU | validation-weighted α 0.5 | private-weighted α 0.5 | null range (6 seeds) |
 |---|---:|---:|---:|---:|---:|---|
-| ≤0.5 | 64 | 4.10 | 0.249 | +0.001 | +0.004 | −0.016 … +0.031 |
+| ≤ 0.5 | 64 | 4.10 | 0.249 | +0.001 | +0.004 | −0.016 … +0.031 |
 | 0.5-0.8 | 64 | 2.04 | 0.527 | +0.010 | +0.004 | −0.012 … +0.009 |
 | 0.8-0.95 | 195 | 1.37 | 0.746 | −0.001 | −0.000 | −0.008 … +0.007 |
 | > 0.95 | 1,758 | 0.81 | 0.914 | **−0.002** | **−0.002** | −0.0006 … +0.0004 |
 
-* **নিম্ন আত্মবিশ্বাসী window (যেগুলো ওজন লক্ষ্য)** ওজনযুক্ত মডেল
-  সেখানে বীজ শব্দের মধ্যে থাকে, 0.5-0.8 বালতিটি প্রান্তে থাকে।
-* **আত্মবিশ্বাসী window.** এটি আত্মবিশ্বাসী সংখ্যাগরিষ্ঠতা উপর 0.002 হারায়,
-  এই windowগুলো এখনও বৈধতা-ওজনের প্রায় 68 % বহন করে
-  গণ।
-* **সম্ভবত কারণ.** কম আত্মবিশ্বাসী windowগুলোতে শুরু ফলাফলগুলি প্রায়
-  T এ অনির্দেশ্য; বিভাগ 13 প্রথম স্লট প্রস্থের মধ্যে সেট করা হয়েছে
-  5তাদের ওজন বাড়িয়ে দেওয়া, তাদের কোন কিছু শেখায় না যা স্থানান্তর করে।
-  ক্ষমতা এবং কার্যকর নমুনা আকার ( ESS  0.81 at α 0.5 , 0.41 at α 1 )
-  শব্দ।
-* **কেন তত্ত্বগতভাবে কোন লাভের আশা করা হয়নি।** কোভারিয়েট-শফ্ট ওজন একটি
-  একটি নমনীয় মডেল যা ইতিমধ্যে শিফট পরিবর্তন দেখতে
-  কোন পক্ষপাতমূলক হ্রাস না করার জন্য বৈচিত্র্য প্রদান করে।
-* **সিদ্ধান্ত.**  CV মূল্যায়ন এক মাসের দিকে ওজন করা (বিভাগ 17 )
-  তবে, এই প্রশিক্ষণের শুরুতে ওজন করা কার্যকর নয়।
+* **Low-confidence windows (the ones the weights target).** The weighted model
+  stays within seed noise there; the 0.5-0.8 bucket is at the edge.
+* **Confident windows.** It loses 0.002 on the confident majority, outside the
+  seed range. These windows still carry about 68% of the validation-weighted
+  mass.
+* **Likely reason.** Onset outcomes in low-confidence windows are close to
+  unpredictable at T; section 13 found the first-slot extent is set inside the
+  5-minute slot. Up-weighting them teaches nothing that transfers. It spends
+  capacity and effective sample size (ESS 0.81 at α 0.5, 0.41 at α 1) on
+  noise.
+* **Why no gain was expected in theory.** Covariate-shift weighting corrects a
+  misspecified model. A flexible model that already sees the shift covariates
+  pays variance for no bias reduction.
+* **Conclusion.** Weighting the CV evaluation toward a month (section 17)
+  remains useful; weighting the onset training does not.
 
-### টীকা
+### Notes
 
-* **ওজনগুলিতে দ্বিতীয়-অধিকার নির্ভরতা।** ওজনগুলি v6  OOF ব্যবহার করে
-  আত্মবিশ্বাস, যা অন্যান্য fold উপর প্রশিক্ষিত মডেল থেকে আসে।
-  একই পথ OOF এটা কোন লেবেল window নিজেই বহন করে না, এবং এটা
-  শুধুমাত্র ইতিবাচক ফলাফলের জন্য।
-* **যোগ্যতা.** অফিসিয়াল স্কোরার শুধুমাত্র কক্ষের উপর IoU গণনা করে
-  `is_score_eligible = True` ( `score_task2.score_window` ), যখন আমাদের সত্য এবং
-  CV সমস্ত cell গণনা করে। এটি বিভাগের প্রতিটি শুরু সংখ্যা প্রযোজ্য 13-18
-  একটি যোগ্যতা সচেতন decoder পৃথকভাবে মূল্যায়ন করা হচ্ছে, তাই
-  এখানে ডিকোডিং পরিবর্তনহীন ছিল (উপরে-এম, পক্ষপাত 0 ).
+* **Second-order dependence in the weights.** The weights use the v6 OOF
+  confidence, which comes from models trained on the other folds. This is the
+  same path as OOF stacking. It carries no labels of the window itself, and it
+  only matters for a positive result.
+* **Eligibility.** The official scorer computes IoU only over cells with
+  `is_score_eligible = True` (`score_task2.score_window`), while our truth and
+  CV count all cells. This applies to every onset number in sections 13-18
+  alike. An eligibility-aware decoder is being evaluated separately, so
+  decoding was left unchanged here (top-m, bias 0).
 
-### কোড
+### Code
 
-* **  `onset_iw.py` (নতুন) । ** এতে রয়েছেঃ
-  * প্রশিক্ষণ windowর বৈশিষ্ট্য, ওজন এবং ESS / ভারসাম্য প্রতিবেদন;
-  * ওজন OOF , সস্তা পরীক্ষা এবং স্টপ নিয়ম;
-  * সম্পূর্ণ রেসিপি পথ, যা চালানো হয়নিঃ ওজনযুক্ত পর্যায় 2 , টেবিল,
-    পদচিহ্ন, গেট, এবং প্রার্থী লেখক যে চলমান সারি রাখে
-    বাইট-একক।
+* **`onset_iw.py` (new).** It contains:
+  * training-window features, weights and the ESS / balance report;
+  * weighted OOF, the cheap test and the stop rule;
+  * the full-recipe path, which was not run: weighted stage 2, table,
+    footprint, gate, and the candidate writer that keeps ongoing rows
+    byte-identical.
 
-  অপ্রচলিত পথের স্ব-পরীক্ষা, যা প্রশিক্ষণ ছাড়াই চলছিলঃ
-  * প্রার্থী লেখকের মাধ্যমে v8 সম্ভাবনার ডিকোড পুনরায় প্রজনন করে
-    `lgb_v8_seeds9_stack03.csv` বাইট বাইট;
-  * v8 এর বিরুদ্ধে নিজেকে শূন্য পদচিহ্ন সম্পাদনা দেয়।
-* **বিদ্যমান ফাংশনগুলির উপর ঐচ্ছিক যুক্তি, ডিফল্ট পরিবর্তন হয়নি।**
+  Self-tests of the unused path, which ran without training:
+  * decoding the v8 probabilities through the candidate writer reproduces
+    `lgb_v8_seeds9_stack03.csv` byte for byte;
+  * v8 against itself gives zero footprint edits.
+* **Optional arguments on existing functions, defaults unchanged.**
   `cv.oof(..., sample_weight=None)`,
-  `robust_pipeline.train_variant(..., gw_weight=None)` এবং
-  `stack.cv(..., weight=None)` . ডিফল্ট পাথগুলি বিট-টু-বিট একইঃ
-  * পুনরায় চালানো ওজনহীন on_v3 বীজ 0 v6  OOF ফাইলটি পুনরায় প্রজনন করে
-    সর্বোচ্চ |Δp| = 0;
-  * 2 এর চারটি OOF ফাইলের মধ্যে v6 এর উপর বীজ 0 প্রজনন
-    `stack8_oof_v6base.parquet` সর্বোচ্চ |Δp2| = 0 ( 1 থ্রেড);
-  * ডিফল্ট `train_variant` আগের মত একই ডেটাসেট আর্গুমেন্ট পাস করে।
+  `robust_pipeline.train_variant(..., gw_weight=None)` and
+  `stack.cv(..., weight=None)`. The default paths are bit-for-bit identical:
+  * re-running unweighted on_v3 seed 0 reproduces the v6 OOF file with
+    max |Δp| = 0;
+  * stage 2 with seed 0 on v6's four OOF files reproduces
+    `stack8_oof_v6base.parquet` with max |Δp2| = 0 (1 thread);
+  * the default `train_variant` passes the same Dataset arguments as before.
 
-### পুনরায় প্রজনন
+### Reproduce
 
 ```
 export PYTHONPATH=/home/user/knee OMP_NUM_THREADS=2 T2_THREADS=2 T2_WORK=/home/user/work/t2h T2_FEAT=/home/user/work/t2h/feat
@@ -1843,72 +1841,72 @@ python -m trafficflow.t2.onset_iw cv on_v3 0 validation --alpha 1.0   # dose che
 python -m trafficflow.t2.onset_iw cheap                               # cheap_table.csv + the stop-rule decision
 ```
 
-**যেখানে জিনিস আছে.**
-* আউটপুট এবং লগঃ `/home/user/work/t2iw/` (লগ ইন `logs/` ); ডিফল্ট-পথ
-  স্ব-পরীক্ষা হল `selftest_defaults.py` ।
-* পুরো রেসিপি, রান নয়, হবেঃ `cv` প্রতি আটটি স্পেকের জন্য
-  মাস, তারপর `stack TARGET` , তারপর `table` , তারপর `build NAME` ।
+**Where things are.**
+* Outputs and logs: `/home/user/work/t2iw/` (logs in `logs/`); the default-path
+  self-test is `selftest_defaults.py`.
+* The full recipe, not run, would be: `cv` for the other eight specs per
+  month, then `stack TARGET`, then `table`, then `build NAME`.
 
-## 19 . মার্চ মাসে ক্ষতির সূচনা কোথায়ঃ ব্ল্যাকআউট পরে সাইট চেক ( 2026-09-27 , `onset_post.py` )
+## 19. Where the March onset loss sits: a post-blackout site check (2026-09-27, `onset_post.py`)
 
-**প্রশ্ন।** শুরু CV হল 0.90 (যোগ্য cell, হাইব্রিড সত্য) কিন্তু মার্চ শুরু প্রায় 0.73–0.77 ( P4 এবং G2 );
-শূন্য-আগমন সন্ডা শূন্য-আগমনকে অল্প করে দেয় কোন যোগ্য সত্য cell ছাড়া window ভাগ দ্বারা, 4.4 % trainে) ।
-ভুল *স্থান* অথবা ভুল *প্রসারিত*?
+**Question.** Onset CV is 0.90 (eligible cells, hybrid truth) but March onset is about 0.73–0.77 (P4 and G2; the
+zeroed-onset probe understates onset by the share of windows with no eligible true cell, 4.4% on train). Is the gap
+a wrong *site* or a wrong *extent*?
 
-**পদ্ধতি (শুধুমাত্র ডায়াগনস্টিক, কখনোই একটি বৈশিষ্ট্য নয়)**  validation/private মধ্যে মূল লাইনটি T+1 ..T+18 এর জন্য অন্ধকার এবং দৃশ্যমান
-T+19 থেকে আবার . T+19 ..T+21 এ সারিতে থাকা লিঙ্কগুলি দেখায় যে T+30 এর প্রায় 65 মিনিটের পরে একটি সূচনা সারিতে বসে।
--2,081 train সিম windowতে ক্যালিব্রেশনঃ প্রকৃত T+30 সাইটটি এখনও 83.7 % windowতে T+19..21 এ সারিতে রয়েছে।
-  আমাদের শীর্ষ-m সেট 82.4 % (IoU 0.892 যখন এটি আঘাত, 0.746 যখন এটি মিস) মধ্যে প্রক্সি hits।
+**Method (diagnostic only, never a feature).** In validation/private the mainline is dark for T+1..T+18 and visible
+again from T+19. The queued links at T+19..T+21 show where an onset queue sits about 65 minutes after T+30.
+- Calibration on 2,081 train sim windows: the true T+30 site is still queued at T+19..21 in 83.7% of windows.
+  Our top-m set hits that proxy in 82.4% (IoU 0.892 when it hits, 0.746 when it misses).
 
-**ফলাফল।**
+**Result.**
 
-| বিভক্ত | window | পূর্বাভাসিত সাইট টি +19..21 ক্রম আঘাত | ক্রমের পর ফাঁকা |
+| split | windows | predicted site hits the T+19..21 queue | post-queue empty |
 |---|---|---|---|
-| train সিম | 2,081 | 0.824 | 0.119 |
-| বৈধতা (মার্চ) | 40 | 0.775 | 0.100 |
-| ব্যক্তিগত (এপ্রিল) | 40 | 0.700 | 0.175 |
+| train sim | 2,081 | 0.824 | 0.119 |
+| validation (March) | 40 | 0.775 | 0.100 |
+| private (April) | 40 | 0.700 | 0.175 |
 
-- মার্চ সাইট-হট হার 2 window trainে চেয়ে কম (প্রায় −0.04 শুরু) ।
-  ফাঁক, তাই মার্চ ক্ষতির অধিকাংশ extent/shape এ T +30 , যা প্রক্সি দেখতে পারে না।
-- সকালের windowয় মিস ক্লাস্টার (04:40–05:40: D7_I10_W 003/005, D7_I210_W 003/004, D7_I405_N 004)
-  স্বল্পমেয়াদী সারিতে এবং windowগুলোতে যেখানে সারিতে একটি মাধ্যমিক bottleneck ( D7_I10_E  005 at 97–100 ) গঠিত হয়;
-  D12_I5_N  004 at 94–123 ).
-- F1/F2 জোন্ডগুলি ইতিমধ্যেই দেখিয়ে দিয়েছে যে বৃহত্তর এবং ছোট সেট উভয়ই মার্চ মাসে হারাবে।
+- The March site-hit rate is 2 windows lower than train (about −0.04 onset). That explains only a small part of the
+  gap, so most of the March loss is extent/shape at T+30, which the proxy cannot see.
+- The misses cluster in early-morning windows (04:40–05:40: D7_I10_W 003/005, D7_I210_W 003/004, D7_I405_N 004)
+  with short-lived queues, and in windows where the queue formed at a secondary bottleneck (D7_I10_E 005 at 97–100;
+  D12_I5_N 004 at 94–123).
+- The F1/F2 probes already showed that bigger and smaller sets both lose on March.
 
-**রায়।** কোন ডিকোডিং বা সাইট ফিক্স করার দরকার নেই। নতুন মডেল আইডিয়া না আসা পর্যন্ত শুরু লাইন বন্ধ থাকে।
+**Verdict.** There is no decoding or site fix to make. The onset line stays closed until a new model idea comes up.
 
-## 20 . চলমান ক্ষমতা p3 ( 255 leaves, 900 রাউন্ড): `lgb_v11` চলমান ( 2026-09-27 )
+## 20. Ongoing capacity p3 (255 leaves, 900 rounds): `lgb_v11` ongoing (2026-09-27)
 
-`CFG["p3"]` = P_HUGE  255 পাতার সাথে, 900 গোল। বাকি সব v5 রেসিপিঃ window ওজন, অর্ধেক অতিরিক্ত
-প্রার্থী window, `feat_v3` , মূল window, পুরানো সত্য. চারগুণ CV
-( `python -m trafficflow.t2.robust cv og_v3|og_v3_noloc p3 --weighted` , 56 এবং 45 min):
+`CFG["p3"]` = P_HUGE with 255 leaves, 900 rounds. Everything else is the v5 recipe: window weights, half of the extra
+candidate windows, `feat_v3`, original windows, old truth. Four-fold CV
+(`python -m trafficflow.t2.robust cv og_v3|og_v3_noloc p3 --weighted`, 56 and 45 min):
 
-| মডেল | সিম | বন্ধ | রিসোর্স 0.05 | রিসোর্স 0.2 | জোড়া Δ sim vs p2 (window ভাল / খারাপ) |
+| model | sim | off | rec < 0.05 | rec < 0.2 | paired Δ sim vs p2 (windows better / worse) |
 |---|---|---|---|---|---|
 | og_v3 p2 | 0.8796 | 0.8873 | 0.5808 | 0.7731 | – |
-| og_v3 p3 | 0.8842 | 0.8905 | 0.5844 | 0.7779 | +0.0055 ±0.0007 (1277 / 739) |
+| og_v3 p3 | 0.8842 | 0.8905 | 0.5844 | 0.7779 | +0.0055 ± 0.0007 (1277 / 739) |
 | og_v3_noloc p2 | 0.8792 | 0.8869 | 0.5967 | 0.7719 | – |
-| og_v3_noloc p3 | 0.8857 | 0.8811 | 0.6031 | 0.7812 | +0.0072 ±0.0006 (1380 / 663) |
-| v5 মিশ্রণ | 0.8833 | 0.8906 | 0.5994 | 0.7809 | – |
-| **v11 মিশ্রণ** (প 3 উভয় প্রধান উপাদান জন্য) | **0.8881** | **0.8930** | **0.6030** | **0.7851** | **+0.0053 ±0.0005 (1167 / 565)** |
+| og_v3_noloc p3 | 0.8857 | 0.8811 | 0.6031 | 0.7812 | +0.0072 ± 0.0006 (1380 / 663) |
+| v5 blend | 0.8833 | 0.8906 | 0.5994 | 0.7809 | – |
+| **v11 blend** (p3 for both main components) | **0.8881** | **0.8930** | **0.6030** | **0.7851** | **+0.0053 ± 0.0005 (1167 / 565)** |
 
-**টাস্ক 2 গেটঃ**
-1. সাধারণ CV পাসঃ +0.0048 অফিসিয়াল সমষ্টি, প্রতিটি টুকরো উন্নতি সঙ্গে।
-2. শিফট-ওয়েটেড CV ( `shift_cv.score` , v11 − v5 ) পাসঃ
+**Task 2 gate:**
+1. Plain CV passes: +0.0048 official aggregation, with every slice improving.
+2. Shift-weighted CV (`shift_cv.score`, v11 − v5) passes:
 
-   | ওজন | Δ, পুরানো সত্য | Δ, হাইব্রিড সত্য |
+   | weighting | Δ, old truth | Δ, hybrid truth |
    |---|---|---|
-   | সহজ | +0.0048 ±0.0005 | +0.0043 ±0.0005 |
-   | বৈধতা | +0.0050 ±0.0011 | +0.0041 ±0.0011 |
-   | ব্যক্তিগত | +0.0052 ±0.0006 | +0.0047 ±0.0006 |
+   | plain | +0.0048 ± 0.0005 | +0.0043 ± 0.0005 |
+   | validation | +0.0050 ± 0.0011 | +0.0041 ± 0.0011 |
+   | private | +0.0052 ± 0.0006 | +0.0047 ± 0.0006 |
 
-   P(Δ ≤0 ) = 0 প্রতিটি ক্ষেত্রে।
-3. পদচিহ্ন পরীক্ষা পাস, কোন মাসে পতাকা নেই। শতাংশঃ বৈধতা fp_any  0.87 , যোগ 0.75 , rem 0.64 ;
-   ব্যক্তিগত 0.71 , 0.71 , 0.58 .
+   P(Δ ≤ 0) = 0 in every case.
+3. Footprint check passes, with no flag on either month. Percentiles: validation fp_any 0.87, add 0.75, rem 0.64;
+   private 0.71, 0.71, 0.58.
 
-**LB ( G8 = H5w চলমান v11 ): 0.86798 , −0.00041 , অর্থাৎ মার্চ চলমান −0.0027 .** এটি গেটের প্রতিটি অংশ অতিক্রম করেছে
-গত মার্চ মাসে চলমান পাঁচটি পরিবর্তনগুলির মধ্যে চারটি ব্যর্থ হয়েছিল ( G3 , H1b, G7 , G8 ) পজিটিভ CV এর বিরুদ্ধে; শুধুমাত্র
-v5 স্থানান্তরিত. চলমান কাজটি অবরুদ্ধ করা হয় যতক্ষণ না স্থানান্তর ব্যর্থতা বোঝা যায়। v11 শক্তিশালী তালিকায় থাকে
-(এর ব্যক্তিগত ওজন CV +0.0052 ±0.0006 ) ।
+**LB (G8 = H5w with ongoing v11): 0.86798, −0.00041, i.e. March ongoing −0.0027.** It passed every part of the gate
+and still lost. Four of the last five ongoing changes failed on March (G3, H1b, G7, G8) against positive CV; only
+v5 transferred. Ongoing work is paused until the transfer failure is understood. v11 stays on the robust list
+(its private-weighted CV is +0.0052 ± 0.0006).
 
-ক্যাপাসিটি চলমান অর্থ প্রদান করেঃ 31 → 63 → 127 → 255 leaves 0.852 → 0.867 → 0.877 → 0.882 (একক মডেল, সিম) দেয়।
+Capacity keeps paying on ongoing: 31 → 63 → 127 → 255 leaves gives 0.852 → 0.867 → 0.877 → 0.882 (single model, sim).

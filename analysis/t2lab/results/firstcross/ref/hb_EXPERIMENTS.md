@@ -1,228 +1,226 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# Experiment log
 
-# পরীক্ষার লগ
+All numbers are local. S_state uses the official formula on the train holdout (days 243–272). The LWR
+proxy is `evaluate.s_lwr_proxy`. J = 0.35·S_state + 0.10·S_LWR is the part of S_total that Task 1
+controls; S_FD is about constant.
 
-সমস্ত সংখ্যা স্থানীয়। S_state train-এর স্ট্যান্ডআউট (দিন 243–272 ) এর অফিসিয়াল সূত্র ব্যবহার করে। LWR
-প্রক্সি হল `evaluate.s_lwr_proxy` . J = 0.35 · S_state +0.10 · S_LWR হল S_total এর অংশ যা টাস্ক 1
-নিয়ন্ত্রণ; S_FD প্রায় স্থির।
+## Task 1 / Task 3
 
-## কাজ 1 / কাজ 3
-
-| # | সেটআপ | S_state | LWR প্রক্সি | নোট |
+| # | Setup | S_state | LWR proxy | Note |
 |---|---|---|---|---|
-| E0 | ঐতিহাসিক গড় (অফিসিয়াল বেসলাইন), D7_I10_W | 0.832 | 0.070 | পূর্ণ train, কোন ব্ল্যাকআউট নেই |
-| E0 | সময়মতো লিনিয়ার ইন্টারপোলেশন, D7_I10_W | 0.932 | 0.534 | |
-| E1 | প্রতি প্যানেলের মধ্যে LightGBM অবশিষ্ট, 500 k রং, D7_I10_W | 0.9507 | 0.585 | বন্ধ, কোন ব্ল্যাকআউট নেই |
-| E2 | + L1 ঘনত্ব মডেল, q = v·k̂ | 0.9478 | 0.607 | J +0.0014 |
-| E3 | ব্ল্যাকআউট সেল, D7_I10_W: ইন্টারপোলেশন বনাম গ্যাপ- LGB | গতি RMSE  5.81 → 5.36 | | 1.1 সম্পর্কে নিয়মিত cell |
-| P1 | সংমিশ্রিত 10 -প্যানেল LightGBM ( 150 k reg/panel ), নমুনা হোল্ডআউট এবং ডার্ক শেয়ার পুনরায় ওজন করা | **0.9385** পরিবারের গড় | | কাঁচা |
-| P1 | একই, মিলিত a= 0.25 | 0.9348 | | মূলত ডার্ক সেল ফ্লো খরচ |
-| P1 - পূর্ণ | পূর্ণ কভারেজ হোল্ডআউট, বাস্তবসম্মত ব্ল্যাকআউট ঘনত্ব, 4 প্যানেল | raw → recon a= 0.25 | LWR +0.013 থেকে +0.081 | J +0.0010 to +0.0062 on each panel → **adopt a= 0.25** |
+| E0 | historical mean (official baseline), D7_I10_W | 0.832 | 0.070 | full train, no blackouts |
+| E0 | temporal linear interpolation, D7_I10_W | 0.932 | 0.534 | |
+| E1 | per-panel LightGBM residual on interpolation, 500k rows, D7_I10_W | 0.9507 | 0.585 | holdout, no blackouts |
+| E2 | + L1 density model, q = v·k̂ | 0.9478 | 0.607 | J +0.0014 |
+| E3 | blackout cells, D7_I10_W: interpolation vs gap-LGB | speed RMSE 5.81 → 5.36 | | regular cells about 1.1 |
+| P1 | pooled 10-panel LightGBM (150k reg/panel), sampled holdout with dark share reweighted | **0.9385** family mean | | raw |
+| P1 | same, reconcile a=0.25 | 0.9348 | | costs mostly dark-cell flow |
+| P1-full | full-coverage holdout, realistic blackout density, 4 panels | raw → recon a=0.25 | LWR +0.013 to +0.081 | J +0.0010 to +0.0062 on every panel → **adopt a=0.25** |
 
-পুল মডেল হোল্ড আউট RMSE :
-- নিয়মিত cellঃ গতি 1.54 , প্রবাহ 30.6 /lane, ঘনত্ব (হ্যাবার) 0.567
-- অন্ধকার cellঃ গতি 6.90 , প্রবাহ 65.9 /lane, ঘনত্ব 3.21
+Pooled model holdout RMSE:
+- regular cells: speed 1.54, flow 30.6/lane, density (Huber) 0.567
+- dark cells: speed 6.90, flow 65.9/lane, density 3.21
 
-ত্রুটি বাজেট (প্রায়শই সেল):
-- ফ্রি ফ্লোঃ 97 % সেল, 74 % গতি SSE এবং 91 % প্রবাহ SSE (শব্দ তল)
-- ক্রমঃ 2 % cell, 22 % গতি SSE
+Error budget (regular cells):
+- free flow: 97% of cells, 74% of speed SSE and 91% of flow SSE (noise floor)
+- queued: 2% of cells, 22% of speed SSE
 
-## পদার্থবিজ্ঞানের তথ্য
-- congested observations lie on the congested branch of the released triangular FD : median deviation
-  0.0 %, IQR ±2.4 %. মুক্ত প্রবাহে, v ≈ v_f (std 2.5 সহ রূপান্তর অঞ্চল) ।
-- পর্যবেক্ষণ করা হয়েছে |ΔN|/N প্রতি ধাপে 4.4 %। টপোলজি ভিত্তিক প্রবাহ শুধুমাত্র 0.06 এ ΔN এর সাথে সম্পর্কিত, তাই
-  সংগঠকের প্রবাহের শব্দ শোষণ করতে হবে, যে কারণে প্রক্সি বৈধ।
+## Physics facts
+- Congested observations lie on the congested branch of the released triangular FD: median deviation
+  0.0%, IQR ±2.4%. In free flow, v ≈ v_f (std 2.5 including the transition zone).
+- Observed |ΔN|/N per step is 4.4%. The topology-based flux correlates with ΔN at only 0.06, so the
+  organizer's flux must absorb the noise, which is why the proxy is valid.
 
-## টাস্ক 2 (অজেন্ট রিপোর্ট, trafficflow/docs/TASK2_ANALYSIS.md )
-CV  S_queue  5,083 নির্বাচনকারী-প্রতিলিপি window (অফিসিয়াল সমষ্টি):
+## Task 2 (agent report, trafficflow/docs/TASK2_ANALYSIS.md)
+CV S_queue on 5,083 selector-replicated windows (official aggregation):
 
-| পদ্ধতি | S_queue (সিম) |
+| Method | S_queue (sim) |
 |---|---|
-| ধৈর্য্য (সরকারি) | 0.285 |
+| persistence (official) | 0.285 |
 | persistence_fill | 0.353 |
-| নিয়ম | 0.663 |
+| rules | 0.663 |
 | lgb_v2 | 0.788 |
-| **lgb_v3** | **0.795** (প্রারম্ভ 0.713 , চলমান 0.877 ) |
+| **lgb_v3** | **0.795** (onset 0.713, ongoing 0.877) |
 
-## টাস্ক 4 (অজেন্ট রিপোর্ট, trafficflow/docs/TASK4_ANALYSIS.md )
-বিভক্ত গণনার আগে L2 প্রজেকশন প্রকাশিত বেসলাইন S_ODME পুনরায় প্রকাশ করে
-( 0.8357 বনাম 0.8359 ). প্রত্যাশিত S_ODME প্রায় 1.000 ।
+## Task 4 (agent report, trafficflow/docs/TASK4_ANALYSIS.md)
+The L2 projection of the split prior onto the split counts reproduces the published baseline S_ODME
+(0.8357 vs 0.8359). Expected S_ODME is about 1.000.
 
-## প্রত্যাশিত S_total (স্থানীয় অনুমান)
-| টাস্ক | অনুমান | ওজন |
+## Expected S_total (local estimates)
+| Task | Estimate | Weighted |
 |---|---|---|
-| রাষ্ট্র | ~0.935 | 0.327 |
-| ক্রম | ~0.75–0.79 | 0.225–0.237 |
-| পদার্থবিজ্ঞান | ~(0.98 +2·0.56)/3 ≈0.70 | 0.105 |
+| state | ~0.935 | 0.327 |
+| queue | ~0.75–0.79 | 0.225–0.237 |
+| physics | ~(0.98 + 2·0.56)/3 ≈ 0.70 | 0.105 |
 | ODME | ~1.0 | 0.200 |
-| **মোট** | | **≈0.857–0.869** |
+| **total** | | **≈ 0.857–0.869** |
 
-যা পুনর্নির্মাণের পর থেকে সর্বোচ্চ পাবলিক স্কোরের সাথে তুলনা করে 0.879 । আমাদের আগের সেরা ছিল 0.80855 ।
+That compares with the best post-rebuild public score of 0.879. Our previous best was 0.80855.
 
-## লিডারবোর্ড লগ (সরকারি = বৈধকরণ মাস, মার্চ 2031 )
+## Leaderboard log (public = validation month, March 2031)
 
-| তারিখ ( UTC ) | উপস্থাপনা | বিষয়বস্তু | জনসাধারণ | র্যাঙ্ক | নোট |
+| Date (UTC) | Submission | Contents | Public | Rank | Note |
 |---|---|---|---|---|---|
-| 2026-09-22 | পূর্ববর্তী অ্যাকাউন্টের সাব (v1 – v5 ) | বিভিন্ন, এই পাইপলাইন থেকে নয় | সেরা 0.80855 | 38 th/ 108 পুনর্নির্মাণের পরে | তুলনা করার জন্য মূল লাইন |
-| 2026-09-23 13:42 | **A** `A_full_t1full1r25_t2lgbv3_t4l2proj.zip` | T1 pooled LGB full1 + density recon a= 0.25 ; T2  lgb_v3 ; T4  L2 projection | **0.85204** | 21/145 সামগ্রিকভাবে, **13/115 পুনর্নির্মাণের পরে** | +0.043 আগের সেরা থেকে; স্থানীয় অনুমান থেকে প্রায় 0.005–0.017 নিচে ( 0.857–0.869 ); পুনর্নির্মাণের পরে শীর্ষ 0.88153 |
-| 2026-09-23 13:47 | **P1** probe_odme_only | T4 শুধুমাত্র (অবস্থা, ক্যো শূন্য) | 0.19876 | – | **S_ODME = 0.9938 .** টাস্ক 4 প্রজেকশন হাইপোথিজাসটি সত্য; সর্বাধিক টাস্ক 4 এখনও যোগ করতে পারে 0.0012 মোট |
-| 2026-09-23 13:51 | **P2** probe_state_odme | A এর সাথে ক্রম শূন্য | 0.62747 | – | A - P2 = 0.30 · S_queue → **S_queue = 0.7486** ( CV  0.795 ); P2 - P1 = 0.35 · S_state +0.15 · S_phys = 0.42871 (স্থানীয় 0.432 ) → **S_phys ≈0.67–0.68** |
-| 2026-09-23 13:57 | **P3** probe_onset_zeroed | A শুরু window শূন্য সঙ্গে | 0.74919 | – | শুরু = 2 ·(A − P3 )/ 0.30 = **0.686** ( CV  0.713 ); চলমান = **0.812** ( CV  0.877 ) → টাস্ক 2 স্থানান্তর ক্ষতির অধিকাংশ চলমান window |
-| 2026-09-23 16:23 | **B1** `B1_gate06_t2v4robust.zip` | A + ঘনত্বের সমন্বয় v< 0.6 · v_f ; T2  lgb_v4_robust (অনুবর্তিত = 50/50 v3 এবং কোন অবস্থান মডেলের মিশ্রণ; v3 এর সাথে অভিন্ন শুরু) | **0.85732** | 14/146 সামগ্রিকভাবে, **8/116 পুনর্নির্মাণের পরে** | +0.0053 বনাম A (স্থানীয় প্রত্যাশা +0.002 থেকে +0.004 : গেটিং +0.0016 , চলমান দৃঢ়তা +0.001 থেকে +0.003 ) । 1/3 এবং 2 ট্যাস্কের অংশগুলি LB ; 0.88153 পুনর্নির্মাণের পরে শীর্ষে আলাদা নয় |
-| 2026-09-24 12:02 | **S1 C1** `C1_gate06_t2v5.zip` | B1 ক্যু v5 ( 279 ক্যু সেল) | **0.85975** | – | +0.00243 বনাম B1 → ΔS_queue = **+0.0081** ( CV +0.005 ). বেস → C1 |
-| 2026-09-24 12:08 | **S2 D1** `D1_gate06_t2v6.zip` | C1 সঙ্গে v6 শুরু প্রশিক্ষিত সংশোধন করা লেবেল ( 42 শুরু cell) | **0.86428** | – | +0.00453 vs C1 → ΔS_queue = +0.0151 , **onset +0.030** on March. Base → D1 |
-| 2026-09-24 12:11 | **S3 D2** `D2_gate06a75_t2v6.zip` | D1 গেইট বিভক্ত a = 0.75 ( 266,914 ঘন ট্রাফিকের অবস্থা সারি) | **0.86492** | 14/158 সামগ্রিকভাবে, **8/128 পুনর্নির্মাণের পরে** | +0.00064 vs D1 , **ঠিক স্থানীয় ভবিষ্যদ্বাণী (+0.0006 )** . বেস → D2 ; পুনর্নির্মাণের পরে শীর্ষ 0.88318 |
-| 2026-09-24 14:40 | **S4 E1** `E1_fd_gate06a75_t2v6.zip` | D2 with Task 1 state from the FD -feature models `full3` (শুধুমাত্র স্ট্যাটাস সারি) | **0.86591** | 14/160 সামগ্রিকভাবে, **8/130 পুনর্নির্মাণের পরে** | +0.00099 বনাম D2 (স্থানীয় +0.0012 ). বেস → E1 ; পুনর্নির্মাণের পরে শীর্ষ 0.88318 |
-| 2026-09-24 14:42 | **S5  P4** সন্ডা `P4_E1_onset_zeroed.zip` | E1 শুরু window শূন্য ( 311 cell) | 0.75669 | – | **শুরু = 2 ·( E1 − P4 )/ 0.30 = 0.728** মার্চ মাসে (A: 0.686 ) |
-| 2026-09-25 08:18 | **F1** সন্ড `F1_onsetb05.zip` | E1 v6 শুরুতে পুনরায় ডিকোড করা হয়েছে logit bias +0.5 (+15 শুরু cell; 12  8 বৈধতা windowতে) | 0.86356 | – | −0.00235 → **মার্চ শুরু −0.016** : বড় শুরু সেট আঘাত |
-| 2026-09-25 08:44 | **F2** `F2_onset_site2.zip` | E1 এর শুরু `site2_lo.05_r.5` দ্বারা ডিকোড করা হয় ( 1–2 সাইটগুলিতে প্রতিশ্রুতিবদ্ধ; __ 11 হেজ সেল, 9  7 বৈধতা windowতে) | 0.86418 | 9/140 পুনর্নির্মাণের পরে ( E1 ) | −0.00173 → **মার্চ শুরু −0.012** : কম হেজও ক্ষতিগ্রস্ত হয়। বেস থাকে E1 |
-| 2026-09-25 09:44 | **G1** `G1_tvsmooth.zip` | E1 + TV লক্ষ্য cellের অভ্যন্তরীণ ঘনত্বের মসৃণতা ( 5.1 M স্তরের সারি, গড় \ | Δv\ |  0.0066  km/h , \ | Δq\ |  11  veh/h ) | **0.86651** | 9/140 পুনর্নির্মাণের পরে | **+0.00060 , ঠিক স্থানীয় J ভবিষ্যদ্বাণী (+0.00062 ).** বেস → G1 |
-| 2026-09-25 10:25 | **G2** `G2_onset_v8stack.zip` | G1 with onset = v8  `seeds9_stack03` (স্টেজ- 2 stacking 0.3 +9 -seed stage 1 ; 15 onset cells, 11 in 4 validation windows) | **0.86711** | – | **+0.00060** → মার্চ শুরু প্রায় +0.004 ( CV +0.0035 হাইব্রিড / +0.0024 পুরানো) । বেস → G2 |
-| 2026-09-25 10:16 | **G3** `G3_ongoing_stack.zip` | G2 চলমান = v9 পর্যায়-2 স্তর ( 217 চলমান cell, 139 বৈধকরণে) | 0.86361 | – | **−0.00350 → চলমান মার্চ−0.023**, বিরুদ্ধে CV +0.0065 ±0.0009. ট্রান্সফার ব্যর্থ; বেস রয়ে গেছে G2 |
-| 2026-09-26 00:09 | **H2** `H2_t1ens34.zip` | G2 with Task 1 state = পূর্ণ 3 এবং পূর্ণ 4 এর মধ্যম (বীর্য সমন্বয়; শুধুমাত্র রাষ্ট্র সারি) | **0.86777** | 10/151 পুনর্নির্মাণের পরে | **+0.00066** (স্থানীয় J +0.00077 ). বেস → H2 |
-| 2026-09-26 00:11 | H1b `H1b_og_shrink_on_ens34.zip` | H2 সঙ্গে চলমান v10 (স্টেজ 2 শুধুমাত্র v5 cellগুলি সরিয়ে ফেলতে পারে যেখানে পুনরাবৃত্তি ≥0.05 ; 77 cell) | 0.86629 | – | **−0.00148** → মার্চ চলমান −0.010 . এটি নতুন টাস্ক 2 গেট পাস করেছে (প্লিন +0.0029 , উভয় ভারী সিভি +, ফুটপ্রিন্ট পরিষ্কার) এবং এখনও ব্যর্থ হয়েছে। **চলমান স্ট্যাকিং লাইনটি পড়ে গেছে** |
-| 2026-09-26 00:16 | P5 সন্ড `P5_smooth_f3.zip` | H2 সঙ্গে TV মসৃণতা × 3 | 0.86736 | – | −0.00041 (স্থানীয় −0.00062 ) → অফিসিয়াল টাস্ক 3 সত্য train-এর সত্যের মতো আচরণ করে; মসৃণতা শক্তি তার সর্বোত্তম বা কাছাকাছি |
-| 2026-09-26 00:20 | P6 সন্ড `P6_H2_queue_zeroed.zip` | H2 ক্রম শূন্য | 0.63144 | – | **S_queue ( H2 ) = 0.7878** ঠিকঃ শুরু 0.732 , চলমান 0.843 . টাস্ক 1 +3 = 0.43268 |
-| 2026-09-27 06:22 | **H3** `H3_t1ens345.zip` | H2 with Task 1 state = পূর্ণ 3 , পূর্ণ 4 , পূর্ণ 5 (তৃতীয় বীজ; শুধুমাত্র রাজ্য সারি) | **0.86799** | – | **+0.00022 , স্থানীয় J +0.00023** : সঠিক। বেস → H3 |
-| 2026-09-27 07:00 | G7 `G7_ongoing_v7.zip` | H3 চলমান = v7 (v5 রেসিপি হাইব্রিড লেবেলগুলিতে পুনরায় প্রশিক্ষিত; 100/−45 cellগুলি 30/40 বৈধতা windowতে) | 0.86779 | – | **−0.00020 → মার্চ চলমান −0.0013 .**  CV ছিল +0.0032 (হাইব্রিড সত্য) / +0.0006 (পুরানো সত্য) । শুরু হওয়া +0.030 লেবেল ফিক্স চলমানের জন্য কিছুই করে না। **চলমান লেবেল কাজ বন্ধ।** বেস রয়ে গেছে H3 |
-| 2026-09-27 09:48 | **H5w** `H5w_t1ramp_dark.zip` | H3 with Task 1 regular rows = mean(full3 , 4 , 5 , 7 ), blackout rows = full7 (ramp-flow member) | **0.86838** | – | **+0.00039** (স্থানীয় J +0.00081 ). গৃহীত, বেস → H5w. প্রথম টাস্ক 1 পরিবর্তন যেখানে প্রক্সি 0.0002 এর চেয়ে বেশি বন্ধঃ হোল্ডআউট D12_I405_N কে ব্ল্যাকআউট দেয়, যা পরীক্ষায় নেই, এবং জয়ের ব্ল্যাকআউট অংশটি প্রায় অর্ধেক স্থানান্তরিত হয় |
-| 2026-09-27 09:58 | H6 `H6_dark8.zip` | H5w with blackout rows = mean(full7 , full8 ) (শুধুমাত্র অন্ধকার বুস্টার) | 0.86839 | – | **+0.00001** (স্থানীয় +0.00016 ). গৃহীত হয়নি। ব্ল্যাকআউট-রাই লাভের স্থানান্তর অবিশ্বাস্যভাবে (নীচে) |
-| 2026-09-27 11:10 | G8 `G8_ongoing_v11.zip` | H5w = v11 (v5 মিশ্রণ, og_v3 / og_v3_noloc ক্যাপাসিটি p3 ; +32/−45 cell 28/40 বৈধতা windowতে) | 0.86798 | – | **−0.00041 → মার্চ চলমান −0.0027** , CV +0.0053 ±0.0005 , শিফট-ওয়েটেড +0.0050 (নিয়ন্ত্রণ) / +0.0052 (ব্যক্তিগত), ফুটপ্রিন্ট পরিষ্কার। সম্পূর্ণ টাস্ক 2 গেট পাস করেছে এবং হারিয়ে গেছে। গৃহীত হয়নি; চূড়ান্ত নির্বাচনের জন্য শক্তিশালী তালিকা |
-| 2026-09-28 00:10 | **H7** `H7_reg9.zip` | H5w with Task 1 regular rows = 0.5 ·full9 (প্রশস্ত নিয়মিত সদস্য) +0.5 ·mean(full3 , 4 , 5 , 7 ) | **0.86864** | – | **+0.00026** বনাম H5w (স্থানীয় +0.00053 ). গৃহীত, বেস → H7 . স্থানান্তর প্রায় 50 %: S_state অংশ (+0.00022 ) মাধ্যমে আসে, LWR অংশ (+0.00031 , একটি ভাল ঘনত্ব মডেল congested cell) বেশিরভাগ না |
-| 2026-09-28 03:05 | H8 `H8_reg10.zip` | H7 নিয়মিত সারি = 0.5 ·পূর্ণ 9 +0.5 ·পূর্ণ 10 (দুটি বাড়ানো বীজ, পুরানো সদস্যরা পড়ে গেছে) | 0.86868 | – | **+0.00004** বনাম H7 (স্থানীয় +0.00026 : S_state +0.00013 , LWR +0.00013 ) । গৃহীত হয়নি (বার +0.0001 ) । এমনকি S_state অংশও স্থানান্তরিত হয়নি |
-| 2026-09-28 05:05 | **H9P** `H9P_transductive.zip` | H7 সঙ্গে টাস্ক 1 নিয়মিত সারি = fullP (train-এর ট্রান্সডাক্টিভ সদস্য + March/April cellগুলি পর্যবেক্ষণ করা হয়েছে) | **0.87093** | 14 /পূর্ব পুনর্নির্মাণ | **+0.00229** বনাম H7 (পসইডো-হোল্ড +0.0019 শুধুমাত্র S_state থেকে) গৃহীত, বেস → H9P . E1 এর পর থেকে সবচেয়ে বড় টাস্ক 1 ধাপ |
-| 2026-09-28 06:48 | **H10P** `H10P_transductive2.zip` | H9P নিয়মিত সারি = 0.35 ·fullP +0.65 ·fullP2 ( 2 × ট্রান্সডাক্টিভ সারি) | **0.87202** | – | **+0.00109** বনাম H9P (অনুসারে ধারণ +0.00054 থেকে S_state → ) গৃহীত, ভিত্তি H10P- দ্য ... LB লাভের পরিমাণ 2× S_state-only প্লেইন চিত্র, যেমন H9P |
-| 2026-09-28 08:35 | **H11P** `H11P_transductive3.zip` | H10P নিয়মিত সারি = 0.5 ·fullP2 +0.5 ·fullP3 (fullP3: 3 × ট্রান্সডাক্টিভ সারি, বীজ 13 ) | **0.87249** | – | **+0.00047** বনাম H10P (পসোডো +0.00025 থেকে S_state; দ্য ~2× LB গৃহীত, বেস → H11P |
+| 2026-09-22 | earlier account subs (v1–v5) | various, not from this pipeline | best 0.80855 | 38th/108 post-rebuild | baseline for comparison |
+| 2026-09-23 13:42 | **A** `A_full_t1full1r25_t2lgbv3_t4l2proj.zip` | T1 pooled LGB full1 + density recon a=0.25; T2 lgb_v3; T4 L2 projection | **0.85204** | 21/145 overall, **13/115 post-rebuild** | +0.043 over previous best; about 0.005–0.017 below the local estimate (0.857–0.869); post-rebuild top 0.88153 |
+| 2026-09-23 13:47 | **P1** probe_odme_only | T4 only (state, queue zeroed) | 0.19876 | – | **S_ODME = 0.9938.** The Task 4 projection hypothesis holds; the most Task 4 can still add is 0.0012 total |
+| 2026-09-23 13:51 | **P2** probe_state_odme | A with queue zeroed | 0.62747 | – | A − P2 = 0.30·S_queue → **S_queue = 0.7486** (CV 0.795); P2 − P1 = 0.35·S_state + 0.15·S_phys = 0.42871 (local 0.432) → **S_phys ≈ 0.67–0.68** |
+| 2026-09-23 13:57 | **P3** probe_onset_zeroed | A with onset windows zeroed | 0.74919 | – | onset = 2·(A − P3)/0.30 = **0.686** (CV 0.713); ongoing = **0.812** (CV 0.877) → most of the Task 2 transfer loss is in ongoing windows |
+| 2026-09-23 16:23 | **B1** `B1_gate06_t2v4robust.zip` | A + density reconciliation gated to v<0.6·v_f; T2 lgb_v4_robust (ongoing = 50/50 blend of v3 and the no-location model; onset identical to v3) | **0.85732** | 14/146 overall, **8/116 post-rebuild** | +0.0053 vs A (local expectation +0.002 to +0.004: gating +0.0016, ongoing robustness +0.001 to +0.003). The Task 1/3 and Task 2 parts of the gain are not separated on the LB; post-rebuild top 0.88153 |
+| 2026-09-24 12:02 | **S1 C1** `C1_gate06_t2v5.zip` | B1 with queue v5 (279 queue cells) | **0.85975** | – | +0.00243 vs B1 → ΔS_queue = **+0.0081** (CV +0.005). Base → C1 |
+| 2026-09-24 12:08 | **S2 D1** `D1_gate06_t2v6.zip` | C1 with v6 onset trained on corrected labels (42 onset cells) | **0.86428** | – | +0.00453 vs C1 → ΔS_queue = +0.0151, **onset +0.030** on March. Base → D1 |
+| 2026-09-24 12:11 | **S3 D2** `D2_gate06a75_t2v6.zip` | D1 with gate split a = 0.75 (266,914 dense-traffic state rows) | **0.86492** | 14/158 overall, **8/128 post-rebuild** | +0.00064 vs D1, **exactly the local prediction (+0.0006)**. Base → D2; post-rebuild top 0.88318 |
+| 2026-09-24 14:40 | **S4 E1** `E1_fd_gate06a75_t2v6.zip` | D2 with Task 1 state from the FD-feature models `full3` (state rows only) | **0.86591** | 14/160 overall, **8/130 post-rebuild** | +0.00099 vs D2 (local +0.0012). Base → E1; post-rebuild top 0.88318 |
+| 2026-09-24 14:42 | **S5 P4** probe `P4_E1_onset_zeroed.zip` | E1 with onset windows zeroed (311 cells) | 0.75669 | – | **onset = 2·(E1 − P4)/0.30 = 0.728** on March (A: 0.686) |
+| 2026-09-25 08:18 | **F1** probe `F1_onsetb05.zip` | E1 with the v6 onset re-decoded at logit bias +0.5 (+15 onset cells; 12 in 8 validation windows) | 0.86356 | – | −0.00235 → **March onset −0.016**: larger onset sets hurt |
+| 2026-09-25 08:44 | **F2** `F2_onset_site2.zip` | E1 with the onset decoded by `site2_lo.05_r.5` (commit to 1–2 sites; −11 hedge cells, 9 in 7 validation windows) | 0.86418 | 9/140 post-rebuild (E1) | −0.00173 → **March onset −0.012**: fewer hedges hurt too. Base stays E1 |
+| 2026-09-25 09:44 | **G1** `G1_tvsmooth.zip` | E1 + TV smoothing of the density inside runs of target cells (5.1M state rows, mean \|Δv\| 0.0066 km/h, \|Δq\| 11 veh/h) | **0.86651** | 9/140 post-rebuild | **+0.00060, exactly the local J prediction (+0.00062).** Base → G1 |
+| 2026-09-25 10:25 | **G2** `G2_onset_v8stack.zip` | G1 with onset = v8 `seeds9_stack03` (stage-2 stacking 0.3 + 9-seed stage 1; 15 onset cells, 11 in 4 validation windows) | **0.86711** | – | **+0.00060** → March onset about +0.004 (CV +0.0035 hybrid / +0.0024 old). Base → G2 |
+| 2026-09-25 10:16 | **G3** `G3_ongoing_stack.zip` | G2 with ongoing = v9 stage-2 stacking (217 ongoing cells, 139 in validation) | 0.86361 | – | **−0.00350 → March ongoing −0.023**, against CV +0.0065 ± 0.0009. Failed transfer; base stays G2 |
+| 2026-09-26 00:09 | **H2** `H2_t1ens34.zip` | G2 with Task 1 state = mean of full3 and full4 (seed ensemble; state rows only) | **0.86777** | 10/151 post-rebuild | **+0.00066** (local J +0.00077). Base → H2 |
+| 2026-09-26 00:11 | H1b `H1b_og_shrink_on_ens34.zip` | H2 with ongoing v10 (stage 2 may only remove v5 cells where recurrence ≥ 0.05; 77 cells) | 0.86629 | – | **−0.00148** → March ongoing −0.010. It passed the new Task 2 gate (plain +0.0029, both weighted CVs +, footprint clean) and still failed. **Ongoing stacking line dropped** |
+| 2026-09-26 00:16 | P5 probe `P5_smooth_f3.zip` | H2 with TV smoothing ×3 | 0.86736 | – | −0.00041 (local −0.00062) → the official Task 3 truth behaves like the train truth; the smoothing strength is at or near its optimum |
+| 2026-09-26 00:20 | P6 probe `P6_H2_queue_zeroed.zip` | H2 with the queue zeroed | 0.63144 | – | **S_queue(H2) = 0.7878** exactly: onset 0.732, ongoing 0.843. Task 1+3 = 0.43268 |
+| 2026-09-27 06:22 | **H3** `H3_t1ens345.zip` | H2 with Task 1 state = mean of full3, full4, full5 (third seed; state rows only) | **0.86799** | – | **+0.00022, local J +0.00023**: exact. Base → H3 |
+| 2026-09-27 07:00 | G7 `G7_ongoing_v7.zip` | H3 with ongoing = v7 (the v5 recipe retrained on hybrid labels; +100/−45 cells in 30/40 validation windows) | 0.86779 | – | **−0.00020 → March ongoing −0.0013.** CV was +0.0032 (hybrid truth) / +0.0006 (old truth). The label fix that gave onset +0.030 does nothing for ongoing. **Ongoing label work closed.** Base stays H3 |
+| 2026-09-27 09:48 | **H5w** `H5w_t1ramp_dark.zip` | H3 with Task 1 regular rows = mean(full3, 4, 5, 7), blackout rows = full7 (ramp-flow member) | **0.86838** | – | **+0.00039** (local J +0.00081). Adopted, base → H5w. First Task 1 change where the proxy is off by more than 0.0002: the holdout gives blackouts to D12_I405_N, which has none in the test, and the blackout part of the gain transferred at about half |
+| 2026-09-27 09:58 | H6 `H6_dark8.zip` | H5w with blackout rows = mean(full7, full8) (dark-only booster) | 0.86839 | – | **+0.00001** (local +0.00016). Not adopted. Blackout-row gains transfer unreliably (below) |
+| 2026-09-27 11:10 | G8 `G8_ongoing_v11.zip` | H5w with ongoing = v11 (v5 blend, og_v3 / og_v3_noloc at capacity p3; +32/−45 cells in 28/40 validation windows) | 0.86798 | – | **−0.00041 → March ongoing −0.0027**, against CV +0.0053 ± 0.0005, shift-weighted +0.0050 (validation) / +0.0052 (private), footprint clean. Passed the full Task 2 gate and lost. Not adopted; robust list for the final pick |
+| 2026-09-28 00:10 | **H7** `H7_reg9.zip` | H5w with Task 1 regular rows = 0.5·full9 (boosted regular member) + 0.5·mean(full3, 4, 5, 7) | **0.86864** | – | **+0.00026** vs H5w (local +0.00053). Adopted, base → H7. Transfer about 50%: the S_state part (+0.00022) came through, the LWR part (+0.00031, a better density model in congested cells) mostly did not |
+| 2026-09-28 03:05 | H8 `H8_reg10.zip` | H7 with regular rows = 0.5·full9 + 0.5·full10 (two boosted seeds, old members dropped) | 0.86868 | – | **+0.00004** vs H7 (local +0.00026: S_state +0.00013, LWR +0.00013). Not adopted (bar +0.0001). Even the S_state part did not transfer |
+| 2026-09-28 05:05 | **H9P** `H9P_transductive.zip` | H7 with Task 1 regular rows = fullP (transductive member: train + observed March/April cells) | **0.87093** | 14/post-rebuild | **+0.00229** vs H7 (pseudo-holdout +0.0019 from S_state alone). Adopted, base → H9P. The largest Task 1 step since E1 |
+| 2026-09-28 06:48 | **H10P** `H10P_transductive2.zip` | H9P with regular rows = 0.35·fullP + 0.65·fullP2 (2× transductive rows) | **0.87202** | – | **+0.00109** vs H9P (pseudo-holdout +0.00054 from S_state). Adopted, base → H10P. The LB gain is about 2× the S_state-only pseudo figure, as for H9P |
+| 2026-09-28 08:35 | **H11P** `H11P_transductive3.zip` | H10P with regular rows = 0.5·fullP2 + 0.5·fullP3 (fullP3: 3× transductive rows, seed 13) | **0.87249** | – | **+0.00047** vs H10P (pseudo +0.00025 from S_state; the ~2× LB factor held). Adopted, base → H11P |
 
-### A ( 0.85204 ), যা জোনদের থেকে সঠিকভাবে বিভাজন
-| টাস্ক | ওজন | কাজের স্কোর | স্থানীয় অনুমান |
+### Decomposition of A (0.85204), exact from the probes
+| Task | Weighted | Task score | Local estimate |
 |---|---|---|---|
 | ODME | 0.19876 | 0.994 | 1.000 |
-| ক্রম | 0.22457 | 0.749 (প্রারম্ভ 0.686 , চলমান 0.812 ) | 0.795 (0.713 / 0.877) |
-| রাষ্ট্র + পদার্থবিজ্ঞান | 0.42871 | S_state ≈0.935–0.94, S_phys ≈0.67–0.68 | 0.432 |
+| queue | 0.22457 | 0.749 (onset 0.686, ongoing 0.812) | 0.795 (0.713 / 0.877) |
+| state + physics | 0.42871 | S_state ≈ 0.935–0.94, S_phys ≈ 0.67–0.68 | 0.432 |
 
-যেখানে মাথা রুম আছেঃ
-- ক্যুঃ +0.1  S_queue এর মূল্য +0.030 মোট। ঘটনার জন্য চলমান দৃঢ়তা প্রথম আসে।
-- পদার্থবিজ্ঞানঃ +0.1  S_phys এর মান +0.015 । ঘনত্ব মডেল এবং ব্ল্যাকআউট সেলগুলি হ'ল লিভার্স।
-- অবস্থাঃ সর্বোচ্চ +0.005
-- ODME : সম্পন্ন।
+Where the headroom is:
+- queue: +0.1 S_queue is worth +0.030 total. Ongoing robustness to incidents comes first.
+- physics: +0.1 S_phys is worth +0.015. The density model and blackout cells are the levers.
+- state: about +0.005 at most.
+- ODME: done.
 
-## গেটেড ঘনত্বের সমন্বয় ( 2026-09-23 )
-গতি ব্যান্ডে, L1 ঘনত্ব ত্রুটি ( D12_I5_S হোল্ডআউট) দেখায় যে ঘনত্ব মডেলটি কোথায় ভালঃ
+## Gated density reconciliation (2026-09-23)
+Per speed band, the L1 density error (D12_I5_S holdout) shows where the density model is better:
 
-| v/v_f | q/v | ঘনত্বের মডেল | FD(v) |
+| v/v_f | q/v | density model | FD(v) |
 |---|---|---|---|
 | < 0.4 | 2.99 | **1.50** | 1.77 |
 | 0.4–0.6 | 3.40 | 2.82 | **2.64** |
 | 0.6–0.8 | **4.83** | 5.10 | 5.50 |
 | 0.8–0.9 | **2.85** | 3.73 | 5.94 |
 
-ঘনত্ব মডেল শুধুমাত্র ঘন ট্রাফিক জিতেছে, তাই সমন্বয় পূর্বাভাস v < 0.6 · v_f. মধ্যে গেট করা হয়
-পূর্ণ কভারেজ বন্ধ, বাস্তবসম্মত ব্ল্যাকআউটঃ
+The density model wins only in dense traffic, so reconciliation is gated to predicted v < 0.6·v_f.
+Full-coverage holdout, realistic blackouts:
 
-| প্যানেল | J-recognition-all (A) | জে গেট 0.6 | Δ |
+| Panel | J recon-all (A) | J gate 0.6 | Δ |
 |---|---|---|---|
 | D12_I5_S | 0.38307 | 0.38529 | +0.0022 |
 | D7_I10_W | 0.38704 | 0.38767 | +0.0006 |
 | D7_I405_S | 0.37741 | 0.37928 | +0.0019 |
 | D12_I405_N | 0.39010 | 0.39184 | +0.0017 |
 
-গেটিং 4/4 প্যানেলগুলিতে J উন্নত করে (প্রায় +0.0016 মোট) এবং গ্রহণ করা হয়ঃ `make_submission --gate 0.6` .
-FD ঘনত্ব যোগ করে 0.4–0.6 · v_f J পরিবর্তন করে −0.0002 থেকে +0.0005 , যা শব্দ, তাই এটি গ্রহণ করা হয় না।
+Gating improves J on 4/4 panels (mean +0.0016 total) and is adopted: `make_submission --gate 0.6`.
+Adding FD density in 0.4–0.6·v_f changes J by −0.0002 to +0.0005, which is noise, so it is not adopted.
 
-## 1/3 v2 রাউন্ড ( 2026-09-23 সন্ধ্যা)
-পূর্ণ কভারেজ বন্ধ, বাস্তবসম্মত ব্ল্যাকআউট, গেট 0.6 . J = 0.35 · S_state +0.10 · S_LWR (টাস্ক 1 +3  S_total অংশ) ।
+## Task 1/3 v2 round (2026-09-23 evening)
+Full-coverage holdout, realistic blackouts, gate 0.6. J = 0.35·S_state + 0.10·S_LWR (the Task 1+3 part of S_total).
 
-| প্যানেল | hold1 (প্রেরণ করা) | hold2 (সব নতুন) | + দীর্ঘকালীন ব্ল্যাকআউট speed/flow শুধুমাত্র | + L1 - শুধুমাত্র প্রসারিত ঘনত্ব |
+| Panel | hold1 (submitted) | hold2 (all new) | + longer blackout speed/flow only | + L1-leaning density only |
 |---|---|---|---|---|
 | D12_I5_S | **0.38529** | 0.38422 | 0.38530 | 0.38419 |
 | D7_I10_W | **0.38767** | 0.38747 | 0.38753 | 0.38760 |
 | D7_I405_S | 0.37928 | 0.37900 | **0.37938** | 0.37890 |
 | D12_I405_N | 0.39184 | 0.39157 | **0.39195** | 0.39144 |
 
-- L1 -প্রতিভ ঘনত্ব মডেল (হ্যাবার α 0.2 , 127 leaves) 4/4 প্যানেলগুলিতে খারাপ, তাই এটি **প্রত্যাখ্যান করা হয়** । L2 ঘনত্ব (α 1 ) S_LWR. এর জন্য ভাল
-- দীর্ঘ প্রশিক্ষিত ব্ল্যাকআউট মডেলঃ গড় +0.00002 মোট, যা শব্দ এবং পুনরায় প্রশিক্ষণের মূল্য নয়।
+- The L1-leaning density model (Huber α 0.2, 127 leaves) is worse on 4/4 panels, so it is **rejected**. The near-L2 density (α 1) is better for S_LWR.
+- Longer-trained blackout models: mean +0.00002 total, which is noise and not worth a retrain.
 
-**Speed/flow ঘনত্ব গেটের ভিতরে বিভক্ত।**  LWR অপরিবর্তিত, যেহেতু q/v = k̂ কোন a এর জন্যঃ
+**Speed/flow split inside the density gate.** LWR is unchanged, since q/v = k̂ for any a:
 
-| প্যানেল | a = 0.25 (A, B1) | a = 0.75 | a = 1.0 |
+| Panel | a = 0.25 (A, B1) | a = 0.75 | a = 1.0 |
 |---|---|---|---|
 | D12_I5_S | 0.93180 | **0.93429** | 0.93429 |
 | D7_I10_W | 0.93996 | 0.94091 | **0.94109** |
 | D7_I405_S | 0.91588 | **0.91845** | 0.91819 |
 | D12_I405_N | 0.94800 | **0.94934** | 0.94930 |
 
-a = 0.75  S_state উন্নত করে 4/4 প্যানেলগুলিতে (প্রায় +0.0018 , মোট +0.0006 ) । সারিতে, প্রবাহ স্রাব ক্ষমতা কাছাকাছি থাকে যখন গতি অনিশ্চয়তা বহন করে। **** ( `--recon-a 0.75 --gate 0.6` ) গ্রহণ করা হয়েছে।
+a = 0.75 improves S_state on 4/4 panels (mean +0.0018, about +0.0006 total). In queues, flow sits near discharge capacity while speed carries the uncertainty. **Adopted** (`--recon-a 0.75 --gate 0.6`).
 
-## 2 v5 ( 2026-09-23 সন্ধ্যায়, এজেন্ট)
-CV সিম / অফিসিয়াল windowগুলোতে। trafficflow/docs/TASK2_ANALYSIS.md বিভাগে বিস্তারিত 12 .
+## Task 2 v5 (2026-09-23 evening, agent)
+CV on sim / official windows. Details in trafficflow/docs/TASK2_ANALYSIS.md section 12.
 
-| টুকরা | v4 (ইন B1) | v5 |
+| Slice | v4 (in B1) | v5 |
 |---|---|---|
-| সামগ্রিকভাবে | 0.7971 / 0.8233 | **0.8022 / 0.8299** |
-| শুরু | 0.7133 | **0.7210** |
-| চলমান | 0.8809 | **0.8833** |
-| পুনরাবৃত্তিহীন শুরু / চলমান (পুনরাবৃত্তি < 0.05 ) | 0.275 / 0.588 | **0.295 / 0.599** |
+| overall | 0.7971 / 0.8233 | **0.8022 / 0.8299** |
+| onset | 0.7133 | **0.7210** |
+| ongoing | 0.8809 | **0.8833** |
+| non-recurrent onset / ongoing (recur < 0.05) | 0.275 / 0.588 | **0.295 / 0.599** |
 
-## 2026-09-24 (একক-ফ্যাক্টর চেইন, প্রতিটি 65/65 চেক পাস করে)
-| ফাইল | এর থেকে আলাদা | পরিবর্তন | প্রত্যাশিত Δ |
+## Candidates for 2026-09-24 (single-factor chain, each passes 65/65 checks)
+| File | Differs from | Change | Expected Δ |
 |---|---|---|---|
-| `C1_gate06_t2v5.zip` | B1 | 2 v4 → v5 ( 279 ক্যু সেল) | প্রায় +0.0015 (CV × 0.30), সম্ভবত মার্চ মাসে আরও |
-| `C2_gate06a75_t2v5.zip` | C1 | গেট একটি 0.25 → 0.75 ( 266,914 ঘন ট্রাফিকের রাষ্ট্র cell) | প্রায় +0.0006 |
+| `C1_gate06_t2v5.zip` | B1 | Task 2 v4 → v5 (279 queue cells) | about +0.0015 (CV × 0.30), possibly more on March |
+| `C2_gate06a75_t2v5.zip` | C1 | gate split a 0.25 → 0.75 (266,914 dense-traffic state cells) | about +0.0006 |
 
-## 1 (মূল-আর্কিটোগ্রাম) বৈশিষ্ট্যযুক্ত FD টাস্ক, 3 ( 2026-09-24 )
-কলাম ভিত্তিক FD বৈশিষ্ট্য (`TFB_FD=1`, `t1_pipeline.add_fd`, যা মূল পথের সাথে এককভাবে যাচাই করা হয়েছে): গতি দ্বারা বোঝা যায় যে ঘন ঘন-শ্রেণীর প্রবাহ, প্রবাহ দ্বারা বোঝা যায় যে গতি, এবং q/v ঘনত্ব interpolated/previous/next মান, প্লাস `fd_w`, `fd_kj` এবং v/v_f.
+## Task 1 with FD (fundamental-diagram) features, hold3 (2026-09-24)
+Column-based FD features (`TFB_FD=1`, `t1_pipeline.add_fd`, verified identical to the native path): congested-branch flow implied by speed, speed implied by flow, and q/v density for the interpolated/previous/next values, plus `fd_w`, `fd_kj` and v/v_f.
 
-Hold RMSE , hold1 → hold3 :
+Holdout RMSE, hold1 → hold3:
 
-| মডেল | থামুন 1 | থামুন 3 |
+| Model | hold1 | hold3 |
 |---|---|---|
-| গতি | 1.543 | 1.515 |
-| প্রবাহ | 30.57 | 30.19 |
-| ঘনত্ব | 0.567 | 0.541 |
-| অন্ধকার গতি | 6.903 | 6.888 |
-| অন্ধকার প্রবাহ | 65.86 | 65.70 |
-| অন্ধকার ঘনত্ব | 3.21 | 3.19 |
+| speed | 1.543 | 1.515 |
+| flow | 30.57 | 30.19 |
+| density | 0.567 | 0.541 |
+| dark speed | 6.903 | 6.888 |
+| dark flow | 65.86 | 65.70 |
+| dark density | 3.21 | 3.19 |
 
-পূর্ণ কভারেজ হোল্ডআউট, গেট 0.6 , a = 0.75 :
+Full-coverage holdout, gate 0.6, a = 0.75:
 
-| প্যানেল | J hold1 | J hold3 | Δ | LWR hold1 → hold3 |
+| Panel | J hold1 | J hold3 | Δ | LWR hold1 → hold3 |
 |---|---|---|---|---|
 | D12_I5_S | 0.38618 | 0.38810 | +0.0019 | 0.5916 → 0.6068 |
 | D7_I10_W | 0.38800 | 0.38862 | +0.0006 | 0.5868 → 0.5905 |
 | D7_I405_S | 0.38044 | 0.38215 | +0.0017 | 0.5896 → 0.5985 |
 | D12_I405_N | 0.39232 | 0.39293 | +0.0006 | 0.6005 → 0.6055 |
 
-4/4 প্যানেলের ক্ষেত্রে ভালো (প্রায় +0.0012 মোট), যা speed/flow এবং ঘনত্ব মডেল উভয় থেকে লাভবান। **গৃহীত।** পূর্ণ ডেটা ফিট `full3` চলছে।
+Better on 4/4 panels (mean +0.0012 total), with gains from both the speed/flow and the density models. **Adopted.** Full-data fit `full3` is in progress.
 
-## দিনের সারসংক্ষেপ 2026-09-24 : B1  0.85732 → E1  0.86591 (+0.0086 )
-প্রতিটি পদক্ষেপ একটি একক, স্থানীয়ভাবে বৈধতা ফ্যাক্টর পরিবর্তন। প্রতিটি টাস্ক 1 ডেল্টা তার হোল্ডআউট পূর্বাভাস 0.0002 মধ্যে মিলিত।
+## Day summary 2026-09-24: B1 0.85732 → E1 0.86591 (+0.0086)
+Every step changed a single, locally validated factor. Each Task 1 delta matched its holdout prediction to within 0.0002.
 
-| ধাপ | পরিবর্তন | LB Δ | স্থানীয় পূর্বাভাস |
+| Step | Change | LB Δ | Local prediction |
 |---|---|---|---|
-| S1 | ক্যু ভি 5 (ফজিক্স + শকওয়েভ বৈশিষ্ট্য) | +0.00243 (ΔS_queue +0.0081 ) | CV +0.005 × 0.30 |
-| S2 | শুরু v6 (সংশোধন করা লেবেল দিয়ে প্রশিক্ষণ দেওয়া) | +0.00453 (প্রারম্ভ +0.030 ) | CV শুরু +0.005 থেকে +0.012 |
-| S3 | গেট বিভক্ত a = 0.75 | +0.00064 | +0.0006 |
-| S4 | টাস্ক 1  FD - বৈশিষ্ট্য মডেল | +0.00099 | +0.0012 |
+| S1 | queue v5 (physics + shockwave features) | +0.00243 (ΔS_queue +0.0081) | CV +0.005 × 0.30 |
+| S2 | onset v6 (trained on corrected labels) | +0.00453 (onset +0.030) | CV onset +0.005 to +0.012 |
+| S3 | gate split a = 0.75 | +0.00064 | +0.0006 |
+| S4 | Task 1 FD-feature models | +0.00099 | +0.0012 |
 
-**E1 ( 0.86591 ) এর বিভাজন**  B1 এর গেইটিং অংশটি স্থানীয়ভাবে অনুমান করা হয়; অন্য সব কিছু জোন এবং একক ফ্যাক্টর ডেল্টা থেকে সঠিক।
+**Decomposition of E1 (0.86591).** Only the gating share of B1 is estimated locally; everything else is exact from probes and single-factor deltas.
 
-| টাস্ক | ওজন | কাজের স্কোর |
+| Task | Weighted | Task score |
 |---|---|---|
 | ODME | 0.19876 | 0.994 |
-| কাজ 1 +3 | ≈0.4319 | 0.4287 (A) + গেটিং 0.0016 + স্প্লিট 0.0006 + FD  0.0010 |
-| ক্রম | ≈0.2352 | S_queue ≈0.784 : **শুরু 0.728 (নির্দিষ্ট)** , চলমান ≈0.840 |
+| Task 1 + 3 | ≈ 0.4319 | 0.4287 (A) + gating 0.0016 + split 0.0006 + FD 0.0010 |
+| queue | ≈ 0.2352 | S_queue ≈ 0.784: **onset 0.728 (exact)**, ongoing ≈ 0.840 |
 
-সংশোধিত লেবেলগুলির উপর চলমান পুনর্নির্মাণ (v7 ) প্রত্যাখ্যান করা হয়েছিলঃ +0.0006 সংরক্ষণশীল মূল্যায়নে, এবং নন-পুনরাবৃত্তিকর স্লিট আরও খারাপ হয়ে ওঠে। লেবেল পক্ষপাত ক্যু গঠনতে বসে, প্রতিষ্ঠিত ক্যুগুলির মধ্যে নয়।
+The ongoing retrain on corrected labels (v7) was rejected: +0.0006 in the conservative evaluation, and the non-recurrent slice got worse. The label bias sits at queue formation, not inside established queues.
 
-**পরবর্তী লিভঃ শুরু।**
-- মার্চ শুরু 0.728 , সম্পর্কে 0.76 মধ্যে CV (পুরানো সত্য) এবং সম্পর্কে 0.86 (সঠিক সত্য) এর বিরুদ্ধে, তাই মার্চ শুরু স্থানান্তর সবচেয়ে খারাপ।
-- প্রতিটি +0.1 শুরুতে +0.015 মোট মূল্য। নেতার ফাঁক 0.0173 ।
+**Next lever: onset.**
+- March onset is 0.728, against about 0.76 in CV (old truth) and about 0.86 (corrected truth), so March onsets transfer worst. Diagnose March onset windows next (site recurrence, time of day, incident-like sites) with history-only features.
+- Each +0.1 onset is worth +0.015 total. The gap to the leader is 0.0173.
 
-## ডিকোডিং ক্যালিব্রেশন ( 2026-09-25 )
-**পুনরায় আঁকা window** ( `python -m trafficflow.t2.calib cv` / `decoders` , T2_WORK =t2h) এ OOF হাইব্রিড 6 শুরুঃ
+## Decoding calibration (2026-09-25)
+**Onset, v6 hybrid OOF on re-drawn windows** (`python -m trafficflow.t2.calib cv` / `decoders`, T2_WORK=t2h):
 
-| logit bias b | হাইব্রিড সিম | হাইব্রিড বন্ধ | পুরানো সিম | পুরানো | রিসি < 0.05 | রিসি < 0.2 | cells/window |
+| logit bias b | hybrid sim | hybrid off | old sim | old off | rec<0.05 | rec<0.2 | cells/window |
 |---|---|---|---|---|---|---|---|
 | −0.5 | 0.8563 | 0.8841 | 0.7844 | 0.7943 | 0.394 | 0.691 | 3.92 |
 | **0 (v6)** | **0.8589** | 0.8841 | **0.7871** | 0.7943 | 0.412 | 0.704 | 4.00 |
@@ -230,352 +228,352 @@ Hold RMSE , hold1 → hold3 :
 | +0.5 | 0.8588 | 0.8928 | 0.7862 | 0.8038 | 0.419 | 0.707 | 4.07 |
 | +1.0 | 0.8554 | 0.8970 | 0.7824 | 0.8088 | 0.434 | 0.713 | 4.16 |
 
-- সাইট-কমিশন ডিকোডার খরচ −0.001 থেকে −0.002 . `site2_lo.05_r.5` হল −0.0010 ±0.0012 হাইব্রিড এবং −0.0009 ±0.0011 পুরানো (জোড়া, 94 window পরিবর্তন করা হয়েছেঃ 44 ভাল, 50 খারাপ) ।
-- সংলগ্ন পরিসীমা এবং অ্যাঙ্কর ডিকোডারগুলি ভারীভাবে হারাচ্ছে ( 0.795 এবং 0.562 হাইব্রিড) ।
+- Site-commit decoders cost −0.001 to −0.002. `site2_lo.05_r.5` is −0.0010 ± 0.0012 hybrid and −0.0009 ± 0.0011 old (paired, 94 windows changed: 44 better, 50 worse).
+- The contiguous-range and anchor decoders lose heavily (0.795 and 0.562 hybrid).
 
-**LB এ , মার্চ মাসে উভয় দিকই হারিয়ে যায়:**
-- b = +0.5 যোগ করে শেক সেলঃ শুরু −0.016 .
-- `site2` তাদের অপসারণ করেঃ শুরু −0.012 .
-- **উপসংহারঃ** v6 b = এ top-m decoder 0 মার্চ সর্বোচ্চ সময়ে। শুরুতে লাভের সম্ভাবনা আরও ভাল থেকে আসা উচিত।
-- যোগ করা cellগুলি বেশিরভাগই অনিশ্চিত windowতে অতিরিক্ত সাইট ছিল ( D12_I5_N , D12_I5_S , D7_I405_S ). মডেলের নিজস্ব হেজগুলি সরানোও ক্ষতিগ্রস্ত করে, তাই এটি যে হেজগুলি বেছে নেয় তা আঘাত করে।
+**On the LB, both directions lose on March:**
+- b = +0.5 adds hedge cells: onset −0.016.
+- `site2` removes them: onset −0.012.
+- **Conclusion:** the v6 top-m decoder at b = 0 is at the March optimum. Onset gains have to come from better probabilities.
+- The added cells were mostly extra sites in uncertain windows (D12_I5_N, D12_I5_S, D7_I405_S). Removing the model's own hedges also hurts, so the hedges it picks do hit.
 
-**চলমান, v5 মিশ্রণ OOF , মূল window, পুরানো সত্য** ( `calib cv_ongoing` ):
+**Ongoing, v5 blend OOF, original windows, old truth** (`calib cv_ongoing`):
 
 | b | −0.5 | −0.25 | **0** | +0.25 | +0.5 | +1.0 |
 |---|---|---|---|---|---|---|
-| সিম | 0.8797 | 0.8827 | **0.8833** | 0.8820 | 0.8788 | 0.8659 |
-| বন্ধ | 0.8790 | 0.8866 | 0.8906 | 0.8950 | 0.8960 | 0.8889 |
+| sim | 0.8797 | 0.8827 | **0.8833** | 0.8820 | 0.8788 | 0.8659 |
+| off | 0.8790 | 0.8866 | 0.8906 | 0.8950 | 0.8960 | 0.8889 |
 
-- অফিসিয়াল train window উভয় শর্তের জন্য বৃহত্তর সেট পছন্দ করে। এই পছন্দটি শুরু করার জন্য LB এ স্থানান্তরিত হয়নি, তাই এটি সেই windowগুলিতে আমাদের সত্যের একটি আর্টেফ্যাক্ট ( 5 - মিনিট নির্বাচক স্থানান্তর), অফিসিয়াল সত্যের বৈশিষ্ট্য নয়।
-- কোন চলমান বিজয় সন্ডা খরচ করা হয়নি।
+- The official train windows prefer larger sets for both conditions. That preference did not transfer to the LB for onset, so it is an artefact of our truth on those windows (5-minute selector shifts), not a property of the official truth.
+- No ongoing bias probe was spent.
 
-## 3 টাস্কঃ TV ঘনত্ব মসৃণীকরণ ( 2026-09-25 , এজেন্ট; trafficflow/docs/T3_SMOOTHING.md এর বিস্তারিত)
-**পদ্ধতিঃ**
-- একটি লিঙ্ক উপর পরপর লক্ষ্য cell প্রতিটি রান মধ্যে প্রতি-লেন ঘনত্ব k = q/v মোট-ভেরিয়েশন মসৃণতা। একটি রান মধ্যে ছোট ইনক্রিমেন্ট শূন্য সেট করা হয়; ক্যু ফ্রন্ট রাখা হয়।
-- তৃণমূলের হার τ × রানটির গড় ঘনত্বঃ ফ্রি ফ্লো 0.0075 , গেট (v < 0.6 · v_f ) 0.02 , ব্ল্যাকআউট 0.05 । দুর্বল L1 অ্যাঙ্করগুলি রানটি পর্যবেক্ষণ করা প্রতিবেশীদের সাথে সংযুক্ত করে।
-- গেটের বাইরে কেবল প্রবাহই চলে; এর ভিতরে, a = 0.75 বিভক্ত প্রয়োগ করা হয়।
+## Task 3: TV density smoothing (2026-09-25, agent; details in trafficflow/docs/T3_SMOOTHING.md)
+**The method:**
+- Total-variation smoothing of the per-lane density k = q/v inside each run of consecutive target cells on a link. Small increments inside a run are set to zero; queue fronts are kept.
+- The threshold is τ × the run's mean density: free-flow 0.0075, gate (v < 0.6·v_f) 0.02, blackout 0.05. Weak L1 anchors tie the run ends to the observed neighbours.
+- Outside the gate only the flow moves; inside it, the a = 0.75 split applies.
 
-**Holdout J with hold3 , gate 0.6 , a 0.75 :**
+**Holdout J with hold3, gate 0.6, a 0.75:**
 
-| | D12_I5_S | D7_I10_W | D7_I405_S | D12_I405_N | মধ্যম ΔJ |
+| | D12_I5_S | D7_I10_W | D7_I405_S | D12_I405_N | mean ΔJ |
 |---|---|---|---|---|---|
-| মূল লাইন J | 0.38810 | 0.38862 | 0.38215 | 0.39293 | |
+| baseline J | 0.38810 | 0.38862 | 0.38215 | 0.39293 | |
 | TV J | 0.38877 | 0.38930 | 0.38262 | 0.39358 | **+0.00062 (4/4)** |
-| LWR বেসলাইন → TV | 0.6068 → 0.6132 | 0.5905 → 0.5967 | 0.5985 → 0.6032 | 0.6055 → 0.6116 | +0.0058 |
+| LWR baseline → TV | 0.6068 → 0.6132 | 0.5905 → 0.5967 | 0.5985 → 0.6032 | 0.6055 → 0.6116 | +0.0058 |
 
--2 প্যানেলগুলিতে পরামিতিগুলি নির্বাচিত করা হয়েছিল এবং অন্য 2 প্যানেলগুলিতে নিশ্চিত করা হয়েছিল।
-- কোয়ার্ড্যাটিক মসৃণতা +0.00018 দেয়। প্রবাহের পরিবর্তে গতি +0.00021 দেয়। ঘনত্ব মিশ্রণগুলি নেতিবাচক।
-- গেট 0.7 যোগ করে +0.00004 (শব্দ); a = 1.0 ব্যর্থ হয়।
+- Parameters were chosen on 2 panels and confirmed on the other 2.
+- Quadratic smoothing gives +0.00018. Moving speed instead of flow gives +0.00021. Density blends are negative.
+- Gate 0.7 adds +0.00004 (noise); a = 1.0 fails.
 
-**যেখানে LWR ক্ষতি (বেসলাইন):**
-- বিচ্ছিন্ন লক্ষ্য cell 46–48 %;
--2–3 cell 36–38 %;
--4 + cell 9–10 %;
-- ব্ল্যাকআউট 5–9 % চালায়।
+**Where the LWR loss sits (baseline):**
+- isolated target cells 46–48%;
+- runs of 2–3 cells 36–38%;
+- runs of 4+ cells 9–10%;
+- blackout runs 5–9%.
 
-শুধুমাত্র অভ্যন্তরীণ ট্রানজিশন (প্রায় 29 % ক্ষতি) মসৃণ করা যেতে পারে। **LB : G1 +0.00060 স্থানীয় +0.00062 এর বিরুদ্ধে।**
+Only the within-run transitions (about 29% of the loss) can be smoothed. **LB: G1 +0.00060 against the local +0.00062.**
 
-## দিনের সারসংক্ষেপ 2026-09-25 : E1  0.86591 → G2  0.86711 (+0.0012 ), 140 এর পুনর্নির্মাণের পরে 9 র্যাঙ্ক
-| ধাপ | পরিবর্তন | LB Δ | স্থানীয় পূর্বাভাস | রায় |
+## Day summary 2026-09-25: E1 0.86591 → G2 0.86711 (+0.0012), rank 9 of 140 post-rebuild
+| Step | Change | LB Δ | Local prediction | Verdict |
 |---|---|---|---|---|
-| F1 | সূচনা লগিট বিজয়েস +0.5 | −0.00235 | CV ফ্ল্যাট, window ছাড়াই + | সর্বোত্তম সময়ে ডিকোডার |
-| F2 | শুরু সাইট-কমিশন ডিকোডার | −0.00173 | CV −0.0010 ±0.0012 | সর্বোত্তম সময়ে ডিকোডার |
-| G1 | কাজ 3  TV ঘনত্ব মসৃণীকরণ | +0.00060 | +0.00062 | গৃহীত |
-| G2 | শুরু v8 স্তর + বীজ | +0.00060 | প্রায় +0.0005 | গৃহীত |
-| G3 | চলমান v9 পর্যায়-2 স্ট্যাকিং | −0.00350 | +0.0010 ( CV মিশ্রণ) থেকে +0.0018 (পরিবর্তন ওজন) | ব্যর্থ স্থানান্তর |
+| F1 | onset logit bias +0.5 | −0.00235 | CV flat, off-windows + | decoder at its optimum |
+| F2 | onset site-commit decoder | −0.00173 | CV −0.0010 ± 0.0012 | decoder at its optimum |
+| G1 | Task 3 TV density smoothing | +0.00060 | +0.00062 | adopted |
+| G2 | onset v8 stacking + seeds | +0.00060 | about +0.0005 | adopted |
+| G3 | ongoing v9 stage-2 stacking | −0.00350 | +0.0010 (CV mix) to +0.0018 (reweighted) | failed transfer |
 
-- **টাস্ক 1/3 .** স্থানীয় প্রক্সি 0.0002 এর মধ্যে সঠিক থাকে .
-- **টাস্ক 2 শুরু।** স্থানান্তর প্রায় যেমন পূর্বাভাস.
-- **টাস্ক 2 চলমান।** trainে মাসে শুধুমাত্র প্রাপ্ত উপার্জন স্থানান্তরিত হয় না। মার্চ মাসে স্ট্যাক D7_I10_E এর উপর ক্রমবর্ধমান সারিতে প্রসারিত এবং ছোট সারিতে পুনরায় সংগঠিত।
-- **পরবর্তী পদক্ষেপ।** টাস্ক 2 গেট শিফট সচেতন করুনঃ বৈধকরণ এবং ব্যক্তিগত window বিতরণে গুরুত্ব-ভিত্তিক CV , এটি বিশ্বাসযোগ্য হওয়ার আগে আজকের চারটি LB ফলাফলের সাথে চেক করুন।
+- **Tasks 1/3.** The local proxy stays exact to within 0.0002.
+- **Task 2 onset.** Transfers roughly as predicted.
+- **Task 2 ongoing.** Gains that exist only on train months don't transfer. On March the stack extended growing queues on D7_I10_E and reshuffled small queues.
+- **Next step.** Make the Task 2 gate shift-aware: importance-weighted CV toward the validation and private window distributions, checked against today's four LB outcomes before it is trusted.
 
-## 2026-09-26 চেইনঃ G2  0.86711 → H2  0.86777
-**H2 ( 0.86777 ) এর সঠিক বিভাজন P6 এবং P1 থেকেঃ**
+## 2026-09-26 chain: G2 0.86711 → H2 0.86777
+**Exact decomposition of H2 (0.86777), from P6 and P1:**
 
-| টাস্ক | ওজন | কাজের স্কোর |
+| Task | Weighted | Task score |
 |---|---|---|
 | ODME | 0.19876 | 0.994 |
-| কাজ 1 +3 | 0.43268 | S_state ≈0.94, S_phys ≈0.69 (S_LWR ≈0.55) |
-| ক্রম | 0.23633 | S_queue  0.7878 : শুরু 0.732 ( P4 + G2 Δ), চলমান 0.843 |
+| Task 1+3 | 0.43268 | S_state ≈ 0.94, S_phys ≈ 0.69 (S_LWR ≈ 0.55) |
+| queue | 0.23633 | S_queue 0.7878: onset 0.732 (P4 + G2 Δ), ongoing 0.843 |
 
-**পাঠ**
-- **টাস্ক 1/3 .** স্থানীয় জে LB এর পূর্বাভাস 0.0002 এর মধ্যে রাখেঃ H2 +0.00066 বনাম +0.00077 ; P5 −0.00041 বনাম −0.00062 ।
-- **চলমান।** পর্যায়-2 পুনরায় স্কোর মার্চকে আঘাত করে এমনকি যখন এটি কেবলমাত্র cellগুলি (H1b −0.010 ) সরিয়ে ফেলতে পারে বা শিফট-ওয়েটেড CV এবং ফুটপ্রিন্ট চেকগুলি পাস করতে পারে। মার্চ চলমান স্তর ( 0.843 ) বৈধতা-ওয়েটেড CV ( 0.849 ) এর সাথে মিলিত হয়, তবে কোনও train ভিত্তিক মূল্যায়ন চলমান সম্পাদনার * দিক * পূর্বাভাস দেয় না। এখন থেকে, চলমান পরিবর্তনগুলি প্রথম LB জোনব।
-- **লিডারবোর্ড.**  KTK  0.90033 (+0.012  25 Sep), গিচাং 0.89173 , Inocchi 0.88635 . আমরা 10 th of 151 post-rebuild, gap 0.0326 .
-  - যেখানে একটি 0.033 ফাঁক আসতে পারেঃ +0.1  S_queue = +0.030 ; +0.1  S_LWR = +0.010 (আমাদের ~ 0.55 এর বিরুদ্ধে ছাদ 0.955 ) ।
+**Lessons**
+- **Task 1/3.** Local J keeps predicting the LB to within 0.0002: H2 +0.00066 vs +0.00077; P5 −0.00041 vs −0.00062.
+- **Ongoing.** Stage-2 re-scoring hurts March even when it may only remove cells (H1b −0.010) or passes the shift-weighted CV and footprint checks. The March ongoing level (0.843) matches the validation-weighted CV (0.849), but no train-based evaluation predicts the *direction* of ongoing edits. From now on, ongoing changes are LB probes first.
+- **Leaderboard.** KTK 0.90033 (+0.012 on 25 Sep), gichang 0.89173, Inocchi 0.88635. We are 10th of 151 post-rebuild, gap 0.0326.
+  - Where a 0.033 gap could come from: +0.1 S_queue = +0.030; +0.1 S_LWR = +0.010 (ceiling 0.955 against our ~0.55).
 
-## লিডারবোর্ড 2026-09-27  00:10  UTC
-আমরা 14 th of 170 post-rebuild ( 20 th overall) with H2 = 0.86777 . পুনর্নির্মাণের পর শীর্ষ দল হল KTK  0.90038 , গিচাং 0.89628 , ইনোকি 0.88635 ,
-Giorgio Ottoboni 0.88458 এবং Lukas 0.88382 (গ্যাপ 0.0326 ). 26 সেপ্টেম্বর কোন নতুন প্রার্থী প্রস্তুত ছিল না, এবং 26 সেপ্টেম্বর সন্ধ্যায় sweep পরিকল্পনা মোডে চলে গেছে, তাই কিছুই চলেনি।
+## Leaderboard 2026-09-27 00:10 UTC
+We are 14th of 170 post-rebuild (20th overall) with H2 = 0.86777. The top post-rebuild teams are KTK 0.90038, gichang 0.89628, Inocchi 0.88635,
+Giorgio Ottoboni 0.88458 and Lukas 0.88382 (gap 0.0326). No new candidates were ready on 26 Sep, and the 26 Sep evening sweep ran in plan mode, so nothing ran.
 
-## টাস্ক 1 র্যাম্প-ফ্লো সদস্য ধরে রাখা 7 ( 2026-09-27 )
-On/off-ramp প্রবাহ ( `rflow` , `rvalid` ) মূল লাইন ব্ল্যাকআউট ( 80 % বৈধ) এর মধ্যেও মুক্তি পায়। `TFB_RAMP=1` প্রতি লিঙ্ক যোগ করে
-র্যাম্প বৈশিষ্ট্য (স্বনির্দিষ্ট লিঙ্ক, ±3 লিঙ্ক up/downstream , previous/next স্লট, নেট ইনফ্লো, এবং অন্ধকার সারি নেট ইনফ্লো পরিবর্তন
-বিজোড় 4 , অন্যথায় পূর্ণ 4 রেসিপি।
+## Task 1 ramp-flow member hold7 (2026-09-27)
+On/off-ramp flows (`rflow`, `rvalid`) are released even inside mainline blackouts (80% valid). `TFB_RAMP=1` adds per-link
+ramp features (own link, ±3 links up/downstream, previous/next slot, net inflow, and on dark rows the change in net inflow
+since the blackout started). Seed 4, otherwise the full4 recipe.
 
-- **সমান ওজন গেট** ( `seed_member.sh` , ens345 → ens3457 ): ΔJ +0.00012 / +0.00021 / +0.00053 / +0.00071 , গড় **+0.00039** , 4/4 . PASS .
-- অঙ্গটি ব্ল্যাকআউট সেলগুলিতে অনেক ভাল (ডার্ক স্পিড RMSE  6.11 বনাম 6.89 ) । তাই সমান ওজন এটিকে হ্রাস করে।
-  ( `t1_weighted_eval.py` ; র্যাম্প সদস্য w_reg নিয়মিত cellগুলিতে, w_dark অন্ধকার cellগুলিতে পায়, বাকি অংশগুলি ভাগ করে নেয়):
+- **Equal-weight gate** (`seed_member.sh`, ens345 → ens3457): ΔJ +0.00012 / +0.00021 / +0.00053 / +0.00071, mean **+0.00039**, 4/4. PASS.
+- The member is much better on blackout cells (dark speed RMSE 6.11 vs 6.89), so an equal weight dilutes it. Per-kind weights
+  (`t1_weighted_eval.py`; the ramp member gets w_reg on regular cells, w_dark on dark cells, the others share the rest):
 
-| স্কিম | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | গড় J | ΔJ vs ens345 | প্যানেল আপ |
+| scheme | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | mean J | ΔJ vs ens345 | panels up |
 |---|---|---|---|---|---|---|---|
-| ens345 (বেস) | 0.39439 | 0.39001 | 0.39021 | 0.38364 | 0.38956 | – | – |
-| সমান (প্রতিটি 0.25 ) | 0.39451 | 0.39022 | 0.39074 | 0.38435 | 0.38996 | +0.00039 | 4 |
-| অন্ধকার 0.5 | 0.39463 | 0.39027 | 0.39109 | 0.38476 | 0.39019 | +0.00062 | 4 |
-| অন্ধকার 0.75 | 0.39476 | 0.39026 | 0.39139 | 0.38498 | 0.39035 | +0.00078 | 4 |
-| **অন্ধকার 1.0** | 0.39474 | 0.39008 | 0.39140 | 0.38527 | 0.39037 | **+0.00081** | 4 |
+| ens345 (base) | 0.39439 | 0.39001 | 0.39021 | 0.38364 | 0.38956 | – | – |
+| equal (0.25 each) | 0.39451 | 0.39022 | 0.39074 | 0.38435 | 0.38996 | +0.00039 | 4 |
+| dark 0.5 | 0.39463 | 0.39027 | 0.39109 | 0.38476 | 0.39019 | +0.00062 | 4 |
+| dark 0.75 | 0.39476 | 0.39026 | 0.39139 | 0.38498 | 0.39035 | +0.00078 | 4 |
+| **dark 1.0** | 0.39474 | 0.39008 | 0.39140 | 0.38527 | 0.39037 | **+0.00081** | 4 |
 | reg 0.5 / dark 0.75 | 0.39458 | 0.39007 | 0.39124 | 0.38482 | 0.39018 | +0.00061 | 4 |
 | reg 0.5 / dark 1.0 | 0.39455 | 0.38988 | 0.39125 | 0.38511 | 0.39020 | +0.00064 | 3 |
 
-**H5 এর জন্য নির্বাচিতঃ** নিয়মিত cell = full3/4/5/7 এর সমান গড়, অন্ধকার cell = সম্পূর্ণ 7 একা ( `t1_pipeline ensw --w-reg 0.25 --w-dark 1.0` ).
-প্রত্যাশিত LB +0.0008র্যাম্প সদস্যের দিকে নিয়মিত cellের ওজন সাহায্য করে না, তাই তার লাভ হয় ব্ল্যাকআউট।
+**Chosen for H5:** regular cells = equal mean of full3/4/5/7, dark cells = full7 alone (`t1_pipeline ensw --w-reg 0.25 --w-dark 1.0`).
+Expected LB +0.0008. Weighting regular cells towards the ramp member does not help, so its gain is in blackouts.
 
-## টাস্ক 1 শুধুমাত্র অন্ধকার বুস্টার ধরে রাখা 8 ( 2026-09-27 )
-শুধুমাত্র ব্ল্যাকআউট মডেল ( `TFB_KINDS=dark` ), র্যাম্প বৈশিষ্ট্য, 127 leaves, lr 0.1 , প্রতি প্যানেলের জন্য 4000 রান পর্যন্ত, 200 k রান,
-বীজ 5- থালায়7 ব্ল্যাকআউট মডেল সব থামানো ছিল 3000- ঘূর্ণিমান টুপি. অপেক্ষা করুন.8's dark_speed সকালে থামানো 2699
-RMSE  5.98 দিয়ে 6.11 এর বিরুদ্ধে 7 রানড করে।
+## Task 1 dark-only booster hold8 (2026-09-27)
+Blackout models only (`TFB_KINDS=dark`), ramp features, 127 leaves, lr 0.1, up to 4000 rounds, 200k rows per panel,
+seed 5. The hold7 blackout models had all stopped at the 3000-round cap. hold8's dark_speed early-stopped at 2699
+rounds with RMSE 5.98, against 6.11 for hold7.
 
-নিয়মিত cellের সাথে Holdout J = mean(hold3 , 4 , 5 , 7 ) এবং নীচের ব্ল্যাকআউট সারি ( `t1_weighted_eval kinds` ):
+Holdout J with regular cells = mean(hold3, 4, 5, 7) and the blackout rows below (`t1_weighted_eval kinds`):
 
-| ব্ল্যাকআউট লাইন | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | গড় J | ΔJ | অন্ধকার গতি RMSE (প্যানেলের একই অর্ডার) |
+| blackout rows | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | mean J | ΔJ | dark speed RMSE (same panel order) |
 |---|---|---|---|---|---|---|---|
 | hold7 (= H5w) | 0.39474 | 0.39008 | 0.39140 | 0.38527 | 0.39037 | – | 5.94 / 6.58 / 6.12 / 8.01 |
-| থামুন 8 | 0.39451 | 0.39055 | 0.39141 | 0.38539 | 0.39047 | +0.00009 | 5.80 / 6.19 / 6.22 / 7.91 |
-| **mean(hold7 , hold8 )** | 0.39471 | 0.39046 | 0.39147 | 0.38548 | 0.39053 | **+0.00016** | 5.78 / 6.27 / 6.08 / 7.81 |
+| hold8 | 0.39451 | 0.39055 | 0.39141 | 0.38539 | 0.39047 | +0.00009 | 5.80 / 6.19 / 6.22 / 7.91 |
+| **mean(hold7, hold8)** | 0.39471 | 0.39046 | 0.39147 | 0.38548 | 0.39053 | **+0.00016** | 5.78 / 6.27 / 6.08 / 7.81 |
 
-- গেটটি মধ্যম 7 ধরে রাখুন, 8 ধরে রাখুন), 3/4 প্যানেলগুলিতে উপরে উঠুন।
-- একমাত্র ক্ষতি হল D12_I405_N (−0.00002 ), যার validation/private এ কোন ব্ল্যাকআউট নেই (এখানে কোন টাস্ক 2 নেই) ।
-  পরীক্ষার ব্ল্যাকআউট সহ তিনটি প্যানেলের ক্ষেত্রে, লাভটি প্রায় +0.0002 ।
-- H6 = H5w blackout rows = mean(full7 , full8 ).
+- Gate passed with mean(hold7, hold8), up on 3/4 panels.
+- The one loss is D12_I405_N (−0.00002), which has no blackouts in validation/private (no Task 2 there).
+  On the three panels with test blackouts the gain is about +0.0002.
+- H6 = H5w with blackout rows = mean(full7, full8).
 
-### কেন ব্ল্যাকআউট লাভ খারাপভাবে স্থানান্তরিত হয়েছে (ব্ল্যাকআউট সেল সহ এবং ছাড়াই পুনরুদ্ধার করা হয়েছে)
+### Why the blackout gains transferred badly (holdout rescored with and without blackout cells)
 
-| পরিবর্তন | স্থানীয় ΔJ, সমস্ত cell | স্থানীয় ΔJ, ব্ল্যাকআউট সেল বাদ দেওয়া | LB Δ |
+| change | local ΔJ, all cells | local ΔJ, blackout cells excluded | LB Δ |
 |---|---|---|---|
 | H3 → H5w | +0.00081 | +0.00008 | +0.00039 |
 | H5w → H6 | +0.00016 | 0 | +0.00001 |
 
-- ব্ল্যাকআউট cellগুলি LB এর উপর নির্ভর করে। তাদের ছাড়া, H5w শুধুমাত্র +0.0001 অর্জন করবে।
-- তাদের লাভের স্থানান্তর অবিশ্বাস্যভাবেঃ H5w র্যাম্প সদস্যের জন্য প্রায় 50 % এবং H6 এর বুস্টারের জন্য প্রায় 5 %।
-- এই হোলডাউটে প্রতি প্যানেলের জন্য শুধুমাত্র 10 ব্ল্যাকআউট রয়েছে (সমস্তে 40 , যার মধ্যে একটি D12_I405_N , যা পরীক্ষায় নেই) ।
-  ব্ল্যাকআউট ΔJ অনুমানগুলি কিছু ঘটনার উপর ভিত্তি করে, যখন নিয়মিত cellের অনুমানগুলি শত শত হাজার cell ব্যবহার করে।
-- **নিয়মঃ** ব্ল্যাকআউট-শুধুমাত্র ডিসকাউন্ট ΔJ থেকে প্রায় 1/3 যখন LB ভবিষ্যদ্বাণী করার জন্য।
-  আবার মডেল, সব Holdout সময়কালের উৎপত্তি জন্য holdout প্রসারিত যাতে অন্ধকার অনুমান সঠিক হয়.
+- Blackout cells do count on the LB. Without them, H5w would have gained only about +0.0001.
+- Their gains transfer unreliably: about 50% for H5w's ramp member and about 5% for H6's booster.
+- The holdout has only 10 blackouts per panel (40 in all, one of them on D12_I405_N, which has none in the test).
+  Blackout ΔJ estimates therefore rest on a few events, while regular-cell estimates use hundreds of thousands of cells.
+- **Rule from now on:** discount blackout-only ΔJ to about 1/3 when predicting the LB. Before investing in blackout
+  models again, widen the holdout to all holdout-period origins so the dark estimate is precise.
 
-## দিনের সারসংক্ষেপ 2026-09-27 : H2  0.86777 → H5w 0.86838 (+0.00061 )
+## Day summary 2026-09-27: H2 0.86777 → H5w 0.86838 (+0.00061)
 
-| # | উপস্থাপনা | জনসাধারণ | Δ বনাম সেরা | সিদ্ধান্ত |
+| # | Submission | Public | Δ vs best | Decision |
 |---|---|---|---|---|
-| S1 | H3 : তৃতীয় টাস্ক 1 বীজ | 0.86799 | +0.00022 (স্থানীয় +0.00023 ) | গৃহীত |
-| S2 | G7 : হাইব্রিড লেবেলগুলিতে চলমান পুনরায় প্রশিক্ষণ | 0.86779 | −0.00020 | প্রত্যাখ্যান করা হয়েছে; লেবেল কাজ শেষ হয়েছে |
-| S3 | **H5w: র্যাম্প-ফ্লো সদস্য, ব্ল্যাকআউট-ওয়েটেড** | **0.86838** | +0.00039 (স্থানীয় +0.00081 ) | **গৃহীত (সেরা)** |
-| S4 | H6 : ব্ল্যাকআউট লাইনে শুধুমাত্র অন্ধকার-বিক্রয় | 0.86839 | +0.00001 (স্থানীয় +0.00016 ) | প্রত্যাখ্যান করা |
-| S5 | G8 : চলমান ক্ষমতা p3 (v11 ) | 0.86798 | −0.00041 ( CV +0.005 , পূর্ণ গেট পাস) | প্রত্যাখ্যান করা হয়েছে; শক্তিশালী তালিকা |
+| S1 | H3: third Task 1 seed | 0.86799 | +0.00022 (local +0.00023) | adopted |
+| S2 | G7: ongoing retrained on hybrid labels | 0.86779 | −0.00020 | rejected; ongoing label work closed |
+| S3 | **H5w: ramp-flow member, blackout-weighted** | **0.86838** | +0.00039 (local +0.00081) | **adopted (best)** |
+| S4 | H6: dark-only booster on blackout rows | 0.86839 | +0.00001 (local +0.00016) | rejected |
+| S5 | G8: ongoing capacity p3 (v11) | 0.86798 | −0.00041 (CV +0.005, full gate passed) | rejected; robust list |
 
-**পাঠ**
-- **নিয়মিত সেল টাস্ক 1 পরিবর্তন স্থানান্তর, ব্ল্যাকআউট সেল পরিবর্তন নির্ভরযোগ্যভাবে না.** ধাক্কা শুধুমাত্র 10
-  প্যানেলের প্রতি ব্ল্যাকআউট, তাই অন্ধকার ΔJ শব্দবহুলঃ H5w তার অন্ধকার অংশের প্রায় 50 %, H6 প্রায় 5 % স্থানান্তরিত।
-- **চলমান CV উন্নতি মার্চ পর্যন্ত স্থানান্তরিত হয় না।** গত পাঁচটি চলমান পরিবর্তনের মধ্যে চারটি LB
-  ( G3 −0.023 , H1b −0.010 , G7 −0.0013 , G8 −0.0027 চলমান IoU তে): স্ট্যাকিং, সেল অপসারণ, লেবেল এবং এখন ক্ষমতা।
-  সমস্ত সাধারণ CV পাস করেছে, এবং H1b এবং G8 ও শিফট-ওয়েটেড এবং ফুটপ্রিন্ট চেক পাস করেছে। শুধুমাত্র v5 (+0.016 ) স্থানান্তরিত হয়েছে।
-  মার্চ চলমান window কিছু পুরস্কৃত আমাদের CV পরিমাপ না।
-  কোন নির্ভরযোগ্য স্থানীয় গেট নেই।
+**Lessons**
+- **Regular-cell Task 1 changes transfer, blackout-cell changes do not reliably.** The holdout has only 10
+  blackouts per panel, so dark ΔJ is noisy: H5w transferred about 50% of its dark part, H6 about 5%.
+- **Ongoing CV improvements do not transfer to March.** Four of the last five ongoing changes lost on the LB
+  (G3 −0.023, H1b −0.010, G7 −0.0013, G8 −0.0027 in ongoing IoU): stacking, cell removal, labels and now capacity.
+  All passed plain CV, and H1b and G8 passed the shift-weighted and footprint checks too. Only v5 (+0.016) transferred.
+  The March ongoing windows reward something our CV does not measure. Until that is understood, ongoing edits
+  have no reliable local gate.
 
-## 1 নিয়মিত বুস্টার ধরে রাখা 9 ( 2026-09-27 ; H7  28 Sep)
-শুধুমাত্র নিয়মিত সেল মডেল (`TFB_KINDS=reg`, `reg_member.sh`), বীজ 6, 300প্যানেল প্রতি k সারি (অন্য সদস্যরা ব্যবহার করে
-150 k), lr 0.05 , 6000 পর্যন্ত রান্ড, র্যাম্প বৈশিষ্ট্য নেই। একক মডেলের হোল্ডআউট RMSE বনাম হোল্ড 7 :
+## Task 1 regular booster hold9 (2026-09-27; H7 for 28 Sep)
+Regular-cell models only (`TFB_KINDS=reg`, `reg_member.sh`), seed 6, 300k rows per panel (the other members use
+150k), lr 0.05, up to 6000 rounds, no ramp features. Single-model holdout RMSE against hold7:
 
-| মডেল | hold7 (সেরা iter) | hold9 (সেরা iter) | পরিবর্তন |
+| model | hold7 (best iter) | hold9 (best iter) | change |
 |---|---|---|---|
-| গতি | 1.5067 (970) | 1.4388 (3649) | −4.5% |
-| প্রতি রান প্রতি প্রবাহ | 30.16 (1110) | 29.37 (4533) | −2.6% |
-| ঘনত্ব | 0.5558 ( 3000 , ক্যাপ) | 0.5167 ( 5999 , ক্যাপ) | −7.0 %, এখনও ক্যাপে |
+| speed | 1.5067 (970) | 1.4388 (3649) | −4.5% |
+| flow per lane | 30.16 (1110) | 29.37 (4533) | −2.6% |
+| density | 0.5558 (3000, cap) | 0.5167 (5999, cap) | −7.0%, still at the cap |
 
-ধারণকারী J, ব্ল্যাকআউট সারিগুলি স্থির (= ধারণকারী 7 ) তাই শুধুমাত্র নিয়মিত পরিবর্তনটি পরিমাপ করা হয় ( `t1_weighted_eval regs` ):
+Holdout J, blackout rows fixed (= hold7) so only the regular change is measured (`t1_weighted_eval regs`):
 
-| নিয়মিত সারি | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | গড় J | ΔJ | প্যানেল আপ |
+| regular rows | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | mean J | ΔJ | panels up |
 |---|---|---|---|---|---|---|---|
-| mean(hold3 , 4 , 5 , 7 ) (= H5w) | 0.39474 | 0.39008 | 0.39140 | 0.38527 | 0.39037 | – | – |
-| যোগ করুন 9 (সমতুল্য ওজন) | 0.39502 | 0.39043 | 0.39161 | 0.38558 | 0.39066 | +0.00029 | 4 |
-| **0.5 ·hold9 +0.5 ·mean(old)** | **0.39526** | **0.39081** | **0.39174** | **0.38579** | **0.39090** | **+0.00053** | **4** |
-| একা থাকুন 9 | 0.39520 | 0.39084 | 0.39150 | 0.38574 | 0.39082 | +0.00045 | 4 |
+| mean(hold3, 4, 5, 7) (= H5w) | 0.39474 | 0.39008 | 0.39140 | 0.38527 | 0.39037 | – | – |
+| add hold9 (equal weight) | 0.39502 | 0.39043 | 0.39161 | 0.38558 | 0.39066 | +0.00029 | 4 |
+| **0.5·hold9 + 0.5·mean(old)** | **0.39526** | **0.39081** | **0.39174** | **0.38579** | **0.39090** | **+0.00053** | **4** |
+| hold9 alone | 0.39520 | 0.39084 | 0.39150 | 0.38574 | 0.39082 | +0.00045 | 4 |
 
-- সমষ্টির নিয়মিত গতি RMSE  1.248 / 1.732 / 1.311 / 2.044 থেকে 1.218 / 1.692 / 1.301 / 2.002 পর্যন্ত কমে যায়।
-- আরও তথ্য এবং ধীরতর শিক্ষার হার বীজ গড়কে ছাড়িয়ে যায়ঃ একটি বর্ধিত মডেল 4 - বীজ সমন্বয়ের চেয়ে ভাল।
-- পরবর্তী পদক্ষেপ হল আরও বাড়ানো বীজ এবং ঘনত্ব মডেলের জন্য আরও রাউন্ড, যা এখনও ক্যাপটিতে রয়েছে।
-- H7 = H5w নিয়মিত সারি = 0.5 ·পূর্ণ 9 +0.5 ·mean(পূর্ণ 3 , 4 , 5 , 7 ). LB এর প্রত্যাশা প্রায় +0.0005 , কারণ নিয়মিত cellের পরিবর্তনগুলি সঠিকভাবে স্থানান্তরিত হয়।
+- The regular speed RMSE of the ensemble drops from 1.248 / 1.732 / 1.311 / 2.044 to 1.218 / 1.692 / 1.301 / 2.002.
+- More data plus a slower learning rate beats seed averaging: one boosted model is better than the 4-seed ensemble.
+- Next steps are more boosted seeds, and more rounds for the density model, which is still at the cap.
+- H7 = H5w with regular rows = 0.5·full9 + 0.5·mean(full3, 4, 5, 7). Expected LB about +0.0005, since regular-cell changes transfer exactly.
 
-H7 বিল্ড ( 27 Sep 17:28 ): `H7_reg9.zip` , 65/65 চেক। H5w, 6,613,327 নিয়মিত অবস্থা সারি পরিবর্তন (মধ্যম |Δv| 0.091 km/h,
-|Δq| 9.7  veh/h ); ব্ল্যাকআউট সারি, ক্যু এবং ODME একই। বাড়ানো মডেলগুলির সাথে ভবিষ্যদ্বাণী করা ধীরঃ প্রায় 3 h
-পরীক্ষার লাইন যখন দুটি ভবিষ্যদ্বাণী CPU ভাগ করে।
+H7 build (27 Sep 17:28): `H7_reg9.zip`, 65/65 checks. Against H5w, 6,613,327 regular state rows change (mean |Δv| 0.091 km/h,
+|Δq| 9.7 veh/h); blackout rows, queue and ODME are identical. Predicting with the boosted models is slow: about 3 h for
+the test rows when two predictions share the CPU.
 
-## লিডারবোর্ড 2026-09-27  21:15  UTC
-আমরা 15 th post-rebuild with H5w = 0.86838 (রৌ সেরা, H6 = 0.86839 , শব্দ মধ্যে একই) । শীর্ষ পোস্ট-rebuild
-দলগুলো হল KTK  0.90085 , গিচাং 0.89628 , জর্জ ড্যানিয়েল গেরসিম 0.89145 (নতুন), ইনোকি 0.88697 এবং জর্জিও ওটটোবনি 0.88548 ;
-# এর ফাঁক1 হয় 0.03246আজ থেকে দুটি কনটেইনার পুনরায় চালু হচ্ছে (প্রায় 13:00 এবং 17:40–21:14) ভাড়া10 চলতে থাকে;
-21 এ পুনরায় চালু করা হয়েছেঃ 15 .
+## Leaderboard 2026-09-27 21:15 UTC
+We are 15th post-rebuild with H5w = 0.86838 (the raw best, H6 = 0.86839, is the same within noise). The top post-rebuild
+teams are KTK 0.90085, gichang 0.89628, George Daniel Gherasim 0.89145 (new), Inocchi 0.88697 and Giorgio Ottoboni 0.88548;
+the gap to #1 is 0.03246. Two container restarts today (about 13:00 and 17:40–21:14) cost the hold10 run; it
+restarted at 21:15.
 
-## দ্বিতীয় বর্ধিত নিয়মিত বীজ ধরে রাখা 10 ( 2026-09-27  23:19 ; H8 for 28 Sep)
-7 বীজ 9 সংরক্ষণের সাথে, তবে ঘনত্ব মডেল 10000 রান্ড পর্যন্ত চলতে পারে। একক মডেলের RMSE ঃ গতি 1.4412
-(হোল্ড 9  1.4388 ), প্রবাহ 29.32 ( 29.37 ), ঘনত্ব **0.5047** ( 0.5167 ; সর্বোত্তম পুনরাবৃত্তি 9989 , এখনও ক্যাপের কাছে) ।
+## Second boosted regular seed hold10 (2026-09-27 23:19; H8 for 28 Sep)
+Seed 7 with the hold9 settings, except that the density model may run to 10000 rounds. Single-model holdout RMSE: speed 1.4412
+(hold9 1.4388), flow 29.32 (29.37), density **0.5047** (0.5167; best iteration 9989, still near the cap).
 
-ধারণকারী J, ব্ল্যাকআউট সারি স্থির (= ধারণকারী 7 ), রেফারেন্স = H7 স্কিমঃ
+Holdout J, blackout rows fixed (= hold7), reference = the H7 scheme:
 
-| নিয়মিত সারি | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | গড় J | ΔJ | প্যানেল আপ |
+| regular rows | D12_I405_N | D12_I5_S | D7_I10_W | D7_I405_S | mean J | ΔJ | panels up |
 |---|---|---|---|---|---|---|---|
-| H7: 0.5 ·hold9 +0.5 ·mean(hold3 , 4 , 5 , 7 ) | 0.39526 | 0.39081 | 0.39174 | 0.38579 | 0.39090 | – | – |
-| 0.25 ·hold9 +0.25 ·hold10 +0.5 ·old | 0.39535 | 0.39093 | 0.39181 | 0.38591 | 0.39100 | +0.00010 | 4 |
-| 0.35 ·hold9 +0.35 ·hold10 +0.3 ·old | 0.39551 | 0.39112 | 0.39186 | 0.38601 | 0.39112 | +0.00022 | 4 |
-| **0.5 ·hold9 +0.5 ·hold10 (পুরানো সদস্যরা বাদ পড়েছে)** | **0.39556** | **0.39124** | **0.39181** | **0.38602** | **0.39116** | **+0.00026** | **4** |
+| H7: 0.5·hold9 + 0.5·mean(hold3, 4, 5, 7) | 0.39526 | 0.39081 | 0.39174 | 0.38579 | 0.39090 | – | – |
+| 0.25·hold9 + 0.25·hold10 + 0.5·old | 0.39535 | 0.39093 | 0.39181 | 0.38591 | 0.39100 | +0.00010 | 4 |
+| 0.35·hold9 + 0.35·hold10 + 0.3·old | 0.39551 | 0.39112 | 0.39186 | 0.38601 | 0.39112 | +0.00022 | 4 |
+| **0.5·hold9 + 0.5·hold10 (old members dropped)** | **0.39556** | **0.39124** | **0.39181** | **0.38602** | **0.39116** | **+0.00026** | **4** |
 
-- নিয়মিত গতি RMSE (প্যানেলের একই অর্ডার): 1.218 / 1.692 / 1.301 / 2.002 → 1.203 / 1.660 / 1.301 / 1.982 .
-- পুরোনো 150 k-row সদস্যরা দুইটা বাড়ানো বীজ থাকলে আর কিছু যোগ করে না।
-- পরবর্তীঃ একটি তৃতীয় বর্ধিত বীজ, এবং 10000 রাউন্ডের বাইরে ঘনত্ব মডেল।
-- H8 = H5w নিয়মিত সারি = 0.5 ·পূর্ণ 9 +0.5 ·পূর্ণ 10 (ব্ল্যাকআউট সারি পূর্ণ 7 ). স্থানীয় ΔJ বনাম H7 +0.00026 ; বনাম H5w প্রায় +0.0008 .
+- Regular speed RMSE (same panel order): 1.218 / 1.692 / 1.301 / 2.002 → 1.203 / 1.660 / 1.301 / 1.982.
+- The old 150k-row members no longer add anything once there are two boosted seeds.
+- Next: a third boosted seed, and the density model beyond 10000 rounds.
+- H8 = H5w with regular rows = 0.5·full9 + 0.5·full10 (blackout rows full7). Local ΔJ vs H7 +0.00026; vs H5w about +0.0008.
 
-### কেন H7 ~ 50 % এ স্থানান্তরিত হয় (স্থানীয় ΔJ তার S_state এবং LWR অংশে বিভক্ত)
+### Why H7 transferred at ~50% (local ΔJ split into its S_state and LWR parts)
 
-| পরিবর্তন | স্থানীয় ΔJ | S_state ( 0.35 ·ΔS) থেকে | LWR ( 0.10 ·ΔLWR) থেকে | LB Δ | পাঠ |
+| change | local ΔJ | from S_state (0.35·ΔS) | from LWR (0.10·ΔLWR) | LB Δ | reading |
 |---|---|---|---|---|---|
-| H2 (বীর্য গড়) | +0.00077 | +0.00024 | +0.00053 | +0.00066 | LWR অংশটি প্রায় 80 % এ স্থানান্তরিত হয় |
-| H7 (প্রশস্ত সদস্য, আরও ভাল ঘনত্ব মডেল) | +0.00053 | +0.00022 | +0.00031 | +0.00026 | LWR অংশটি প্রায় 15 % এ স্থানান্তরিত হয় |
-| H8 (দ্বিতীয় বর্ধিত বীজ), ভবিষ্যদ্বাণী | +0.00026 | +0.00013 | +0.00013 | +0.00013 থেকে +0.00026 | মিশ্রঃ বীজ গড় ঘনত্ব + ঘনত্ব |
+| H2 (seed averaging) | +0.00077 | +0.00024 | +0.00053 | +0.00066 | the LWR part transferred at about 80% |
+| H7 (boosted member, better density model) | +0.00053 | +0.00022 | +0.00031 | +0.00026 | the LWR part transferred at about 15% |
+| H8 (second boosted seed), prediction | +0.00026 | +0.00013 | +0.00013 | +0.00013 to +0.00026 | mixed: seed averaging plus density |
 
-- LWR বৈচিত্র্য হ্রাস বা মসৃণীকরণ ( H2 , G1 ) স্থানান্তর থেকে লাভ।
-- LWR প্রাপ্তিগুলি ঘনত্বের একটি আরো সঠিক মডেল থেকে ঘনত্বের cellগুলিতে বেশিরভাগই নয়। ফেব্রুয়ারি হোল্ডআউট আরও বেশি
-  কিছু প্যানেলের ( D12_I5_N , D12_I5_S ) মার্চের চেয়ে বেশি ভিজিয়ে থাকে এবং গেটেড সেলগুলোতে ঘনত্ব মডেল কাজ করে।
-- **প্রক্সি নিয়ম এখন থেকেঃ** পূর্বাভাস টাস্ক 1  LB Δ হিসাবে 0.35 ·ΔS_state প্লাস LWR অংশ discounted to about 15 % when it
-  ঘনত্বের নির্ভুলতার কারণে।
+- LWR gains from variance reduction or smoothing (H2, G1) transfer.
+- LWR gains from a more accurate density model in congested (gated) cells mostly don't. The February holdout is more
+  congested than March on some panels (D12_I5_N, D12_I5_S), and the gated cells are where the density model acts.
+- **Proxy rule from now on:** predict Task 1 LB Δ as 0.35·ΔS_state plus the LWR part discounted to about 15% when it
+  comes from density accuracy.
 
-### ক্ষমতা বৃদ্ধি স্থানান্তরিত হয় না; বৈচিত্র্য হ্রাস (28 সেপ্টেম্বর
+### Capacity gains do not transfer; variance reduction does (28 Sep)
 
-| পরিবর্তন | প্রকার | স্থানীয় ΔJ | LB Δ | স্থানান্তর |
+| change | kind | local ΔJ | LB Δ | transfer |
 |---|---|---|---|---|
-| H2 : 2 বীজের গড় | বৈচিত্র্য হ্রাস | +0.00077 | +0.00066 | ~85% |
-| H3: 3 rd বীজ | বৈচিত্র্য হ্রাস | +0.00023 | +0.00022 | ~95% |
-| G1 : TV মসৃণতা | পরবর্তী প্রক্রিয়াকরণ | +0.00062 | +0.00060 | ~100% |
-| H7 : বাড়ানো সদস্য ( 2 × সারি, lr 0.05 ) at 0.5 | ক্ষমতা / তথ্য | +0.00053 | +0.00026 | ~50% |
-| H8: 2 বৃদ্ধি বীজ, পুরোনো সদস্য হ্রাস | ক্ষমতা / তথ্য | +0.00026 | +0.00004 | ~15% |
+| H2: mean of 2 seeds | variance reduction | +0.00077 | +0.00066 | ~85% |
+| H3: 3rd seed | variance reduction | +0.00023 | +0.00022 | ~95% |
+| G1: TV smoothing | post-processing | +0.00062 | +0.00060 | ~100% |
+| H7: boosted member (2× rows, lr 0.05) at 0.5 | capacity / data | +0.00053 | +0.00026 | ~50% |
+| H8: 2 boosted seeds, old members dropped | capacity / data | +0.00026 | +0.00004 | ~15% |
 
-এই সময়সীমা হল শেষ 30 train-এর দিন, যা train সিমুলেশনের চাহিদা ড্র ভাগ করে। মার্চ এবং এপ্রিল
-স্বাধীন ড্র ("তাদের নিজস্ব চাহিদা ড্র এবং ইন্সটেন্টের সময়সূচী", DATA.md ). আরো ক্ষমতা বা আরো সারি উপযুক্ত
-train ড্রাগ-নির্দিষ্ট কাঠামো যা হোল্ডআউট পুরষ্কার এবং পরীক্ষার মাসগুলি করে না। কেবলমাত্র বীজ গড় এবং মসৃণ
-ভ্যারিয়েন্স অপসারণ করুন, তাই তারা স্থানান্তরিত হয়।
+The holdout is the last 30 train days, which share the train simulation's demand draw. March and April are
+independent draws ("their own demand draws and incident schedules", DATA.md). More capacity or more rows fit
+train-draw-specific structure that the holdout rewards and the test months do not. Seed averaging and smoothing only
+remove variance, so they transfer.
 
-**প্রক্সি নিয়মঃ** ছাড় capacity/data-driven স্থানীয় লাভের পরিমাণ প্রায় 30 %; গণনা ভেরিয়েন্স-নিয়োগ এবং পোস্ট প্রসেসিং
-পূর্ণ লাভ।
+**Proxy rule:** discount capacity/data-driven local gains to about 30%; count variance-reduction and post-processing
+gains in full.
 
-**প্রোটোকলের জন্য পরিণতিঃ** একটি স্বতন্ত্র ড্র যে একটি হোল্ডআউট সরাসরি স্থানান্তর পরিমাপ করবে.
-train-এর মধ্যে বিদ্যমান, কিন্তু March/April এর পর্যবেক্ষণ করা (অ-লক্ষ্য) cellগুলি একটি ট্রান্সডাক্টিভ চেক (ব্যাকলগ) হিসাবে কাজ করতে পারে।
+**Consequence for the protocol:** a holdout that is an independent draw would measure transfer directly. None
+exists in train, but the observed (non-target) cells of March/April could serve as a transductive check (backlog).
 
-## পরীক্ষার মাসের ছদ্মবেশী (2026-09-28, `t1_pseudo.py`)
-প্রতিটি প্যানেলে, 20 k পর্যবেক্ষণ করা, যোগ্য, লক্ষ্যহীন, মার্চ এবং 20 k এর অ-বাকআউট cell লুকানো আছে। তারা
-একটি নিয়মিত লক্ষ্য কিভাবে ভবিষ্যদ্বাণীঃ টেস্ট সারি জন্য প্যানেল নির্মিত, বৈশিষ্ট্য লুকানো cell সঙ্গে recomputed.
-প্রতিটি স্কিমের নিয়মিত সারিগুলি আনুষ্ঠানিক S_state সূত্রের মাধ্যমে স্কোর করা হয় (গেইটড রিকনসিলেশন, কোন TV মসৃণতা নেই) ।
-শুধুমাত্র প্রকাশিত তথ্য ব্যবহার করা হয়; cellগুলি পর্যবেক্ষণকৃত cellগুলির প্রায় 1 %।
+## Test-month pseudo-holdout (2026-09-28, `t1_pseudo.py`)
+In each panel, 20k observed, eligible, non-target, non-blackout cells of March and 20k of April are hidden. They are
+predicted the way a regular target is: panel built as for the test rows, features recomputed with the cells hidden.
+Each scheme's regular rows are scored with the official S_state formula (gated reconciliation, no TV smoothing).
+Only released data is used; the cells are about 1% of the observed cells.
 
-| ধাপ | train-এর স্ট্যান্ড, স্থানীয় ΔJ | ছদ্ম মার্চ, 0.35 ·ΔS_state | ছদ্মবেশী এপ্রিল | LB (মার্চ) |
+| step | train holdout, local ΔJ | pseudo March, 0.35·ΔS_state | pseudo April | LB (March) |
 |---|---|---|---|---|
-| H5w → H7 | +0.00053 | +0.00013 ( 9/10 প্যানেল) | +0.00010 (9/10) | +0.00026 |
+| H5w → H7 | +0.00053 | +0.00013 (9/10 panels) | +0.00010 (9/10) | +0.00026 |
 | H7 → H8 | +0.00026 | −0.00001 | 0.00000 | +0.00004 |
 
-- এই প্লেইড-হোল্ডাউটটি উভয় ধাপকে সঠিকভাবে করে। এটি কেবলমাত্র S_state অংশটি পরিমাপ করে, যা H7 এর LB উপার্জনের প্রায় অর্ধেক; বাকিটি LWR/smoothing.
-- train-এর স্ট্যান্ড আউট উভয় ধাপে অত্যধিক।
-- মার্চ নিয়মিত সেল RMSE : গতি 1.87 → 1.86 , প্রবাহ প্রতি ল্যান 31.9 → 31.7 (H5w → H7 ).
-- **গেট এখান থেকে টাস্ক 1 নিয়মিত সেল পরিবর্তনঃ** উভয় মাসে pseudo-holdout, না train holdout.
+- The pseudo-holdout gets both steps right. It measures the S_state part only, which is about half of H7's LB gain; the rest is LWR/smoothing.
+- The train holdout overstated both steps.
+- March regular-cell RMSE: speed 1.87 → 1.86, flow per lane 31.9 → 31.7 (H5w → H7).
+- **Gate from now on for Task 1 regular-cell changes:** the pseudo-holdout on both months, not the train holdout.
 
-## ট্রান্সডাক্টিভ টাস্ক 1 সদস্য পূর্ণপি ( 2026-09-28 )
-প্রশিক্ষণ লাইনগুলি হল সাধারণ train লাইনগুলি এবং প্রতি মাসে 90 k পর্যবেক্ষণকৃত cell এবং মার্চ এবং এপ্রিল থেকে প্যানেল
-( `t1_pseudo.build_train_rows` , `TFB_PSEUDO=1` ). তারা 40 k মূল্যায়ন cell থেকে নমুনা পৃথক করা হয়। বৈশিষ্ট্যগুলি হল
-30 k লুকানো cellগুলির বৃত্তগুলিতে নির্মিত (প্রায় 5 % অতিরিক্ত মাস্কিং), এবং লেবেলগুলি প্রকাশিত লক্ষ্য করা মানগুলি।
-কনফিগারেশনঃ স্ট্যান্ডার্ড নিয়মিত মডেল (প্যানেল প্রতি 0.1 , 150 k train লাইন, স্ট্যান্ড থেকে রাউন্ড 7 ), বীজ 11 , র্যাম্প বৈশিষ্ট্য নেই।
+## Transductive Task 1 member fullP (2026-09-28)
+Training rows are the usual train rows plus 90k observed cells per month and panel from March and April
+(`t1_pseudo.build_train_rows`, `TFB_PSEUDO=1`). They are sampled disjoint from the 40k evaluation cells. Features are
+built in rounds of 30k hidden cells (about 5% extra masking), and the labels are the released observed values.
+Config: standard regular models (lr 0.1, 150k train rows per panel, rounds from hold7), seed 11, no ramp features.
 
-Pseudo-hold S_state (নিয়মিত সারি, গেটযুক্ত সমন্বয়), 10 প্যানেলের উপর গড়ঃ
+Pseudo-holdout S_state (regular rows, gated reconciliation), mean over 10 panels:
 
-| স্কিম | মার্চ | এপ্রিল | 0.35 ·Δ vs H7 (মার্চ/এপ্রিল) | প্যানেল আপ বনাম পূর্ণ 3 |
+| scheme | March | April | 0.35·Δ vs H7 (March / April) | panels up vs full3 |
 |---|---|---|---|---|
-| পূর্ণ 3 / পূর্ণ 4 / পূর্ণ 5 (একক স্ট্যান্ডার্ড মডেল) | 0.93368 / 0.93376 / 0.93377 | 0.93211 / 0.93259 / 0.93274 | – | – |
-| H7 ( 0.5 ·পূর্ণ 9 +0.125 · full3/4/5/7 ) | 0.93522 | 0.93406 | 0 | 10 / 10 |
-| **পূর্ণP একা** | **0.94069** | **0.93943** | **+0.0019 / +0.0019** | **10 / 10** |
-| 0.5 ·পূর্ণ 9 +0.5 ·পূর্ণ | 0.93928 | 0.93812 | +0.0014 / +0.0014 | 10 / 10 |
-| H7 এর সাথে পূর্ণP যোগ করা হয় 0.1 | 0.93625 | 0.93508 | +0.0004 / +0.0004 | 10 / 10 |
+| full3 / full4 / full5 (single standard models) | 0.93368 / 0.93376 / 0.93377 | 0.93211 / 0.93259 / 0.93274 | – | – |
+| H7 (0.5·full9 + 0.125·full3/4/5/7) | 0.93522 | 0.93406 | 0 | 10 / 10 |
+| **fullP alone** | **0.94069** | **0.93943** | **+0.0019 / +0.0019** | **10 / 10** |
+| 0.5·full9 + 0.5·fullP | 0.93928 | 0.93812 | +0.0014 / +0.0014 | 10 / 10 |
+| H7 with fullP added at 0.1 | 0.93625 | 0.93508 | +0.0004 / +0.0004 | 10 / 10 |
 
-- একটি একক ট্রান্সডুক্টিভ মডেল উভয় মাসে এবং প্রতিটি প্যানেলের মধ্যে শুধুমাত্র train-এর সমন্বয়কে একটি বিশাল মার্জিন দিয়ে ছাড়িয়ে যায়।
-- এটি FD বৈশিষ্ট্য ( E1 ) এর পর থেকে এই আকারের প্রথম টাস্ক 1 পরিবর্তন।
-- ফুটো পরীক্ষাঃ
-  - প্রশিক্ষণ ক্রম থেকে মূল্যায়ন সেলগুলি বাদ দেওয়া হয়;
-  - মূল্যায়ন cellগুলি যখন তাদের নিজস্ব বৈশিষ্ট্যগুলি তৈরি করা হয় তখন লুকানো থাকে;
-  - কোন বৈশিষ্ট্য নিখুঁত তারিখ বা দিন সূচক বহন করে না, তাই মডেল শুধুমাত্র পরীক্ষা মাসের সাধারণ শিখতে পারেন
-    সম্পর্ক (প্রয়োজনের স্তর, প্রতিবেশী কাঠামো), সেলগুলি মনে রাখবেন না।
-- টাস্ক 1 অফলাইন পুনর্নির্মাণ; ≤ T নিয়ম টাস্ক 2 এর।
-- H9P = H7 নিয়মিত সারি = পূর্ণP; ব্ল্যাকআউট সারি পূর্ণ 7 থাকে।
+- A single transductive model beats every train-only ensemble by a wide margin, in both months and on every panel.
+- This is the first Task 1 change of this size since the FD features (E1).
+- Leakage checks:
+  - evaluation cells are excluded from the training rows;
+  - evaluation cells are hidden when their own features are built;
+  - no feature carries the absolute date or day index, so the model can only learn the test months' general
+    relations (demand level, neighbour structure), not memorise cells.
+- Task 1 is offline reconstruction; the ≤ T rule is Task 2's.
+- H9P = H7 with regular rows = fullP; blackout rows stay full7.
 
-### আরো ট্রান্সডাক্টিভ তথ্য (পূর্ণ পি 2: 2 × পরীক্ষার মাস-সারি, বীজ 12 )
-প্লেইড-হোল্ড, 0.35 ·ΔS_state বনাম fullP একা (মার্চ / এপ্রিল, প্যানেল আপ):
+### More transductive data (fullP2: 2× the test-month rows, seed 12)
+Pseudo-holdout, 0.35·ΔS_state vs fullP alone (March / April, panels up):
 
-| স্কিম | মার্চ | এপ্রিল |
+| scheme | March | April |
 |---|---|---|
-| পূর্ণ পি 2 একা | +0.00043 (10) | +0.00056 (9) |
-| mean(fullP, fullP2 ) | +0.00050 (10) | +0.00061 (10) |
-| **0.35 ·fullP +0.65 ·fullP2** | **+0.00054 (10)** | **+0.00067 (10)** |
+| fullP2 alone | +0.00043 (10) | +0.00056 (9) |
+| mean(fullP, fullP2) | +0.00050 (10) | +0.00061 (10) |
+| **0.35·fullP + 0.65·fullP2** | **+0.00054 (10)** | **+0.00067 (10)** |
 
-- আরও পরীক্ষার মাসগুলি সাহায্য করে ( 1 × → 2 ×: প্রায় +0.0005 ), এবং গড় যোগ করা সামান্য।
-- H10P = H9P ওজনযুক্ত জোড়া দিয়ে।
-- একটি তৃতীয় বিচ্ছিন্ন সেট তৈরি করা হয়; পূর্ণ পি 3 ( 3 ×, বীজ 13 ) H10P ( `/home/user/work/chain_H11P.sh` ) এর পরে চেইন করা হয়।
--733  MB  `/home/user/work/t2/_xev_11368.npy` মুছে ফেলা হয়, একটি temp ফাইল নিহত p4  CV পিছনে রেখে যায়।
+- More test-month rows keep helping (1× → 2×: about +0.0005), and averaging adds a little.
+- H10P = H9P with the weighted pair.
+- A third disjoint set is built; fullP3 (3×, seed 13) is chained after H10P (`/home/user/work/chain_H11P.sh`).
+- 733 MB were freed by deleting `/home/user/work/t2/_xev_11368.npy`, a temp file the killed p4 CV left behind.
 
-### 3 × ট্রান্সডাক্টিভ সারি (fullP3 , seed 13 ) এবং দিনের ট্রান্সডাক্টিভ কার্ভ
-Pseudo-holdup vs H10P , 0.35 ·ΔS_state (মার্চ / এপ্রিল, প্যানেল আপ): পূর্ণP 3 একা +0.00013 ( 7 ) / +0.00008 ( 8 )
-**0.5 ·fullP2 +0.5 ·fullP3 +0.00024 ( 10 ) / +0.00026 ( 9 )** ; 0.2 ·P +0.35 · P2 +0.45 · P3 +0.00023 ( 10 ) / +0.00026 ( 10 ) ।
-আরও সারি থেকে ফিরে আসা কেবল সমতল ( 1 × → 2 × +0.0005 , 2 × → 3 × +0.0001 ); গড় সদস্যরা বাকি যোগ করে।
+### 3× transductive rows (fullP3, seed 13) and the day's transductive curve
+Pseudo-holdout vs H10P, 0.35·ΔS_state (March / April, panels up): fullP3 alone +0.00013 (7) / +0.00008 (8);
+**0.5·fullP2 + 0.5·fullP3 +0.00024 (10) / +0.00026 (9)**; 0.2·P + 0.35·P2 + 0.45·P3 +0.00023 (10) / +0.00026 (10).
+Returns from more rows alone are flattening (1× → 2× gave +0.0005, 2× → 3× +0.0001); averaging members adds the rest.
 
-| ধাপ | অদ্ভুত (শুধুমাত্র S_state ) | LB Δ | LB / ছদ্মবেশী |
+| step | pseudo (S_state only) | LB Δ | LB / pseudo |
 |---|---|---|---|
 | H7 → H9P (1×) | +0.0019 | +0.00229 | 1.2 |
 | H9P → H10P (2×) | +0.00054 | +0.00109 | 2.0 |
 | H10P → H11P (3×) | +0.00025 | +0.00047 | 1.9 |
 
-LB উপার্জন একটি LWR অংশ (পরীক্ষা মাস ভাল ঘনত্ব) অন্তর্ভুক্ত করে যা pseudo-holdout পরিমাপ করে না, তাই
-ছদ্ম চিত্রটি ট্রান্সডাক্টিভ পরিবর্তনের জন্য একটি সংরক্ষণশীল নীচের সীমা।
+The LB gain includes an LWR part (better density in the test months) that the pseudo-holdout does not measure, so the
+pseudo figure is a conservative lower bound for transductive changes.
 
-## পরীক্ষার মাসের ব্ল্যাকআউট (2026-09-28, `t1_pseudo.py dark`)
-ক্রমের মতো উত্সগুলি দেখা যায় March/April ডেটাতে, মাস্কযুক্ত ভিউতে নির্বাচক প্রতিলিপি সহ, দূরে
-প্রতি মাসে সর্বোচ্চ 40 এবং প্যানেল রাখা হয়, এবং টি +1 ..T+18 প্রতিটি সারিতে ফাঁকা হয়, যেমনটি
-এই সারিতে থাকা যোগ্য পর্যবেক্ষণকৃত cellগুলির জন্য বৈশিষ্ট্যগুলি নির্মিত হয়। মূল্যায়ন অর্ধেকের মধ্যে পরিবর্তিত হয়
-এবং একটি প্রশিক্ষণ অর্ধেক (অবৈধ ঘটনা): 800 সমস্ত, 1.18 M ব্ল্যাকআউট cellগুলিতে 585 k এর জন্য সিমুলেট ব্ল্যাকআউট
-মূল্যায়ন. ইতিহাস সারি T−12 ..T−1 মাস্কযুক্ত দৃশ্যের মধ্যে থাকে; একটি বাস্তব windowতে তারা সম্পূর্ণরূপে পর্যবেক্ষণ করা হয়, তাই প্রেক্ষাপট
-একটু কঠিন।
+## Test-month blackout pseudo-holdout (2026-09-28, `t1_pseudo.py dark`)
+Queue-like origins are found in the observed March/April data with the selector replica on the masked view, away from
+the released blackouts. At most 40 per month and panel are kept, and rows T+1..T+18 are blanked at each, as in the
+release. Features are built for the eligible observed cells in those rows. Origins alternate between an evaluation half
+and a training half (disjoint events): 800 simulated blackouts in all, 1.18M blackout cells, 585k of them for
+evaluation. The history rows T−12..T−1 stay in the masked view; in a real window they are fully observed, so the context
+is slightly harder.
 
-বেস লাইন ব্ল্যাকআউট RMSE (প্যানেলের উপর সেল ওজন):
+Baseline blackout RMSE (cell-weighted over panels):
 
-| মডেল | গতি, মার্চ/এপ্রিল | প্রতি রান প্রতি প্রবাহ, মার্চ/এপ্রিল |
+| model | speed, March / April | flow per lane, March / April |
 |---|---|---|
-| পূর্ণ 7 (বর্তমান ব্ল্যাকআউট সারি, র্যাম্প-ফ্লো সদস্য) | 7.33 / 6.89 | 81.2 / 72.0 |
-| 7 (একই, train-এর দিন < 243 ) | 7.35 / 6.95 | 81.1 / 72.4 |
+| full7 (current blackout rows, ramp-flow member) | 7.33 / 6.89 | 81.2 / 72.0 |
+| hold7 (same, train days < 243) | 7.35 / 6.95 | 81.1 / 72.4 |
 
-**fullPD** (পূর্ণ 7 এর সেটিংস প্লাস এই ব্ল্যাকআউটগুলির প্রশিক্ষণ অর্ধেক, `TFB_PSEUDO_DARK=1` , বীজ 15 ):
+**fullPD** (full7's settings plus the training half of these blackouts, `TFB_PSEUDO_DARK=1`, seed 15):
 
-| মডেল | গতি, মার্চ/এপ্রিল | প্রতি রান প্রতি প্রবাহ, মার্চ/এপ্রিল |
+| model | speed, March / April | flow per lane, March / April |
 |---|---|---|
-| পূর্ণ 7 | 7.33 / 6.89 | 81.2 / 72.0 |
-| **পূর্ণপিডি** | **6.42 / 5.91** (−12% / −14%) | **76.1 / 63.5** (−6% / −12%) |
-| 0.5 ·পূর্ণ 7 +0.5 ·পূর্ণপিডি | 6.72 / 6.21 | 77.2 / 66.2 |
+| full7 | 7.33 / 6.89 | 81.2 / 72.0 |
+| **fullPD** | **6.42 / 5.91** (−12% / −14%) | **76.1 / 63.5** (−6% / −12%) |
+| 0.5·full7 + 0.5·fullPD | 6.72 / 6.21 | 77.2 / 66.2 |
 
-- **পরীক্ষার ব্ল্যাকআউট ভাগ থেকে প্রত্যাশিত LB উপার্জন (প্রায় 2.1 % লক্ষ্যমাত্রা):** গতি RMSE প্রতি নিয়মে 2.108 → 2.045
-  (ΔS_state about +0.0014 on the 8 blackout panels), এবং প্রবাহের উপর একটি ছোট লাভ। S_total about +0.0004 to +0.0006 .
-- H12P = H11P ব্ল্যাকআউট লাইন = পূর্ণPD.
-- FullPB (প্রশস্ত কনফিগারেশন প্লাস 3 রায় সেট) OOM -কে 10.3  GB এ হত্যা করা হয়েছিল যখন FullPD পাশেই প্রশিক্ষণ নিয়েছে। এটি একা চালান।
+- **Expected LB gain, from the test's blackout share (about 2.1% of targets):** speed RMSE per regime 2.108 → 2.045
+  (ΔS_state about +0.0014 on the 8 blackout panels), and a smaller gain on flow. S_total about +0.0004 to +0.0006.
+- H12P = H11P with blackout rows = fullPD.
+- fullPB (boosted config plus 3 row sets) was OOM-killed at 10.3 GB while fullPD trained alongside. Run it alone.
 
-### দ্বিতীয় সিমুলেটেড ব্ল্যাকআউট সেট (fullPD2 , 2026-09-28 )
-`dark2` : প্রতি মাসে এবং প্যানেলের মধ্যে আরো ক্যু-র মতো উত্সগুলি 80 পর্যন্ত, 1 সেট থেকে বিচ্ছিন্ন (≥18 স্লট দূরে), যা সবই ব্যবহৃত হয়
-প্রশিক্ষণ 1,103  9 প্যানেলগুলিতে আরও ব্ল্যাকআউট। fullPD2 = full7 এর সেটিংস, বীজ 16 , সেট- 1 প্রশিক্ষণ অর্ধেক প্রশিক্ষণ
-+ dark2 . মূল্যায়ন পূর্বের মত 1 এর মূল্যায়নের অর্ধেক সেট করা হয়।
+### Second simulated-blackout set (fullPD2, 2026-09-28)
+`dark2`: up to 80 more queue-like origins per month and panel, disjoint from set 1 (≥ 18 slots away), all used for
+training; 1,103 more blackouts in 9 panels. fullPD2 = full7's settings, seed 16, trained on the set-1 training half
+plus dark2. Evaluation is set 1's evaluation half, as before.
 
-| ব্ল্যাকআউট লাইন | গতি, মার্চ/এপ্রিল | প্রতি রান প্রতি প্রবাহ, মার্চ/এপ্রিল |
+| blackout rows | speed, March / April | flow per lane, March / April |
 |---|---|---|
-| পূর্ণ 7 ( H11P মধ্যে) | 7.33 / 6.89 | 81.2 / 72.0 |
-| পূর্ণপিডি ( H12P ) | 6.42 / 5.91 | 76.1 / 63.5 |
-| পূর্ণপিডি 2 | 6.30 / 5.77 | 75.9 / 62.8 |
-| **mean(fullPD, fullPD2 )** | **6.27 / 5.75** | **75.3 / 62.3** |
+| full7 (in H11P) | 7.33 / 6.89 | 81.2 / 72.0 |
+| fullPD (in H12P) | 6.42 / 5.91 | 76.1 / 63.5 |
+| fullPD2 | 6.30 / 5.77 | 75.9 / 62.8 |
+| **mean(fullPD, fullPD2)** | **6.27 / 5.75** | **75.3 / 62.3** |
 
-H13P = H12P with blackout rows = mean(fullPD, fullPD2 ): প্রায় 2.5 % কম ব্ল্যাকআউট গতি RMSE than H12P , মান প্রায় +0.0001 .
+H13P = H12P with blackout rows = mean(fullPD, fullPD2): about 2.5% lower blackout speed RMSE than H12P, worth about +0.0001.

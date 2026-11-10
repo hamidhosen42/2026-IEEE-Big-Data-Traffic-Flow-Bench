@@ -1,110 +1,108 @@
-> বাংলা ভাষান্তর: স্থানীয় অনুবাদ মডেলের সহায়তায় অনূদিত। মূল ইংরেজি নথি সংরক্ষিত ব্যাকআপে আছে।
+# t2lab: local Task 2 lab (queue forecast)
 
-# t 2 ল্যাবঃ স্থানীয় টাস্ক 2 ল্যাব (উত্তর পূর্বাভাস)
+Local experiment harness on the real Task 2 panels exported to `data/t2local/t2data_<PANEL>.npz`
+(8 panels, 273 train days each). Everything here is new code under `analysis/t2lab/`; no project file is modified.
 
-`data/t2local/t2data_<PANEL>.npz` রপ্তানি করা আসল টাস্ক 2 প্যানেলগুলিতে স্থানীয় পরীক্ষা ব্যাবহার
-(8 প্যানেল, 273 এখানে সবকিছু নতুন কোডের অধীনে `analysis/t2lab/`কোন প্রকল্পের ফাইল সংশোধন করা হয়নি।
-
-| ফাইল | উদ্দেশ্য |
+| file | purpose |
 |---|---|
-| `lab.py` | আমদানিযোগ্য লাইব্রেরি (নীচে) |
-| `run_heavy.py` | 3 -slot semaphore, প্রতিটি প্রশিক্ষণ রান জন্য প্রয়োজনীয় |
-| `replay_selector.py` | নির্বাচক প্রজনন টেবিল (অফিসিয়াল train window বনাম নিয়ম ভেরিয়েন্ট) |
-| `prep_cache.py` | সমস্ত প্যানেলের জন্য window সেট + সারি ক্যাশে তৈরি করে (সমষ্টিগতভাবে 2 মিনিট) |
-| `baseline_A.py` | আর্ম A = স্থানীয় পর্যায়ে production চলমান রেসিপি |
-| `parity_float16.py` | এক্সপোর্ট এর একমাত্র ক্ষতির ধাপ (ফ্লোটিং 16 হিসাবে সংরক্ষিত গতি) |
-| `review_parity.py` | স্বাধীন পর্যালোচনাঃ production ফাংশনগুলির দ্বিতীয় সংকলন সহ বৈশিষ্ট্য সমতুল্যতা, অনলাইন নিয়ম, fold সুরক্ষা |
-| `review_selector.py` | স্বাধীন পর্যালোচনাঃ plain-loop selector replay vs `replay_table.csv` , `fill_time` চেক |
-| `review_scoring.py` | স্বাধীন পর্যালোচনাঃ হস্তগতভাবে সংকলন / ডিকোড করা, সংগঠক `score_window` , বুটস্ট্র্যাপ মানসিকতা |
-| `review_sets.py`, `review_data.py` | স্বাধীন পর্যালোচনাঃ window সেট তথ্য, run_arm পাইপিং ধোঁয়া (দুইটিই শর্ত), রপ্তানি তথ্য |
-| `logs/` | রান লগ (`review_*.log` = পর্যালোচনা চালানো) |
+| `lab.py` | importable library (below) |
+| `run_heavy.py` | 3-slot semaphore, required for every training run |
+| `replay_selector.py` | selector reproduction table (official train windows vs rule variants) |
+| `prep_cache.py` | builds window sets + row caches for all panels (about 2 min in total) |
+| `baseline_A.py` | arm A = production ongoing recipe at local scale |
+| `parity_float16.py` | measures the only lossy step of the export (speed stored as float16) |
+| `review_parity.py` | independent review: feature parity with a second compile of the production functions, online rule, fold safety |
+| `review_selector.py` | independent review: plain-loop selector replay vs `replay_table.csv`, `fill_time` check |
+| `review_scoring.py` | independent review: aggregation / decode by hand, organizer `score_window`, bootstrap sanity |
+| `review_sets.py`, `review_data.py` | independent review: window-set facts, run_arm plumbing smoke (both conditions), export facts |
+| `logs/` | run logs (`review_*.log` = the review runs) |
 
-## production কোড পুনরায় ব্যবহার করা হয়, পুনরায় লেখা হয় না
+## Production code is reused, not rewritten
 
-`lab.py` পার্স `kaggle_jobs/t2_model_v20.py` সঙ্গে `ast`, শুধুমাত্র শীর্ষ স্তরের ফাংশন সংজ্ঞা এবং
-`H, F, SPACING, PARAMS, PRIOR_COLS, ID_DROP, PANELS` ক্রমাগত, এবং শুধুমাত্র সেই (ক্যাগল প্রধান কোড কখনও চালানো হয় না) নির্বাহ করে.
-এগুলো `lab.prod.<name>` হিসেবে পাওয়া যায় এবং আবার export করা হয়: `window_features, add_ramp, prior_table, prior_feats, make_rows,
-to_matrix, ongoing_keep, decode, iou, established, build_windows`. `lab.selftest(panel)` যাচাই করে:
+`lab.py` parses `kaggle_jobs/t2_model_v20.py` with `ast`, keeps only the top-level function definitions and the
+constants `H, F, SPACING, PARAMS, PRIOR_COLS, ID_DROP, PANELS`, and executes just those (the Kaggle main code never runs).
+They are available as `lab.prod.<name>` and re-exported: `window_features, add_ramp, prior_table, prior_feats, make_rows,
+to_matrix, ongoing_keep, decode, iou, established, build_windows`. `lab.selftest(panel)` checks:
 
-* ফাংশনগুলি নিজেই production ফাইল থেকে সংকলিত হয় (লাইন নম্বরগুলি মিলিত হয়) এবং কোন প্রধান কোডের বিশ্বব্যাপী নেই;
+* the functions are compiled from the production file itself (line numbers match) and no main-code global exists;
 * `cut == 0.6 * vf`, `E == isfinite(V)`, `Q == E & (V <= cut)`;
-* অফিসিয়াল `history_coverage` কলামটি `E[history].mean()` এর সমান (ম্যাক্স অ্যাবস পার্থক্য 4.4e-5 = 4 - দশমিক গোলকীকরণ);
-* production নিয়মের সাথে ভেক্টরাইজড নির্বাচক সঠিকভাবে `build_windows(global_spacing=True)` প্রদান করে;
-* ক্যাশে থাকা সারি + আগে fold + মাস্ক রাখা `to_matrix(make_rows(P, wins, prior_k), cond, None, ongoing_keep(R))` এর সাথে কিছুটা অভিন্ন।
+* the official `history_coverage` column equals `E[history].mean()` (max abs difference 4.4e-5 = 4-decimal rounding);
+* the vectorised selector with the production rule returns exactly `build_windows(global_spacing=True)`;
+* cached rows + fold prior + keep mask are bit-identical to `to_matrix(make_rows(P, wins, prior_k), cond, None, ongoing_keep(R))`.
 
-চালান: `.venv/bin/python analysis/t2lab/lab.py D7_I210_W` .
+Run: `.venv/bin/python analysis/t2lab/lab.py D7_I210_W`.
 
-## FAITHFUL নির্বাচক নিয়ম
+## The FAITHFUL selector rule
 
-`replay_selector.py` দ্বারা পরিমাপ করা হয়েছে ( 2030-06-01 থেকে 5 +5 কোট সহ লোভী পুনরাবৃত্তি, সমস্ত 8 প্যানেল,
-40 অফিসিয়াল শুরু +40 অফিসিয়াল চলমান train-এর উৎপত্তি; দেখুন `logs/replay_selector.log` ):
+Measured by `replay_selector.py` (greedy replay from 2030-06-01 with the 5 + 5 quota, all 8 panels,
+40 official onset + 40 official ongoing train origins; see `logs/replay_selector.log`):
 
-| পূর্ণ অবস্থা | টি-তে স্থিরতা অবস্থা | আইওইউ সেল | সূচনা সঠিক | চলমান সঠিক | 5 মিনিটের মধ্যে চলমান |
+| filled state | persistence state at T | IoU cells | onset exact | ongoing exact | ongoing within 5 min |
 |---|---|---|---:|---:|---:|
-| কোন | পর্যবেক্ষণ করা হয়েছে (গুছানো = মুক্ত) = production `build_windows` | পর্যবেক্ষণ করা | 39 | 14 | 16 |
-| `hb` (সময় 3 , স্থান 2 , সময় 12 ) | ভরা | পর্যবেক্ষণ করা হয়েছে (E) | 39 | 34 | 38 |
-| `hb` | ভরা | সমস্ত ভরাট সেল | 39 | 32 | 36 |
-| `t3` (সময় 3 ) | ভরা | E / সব | 39 | 25 / 25 | 32 / 33 |
-| `t12` (সময় 12 ) | ভরা | E / সব | 39 | 33 / 35 | 38 / 38 |
-| **  `t36` (সময় 36 ) **|** ভরা **| E /** সব **| 39 | 34 /**36**| 39 /**39** |
+| any | observed (missing = free) = production `build_windows` | observed | 39 | 14 | 16 |
+| `hb` (time 3, space 2, time 12) | filled | observed (E) | 39 | 34 | 38 |
+| `hb` | filled | all filled cells | 39 | 32 | 36 |
+| `t3` (time 3) | filled | E / all | 39 | 25 / 25 | 32 / 33 |
+| `t12` (time 12) | filled | E / all | 39 | 33 / 35 | 38 / 38 |
+| **`t36` (time 36)** | **filled** | E / **all** | 39 | 34 / **36** | 39 / **39** |
 
-স্ক্যান অর্ডার (production দুই পাস "আগস্ট শুরু" বনাম এক interleaved ক্রোনোলজিক্যাল স্ক্যান) প্রতিটি একই পিক
-সারিঃ অফিসিয়াল train-এর window দুটি আলাদা করতে পারে না।
+Scan order (production two-pass "onset first" versus one interleaved chronological scan) gives identical picks in every
+row: the official train windows cannot distinguish the two.
 
-**  FAITHFUL = `lab.RULE_FAITHFUL`  ** = `dict(pers_state='fill', cells='all', fill='t36', pers_max=0.9)`  `FAITHFUL_SCAN = 'interleaved'` সঙ্গেঃ
+**FAITHFUL = `lab.RULE_FAITHFUL`** = `dict(pers_state='fill', cells='all', fill='t36', pers_max=0.9)` with `FAITHFUL_SCAN = 'interleaved'`:
 
-* প্রার্থীর উৎপত্তিঃ দিনের 12..281 , ইতিহাসের কভারেজ `E[T-12:T].mean() >= 0.7` ;
-* শুধুমাত্র দৃশ্যমান ইতিহাস থেকে অবস্থাঃ চলমান যদি কোন লিঙ্ক আছে >= 2 ক্রম পর্যবেক্ষণ `[T-60, T)`, অন্যথায় শুরু;
-* শুরুঃ `T+1..T+6` এর একটি ক্রমযুক্ত cell (এখানে ভরা অবস্থায় ব্যবহার করা শুরু প্রজননকে আরও খারাপ করে তোলেঃ 28/40 );
-* চলমানঃ horizonের মধ্যে পূর্ণ অবস্থায় একটি ক্রমিক সেল এবং
-  `IoU(QF[T+1..T+6], QF[T] repeated) <= 0.9` সমস্ত ভরাট cellের উপরে, যেখানে `QF = VF <= cut` এবং `VF` = গতির সাথে
-  36 স্পট পর্যন্ত ফাঁক জন্য দিনের মধ্যে সময় জুড়ে ইন্টারপোলা করা (স্থল ভরাট নেই);
-* লোভীঃ এক ক্রোনোলজিকাল স্ক্যান, একটি পিক প্রয়োজন >= 72 স্লট (360 min) প্রতিটি পূর্ববর্তী পিক, 5 প্রতি শর্তে।
+* candidate origins: slots 12..281 of a day, history coverage `E[T-12:T].mean() >= 0.7`;
+* condition from the visible history only: ongoing iff some link has >= 2 queued observations in `[T-60, T)`, else onset;
+* onset: an observed queued cell in `T+1..T+6` (using the filled state here makes onset reproduction worse: 28/40);
+* ongoing: a queued cell of the filled state in the horizon and
+  `IoU(QF[T+1..T+6], QF[T] repeated) <= 0.9` over all filled cells, where `QF = VF <= cut` and `VF` = speed linearly
+  interpolated along time within the day for gaps up to 36 slots (no spatial fill);
+* greedy: one chronological scan, a pick needs >= 72 slots (360 min) to every earlier pick, 5 per condition.
 
-কেনঃ প্রতিটি লিঙ্ক স্কোর যোগ্য এবং `future_coverage` হল 1.0 window সূচক, তাই সংগঠক মূল্যায়ন
-পূর্ণ সত্য অবস্থায় স্থিরতা ক্যাপ; 23.6 % train cellগুলি কেবলমাত্র লক্ষ্য করা যায় না। T এ অনুপস্থিত cellগুলিকে বিনামূল্যে হিসাবে পড়া
-(production) স্থিতিশীল সারির মাধ্যমে অনুমতি দেয়. `lab.RULE_SANDBOX` ( `hb` , E cell) পূর্ববর্তী এক প্যানেল স্যান্ডবক্স নিয়ম,
-`lab.RULE_PROD` production আচরণ। বাকি 4 ত্রুটিগুলি হল 1-2 স্লট শিফট (প্রক্সির প্রহরী শব্দ) ।
+Why: every link is score-eligible and `future_coverage` is 1.0 in the window index, so the organizer evaluates the
+persistence cap on the full true state; 23.6% of train cells are simply unobserved. Reading missing cells at T as free
+(production) lets stable queues through. `lab.RULE_SANDBOX` (`hb`, E cells) is the earlier one-panel sandbox rule,
+`lab.RULE_PROD` the production behaviour. The remaining 4 misses are 1-2 slot shifts (threshold noise of the proxy).
 
-ভরাট অবস্থা শুধুমাত্র window নির্বাচন এবং নির্ণয়ের জন্য (এটি ভবিষ্যতের মান ব্যবহার করে) । এটি কখনই একটি বৈশিষ্ট্য নয়।
+The filled state is for window selection and diagnostics only (it uses future values). It is never a feature.
 
-## window সেটঃ `lab.window_set(panel, name)`
+## Window sets: `lab.window_set(panel, name)`
 
-DataFrame `d, t, cond, fold, pers_obs, pers_fill, faithful, runstart` ; `fold = min(d * 4 // D, 3)` (production ব্লক) ।
+DataFrame `d, t, cond, fold, pers_obs, pers_fill, faithful, runstart`; `fold = min(d * 4 // D, 3)` (production blocks).
 
-| নাম | বিষয়বস্তু |
+| name | content |
 |---|---|
-| `dense<cap>` | (ক) production প্রশিক্ষণ window `build_windows(global_spacing=False, dense_ongoing=True)` , চলমান সাব-নমুনা `<cap>` এর সাথে `rng(0)` production হিসাবে ( `dense1500` ক্যাশে করা; `dense3000` = ক্যাগল সেটিং, প্রথম ব্যবহারের উপর নির্মিত) |
-| `faith`, `faith3` | (খ) প্রতিটি বিশ্বস্ত প্রার্থী; `faith3` = production `t % 3 == 0` গ্রিডের প্রার্থী |
-| `runstart` | (খ) বিশ্বস্ত প্রার্থীঃ `t` এর প্রার্থী যার `t-1` প্রার্থী নয় |
-| `offlike` | (গ) সরকারী-ধর্মী মূল্যায়ন windowঃ প্রতি train-এর দিনে 00:00 পুনরায় চালু করা হয়েছে ( 5 +5 কোটা, 360 মিনিট), ডুপ্লিকেট করা হয়েছে; 2,992 চলমান window |
-| `pseudo` | (d) বর্তমান স্টাইলের ছদ্মবেশী window `build_windows(global_spacing=True)` ; 2,058 চলমান window |
-| `official` | (e) 40 +40 অফিসিয়াল train-এর window (সমস্তই foldযুক্ত 0 ) |
+| `dense<cap>` | (a) production training windows `build_windows(global_spacing=False, dense_ongoing=True)`, ongoing subsampled to `<cap>` with `rng(0)` as production (`dense1500` cached; `dense3000` = Kaggle setting, built on first use) |
+| `faith`, `faith3` | (b) every faithful ongoing candidate; `faith3` = those on the production `t % 3 == 0` grid |
+| `runstart` | (b) faithful run-starts: candidate at `t` whose `t-1` is not a candidate |
+| `offlike` | (c) official-like evaluation windows: faithful greedy restarted at 00:00 of every train day (5 + 5 quota, 360 min), de-duplicated; 2,992 ongoing windows |
+| `pseudo` | (d) current-style pseudo windows `build_windows(global_spacing=True)`; 2,058 ongoing windows |
+| `official` | (e) the 40 + 40 official train windows (all in fold 0) |
 
-`lab.register_window_set(panel, name, df)` একটি নতুন নামের অধীনে একটি কাস্টম তালিকা (কলাম `d, t, cond` ) সঞ্চয় করে।
+`lab.register_window_set(panel, name, df)` stores a custom list (columns `d, t, cond`) under a new name.
 
-## সারিঃ `rc = lab.rows(panel, name, cond='queue_ongoing')`
+## Rows: `rc = lab.rows(panel, name, cond='queue_ongoing')`
 
-`make_rows` / `to_matrix` দিয়ে একবার তৈরি এবং ক্যাশে করা হয়েছে। `rc.X` (ম্যামম্যাপ, সমস্ত production কলাম, পূর্ববর্তী কলাম)
-সমস্ত train-এর আগে) `rc.cols, rc.y, rc.e, rc.wi, rc.li, rc.h, rc.fold, rc.win` , `rc.prior5[n, k, 3]`
-( `prior, prior_now, prior_alldays` থেকে `prior_table(P, block != k)` , `k = 4` = সব দিন), `rc.keep5[n, k]`
-(production `ongoing_keep` পূর্ববর্তী `k`), `rc.truth / rc.ev [W, 6, L]`, `rc.qlast [W, L]`.
-`rc.matrix(mask, cols, k)` মট্রিক্সটি প্রতিস্থাপিত ফোল্ড-সফী প্রাইয়ার্স দিয়ে ফেরত দেয়। কলাম সেটঃ `lab.colset('np' | 'id' | 'full')`.
+Built once with production `make_rows` / `to_matrix` and cached. `rc.X` (memmap, all production columns, prior columns
+holding the all-train prior), `rc.cols, rc.y, rc.e, rc.wi, rc.li, rc.h, rc.fold, rc.win`, `rc.prior5[n, k, 3]`
+(`prior, prior_now, prior_alldays` from `prior_table(P, block != k)`, `k = 4` = all days), `rc.keep5[n, k]`
+(production `ongoing_keep` under prior `k`), `rc.truth / rc.ev [W, 6, L]`, `rc.qlast [W, L]`.
+`rc.matrix(mask, cols, k)` returns the matrix with fold-safe priors substituted. Column sets: `lab.colset('np' | 'id' | 'full')`.
 
-## প্রশিক্ষণ, স্কোরিং
+## Training, scoring
 
-* `lab.train_matrix(train, k, cols, weight_fn=...)` : ফোল্ডের বাইরে windowগুলোর সারি `k` ; `train` একটি সেট নাম বা
-  `[(set, weight), ...]` ; `weight_fn(win_df, set_name, panel)` প্রতি window ওজন রিটার্ন ( 0 window ড্রপ).
-* `lab.run_arm(arm, train, evals, cols, params, n_trees, folds, weight_fn, seeds)` : OOF LightGBM হাত, প্রতি এক সারি ফেরত
-  আউটডোর window (`iou`, প্রতি ধাপে `s1..s6`, ত্রুটি বিভক্ত, নির্বাচন পতাকা) এবং ফলাফল এবং সম্ভাবনা সংরক্ষণ করে।
-* `lab.predict_set(models, rc, k, cols)` + `lab.score_probs(rc, P6)` : যেকোনো সম্ভাবনার জন্য `[W, 6, L]` স্কোর করুন
-  production ডিকোড (প্রত্যাশিত-IoU top-m 6 x L cellের উপরে; কন্টেইন অঞ্চলের বাইরে cellগুলি 0 ).
-* `lab.aggregate(df)` : window -> প্যানেল -> পরিবার -> এক অবস্থার জন্য গড়; `lab.s_queue(df)` উভয় অবস্থার জন্য।
-* `lab.paired_bootstrap(dfA, dfB)` : B - A, প্যানেলের ভিতরে window পুনরায় নমুনা করা হয়েছে (প্রতিটি ফ্রেমে ONE মূল্যায়ন সেট এবং একটি
-  প্রতি windowতে রং, অন্যথায় এটি বাড়বে); `lab.step_profile` , `lab.error_split` , `lab.summary` ।
-* `lab.split_rows(P, 'validation' | 'private')` : মুক্তিপ্রাপ্ত windowগুলির production আকৃতির সারি (শুধুমাত্র <= T বৈশিষ্ট্য) ।
+* `lab.train_matrix(train, k, cols, weight_fn=...)`: rows of windows outside fold `k`; `train` is a set name or
+  `[(set, weight), ...]`; `weight_fn(win_df, set_name, panel)` returns per-window weights (0 drops the window).
+* `lab.run_arm(arm, train, evals, cols, params, n_trees, folds, weight_fn, seeds)`: OOF LightGBM arm, returns one row per
+  held-out window (`iou`, per-step `s1..s6`, error split, selection flags) and saves results and probabilities.
+* `lab.predict_set(models, rc, k, cols)` + `lab.score_probs(rc, P6)`: score any probabilities `[W, 6, L]` with the
+  production decode (expected-IoU top-m over the 6 x L cells; cells outside the keep region are 0).
+* `lab.aggregate(df)`: window -> panel -> family -> mean for one condition; `lab.s_queue(df)` for both conditions.
+* `lab.paired_bootstrap(dfA, dfB)`: B - A, windows resampled within panel (each frame must hold ONE evaluation set and one
+  row per window, otherwise it raises); `lab.step_profile`, `lab.error_split`, `lab.summary`.
+* `lab.split_rows(P, 'validation' | 'private')`: production-shaped rows of the released windows (features <= T only).
 
-## ক্যাশে লেআউট ( `data/t2local/cache/` )
+## Cache layout (`data/t2local/cache/`)
 
 ```
 fill_<PANEL>_<kind>.npz                      filled speed cube (hb, t36)
@@ -114,9 +112,9 @@ oof/<arm>/results.pkl, config.json, probs__<set>__<PANEL>.npz   (P6 float16, don
 replay_table.csv
 ```
 
-ক্যাশেগুলি কেবলমাত্র নামের দ্বারা কী করা হয়ঃ `RULE_FAITHFUL` বা production ফাইল পরিবর্তন করার পরে `windows/` এবং `rows/` মুছে ফেলুন।
+Caches are keyed by name only: after changing `RULE_FAITHFUL` or the production file, delete `windows/` and `rows/`.
 
-## উদাহরণ ( `my_arm.py` হিসাবে সংরক্ষণ করুন , সেমফোরের মধ্য দিয়ে চালান)
+## Example (save as `my_arm.py`, run through the semaphore)
 
 ```python
 import lab, numpy as np
@@ -138,67 +136,67 @@ for s in ('official', 'offlike', 'pseudo'):
 PY=".venv/bin/python"; "$PY" analysis/t2lab/run_heavy.py -- "$PY" analysis/t2lab/my_arm.py > analysis/t2lab/logs/my_arm.log 2>&1
 ```
 
-নোটঃ `faith3` ওভারল্যাপ `dense1500` (প্রায় অর্ধেক ঘন window বিশ্বাসযোগ্য) এবং একটি মূল্যায়ন সেট window যে
-একটি প্রশিক্ষণ ফোল্ডে পড়ে যাওয়া প্রশিক্ষণ windowও হতে পারে; দীর্ঘস্থায়ী ফোল্ডগুলি সর্বদা পরিষ্কার থাকে কারণ ফোল্ডগুলি দিনের ব্লক।
+Note: `faith3` overlaps `dense1500` (about half of the dense windows are faithful) and windows of an evaluation set that
+fall in a training fold may also be training windows; held-out folds are always clean because folds are day blocks.
 
-## বেসলাইন (হাত) `A_np255`, OOF, চলমান; `logs/baseline_A_np255.log`)
+## Baseline (arm `A_np255`, OOF, ongoing; `logs/baseline_A_np255.log`)
 
-পূর্ববর্তী `np` কলাম ( 58 , র্যাম্প বৈশিষ্ট্য অন্তর্ভুক্ত), 255 leaves, lr 0.05 , min_data_in_leaf  40 , 500 গাছ, `dense1500` ,
-3.3 M প্রশিক্ষণ লাইন এবং 65 প্রতি ফোল্ডে 4 থ্রেড।
+Prior-free `np` columns (58, ramp features included), 255 leaves, lr 0.05, min_data_in_leaf 40, 500 trees, `dense1500`,
+about 3.3 M training rows and 65 s per fold on 4 threads.
 
-| সেট | n | আইওইউ (সংহত) | T+5 | T+10 | T+15 | T+20 | T+25 | T+30 | নতুন মিস | পরিষ্কার রাখা | অন্যান্য |
+| set | n | IoU (aggregated) | T+5 | T+10 | T+15 | T+20 | T+25 | T+30 | missed new | kept cleared | other |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| অফিসিয়াল 40 | 40 | 0.8525 | 0.935 | 0.904 | 0.891 | 0.913 | 0.831 | 0.681 | 0.072 | 0.056 | 0.020 |
-| অফিসিয়াল ( `offlike` ) | 2992 | 0.8387 | 0.937 | 0.910 | 0.876 | 0.855 | 0.831 | 0.699 | 0.056 | 0.064 | 0.041 |
-| বর্তমান স্টাইল ( `pseudo` ) | 2058 | 0.8780 (প্রত্যেকের মধ্যে 0.9225 ) | 0.956 | 0.939 | 0.867 | 0.846 | 0.849 | 0.816 | 0.023 | 0.074 | 0.025 |
-| ধৈর্য্য (qlast), অফিসিয়াল / অ-অপ-অফ / প্লেইডো | | 0.7501 / 0.7212 / 0.8112 | | | | | | | | | |
+| official 40 | 40 | 0.8525 | 0.935 | 0.904 | 0.891 | 0.913 | 0.831 | 0.681 | 0.072 | 0.056 | 0.020 |
+| official-like (`offlike`) | 2992 | 0.8387 | 0.937 | 0.910 | 0.876 | 0.855 | 0.831 | 0.699 | 0.056 | 0.064 | 0.041 |
+| current-style (`pseudo`) | 2058 | 0.8780 (plain mean 0.9225) | 0.956 | 0.939 | 0.867 | 0.846 | 0.849 | 0.816 | 0.023 | 0.074 | 0.025 |
+| persistence (qlast), official / offlike / pseudo | | 0.7501 / 0.7212 / 0.8112 | | | | | | | | | |
 
-`pseudo` এর ভিতরেঃ faithful subset 0.747 (n 738 ), stable subset (filled persistence > 0.9 ) 0.966 (n 1320 ).
-`D7_I10_W` এর শুধুমাত্র 4 ছদ্মবেশী চলমান window রয়েছে ( 0.625 ), যার কারণে সমষ্টিগত ছদ্মবেশী সংখ্যাটি সাধারণ গড়ের নিচে থাকে।
+Inside `pseudo`: faithful subset 0.747 (n 738), stable subset (filled persistence > 0.9) 0.966 (n 1320).
+`D7_I10_W` has only 4 pseudo ongoing windows (0.625), which is why the aggregated pseudo number sits below the plain mean.
 
-## স্বাধীন পর্যালোচনা ( 2026-10-03 , `logs/review_*.log` )
+## Independent review (2026-10-03, `logs/review_*.log`)
 
-সমস্ত চেক পাস হয়েছে; একটি ত্রুটি সংশোধন করা হয়েছে (`paired_bootstrap` একটি ফ্রেম একাধিক রাখা যখন নীরবভাবে একত্রিত দ্বৈত window
-মূল্যায়ন সেটঃ 1659  1291 সারি থেকে "window"; এটি এখন মাল্টি-সেট বা ডুপ্লিকেট-কী ফ্রেমে উত্থাপন করে) ।
+All checks passed; one defect was fixed (`paired_bootstrap` silently merged duplicate windows when a frame held several
+evaluation sets: 1659 "windows" from 1291 rows; it now raises on multi-set or duplicate-key frames).
 
-* বৈশিষ্ট্য সমতুল্যতা (`review_parity.py`, D7_I10_W এবং D12_I5_S, 76 চেকঃ production ফাংশনগুলি দ্বিতীয়ভাবে সংকলিত
-  (প্রধান ব্লকের আগে সংক্ষিপ্ত উৎস, প্রকৃত আমদানি) বিট-স্বতন্ত্র ম্যাট্রিক্স, লেবেল, যোগ্যতা পতাকা এবং
-  (window, লিঙ্ক, ধাপ) মেটা জন্য সারি ক্যাশে `offlike`, `official` এবং `dense1500` ফোল্ড প্রিরিয়র 0, 2 এবং
-  সমস্ত train-এর পূর্ববর্তী; `colset('np'|'id')` হল খাঁটি কলামের উপ-সেট ( 58 / 64 of 69 ).
-* অনলাইন নিয়ম (প্রতি windowতে বিভ্রান্তি): T এর পরে ডেটা, T- 60 এর আগে ডেটা বা T বা ramp এ র্যাম্প প্রবাহিত হলে কোনও বৈশিষ্ট্য পরিবর্তন হয় না
-  পরে পরিবর্তন করা হয়; T- 3 ..T- 1 রাম্প প্রবাহ শুধুমাত্র `ramp_*` পৌঁছাতে; T- 12 ..T- 4 রাম্প প্রবাহ শুধুমাত্র `ramp_on_surge` পৌঁছাতে
-  (উচ্চতর বেসলাইন [ T- 60 , T- 15 ব্যবহার করে), এখনও T এর আগে কঠোরভাবে; স্লট-T মান শুধুমাত্র মাস্ক-স্লট পৌঁছেছে
-  বৈশিষ্ট্য ( `vr_T, has_T, vr_last, q_last` এবং তাদের প্রতিবেশী / দূরত্বের উপনির্ধারিত) । এক্স-এ কোন নির্বাচন-পার্শ্ব কলাম নেই।
-* fold সুরক্ষাঃ `prior_table(block != k)` পরিবর্তনহীন যখন fold-k দিন শূন্য হয়; `train_matrix(k)` সঠিকভাবে ফিরে আসে
-  `fold != k` ; train এবং eval day সেটগুলি বিচ্ছিন্ন; `predict_set(k)` শুধুমাত্র fold-কে window পূরণ করে এবং ঠিক
-  `keep5[:, k]` অঞ্চল।
-* নির্বাচক ( `review_selector.py` , D7_I10_W , D12_I5_S , D7_I210_E ): পরিসংখ্যান, প্রার্থীদের একটি সাধারণ লুপ বাস্তবায়ন
-  এবং উভয় লোভী স্ক্যান `replay_table.csv` সঠিকভাবে পুনরুদ্ধার করে (প্যানেল, নিয়ম এবং স্ক্যান প্রতি) এবং `lab.greedy` পিকগুলি
-  প্রতিটি ক্ষেত্রে একই; `selector_stats` = কোভ, ইস্ট, হরিজোন ফ্ল্যাগ এবং তিনটি স্থিরতার জন্য প্রতি স্লট স্লিপিংয়ের সমান
-  এই 3 প্যানেলগুলিতে t36/E স্কোর 13 এবং t36/all  12 চলমান সঠিক মিল ( 8 -প্যানেলের মোট 34 বনাম 36 ):
-  দুটি নিয়ম D12_I5_N ( 2 বনাম 5 ) এবং D7_I210_E ( 5 বনাম 4 ) এর উপর ভিন্ন, তাই E/all পছন্দটি দুর্বলভাবে সমর্থিত।
-* স্কোরিং ( `review_scoring.py` ): `aggregate` এবং `s_queue` একটি ভারসাম্যহীন খেলনা ফ্রেমে হস্তনির্ধারিত মানের সাথে মেলে;
-  `decode` = প্রত্যাশিত-আইওউ প্রক্সির গ্রুট ফোর্স ম্যাক্সিমাইজারের সমান 50 র্যান্ডম 10- cellের ক্ষেত্রে; `score_probs` সমান
-  আয়োজকের `repo/src/task2/score_task2.score_window` এবং `results.pkl` ক্যাশে রাখা 60 আর্মের window A_np255
-  (max abs diff 0 , float16 - সংরক্ষিত সম্ভাবনা থেকে); প্রতি ধাপ এবং ত্রুটি-বিভাজিত পরিচয় ধরে রাখা; বুটস্ট্র্যাপ
-  B = A +0.01 দেয় diff = lo = hi = 0.01 এবং diff সবসময় `aggregate(B) - aggregate(A)` সমান ।
-* বেসলাইন (`logs/review_baseline_f0.log`): একটি নতুন fold-0 হাতের চালান A প্রজনন 0.8525 / 0.8385 / 0.9030
-  (অফিসিয়াল / অফলাইন / প্লেইন) এবং একই প্যানেলের অফিসিয়াল- 40 টেবিলঃ পাইপলাইনটি নির্ধারণমূলক।
-* সেট (`review_sets.py`): কোন সেটেই ডুপ্লিকেট window নেই; 36 এর 40 সরকারি চলমান উত্স ভিতরে `offlike`
-  ( 7 ভিতরে `pseudo` ); 0 অ-অফ-অফ এবং 1 অফিসিয়াল চলমান windowটি পূরণ করেছে 0.9 ; 30  40 অফিসিয়াল চলমান
-  windowগুলি চালানোর শুরুতে থাকে; `run_arm`  `queue_onset` এর জন্যও কাজ করে (শুধুমাত্র পাইপিং ধোঁয়া, কোন শুরু বেস লাইন পরিমাপ করা হয় না) ।
+* Feature parity (`review_parity.py`, D7_I10_W and D12_I5_S, 76 checks): the production functions compiled a second way
+  (source truncated before the main block, real imports) give bit-identical matrices, labels, eligibility flags and
+  (window, link, step) meta to the row cache for `offlike`, `official` and `dense1500` under fold priors 0, 2 and the
+  all-train prior; `colset('np'|'id')` are pure column subsets (58 / 64 of 69).
+* Online rule (perturbation per window): no feature changes when data after T, data before T-60, or ramp flows at T or
+  later are altered; ramp flows in T-3..T-1 reach only `ramp_*`; ramp flows in T-12..T-4 reach only `ramp_on_surge`
+  (the surge baseline uses [T-60, T-15), still strictly before T); the slot-T value reaches only the masked-slot
+  features (`vr_T, has_T, vr_last, q_last` and their neighbour / distance derivatives). No selection-side column exists in X.
+* Fold safety: `prior_table(block != k)` is unchanged when fold-k days are zeroed; `train_matrix(k)` returns exactly the
+  rows with `fold != k`; train and eval day sets are disjoint; `predict_set(k)` fills only fold-k windows and exactly the
+  `keep5[:, k]` region.
+* Selector (`review_selector.py`, D7_I10_W, D12_I5_S, D7_I210_E): a plain-loop implementation of the stats, candidates
+  and both greedy scans reproduces `replay_table.csv` exactly (per panel, rule and scan) and `lab.greedy` picks are
+  identical in every case; `selector_stats` equals per-slot slicing for cov, est, horizon flags and all three persistence
+  definitions. In these 3 panels t36/E scores 13 and t36/all 12 ongoing exact matches (8-panel totals 34 vs 36: the
+  two rules differ on D12_I5_N (2 vs 5) and D7_I210_E (5 vs 4) only), so the E/all choice remains weakly supported.
+* Scoring (`review_scoring.py`): `aggregate` and `s_queue` match hand-computed values on an unbalanced toy frame;
+  `decode` equals the brute-force maximiser of the expected-IoU proxy on 50 random 10-cell cases; `score_probs` equals
+  the organizer's `repo/src/task2/score_task2.score_window` and the cached `results.pkl` on 60 windows of arm A_np255
+  (max abs diff 0, from the float16-stored probabilities); per-step and error-split identities hold; bootstrap of
+  B = A + 0.01 gives diff = lo = hi = 0.01 and diff always equals `aggregate(B) - aggregate(A)`.
+* Baseline (`logs/review_baseline_f0.log`): a fresh fold-0 run of arm A reproduces 0.8525 / 0.8385 / 0.9030
+  (official / offlike / pseudo) and the identical per-panel official-40 table: the pipeline is deterministic.
+* Sets (`review_sets.py`): no duplicate windows in any set; 36 of the 40 official ongoing origins are inside `offlike`
+  (7 inside `pseudo`); 0 offlike and 1 official ongoing window have filled persistence > 0.9; 30 of 40 official ongoing
+  windows are run-starts; `run_arm` works for `queue_onset` as well (plumbing smoke only, no onset baseline measured).
 
-## গুহা
+## Caveats
 
-* র্যাম্প কিউবগুলি রপ্তানি করে (`train_ON / train_OFF`, বৈধতা / ব্যক্তিগত ON / OFF) ভাসমান16 এছাড়াও (vph-এ প্রবাহিত হয়,
-  রেজোলিউশন 2-4 vph above 2048 vph); ল্যাব তাদের ভাসমান 32 . র্যাম্প বৈশিষ্ট্য প্রভাব পরিমাপ করা হয়নি.
-* রিয়েল প্রকাশিত windowঃ ইতিহাসের কভারেজ 0.755-0.770 (train 0.764 ) এবং স্লট-টি দৃশ্যমান ভাগ 0.44-0.59 প্রতি প্যানেল
-  (প্রমাণীকরণ গড় 0.52 , ব্যক্তিগত গড় 0.52 ) 0.47 (= 0.62 x 0.764 ) এর বিরুদ্ধে train-এর পাশের সিমুলেশনে; `has_T` ভাগ
-  `split_rows('validation')` চলমান সারিগুলি স্থানীয়ভাবে 0.54 বনাম 0.49 ( D7_I10_W ) ।
+* The export stores the ramp cubes (`train_ON / train_OFF`, validation / private ON / OFF) as float16 too (flows in vph,
+  resolution 2-4 vph above 2048 vph); the lab casts them to float32. Effect on ramp features not measured.
+* Real released windows: history coverage 0.755-0.770 (train 0.764) and slot-T visible share 0.44-0.59 per panel
+  (validation mean 0.52, private mean 0.52) against 0.47 (= 0.62 x 0.764) in the train-side simulation; `has_T` share on
+  `split_rows('validation')` ongoing rows is 0.54 vs 0.49 locally (D7_I10_W).
 
-* সত্য প্রক্সি = পর্যবেক্ষণকৃত cellগুলিতে পর্যবেক্ষণ করা ক্যু অবস্থা ( 76.4 % cell); প্রকৃত স্কোরার সমস্ত cellগুলিতে শব্দ-মুক্ত অবস্থা ব্যবহার করে।
-* এক্সপোর্ট করার সময় গতির গতি 16 : D12_I405_S (অরিজিনাল ফাইল স্থানীয়) 10  2.58 M এর মধ্যে দেখা যায় ক্রমের অবস্থা পরিবর্তন
-  ( 3.9e-6 ) এবং ছদ্ম-window তালিকা অপরিবর্তিত। টাস্ক 2 প্যানেলগুলির কাঁচা train ফাইলগুলি এই মেশিনে নেই, তাই
-  লোডারটি সেই প্যানেলগুলির ক্যাগল লোডারটির সাথে বাইট-টু-বাইট তুলনা করা হয় না।
-* স্লট-টি দৃশ্যমানতা ঠিক production হিসাবে সিমুলেট করা হয় ( `rng(len(wins))` , 62 % দৃশ্যমান), তাই এটি window তালিকা উপর নির্ভর করে।
-* শুরুতে পুনরায় খেলা হচ্ছে 39/40 স্থানীয়ভাবে ( D12_I5_S: অফিসিয়াল 14:35 , পুনরায় খেলা 14:45 ), 40/40 নয় ।
+* Truth proxy = observed queue state on observed cells (76.4% of cells); the real scorer uses the noise-free state on all cells.
+* Speeds are float16 in the export: on D12_I405_S (raw files local) 10 of 2.58 M observed cells change queue state
+  (3.9e-6) and the pseudo-window list is unchanged. Raw train files of the Task 2 panels are not on this machine, so the
+  loader is not compared byte-for-byte with the Kaggle loader on those panels.
+* Slot-T visibility is simulated exactly as production (`rng(len(wins))`, 62% visible), so it depends on the window list.
+* Onset replay is 39/40 locally (D12_I5_S: official 14:35, replay 14:45), not 40/40.

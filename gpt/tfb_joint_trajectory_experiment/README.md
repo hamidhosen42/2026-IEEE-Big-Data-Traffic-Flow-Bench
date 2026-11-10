@@ -1,54 +1,54 @@
-# TrafficFlowBench Task 2 — correlated-trajectory decoder: শুধু গবেষণার জন্য
+# TrafficFlowBench Task 2 — correlated-trajectory decoder (RESEARCH ONLY)
 
-**তৈরির তারিখ:** 2026-11-03। **এই package তৈরির সময় প্রকৃত competition data সরবরাহ বা চালানো হয়নি।**
-এই পরীক্ষা Kaggle leader-কে হারিয়েছে—এমন দাবি করে না, competition CSV তৈরি করে না,
-এবং tfb-k9, tfb-k10 বা আপনার বর্তমান দুটি final pick বদলায় না।
+**Created:** 2026-11-03. **No real competition data was supplied or executed.**
+This experiment does NOT beat the Kaggle leader, does NOT create a competition CSV,
+and does NOT alter tfb-k9, tfb-k10 or your current two final picks.
 
-## মূল hypothesis
+## The hypothesis
 
-বর্তমান production `consolidation/tfb/stages/t2_occ.py:decode` P6 থেকে স্বাধীন
-cell বেছে নেয় `sum(top p) / (m + sum(rest p))` সর্বোচ্চ করে। কিন্তু প্রকৃত queue
-cell স্থান ও সময়জুড়ে পরস্পর সম্পর্কিত। নতুন এই *post-processing* arm:
+Existing production `consolidation/tfb/stages/t2_occ.py:decode` selects independent
+cells from P6 by maximizing `sum(top p) / (m + sum(rest p))`. However true queue
+cells are correlated spatially and over time. This new *post-processing* arm:
 
-1. মূল্যায়নের origin-এর তুলনায় STRICTLY আগের দিন এবং held-out training fold-এর
-   বাইরে থাকা observed TRAIN queue trajectory সংগ্রহ করে।
-2. একই directional panel-এর মধ্যে candidate trajectory template সবচেয়ে সম্ভাব্য
-   3টি anchor link-এ সরায়; বাইরে zero padding, কোনো wrapping নয়।
-3. Marginal probability-এর মিল অনুযায়ী সবচেয়ে সম্ভাব্য 64টি candidate রাখে।
-4. Candidate সম্পূর্ণ trajectoryগুলোর ওপর probability-weighted posterior বানায়।
-5. Posterior অনুযায়ী সর্বোচ্চ **expected full-window IoU** থাকা candidate বেছে নেয়।
-6. Posterior expected improvement 0.005 না ছাড়ালে হুবহু baseline top-m output রাখে;
-   prediction-এর সময় বর্তমান window-এর post-T truth পড়ে না।
+1. Collects observed TRAIN queue trajectories from days STRICTLY earlier than
+   the evaluated origin and outside its held-out training fold.
+2. Translates candidate trajectory templates within the same directional panel
+   to 3 most likely anchor links (zero padded, no wrapping).
+3. Retains 64 most plausible candidates by marginal-probability similarity.
+4. Builds a probability-weighted posterior over the candidate whole trajectories.
+5. Selects the candidate with best posterior **expected full-window IoU**.
+6. Keeps the exact baseline top-m output unless the posterior expected improvement
+   exceeds 0.005; never reads current window's post-T truth at prediction time.
 
-এটি calibrated posterior probability বা physical correctness প্রমাণিত—এমন দাবি করে না।
-Temperature 0.02, anchor 3টি, bank template 128টি এবং decision margin 0.005
-**hypothesis-এর setting**; tuned বা optimal বলে প্রমাণিত নয়। এপ্রিলের label বা
-এপ্রিলের leaderboard result দিয়ে এসব মান বাছাই করা যাবে না।
+It does NOT claim calibrated posterior probabilities or proof of physical correctness.
+The 0.02 temperature, 3 anchors, 128 bank templates and 0.005 decision margin
+are **hypothesis settings**, not tuned or proven optimal. Do NOT choose these
+values using April labels or April leaderboard results.
 
-## স্থানীয়ভাবে সম্পন্ন কাজ
+## Locally completed
 
-- Decoder, zero-padded translation, baseline equivalence, horizon truth-এর ওপর
-  নির্ভর না করা ও আগের দিন/ভিন্ন fold-এর bank যাচাইয়ের 6টি unit/synthetic test পাস।
-- প্রকৃত OOF runner-এর synthetic integration test পাস: 64টি window ও দুই panel।
-- দুই panel-এর synthetic fixture যথাযথভাবেই >=8-panel research gate-এ FAILED।
-- প্রকৃত TrafficFlowBench train window মূল্যায়িত 0টি; Kaggle submission 0টি।
+- 6 unit/synthetic tests passed for the decoder, zero-padded translation, baseline
+  equivalence, no-horizon-truth dependency and past-day/fold bank exclusion.
+- The actual OOF runner passed a 64-window / two-panel synthetic integration test.
+- Two-panel synthetic fixture correctly FAILED the >=8-panel research gate.
+- 0 actual TrafficFlowBench train windows evaluated; 0 Kaggle submissions made.
 
-## কোন স্কোর তুলনাযোগ্য
+## Important: which score is comparable?
 
-আপনার জানানো A3/B3 public composite **0.88281**; screenshot-এর সেরা **0.93124**।
-কঠোরভাবে ছাড়াতে হলে **0.93125** লাগবে; ঘাটতি **+0.04844**। শুধু S_queue বদলালে
-তা +0.1614667 বাড়তে হবে। একটি queue condition-এর মোট score coefficient 0.15;
-তাই পরীক্ষার পরিমাপ করা `delta_condition_iou` মোট score-এ
-`0.15 * delta_condition_iou` হবে, যদি তা নতুন scenario-তে টেকে এবং অন্য কিছু না বদলায়।
-এখান থেকে এপ্রিলের অপ্রকাশিত official public score নির্ণয় করা যায় না।
+Your reported A3/B3 public composite is **0.88281**, vs screenshot top **0.93124**.
+A strict win needs **0.93125**, gap **+0.04844**. If only S_queue changed, it
+would have to rise by +0.1614667. For a *single* queue condition, the total-score
+coefficient is 0.15, so this experiment's measured `delta_condition_iou`
+corresponds to `0.15 * delta_condition_iou` only if it generalizes and nothing
+else changes. The official public April hidden scores cannot be inferred here.
 
-## প্রকৃত OOF পরীক্ষা: বিদ্যমান competition data ও cache প্রয়োজন
+## Real OOF experiment (requires your existing competition data and caches)
 
-Package যেকোনো folder-এ unzip করুন। তিনটি .py file সুবিধামতো যেকোনো জায়গায় রাখুন।
-Script শুধু বিদ্যমান TRAIN lab cache পড়ে; macOS-এর absolute path-নির্ভর `lab.py`
-import করে না।
+Unzip the package into any folder. Place the three .py files wherever you like;
+the script reads only existing TRAIN lab caches and does NOT import the macOS
+absolute-path-bound `lab.py` file.
 
-Cache আগে থেকেই আছে ধরে, *নিজের repository-এর root* থেকে:
+From the *root of your own repository*, assuming the cache exists:
 
 ```bash
 python /path/to/run_oof_experiment.py \
@@ -60,7 +60,7 @@ python /path/to/run_oof_experiment.py \
   --output analysis/t2lab/JOINT_OFFLIKE.json
 ```
 
-**প্রতিটি panel-এর** জন্য প্রয়োজনীয় cache:
+Required cached files for **every panel**:
 
 ```
 data/t2local/cache/oof/<ARM>/probs__offlike__<PANEL>.npz
@@ -71,53 +71,55 @@ data/t2local/cache/rows/<PANEL>__faith3__queue_ongoing/
      aux.npz with truth, ev; win.pkl with d,t,fold
 ```
 
-`A_np255` উদাহরণটি **পুরোনো lab baseline**; বর্তমান k9/k10-এর production fs4occ bag নয়।
-প্রকৃত বর্তমান submission-এর তুলনায় বাড়তি লাভ প্রতিষ্ঠা করতে **বর্তমান production bag**
-থেকে একই fold, eligibility ও decoder-সহ সমতুল্য OOF marginal P6 export করুন;
-সেই arm-এর নাম ব্যবহার করুন। শুধু `A_np255`-কে হারানো দিয়ে arm গ্রহণ করা যাবে না।
+The `A_np255` example is an **old lab baseline**, *not the current k9/k10
+production fs4occ bag*. To establish incremental value against the actual
+current submission, first export equivalent OOF marginal P6 from **the current
+production bag** (same folds, same eligibility, same decoder), and pass that
+arm name. Any win versus `A_np255` alone is insufficient to promote the arm.
 
-Runner JSON ও `<output>.windows.csv` লেখে। এতে থাকে:
-- Eligible cell-এ প্রতি window-এর নির্ভুল space-time IoU: baseline ও বিকল্প;
-- Panel/family অনুযায়ী গড় IoU এবং প্রতি panel-এর delta;
-- Day-block bootstrap confidence interval;
-- বদলানো window-এর সংখ্যা, আগেই নির্ধারিত diagnostic gate ও deployment gate।
+The runner outputs JSON plus `<output>.windows.csv`, including:
+- exact eligible-cell per-window space-time IoU (baseline and alternative),
+- panel/family-averaged IoU and per-panel deltas,
+- day-block bootstrap confidence interval,
+- changed-window count, a pre-specified diagnostic gate, and the deployment gate.
 
-**Research gate; নিজে থেকে Kaggle submission নয়:**
-`>=8 panels`, অন্তত `7`টি positive panel, aggregated condition IoU
-`>=+0.01`, day-block bootstrap `95% lower > 0`; সবই TRAIN OOF-এ।
-এই হিসাব অনুযায়ী domain shift-এর অনিশ্চয়তা ধরার আগে ওই এক condition থেকে
-আনুমানিক সর্বোচ্চ +0.0015 composite লাভ; +0.04844-এর ঘাটতির তুলনায় অনেক কম।
+**Research gate (not an automatic Kaggle submit)**:
+`>=8 panels`, at least `7` positive panels, aggregated condition IoU
+`>=+0.01`, day-block bootstrap `95% lower > 0`; all on TRAIN OOF only.
+This would correspond to at most an estimated +0.0015 composite from the
+one condition before domain-shift uncertainty, far short of +0.04844.
 
-## Leakage এড়ানোর গুরুত্বপূর্ণ সীমা
+## Critical non-leakage limits
 
-- TRAIN template bank-এ `bank_day < eval_day` এবং `bank_fold != eval_fold` filter আছে।
-- বিদ্যমান `analysis/t2lab/lab.py:run_arm` OOF model নিজেই simulated OOF origin-এর
-  তুলনায় *ভবিষ্যতের TRAIN fold* ব্যবহার করে fitted হতে পারে। তাই পুরোনো cache-এর
-  OOF score দিয়ে **পুরো পদ্ধতি online সময়সীমা মানে—তা প্রমাণ হয় না**।
-- Codeটি decoder lab; production-এর সঙ্গে integrate করা হয়নি।
-- Award eligibility-এর জন্য সময়ক্রমে model আবার train করুন। শুধু origin T-এর আগে
-  জানা train history ব্যবহার করুন। আয়োজকের **post-T truncation replay** চালিয়ে
-  নিশ্চিত করুন যে *হুবহু একই queue prediction* পাওয়া যায়।
-- এপ্রিলের label, leaderboard output বা post-T observation দিয়ে training, tuning,
-  selection, filtering কিংবা কোনো parameter বাছাই করা যাবে না।
-- মার্চের আগের window-তে backtest করার সময় পরের মার্চের output দিয়ে decoder train
-  করা যাবে না। মার্চের জন্য train label ব্যবহারযোগ্য; এপ্রিলের origin-এর আগে পাওয়া
-  মার্চের history এপ্রিলের জন্য ব্যবহারযোগ্য।
-- বর্তমান lab RowCache-এর `truth` হলো observed eligible proxy truth;
-  অপ্রকাশিত নির্ভুল official truth নয়। Synthetic test শুধু software test।
+- The TRAIN template bank filters `bank_day < eval_day` and `bank_fold != eval_fold`.
+- The existing `analysis/t2lab/lab.py:run_arm` OOF model itself may be fitted
+  using *future TRAIN folds relative to the simulated OOF origin*. Thus existing
+  cache OOF scores **do not prove full end-to-end online causality**.
+- The code is a decoder lab and has not been integrated into production.
+- For award eligibility, repeat model training chronologically; use only train
+  histories known before origin T; run the organizer's **post-T truncation replay**
+  to ensure *exact queue predictions* are unchanged.
+- Do NOT train, tune, select, filter or choose any parameters using April
+  labels, April leaderboard outputs or its post-T observations.
+- Do NOT train this decoder on March outputs when backtesting earlier March
+  windows. Train labels may be used for March; March history available before
+  an April origin may be used for April.
+- `truth` stored in current lab RowCache is observed eligible proxy truth,
+  NOT the hidden exact official truth. Synthetic tests are solely software tests.
 
-## ব্যবহারিক সিদ্ধান্তের সুপারিশ
+## Recommended practical decision
 
-k9/k10 স্থির রাখুন। Deadline-এর আগে *বর্তমান production*-এর OOF P6 cache পাওয়া গেলে
-শুধু train-ভিত্তিক একটি diagnostic চালান। ব্যর্থ হলে Kaggle submission খরচ করবেন না।
-পাস করলে কোনো submission বানানোর **আগে** chronological replay ও মার্চের মতো
-transfer check করুন। শুধু এই artifact দিয়ে 0.93124-কে হারাবে বলে নিশ্চিত করা যায় না।
+Keep k9/k10 frozen. Run one train-only diagnostic against *current production*
+OOF P6 if those caches can be provided before the deadline. If it fails, do
+not spend a Kaggle submission. If it passes, do a chronological replay and
+March-style transfer check **before** building any submission. The available
+artifacts alone cannot certify that this wins against 0.93124.
 
-## Smoke test
+## Smoke tests
 
 ```bash
 python test_joint_decoder.py
 python smoke_integration.py
 ```
 
-প্রয়োজন `numpy`, `pandas`; Kaggle credential বা বাইরের network লাগে না।
+Requires `numpy`, `pandas`; no Kaggle credentials and no external networking.
